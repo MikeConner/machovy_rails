@@ -5,7 +5,7 @@
 #   gem 'sqlite3'
 development:
   adapter: postgresql
-  database: machovy_development
+  database: machovy_dev2
   username: rails
   password: rails
   encoding: utf8
@@ -13,7 +13,7 @@ development:
 
 test: &test
   adapter: postgresql
-  database: machovy_test
+  database: machovy_test2
   username: rails
   password: rails
   encoding: utf8
