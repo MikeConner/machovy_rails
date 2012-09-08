@@ -1,4 +1,8 @@
 MachovyRails::Application.routes.draw do
+  resources :promotions
+
+  resources :vendors
+
   resources :metros
 
   # The priority is based upon order of creation:

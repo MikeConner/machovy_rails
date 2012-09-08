@@ -1,0 +1,51 @@
+<h1>Listing promotions</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Limitations</th>
+    <th>Voucher instructions</th>
+    <th>Teaser image</th>
+    <th>Retail value</th>
+    <th>Price</th>
+    <th>Revenue shared</th>
+    <th>Quantity</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Grid weight</th>
+    <th>Destination</th>
+    <th>Metro</th>
+    <th>Vendor</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @promotions.each do |promotion| %>
+  <tr>
+    <td><%= promotion.title %></td>
+    <td><%= promotion.description %></td>
+    <td><%= promotion.limitations %></td>
+    <td><%= promotion.voucher_instructions %></td>
+    <td><%= promotion.teaser_image %></td>
+    <td><%= promotion.retail_value %></td>
+    <td><%= promotion.price %></td>
+    <td><%= promotion.revenue_shared %></td>
+    <td><%= promotion.quantity %></td>
+    <td><%= promotion.start %></td>
+    <td><%= promotion.end %></td>
+    <td><%= promotion.grid_weight %></td>
+    <td><%= promotion.destination %></td>
+    <td><%= promotion.metro_id %></td>
+    <td><%= promotion.vendor_id %></td>
+    <td><%= link_to 'Show', promotion %></td>
+    <td><%= link_to 'Edit', edit_promotion_path(promotion) %></td>
+    <td><%= link_to 'Destroy', promotion, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Promotion', new_promotion_path %>

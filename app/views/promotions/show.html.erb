@@ -1,0 +1,80 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @promotion.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @promotion.description %>
+</p>
+
+<p>
+  <b>Limitations:</b>
+  <%= @promotion.limitations %>
+</p>
+
+<p>
+  <b>Voucher instructions:</b>
+  <%= @promotion.voucher_instructions %>
+</p>
+
+<p>
+  <b>Teaser image:</b>
+  <%= @promotion.teaser_image %>
+</p>
+
+<p>
+  <b>Retail value:</b>
+  <%= @promotion.retail_value %>
+</p>
+
+<p>
+  <b>Price:</b>
+  <%= @promotion.price %>
+</p>
+
+<p>
+  <b>Revenue shared:</b>
+  <%= @promotion.revenue_shared %>
+</p>
+
+<p>
+  <b>Quantity:</b>
+  <%= @promotion.quantity %>
+</p>
+
+<p>
+  <b>Start:</b>
+  <%= @promotion.start %>
+</p>
+
+<p>
+  <b>End:</b>
+  <%= @promotion.end %>
+</p>
+
+<p>
+  <b>Grid weight:</b>
+  <%= @promotion.grid_weight %>
+</p>
+
+<p>
+  <b>Destination:</b>
+  <%= @promotion.destination %>
+</p>
+
+<p>
+  <b>Metro:</b>
+  <%= @promotion.metro_id %>
+</p>
+
+<p>
+  <b>Vendor:</b>
+  <%= @promotion.vendor_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_promotion_path(@promotion) %> |
+<%= link_to 'Back', promotions_path %>
