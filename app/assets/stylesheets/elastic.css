@@ -170,7 +170,7 @@ img {max-width: 100%; height: auto;}
 #logo h1 a{color:#141414;font-size:36px;text-transform:uppercase;}
 
 #primary-nav{width:280px;margin-left:-40px;margin-bottom:35px;}
-}
+
 #main-nav{background: url(images/border-h.png) left top repeat-x;}
 #main-nav > li {display: block;background: url(images/border-h.png) left bottom repeat-x; margin: -1px 0 0 0;}
 
