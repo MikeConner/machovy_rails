@@ -33,9 +33,9 @@ gem 'stripe'
 # gem 'rqrcode-rails3'
 
 # For AUthentication
-#gem "devise"
-#gem "cancan"
-#gem "omniauth-facebook", '1.4.0'
+gem "devise"
+gem "cancan"
+gem "omniauth-facebook"
 
 # for Admin pages
 #gem 'rails_admin'
