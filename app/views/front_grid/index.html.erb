@@ -1,0 +1,21 @@
+<% @promotions.each do |promotion| %>
+<div class="portfolio-item sports" id="<%= promotion.id %>"> 							
+	<a class="entry-link" href="promotions/<%=promotion.id%>">
+		<div class="portfolio-thumb"><img width="400" height="225" src="<%= promotion.teaser_image %>" 
+			class="attachment-portfolio-thumb wp-post-image" alt="genrac11" title="genrac11" />
+		</div>											
+				<div class="overlay">
+					<div class="overlay-inner">
+						<div class="overlay-content">
+								<h2 class="entry-title"><%= sanitize(promotion.title)%>&#8230;</h2>
+								<div class="portfolio-subtitle">
+									Sports							
+								</div>
+						</div>
+					</div>
+				</div>								
+		</a>							
+</div>
+<% end %>
+
+YARRR

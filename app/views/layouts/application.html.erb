@@ -1,14 +1,126 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>MachovyRails</title>
+<html dir="ltr" lang="en-US">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>M A C H O V Y</title>
+
+
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700' rel='stylesheet' type='text/css'>
+
   <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "https://js.stripe.com/v1/", "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
+
+    <%= yield :head %>
+
 </head>
-<body>
+  <body class="home page page-id-98 page-template page-template-template-portfolio-php chrome">
 
-<%= yield %>
 
-</body>
-</html>
+    <div class="container" id="container">
+
+		<div id="sidebar">
+		    <%= render "layouts/application/header" %>
+
+			<div id="logo">					
+				<a href="/"><img src="/images/M_logo.png" alt="M A C H O V Y"/></a>
+            </div>
+	 <div id="sidebar-footer"> 
+	  
+	<ul id="socials-menu" class="clearfix">
+		<li class="facebook"><a href="http://www.facebook.com/Machovy" target="_blank">Facebook</a>
+		 </li>
+	</ul>
+
+
+
+					<div id="copyright">
+													(c) 2012 M A C H O V Y 									  
+					 </div>
+
+			</div>
+
+			
+			
+			<div id="primary-nav" data-selectname="Navigate to...">
+            	<div class="menu-main-menu-container"><ul id="main-nav" class="menu"><li id="menu-item-100" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-98 current_page_item menu-item-100"><a href="/">Deals &#038; Interests</a></li>
+<li id="menu-item-237" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-237"><a href="http://www.machovy.com/video/">Video</a></li>
+<li id="menu-item-21" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-21"><a href="http://www.machovy.com/about/">About Machovy</a></li>
+<li id="menu-item-279" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-279"><a href="http://www.machovy.com/member/">Members</a>
+<ul class="sub-menu">
+	<li id="menu-item-324" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-324"><a href="http://www.machovy.com/wp-login.php">Log In</a></li>
+	<li id="menu-item-325" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-325"><a href="http://www.machovy.com/wp-login.php?action=register">Register</a></li>
+	<li id="menu-item-379" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-379"><a href="http://www.machovy.com/my-vouchers/">My Vouchers</a></li>
+</ul>
+</li>
+<li id="menu-item-22" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22"><a href="http://www.machovy.com/merchants/">Merchants</a></li>
+</ul></div>                     
+			</div>
+				
+				 
+			
+		
+		<div id="portfolio-filter" class="widget">
+			<h3 class="widget-title">Filter</h3>
+			<div class="sep"></div>
+								<ul id="filter" class="clearfix"> 
+						<li class="all"><a class="active" href="#" data-filter="*" >All</a></li>
+												<li class="cat-item adventure">
+							<a href="#" data-filter=".adventure">Adventure</a> 
+						</li> 
+												<li class="cat-item cars">
+							<a href="#" data-filter=".cars">Cars</a> 
+						</li> 
+												<li class="cat-item dining">
+							<a href="#" data-filter=".dining">Dining</a> 
+						</li> 
+												<li class="cat-item drinks">
+							<a href="#" data-filter=".drinks">Drinks</a> 
+						</li> 
+												<li class="cat-item leisure">
+							<a href="#" data-filter=".leisure">Leisure</a> 
+						</li> 
+												<li class="cat-item mens-clothing">
+							<a href="#" data-filter=".mens-clothing">Mens Clothing</a> 
+						</li> 
+												<li class="cat-item sports">
+							<a href="#" data-filter=".sports">Sports</a> 
+						</li> 
+												<li class="cat-item stripclub">
+							<a href="#" data-filter=".stripclub">Strip Clubs</a> 
+						</li> 
+												<li class="cat-item tattoo">
+							<a href="#" data-filter=".tattoo">Tattoos</a> 
+						</li> 
+											</ul>
+						</div>
+		
+		
+		</div>
+      <%= render "layouts/application/flash_messages" %>
+	
+		<div id="content">
+						
+		
+		<div id="portfolio-grid" >       				
+      <%= yield %>
+
+        </div>
+
+		</div><!-- end #content -->			
+
+
+    </div>
+
+
+
+
+
+
+
+  </body>
+  </html>

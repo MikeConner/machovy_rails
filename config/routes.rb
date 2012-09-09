@@ -1,4 +1,6 @@
 MachovyRails::Application.routes.draw do
+  get "front_grid/index"
+
   resources :promotions
 
   resources :vendors
@@ -54,7 +56,7 @@ MachovyRails::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+  root :to => 'front_grid#index', as: 'frontgrid'
 
   # See how all your routes lay out with "rake routes"
 
