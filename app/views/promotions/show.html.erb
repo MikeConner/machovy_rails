@@ -1,13 +1,60 @@
 <p id="notice"><%= notice %></p>
 
+<center>
+<p>
+  
+  <img src = "<%= @promotion.teaser_image %>" >
+
+</p>
 <p>
   <b>Title:</b>
   <%= @promotion.title %>
 </p>
 
+<table border="0">
+	<tr>
+<td>
+  <b>Retail value:</b>
+  <%= @promotion.retail_value %></td>
+
+<td>
+  <b>Price:</b>
+  <%= @promotion.price %></td>
+  </tr>
+  </table>
+</p>
+
 <p>
-  <b>Description:</b>
-  <%= @promotion.description %>
+<table border ="0" cellspacing="10">
+<tr>
+<th colspan="2">About This Deal</th>
+</tr>
+<tr><td><b>Description:</b>
+  <%= @promotion.description %></td>
+<td>
+
+<table border="0"
+<tr>
+<td>		  <b>Vendor:</b>
+  <%= @promotion.vendor_id %></td></tr>
+<tr><td>  <b>Quantity:</b>
+  <%= @promotion.quantity %></td></tr>
+<tr><td>  <b>Metro:</b>
+  <%= @promotion.metro_id %></td></tr>
+<tr><td>  <b>Start:</b>
+  <%= @promotion.start %></td></tr>
+<tr><td>  <b>End:</b>
+  <%= @promotion.end %></td></tr>
+</table>
+
+</td>
+</tr>
+</table>
+
+<p>
+  <b>Buy Now?</b>
+  <%=button_to 'Buy Now', orders_path(promotion_id: @promotion.id)%>
+ 
 </p>
 
 <p>
@@ -15,72 +62,7 @@
   <%= @promotion.limitations %>
 </p>
 
-<p>
-  <b>Voucher instructions:</b>
-  <%= @promotion.voucher_instructions %>
-</p>
 
-<p>
-  <b>Teaser image:</b>
-  <%= @promotion.teaser_image %>
-</p>
-
-<p>
-  <b>Retail value:</b>
-  <%= @promotion.retail_value %>
-</p>
-
-<p>
-  <b>Price:</b>
-  <%= @promotion.price %>
-</p>
-
-<p>
-  <b>Revenue shared:</b>
-  <%= @promotion.revenue_shared %>
-</p>
-
-<p>
-  <b>Quantity:</b>
-  <%= @promotion.quantity %>
-</p>
-
-<p>
-  <b>Start:</b>
-  <%= @promotion.start %>
-</p>
-
-<p>
-  <b>End:</b>
-  <%= @promotion.end %>
-</p>
-
-<p>
-  <b>Grid weight:</b>
-  <%= @promotion.grid_weight %>
-</p>
-
-<p>
-  <b>Destination:</b>
-  <%= @promotion.destination %>
-</p>
-
-<p>
-  <b>Metro:</b>
-  <%= @promotion.metro_id %>
-</p>
-
-<p>
-  <b>Vendor:</b>
-  <%= @promotion.vendor_id %>
-</p>
-
-
-<p>
-  <b>Buy Now?</b>
-  <%=button_to 'Buy Now', orders_path(promotion_id: @promotion.id)%>
- 
-</p>
 
 
 <%= link_to 'Edit', edit_promotion_path(@promotion) %> |
