@@ -38,7 +38,7 @@ gem "cancan"
 gem "omniauth-facebook"
 
 # for Admin pages
-#gem 'rails_admin'
+gem 'rails_admin'
 
 
 
