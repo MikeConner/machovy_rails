@@ -1,0 +1,79 @@
+<%= form_for(@order) do |f| %>
+  <% if @order.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
+
+      <ul>
+      <% @order.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <div id="stripe_error" class="alert" style="display: none">
+      <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+    </div>
+    <%= f.hidden_field :stripe_card_token %>
+    
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :amount %><br />
+    <%= f.text_field :amount %>
+  </div>
+  <div class="field">
+    <%= f.label :promotion_id %><br />
+    <%= f.number_field :promotion_id %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id %><br />
+    <%= f.number_field :user_id %>
+  </div>
+   <div class="field">
+ 
+      <%=
+label_tag :card_number, "Credit Card Number " %>
+ 
+      <%=
+text_field_tag :card_number, nil, name: nil %>
+ 
+  </div>
+ 
+  <div class="field">
+ 
+      <%=
+label_tag :card_code, "Security Code on Card (CVV)" %>
+ 
+      <%=
+text_field_tag :card_code, nil, name: nil %>
+ 
+  </div>
+ 
+  <div class="field">
+ 
+    <%=
+label_tag :card_month, "Card Expiration" %>
+ 
+    <%=
+select_month nil, {add_month_numbers_true: true}, {name: nil, id: "card_month"}%>
+ 
+    <%=
+select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year"}%>
+ 
+  </div>
+
+  
+  
+  <div class="actions">
+    <%= f.submit "Get it NOW"%>
+  </div>
+
+
+<% end %>

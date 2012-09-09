@@ -1,4 +1,6 @@
 MachovyRails::Application.routes.draw do
+  resources :orders
+
   get "front_grid/index"
 
   resources :promotions

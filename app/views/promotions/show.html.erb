@@ -76,5 +76,12 @@
 </p>
 
 
+<p>
+  <b>Buy Now?</b>
+  <%=button_to 'Buy Now', orders_path(promotion_id: @promotion.id)%>
+ 
+</p>
+
+
 <%= link_to 'Edit', edit_promotion_path(@promotion) %> |
 <%= link_to 'Back', promotions_path %>
