@@ -1,66 +1,70 @@
 <p id="notice"><%= notice %></p>
 
-<center>
-<p>
-  
-  <img src = "<%= @promotion.teaser_image %>" >
+<div id="image Gallery" >
+	  
+  <img width = "800px" src = "<%= @promotion.teaser_image %>" >
 
-</p>
+
+</div>
+<br>
 <p>
   <b>Title:</b>
   <%= @promotion.title %>
 </p>
 
-<table border="0">
+<table style="border: 0px" >
 	<tr>
-<td>
-  <b>Retail value:</b>
-  <%= @promotion.retail_value %></td>
+		<td >
+		  <b>Retail value:</b>
+			  <%= @promotion.retail_value %>
+		</td>
+		<td>
+ 		 <b>Price:</b>
+  		<%= @promotion.price %></td>
+		<td>
+ 		 <b>DISCOUNT:</b>
+  		$<%= (@promotion.retail_value-@promotion.price) %></td>
 
-<td>
-  <b>Price:</b>
-  <%= @promotion.price %></td>
-  </tr>
+  	</tr>
   </table>
-</p>
 
-<p>
-<table border ="0" cellspacing="10">
+<table style="border: 0px" >
+	<tr>
+		<td colspan="2">About This Deal</td>
+	</tr>
+	<tr>
+		<td valign="top"  align="left" rowspan="6"><b>Description:</b>
+	  <%= @promotion.description %></td>
+	  </tr>
+<Tr>
+		<td>		  <b>Vendor:</b>
+		  <%= @promotion.vendor_id %></td></tr>
+		<tr><td>  <b>Quantity:</b>
+		  <%= @promotion.quantity %></td></tr>
+		<tr><td>  <b>Metro:</b>
+		  <%= @promotion.metro_id %></td></tr>
+		<tr><td>  <b>Start:</b>
+		  <%= @promotion.start %></td></tr>
+		<tr><td>  <b>End:</b>
+		  <%= @promotion.end %></td></tr>
+
 <tr>
-<th colspan="2">About This Deal</th>
-</tr>
-<tr><td><b>Description:</b>
-  <%= @promotion.description %></td>
-<td>
-
-<table border="0"
-<tr>
-<td>		  <b>Vendor:</b>
-  <%= @promotion.vendor_id %></td></tr>
-<tr><td>  <b>Quantity:</b>
-  <%= @promotion.quantity %></td></tr>
-<tr><td>  <b>Metro:</b>
-  <%= @promotion.metro_id %></td></tr>
-<tr><td>  <b>Start:</b>
-  <%= @promotion.start %></td></tr>
-<tr><td>  <b>End:</b>
-  <%= @promotion.end %></td></tr>
-</table>
-
-</td>
-</tr>
-</table>
-
-<p>
+		<td>
   <b>Buy Now?</b>
   <%=button_to 'Buy Now', orders_path(promotion_id: @promotion.id)%>
- 
-</p>
-
-<p>
-  <b>Limitations:</b>
+			
+		</td>
+</tr>
+<Tr>
+	<td colspan=2>
+		FINE PRINT:  
   <%= @promotion.limitations %>
-</p>
+
+		</td>
+</Tr>
+</table>
+
+
 
 
 
