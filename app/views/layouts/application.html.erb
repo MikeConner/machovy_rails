@@ -29,6 +29,9 @@
 
 			<div id="logo">					
 				<a href="/"><img src="/images/M_logo.png" alt="M A C H O V Y"/></a>
+								<p class="notice"><%= notice %></p>
+				<p class="alert"><%= alert %></p>		
+
             </div>
 	 <div id="sidebar-footer"> 
 	  
@@ -39,8 +42,17 @@
 
 
 
+
+					<div id="botmenu">
+						<hr />
+							<a href="log-in">Log In</a>&nbsp;|&nbsp;<a href="Sign Up">Sign Up</a>&nbsp;|&nbsp;<a href="http://www.facebook.com/machovy">BookFaced</a>
+						<hr />						
+							<a href = "/about">about machovy</a>&nbsp;|&nbsp;<a href="/merchants">merchants</a>
+						<hr /> 									  
+					 </div>
+
 					<div id="copyright">
-													(c) 2012 M A C H O V Y 									  
+													(c) 2012   M A C H O V Y 									  
 					 </div>
 
 			</div>
@@ -104,8 +116,6 @@
       <%= render "layouts/application/flash_messages" %>
 	
 		<div id="content">
-				<p class="notice"><%= notice %></p>
-				       <p class="alert"><%= alert %></p>		
 		
 		<div id="portfolio-grid" >       				
       <%= yield %>
