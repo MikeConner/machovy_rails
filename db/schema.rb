@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120909200018) do
+ActiveRecord::Schema.define(:version => 20120909221735) do
 
   create_table "metros", :force => true do |t|
     t.string   "name"
@@ -32,9 +32,9 @@ ActiveRecord::Schema.define(:version => 20120909200018) do
 
   create_table "promotions", :force => true do |t|
     t.string   "title"
-    t.string   "description"
-    t.string   "limitations"
-    t.string   "voucher_instructions"
+    t.text     "description"
+    t.text     "limitations"
+    t.text     "voucher_instructions"
     t.string   "teaser_image"
     t.decimal  "retail_value"
     t.decimal  "price"
@@ -49,6 +49,19 @@ ActiveRecord::Schema.define(:version => 20120909200018) do
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
   end
+
+  create_table "rails_admin_histories", :force => true do |t|
+    t.text     "message"
+    t.string   "username"
+    t.integer  "item"
+    t.string   "table"
+    t.integer  "month",      :limit => 2
+    t.integer  "year",       :limit => 8
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+  end
+
+  add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
