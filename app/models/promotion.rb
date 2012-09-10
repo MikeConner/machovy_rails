@@ -8,7 +8,7 @@ class Promotion < ActiveRecord::Base
   
   
   def ad?
-    !description
+    description == ""
   end
 
   def affiliate?
