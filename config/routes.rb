@@ -1,4 +1,10 @@
 MachovyRails::Application.routes.draw do
+  get "membersarea/show"
+
+  resources :videos
+
+  get "about/show"
+
   resources :categories
 
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
@@ -75,4 +81,11 @@ MachovyRails::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
+  match "/about" => "about#show"
+  match "/videos" => "videos#show"
+  match "/video" => "video#show"
+  match "/member" => "membersarea#show"
+  match "/merchants" => "merchantsignup#show"
+  
+  
 end
