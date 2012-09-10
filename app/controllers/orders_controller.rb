@@ -1,10 +1,12 @@
 class OrdersController < ApplicationController
+
 before_filter :authenticate_user!, :except => [:some_action_without_auth]
   # GET /orders
   # GET /orders.json
   def index
     @useremailaddy = current_user.email
     @orders = Order.all
+    @categories = Category.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,6 +18,7 @@ before_filter :authenticate_user!, :except => [:some_action_without_auth]
   # GET /orders/1.json
   def show
     @order = Order.find(params[:id])
+    @categories = Category.all
 
     respond_to do |format|
       format.html # show.html.erb
@@ -27,6 +30,7 @@ before_filter :authenticate_user!, :except => [:some_action_without_auth]
   # GET /orders/new.json
   def new
     @order = Order.new
+    @categories = Category.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -36,6 +40,7 @@ before_filter :authenticate_user!, :except => [:some_action_without_auth]
 
   def badPayment
     @order = Order.new
+    @categories = Category.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -53,6 +58,7 @@ before_filter :authenticate_user!, :except => [:some_action_without_auth]
   # POST /orders.json
   def create
     @order = Order.new(params[:order])
+    @categories = Category.all
 
 #    respond_to do |format|
 #      if @order.save
@@ -85,6 +91,7 @@ before_filter :authenticate_user!, :except => [:some_action_without_auth]
   # PUT /orders/1.json
   def update
     @order = Order.find(params[:id])
+    @categories = Category.all
 
     respond_to do |format|
       if @order.update_attributes(params[:order])
@@ -102,6 +109,7 @@ before_filter :authenticate_user!, :except => [:some_action_without_auth]
   def destroy
     @order = Order.find(params[:id])
     @order.destroy
+    @categories = Category.all
 
     respond_to do |format|
       format.html { redirect_to orders_url }

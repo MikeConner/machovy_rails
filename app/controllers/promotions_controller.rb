@@ -1,9 +1,11 @@
 class PromotionsController < ApplicationController
+
   # GET /promotions
   # GET /promotions.json
   def index
     @promotions = Promotion.all
-
+    @categories = Category.all
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @promotions }
@@ -14,7 +16,8 @@ class PromotionsController < ApplicationController
   # GET /promotions/1.json
   def show
     @promotion = Promotion.find(params[:id])
-
+    @categories = Category.all
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @promotion }
@@ -28,6 +31,7 @@ class PromotionsController < ApplicationController
     @promotion = Promotion.find(params[:id])
     @order = @promotion.orders.new
     @order.prepare_for current_user
+    @categories = Category.all
     
     
     respond_to do |format|
@@ -44,6 +48,7 @@ class PromotionsController < ApplicationController
   # GET /promotions/new.json
   def new
     @promotion = Promotion.new
+    @categories = Category.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -60,6 +65,7 @@ class PromotionsController < ApplicationController
   # POST /promotions.json
   def create
     @promotion = Promotion.new(params[:promotion])
+    @categories = Category.all
 
     respond_to do |format|
       if @promotion.save
@@ -76,6 +82,7 @@ class PromotionsController < ApplicationController
   # PUT /promotions/1.json
   def update
     @promotion = Promotion.find(params[:id])
+    @categories = Category.all
 
     respond_to do |format|
       if @promotion.update_attributes(params[:promotion])
@@ -93,6 +100,7 @@ class PromotionsController < ApplicationController
   def destroy
     @promotion = Promotion.find(params[:id])
     @promotion.destroy
+    @categories = Category.all
 
     respond_to do |format|
       format.html { redirect_to promotions_url }

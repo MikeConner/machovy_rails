@@ -75,21 +75,7 @@
 </ul></div>                     
 			</div>
 			
-		
-		<div id="portfolio-filter" class="widget">
-			<h3 class="widget-title">Filter</h3>
-			<div class="sep"></div>
-								<ul id="filter" class="clearfix"> 
-						<li class="all"><a class="active" href="#" data-filter="*" >All</a></li>
-							<% @cats.each do |cat| %>									
-												<li class="cat-item <%=cat.name%>">
-							<a href="#" data-filter=".<%=cat.name%>"><%=cat.name%></a> 
-						</li> 
-
-						<% end %>						 
-						</div>
-		
-		
+<%= render 'categories/index'%>		
 		</div>
       <%= render "layouts/application/flash_messages" %>
 	
