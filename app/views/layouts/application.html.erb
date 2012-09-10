@@ -45,7 +45,15 @@
 
 					<div id="botmenu">
 						<hr />
-							<a href="log-in">Log In</a>&nbsp;|&nbsp;<a href="Sign Up">Sign Up</a>&nbsp;|&nbsp;<a href="http://www.facebook.com/machovy">BookFaced</a>
+						<% if current_user.nil? %>
+						<%=link_to 'Log In', new_user_session_url %>&nbsp;|&nbsp;
+						<%=link_to 'Sign Up', '/users/sign_up' %>&nbsp;|&nbsp;
+
+						<% else %>
+						<%=link_to 'Log Out', '/users/sign_out', :method => :delete %>&nbsp;|&nbsp;
+						
+						<% end %>	
+							<a href="http://www.facebook.com/machovy">BookFace</a>
 						<hr />						
 							<a href = "/about">about machovy</a>&nbsp;|&nbsp;<a href="/merchants">merchants</a>
 						<hr /> 									  
@@ -75,7 +83,7 @@
 </ul></div>                     
 			</div>
 			
-<%= render 'categories/index'%>		
+<%#= render 'categories/index'%>		
 		</div>
       <%= render "layouts/application/flash_messages" %>
 	

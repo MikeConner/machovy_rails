@@ -1,4 +1,5 @@
 class PromotionsController < ApplicationController
+  before_filter :authenticate_user!, :except => [:show]
 
   # GET /promotions
   # GET /promotions.json
@@ -28,6 +29,7 @@ class PromotionsController < ApplicationController
   # GET /promotions/1/order
   # GET /promotions/1/order???.json
   def order
+    
     @promotion = Promotion.find(params[:id])
     @order = @promotion.orders.new
     @order.prepare_for current_user
