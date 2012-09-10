@@ -7,7 +7,11 @@ MachovyRails::Application.routes.draw do
 
   get "front_grid/index"
 
-  resources :promotions
+  resources :promotions do 
+    member do
+      get 'order'
+    end
+  end
 
   resources :vendors
 

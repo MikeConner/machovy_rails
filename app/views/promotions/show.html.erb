@@ -38,7 +38,7 @@
 	  </tr>
 <Tr>
 		<td>		  <b>Vendor:</b>
-		  <%= @promotion.vendor_id %></td></tr>
+		  <%= @promotion.vendor.name %></td></tr>
 		<tr><td>  <b>Quantity:</b>
 		  <%= @promotion.quantity %></td></tr>
 		<tr><td>  <b>Metro:</b>
@@ -49,9 +49,9 @@
 		  <%= @promotion.end %></td></tr>
 
 <tr>
-		<td>
-  <b>Buy Now?</b>
-  <%=button_to 'Buy Now', orders_path(promotion_id: @promotion.id)%>
+		<td><h1><b>
+  <%= link_to 'BUY IT', order_promotion_path(@promotion)%>
+  </h1></b>
 			
 		</td>
 </tr>

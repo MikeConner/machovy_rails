@@ -21,6 +21,25 @@ class PromotionsController < ApplicationController
     end
   end
 
+
+  # GET /promotions/1/order
+  # GET /promotions/1/order???.json
+  def order
+    @promotion = Promotion.find(params[:id])
+    @order = @promotion.orders.new
+    @order.prepare_for current_user
+    
+    
+    respond_to do |format|
+      format.html # order.html.erb
+#      format.json { render json: @promotion }
+    end
+  end
+
+
+  
+
+
   # GET /promotions/new
   # GET /promotions/new.json
   def new

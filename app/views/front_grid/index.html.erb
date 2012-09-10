@@ -1,6 +1,6 @@
 <% @promotions.each do |promotion| %>
 <div class="portfolio-item sports" id="<%= promotion.id %>"> 							
-	<a class="entry-link" href="promotions/<%=promotion.id%>">
+	<a class="entry-link" href="<%=promotion_path(promotion)%>">
 		<div class="portfolio-thumb"><img width="400" height="225" src="<%= promotion.teaser_image %>" 
 			class="attachment-portfolio-thumb wp-post-image" alt="genrac11" title="genrac11" />
 		</div>											

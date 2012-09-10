@@ -1,9 +1,20 @@
 class Order < ActiveRecord::Base
   attr_accessible :amount, :description, :email, :promotion_id, :stripe_card_token, :user_id
   
-  
     validates :email, presence: true
+
     belongs_to :promotion
+    belongs_to :user
+    has_one :vendor, :through => :promotion
+    
+  def prepare_for customer
+    self.email = customer.email
+    self.amount = promotion.price
+    self.description = promotion.vendor.name + ' promo ' + promotion.title + Date.today.to_s
+    self.user = customer
+    
+    
+  end    
   def save_with_payment
     Integer  i = promotion_id
     @priced =  Promotion.find(i).price
@@ -18,7 +29,13 @@ class Order < ActiveRecord::Base
       errors.add :base, "There was a problem with your credit card."
       false
 
+      rescue Stripe::CardError => error
+        logger.error "Stripe error while creating customer: #{error.message}"
+        errors.add :base, "There was a problem with your credit card. CARDERR"
+        false
+
   end
 
+  
 
 end

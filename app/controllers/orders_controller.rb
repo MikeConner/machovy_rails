@@ -34,6 +34,16 @@ before_filter :authenticate_user!, :except => [:some_action_without_auth]
     end
   end
 
+  def badPayment
+    @order = Order.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @order }
+    end
+  end
+
+
   # GET /orders/1/edit
   def edit
     @order = Order.find(params[:id])
@@ -43,10 +53,6 @@ before_filter :authenticate_user!, :except => [:some_action_without_auth]
   # POST /orders.json
   def create
     @order = Order.new(params[:order])
-
-    if params[:promotion_id]
-      @order.promotion_id = params[:promotion_id]       
-    end
 
 #    respond_to do |format|
 #      if @order.save
@@ -61,10 +67,14 @@ before_filter :authenticate_user!, :except => [:some_action_without_auth]
 
 
     if @order.save_with_payment
+      #  create new voucher
+      # send email to person
+      # render voucher in order afterwards
+      
 
       redirect_to order_path(@order)
     else
-      render :new   
+      render :badPayment
     end
 
 
