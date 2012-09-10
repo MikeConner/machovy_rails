@@ -81,34 +81,12 @@
 			<div class="sep"></div>
 								<ul id="filter" class="clearfix"> 
 						<li class="all"><a class="active" href="#" data-filter="*" >All</a></li>
-												<li class="cat-item adventure">
-							<a href="#" data-filter=".adventure">Adventure</a> 
+							<% @cats.each do |cat| %>									
+												<li class="cat-item <%=cat.name%>">
+							<a href="#" data-filter=".<%=cat.name%>"><%=cat.name%></a> 
 						</li> 
-												<li class="cat-item cars">
-							<a href="#" data-filter=".cars">Cars</a> 
-						</li> 
-												<li class="cat-item dining">
-							<a href="#" data-filter=".dining">Dining</a> 
-						</li> 
-												<li class="cat-item drinks">
-							<a href="#" data-filter=".drinks">Drinks</a> 
-						</li> 
-												<li class="cat-item leisure">
-							<a href="#" data-filter=".leisure">Leisure</a> 
-						</li> 
-												<li class="cat-item mens-clothing">
-							<a href="#" data-filter=".mens-clothing">Mens Clothing</a> 
-						</li> 
-												<li class="cat-item sports">
-							<a href="#" data-filter=".sports">Sports</a> 
-						</li> 
-												<li class="cat-item stripclub">
-							<a href="#" data-filter=".stripclub">Strip Clubs</a> 
-						</li> 
-												<li class="cat-item tattoo">
-							<a href="#" data-filter=".tattoo">Tattoos</a> 
-						</li> 
-											</ul>
+
+						<% end %>						 
 						</div>
 		
 		

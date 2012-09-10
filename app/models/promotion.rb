@@ -4,7 +4,7 @@ class Promotion < ActiveRecord::Base
   belongs_to :metro
   belongs_to :vendor
   has_many :orders
-  
+  has_and_belongs_to_many :categories
   
   
   def ad?
