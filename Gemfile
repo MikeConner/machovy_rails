@@ -20,7 +20,11 @@ group :assets do
 end
 
 gem 'jquery-rails'
+#for heroku-> have to use thin
 gem 'thin'
+#for heroku, have to use this to get to imagemagick
+gem 'rmagick'
+
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'

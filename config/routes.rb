@@ -1,4 +1,6 @@
 MachovyRails::Application.routes.draw do
+  resources :vouchers
+
   get "membersarea/show"
 
   resources :videos
