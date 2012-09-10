@@ -50,7 +50,12 @@
 
 <tr>
 		<td><h1><b>
-  <%= link_to 'BUY IT', order_promotion_path(@promotion)%>
+	<% if @promotion.affiliate? %>
+  		<%= link_to 'BUY IT from affiliate', @promotion.destination, :target => "_blank" %>	
+	
+	<% else %>
+  <%= link_to 'BUY IT', order_promotion_path(@promotion)%>	
+	<% end %>
   </h1></b>
 			
 		</td>

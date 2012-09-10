@@ -4,4 +4,18 @@ class Promotion < ActiveRecord::Base
   belongs_to :metro
   belongs_to :vendor
   has_many :orders
+  
+  
+  
+  def ad?
+    !description
+  end
+
+  def affiliate?
+    destination != "" and description != ""
+  end
+  
+  def remaining
+    quantity - vouchers.count
+  end
 end
