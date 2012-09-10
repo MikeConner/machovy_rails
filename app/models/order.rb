@@ -19,7 +19,7 @@ class Order < ActiveRecord::Base
     Integer  i = promotion_id
     @priced =  Promotion.find(i).price
     if valid?
-      charge = Stripe::Charge.create(description: email, card: stripe_card_token, amount: 44444, currency: 'usd')
+      charge = Stripe::Charge.create(description: self.description, card: stripe_card_token, amount: (self.amount*100).to_int, currency: 'usd')
       ship_address = charge.id
       save!
     end
