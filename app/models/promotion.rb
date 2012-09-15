@@ -5,8 +5,9 @@ class Promotion < ActiveRecord::Base
   belongs_to :vendor
   has_many :orders
   has_and_belongs_to_many :categories
+  has_and_belongs_to_many :promotion_images
   
-  
+  #mount_uploader :teaser_image, ImageUploader
   def ad?
     description == ""
   end

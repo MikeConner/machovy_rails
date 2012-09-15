@@ -1,4 +1,6 @@
 MachovyRails::Application.routes.draw do
+  resources :promotion_images
+
   resources :vouchers
 
   get "membersarea/show"

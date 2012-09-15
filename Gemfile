@@ -22,9 +22,7 @@ end
 gem 'jquery-rails'
 #for heroku-> have to use thin
 gem 'thin'
-#for heroku, have to use this to get to imagemagick
-gem 'rmagick'
-gem 'mini_magick'
+
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
@@ -45,8 +43,12 @@ gem "omniauth-facebook"
 # for Admin pages
 gem 'rails_admin'
 
+# for images on s3
+gem 'carrierwave'
 
-
+#for heroku, have to use this to get to imagemagick
+gem 'rmagick'
+gem 'mini_magick'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
