@@ -2,7 +2,7 @@ class VouchersController < ApplicationController
   # GET /vouchers
   # GET /vouchers.json
   def index
-    @vouchers = Voucher.all
+    @vouchers = current_user.vouchers.all
 
     respond_to do |format|
       format.html # index.html.erb

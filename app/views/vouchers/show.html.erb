@@ -44,6 +44,11 @@
   <b>User:</b>
   <%= @voucher.user_id %>
 </p>
+<p>
+  <b>Voucher QR:</b>
+	<img src = "<%=url_for @voucher %>.png">
+	<%# FIX THIS SO WE SEND IT :format to URL_FOR %>
+</p>
 
 
 <%= link_to 'Edit', edit_voucher_path(@voucher) %> |
