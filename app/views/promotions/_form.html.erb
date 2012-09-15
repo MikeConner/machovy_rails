@@ -1,4 +1,4 @@
-<%= form_for(@promotion) do |f| %>
+<%= form_for @promotion , :html => {:multipart => true } do |f| %>
   <% if @promotion.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@promotion.errors.count, "error") %> prohibited this promotion from being saved:</h2>
@@ -29,8 +29,15 @@
   </div>
   <div class="field">
     <%= f.label :teaser_image %><br />
-    <%= f.text_field :teaser_image %>
+    <%= f.file_field :teaser_image %>
   </div>
+
+  <div class="field">
+    <%= f.label :main_image %><br />
+    <%= f.file_field :main_image %>
+  </div>
+
+
   <div class="field">
     <%= f.label :retail_value %><br />
     <%= f.text_field :retail_value %>

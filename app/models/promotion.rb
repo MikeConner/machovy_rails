@@ -1,5 +1,6 @@
 class Promotion < ActiveRecord::Base
-  attr_accessible :description, :destination, :end, :grid_weight, :limitations, :metro_id, :price, :quantity, :retail_value, :revenue_shared, :start, :teaser_image, :title, :vendor_id, :voucher_instructions
+  attr_accessible :description, :destination, :end, :grid_weight, :limitations, :metro_id, :price, :quantity, :retail_value, :revenue_shared, :start, :teaser_image, :title, :vendor_id, :voucher_instructions, :main_image
+  
 
   belongs_to :metro
   belongs_to :vendor
@@ -7,7 +8,9 @@ class Promotion < ActiveRecord::Base
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :promotion_images
   
-  #mount_uploader :teaser_image, ImageUploader
+  mount_uploader :main_image, ImageUploader
+  
+  mount_uploader :teaser_image, ImageUploader
   def ad?
     description == ""
   end
@@ -18,5 +21,6 @@ class Promotion < ActiveRecord::Base
   
   def remaining
     quantity - vouchers.count
+    
   end
 end

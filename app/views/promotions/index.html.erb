@@ -28,7 +28,11 @@
     <td><%= promotion.description %></td>
     <td><%= promotion.limitations %></td>
     <td><%= promotion.voucher_instructions %></td>
-    <td><%= promotion.teaser_image %></td>
+    <td><%= promotion.teaser_image %>
+	
+	
+	  <%= image_tag promotion.teaser_image_url(:teaser).to_s %>
+	</td>
     <td><%= promotion.retail_value %></td>
     <td><%= promotion.price %></td>
     <td><%= promotion.revenue_shared %></td>

@@ -2,7 +2,7 @@
 
 <div id="image Gallery" >
 	  
-  <img width = "800px" src = "<%= @promotion.teaser_image %>" >
+  <img width = "600px" src = "<%= @promotion.main_image %>" >
 
 
 </div>
@@ -54,7 +54,9 @@
   		<%= link_to 'BUY IT from affiliate', @promotion.destination, :target => "_blank" %>	
 	
 	<% else %>
-  <%= link_to 'BUY IT', order_promotion_path(@promotion)%>	
+  <%= link_to 'BUY IT', order_promotion_path(@promotion)%>	<br>
+  <img width = "400px" src = "<%= @promotion.teaser_image %>" >
+
 	<% end %>
   </h1></b>
 			

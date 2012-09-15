@@ -2,8 +2,10 @@
 	if promotion.ad?%>
 	<div class="portfolio-item sports" id="<%= promotion.id %>"> 							
 		<a class="entry-link" href="<%=promotion.destination%>" target = "_blank">
-			<div class="portfolio-thumb"><img width="400" height="225" src="<%= promotion.teaser_image %>" 
-				class="attachment-portfolio-thumb wp-post-image" alt="genrac11" title="genrac11" />
+			<div class="portfolio-thumb">
+				<%= image_tag promotion.teaser_image_url(:teaser).to_s %>
+				<%#"<img width="400" height="225" src="<%= promotion.teaser_image #######% ##>" 
+				class="attachment-portfolio-thumb wp-post-image" alt="genrac11" title="genrac11" />%>
 			</div>											
 					<div class="overlay">
 						<div class="overlay-inner">
