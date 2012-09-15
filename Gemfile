@@ -45,7 +45,7 @@ gem 'rails_admin'
 
 # for images on s3
 gem 'carrierwave'
-
+gem 'fog'
 #for heroku, have to use this to get to imagemagick
 gem 'rmagick'
 gem 'mini_magick'
