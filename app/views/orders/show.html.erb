@@ -34,6 +34,11 @@
   <b>Voucher:</b>
   <%= @order.vouchers %>
 </p>
+<p>
+  <b>Voucher QR:</b>
+	<img src = "<%=url_for @order.vouchers.first %>.png">
+	<%# FIX THIS SO WE SEND IT :format to URL_FOR %>
+</p>
 
 
 <%= link_to 'Edit', edit_order_path(@order) %> |

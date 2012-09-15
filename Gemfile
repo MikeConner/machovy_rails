@@ -24,7 +24,7 @@ gem 'jquery-rails'
 gem 'thin'
 #for heroku, have to use this to get to imagemagick
 gem 'rmagick'
-
+gem 'mini_magick'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
@@ -35,7 +35,7 @@ gem 'stripe'
 # For Authentication
 
 #for QR Codes
-# gem 'rqrcode-rails3'
+gem 'rqrcode-rails3'
 
 # For AUthentication
 gem "devise"
