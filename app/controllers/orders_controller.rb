@@ -73,6 +73,10 @@ before_filter :authenticate_user!, :except => [:some_action_without_auth]
 
 
     if @order.save_with_payment
+      just_purchased = Voucher.new
+      just_purchased.populate_from(@order)
+      just_purchased.save
+      
       #  create new voucher
       # send email to person
       # render voucher in order afterwards

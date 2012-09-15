@@ -6,7 +6,7 @@ class Order < ActiveRecord::Base
     belongs_to :promotion
     belongs_to :user
     has_one :vendor, :through => :promotion
-    
+    has_many :vouchers
   def prepare_for customer
     self.email = customer.email
     self.amount = promotion.price
