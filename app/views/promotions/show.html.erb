@@ -52,6 +52,7 @@
 		<td><h1><b>
 	<% if @promotion.affiliate? %>
   		<%= link_to 'BUY IT from affiliate', @promotion.destination, :target => "_blank" %>	
+	  <img width = "400px" src = "<%= @promotion.teaser_image %>" >
 	
 	<% else %>
   <%= link_to 'BUY IT', order_promotion_path(@promotion)%>	<br>

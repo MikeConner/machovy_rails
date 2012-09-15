@@ -31,12 +31,21 @@
     <%= f.label :teaser_image %><br />
     <%= f.file_field :teaser_image %>
   </div>
+  <div class="field">
+    <%= f.label :remote_teaser_image_url, "or image URL" %><br />
+    <%= f.text_field :remote_teaser_image_url %>
+  </div>
+
 
   <div class="field">
     <%= f.label :main_image %><br />
     <%= f.file_field :main_image %>
   </div>
 
+  <div class="field">
+    <%= f.label :remote_main_image_url, "or image URL" %><br />
+    <%= f.text_field :remote_main_image_url %>
+  </div>
 
   <div class="field">
     <%= f.label :retail_value %><br />
