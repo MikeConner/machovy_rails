@@ -1,4 +1,14 @@
-<h1>New promotion</h1>
+	<%if params['type'] == "local"%>
+<h1> New LOCAL DEAL</h1>
+	<%else 
+			if params['type'] == "ad"%>
+			<h1> New Advertising DEAL</h1>
+			<%else%>
+			<h1> New Affiliate DEAL</h1>
+			
+			
+			<%end %>
+	<%end%>
 
 <%= render 'form' %>
 

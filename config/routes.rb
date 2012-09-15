@@ -1,4 +1,25 @@
 MachovyRails::Application.routes.draw do
+  get "site_admin/add_ad"
+
+  get "site_admin/add_deal"
+
+  get "site_admin/add_affiliate"
+
+  get "site_admin/add_vendor"
+
+  get "site_admin/add_metro"
+
+  get "site_admin/front_page"
+
+  get "site_admin/user_admin"
+
+  get "site_admin/merchant_admin"
+
+  get "site_admin/reports"
+
+  get "site_admin/index"
+  
+
   resources :promotion_images
 
   resources :vouchers
@@ -11,7 +32,7 @@ MachovyRails::Application.routes.draw do
 
   resources :categories
 
-  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
+  mount RailsAdmin::Engine => '/Radmin', :as => 'rails_admin'
 
   devise_for :users
 
@@ -90,6 +111,6 @@ MachovyRails::Application.routes.draw do
   match "/video" => "video#show"
   match "/member" => "membersarea#show"
   match "/merchants" => "merchantsignup#show"
-  
+  match "/SiteAdmin" => "site_admin#index"
   
 end

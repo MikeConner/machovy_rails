@@ -1,6 +1,8 @@
 class Promotion < ActiveRecord::Base
   attr_accessible :description, :destination, :end, :grid_weight, :limitations, :metro_id, :price, :quantity, :retail_value, :revenue_shared, :start, :teaser_image, :title, :vendor_id, :voucher_instructions, :main_image, :remote_main_image_url, :remote_teaser_image_url
   
+  validates :metro, presence: true
+  validates :vendor, presence: true
 
   belongs_to :metro
   belongs_to :vendor
