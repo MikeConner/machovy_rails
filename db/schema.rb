@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120916040109) do
+ActiveRecord::Schema.define(:version => 20120916055113) do
+
+  create_table "blog_posts", :force => true do |t|
+    t.string   "title"
+    t.text     "body"
+    t.integer  "curator_id"
+    t.datetime "posted_at"
+    t.integer  "weight"
+    t.integer  "metro_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -23,6 +34,17 @@ ActiveRecord::Schema.define(:version => 20120916040109) do
   create_table "categories_promotions", :force => true do |t|
     t.integer "category_id"
     t.integer "promotion_id"
+  end
+
+  create_table "curators", :force => true do |t|
+    t.string   "name"
+    t.string   "picture"
+    t.text     "bio"
+    t.string   "twitter"
+    t.integer  "user_id"
+    t.integer  "metro_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "metros", :force => true do |t|
@@ -74,6 +96,7 @@ ActiveRecord::Schema.define(:version => 20120916040109) do
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
     t.string   "main_image"
+    t.integer  "curator_id"
   end
 
   create_table "rails_admin_histories", :force => true do |t|

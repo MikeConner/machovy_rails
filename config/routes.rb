@@ -1,4 +1,8 @@
 MachovyRails::Application.routes.draw do
+  resources :blog_posts
+
+  resources :curators
+
   devise_for :users
   mount RailsAdmin::Engine => '/Radmin', :as => 'rails_admin'
 

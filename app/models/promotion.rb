@@ -9,6 +9,7 @@ class Promotion < ActiveRecord::Base
   has_many :orders
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :promotion_images
+  belongs_to :curator
   
   mount_uploader :main_image, ImageUploader
   
