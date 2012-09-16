@@ -16,19 +16,19 @@
 
 	  <div class="field">
 	    <%= f.label :title %><br />
-	    <%= f.text_field :title %>
+	    <%= f.text_field :title, :size => 100 %>
 	  </div>
 	  <div class="field">
 	    <%= f.label :description %><br />
-	    <%= f.text_field :description %>
+	    <%= f.text_area :description, :size => "60x12" %>
 	  </div>
 	  <div class="field">
 	    <%= f.label :limitations %><br />
-	    <%= f.text_field :limitations %>
+	    <%= f.text_area :limitations, :size => "60x12" %>
 	  </div>
 	  <div class="field">
 	    <%= f.label :voucher_instructions %><br />
-	    <%= f.text_field :voucher_instructions %>
+	    <%= f.text_area :voucher_instructions , :size => "60x6"%>
 	  </div>
 	  <div class="field">
 	    <%= f.label :teaser_image %><br />
@@ -52,15 +52,15 @@
 
 	  <div class="field">
 	    <%= f.label :retail_value %><br />
-	    <%= f.text_field :retail_value %>
+	    <%= f.text_field :retail_value , :size => 15%>
 	  </div>
 	  <div class="field">
 	    <%= f.label :price %><br />
-	    <%= f.text_field :price %>
+	    <%= f.text_field :price, :size => 15 %>
 	  </div>
 	  <div class="field">
-	    <%= f.label :revenue_shared %><br />
-	    <%= f.text_field :revenue_shared %>
+	    <%= f.label :revenue_shared %> (Percent, 0 to 1 number ->slider?)<br />
+	    <%= f.text_field :revenue_shared , :size => 15%>
 	  </div>
 	  <div class="field">
 	    <%= f.label :quantity %><br />
