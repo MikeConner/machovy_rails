@@ -1,4 +1,5 @@
 class MetrosController < ApplicationController
+    load_and_authorize_resource
   # GET /metros
   # GET /metros.json
   def index

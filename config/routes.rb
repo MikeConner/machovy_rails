@@ -1,55 +1,45 @@
 MachovyRails::Application.routes.draw do
-  get "site_admin/add_ad"
-
-  get "site_admin/add_deal"
-
-  get "site_admin/add_affiliate"
-
-  get "site_admin/add_vendor"
-
-  get "site_admin/add_metro"
-
-  get "site_admin/front_page"
-
-  get "site_admin/user_admin"
-
-  get "site_admin/merchant_admin"
-
-  get "site_admin/reports"
-
-  get "site_admin/index"
-  
-
-  resources :promotion_images
-
-  resources :vouchers
-
-  get "membersarea/show"
-
-  resources :videos
-
-  get "about/show"
-
-  resources :categories
-
+  devise_for :users
   mount RailsAdmin::Engine => '/Radmin', :as => 'rails_admin'
 
-  devise_for :users
-
+  resources :roles
+  resources :vendors
+  resources :metros
+  resources :promotion_images
+  resources :vouchers
+  resources :videos
+  resources :categories
   resources :orders
-
-  get "front_grid/index"
-
   resources :promotions do 
     member do
       get 'order'
     end
   end
 
-  resources :vendors
+  get "site_admin/add_ad"
+  get "site_admin/add_deal"
+  get "site_admin/add_affiliate"
+  get "site_admin/add_vendor"
+  get "site_admin/add_metro"
+  get "site_admin/front_page"
+  get "site_admin/user_admin"
+  get "site_admin/merchant_admin"
+  get "site_admin/reports"
+  get "site_admin/index"
+  get "membersarea/show"
+  get "about/show"
+  get "front_grid/index"
 
-  resources :metros
-
+  root :to => 'front_grid#index', as: 'frontgrid'
+  
+  match "/about" => "about#show"
+  match "/videos" => "videos#show"
+  match "/video" => "video#show"
+  match "/member" => "membersarea#show"
+  match "/merchants" => "merchantsignup#show"
+  match "/SiteAdmin" => "site_admin#index"
+  
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -99,18 +89,12 @@ MachovyRails::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'front_grid#index', as: 'frontgrid'
 
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
-  match "/about" => "about#show"
-  match "/videos" => "videos#show"
-  match "/video" => "video#show"
-  match "/member" => "membersarea#show"
-  match "/merchants" => "merchantsignup#show"
-  match "/SiteAdmin" => "site_admin#index"
+
   
 end

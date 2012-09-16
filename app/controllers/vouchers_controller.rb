@@ -1,4 +1,5 @@
 class VouchersController < ApplicationController
+  load_and_authorize_resource
   # GET /vouchers
   # GET /vouchers.json
   def index
