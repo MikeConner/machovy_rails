@@ -4,4 +4,5 @@ class BlogPost < ActiveRecord::Base
   belongs_to :curator
   belongs_to :metro
   
+  
 end
