@@ -1,99 +1,44 @@
-<div id="post-header-panel">
-	<div class="two-third">
-		<h1>if you think it's  <span class="colored-text">awesome</span> chances<br>
-	    are we've already found it...</h1>
-		<h4> Machovy. Deals. No Limits. </h4>
-	</div>
-	<div class="one-third last">
-		<div class="post-header-button">
-			<a href="#" class="button big round">Free Membership</a>
-		</div>
-	</div>
-</div>
-
-
-	<%= render 'categories/index'%>		
-	
-	
-<div class="portfolio-container">
-	<ul id="grid-portfolio" class="portfolio-items">
-
-
-		<% @promotions.each do |promotion| 
-			if promotion.ad?%>
-		<%#=promotion.destination%>
-			<%else
-			%>
-
-
-			<li data-categories="animation">
-			<div class="item-hover">
-				<div class="portfolio-thumbnail" id="<%= promotion.id %>">
-					<div class="thumb-text">
-						<h4><%= sanitize(promotion.title)%></h4>
-						<div class="item-divider">
+<% @promotions.each do |promotion| 
+	if promotion.ad?%>
+	<div class="portfolio-item sports" id="<%= promotion.id %>"> 							
+		<a class="entry-link" href="<%=promotion.destination%>" target = "_blank">
+			<div class="portfolio-thumb">
+				<%= image_tag promotion.teaser_image_url(:teaser).to_s %>
+				<%#"<img width="400" height="225" src="<%= promotion.teaser_image #######% ##>" 
+				class="attachment-portfolio-thumb wp-post-image" alt="genrac11" title="genrac11" />%>
+			</div>											
+					<div class="overlay">
+						<div class="overlay-inner">
+							<div class="overlay-content">
+									<h2 class="entry-title"><%= sanitize(promotion.title)%>&#8230;</h2>
+									<div class="portfolio-subtitle">
+										Sports							
+									</div>
+							</div>
 						</div>
-						<p>
-							 Pull first few lines from the description here
-						</p>
-						<a href="#" class="read-more">Read More</a>
+					</div>								
+			</a>							
+	</div>		
+	<%else
+	%>
+<div class="portfolio-item sports" id="<%= promotion.id %>"> 							
+	<a class="entry-link" href="<%=promotion_path(promotion)%>">
+		<div class="portfolio-thumb">
+			
+				  <%= image_tag promotion.teaser_image_url(:teaser).to_s %>
+		</div>											
+				<div class="overlay">
+					<div class="overlay-inner">
+						<div class="overlay-content">
+								<h2 class="entry-title"><%= sanitize(promotion.title)%>&#8230;</h2>
+								<div class="portfolio-subtitle">
+									Sports							
+								</div>
+						</div>
 					</div>
-					<a href="http://www.youtube.com/watch?v=GgR6dyzkKHI" title="Image Dummy Title" data-rel="prettyPhoto" class="zoom-item">View Image / Video</a>
-				</div>
-					<a  href="<%=promotion_path(promotion)%>">
-				 <%= image_tag promotion.teaser_image_url(:teaser).to_s %></a>
-			</div>
-			</li>
-
-		<% 
-		    end	
-		  end %>
-
-
-
-
-	</ul>
-	<!--GRID PORTFOLIO ENDS -->
+				</div>								
+		</a>							
 </div>
-<div class="one-fourth">
-	<h4 class="colored-text ">ABOUT OUR DEALS</h4>
-	<p>
-		Lorem ipsum dolor sit ameten. Vestibulum augue risus, placerat eu dignissim quis, tristique vitae erat nulla posuere vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ac ligula mi, non suscipi tac cumsan. Lorem ipsum dolor sit.
-	</p>
-</div>
-<div class="one-fourth">
-	<h4 class="colored-text ">ARTICLE</h4>
-	<p>
-		Lorem ipsum dolor sit ameten. Vestibulum augue risus, placerat eu dignissim quis, tristique vitae erat nulla posuere vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ac ligula mi, non suscipi tac cumsan. Lorem ipsum dolor sit.
-	</p>
-</div>
-<div class="one-fourth">
-	<h4 class="colored-text ">ARTICLE</h4>
-	<p>
-		Lorem ipsum dolor sit ameten. Vestibulum augue risus, placerat eu dignissim quis, tristique vitae erat nulla posuere vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ac ligula mi, non suscipi tac cumsan. Lorem ipsum dolor sit.
-	</p>
-</div>
-<div class="one-fourth last">
-	<h4 class="colored-text ">ARTICLE</h4>
-	<p>
-		Lorem ipsum dolor sit ameten. Vestibulum augue risus, placerat eu dignissim quis, tristique vitae erat nulla posuere vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ac ligula mi, non suscipi tac cumsan. Lorem ipsum dolor sit.
-	</p>
-</div>
-<div id="get-in-touch">
-	<div class="two-third">
-		<h2>FEATURE YOUR BUSINESS ON MACHOVY!</h2>
-		<h4 class="oblique-font">Submit a deal or a featured advertisement</h4>
-	</div>
-	<div class="one-third last">
-		<div class="get-in-touch-button-holder">
-			<a href="#" class="button big round">Contact Us</a>
-		</div>
-	</div>
-</div>
-<ul class="clients">
-	<li><a href="#"><img src="images/clients/client1.png" alt=""/></a></li>
-	<li><a href="#"><img src="images/clients/client2.png" alt=""/></a></li>
-	<li><a href="#"><img src="images/clients/client3.png" alt=""/></a></li>
-	<li><a href="#"><img src="images/clients/client4.png" alt=""/></a></li>
-	<li><a href="#"><img src="images/clients/client5.png" alt=""/></a></li>
-</ul>
+<% 
+    end	
+  end %>

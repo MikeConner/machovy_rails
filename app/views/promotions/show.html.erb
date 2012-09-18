@@ -1,100 +1,79 @@
 <p id="notice"><%= notice %></p>
 
+<div id="image Gallery" >
+	  
+  <img width = "600px" src = "<%= @promotion.main_image %>" >
 
 
-			<div id="post-header-panel">
-				<div class="two-third">
-					<h1>  <%= @promotion.title %>
-					</h1>
-					<h4> Quantity remaining #</h4>
-				</div>
-				<div class="one-third last">
-					<div class="post-header-button">
-						
-						<% if @promotion.affiliate? %>
-					  		<%= link_to 'BUY IT from affiliate', @promotion.destination, :target => "_blank", :class => "button big round"%>
-
-						<% else %>
-					  <%= link_to 'BUY IT', order_promotion_path(@promotion) , :class => "button big round"%>	
-				
-
-						<% end %>
-					</div>
-				</div>
-			</div>
-			<ul id="breadcrumbs">
-				
-			</ul>
-			<div class="one-column" id="full-tabs">
-				<div class="one-fourth">
-					<ul class="sidebar-widget">
-					  <li><a href="#service-single">The Deal</a></li>
-					  <li><a href="#faq">Fine Print</a></li>
-						<li><a href="#career">Venue</a></li>
-					</ul>
-				</div>
-				<div class="three-fourth last">
-				  <div id="service-single">
-				    <p></p>
-				    
-				    <div class="one-fourth"> <img width = "470px" src = "<%=@promotion.main_image %>" >
-<p>
-				
-		  </p>
-							<br/>
-							
-							
-							<% if @promotion.affiliate? %>
-						  		<%= link_to 'BUY IT from affiliate', @promotion.destination, :target => "_blank", :class => "button big round"%>
-
-							<% else %>
-						  <%= link_to 'BUY IT', order_promotion_path(@promotion) , :class => "button big round"%>	
-					
-
-							<% end %>
-							
-					</div>
-						<div class="one-half last">
-							<h3>Details</h3>
-							<p>
-							<%= @promotion.description %>
-							</p>
-							<br/>
-							<div class="one-fourth ">
-								<ul class="dotted-list">
-									<li class="simple-check-list-2">Retail Value: <%= @promotion.retail_value %></li>
-									<li class="simple-check-list-2">Your Price: 	<%= @promotion.price %></li>
-									<li class="simple-check-list-2">Discount: <%= (@promotion.retail_value-@promotion.price) %></li>
-									<li class="simple-check-list-2">Qty:  <%= @promotion.quantity %></li>
-									<li class="simple-check-list-2">Metro ID: <%= @promotion.metro_id %></li>
-								</ul>
-							</div>
-							<div class="one-fourth last ">
-								<ul class="dotted-list">
-									<li class="simple-check-list-2">Start: <%= @promotion.start %></li>
-									<li class="simple-check-list-2">End: <%= @promotion.end %></li>
-
-								</ul>
-							</div>
-						</div>
-				  </div>
-				  <div id="faq">
-				    <h2> Fine Print</h2><p>
-				    <%= @promotion.limitations %></p>
-				  </div>
-					<div id="career">
-						<h2>About the Venue</h2>
-						<div class="post-title-text">
-							<p class="one-fourth"> <%= @promotion.vendor.name %></p>
-							<p class="one-fourth">&nbsp;</p>
-							<p class="one-fourth">&nbsp;</p>
-							<p class="one-fourth">&nbsp;</p>
-							<p class="one-fourth">&nbsp;</p>
-						</div>
-						 <img width = "400px" src = "<%= @promotion.teaser_image %>" >
 </div>
-				</div>
-			</div>
+<br>
+<p>
+  <b>Title:</b>
+  <%= @promotion.title %>
+</p>
+
+<table style="border: 0px" >
+	<tr>
+		<td >
+		  <b>Retail value:</b>
+			  <%= @promotion.retail_value %>
+		</td>
+		<td>
+ 		 <b>Price:</b>
+  		<%= @promotion.price %></td>
+		<td>
+ 		 <b>DISCOUNT:</b>
+  		$<%= (@promotion.retail_value-@promotion.price) %></td>
+
+  	</tr>
+  </table>
+
+<table style="border: 0px" >
+	<tr>
+		<td colspan="2">About This Deal</td>
+	</tr>
+	<tr>
+		<td valign="top"  align="left" rowspan="6"><b>Description:</b>
+	  <%= @promotion.description %></td>
+	  </tr>
+<Tr>
+		<td>		  <b>Vendor:</b>
+		  <%= @promotion.vendor.name %></td></tr>
+		<tr><td>  <b>Quantity:</b>
+		  <%= @promotion.quantity %></td></tr>
+		<tr><td>  <b>Metro:</b>
+		  <%= @promotion.metro_id %></td></tr>
+		<tr><td>  <b>Start:</b>
+		  <%= @promotion.start %></td></tr>
+		<tr><td>  <b>End:</b>
+		  <%= @promotion.end %></td></tr>
+
+<tr>
+		<td><h1><b>
+	<% if @promotion.affiliate? %>
+  		<%= link_to 'BUY IT from affiliate', @promotion.destination, :target => "_blank" %>	
+	  <img width = "400px" src = "<%= @promotion.teaser_image %>" >
+	
+	<% else %>
+  <%= link_to 'BUY IT', order_promotion_path(@promotion)%>	<br>
+  <img width = "400px" src = "<%= @promotion.teaser_image %>" >
+
+	<% end %>
+  </h1></b>
+			
+		</td>
+</tr>
+<Tr>
+	<td colspan=2>
+		FINE PRINT:  
+  <%= @promotion.limitations %>
+
+		</td>
+</Tr>
+</table>
+
+
+
 
 
 
