@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en-US">
-
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--<![endif]-->
+<head>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1"/>
+<meta name="viewport" content="width=device-width"/>
     <title>M A C H O V Y</title>
-
-
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700' rel='stylesheet' type='text/css'>
-
-<link rel="shortcut icon" href="favicon.png"/>
+	<meta name="description" content=""/>
+	<meta name="author" content="trendyWebStar"/>
+	<link rel="shortcut icon" href="favicon.png"/>
 
 
   <%= stylesheet_link_tag    "application", :media => "all" %>
@@ -16,10 +16,7 @@
   <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
-  
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
-
-    <%= yield :head %>
+      <%= yield :head %>
 	<script type="text/javascript">
 
 	  var _gaq = _gaq || [];
@@ -33,100 +30,191 @@
 	  })();
 
 	</script>
-</head>
-  <body class="home page page-id-98 page-template page-template-template-portfolio-php chrome">
 
 
-    <div class="container" id="container">
-
-		<div id="sidebar">
-		    <%= render "layouts/application/header" %>
-
-			<div id="logo">					
-				<a href="/"><img src="/images/M_logo.png" alt="M A C H O V Y"/></a>
-								<p class="notice"><%= notice %></p>
-				<p class="alert"><%= alert %></p>		
-
-            </div>
-	 <div id="sidebar-footer"> 
-	  
-	<ul id="socials-menu" class="clearfix">
-		<li class="facebook"><a href="http://www.facebook.com/Machovy" target="_blank">Facebook</a>
-		 </li>
-	</ul>
-
-
-
-
-					<div id="botmenu">
-						<hr />
-						<% if current_user.nil? %>
-						<%=link_to 'Log In', new_user_session_url %>&nbsp;|&nbsp;
-						<%=link_to 'Sign Up', '/users/sign_up' %>&nbsp;|&nbsp;
-
-						<% else %>
-						<%=link_to 'Site Admin', '/SiteAdmin' %>&nbsp;|&nbsp;
-
-						<%=link_to 'Log Out', '/users/sign_out', :method => :delete %>&nbsp;|&nbsp;
-						
-						<% end %>	
-							<a href="http://www.facebook.com/machovy">BookFace</a>
-						<hr />						
-							<a href = "/about">about machovy</a>&nbsp;|&nbsp;<a href="/merchants">merchants</a>
-						<hr /> 									  
-					 </div>
-
-					<div id="copyright">
-													(c) 2013   M A C H O V Y 									  
-					 </div>
-
-			</div>
-
-			
-				
-			<div id="primary-nav" data-selectname="Navigate to...">
-            	<div class="menu-main-menu-container"><ul id="main-nav" class="menu"><li id="menu-item-100" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-98 current_page_item menu-item-100"><a href="/">Deals &#038; Interests</a></li>
-
-<li id="menu-item-237" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-237"><a href="/videos">Video</a></li>
-
-<li id="menu-item-237" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-237"><a href="/vouchers">My Vouchers</a></li>
-
-
-
-<li id="menu-item-279" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-279"><a href="/member">Members Area</a>
-<ul class="sub-menu">
-	<li id="menu-item-324" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-324"><a href="/user/login">Log In</a></li>
-	<li id="menu-item-325" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-325"><a href="/user/register">Register</a></li>
-	<li id="menu-item-379" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-379"><a href="/my-vouchers/">My Vouchers</a></li>
-	<li id="menu-item-22" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22"><a href="/merchants/">Merchants</a></li>
-	<li id="menu-item-21" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-21"><a href="/about/">About Machovy</a></li>
-</ul>
-</li>
-
-</ul></div>                     
-			</div>
-			
-<%= render 'categories/index'%>		
-		</div>
-      <%= render "layouts/application/flash_messages" %>
+	<!--JS FILES STARTS-->
+	<!-- JS FILES REMOVED FROM HERE>>>> MAKE SURE WE PUSH BACK-->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<meta charset="UTF-8">
 	
-		<div id="content">
-		
-		<div id="portfolio-grid" >       				
-      <%= yield %>
+	<style type="text/css">
+	body,td,th {
+		font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	}
+	</style>
+	</head>
+	<body>
+	<div id="top-panel-wrapper">
+			<div class="container">
+				<p>
+					Put your awesome content here!
+				</p>
 
-        </div>
+			</div>
+		</div>
+		<div id="center-container">
+			<div id="container">
+				<header id="header">
+				<div id="logo-wrapper">
+					<a href="/" id="logo">
+					<div class="logo"></div>
+					</a>
+				</div>
+				<div id="navigation-wrapper">
+					<nav id="main-navigation">
+					<!--  MAIN  NAVIGATION-->
+					<ul class="main-menu">
+						<li><a href="index.html" title="Home">Deals & Interests </a>		
+						<ul>
+							<li><a href="inner-page.html">See all</a></li>
 
-		</div><!-- end #content -->			
+							</ul>
+						</li>
+
+						<li><a href="#">Lifestyle</a>
+						<ul>
+							<li><a href="inner-page.html">Meet the Machovy Girls</a></li>
+							<li><a href="elements.html">Everything Cars</a></li>
+							<li><a href="columns.html">Mens Fashion</a></li>
+							<li><a href="fullwidth.html">Travel & Adventure</a></li>
+							<li><a href="pricing-table.html">Toys</a></li>
+							</ul>
+						</li>
+						<li><a href="#">Members Area</a>
+
+					</ul>
+					</nav>
+				</div>
+				</header>
+
+				
+				
+				
+					  <%= yield %>
+				<div id="footer-wrapper">
+					<div id="footer">
+						<div class="one-fourth">
+							<h4>ABOUT machovy</h4>
+							<p>
+								Lorem ipsum dosectetur adipisicing elit, sed do.Lorem ipsum dolor sit amet, consectetur Nulla fringilla purus at leo dignissim congue. Mauris elementum accumsan leo vel tempor.
+							</p>
+							<p>
+								Posuere velit aliquet. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+							</p>
+							<ul class="social-widget">
+								<li class="twitter"><a href="#">Twitter</a></li>
+								<li class="facebook"><a href="#">Facebook</a></li>
+								<li class="rss"><a href="#">RSS feeds</a></li>
+								<li class="dribbble"><a href="#">Dribbble</a></li>
+								<li class="vimeo"><a href="#">Vimeo</a></li>
+							</ul>
+						</div>
+						<div class="one-fourth">
+							<h4>machovy now </h4>
+							<ul class="blog-post-homepage">
+								<li>
+								<div class="blog-thumb">
+									<a href="#"><img src="images/blog/blog-thumb-01.jpg" width="48" height="48" alt=" "/></a>
+								</div>
+								<div class="blog-short-content">
+									<a href="#" class="colored">Meet the Machovy Girls</a>
+									<p>
+										 Lorem ipsum dolor sit amet, conta esta adipiscing elit
+									</p>
+								</div>
+								</li>
+								<li>
+								<div class="blog-thumb">
+									<a href="#"><img src="images/blog/blog-thumb-02.jpg" width="48" height="48" alt=" "/></a>
+								</div>
+								<div class="blog-short-content">
+									<a href="#" class="colored">Article</a>
+									<p>
+										 Lorem ipsum dolor sit amet, conta esta adipiscing elit
+									</p>
+								</div>
+								</li>
+								<li>
+								<div class="blog-thumb">
+									<a href="#"><img src="images/blog/blog-thumb-03.jpg" width="48" height="48" alt=" "/></a>
+								</div>
+								<div class="blog-short-content">
+									<a href="#" class="colored">Article</a>
+									<p>
+										 Lorem ipsum dolor sit amet, conta esta adipiscing elit
+									</p>
+								</div>
+								</li>
+							</ul>
+						</div>
+						<div class="one-fourth">
+							<h4>LATEST TWEETS</h4>
+							<div class="twitter-feeds">
+							</div>
+						</div>
+						<div class="one-fourth last">
+							<h4>Merchants</h4>
+							<div class="blog-short-content">
+
+	                                <ul class="blog-post-homepage">
+	                                <li>
+									<div class="blog-short-content">
+									<a href="#" class="colored">See what Machovy can do for your business</a>
+	                         	</div>
+								</li>
+
+								<li>
+								<div class="blog-short-content">
+								<a href="#" class="colored">Merchant Login</a>
+								  <%= render "layouts/application/header" %>
+									<%= render "layouts/application/flash_messages" %>
 
 
-    </div>
+															<% if current_user.nil? %>
+															<%=link_to 'Log In', new_user_session_url %>&nbsp;|&nbsp;
+															<%=link_to 'Sign Up', '/users/sign_up' %>&nbsp;|&nbsp;
+
+															<% else %>
+															<%=link_to 'Site Admin', '/SiteAdmin' %>&nbsp;|&nbsp;
+
+															<%=link_to 'Log Out', '/users/sign_out', :method => :delete %>&nbsp;|&nbsp;
+
+															<% end %>	
+																<a href="http://www.facebook.com/machovy">BookFace</a>
+															<hr />						
+																<a href = "/about">about machovy</a>&nbsp;|&nbsp;<a href="/merchants">merchants</a>
+															<hr /> 									  
 
 
 
+												 <a href="/videos">Video</a> 
+									 <a href="/vouchers">My Vouchers</a> 
 
 
+									 <a href="/member">Members Area</a>
+								</div>
+								</li>
+									</ul>
+							</div>
+						</div>
+					</div>
+					<div id="copyrights-wrapper">
+						<div id="copyrights">
+							<div class="one-half">
+								 Copyright &copy; 2012 Machovy Inc. All rights reserved.
+							</div>
+							<div class="one-half last">
+								 Socialize with us on <a href="#">Twitter</a>, <a href="#">Facebook</a>, or <a href="#">Rss</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--MAIN CONTAINER ENDS -->
 
+		</div>
+		<!--CENTER CONTAINER ENDS -->
 
-  </body>
-  </html>
+	<!--WRAPPER ENDS -->
+	</body>
+	</html>

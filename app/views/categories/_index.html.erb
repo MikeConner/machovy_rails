@@ -1,16 +1,21 @@
 <% @categories = Category.all %>
-	<div id="portfolio-filter" class="widget">
-		<h3 class="widget-title">Filter</h3>
-				<ul id="filter" class="clearfix"> 
-					<li class="all"><a class="active" href="#" data-filter="*" >All</a></li>
-					<% @categories.each do |category| %>
-											<li class="cat-item <%=category.name%>">
-						<a href="#" data-filter=".<%=category.name%>"><%=category.name%></a> 
-					</li> 
+<ul id="filterable">
+<li>
+<a data-categories="*" title="Show All Projects">
+<span class="project-caption">All Items</span>
+<span class="tooltip">## Items<span class="triangle-down"></span></span>
+</a>
+</li>
 
+<% @categories.each do |category| %>
+
+<li>
+<a data-categories=" <%=category.name%>" title="<%=category.name%>">
+<span class="project-caption"> <%=category.name%></span>
+<span class="tooltip">  # Items<span class="triangle-down"></span></span>
+</a>
+</li>
 <% end %>						 
-		</div>
-
-
+</ul>
 
 
