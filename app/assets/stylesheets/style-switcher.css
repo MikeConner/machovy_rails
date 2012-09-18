@@ -33,31 +33,6 @@ display:block;width:200px;float:left;margin:5px 0;
   margin-bottom: 5px;
   border: 1px solid #cacaca;
 }
-/*LAYOUT COLORS*//*
-.color-box.green{background:#359567;}
-.color-box.orange{background:#e47330;}
-.color-box.red{background:#e44145;}
-.color-box.brown{background:#cb5234;}
-.color-box.blue{background:#4dabaa;}
-.color-box.purple{background:#3e385a;}
-.color-box.grey{background:#707070;}
-.color-box.yellow{background:#fec151;}
-.color-box.magenta{background:#c25283;}
-.color-box.navy-blue{background:#657383;}
-.color-box.corporate-blue{background:#5883b0;}
-.color-box.pink{background:#f59ca5;}
-.color-box.red-corporate{background:#e64135;}
-.color-box.orange-corporate{background:#f26101;}
-.color-box.green-light{background:#78d18b;}
-
-.color-box.orange-light{background:#ea512d;}
-.color-box.blue-dark{background:#304269;}
-.color-box.yellow-dark{background:#f9aa00;}
-.color-box.navy-blue-dark{background:#233138;}
-.color-box.brown-dark{background:#a84b3a;}
-.color-box.sky-blue{background:#72c2e7;}
-
-*/
 .colors-holder{float:left;display:block;}
 
 #switcher-handle a#handle.out
@@ -154,11 +129,11 @@ display:block;width:200px;float:left;margin:5px 0;
 
 #body-font, #headings-font { width: 130px; }
 .line{
-	width:100%;
-	margin:5px auto;
-	float:left;
-	background:url("../images/pattern-pixel.png") repeat;
-	height:5px;
+	width: 100%;
+	margin: 5px auto;
+	float: left;
+	background: url("../images/pattern-pixel.png") repeat;
+	height: 5px;
 }
 .last {margin-right:0px!important;}
   
