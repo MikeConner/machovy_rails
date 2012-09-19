@@ -15,7 +15,6 @@
   <%= javascript_include_tag "https://js.stripe.com/v1/", "application" %>
   <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
   <%= javascript_include_tag "application" %>
-
   <%= csrf_meta_tags %>
   
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
@@ -38,25 +37,6 @@
   <body class="home page page-id-98 page-template page-template-template-portfolio-php chrome">
 
 
-<<<<<<< HEAD
-	<!--JS FILES STARTS-->
-	<!-- JS FILES REMOVED FROM HERE>>>> MAKE SURE WE PUSH BACK-->
-
-	<meta charset="UTF-8">
-	
-	<style type="text/css">
-	body,td,th {
-		font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-	}
-	</style>
-	</head>
-	<body>
-	<div id="top-panel-wrapper">
-			<div class="container">
-				<p>
-					Put your awesome content here!
-				</p>
-=======
     <div class="container" id="container">
 
 		<div id="sidebar">
@@ -69,7 +49,7 @@
 
             </div>
 	 <div id="sidebar-footer"> 
-	  
+
 	<ul id="socials-menu" class="clearfix">
 		<li class="facebook"><a href="http://www.facebook.com/Machovy" target="_blank">Facebook</a>
 		 </li>
@@ -88,7 +68,7 @@
 						<%=link_to 'Site Admin', '/SiteAdmin' %>&nbsp;|&nbsp;
 
 						<%=link_to 'Log Out', '/users/sign_out', :method => :delete %>&nbsp;|&nbsp;
-						
+
 						<% end %>	
 							<a href="http://www.facebook.com/machovy">BookFace</a>
 						<hr />						
@@ -99,12 +79,11 @@
 					<div id="copyright">
 													(c) 2013   M A C H O V Y 									  
 					 </div>
->>>>>>> parent of 75f2256... New HTML, CSS, JS Broken!!
 
 			</div>
 
-			
-				
+
+
 			<div id="primary-nav" data-selectname="Navigate to...">
             	<div class="menu-main-menu-container"><ul id="main-nav" class="menu"><li id="menu-item-100" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-98 current_page_item menu-item-100"><a href="/">Deals &#038; Interests</a></li>
 
@@ -126,13 +105,13 @@
 
 </ul></div>                     
 			</div>
-			
+
 <%= render 'categories/index'%>		
 		</div>
       <%= render "layouts/application/flash_messages" %>
-	
+
 		<div id="content">
-		
+
 		<div id="portfolio-grid" >       				
       <%= yield %>
 
