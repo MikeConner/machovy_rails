@@ -58,27 +58,22 @@
 <div class="one-fourth">
 	<h4 class="colored-text ">ABOUT OUR DEALS</h4>
 	<p>
-		Lorem ipsum dolor sit ameten. Vestibulum augue risus, placerat eu dignissim quis, tristique vitae erat nulla posuere vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ac ligula mi, non suscipi tac cumsan. Lorem ipsum dolor sit.
+		Lorem ipsum dolor sit ameten. Vestibulum augue risus, placerat eu dignissim quis, tristique vitae erat nulla p
 	</p>
 </div>
-<div class="one-fourth">
-	<h4 class="colored-text ">ARTICLE</h4>
+
+
+<%  @blog_posts.each_with_index do |blogpost, index| %>
+<div class="one-fourth<%if index == 2 %> last<%end%>">
+	<h4 class="colored-text "><%=truncate(blogpost.title, :length => 25)%></h4>
 	<p>
-		Lorem ipsum dolor sit ameten. Vestibulum augue risus, placerat eu dignissim quis, tristique vitae erat nulla posuere vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ac ligula mi, non suscipi tac cumsan. Lorem ipsum dolor sit.
+	<%=truncate(blogpost.body, :length => 200) %>
 	</p>
 </div>
-<div class="one-fourth">
-	<h4 class="colored-text ">ARTICLE</h4>
-	<p>
-		Lorem ipsum dolor sit ameten. Vestibulum augue risus, placerat eu dignissim quis, tristique vitae erat nulla posuere vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ac ligula mi, non suscipi tac cumsan. Lorem ipsum dolor sit.
-	</p>
-</div>
-<div class="one-fourth last">
-	<h4 class="colored-text ">ARTICLE</h4>
-	<p>
-		Lorem ipsum dolor sit ameten. Vestibulum augue risus, placerat eu dignissim quis, tristique vitae erat nulla posuere vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ac ligula mi, non suscipi tac cumsan. Lorem ipsum dolor sit.
-	</p>
-</div>
+
+<%end%>
+
+
 <div id="get-in-touch">
 	<div class="two-third">
 		<h2>FEATURE YOUR BUSINESS ON MACHOVY!</h2>
@@ -89,7 +84,7 @@
 			<a href="#" class="button big round">Contact Us</a>
 		</div>
 	</div>
-</div>
+</div>ads go here?
 <ul class="clients">
 	<li><a href="#"><img src="images/clients/client1.png" alt=""/></a></li>
 	<li><a href="#"><img src="images/clients/client2.png" alt=""/></a></li>
