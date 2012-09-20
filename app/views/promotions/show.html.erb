@@ -12,7 +12,7 @@
 					<div class="post-header-button">
 						
 						<% if @promotion.affiliate? %>
-					  		<%= link_to 'BUY IT from affiliate', @promotion.destination, :target => "_blank", :class => "button big round"%>
+						<%= link_to 'BUY IT from ' + @promotion.vendor.name.to_s, @promotion.destination, :target => "_blank", :class => "button big round"%>
 
 						<% else %>
 					  <%= link_to 'BUY IT', order_promotion_path(@promotion) , :class => "button big round"%>	
@@ -37,7 +37,7 @@
 				  <div id="service-single">
 				    <p></p>
 				    
-				    <div class="one-fourth"> <img width = "470px" src = "<%=@promotion.main_image %>" >
+				    <div class="one-fourth"> <%= image_tag @promotion.teaser_image_url(:teaser).to_s, :size => "470x470" %>
 <p>
 				
 		  </p>
@@ -45,7 +45,7 @@
 							
 							
 							<% if @promotion.affiliate? %>
-						  		<%= link_to 'BUY IT from affiliate', @promotion.destination, :target => "_blank", :class => "button big round"%>
+						  		<%= link_to 'BUY IT from ' + @promotion.vendor.name.to_s, @promotion.destination, :target => "_blank", :class => "button big round"%>
 
 							<% else %>
 						  <%= link_to 'BUY IT', order_promotion_path(@promotion) , :class => "button big round"%>	
@@ -91,7 +91,7 @@
 							<p class="one-fourth">&nbsp;</p>
 							<p class="one-fourth">&nbsp;</p>
 						</div>
-						 <img width = "400px" src = "<%= @promotion.teaser_image %>" >
+						 <%= image_tag @promotion.main_image_url(:teaser).to_s, :size => "470x470" %>
 </div>
 				</div>
 			</div>

@@ -25,13 +25,11 @@
 <% @promotions.each do |promotion| %>
   <tr>
     <td><%= promotion.title %></td>
-    <td><%= promotion.description %></td>
-    <td><%= promotion.limitations %></td>
-    <td><%= promotion.voucher_instructions %></td>
-    <td><%= promotion.teaser_image %>
-	
-	
-	  <%= image_tag promotion.teaser_image_url(:teaser).to_s %>
+    <td><%=truncate(promotion.description, :length => 200)%></td>
+    <td><%=truncate( promotion.limitations, :length => 200) %></td>
+    <td><%=truncate(promotion.voucher_instructions, :length => 200) %></td>
+    <td nowrap><%= image_tag promotion.teaser_image_url(:teaser).to_s, :size => "200x200" %><br>
+		--------------------------------
 	</td>
     <td><%= promotion.retail_value %></td>
     <td><%= promotion.price %></td>
@@ -40,11 +38,11 @@
     <td><%= promotion.start %></td>
     <td><%= promotion.end %></td>
     <td><%= promotion.grid_weight %></td>
-    <td><%= promotion.destination %></td>
+    <td><%=truncate(promotion.destination, :length => 50) %></td>
     <td><%= promotion.metro_id %></td>
     <td><%= promotion.vendor_id %></td>
-    <td><%= link_to 'Show', promotion %></td>
-    <td><%= link_to 'Edit', edit_promotion_path(promotion) %></td>
+    <td><%= link_to 'Show', promotion %>&nbsp;&nbsp;</td>
+    <td><%= link_to 'Edit', edit_promotion_path(promotion) %>&nbsp;&nbsp;</td>
     <td><%= link_to 'Destroy', promotion, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
