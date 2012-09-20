@@ -80,10 +80,29 @@
 							<li><a href="columns.html">Mens Fashion</a></li>
 							<li><a href="fullwidth.html">Travel & Adventure</a></li>
 							<li><a href="pricing-table.html">Toys</a></li>
-							</ul>
+						</ul>
+							
 						</li>
-						<li><a href="#">Members Area</a>
+						<li><a href = "#">MEMBERS</a>
+							<ul>
+							<% if current_user.nil? %>
+							<li>
+								<%=link_to 'Log In', new_user_session_url %>
+							</li>
+							<li>
+								<%=link_to 'Sign Up', '/users/sign_up' %>
+							</li>
 
+							<% else %>
+							<li>
+							<%=link_to 'Site Admin', '/SiteAdmin' %>
+						</li>
+						<li>
+
+							<%=link_to 'Log Out', '/users/sign_out', :method => :delete %>
+						</li>
+							<% end %>	
+						</li>
 					</ul>
 					</nav>
 				</div>
@@ -162,17 +181,8 @@
 									<%= render "layouts/application/flash_messages" %>
 
 
-															<% if current_user.nil? %>
-															<%=link_to 'Log In', new_user_session_url %>&nbsp;|&nbsp;
-															<%=link_to 'Sign Up', '/users/sign_up' %>&nbsp;|&nbsp;
-
-															<% else %>
-															<%=link_to 'Site Admin', '/SiteAdmin' %>&nbsp;|&nbsp;
-
-															<%=link_to 'Log Out', '/users/sign_out', :method => :delete %>&nbsp;|&nbsp;
-
-															<% end %>	
-																<a href="http://www.facebook.com/machovy">BookFace</a>
+															
+																 
 															<hr />						
 																<a href = "/about">about machovy</a>&nbsp;|&nbsp;<a href="/merchants">merchants</a>
 															<hr /> 									  
@@ -196,7 +206,7 @@
 								 Copyright &copy; 2012 Machovy Inc. All rights reserved.
 							</div>
 							<div class="one-half last">
-								 Socialize with us on <a href="#">Twitter</a>, <a href="#">Facebook</a>, or <a href="#">Rss</a>
+								 Socialize with us on <a href="http://twitter.com/machovy">Twitter</a>, <a href="http://www.facebook.com/Machovy">Facebook</a>, or <a href="#">Rss</a>
 							</div>
 						</div>
 					</div>

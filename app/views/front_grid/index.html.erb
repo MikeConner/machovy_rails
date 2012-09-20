@@ -84,11 +84,10 @@
 			<a href="#" class="button big round">Contact Us</a>
 		</div>
 	</div>
-</div>ads go here?
+</div>
 <ul class="clients">
-	<li><a href="#"><img src="images/clients/client1.png" alt=""/></a></li>
-	<li><a href="#"><img src="images/clients/client2.png" alt=""/></a></li>
-	<li><a href="#"><img src="images/clients/client3.png" alt=""/></a></li>
-	<li><a href="#"><img src="images/clients/client4.png" alt=""/></a></li>
-	<li><a href="#"><img src="images/clients/client5.png" alt=""/></a></li>
+	<% @ads.each do |adpromo|%>
+	<li><a href="<%=adpromo.destination%>">
+		 <%= image_tag adpromo.teaser_image_url(:teaser).to_s %></a></li>
+	<%end%>
 </ul>
