@@ -125,10 +125,7 @@ end
 			    <%= f.label :title %><br />
 			    <%= f.text_field :title %>
 			  </div>
-			  <div class="field">
-			    <%= f.label :description %><br />
-			    <%= f.text_field :description %>
-			  </div>
+			
 			  <div class="field">
 			    <%= f.label :teaser_image %><br />
 			    <%= f.file_field :teaser_image %>
@@ -139,27 +136,12 @@ end
 			  </div>
 
 			  <div class="field">
-			    <%= f.label :retail_value %><br />
-			    <%= f.text_field :retail_value %>
-			  </div>
-			  <div class="field">
-			    <%= f.label :price %><br />
-			    <%= f.text_field :price %>
-			  </div>
-			  <div class="field">
-			    <%= f.label :revenue_shared %><br />
-			    <%= f.text_field :revenue_shared %>
-			  </div>
-			  <div class="field">
-			    <%= f.label :quantity %><br />
-			    <%= f.number_field :quantity %>
-			  </div>
-			  <div class="field">
 			    <%= f.label :grid_weight %><br />
 			    <%= f.number_field :grid_weight %>
 			  </div>
+
 			  <div class="field">
-			    <%= f.label :destination %>(This is the link to the outside world in a new winodw)<br />
+			    <%= f.label :destination %> ( This is the link to the <b>outside world (url)</b> in a new winodw)<br />
 			    <%= f.text_field :destination %>
 			  </div>
 			  <div class="field">

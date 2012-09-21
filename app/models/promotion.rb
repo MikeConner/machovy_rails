@@ -15,11 +15,11 @@ class Promotion < ActiveRecord::Base
   
   mount_uploader :teaser_image, ImageUploader
   def ad?
-    description == ""
+    description.to_s.strip == ""
   end
 
   def affiliate?
-    destination != "" and description != ""
+    destination.to_s.strip != "" and description.to_s.strip != ""
   end
   
   def remaining

@@ -1,7 +1,38 @@
 <p id="notice"><%= notice %></p>
 
+ 	
+<% if @promotion.ad? %>
+<div id="post-header-panel">
+	<div class="two-third">
+		<h1>  <%= @promotion.title %>
+		</h1>
+		<h4> Quantity remaining #</h4>
+	</div>
+	<div class="one-third last">
+		<div class="post-header-button">
+			<%= link_to 'Go ahead, Visit ' + @promotion.vendor.name.to_s, @promotion.destination, :target => "_blank", :class => "button big round"%>
+		</div>
+	</div>
+</div>
 
+				<div class="three-fourth last">
+				  <div id="service-single">
+				    <p></p>
+				    
+				    <div class="one-fourth"> <%= image_tag @promotion.teaser_image_url(:teaser).to_s, :size => "470x470" %>
+<p>
+				
+		  </p>
+							<br/>
+							
+							
+							 
+<%= link_to 'Go ahead, Visit ' + @promotion.vendor.name.to_s, @promotion.destination, :target => "_blank", :class => "button big round"%>
 
+					 
+							
+					</div>
+<% else %>
 			<div id="post-header-panel">
 				<div class="two-third">
 					<h1>  <%= @promotion.title %>
@@ -64,7 +95,7 @@
 								<ul class="dotted-list">
 									<li class="simple-check-list-2">Retail Value: <%= @promotion.retail_value %></li>
 									<li class="simple-check-list-2">Your Price: 	<%= @promotion.price %></li>
-									<li class="simple-check-list-2">Discount: <%= (@promotion.retail_value-@promotion.price) %></li>
+									<li class="simple-check-list-2">Discount: <%#= (@promotion.retail_value-@promotion.price) %></li>
 									<li class="simple-check-list-2">Qty:  <%= @promotion.quantity %></li>
 									<li class="simple-check-list-2">Metro ID: <%= @promotion.metro_id %></li>
 								</ul>
@@ -96,7 +127,7 @@
 				</div>
 			</div>
 
-
+<% end %>
 
 <%= link_to 'Edit', edit_promotion_path(@promotion) %> |
 <%= link_to 'Back', promotions_path %>

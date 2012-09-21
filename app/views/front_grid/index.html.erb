@@ -55,12 +55,7 @@
 	</ul>
 	<!--GRID PORTFOLIO ENDS -->
 </div>
-<div class="one-fourth">
-	<h4 class="colored-text ">ABOUT OUR DEALS</h4>
-	<p>
-		Roger will write some awesome stuff about our deals? or this will be a spot for a blog post?  Who knows?
-	</p>
-</div>
+
 
 
 <%  @blog_posts.each_with_index do |blogpost, index| %>
@@ -87,7 +82,7 @@
 </div>
 <ul class="clients">
 	<% @ads.each do |adpromo|%>
-	<li><a href="<%=adpromo.destination%>">
+	<li><a href="<%=adpromo.destination%>" target="_blank">
 		 <%= image_tag adpromo.teaser_image_url(:teaser).to_s %></a></li>
 	<%end%>
 </ul>

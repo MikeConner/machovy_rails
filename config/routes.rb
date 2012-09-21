@@ -1,4 +1,6 @@
 MachovyRails::Application.routes.draw do
+  get "deals/index"
+
   resources :blog_posts
 
   resources :curators
@@ -35,7 +37,7 @@ MachovyRails::Application.routes.draw do
   get "front_grid/index"
 
   root :to => 'front_grid#index', as: 'frontgrid'
-  
+  match "/deals" => "deals#index"
   match "/about" => "about#show"
   match "/videos" => "videos#show"
   match "/video" => "video#show"

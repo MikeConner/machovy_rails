@@ -1,0 +1,59 @@
+
+	<%= render 'categories/index'%>		
+	
+	
+<div class="portfolio-container">
+	<ul id="grid-portfolio" class="portfolio-items">
+
+
+		<% @promotions.each do |promotion| 
+			if promotion.ad?%>
+			
+			<li data-categories="animation">
+			<div class="item-hover">
+				<div class="portfolio-thumbnail" id="<%= promotion.id %>">
+					<div class="thumb-text">
+						<h4><%= sanitize(promotion.title)%></h4>
+						<div class="item-divider">
+						</div>
+						<p>
+							 Pull first few lines from the description here
+						</p>
+						<a href="#" class="read-more">Read More</a>
+					</div>
+					<a href="http://www.youtube.com/watch?v=GgR6dyzkKHI" title="Image Dummy Title" data-rel="prettyPhoto" class="zoom-item">View Image / Video</a>
+				</div>
+					<a  href="<%=promotion.destination%>" target = "_blanks">
+				 <%= image_tag promotion.teaser_image_url(:teaser).to_s %></a>
+			</div>
+			</li>
+		
+			<%else
+			%>
+
+
+			<li data-categories="animation">
+			<div class="item-hover">
+				<div class="portfolio-thumbnail" id="<%= promotion.id %>">
+					<div class="thumb-text">
+						<h4><%= sanitize(promotion.title)%></h4>
+						<div class="item-divider">
+						</div>
+						<p>
+							 Pull first few lines from the description here
+						</p>
+						<a href="#" class="read-more">Read More</a>
+					</div>
+					<a href="http://www.youtube.com/watch?v=GgR6dyzkKHI" title="Image Dummy Title" data-rel="prettyPhoto" class="zoom-item">View Image / Video</a>
+				</div>
+					<a  href="<%=promotion_path(promotion)%>">
+				 <%= image_tag promotion.teaser_image_url(:teaser).to_s %></a>
+			</div>
+			</li>
+
+		<% end	
+		  end %>
+
+	</ul>
+	<!--GRID PORTFOLIO ENDS -->
+</div>
