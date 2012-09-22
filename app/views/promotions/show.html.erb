@@ -1,6 +1,12 @@
 <p id="notice"><%= notice %></p>
 
- 	
+<%# 
+--------------------------------------------------
+--------------------------------------------------
+ THIS IS THE AD SECTION 
+--------------------------------------------------
+--------------------------------------------------
+%> 	
 <% if @promotion.ad? %>
 <div id="post-header-panel">
 	<div class="two-third">
@@ -13,26 +19,22 @@
 			<%= link_to 'Go ahead, Visit ' + @promotion.vendor.name.to_s, @promotion.destination, :target => "_blank", :class => "button big round"%>
 		</div>
 	</div>
-</div>
-
-				<div class="three-fourth last">
-				  <div id="service-single">
-				    <p></p>
-				    
-				    <div class="one-fourth"> <%= image_tag @promotion.teaser_image_url(:teaser).to_s, :size => "470x470" %>
+</div><div class="three-fourth last"><div id="service-single"><p></p>
+<div class="one-fourth"> <%= image_tag @promotion.teaser_image_url(:teaser).to_s, :size => "470x470" %>
 <p>
-				
-		  </p>
-							<br/>
-							
-							
-							 
+</p>
+<br/>							 
 <%= link_to 'Go ahead, Visit ' + @promotion.vendor.name.to_s, @promotion.destination, :target => "_blank", :class => "button big round"%>
-
-					 
-							
-					</div>
+</div>
 <% else %>
+<%# 
+--------------------------------------------------
+--------------------------------------------------
+ THIS IS THE Affiliate + Local Deal SECTION 
+--------------------------------------------------
+--------------------------------------------------
+%> 	
+
 			<div id="post-header-panel">
 				<div class="two-third">
 					<h1>  <%= @promotion.title %>
@@ -123,6 +125,11 @@
 							<p class="one-fourth">&nbsp;</p>
 						</div>
 						 <%= image_tag @promotion.main_image_url(:teaser).to_s, :size => "470x470" %>
+						 <%= image_tag @promotion.teaser_image_url(:teaser).to_s, :size => "470x470" %>
+						 <%= image_tag @promotion.main_image_url.to_s%>
+						 <%= image_tag @promotion.teaser_image_url.to_s %>
+						 
+						 
 </div>
 				</div>
 			</div>
