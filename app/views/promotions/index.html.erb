@@ -16,14 +16,15 @@
 			<li data-categories="animation">
 			<div class="item-hover">
 				<table><tr><td>
-				<h4><%= promotion.id %> - <%= sanitize(promotion.title)%></h4>
+				<h4><%= promotion.id %> - <%= sanitize(promotion.title)%></h4><br>
+			 <b>
+		     <%= link_to 'Show', promotion %>&nbsp;&nbsp;
+		     <%= link_to 'Edit', edit_promotion_path(promotion) %>&nbsp;&nbsp;
+		     <%= link_to 'Destroy', promotion, method: :delete, data: { confirm: 'Are you sure?' } %></b>
 				 <%= image_tag promotion.teaser_image_url(:teaser).to_s, :size => "200x200"%> <Br>
 					 URL: <%=truncate(promotion.destination, :length => 20)%> <br>
 			     Weight: <%= promotion.grid_weight %><br>
-				 <b>
-			     <%= link_to 'Show', promotion %>&nbsp;&nbsp;
-			     <%= link_to 'Edit', edit_promotion_path(promotion) %>&nbsp;&nbsp;
-			     <%= link_to 'Destroy', promotion, method: :delete, data: { confirm: 'Are you sure?' } %></b>
+				 
 			 </td></tr></table>
 			</div>
 			</li>
@@ -34,14 +35,15 @@
 			<li data-categories="animation">
 			<div class="item-hover">
 				<table><tr><td>
-				<h4><%= promotion.id %> - <%= sanitize(promotion.title)%></h4>
+				<h4><%= promotion.id %> - <%= sanitize(promotion.title)%></h4><br>
+			 <b>
+		     <%= link_to 'Show', promotion %>&nbsp;&nbsp;
+		     <%= link_to 'Edit', edit_promotion_path(promotion) %>&nbsp;&nbsp;
+		     <%= link_to 'Destroy', promotion, method: :delete, data: { confirm: 'Are you sure?' } %></b>
 				 <%= image_tag promotion.teaser_image_url(:teaser).to_s, :size => "200x200"%> <Br>
 					 URL: <%=truncate(promotion.destination, :length => 20)%> <br>
 			     Weight: <%= promotion.grid_weight %><br>
-				 <b>
-			     <%= link_to 'Show', promotion %>&nbsp;&nbsp;
-			     <%= link_to 'Edit', edit_promotion_path(promotion) %>&nbsp;&nbsp;
-			     <%= link_to 'Destroy', promotion, method: :delete, data: { confirm: 'Are you sure?' } %></b>
+
 			 </td></tr></table>
 			</div>
 			</li>

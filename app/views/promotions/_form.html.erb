@@ -1,4 +1,27 @@
-	<%if params['type'] == "local"%>
+ 
+<% if @promotion.id == nil
+	@promotype = params['type']
+
+else
+	    if @promotion.ad? 
+	  	  @promotype = "ad"
+	    else
+			if @promotion.affiliate?
+	  		@promotype = "affiliate"
+	  	  else
+	  		@promotype = "local"
+	 	   end
+	    end
+
+
+end%>
+<%if @promotype != nil%>
+<h2>(<%=@promotype%>)</h2>
+<%end%> 
+
+ 
+
+	<%if @promotype  == "local"%>
 
 
 	<%= form_for @promotion , :html => {:multipart => true } do |f| %>
@@ -100,7 +123,7 @@
 end
 	
 	else 
-			if params['type'] == "ad"%>
+			if @promotype == "ad"%>
 			
 			
 		
@@ -163,7 +186,8 @@ end
 			
 			
 			
-			<%else%>
+			<%else
+				if @promotype == "affiliate"%>
 	
 			<%= form_for @promotion , :html => {:multipart => true } do |f| %>
 			  <% if @promotion.errors.any? %>
@@ -261,7 +285,7 @@ end
 			  <div class="actions">
 			    <%= f.submit %>
 			  </div>
-			
+			  <%end%>
 			<%end %>
 	<%end%>
 
