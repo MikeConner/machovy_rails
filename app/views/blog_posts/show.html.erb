@@ -1,34 +1,18 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Title:</b>
+<h1>
   <%= @blog_post.title %>
-</p>
-
+</h1>
 <p>
-  <b>Body:</b>
-  <%= @blog_post.body %>
+  <%= @blog_post.body.html_safe %>
 </p>
-
+<hr>
 <p>
   <b>Curator:</b>
   <%= @blog_post.curator_id %>
 </p>
+<hr>
 
-<p>
-  <b>Posted at:</b>
-  <%= @blog_post.posted_at %>
-</p>
-
-<p>
-  <b>Weight:</b>
-  <%= @blog_post.weight %>
-</p>
-
-<p>
-  <b>Metro:</b>
-  <%= @blog_post.metro_id %>
-</p>
 
 
 <%= link_to 'Edit', edit_blog_post_path(@blog_post) %> |

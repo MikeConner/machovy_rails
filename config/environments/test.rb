@@ -31,7 +31,7 @@ MachovyRails::Application.configure do
 
   # Raise exception on mass assignment protection for Active Record models
   config.active_record.mass_assignment_sanitizer = :strict
-
+config.assets.precompile += Ckeditor.assets
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 end

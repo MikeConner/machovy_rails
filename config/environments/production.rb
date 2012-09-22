@@ -50,7 +50,8 @@ MachovyRails::Application.configure do
 
   # for heroku + Rails_admin
   config.assets.precompile += ['rails_admin/rails_admin.css', 'rails_admin/rails_admin.js']
-
+  config.assets.precompile += Ckeditor.assets
+  
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
 

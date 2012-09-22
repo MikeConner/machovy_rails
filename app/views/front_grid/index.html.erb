@@ -60,9 +60,9 @@
 
 <%  @blog_posts.each_with_index do |blogpost, index| %>
 <div class="one-fourth<%if index == 2 %> last<%end%>">
-	<h4 class="colored-text "><%=truncate(blogpost.title, :length => 25)%></h4>
+	<h4 class="colored-text "> <a href = "<%=blog_post_path(blogpost)%>"> <%=truncate(blogpost.title, :length => 25)%></a></h4>
 	<p>
-	<%=truncate(blogpost.body, :length => 200) %>
+	<%=truncate(blogpost.body, :length => 200).html_safe %>
 	</p>
 </div>
 
