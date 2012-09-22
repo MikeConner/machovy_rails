@@ -4,7 +4,7 @@ class PromotionsController < ApplicationController
   # GET /promotions
   # GET /promotions.json
   def index
-    @promotions = Promotion.all
+    @promotions = Promotion.order(:grid_weight)
 
     
     respond_to do |format|
