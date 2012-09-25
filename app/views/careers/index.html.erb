@@ -1,0 +1,34 @@
+<h2>Be a part of the next big idea!</h2>
+<p  >
+	We live and breathe agile.  An idea today can be on the roadmap tomorrow and being tested next week.  We're a fast moving company filled with hungry engineers, designers and marketers.  We're growing fast and this list is probably not up to date when you get to it.  We're always looking for great people, so send us a note.	
+</p><Br>
+<div style="border-top: 1px dashed #000; border-bottom: 1px dashed #000;">
+<u>Open Positions:</u>
+	<ul>
+	<% @careers.each do |career| %>
+	 <li> <%= career.title %>
+	<% end %>
+</ul>
+</div><br>
+<h3>The Deets: </h3>
+
+<% @careers.each do |career| %>
+<div style="border-bottom: 1px solid #000;">
+    <h3><%= career.title %></h3><br>
+    <%= career.description.html_safe %><br>
+	<div name = "contact">
+		If you are interested, <u><b><%=mail_to career.email_contact, " Submit your resume with a quick note.", :subject =>  career.email_subject %></u></b>
+
+	</div><Br><br>
+    <div name ="admin">
+		<%#= link_to 'Show', career %> &nbsp;&nbsp;
+		<%#= link_to 'Edit', edit_career_path(career) %>&nbsp;&nbsp;
+		<%#= link_to 'Destroy', career, method: :delete, data: { confirm: 'Are you sure?' } %>
+	</div>
+</div>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Career', new_career_path %>

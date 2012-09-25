@@ -1,4 +1,6 @@
 MachovyRails::Application.routes.draw do
+  resources :careers
+
   mount Ckeditor::Engine => '/ckeditor' 
 
   get "deals/index"
