@@ -51,7 +51,40 @@
 		<div id="top-panel-wrapper">
 				<div class="container">
 		          <div align="left">
-		          <div class="MetroArea">PITTSBURGH | SIGN IN</div>
+		          <div class="MetroArea">PITTSBURGH  
+					<% if current_user.nil? %>
+ 
+						<%=link_to 'SIGN IN', new_user_session_url %> &nbsp;&nbsp;| &nbsp;&nbsp;
+ 
+						<%=link_to 'SIGN UP', '/users/sign_up' %>
+ 
+
+					<% else %>
+					
+					<% if current_user.merchant?%>
+						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'MY DEALS', '/merchants' %>
+						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'VOUCHER CENTRAL', '/Radmin' %>
+					<%else%>
+						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'MY VOUCHERS', '/vouchers' %>
+					<%end%>
+
+ 
+						<% if current_user.super_admin?%>
+							&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'Site Admin', '/SiteAdmin' %>
+							&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'Rails Admin', '/Radmin' %>
+						<%end%>
+						 &nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'LOG OUT', '/users/sign_out', :method => :delete %>
+
+
+
+
+
+					<% end %>	
+					
+ 
+				  
+				  
+				  </div>
 		          </div>
 		        </div>			
 		</div>
@@ -84,27 +117,8 @@
 								<li><a href="#">Toys</a></li>
 								</ul>
 							</li>
-							<li><a href="#">Members Area</a>
-									<ul>
-									<% if current_user.nil? %>
-									<li>
-										<%=link_to 'Log In', new_user_session_url %>
-									</li>
-									<li>
-										<%=link_to 'Sign Up', '/users/sign_up' %>
-									</li>
-
-									<% else %>
-									<li>
-									<%=link_to 'Site Admin', '/SiteAdmin' %>
-								</li>
-								<li>
-
-									<%=link_to 'Log Out', '/users/sign_out', :method => :delete %>
-								</li>
-									<% end %>	
-								</li>
-							</ul>
+							
+								
 					
 						</ul>
 						</nav>

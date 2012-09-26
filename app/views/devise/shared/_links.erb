@@ -1,5 +1,5 @@
 <div style="height: 20px;"><%- if controller_name != 'sessions' %>
-  <%= link_to "Sign in", new_session_path(resource_name) %><br />
+  <%= link_to "Sign in", new_session_path(resource_name) , :style => "text-transform: uppercase; color: white; background: #666; height: 20px; border: 1px solid #BFBFBF; font-size: 1em; width: 20em; box-shadow: inset 0 0 1em 0 #eee; border-radius: .3em;"%><br />
 <% end -%>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>

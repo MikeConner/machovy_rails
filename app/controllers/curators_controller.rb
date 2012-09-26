@@ -1,4 +1,5 @@
 class CuratorsController < ApplicationController
+  load_and_authorize_resource
   # GET /curators
   # GET /curators.json
   def index

@@ -1,4 +1,6 @@
 class CareersController < ApplicationController
+  load_and_authorize_resource
+  
   # GET /careers
   # GET /careers.json
   def index

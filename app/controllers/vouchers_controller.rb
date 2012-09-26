@@ -3,6 +3,7 @@ class VouchersController < ApplicationController
   # GET /vouchers
   # GET /vouchers.json
   def index
+
     @vouchers = current_user.vouchers.all
 
     respond_to do |format|

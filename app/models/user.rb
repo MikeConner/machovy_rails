@@ -13,6 +13,11 @@ class User < ActiveRecord::Base
       return !!self.roles.find_by_name(role.to_s.camelize)
   end
   
+  
+  def super_admin?
+      return !!self.roles.find_by_name("SuperAdmin")
+  end
+  
   def merchant?
       return !!self.roles.find_by_name("Merchant")
   end

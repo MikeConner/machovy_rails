@@ -1,4 +1,5 @@
 class PromotionImagesController < ApplicationController
+  load_and_authorize_resource
   # GET /promotion_images
   # GET /promotion_images.json
   def index
