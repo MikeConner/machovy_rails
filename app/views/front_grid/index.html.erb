@@ -27,21 +27,15 @@
 
 
 			<li data-categories="animation">
-			<div class="item-hover">
-				<div class="portfolio-thumbnail" id="<%= promotion.id %>">
-					<div class="thumb-text">
-						<h4><%= sanitize(promotion.title)%></h4>
-						<div class="item-divider">
-						</div>
-						<p>
-							 Pull first few lines from the description here
-						</p>
-						<a href="#" class="read-more">Read More</a>
-					</div>
-					<a href="http://www.youtube.com/watch?v=GgR6dyzkKHI" title="Image Dummy Title" data-rel="prettyPhoto" class="zoom-item">View Image / Video</a>
-				</div>
-					<a  href="<%=promotion_path(promotion)%>">
-				 <%= image_tag promotion.teaser_image_url(:teaser).to_s %></a>
+			<div class="view view-tenth">
+				<a  href="<%=promotion_path(promotion)%>"><%= image_tag promotion.teaser_image_url(:teaser).to_s %></a>
+				<div class="mask" id="<%= promotion.id %>">
+				    <h2><%= sanitize(promotion.title)%></h2>
+				    <p><%=truncate(promotion.description, :length => 120)%></p>
+	     		   <a href="<%=promotion_path(promotion)%>" class="info">GET IT</a>
+										   
+				 
+				</div>	
 			</div>
 			</li>
 

@@ -6,10 +6,8 @@
 <meta name="viewport" content="initial-scale=1, maximum-scale=1"/>
 <meta name="viewport" content="width=device-width"/>
     <title>M A C H O V Y</title>
-	<meta name="description" content=""/>
-	<meta name="author" content="trendyWebStar"/>
 	<link rel="shortcut icon" href="/favicon.png"/>
-
+<link href='http://fonts.googleapis.com/css?family=Oswald:300,400' rel='stylesheet' type='text/css'>
 
   <%= stylesheet_link_tag    "application", :media => "all", :debug => true%>
   <%= javascript_include_tag "application" %>
@@ -46,72 +44,76 @@
 	</style>
 	</head>
 	<body>
-	<div id="top-panel-wrapper">
-			<div class="container">
-				<p>
-					Put your awesome content here!
-				</p>
 
-			</div>
+
+
+		<body>
+		<div id="top-panel-wrapper">
+				<div class="container">
+		          <div align="left">
+		          <div class="MetroArea">PITTSBURGH | SIGN IN</div>
+		          </div>
+		        </div>			
 		</div>
-		<div id="center-container">
-			<div id="container">
-				<header id="header">
-				<div id="logo-wrapper">
-					<a href="/" id="logo">
-					<div class="logo"></div>
-					</a>
-				</div>
-				<div id="navigation-wrapper">
-					<nav id="main-navigation">
-					<!--  MAIN  NAVIGATION-->
-					<ul class="main-menu">
-						<li><a href="/deals" title="Home">Deals & Interests </a>		
-						<ul>
-							<li><a href="/deals">See all</a></li>
-
-							</ul>
-						</li>
-
-						<li><a href="#">Lifestyle</a>
-						<ul>
-							<li><a href="inner-page.html">Meet the Machovy Girls</a></li>
-							<li><a href="elements.html">Everything Cars</a></li>
-							<li><a href="columns.html">Mens Fashion</a></li>
-							<li><a href="fullwidth.html">Travel & Adventure</a></li>
-							<li><a href="pricing-table.html">Toys</a></li>
-						</ul>
-							
-						</li>
-						<li><a href = "#">MEMBERS</a>
+            
+			<div id="center-container">
+				<div id="container">
+					<header id="header">
+					<div id="logo-wrapper">
+						<a href="/" id="logo">
+						<div class="logo"></div>
+						</a>
+					</div>
+					<div id="navigation-wrapper">
+						<nav id="main-navigation">
+						<!--  MAIN  NAVIGATION-->
+						<ul class="main-menu">
+							<li><a href="/deals" title="Home">Deals & Interests </a>		
 							<ul>
-							<% if current_user.nil? %>
-							<li>
-								<%=link_to 'Log In', new_user_session_url %>
+								<li><a href="/deals">See all</a></li>
+						
+								</ul>
 							</li>
-							<li>
-								<%=link_to 'Sign Up', '/users/sign_up' %>
+					
+							<li><a href="#">Lifestyle</a>
+							<ul>
+								<li><a href="#">Meet the Machovy Girls</a></li>
+								<li><a href="#">Everything Cars</a></li>
+								<li><a href="#">Mens Fashion</a></li>
+								<li><a href="#">Travel & Adventure</a></li>
+								<li><a href="#">Toys</a></li>
+								</ul>
 							</li>
+							<li><a href="#">Members Area</a>
+									<ul>
+									<% if current_user.nil? %>
+									<li>
+										<%=link_to 'Log In', new_user_session_url %>
+									</li>
+									<li>
+										<%=link_to 'Sign Up', '/users/sign_up' %>
+									</li>
 
-							<% else %>
-							<li>
-							<%=link_to 'Site Admin', '/SiteAdmin' %>
-						</li>
-						<li>
+									<% else %>
+									<li>
+									<%=link_to 'Site Admin', '/SiteAdmin' %>
+								</li>
+								<li>
 
-							<%=link_to 'Log Out', '/users/sign_out', :method => :delete %>
-						</li>
-							<% end %>	
-						</li>
-					</ul>
-					</nav>
-				</div>
-				</header>
-
-				
-				
+									<%=link_to 'Log Out', '/users/sign_out', :method => :delete %>
+								</li>
+									<% end %>	
+								</li>
+							</ul>
+					
+						</ul>
+						</nav>
+					</div>
+					</header>
 		
 					  <%= yield %>
+					  
+					  
 				<div id="footer-wrapper">
 					<div id="footer">
 						<div class="one-fourth">
