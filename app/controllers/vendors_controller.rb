@@ -1,4 +1,5 @@
 class VendorsController < ApplicationController
+  before_filter :authenticate_user!, :except => [:some_action_without_auth]
   load_and_authorize_resource
   # GET /vendors
   # GET /vendors.json

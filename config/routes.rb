@@ -1,6 +1,14 @@
 MachovyRails::Application.routes.draw do
   
     
+  get "merchant/payments"
+
+  get "merchant/dashboard"
+
+  get "merchant/reports"
+
+  get "merchant/MyDeals"
+
   resources :careers
 
   mount Ckeditor::Engine => '/ckeditor' 

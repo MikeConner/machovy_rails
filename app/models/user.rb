@@ -8,12 +8,13 @@ class User < ActiveRecord::Base
   has_many :vouchers
   has_many :orders
   has_and_belongs_to_many :roles
+  has_and_belongs_to_many :vendors
+  
   
   def role?(role)
       return !!self.roles.find_by_name(role.to_s.camelize)
   end
-  
-  
+    
   def super_admin?
       return !!self.roles.find_by_name("SuperAdmin")
   end
@@ -24,6 +25,6 @@ class User < ActiveRecord::Base
   
   
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :role_ids
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :role_ids, :voucher_ids, :order_ids, :vendor_ids
   # attr_accessible :title, :body, :role_ids
 end

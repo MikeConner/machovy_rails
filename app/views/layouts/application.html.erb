@@ -62,8 +62,10 @@
 					<% else %>
 					
 					<% if current_user.merchant?%>
-						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'MY DEALS', '/merchants' %>
-						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'VOUCHER CENTRAL', '/Radmin' %>
+						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'MY DEALS', '/merchant/MyDeals' %>
+						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'REPORTS', '/merchant/reports' %>
+						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'PAYMENTS', '/merchant/payments' %>
+						
 					<%else%>
 						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'MY VOUCHERS', '/vouchers' %>
 					<%end%>
