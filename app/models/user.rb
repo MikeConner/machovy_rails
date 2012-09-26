@@ -13,8 +13,12 @@ class User < ActiveRecord::Base
       return !!self.roles.find_by_name(role.to_s.camelize)
   end
   
+  def merchant?
+      return !!self.roles.find_by_name("Merchant")
+  end
+  
   
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
-  # attr_accessible :title, :body
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :role_ids
+  # attr_accessible :title, :body, :role_ids
 end

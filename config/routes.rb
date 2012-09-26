@@ -1,15 +1,17 @@
 MachovyRails::Application.routes.draw do
+  
+    
   resources :careers
 
   mount Ckeditor::Engine => '/ckeditor' 
 
-  get "deals/index"
-
+  
   resources :blog_posts
 
   resources :curators
 
   devise_for :users
+ 
   mount RailsAdmin::Engine => '/Radmin', :as => 'rails_admin'
 
   resources :roles
@@ -26,6 +28,10 @@ MachovyRails::Application.routes.draw do
     end
   end
 
+  get "deals/index"
+  match "/deals" => "deals#index"
+  
+  
   get "site_admin/add_ad"
   get "site_admin/add_deal"
   get "site_admin/add_affiliate"
@@ -41,13 +47,15 @@ MachovyRails::Application.routes.draw do
   get "front_grid/index"
 
   root :to => 'front_grid#index', as: 'frontgrid'
-  match "/deals" => "deals#index"
+
   match "/about" => "about#show"
   match "/videos" => "videos#show"
   match "/video" => "video#show"
   match "/member" => "membersarea#show"
   match "/merchants" => "merchantsignup#show"
   match "/SiteAdmin" => "site_admin#index"
+  
+     
   
   
   # The priority is based upon order of creation:

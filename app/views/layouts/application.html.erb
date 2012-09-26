@@ -116,11 +116,14 @@
 					<div id="footer">
 						<div class="one-fourth">
 							<h4>ABOUT machovy</h4>
-							<p>
-Company Info / Careers / Contact							</p>
-							<p>
-Team / Concept / The future
-							</p>
+							<ul>
+								<li><a href = "/about">Company Info</a>
+								</li>
+								<li><a href = "/careers"> Careers </a>
+								</li>
+								<li>Contact Us
+								</li>
+							</ul>
 							<ul class="social-widget">
 								<li class="twitter"><a href="#">Twitter</a></li>
 								<li class="facebook"><a href="#">Facebook</a></li>
@@ -132,9 +135,7 @@ Team / Concept / The future
 							<h4>machovy now </h4>
 							<ul class="blog-post-homepage">
 								<li>
-								<div class="blog-thumb">
-
-										</div>
+	 
 								<div class="blog-short-content">
 									<a href="#" class="colored">Meet the Machovy Curators [NEW NAME?]</a>
 									<p>
@@ -148,7 +149,7 @@ Team / Concept / The future
 ##								</div>
 								<div class="blog-short-content">
 									<a href="#" class="colored">Article</a>
-									<p>
+									<p> <a href="/videos">Video</a> 
 Blog post info here									</p>
 								</div>
 								</li>
@@ -157,6 +158,12 @@ Blog post info here									</p>
 						<div class="one-fourth">
 							<h4>LATEST TWEETS</h4>
 							<div class="twitter-feeds">
+							 <a href="/vouchers">My Vouchers</a> 
+
+
+							 <a href="/member">Members Area</a>
+						  <%= render "layouts/application/header" %>
+							<%= render "layouts/application/flash_messages" %>
 							</div>
 						</div>
 						<div class="one-fourth last">
@@ -166,32 +173,17 @@ Blog post info here									</p>
 	                                <ul class="blog-post-homepage">
 	                                <li>
 									<div class="blog-short-content">
-									<a href="#" class="colored">See what Machovy can do for your business</a>
+										Do you have a product or service that are readers must have?  Do you want access to the most interesting audience on the internet?	<a href="/merchants">Learn more...</a>
+									 
+										
 	                         	</div>
 								</li>
-
 								<li>
-								<div class="blog-short-content">
-								<a href="#" class="colored">Merchant Login</a>
-								  <%= render "layouts/application/header" %>
-									<%= render "layouts/application/flash_messages" %>
-
-
-															
-																 
-															<hr />						
-																<a href = "/about">about machovy</a>&nbsp;|&nbsp;<a href="/merchants">merchants</a>
-															<hr /> 									  
-
-
-
-												 <a href="/videos">Video</a> 
-									 <a href="/vouchers">My Vouchers</a> 
-
-
-									 <a href="/member">Members Area</a>
-								</div>
+									<div class ="blog-short-content">
+												<%=link_to 'Merchant Login', new_user_session_url %> 
+									</div>
 								</li>
+							 
 									</ul>
 							</div>
 						</div>
