@@ -1,8 +1,12 @@
 class Merchant::VouchersController < Merchant::BaseController
+  before_filter :authenticate_user!, :except => [:some_action_without_auth]
   load_and_authorize_resource
+  
+  
   # GET /vouchers
   # GET /vouchers.json
   def index
+
     @vouchers = current_user.vouchers.all
 
     respond_to do |format|
@@ -19,9 +23,10 @@ class Merchant::VouchersController < Merchant::BaseController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @voucher }
-      format.png { render :qrcode => 'redeem.machovy.com/'+@voucher.uuid }
+      format.png { render :qrcode => 'redeem.machovy.com/vouchers/'+@voucher.id.to_s+'redeem' }
     end
   end
+
 
   # GET /vouchers/new
   # GET /vouchers/new.json
@@ -37,6 +42,20 @@ class Merchant::VouchersController < Merchant::BaseController
   # GET /vouchers/1/edit
   def edit
     @voucher = Voucher.find(params[:id])
+  end
+  
+  # GET /vouchers/1/edit
+  def redeem
+    @voucher = Voucher.find(params[:id])
+    if @voucher.status != "redeemed" and @voucher.status != "returned"
+      @voucher.status = "redeemed"
+      @voucher.redemption_date =  Time.now
+      @voucher.notes += "Redeemed on " + Time.now.to_s
+      @voucher.save
+      @redeem_status = "Redemption SUCESS"
+    else
+      @redeem_status = "Redemption FAILED: Already Redeemed"
+    end
   end
 
   # POST /vouchers

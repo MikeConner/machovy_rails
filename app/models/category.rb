@@ -20,7 +20,8 @@
 # TODO need unique db index on name
 #
 class Category < ActiveRecord::Base
-  attr_accessible :name, :status
+  attr_accessible :name, :status,
+    		:promotion_ids
   
   has_and_belongs_to_many :promotions
   

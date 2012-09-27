@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120921204945) do
+ActiveRecord::Schema.define(:version => 20120927061324) do
 
   create_table "blog_posts", :force => true do |t|
     t.string   "title"
@@ -22,6 +22,24 @@ ActiveRecord::Schema.define(:version => 20120921204945) do
     t.integer  "metro_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "slug"
+  end
+
+  add_index "blog_posts", ["slug"], :name => "index_blog_posts_on_slug"
+
+  create_table "blog_posts_promotions", :id => false, :force => true do |t|
+    t.integer "blog_post_id"
+    t.integer "promotion_id"
+  end
+
+  create_table "careers", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "expiration"
+    t.string   "email_contact"
+    t.string   "email_subject"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "categories", :force => true do |t|
@@ -62,6 +80,17 @@ ActiveRecord::Schema.define(:version => 20120921204945) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "friendly_id_slugs", :force => true do |t|
+    t.string   "slug",                         :null => false
+    t.integer  "sluggable_id",                 :null => false
+    t.string   "sluggable_type", :limit => 40
+    t.datetime "created_at"
+  end
+
+  add_index "friendly_id_slugs", ["slug", "sluggable_type"], :name => "index_friendly_id_slugs_on_slug_and_sluggable_type", :unique => true
+  add_index "friendly_id_slugs", ["sluggable_id"], :name => "index_friendly_id_slugs_on_sluggable_id"
+  add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
 
   create_table "metros", :force => true do |t|
     t.string   "name"
@@ -113,7 +142,10 @@ ActiveRecord::Schema.define(:version => 20120921204945) do
     t.datetime "updated_at",           :null => false
     t.string   "main_image"
     t.integer  "curator_id"
+    t.string   "slug"
   end
+
+  add_index "promotions", ["slug"], :name => "index_promotions_on_slug"
 
   create_table "rails_admin_histories", :force => true do |t|
     t.text     "message"
@@ -157,6 +189,11 @@ ActiveRecord::Schema.define(:version => 20120921204945) do
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
+  create_table "users_vendors", :id => false, :force => true do |t|
+    t.integer "user_id"
+    t.integer "vendor_id"
+  end
+
   create_table "vendors", :force => true do |t|
     t.string   "name"
     t.string   "url"
@@ -191,6 +228,9 @@ ActiveRecord::Schema.define(:version => 20120921204945) do
     t.integer  "user_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.string   "slug"
   end
+
+  add_index "vouchers", ["slug"], :name => "index_vouchers_on_slug"
 
 end

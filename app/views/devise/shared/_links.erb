@@ -1,9 +1,9 @@
-<%- if controller_name != 'sessions' %>
-  <%= link_to "Sign in", new_session_path(resource_name) %><br />
+<div style="height: 20px;"><%- if controller_name != 'sessions' %>
+  <%= link_to "Sign in", new_session_path(resource_name) , :style => "text-transform: uppercase; color: white; background: #666; height: 20px; border: 1px solid #BFBFBF; font-size: 1em; width: 20em; box-shadow: inset 0 0 1em 0 #eee; border-radius: .3em;"%><br />
 <% end -%>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <%= link_to "Sign up", new_registration_path(resource_name) %><br />
+  <%= link_to "Sign up   ", new_registration_path(resource_name) , :style => "text-transform: uppercase; color: white; background: #666; height: 20px; border: 1px solid #BFBFBF; font-size: 1em; width: 200px; box-shadow: inset 0 0 1em 0 #eee; border-radius: .3em;"%><br />
 <% end -%>
 
 <%- if devise_mapping.recoverable? && controller_name != 'passwords' %>
@@ -22,4 +22,4 @@
   <%- resource_class.omniauth_providers.each do |provider| %>
     <%= link_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider) %><br />
   <% end -%>
-<% end -%>
+<% end -%></div>

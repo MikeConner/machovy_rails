@@ -95,6 +95,9 @@ RailsAdmin.config do |config|
   #   create do; end
   #   update do; end
   # end
+  config.model User do
+    configure :roles, :has_and_belongs_to_many_association 
+  end
   # config.model Order do
   #   # Found associations:
   #     configure :promotion, :belongs_to_association   #   # Found columns:

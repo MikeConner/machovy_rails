@@ -35,6 +35,8 @@ class Vendor < ActiveRecord::Base
   
   has_many :promotions
   has_many :metros, :through => :promotions
+  has_and_belongs_to_many :users
+
   
   validates_presence_of :name
   validates_presence_of :address_1

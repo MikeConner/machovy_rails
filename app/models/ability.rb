@@ -11,9 +11,12 @@ class Ability
       can :manage, :all
       can :access, :rails_admin
     else
-      can :read, [Promotion, Category, Video, Voucher, Order, Metro]
-      can :manage, [Order, Voucher]
+      can :read, [Promotion, Category, Video, Voucher, Order, Metro, Career, BlogPost, Curator,  Vendor]
+      can :create, [Order, Voucher]
       cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro]
+    end
+    if user.merchant?
+      can :redeem, [Voucher]
     end
     if user.role? :deal_admin
       can :manage, [Promotion]

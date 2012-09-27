@@ -29,7 +29,9 @@
 # ??? Why not use SecureRandom.uuid? Don't need to validate the format, since we're the ones generating it
 #
 class Voucher < ActiveRecord::Base
-  attr_accessible :expiration_date, :issue_date, :notes, :redemption_date, :status, :uuid,
+  extend FriendlyId
+  friendly_id :uuid, use: [:slugged, :history]  
+attr_accessible :expiration_date, :issue_date, :notes, :redemption_date, :status, :uuid,
                   :user_id, :order_id, :promotion_id
   
   # foreign keys

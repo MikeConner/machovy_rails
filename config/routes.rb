@@ -1,5 +1,13 @@
 MachovyRails::Application.routes.draw do
   # Home page
+  get "merchant/payments"
+  get "merchant/dashboard"
+  get "merchant/reports"
+  get "merchant/MyDeals"
+  resources :careers
+#positions
+
+
   # as defines frontgrid_path and front_grid_index_path to "/"
   root :to => 'front_grid#index', as: 'frontgrid'
 
@@ -14,7 +22,11 @@ MachovyRails::Application.routes.draw do
   resources :blog_posts
   resources :categories
   resources :curators
+
+
+
   resources :metros
+  resources :promotion_images
   resources :promotions do 
     member do
       get 'order'
@@ -31,7 +43,11 @@ MachovyRails::Application.routes.draw do
   namespace :merchant do
     resources :orders
     resources :vendors
-    resources :vouchers
+    resources :vouchers do
+      member do
+        get :redeem
+      end
+    end
   end
   
   # Need an admin namespace?
@@ -61,7 +77,6 @@ MachovyRails::Application.routes.draw do
 #  match "/video" => "video#show"
 #  match "/member" => "membersarea#show"
 # ? use normal resource: /merchants/vendors#new or the like; new_merchant_vendor_path 
-#  match "/merchants" => "merchantsignup#show"
 
 # Don't understand this yet.
 #  match "/SiteAdmin" => "site_admin#index"

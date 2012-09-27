@@ -1,0 +1,40 @@
+<%= javascript_include_tag "ckeditor/init" %>
+
+<%= form_for(@career) do |f| %>
+  <% if @career.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@career.errors.count, "error") %> prohibited this career from being saved:</h2>
+
+      <ul>
+      <% @career.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title, :size => "80" %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+	<%= f.cktext_area :description,  :input_html => {:cols => 10, :rows => 20}, :toolbar => 'Easy' %>
+    <%#= f.text_area :description %>
+  </div>
+  <div class="field">
+    <%= f.label :expiration %><br />
+    <%= f.datetime_select :expiration %>
+  </div>
+  <div class="field">
+    <%= f.label :email_contact %><br />
+    <%= f.text_field :email_contact %>
+  </div>
+  <div class="field">
+    <%= f.label :email_subject %><br />
+    <%= f.text_field :email_subject %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

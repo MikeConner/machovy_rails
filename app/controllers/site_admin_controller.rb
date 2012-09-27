@@ -1,5 +1,5 @@
 class SiteAdminController < ApplicationController
-
+  before_filter :authenticate_user!, :except => [:some_action_without_auth]
   def add_ad
       authorize! :access, :rails_admin
   end

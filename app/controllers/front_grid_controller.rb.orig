@@ -1,0 +1,16 @@
+class FrontGridController < ApplicationController
+  def index
+<<<<<<< HEAD
+    @promotions = Promotion.active.limit(8)
+    # Will be ordered by default scope
+    @blog_posts = BlogPost.limit(4)
+    @ads = Promotion.ads.limit(5)
+=======
+    @promotions = Promotion.deal.order(:grid_weight).limit(8)
+    @blog_posts = BlogPost.order(:weight).limit(4)
+    @ads = Promotion.advert.order(:grid_weight).limit(5)
+>>>>>>> master
+
+    # add code to make sure only active categories come back!!! [ARASH!]
+  end
+end
