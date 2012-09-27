@@ -23,7 +23,7 @@
 				<div class="item-hover">
 						<h4> <%= link_to sanitize(promotion.title), promotion %>  </h4>
 			     &nbsp;&nbsp;<%= image_tag promotion.teaser_image_url(:teaser).to_s, :size => "50x50"%>
-			     <%= link_to 'Edit', edit_promotion_path(promotion) %>&nbsp;&nbsp;
+			     <%= link_to 'Vouchers', merchant_dashboard_path(:id => promotion) %>&nbsp;&nbsp;
 			    
 					 
 				</div>

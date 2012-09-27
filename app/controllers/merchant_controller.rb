@@ -15,5 +15,11 @@ class MerchantController < ApplicationController
   end
 
   def dashboard
+    @vendors = current_user.vendors.all
+    if @vendors.size > 0 
+        @promotion = current_user.vendors.first.promotions.find(params[:id])
+        @vouchers = current_user.vendors.first.promotions.find(params[:id]).vouchers
+        #right now we only have one vendor per user.  This may change in the future!
+    end
   end
 end

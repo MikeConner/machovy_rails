@@ -26,7 +26,11 @@ MachovyRails::Application.routes.draw do
   resources :vendors
   resources :metros
   resources :promotion_images
-  resources :vouchers
+  resources :vouchers do
+    member do
+      get :redeem
+    end
+  end
   resources :videos
   resources :categories
   resources :orders

@@ -10,6 +10,8 @@ class Promotion < ActiveRecord::Base
   belongs_to :metro
   belongs_to :vendor
   has_many :orders
+  has_many :vouchers, :through => :orders
+  
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :promotion_images
   belongs_to :curator

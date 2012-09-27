@@ -15,6 +15,9 @@ class Ability
       can :create, [Order, Voucher]
       cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro]
     end
+    if user.merchant?
+      can :redeem, [Voucher]
+    end
     if user.role? :deal_admin
       can :manage, [Promotion]
     end

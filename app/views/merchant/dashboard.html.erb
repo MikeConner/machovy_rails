@@ -1,2 +1,35 @@
-<h1>Merchant#dashboard</h1>
-<p>Find me in app/views/merchant/dashboard.html.erb</p>
+<h1>Valid Vouchers</h1>
+
+<table>
+  <tr>
+    <th>Uuid</th>
+    <th>Redemption date</th>
+    <th>Status</th>
+    <th>Notes</th>
+    <th>Expiration date</th>
+    <th>Issue date</th>
+    <th>Promotion</th>
+    <th>Order</th>
+    <th>User</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @vouchers.each do |voucher| %>
+  <tr>
+    <td><%= voucher.uuid %></td>
+    <td><%= voucher.redemption_date %></td>
+    <td><%= voucher.status %></td>
+    <td><%= voucher.notes %></td>
+    <td><%= voucher.expiration_date %></td>
+    <td><%= voucher.issue_date %></td>
+    <td><%= voucher.promotion_id %></td>
+    <td><%= voucher.order_id %></td>
+    <td><%= voucher.user_id %></td>
+
+    <td><%= link_to 'REDEEM', redeem_voucher_path(voucher), data: { confirm: 'Confirm Voucher Redemption' }, :style => "height: 30px; border: 2px solid #BFBFBF; font-size: 2em; width: 20em; box-shadow: inset 0 0 1em 0 #eee; border-radius: .3em; " %></td>
+
+  </tr>
+<% end %>
+</table>
