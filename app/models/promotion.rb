@@ -1,4 +1,7 @@
 class Promotion < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :title, use: [:slugged, :history]
+  
   scope :deal, where("description <> ''")
   scope :advert, where("Trim(description) = '' or description is null")
   
@@ -29,6 +32,6 @@ class Promotion < ActiveRecord::Base
   
   def remaining
     quantity - vouchers.count
-    
   end
+
 end

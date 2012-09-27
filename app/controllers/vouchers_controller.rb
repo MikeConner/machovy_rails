@@ -23,7 +23,7 @@ class VouchersController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @voucher }
-      format.png { render :qrcode => 'redeem.machovy.com/vouchers/'+@voucher.id+'redeem' }
+      format.png { render :qrcode => 'redeem.machovy.com/vouchers/'+@voucher.id.to_s+'redeem' }
     end
   end
 

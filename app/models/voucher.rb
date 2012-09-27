@@ -1,4 +1,7 @@
 class Voucher < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :uuid, use: [:slugged, :history]
+
   attr_accessible :expiration_date, :issue_date, :notes, :order_id, :promotion_id, :redemption_date, :status, :user_id, :uuid
   belongs_to :user
   belongs_to :order

@@ -54,6 +54,9 @@ gem 'fog'
 gem 'rmagick'
 gem 'mini_magick'
 
+#for Human Readable URLs -> multiple objects (promo / voucher)
+gem 'friendly_id'
+
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
 
