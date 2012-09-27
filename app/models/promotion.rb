@@ -33,8 +33,9 @@
 #   ??? Check validations?
 #
 class Promotion < ActiveRecord::Base
-  attr_accessible :description, :destination, :end, :grid_weight, :limitations, :metro_id, :price, :quantity, :retail_value, :revenue_shared, :start, 
-                  :teaser_image, :title, :vendor_id, :voucher_instructions, :main_image, :remote_main_image_url, :remote_teaser_image_url
+  attr_accessible :description, :destination, :end, :grid_weight, :limitations, :price, :quantity, :retail_value, :revenue_shared, :start, 
+                  :teaser_image, :title, :voucher_instructions, :main_image, :remote_main_image_url, :remote_teaser_image_url,
+                  :metro_id, :vendor_id, :curator_id
   
   # Mounted fields
   mount_uploader :main_image, ImageUploader  

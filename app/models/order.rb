@@ -32,21 +32,22 @@
 # TODO Get business logic out of model (need to think about it; maybe some of it belongs here in some form)
 #
 class Order < ActiveRecord::Base
-  attr_accessible :amount, :description, :email, :promotion_id, :stripe_card_token, :user_id
+  attr_accessible :amount, :description, :email, :stripe_card_token,
+                  :promotion_id, :user_id
   
-    # foreign keys
-    belongs_to :promotion
-    belongs_to :user
+  # foreign keys
+  belongs_to :promotion
+  belongs_to :user
     
-    has_one :vendor, :through => :promotion
-    has_many :vouchers
+  has_one :vendor, :through => :promotion
+  has_many :vouchers
     
-    validates_presence_of :user_id
-    validates_presence_of :promotion_id
+  validates_presence_of :user_id
+  validates_presence_of :promotion_id
     
-    validates_presence_of :email
-    validates_presence_of :amount
-    validates_presence_of :stripe_card_token
+  validates_presence_of :email
+  validates_presence_of :amount
+  validates_presence_of :stripe_card_token
     
   # This looks like business logic -- shouldn't be in the model!
   def prepare_for customer

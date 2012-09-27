@@ -21,6 +21,7 @@
 class Metro < ActiveRecord::Base
   attr_accessible :name
   
+  # Metro does *not* own promotions
   has_many :promotions
   
   validates :name, :presence => true,

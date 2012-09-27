@@ -23,7 +23,8 @@
 #  ??? How do we know which character wrote it? Show the curator info on the site somehow.
 #
 class BlogPost < ActiveRecord::Base
-  attr_accessible :body, :curator_id, :metro_id, :posted_at, :title, :weight
+  attr_accessible :body, :posted_at, :title, :weight,
+                  :curator_id, :metro_id
   
   # foreign keys
   belongs_to :curator

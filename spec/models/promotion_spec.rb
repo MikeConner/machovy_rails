@@ -24,8 +24,6 @@
 #  curator_id           :integer
 #
 
-require 'spec_helper'
-
 describe "Promotions" do
   pending "add some examples to (or delete) #{__FILE__}"
 end

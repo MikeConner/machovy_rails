@@ -41,8 +41,7 @@ class Vendor < ActiveRecord::Base
   validates_presence_of :city
   validates :state, :presence => true,
                     :inclusion => { in: US_STATES }
-  validates :zip, :length => { is: 5 }, 
-                  :numericality => { only_integer: true }
+  validates_format_of :zip, { with: US_ZIP_REGEX }
   validates :phone, :format => { with: US_PHONE_REGEX }, :allow_blank => true
   validates :url, :format => { with: URL_REGEX }, :allow_blank => true
   validates :fbook, :format => { with: Regexp.union(URL_REGEX, /Facebook/i) }, :allow_blank => true

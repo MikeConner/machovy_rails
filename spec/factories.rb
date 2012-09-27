@@ -1,16 +1,45 @@
 FactoryGirl.define do
+  # There is some danger in using random data in tests -- random values are not repeatable, so data-dependent bugs might show up intermittently
+  #   On the other hand, using fixed data would never find those bugs at all.
+  # For the moment, I'm using random data for tests, but also have "regular" sequences available should they become necessary
+  #
+  # Random sequences
   sequence(:random_url) { |n| "http://www." + Faker::Internet.domain_name }
+  # This generates wildly different phone numbers: 1-800-324-3242, (650) 832-3423 x34333, 123-343-3423 x52, and so on
+  # TODO Need normalization to use with validators; defer for now
   sequence(:random_phone) { |n| Faker::PhoneNumber.phone_number }
   sequence(:random_street) { |n| Faker::Address.street_address }
   sequence(:random_city) { |n| Faker::Address.city }
-  sequence(:random_state) { |n| Faker::Address.state_abbr }
+  sequence(:random_state) do
+    st = ""
+    until VendorsHelper::US_STATES.member?(st)
+      st = Faker::Address.state_abbr
+    end
+    st
+  end
   sequence(:random_zip) { |n| Faker::Address.zip_code }
   sequence(:random_email) { |n| Faker::Internet.email }
-  sequence(:vendor_name) { |n| Faker::Company.name }
+  sequence(:random_vendor_name) { |n| Faker::Company.name }
   sequence(:random_description) { |n| Faker::Company.catch_phrase }
   sequence(:random_comment) { |n| Faker::Lorem.sentences.join(' ') }
   sequence(:random_post) { |n| Faker::Lorem.paragraphs.join("\n") }
   sequence(:random_name) { |n| Faker::Name.name }
+  # This is actually sequential; Faker doesn't support Twitter
+  sequence(:random_twitter) { |n| "@Cool_Dude_#{n}" }
+  
+  # Repeatable sequences
+  sequence(:sequential_url) { |n| "http://www.microsoft-#{n}.com" }
+  sequence(:seqential_phone) { |n| '(412) 400-' + sprintf("%04d", n) }
+  sequence(:sequential_street) { |n| "#{n} Maple Ave." }
+  sequence(:sequential_city) { |n| "City #{n}" }
+  sequence(:sequential_state) { |n| VendorsHelper::US_STATES[n % VendorsHellper::US_STATES.count] }
+  sequence(:sequential_zip) { |n| sprintf("%05d", n) }
+  sequence(:sequential_email) { |n| "bro#{n}@macho.com" }
+  sequence(:sequential_vendor_name) { |n| "Vendor #{n}" }
+  sequence(:sequential_description) { |n| "Description #{n}" }
+  sequence(:sequential_comment) { |n| "Comment #{n}. This is sentence 1. Here's another sentence. And this is the last sentence" }
+  sequence(:sequential_post) { |n| "This is a sentence in post #{n}\n"*3 }
+  sequence(:sequential_name) { |n| "Name #{n}" }
   
   factory :blog_post do
     curator
@@ -18,7 +47,7 @@ FactoryGirl.define do
     
     title { generate(:random_description) }
     body { generate(:random_post) }
-    weight { Random.rand(100) }
+    weight { Random.rand(100) + 1 }
     posted_at 1.hour.ago
   end
   
@@ -37,7 +66,7 @@ FactoryGirl.define do
     
     bio { generate(:random_post) }
     name { generate(:random_name) }
-    twitter { generate(:random_email) } # close enough
+    twitter { generate(:random_twitter) }
     
     factory :curator_with_blog_posts do
       ignore do
@@ -45,7 +74,7 @@ FactoryGirl.define do
       end
       
       after(:create) do |curator, evaluator|
-        FactoryGirl.create_list(:blog_post, evaluator.num_posts, :curator => curator, :metro => metro)
+        FactoryGirl.create_list(:blog_post, evaluator.num_posts, :curator => curator, :metro => curator.metro)
       end
     end
     
@@ -55,7 +84,7 @@ FactoryGirl.define do
       end
       
       after(:create) do |curator, evaluator|
-        FactoryGirl.create_list(:promotion, evaluator.num_promotions, :curator => curator, :metro => metro)
+        FactoryGirl.create_list(:promotion, evaluator.num_promotions, :curator => curator, :metro => curator.metro)
       end
     end
   end
@@ -95,7 +124,7 @@ FactoryGirl.define do
   
   factory :promotion_image do
     imageurl { generate(:random_url) }
-    name { generate(:vendor_name) }
+    name { generate(:random_vendor_name) }
     mediatype { ['png', 'jpg', 'bmp'].sample }
   end
 
@@ -142,14 +171,14 @@ FactoryGirl.define do
   end
   
   factory :vendor do   
-    name { generate(:vendor_name) }
+    name { generate(:random_vendor_name) }
     url { generate(:random_url) }
-    phone { generate(:random_phone) }
+    phone "(412) 555-1212"
     address_1 { generate(:random_street) }
     city { generate(:random_city) }
     state { generate(:random_state) }
     zip { generate(:random_zip) }
-    
+     
     after(:build) do |v|
       # Half the time, use an address_2
       if Random.rand >= 0.5

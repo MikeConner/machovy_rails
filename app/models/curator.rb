@@ -32,13 +32,15 @@ class Curator < ActiveRecord::Base
   TWITTER_REGEX = /^@[A-Za-z0-9_]+$/
   MAX_TWITTER_LEN = 16 # 15 + @-character
   
-  attr_accessible :bio, :metro_id, :name, :picture, :twitter, :user_id
+  attr_accessible :bio, :name, :picture, :twitter, 
+                  :user_id, :metro_id
 
   # Foreign keys  
   belongs_to :user
   belongs_to :metro
 
-  has_many :blog_posts
+  # Curators own blog_posts, but not promotions
+  has_many :blog_posts, :dependent => :destroy
   has_many :promotions
   
   mount_uploader :picture, ImageUploader
@@ -53,5 +55,6 @@ class Curator < ActiveRecord::Base
                       :length => { maximum: MAX_TWITTER_LEN },
                       :uniqueness => { case_sensitive: false }
   validates_presence_of :bio
+  
   validates_associated :blog_posts
 end
