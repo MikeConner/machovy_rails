@@ -1,29 +1,46 @@
 MachovyRails::Application.routes.draw do
+  # Home page
+  # as defines frontgrid_path and front_grid_index_path to "/"
+  root :to => 'front_grid#index', as: 'frontgrid'
+
+  # mounted gems
   mount Ckeditor::Engine => '/ckeditor' 
-
-  get "deals/index"
-
-  resources :blog_posts
-
-  resources :curators
-
-  devise_for :users
   mount RailsAdmin::Engine => '/Radmin', :as => 'rails_admin'
 
-  resources :roles
-  resources :vendors
-  resources :metros
-  resources :promotion_images
-  resources :vouchers
-  resources :videos
+  # Third party authentication
+  devise_for :users
+
+  # Resources
+  resources :blog_posts
   resources :categories
-  resources :orders
+  resources :curators
+  resources :metros
   resources :promotions do 
     member do
       get 'order'
     end
-  end
+    
+    collection do
+      get 'deals'
+    end
+   end
+  resources :promotion_images
+  resources :roles
+  resources :videos
 
+  namespace :merchant do
+    resources :orders
+    resources :vendors
+    resources :vouchers
+  end
+  
+  # Need an admin namespace?
+  
+  match "/deals" => "promotions#deals"
+  match "/about" => "static_pages#about"
+
+#  get "deals/index"
+=begin
   get "site_admin/add_ad"
   get "site_admin/add_deal"
   get "site_admin/add_affiliate"
@@ -34,20 +51,24 @@ MachovyRails::Application.routes.draw do
   get "site_admin/merchant_admin"
   get "site_admin/reports"
   get "site_admin/index"
-  get "membersarea/show"
-  get "about/show"
-  get "front_grid/index"
+=end
+#  get "membersarea/show"
+#  get "about/show"
+#  get "front_grid/index"
 
-  root :to => 'front_grid#index', as: 'frontgrid'
-  match "/deals" => "deals#index"
-  match "/about" => "about#show"
-  match "/videos" => "videos#show"
-  match "/video" => "video#show"
-  match "/member" => "membersarea#show"
-  match "/merchants" => "merchantsignup#show"
-  match "/SiteAdmin" => "site_admin#index"
+# Confusing! What is the intent here?
+#  match "/videos" => "videos#show"
+#  match "/video" => "video#show"
+#  match "/member" => "membersarea#show"
+# ? use normal resource: /merchants/vendors#new or the like; new_merchant_vendor_path 
+#  match "/merchants" => "merchantsignup#show"
+
+# Don't understand this yet.
+#  match "/SiteAdmin" => "site_admin#index"
   
-  
+  # Static pages
+#  match "/about" => "about#show"
+   
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -102,7 +123,5 @@ MachovyRails::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
-
-  
+  # match ':controller(/:action(/:id))(.:format)' 
 end

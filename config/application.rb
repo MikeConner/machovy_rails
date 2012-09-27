@@ -57,6 +57,8 @@ module MachovyRails
 
     # Enable the asset pipeline
     config.assets.enabled = true
+    # Suppress 304 errors; turn on if we ever have real asset issues
+    config.assets.logger = false
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'

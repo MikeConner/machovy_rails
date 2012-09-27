@@ -1,2 +1,0 @@
-module CuratorsHelper
-end
