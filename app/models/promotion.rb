@@ -6,6 +6,7 @@ class Promotion < ActiveRecord::Base
   scope :advert, where("Trim(description) = '' or description is null")
   
   attr_accessible :description, :destination, :end, :grid_weight, :limitations, :metro_id, :price, :quantity, :retail_value, :revenue_shared, :start, :teaser_image, :title, :vendor_id, :voucher_instructions, :main_image, :remote_main_image_url, :remote_teaser_image_url
+  attr_accessible :category_ids, :blog_post_ids
   
   validates :metro, presence: true
   validates :vendor, presence: true
@@ -17,6 +18,8 @@ class Promotion < ActiveRecord::Base
   
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :promotion_images
+  has_and_belongs_to_many :blog_posts
+  
   belongs_to :curator
   
   mount_uploader :main_image, ImageUploader
