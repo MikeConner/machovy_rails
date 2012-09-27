@@ -26,9 +26,10 @@ class BlogPost < ActiveRecord::Base
   extend FriendlyId
   friendly_id :title, use: [:slugged, :history]
 
-  attr_accessible :body :posted_at, :title, :weight
-, :promotion_ids, :curator_id, :metro_id,
-# foreign keys  
+  attr_accessible :body, :posted_at, :title, :weight, 
+                  :curator_id, :metro_id, :promotion_ids
+
+  # foreign keys  
   belongs_to :curator
   belongs_to :metro
   
