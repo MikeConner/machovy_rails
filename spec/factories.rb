@@ -110,6 +110,7 @@ FactoryGirl.define do
     email { user.email }
     amount { Random.rand * 100 }
     description { generate(:random_description) }
+    stripe_card_token "nva3hvao73SI&H#Nfishuefse"
     
     factory :order_with_vouchers do
       ignore do
@@ -209,5 +210,6 @@ FactoryGirl.define do
     status "Good"
     uuid { SecureRandom.uuid }
     notes { generate(:random_comment) }
+    
   end  
 end

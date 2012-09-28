@@ -1,15 +1,5 @@
 MachovyRails::Application.routes.draw do
-  # Home page
-  get "merchant/payments"
-  get "merchant/dashboard"
-  get "merchant/reports"
-  get "merchant/MyDeals"
-  resources :careers
-#positions
-
-
-  # as defines frontgrid_path and front_grid_index_path to "/"
-  root :to => 'front_grid#index', as: 'frontgrid'
+  root :to => 'front_grid#index'
 
   # mounted gems
   mount Ckeditor::Engine => '/ckeditor' 
@@ -17,15 +7,19 @@ MachovyRails::Application.routes.draw do
 
   # Third party authentication
   devise_for :users
-
+  
+  # Add a user admin action (not part of devise)
+  resources :users, :only => [:manage] do
+    get 'manage', :on => :collection
+  end
+  
   # Resources
   resources :blog_posts
   resources :categories
   resources :curators
 
-
-
   resources :metros
+  resources :positions
   resources :promotion_images
   resources :promotions do 
     member do
@@ -35,14 +29,25 @@ MachovyRails::Application.routes.draw do
     collection do
       get 'deals'
     end
-   end
+  end
   resources :promotion_images
   resources :roles
   resources :videos
 
   namespace :merchant do
     resources :orders
-    resources :vendors
+    resources :vendors do
+      member do
+        get 'payments'
+        get 'dashboard'
+        get 'reports'
+        get 'my_deals'
+      end
+      
+      collection do
+        get 'manage'
+      end
+    end
     resources :vouchers do
       member do
         get :redeem
@@ -53,8 +58,14 @@ MachovyRails::Application.routes.draw do
   # Need an admin namespace?
   
   match "/deals" => "promotions#deals"
-  match "/about" => "static_pages#about"
+  match "/merchant/MyDeals" => "merchant/vendors/#my_deals"
 
+  # Static pages
+  match "/SiteAdmin" => "static_pages#admin_index"
+  match "/about" => "static_pages#about"
+  match "/reports" => "static_pages#reports"
+  match "/front_grid_manage" => "front_grid#manage"
+  
 #  get "deals/index"
 =begin
   get "site_admin/add_ad"

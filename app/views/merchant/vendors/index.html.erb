@@ -27,13 +27,13 @@
     <td><%= vendor.city %></td>
     <td><%= vendor.state %></td>
     <td><%= vendor.zip %></td>
-    <td><%= link_to 'Show', vendor %></td>
-    <td><%= link_to 'Edit', edit_vendor_path(vendor) %></td>
-    <td><%= link_to 'Destroy', vendor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Show', merchant_vendor_path(vendor) %></td>
+    <td><%= link_to 'Edit', edit_merchant_vendor_path(vendor) %></td>
+    <td><%= link_to 'Destroy', [:merchant, vendor], method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Vendor', new_vendor_path %>
+<%= link_to 'New Vendor', new_merchant_vendor_path %>

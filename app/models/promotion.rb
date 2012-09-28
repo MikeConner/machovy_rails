@@ -61,7 +61,7 @@ class Promotion < ActiveRecord::Base
   default_scope order(:grid_weight)
   
   # These scopes are applied on top of the default scope (i.e., they are ordered)
-  scope :active, where("description <> ''")
+  scope :deals, where("description <> ''")
   scope :ads, where("description is null or Trim(description) = ''")
   scope :affiliates, where("Trim(description) != '' and Trim(destination) != ''")
   

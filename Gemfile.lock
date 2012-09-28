@@ -94,6 +94,11 @@ GEM
     formatador (0.2.3)
     friendly_id (4.0.8)
     haml (3.1.7)
+    haml-rails (0.3.5)
+      actionpack (>= 3.1, < 4.1)
+      activesupport (>= 3.1, < 4.1)
+      haml (~> 3.1)
+      railties (>= 3.1, < 4.1)
     hashie (1.2.0)
     heroku (2.31.5)
       heroku-api (~> 0.3.5)
@@ -281,6 +286,8 @@ DEPENDENCIES
   faker (= 1.0.1)
   fog
   friendly_id
+  haml (= 3.1.7)
+  haml-rails (= 0.3.5)
   heroku (= 2.31.5)
   jquery-rails (= 2.1.2)
   launchy (= 2.1.2)

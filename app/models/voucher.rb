@@ -31,7 +31,8 @@
 class Voucher < ActiveRecord::Base
   extend FriendlyId
   friendly_id :uuid, use: [:slugged, :history]  
-attr_accessible :expiration_date, :issue_date, :notes, :redemption_date, :status, :uuid,
+  
+  attr_accessible :expiration_date, :issue_date, :notes, :redemption_date, :status, :uuid,
                   :user_id, :order_id, :promotion_id
   
   # foreign keys
@@ -65,10 +66,13 @@ attr_accessible :expiration_date, :issue_date, :notes, :redemption_date, :status
   
 private
   def time_periods
-    if (self.expiration_date < self.issue_date) or
-       (self.redemption_date > self.expiration_date) or
-       (self.redemption_date < self.issue_date)
-      self.errors.add(:base, 'Inconsistent date fields')
-    end 
+    # TODO Getting errors where these aren't valid -- should they always be valid?
+    if !expiration_date.nil? && !issue_date.nil? && !redemption_date.nil? 
+      if (expiration_date < issue_date) or
+         (redemption_date > expiration_date) or
+         (redemption_date < issue_date)
+        self.errors.add(:base, 'Inconsistent date fields')
+      end 
+    end
   end
 end

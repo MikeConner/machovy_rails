@@ -1,12 +1,12 @@
 class PromotionsController < ApplicationController
   before_filter :authenticate_user!, :except => [:show]
+  load_and_authorize_resource
 
   # GET /promotions
   # GET /promotions.json
   def index
     @promotions = Promotion.all
 
-    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @promotions }
@@ -17,7 +17,6 @@ class PromotionsController < ApplicationController
   # GET /deals.json
   def deals
     @promotions = Promotion.all
-
     
     respond_to do |format|
       format.html # index.html.erb
@@ -29,7 +28,6 @@ class PromotionsController < ApplicationController
   # GET /promotions/1.json
   def show
     @promotion = Promotion.find(params[:id])
-
     
     respond_to do |format|
       format.html # show.html.erb
@@ -41,12 +39,9 @@ class PromotionsController < ApplicationController
   # GET /promotions/1/order
   # GET /promotions/1/order???.json
   def order
-    
     @promotion = Promotion.find(params[:id])
     @order = @promotion.orders.new
     @order.prepare_for current_user
-
-    
     
     respond_to do |format|
       format.html # order.html.erb
@@ -54,15 +49,10 @@ class PromotionsController < ApplicationController
     end
   end
 
-
-  
-
-
   # GET /promotions/new
   # GET /promotions/new.json
   def new
     @promotion = Promotion.new
-
 
     respond_to do |format|
       format.html # new.html.erb
@@ -80,7 +70,6 @@ class PromotionsController < ApplicationController
   def create
     @promotion = Promotion.new(params[:promotion])
 
-
     respond_to do |format|
       if @promotion.save
         format.html { redirect_to @promotion, notice: 'Promotion was successfully created.' }
@@ -96,7 +85,6 @@ class PromotionsController < ApplicationController
   # PUT /promotions/1.json
   def update
     @promotion = Promotion.find(params[:id])
-
 
     respond_to do |format|
       if @promotion.update_attributes(params[:promotion])
@@ -114,7 +102,6 @@ class PromotionsController < ApplicationController
   def destroy
     @promotion = Promotion.find(params[:id])
     @promotion.destroy
-
 
     respond_to do |format|
       format.html { redirect_to promotions_url }

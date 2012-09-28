@@ -27,13 +27,13 @@
     <td><%= voucher.promotion_id %></td>
     <td><%= voucher.order_id %></td>
     <td><%= voucher.user_id %></td>
-    <td><%= link_to 'Show', voucher %></td>
-    <td><%= link_to 'Edit', edit_voucher_path(voucher) %></td>
-    <td><%= link_to 'Destroy', voucher, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Show', merchant_voucher_path(voucher) %></td>
+    <td><%= link_to 'Edit', edit_merchant_voucher_path(voucher) %></td>
+    <td><%= link_to 'Destroy', [:merchant, voucher], method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Voucher', new_voucher_path %>
+<%= link_to 'New Voucher', new_merchant_voucher_path %>

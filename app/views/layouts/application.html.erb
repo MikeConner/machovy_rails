@@ -56,20 +56,20 @@
 		          <div class="MetroArea">PITTSBURGH  
 					<% if current_user.nil? %>
  
-						<%=link_to 'SIGN IN', new_user_session_url %> &nbsp;&nbsp;| &nbsp;&nbsp;
+						<%=link_to 'SIGN IN', new_user_session_path %> &nbsp;&nbsp;| &nbsp;&nbsp;
  
-						<%=link_to 'SIGN UP', '/users/sign_up' %>
+						<%=link_to 'SIGN UP', new_user_registration_path %>
  
 
 					<% else %>
 					
 					<% if current_user.merchant?%>
 						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'MY DEALS', '/merchant/MyDeals' %>
-						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'REPORTS', '/merchant/reports' %>
-						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'PAYMENTS', '/merchant/payments' %>
+						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'REPORTS', reports_merchant_vendor_path %>
+						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'PAYMENTS', payments_merchant_vendor_path %>
 						
 					<%else%>
-						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'MY VOUCHERS', '/vouchers' %>
+						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'MY VOUCHERS', merchant_vouchers_path %>
 					<%end%>
 
  
@@ -77,7 +77,7 @@
 							&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'Site Admin', '/SiteAdmin' %>
 							&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'Rails Admin', '/Radmin' %>
 						<%end%>
-						 &nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'LOG OUT', '/users/sign_out', :method => :delete %>
+						 &nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'LOG OUT', destroy_user_session_path, :method => :delete %>
 
 
 

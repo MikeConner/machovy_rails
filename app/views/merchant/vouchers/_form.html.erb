@@ -1,4 +1,4 @@
-<%= form_for(@voucher) do |f| %>
+<%= form_for [:merchant, @voucher] do |f| %>
   <% if @voucher.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@voucher.errors.count, "error") %> prohibited this voucher from being saved:</h2>

@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @position.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @position.description %>
+</p>
+
+<p>
+  <b>Expiration:</b>
+  <%= @position.expiration %>
+</p>
+
+<p>
+  <b>Email contact:</b>
+  <%= @position.email_contact %>
+</p>
+
+<p>
+  <b>Email subject:</b>
+  <%= @position.email_subject %>
+</p>
+
+
+<%= link_to 'Edit', edit_position_path(@position) %> |
+<%= link_to 'Back', positions_path %>

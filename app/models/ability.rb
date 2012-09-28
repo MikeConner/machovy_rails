@@ -2,19 +2,19 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    
     # Define abilities for the passed in user here. For example:
     #
-       user ||= User.new # guest user (not logged in)
+    user ||= User.new # guest user (not logged in)
     
     if user.role? :super_admin
       can :manage, :all
       can :access, :rails_admin
     else
-      can :read, [Promotion, Category, Video, Voucher, Order, Metro, Career, BlogPost, Curator,  Vendor]
+      can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor]
       can :create, [Order, Voucher]
       cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro]
     end
+    
     if user.merchant?
       can :redeem, [Voucher]
     end

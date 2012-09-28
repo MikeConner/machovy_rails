@@ -10,14 +10,14 @@
 		<%
 		else%>
 		<h2>What kind of promotion do you want to create?</h2>
-		<%=link_to 'add Local Deal', '/promotions/new?type=local'%>
+		<%=link_to 'add Local Deal', new_promotion_path(:type => 'local') %>
 		<br/><hr/><br/>
 
 
-		<%=link_to 'add advertising deal', '/promotions/new?type=ad'%>
+		<%=link_to 'add advertising deal', new_promotion_path(:type => 'ad') %>
 		<br/><hr/><br/>
 
-		<%=link_to 'add Affiliate Deal', '/promotions/new?type=affiliate'%>
+		<%=link_to 'add Affiliate Deal', new_promotion_path(:type => 'affiliate') %>
 		<br/><hr/><br/>
 		
 		<%end %>	

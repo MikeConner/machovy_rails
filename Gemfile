@@ -23,6 +23,8 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'haml', '3.1.7'
+
 gem 'jquery-rails', '2.1.2'
 #for heroku-> have to use thin
 gem 'thin', '1.4.1'
@@ -35,6 +37,7 @@ end
 group :development do
   gem 'annotate', '~> 2.4.1.beta'
   gem 'heroku', '2.31.5'
+  gem 'haml-rails', '0.3.5'
 end
 
 group :test do

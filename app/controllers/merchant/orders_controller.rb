@@ -1,7 +1,7 @@
 class Merchant::OrdersController < Merchant::BaseController
   load_and_authorize_resource
 
-  before_filter :authenticate_user!, :except => [:some_action_without_auth]
+  before_filter :authenticate_user!
   # GET /orders
   # GET /orders.json
   def index
@@ -83,7 +83,7 @@ class Merchant::OrdersController < Merchant::BaseController
       # render voucher in order afterwards
       
 
-      redirect_to order_path(@order)
+      redirect_to merchant_order_path(@order)
     else
       render :badPayment
     end
@@ -117,7 +117,7 @@ class Merchant::OrdersController < Merchant::BaseController
 
 
     respond_to do |format|
-      format.html { redirect_to orders_url }
+      format.html { redirect_to merchant_orders_url }
       format.json { head :no_content }
     end
   end

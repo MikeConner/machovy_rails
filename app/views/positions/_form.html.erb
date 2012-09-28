@@ -1,12 +1,12 @@
 <%= javascript_include_tag "ckeditor/init" %>
 
-<%= form_for(@career) do |f| %>
-  <% if @career.errors.any? %>
+<%= form_for(@position) do |f| %>
+  <% if @position.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@career.errors.count, "error") %> prohibited this career from being saved:</h2>
+      <h2><%= pluralize(@position.errors.count, "error") %> prohibited this position from being saved:</h2>
 
       <ul>
-      <% @career.errors.full_messages.each do |msg| %>
+      <% @position.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>

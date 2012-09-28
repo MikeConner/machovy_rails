@@ -2,11 +2,9 @@ class Merchant::VouchersController < Merchant::BaseController
   before_filter :authenticate_user!, :except => [:some_action_without_auth]
   load_and_authorize_resource
   
-  
   # GET /vouchers
   # GET /vouchers.json
   def index
-
     @vouchers = current_user.vouchers.all
 
     respond_to do |format|
@@ -23,10 +21,9 @@ class Merchant::VouchersController < Merchant::BaseController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @voucher }
-      format.png { render :qrcode => 'redeem.machovy.com/vouchers/'+@voucher.id.to_s+'redeem' }
+      format.png { render :qrcode =>  redeem_merchant_voucher_url(@voucher) }
     end
   end
-
 
   # GET /vouchers/new
   # GET /vouchers/new.json

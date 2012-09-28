@@ -5,25 +5,25 @@
 <div style="border-top: 1px dashed #000; border-bottom: 1px dashed #000;">
 <u>Open Positions:</u>
 	<ul>
-	<% @careers.each do |career| %>
-	 <li> <%= career.title %>
+	<% @positions.each do |position| %>
+	 <li> <%= position.title %>
 	<% end %>
 </ul>
 </div><br>
 <h3>The Deets: </h3>
 
-<% @careers.each do |career| %>
+<% @positions.each do |position| %>
 <div style="border-bottom: 1px solid #000;">
-    <h3><%= career.title %></h3><br>
-    <%= career.description.html_safe %><br>
+    <h3><%= position.title %></h3><br>
+    <%= position.description.html_safe %><br>
 	<div name = "contact">
-		If you are interested, <u><b><%=mail_to career.email_contact, " Submit your resume with a quick note.", :subject =>  career.email_subject %></u></b>
+		If you are interested, <u><b><%=mail_to position.email_contact, " Submit your resume with a quick note.", :subject =>  position.email_subject %></u></b>
 
 	</div><Br><br>
     <div name ="admin">
-		<%#= link_to 'Show', career %> &nbsp;&nbsp;
-		<%#= link_to 'Edit', edit_career_path(career) %>&nbsp;&nbsp;
-		<%#= link_to 'Destroy', career, method: :delete, data: { confirm: 'Are you sure?' } %>
+		<%#= link_to 'Show', position %> &nbsp;&nbsp;
+		<%#= link_to 'Edit', edit_position_path(position) %>&nbsp;&nbsp;
+		<%#= link_to 'Destroy', position, method: :delete, data: { confirm: 'Are you sure?' } %>
 	</div>
 </div>
 <% end %>
@@ -31,4 +31,4 @@
 
 <br />
 
-<%= link_to 'New Career', new_career_path %>
+<%= link_to 'New Position', new_position_path %>
