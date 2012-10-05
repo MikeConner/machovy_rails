@@ -6,7 +6,7 @@ class Ability
     #
     user ||= User.new # guest user (not logged in)
     
-    if user.role? :super_admin
+    if user.has_role?(Role::SUPER_ADMIN)
       can :manage, :all
       can :access, :rails_admin
     else
@@ -15,10 +15,10 @@ class Ability
       cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro]
     end
     
-    if user.merchant?
+    if user.has_role?(Role::MERCHANT)
       can :redeem, [Voucher]
     end
-    if user.role? :deal_admin
+    if user.has_role?(Role::CONTENT_ADMIN)
       can :manage, [Promotion]
     end
     

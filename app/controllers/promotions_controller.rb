@@ -40,13 +40,8 @@ class PromotionsController < ApplicationController
   # GET /promotions/1/order???.json
   def order
     @promotion = Promotion.find(params[:id])
-    @order = @promotion.orders.new
-    @order.prepare_for current_user
-    
-    respond_to do |format|
-      format.html # order.html.erb
-#      format.json { render json: @promotion }
-    end
+    @order = @promotion.orders.build(:user_id => current_user.id, :email => current_user.email, :amount => @promotion.price, 
+                                     :description => "#{@promotion.vendor.name} promo #{@promotion.title} #{Date.today.to_s}")
   end
 
   # GET /promotions/new

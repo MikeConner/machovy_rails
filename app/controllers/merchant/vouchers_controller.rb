@@ -21,7 +21,8 @@ class Merchant::VouchersController < Merchant::BaseController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @voucher }
-      format.png { render :qrcode =>  redeem_merchant_voucher_url(@voucher) }
+      #format.png { render :qrcode =>  redeem_merchant_voucher_url(@voucher) }
+      format.png { render :qrcode => 'redeem.machovy.com/vouchers/'+@voucher.id.to_s+'redeem' }
     end
   end
 

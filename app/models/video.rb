@@ -2,12 +2,12 @@
 #
 # Table name: videos
 #
-#  id          :integer         not null, primary key
-#  name        :string(255)
-#  destination :string(255)
-#  active      :boolean
-#  created_at  :datetime        not null
-#  updated_at  :datetime        not null
+#  id              :integer         not null, primary key
+#  name            :string(255)
+#  destination_url :string(255)
+#  active          :boolean
+#  created_at      :datetime        not null
+#  updated_at      :datetime        not null
 #
 
 # CHARTER
@@ -16,15 +16,11 @@
 # USAGE
 #
 # NOTES AND WARNINGS
-# ??? Is this used? What does destination mean? How is active used? Format?
-# ??? Shouldn't this be tied to something? Or is it just a general video about the site, not part of a promotion?
-#  (e.g., reality show trailer :-)
 #
 class Video < ActiveRecord::Base
-  attr_accessible :active, :destination, :name
+  attr_accessible :active, :destination_url, :name
   
-  validates :active, :presence => true,
-                     :inclusion => { in: [true, false] }
+  validates_inclusion_of :active, :in => [true, false]                     
   validates_presence_of :name
-  validates_presence_of :destination
+  validates_presence_of :destination_url
 end

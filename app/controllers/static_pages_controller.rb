@@ -1,5 +1,5 @@
 class StaticPagesController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => [:about]
 
   def about
   end

@@ -1,5 +1,6 @@
 class MerchantController < ApplicationController
-  before_filter :authenticate_user!, :except => [:some_action_without_auth]
+  before_filter :authenticate_user!
+  
   def MyDeals
     @vendors = current_user.vendors.all
     if @vendors.size > 0 

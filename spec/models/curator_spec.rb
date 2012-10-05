@@ -1,35 +1,29 @@
+# == Schema Information
+#
+# Table name: curators
+#
+#  id         :integer         not null, primary key
+#  name       :string(255)
+#  picture    :string(255)
+#  bio        :text
+#  twitter    :string(255)
+#  created_at :datetime        not null
+#  updated_at :datetime        not null
+#
+
 describe "Curators" do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:metro) { FactoryGirl.create(:metro) }
-  let(:curator) { FactoryGirl.create(:curator, :user => user, :metro => metro) }
+  let(:curator) { FactoryGirl.create(:curator) }
   
   subject { curator }
   
-  it { should respond_to(:user) }
-  it { should respond_to(:metro) }
   it { should respond_to(:blog_posts) }
   it { should respond_to(:promotions) }
   it { should respond_to(:picture) }
   it { should respond_to(:name) }
   it { should respond_to(:twitter) }
   it { should respond_to(:bio) }
-  
-  its(:user) { should == user }
-  its(:metro) { should == metro }
-  
+    
   it { should be_valid }
-  
-  describe "metro foreign key validation" do
-    before { curator.metro = nil }
-    
-    it { should_not be_valid }
-  end
-  
-  describe "user foreign key validation" do
-    before { curator.user = nil }
-    
-    it { should_not be_valid }
-  end
   
   describe "name validation" do
     before { curator.name = "  "}
@@ -90,12 +84,8 @@ describe "Curators" do
   end
   
   describe "blog posts" do
-    let(:metro) { FactoryGirl.create(:metro) }
-    let(:user) { FactoryGirl.create(:user) }
-    let(:curator) { FactoryGirl.create(:curator_with_blog_posts, :user => user, :metro => metro) }
+    let(:curator) { FactoryGirl.create(:curator_with_blog_posts) }
     
-    it { should respond_to(:user) }
-    it { should respond_to(:metro) }
     it { should respond_to(:blog_posts) }
     it { should respond_to(:promotions) }
     it { should respond_to(:picture) }
@@ -103,9 +93,6 @@ describe "Curators" do
     it { should respond_to(:twitter) }
     it { should respond_to(:bio) }
     
-    its(:user) { should == user }
-    its(:metro) { should == metro }
-
     it { should be_valid }
     
     it "should have posts" do
@@ -116,29 +103,33 @@ describe "Curators" do
       end
     end
     
-    describe "deleting the curator deletes the blog posts" do
+    describe "should validate blog posts" do
+      before { curator.reload.blog_posts[0].update_attributes(:title => "") }
+      
+      it { should_not be_valid }
+    end
+    
+    describe "deleting the curator nullifies the blog posts" do
       # Make sure we're not "deleting" nothing and have a false positive
       it "should start with posts" do
         curator.blog_posts.count.should == 6
       end
       
-      it "should destroy associated posts" do
+      it "should nullify associated posts" do
         posts = curator.blog_posts
         curator.destroy
         posts.each do |p|
-          BlogPost.find_by_id(p.id).should be_nil
+          bp = BlogPost.find_by_id(p.id)
+          bp.should_not be_nil
+          bp.curator.should be_nil
        end     
      end 
     end
   end
   
   describe "promotions" do
-    let(:metro) { FactoryGirl.create(:metro) }
-    let(:user) { FactoryGirl.create(:user) }
-    let(:curator) { FactoryGirl.create(:curator_with_promotions, :metro => metro, :user => user) }
+    let(:curator) { FactoryGirl.create(:curator_with_promotions) }
     
-    it { should respond_to(:user) }
-    it { should respond_to(:metro) }
     it { should respond_to(:blog_posts) }
     it { should respond_to(:promotions) }
     it { should respond_to(:picture) }
@@ -146,20 +137,13 @@ describe "Curators" do
     it { should respond_to(:twitter) }
     it { should respond_to(:bio) }
     
-    its(:user) { should == user }
-    its(:metro) { should == metro }
-
     it "should have promotions" do
-      curator.promotions.count.should == 4
-      curator.promotions.each do |p|
-        p.curator.should == curator
-        p.metro.should == metro
-      end
+      curator.promotions.count.should == 20
     end
     
     describe "deleting the curator doesn't delete promotions" do
       it "should start with promotions" do
-        curator.promotions.count.should == 4
+        curator.promotions.count.should == 20
       end
       
       it "should not destroy associated promotions" do

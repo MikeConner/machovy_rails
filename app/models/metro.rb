@@ -12,19 +12,19 @@
 #   Represent a geographical area where there can be promotions (probably metropolitan areas)
 #
 # USAGE
+#   Promotions are created by Vendors and also associated with a Metro. A national vendor might create different promotions
+# in different cities. Cannot delete either Vendors or Metros if there are associated Promotions.
 #
 # NOTES AND WARNINGS
-#
-# TODO We should have a unique index on name
-# ??? Geocode for mapping?
 #
 class Metro < ActiveRecord::Base
   attr_accessible :name
   
-  # Metro does *not* own promotions
-  has_many :promotions
+  has_many :promotions, :dependent => :restrict
   
+  # Note that the db-level index is still case-sensitive (in PG anyway)
   validates :name, :presence => true,
                    :uniqueness => { case_sensitive: false }
+  
   validates_associated :promotions
 end

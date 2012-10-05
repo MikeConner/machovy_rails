@@ -12,7 +12,7 @@ FactoryGirl.define do
   sequence(:random_city) { |n| Faker::Address.city }
   sequence(:random_state) do
     st = ""
-    until VendorsHelper::US_STATES.member?(st)
+    until ApplicationHelper::US_STATES.member?(st)
       st = Faker::Address.state_abbr
     end
     st
@@ -32,7 +32,7 @@ FactoryGirl.define do
   sequence(:seqential_phone) { |n| '(412) 400-' + sprintf("%04d", n) }
   sequence(:sequential_street) { |n| "#{n} Maple Ave." }
   sequence(:sequential_city) { |n| "City #{n}" }
-  sequence(:sequential_state) { |n| VendorsHelper::US_STATES[n % VendorsHellper::US_STATES.count] }
+  sequence(:sequential_state) { |n| ApplicationHelper::US_STATES[n % VendorsHellper::US_STATES.count] }
   sequence(:sequential_zip) { |n| sprintf("%05d", n) }
   sequence(:sequential_email) { |n| "bro#{n}@macho.com" }
   sequence(:sequential_vendor_name) { |n| "Vendor #{n}" }
@@ -40,30 +40,79 @@ FactoryGirl.define do
   sequence(:sequential_comment) { |n| "Comment #{n}. This is sentence 1. Here's another sentence. And this is the last sentence" }
   sequence(:sequential_post) { |n| "This is a sentence in post #{n}\n"*3 }
   sequence(:sequential_name) { |n| "Name #{n}" }
+  sequence(:sequential_uuid) { |n| '2fe-cda-' + sprintf("%04d", n) }
+  
+  factory :activity do
+    user
+    
+    activity_id { Random.rand(100) + 1 }
+    activity_name { ['BlogPost', 'Order', 'Promotion', 'Video', 'Voucher'].sample }
+    description { generate(:random_description) }
+  end
   
   factory :blog_post do
     curator
-    metro
     
     title { generate(:random_description) }
     body { generate(:random_post) }
     weight { Random.rand(100) + 1 }
     posted_at 1.hour.ago
+    
+    factory :blog_post_with_promotions do
+      ignore do
+        num_promotions 5
+      end
+      
+      after(:create) do |blog_post, evaluator|
+        evaluator.num_promotions.times do
+          blog_post.promotions << FactoryGirl.create(:promotion)
+        end
+      end
+    end
+  end
+  
+  factory :career do
+    title { generate(:random_description) }
+    description { generate(:random_post) }
+    expiration 6.months.from_now
+    email_contact "careers@machovy.com"
+    email_subject { title }
   end
   
   factory :category do
-    name ['Cars', 'Adventure', 'Wine', 'Women', 'Song'].sample
-    status true
+    # Can't do this because it causes issues with the hierarchical factory
+    #name ['Cars', 'Adventure', 'Wine', 'Women', 'Song'].sample
+    name { generate(:sequential_name) }
+    active true
     
     factory :inactive_category do
-      status false
+      active false
+    end
+    
+    factory :category_with_promotions do
+      ignore do
+        num_promotions 5
+      end
+      
+      after(:create) do |category, evaluator|
+        evaluator.num_promotions.times do
+          category.promotions << FactoryGirl.create(:promotion)
+        end
+      end
+    end
+    
+    factory :hierarchical_category do
+      ignore do
+        num_children 3
+      end
+      
+      after(:create) do |parent, evaluator|
+        FactoryGirl.create_list(:category, evaluator.num_children, :category => parent)
+      end
     end
   end
   
   factory :curator do
-    metro
-    user
-    
     bio { generate(:random_post) }
     name { generate(:random_name) }
     twitter { generate(:random_twitter) }
@@ -74,17 +123,17 @@ FactoryGirl.define do
       end
       
       after(:create) do |curator, evaluator|
-        FactoryGirl.create_list(:blog_post, evaluator.num_posts, :curator => curator, :metro => curator.metro)
+        FactoryGirl.create_list(:blog_post, evaluator.num_posts, :curator => curator)
       end
     end
     
     factory :curator_with_promotions do
       ignore do
-        num_promotions 4
+        num_posts_with_promotions 4
       end
       
       after(:create) do |curator, evaluator|
-        FactoryGirl.create_list(:promotion, evaluator.num_promotions, :curator => curator, :metro => curator.metro)
+        FactoryGirl.create_list(:blog_post_with_promotions, evaluator.num_posts_with_promotions, :curator => curator)
       end
     end
   end
@@ -118,27 +167,33 @@ FactoryGirl.define do
       end
       
       after(:create) do |order, evaluator|
-        FactoryGirl.create_list(:voucher, evaluator.num_vouchers, :order => order, :user => user, :promotion => promotion)
+        FactoryGirl.create_list(:voucher, evaluator.num_vouchers, :order => order, :user => order.user, :promotion => order.promotion)
       end
     end
   end
   
+=begin
   factory :promotion_image do
-    imageurl { generate(:random_url) }
     name { generate(:random_vendor_name) }
-    mediatype { ['png', 'jpg', 'bmp'].sample }
+    mediatype { ['png', 'jpg'].sample }
+    #imageurl fixture_file_upload('spec/fixtures/files/M_logo.png', 'image/png')
+    imageurl Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/M_logo.png'), 'image/png')
   end
+=end
 
   factory :promotion do
     metro
     vendor
-    curator
     
     grid_weight { Random.rand(100) + 1 }
     retail_value { Random.rand * 1000 }
     price { Random.rand * 500 }
     revenue_shared { Random.rand }
     quantity { Random.rand(10) }
+    description { generate(:random_post) }
+    status Promotion::PROPOSED
+    start_date Time.now
+    end_date 2.weeks.from_now
     
     factory :promotion_with_orders do
       ignore do
@@ -159,19 +214,105 @@ FactoryGirl.define do
         FactoryGirl.create_list(:order_with_vouchers, evaluator.num_orders, :promotion => promotion)
       end
     end
+    
+    factory :promotion_with_categories do
+      ignore do
+        num_categories 5
+      end
+
+      after(:create) do |promotion, evaluator|
+        evaluator.num_categories.times do
+          promotion.categories << FactoryGirl.create(:category)
+        end
+      end
+    end
+    
+    factory :promotion_with_blog_posts do
+      ignore do
+        num_posts 5
+      end
+
+      after(:create) do |promotion, evaluator|
+        evaluator.num_posts.times do
+          promotion.blog_posts << FactoryGirl.create(:blog_post)
+        end
+      end
+    end
   end
   
   factory :role do
-    name { ["SuperAdmin", "Admin", "Curator", "Merchant", "Dude"].sample }
+    name { [Role::SUPER_ADMIN, Role::CONTENT_ADMIN, Role::MERCHANT].sample }
+    
+    factory :role_with_users do
+      ignore do
+        num_users 5
+      end
+      
+      after(:create) do |role, evaluator|
+        evaluator.num_users.times do
+          role.users << FactoryGirl.create(:user)
+        end
+      end
+    end
   end
 
   # Aliases aren't working???
   factory :user, :aliases => [:administrator, :merchant, :dude] do
     email { generate(:random_email) }
     password "Password"
+    password_confirmation "Password"
+    
+    factory :super_admin_user do
+      after(:create) do |user, evaluator|
+        user.roles.create(:name => Role::SUPER_ADMIN)
+      end
+    end
+
+    factory :content_admin_user do
+      after(:create) do |user, evaluator|
+        user.roles.create(:name => Role::CONTENT_ADMIN)
+      end
+    end
+
+    factory :merchant_user do
+      after(:create) do |user, evaluator|
+        user.roles.create(:name => Role::MERCHANT)
+      end
+    end
+
+    # Doesn't really make sense; just testing multiple roles
+    factory :power_user do
+      after(:create) do |user, evaluator|
+        user.roles.create(:name => Role::SUPER_ADMIN)
+        user.roles.create(:name => Role::CONTENT_ADMIN)
+        user.roles.create(:name => Role::MERCHANT)
+      end
+    end
+    
+    factory :user_with_orders do
+      ignore do
+        num_orders 3
+      end
+            
+      after(:create) do |user, evaluator|
+        FactoryGirl.create_list(:order, evaluator.num_orders, :user => user)
+      end
+    end
+    
+    factory :user_with_vouchers do
+      ignore do
+        num_orders 3
+      end
+            
+      after(:create) do |user, evaluator|
+        FactoryGirl.create_list(:order_with_vouchers, evaluator.num_orders, :user => user)
+      end
+    end
   end
   
   factory :vendor do   
+    user
+    
     name { generate(:random_vendor_name) }
     url { generate(:random_url) }
     phone "(412) 555-1212"
@@ -187,12 +328,32 @@ FactoryGirl.define do
         v.address_2 = suite.split.last(2).join(" ")
       end
     end
+    
+    factory :vendor_with_promotions do
+      ignore do
+        num_promotions 5
+      end
+      
+      after(:create) do |vendor, evaluator|
+        FactoryGirl.create_list(:promotion, evaluator.num_promotions, :vendor => vendor)        
+      end
+    end
+    
+    factory :vendor_with_orders do
+      ignore do
+        num_promotions 5
+      end
+      
+      after(:create) do |vendor, evaluator|
+        FactoryGirl.create_list(:promotion_with_orders, evaluator.num_promotions, :vendor => vendor)
+      end
+    end
   end
     
   factory :video do
-    active true
-    destination { generate(:random_city) }
+    destination_url { generate(:random_city) }
     name { generate(:random_description) }
+    active true
     
     factory :inactive_video do
       active false
@@ -200,16 +361,13 @@ FactoryGirl.define do
   end
   
   factory :voucher do
-    user
     order
-    promotion
     
     expiration_date 1.year.from_now
     issue_date 1.week.ago
     redemption_date 1.week.from_now
-    status "Good"
-    uuid { SecureRandom.uuid }
+    status Voucher::AVAILABLE
+    uuid { generate(:sequential_uuid) }
     notes { generate(:random_comment) }
-    
-  end  
+  end    
 end

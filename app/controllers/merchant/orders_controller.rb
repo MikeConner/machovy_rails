@@ -18,8 +18,8 @@ class Merchant::OrdersController < Merchant::BaseController
   # GET /orders/1
   # GET /orders/1.json
   def show
+    puts "Orders/show"
     @order = Order.find(params[:id])
-
 
     respond_to do |format|
       format.html # show.html.erb
@@ -74,18 +74,19 @@ class Merchant::OrdersController < Merchant::BaseController
 
 
     if @order.save_with_payment
-      just_purchased = Voucher.new
-      just_purchased.populate_from(@order)
-      just_purchased.save
-      
-      #  create new voucher
-      # send email to person
-      # render voucher in order afterwards
-      
-
-      redirect_to merchant_order_path(@order)
+      just_purchased = Voucher.new(:order => @order, :issue_date => Time.now)
+      #just_purchased.populate_from(@order)
+      if just_purchased.save
+        #  create new voucher
+        # send email to person
+        # render voucher in order afterwards
+        redirect_to merchant_order_path(@order)
+      else
+        # Maybe a different view?
+        render 'badPayment'
+      end
     else
-      render :badPayment
+      render 'badPayment'
     end
 
 
@@ -97,10 +98,9 @@ class Merchant::OrdersController < Merchant::BaseController
   def update
     @order = Order.find(params[:id])
 
-
     respond_to do |format|
       if @order.update_attributes(params[:order])
-        format.html { redirect_to @order, notice: 'Order was successfully updated.' }
+        format.html { redirect_to [:merchant, @order], notice: 'Order was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

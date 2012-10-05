@@ -1,10 +1,22 @@
+# == Schema Information
+#
+# Table name: categories
+#
+#  id                 :integer         not null, primary key
+#  name               :string(255)     not null
+#  active             :boolean
+#  created_at         :datetime        not null
+#  updated_at         :datetime        not null
+#  parent_category_id :integer
+#
+
 describe "Categories" do
   let(:category) { FactoryGirl.create(:category) }
   
   subject { category }
   
   it { should respond_to(:name) }
-  it { should respond_to(:status) }
+  it { should respond_to(:active) }
   it { should respond_to(:promotions) }
   
   it { should be_valid }
@@ -35,18 +47,69 @@ describe "Categories" do
   end
   
   describe "status" do
-    before { category.status = nil }
+    before { category.active = nil }
     
     it { should_not be_valid }
   end
   
-  describe "false status" do
+  describe "inactive status" do
     let(:category) { FactoryGirl.create(:inactive_category) }
     
     it { should be_valid }
     
     it "should be inactive" do
-      category.status.should be_false
+      category.active.should be_false
     end
   end
+
+  describe "promotions" do
+    let(:category) { FactoryGirl.create(:category_with_promotions) }
+    
+    it "should have promotions" do
+      category.promotions.count.should == 5
+      category.promotions.each do |p| 
+        p.categories.include?(category).should be_true
+      end
+    end
+    
+    it "should not allow duplicate assignments" do
+      expect { category.promotions << category.promotions[0] }.to raise_error(ActiveRecord::RecordNotUnique)
+    end
+    
+    it "should not have sub-categories" do
+      category.sub_categories.count.should == 0
+    end
+    
+    describe "should still have promotions after destroy" do
+      before { category.destroy }
+      
+      it "promotions should exist but not have any posts" do
+        Promotion.count.should == 5
+        Promotion.all.each do |p|
+          p.categories.count.should == 0
+        end
+      end
+    end
+  end
+  
+  describe "Hierarchical categories" do
+    let(:category) { FactoryGirl.create(:hierarchical_category) }
+    
+    it "should have sub-categories" do
+      category.sub_categories.count.should == 3
+      Category.unscoped.all.count.should == 4
+      
+      category.sub_categories.each do |sub| 
+        sub.category.should == category
+      end
+    end
+    
+    describe "destroying the parent should destroy sub-categories" do
+      before { category.destroy }
+      
+      it "should be completely empty" do
+        Category.unscoped.reload.count.should == 0
+      end
+    end  
+  end  
 end

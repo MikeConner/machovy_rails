@@ -5,7 +5,7 @@
 #  id         :integer         not null, primary key
 #  name       :string(255)
 #  url        :string(255)
-#  fbook      :string(255)
+#  facebook   :string(255)
 #  phone      :string(255)
 #  address_1  :string(255)
 #  address_2  :string(255)
@@ -14,39 +14,43 @@
 #  zip        :string(255)
 #  created_at :datetime        not null
 #  updated_at :datetime        not null
+#  user_id    :integer
 #
 
 # CHARTER
 #   Represent a merchant offering promotions
 #
 # USAGE
+#   Signup as Vendor creates a Vendor object. Vendors have access to a special part of the site where they can create promotions.
+# Machovy then reviews their content (see documentation for status state machine), and also ensures the legal contract is signed
+# before approving a vendor's ads.
 #
 # NOTES AND WARNINGS
-# ??? Aren't they users? Should this be there? Is a Vendor a kind of user and should be subclassed? (e.g., address is optional for customers, but
-#   mandatory for vendors)
-# ??? Do we require a phone number?
-# ??? I think we should spell out FaceBook! 
-# TODO Remember to normalize phone numbers in the controller
-#
+#   Strict phone formatting requires normalization in any relevant controllers before updating
+# 
 class Vendor < ActiveRecord::Base
-  include VendorsHelper
+  include ApplicationHelper
   
-  attr_accessible :address_1, :address_2, :city, :fbook, :name, :phone, :state, :url, :zip
+  attr_accessible :address_1, :address_2, :city, :facebook, :name, :phone, :state, :url, :zip,
+                  :user_id
+                  
+  belongs_to :user
   
-  has_many :promotions
+  has_many :promotions, :dependent => :restrict
   has_many :metros, :through => :promotions
-  has_and_belongs_to_many :users
-
+  has_many :orders, :through => :promotions
   
   validates_presence_of :name
   validates_presence_of :address_1
   validates_presence_of :city
   validates :state, :presence => true,
                     :inclusion => { in: US_STATES }
-  validates_format_of :zip, { with: US_ZIP_REGEX }
-  validates :phone, :format => { with: US_PHONE_REGEX }, :allow_blank => true
+  validates :phone, :format => { with: US_PHONE_REGEX }
+  validates :zip, :format => { with: US_ZIP_REGEX }
   validates :url, :format => { with: URL_REGEX }, :allow_blank => true
-  validates :fbook, :format => { with: Regexp.union(URL_REGEX, /Facebook/i) }, :allow_blank => true
+  validates :facebook, :format => { with: FACEBOOK_REGEX }, :allow_blank => true
+  
+  validates_presence_of :user_id
   
   validates_associated :promotions
 end

@@ -23,41 +23,36 @@
 # USAGE
 #
 # NOTES AND WARNINGS
-# ??? Need a verified status? How does email verification work? Devise/CanCan?
-# ??? role gets a "Huh?" Shouldn't be string search!
-# ??? Does device somehow enforce unique emails? If not, need index on db and validation
 #
 class User < ActiveRecord::Base
+  include ApplicationHelper
+  
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-         
-  has_many :vouchers
-  has_many :orders
-  has_and_belongs_to_many :roles
-  has_and_belongs_to_many :vendors
-  
-  
-  def role?(role)
-      return !!self.roles.find_by_name(role.to_s.camelize)
-  end
-  
-  
-  # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
-  # attr_accessible :title, :body
-  
-  validates :email, :presence => true,
-                    :uniqueness => { case_sensitive: false }
 
-  def super_admin?
-      return !!self.roles.find_by_name("SuperAdmin")
+  attr_accessible :email, :password, :password_confirmation, :remember_me,
+                  :role_ids, :order_ids
+         
+  has_many :orders, :dependent => :restrict
+  has_many :vouchers, :through => :orders
+  has_and_belongs_to_many :roles, :uniq => true
+    
+  # Note that devise has a unique index on email (case sensitive?)
+  validates :email, :presence => true,
+                    :uniqueness => { case_sensitive: false },
+                    :format => { with: EMAIL_REGEX }
+
+  validates_associated :orders
+  
+  def has_role?(role)
+      return !!self.roles.find_by_name(role)
   end
   
-  def merchant?
-      return !!self.roles.find_by_name("Merchant")
+  def is_customer?
+    0 == self.roles.count
   end
 end
 

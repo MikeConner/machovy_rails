@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120927061324) do
+ActiveRecord::Schema.define(:version => 20121004193321) do
+
+  create_table "activities", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "activity_name", :limit => 32, :null => false
+    t.integer  "activity_id",                 :null => false
+    t.string   "description"
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
+  end
 
   create_table "blog_posts", :force => true do |t|
     t.string   "title"
@@ -19,7 +28,6 @@ ActiveRecord::Schema.define(:version => 20120927061324) do
     t.integer  "curator_id"
     t.datetime "posted_at"
     t.integer  "weight"
-    t.integer  "metro_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "slug"
@@ -28,9 +36,11 @@ ActiveRecord::Schema.define(:version => 20120927061324) do
   add_index "blog_posts", ["slug"], :name => "index_blog_posts_on_slug"
 
   create_table "blog_posts_promotions", :id => false, :force => true do |t|
-    t.integer "blog_post_id"
-    t.integer "promotion_id"
+    t.integer "blog_post_id", :null => false
+    t.integer "promotion_id", :null => false
   end
+
+  add_index "blog_posts_promotions", ["blog_post_id", "promotion_id"], :name => "index_blog_posts_promotions_on_blog_post_id_and_promotion_id", :unique => true
 
   create_table "careers", :force => true do |t|
     t.string   "title"
@@ -43,16 +53,21 @@ ActiveRecord::Schema.define(:version => 20120927061324) do
   end
 
   create_table "categories", :force => true do |t|
-    t.string   "name"
-    t.boolean  "status"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "name",               :null => false
+    t.boolean  "active"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.integer  "parent_category_id"
   end
 
-  create_table "categories_promotions", :force => true do |t|
-    t.integer "category_id"
-    t.integer "promotion_id"
+  add_index "categories", ["name"], :name => "index_categories_on_name", :unique => true
+
+  create_table "categories_promotions", :id => false, :force => true do |t|
+    t.integer "category_id",  :null => false
+    t.integer "promotion_id", :null => false
   end
+
+  add_index "categories_promotions", ["category_id", "promotion_id"], :name => "index_categories_promotions_on_category_id_and_promotion_id", :unique => true
 
   create_table "ckeditor_assets", :force => true do |t|
     t.string   "data_file_name",                  :null => false
@@ -75,11 +90,12 @@ ActiveRecord::Schema.define(:version => 20120927061324) do
     t.string   "picture"
     t.text     "bio"
     t.string   "twitter"
-    t.integer  "user_id"
-    t.integer  "metro_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "curators", ["name"], :name => "index_curators_on_name", :unique => true
+  add_index "curators", ["twitter"], :name => "index_curators_on_twitter", :unique => true
 
   create_table "friendly_id_slugs", :force => true do |t|
     t.string   "slug",                         :null => false
@@ -93,10 +109,12 @@ ActiveRecord::Schema.define(:version => 20120927061324) do
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
 
   create_table "metros", :force => true do |t|
-    t.string   "name"
+    t.string   "name",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "metros", ["name"], :name => "index_metros_on_name", :unique => true
 
   create_table "orders", :force => true do |t|
     t.string   "description"
@@ -107,24 +125,12 @@ ActiveRecord::Schema.define(:version => 20120927061324) do
     t.integer  "user_id"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
-  end
-
-  create_table "promotion_images", :force => true do |t|
-    t.string   "name"
-    t.string   "imageurl"
-    t.string   "mediatype"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "promotion_images_promotions", :force => true do |t|
-    t.integer "promotion_id"
-    t.integer "promotion_image_id"
+    t.text     "fine_print"
   end
 
   create_table "promotions", :force => true do |t|
     t.string   "title"
-    t.text     "description"
+    t.text     "description",                        :default => ""
     t.text     "limitations"
     t.text     "voucher_instructions"
     t.string   "teaser_image"
@@ -132,17 +138,17 @@ ActiveRecord::Schema.define(:version => 20120927061324) do
     t.decimal  "price"
     t.decimal  "revenue_shared"
     t.integer  "quantity"
-    t.datetime "start"
-    t.datetime "end"
+    t.datetime "start_date"
+    t.datetime "end_date"
     t.integer  "grid_weight"
-    t.string   "destination"
+    t.string   "destination",                        :default => ""
     t.integer  "metro_id"
     t.integer  "vendor_id"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",                                                 :null => false
+    t.datetime "updated_at",                                                 :null => false
     t.string   "main_image"
-    t.integer  "curator_id"
     t.string   "slug"
+    t.string   "status",               :limit => 32, :default => "Proposed"
   end
 
   add_index "promotions", ["slug"], :name => "index_promotions_on_slug"
@@ -166,10 +172,14 @@ ActiveRecord::Schema.define(:version => 20120927061324) do
     t.datetime "updated_at", :null => false
   end
 
+  add_index "roles", ["name"], :name => "index_roles_on_name", :unique => true
+
   create_table "roles_users", :id => false, :force => true do |t|
-    t.integer "role_id"
-    t.integer "user_id"
+    t.integer "role_id", :null => false
+    t.integer "user_id", :null => false
   end
+
+  add_index "roles_users", ["role_id", "user_id"], :name => "index_roles_users_on_role_id_and_user_id", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -189,15 +199,10 @@ ActiveRecord::Schema.define(:version => 20120927061324) do
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
-  create_table "users_vendors", :id => false, :force => true do |t|
-    t.integer "user_id"
-    t.integer "vendor_id"
-  end
-
   create_table "vendors", :force => true do |t|
     t.string   "name"
     t.string   "url"
-    t.string   "fbook"
+    t.string   "facebook"
     t.string   "phone"
     t.string   "address_1"
     t.string   "address_2"
@@ -206,28 +211,27 @@ ActiveRecord::Schema.define(:version => 20120927061324) do
     t.string   "zip"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "user_id"
   end
 
   create_table "videos", :force => true do |t|
     t.string   "name"
-    t.string   "destination"
+    t.string   "destination_url"
     t.boolean  "active"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "vouchers", :force => true do |t|
     t.string   "uuid"
     t.datetime "redemption_date"
-    t.string   "status"
+    t.string   "status",          :limit => 16, :default => "Available"
     t.text     "notes"
     t.datetime "expiration_date"
     t.datetime "issue_date"
-    t.integer  "promotion_id"
     t.integer  "order_id"
-    t.integer  "user_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                                             :null => false
+    t.datetime "updated_at",                                             :null => false
     t.string   "slug"
   end
 

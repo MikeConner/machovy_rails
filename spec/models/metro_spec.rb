@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: metros
+#
+#  id         :integer         not null, primary key
+#  name       :string(255)
+#  created_at :datetime        not null
+#  updated_at :datetime        not null
+#
+
 describe "Metros" do
   let(:metro) { FactoryGirl.create(:metro) }
   
@@ -36,6 +46,23 @@ describe "Metros" do
     end
   end
   
+  describe "should allow deletion if no promotions" do
+    it "should not have promotions" do
+      metro.promotions.count.should == 0
+    end
+    
+    describe "delete" do
+      before do
+        @id = metro.id
+        metro.destroy
+      end
+      
+      it "should allow deletion" do
+        expect { Metro.find(@id) }.to raise_exception(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
+  
   describe "promotions" do
     let(:metro) { FactoryGirl.create(:metro_with_promotions) }
         
@@ -47,19 +74,20 @@ describe "Metros" do
     it "should have promotions" do
       metro.promotions.count.should == 4
       metro.promotions.each do |p|
-        p.metro.should == promoted_metro
+        p.metro.should == metro
       end
     end
     
     describe "deleting the metro doesn't delete promotions" do
-      before do
-        @id = metro.id
-        metro.destroy
+      before { @id = metro.id }
+      
+      it "shouldn't allow deletion" do
+        expect { metro.reload.destroy }.to raise_exception(ActiveRecord::DeleteRestrictionError)
+        Metro.find(@id).should == metro
       end
       
       it "should still have promotions" do
         Promotion.all.count.should == 4
-        # They have stale references, though; this should never happen; just testing dependencies
         Promotion.find_by_metro_id(@id).should_not be_nil
       end
     end

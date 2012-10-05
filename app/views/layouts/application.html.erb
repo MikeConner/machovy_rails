@@ -63,7 +63,7 @@
 
 					<% else %>
 					
-					<% if current_user.merchant?%>
+					<% if current_user.has_role?(Role::MERCHANT)%>
 						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'MY DEALS', '/merchant/MyDeals' %>
 						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'REPORTS', reports_merchant_vendor_path %>
 						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'PAYMENTS', payments_merchant_vendor_path %>
@@ -73,7 +73,7 @@
 					<%end%>
 
  
-						<% if current_user.super_admin?%>
+						<% if current_user.has_role?(Role::SUPER_ADMIN)%>
 							&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'Site Admin', '/SiteAdmin' %>
 							&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'Rails Admin', '/Radmin' %>
 						<%end%>
