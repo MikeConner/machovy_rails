@@ -1,0 +1,4 @@
+%h1 New vendor
+= form_for [:merchant, @vendor] do |f|
+  = render :partial => 'shared/error_messages', :locals => { :errors => @vendor.errors, :name => 'Vendor' }
+  = render :partial => 'vendor_fields', :locals => { :f => f }

@@ -26,6 +26,7 @@ FactoryGirl.define do
   sequence(:random_name) { |n| Faker::Name.name }
   # This is actually sequential; Faker doesn't support Twitter
   sequence(:random_twitter) { |n| "@Cool_Dude_#{n}" }
+  sequence(:random_promotion_status) { |n| Promotion::PROMOTION_STATUS.sample }
   
   # Repeatable sequences
   sequence(:sequential_url) { |n| "http://www.microsoft-#{n}.com" }
@@ -172,29 +173,48 @@ FactoryGirl.define do
     end
   end
   
-=begin
-  factory :promotion_image do
-    name { generate(:random_vendor_name) }
-    mediatype { ['png', 'jpg'].sample }
-    #imageurl fixture_file_upload('spec/fixtures/files/M_logo.png', 'image/png')
-    imageurl Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/M_logo.png'), 'image/png')
+  factory :ad, :class => Promotion do
+    metro
+    vendor
+    
+    promotion_type Promotion::AD
+    status Promotion::MACHOVY_APPROVED
+    title { generate(:random_description) }
+    grid_weight { Random.rand(100) + 1 }
+    destination { generate(:random_url) }
+    start_date Time.now
+    end_date 2.weeks.from_now
   end
-=end
-
+  
+  factory :affiliate, :class => Promotion do
+    metro
+    vendor
+    
+    promotion_type Promotion::AFFILIATE
+    status Promotion::MACHOVY_APPROVED
+    title { generate(:random_description) }
+    grid_weight { Random.rand(100) + 1 }
+    destination { generate(:random_url) }
+    start_date Time.now
+    end_date 2.weeks.from_now
+  end
+  
   factory :promotion do
     metro
     vendor
     
+    promotion_type Promotion::LOCAL_DEAL
+    status Promotion::PROPOSED
+    title { generate(:random_description) }
     grid_weight { Random.rand(100) + 1 }
     retail_value { Random.rand * 1000 }
     price { Random.rand * 500 }
     revenue_shared { Random.rand }
-    quantity { Random.rand(10) }
-    description { generate(:random_post) }
-    status Promotion::PROPOSED
+    quantity { Random.rand(10) + 1 }
+    description { generate(:random_comment) }
     start_date Time.now
     end_date 2.weeks.from_now
-    
+        
     factory :promotion_with_orders do
       ignore do
         num_orders 5
@@ -236,6 +256,28 @@ FactoryGirl.define do
         evaluator.num_posts.times do
           promotion.blog_posts << FactoryGirl.create(:blog_post)
         end
+      end
+    end
+    
+    factory :promotion_with_logs do
+      ignore do
+        num_logs 5
+      end
+      
+      after(:create) do |promotion, evaluator|
+        FactoryGirl.create_list(:promotion_log, evaluator.num_logs, :promotion => promotion)
+      end
+    end
+  end
+  
+  factory :promotion_log do
+    promotion
+    
+    status { generate(:random_promotion_status) }
+    
+    after(:build) do |log|
+      if Random.rand >= 0.2
+        log.comment = generate(:random_post)
       end
     end
   end

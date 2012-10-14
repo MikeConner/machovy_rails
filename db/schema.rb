@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121004193321) do
+ActiveRecord::Schema.define(:version => 20121014053542) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -123,14 +123,23 @@ ActiveRecord::Schema.define(:version => 20121004193321) do
     t.string   "stripe_card_token"
     t.integer  "promotion_id"
     t.integer  "user_id"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
     t.text     "fine_print"
+    t.integer  "quantity",          :default => 1, :null => false
+  end
+
+  create_table "promotion_logs", :force => true do |t|
+    t.integer  "promotion_id"
+    t.string   "status",       :limit => 16, :null => false
+    t.text     "comment"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
   end
 
   create_table "promotions", :force => true do |t|
     t.string   "title"
-    t.text     "description",                        :default => ""
+    t.string   "description"
     t.text     "limitations"
     t.text     "voucher_instructions"
     t.string   "teaser_image"
@@ -141,14 +150,15 @@ ActiveRecord::Schema.define(:version => 20121004193321) do
     t.datetime "start_date"
     t.datetime "end_date"
     t.integer  "grid_weight"
-    t.string   "destination",                        :default => ""
+    t.string   "destination"
     t.integer  "metro_id"
     t.integer  "vendor_id"
     t.datetime "created_at",                                                 :null => false
     t.datetime "updated_at",                                                 :null => false
     t.string   "main_image"
     t.string   "slug"
-    t.string   "status",               :limit => 32, :default => "Proposed"
+    t.string   "status",               :limit => 16, :default => "Proposed", :null => false
+    t.string   "promotion_type",       :limit => 16, :default => "Deal",     :null => false
   end
 
   add_index "promotions", ["slug"], :name => "index_promotions_on_slug"
@@ -236,5 +246,6 @@ ActiveRecord::Schema.define(:version => 20121004193321) do
   end
 
   add_index "vouchers", ["slug"], :name => "index_vouchers_on_slug"
+  add_index "vouchers", ["uuid"], :name => "index_vouchers_on_uuid", :unique => true
 
 end

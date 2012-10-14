@@ -30,9 +30,47 @@ describe "Users" do
   it { should respond_to(:orders) }
   it { should respond_to(:vouchers) }
   it { should respond_to(:roles) }
+  it { should respond_to(:vendor) }
+  it { should respond_to(:is_customer?) }
   
   it { should be_valid }
-  
+
+  describe "Vendor users" do
+    let (:vendor) { FactoryGirl.create(:vendor, :user => user) }
+    
+    it "should point to the vendor" do
+      # Need to access vendor to create it so the associations will be valid
+      vendor.user.should == user
+      user.vendor.should == vendor
+    end
+    
+    describe "updating attributes" do
+      before do 
+        @attr = vendor.attributes
+        @attr['state'] = "MO"
+        @attr['zip'] = "32432"
+        # Can't set these
+        @attr.delete('created_at')
+        @attr.delete('updated_at')
+        user.vendor_attributes = @attr
+        user.save!
+      end
+      
+      it "should update" do
+        user.reload.vendor.state.should == "MO"
+        user.reload.vendor.zip.should == "32432"
+      end
+    end
+    
+    describe "Deleting associated user doesn't delete vendor" do
+      before { user.destroy }
+      
+      it "should still have a vendor with no user" do
+        vendor.reload.user.should be_nil
+      end
+    end
+  end
+
   describe "duplicate email" do
     before { @user2 = user.dup }
     

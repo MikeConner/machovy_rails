@@ -1,0 +1,23 @@
+%h1 All promotions - Listing / Manage
+.portfolio-container
+  %h3 Promotions that need your attention
+  - if 0 == @attention.count
+    None
+  - else
+    = render :partial => 'promotion', :locals => { :p_list => @attention }
+  %h3 Pending Promotions
+  - if 0 == @pending.count
+    None
+  - else
+    = render :partial => 'promotion', :locals => { :p_list => @pending }
+  %h3 Approved Promotions
+  - if 0 == @approved.count
+    None
+  - else
+    = render :partial => 'promotion', :locals => { :p_list => @approved }
+  -# Not using ads for now, so don't display an Ad header by default
+  - if @ads.count > 0
+    %h3 Advertisements
+    = render :partial => 'ad', :locals => { :p_list => @ads }
+%br/
+= link_to 'New Promotion', new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)

@@ -7,7 +7,8 @@ class StaticPagesController < ApplicationController
   def admin_index
     authorize! :access, :rails_admin
   end
-  
+
+  # Is this merchant reports (in which case we don't need it) or something else? 
   def reports
     authorize! :access, :rails_admin    
   end

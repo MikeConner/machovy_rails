@@ -1,0 +1,69 @@
+%p#notice= notice
+- if @promotion.ad?
+  %h1= @promotion.title
+  = link_to 'Go ahead, Visit ' + @promotion.vendor.name, @promotion.destination, :target => "_blank", :class => "button big round"
+- else
+  - if @show_accept_reject
+    Please review the edited promotion below, and accept or reject the changes.
+    %br/
+    = link_to 'Review comment log', show_logs_promotion_path(@promotion)
+    = button_to 'Accept Machovy Changes', accept_edits_promotion_path(@promotion), :method => :put, :class => "button big round"
+    = form_tag(reject_edits_promotion_path(@promotion), :method => :put) do
+      If you're rejecting the changes, please tell us why below
+      %br= text_area_tag 'comment', nil, :rows => 5, :class => "slider-input"
+      = submit_tag 'Reject Machovy Changes', :class => "button big round"
+  - if @show_buy_button
+    #post-header-panel
+      .two-third
+        %h1= @promotion.title
+      .one-third.last
+        .post-header-button
+          - if @promotion.affiliate?
+            = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank", :class => "button big round"
+          - else
+            = link_to 'BUY IT', order_promotion_path(@promotion), :class => "button big round"
+  %ul#breadcrumbs
+    %li= link_to 'The Deal', '#service-single'
+    %li= link_to 'Fine Print', '#faq'
+    %li= link_to 'Venue', '#career'
+  .one-column#full-tabs
+    .three-fourth-last
+      #service-single
+        %p
+        .one-half
+          %h3 Details
+          %p= @promotion.description
+          %br/
+          .one-fourth
+            %ul.dotted-list
+              %li.simple-check-list-2== Retail Value: #{number_to_currency(@promotion.retail_value)}
+              %li.simple-check-list-2== Your Price: #{number_to_currency(@promotion.price)}
+              %li.simple-check-list-2== Discount: #{number_to_currency(@promotion.discount)}
+              %li.simple-check-list-2== Quantity: #{@promotion.remaining_quantity}
+          .one-fourth-last
+            %ul.dotted-list  
+              %li.simple-check-list-2== Start Date: #{@promotion.start_date.try(:strftime, '%b %d, %Y')}
+              %li.simple-check-list-2== Expiration Date: #{@promotion.end_date.try(:strftime, '%b %d, %Y')}    
+          - if @show_buy_button 
+            - if @promotion.affiliate?
+              = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank", :class => "button big round"
+            - else
+              = link_to 'BUY IT', order_promotion_path(@promotion), :class => "button big round"
+        .one-fourth-last
+          = image_tag @promotion.teaser_image_url(:teaser).to_s, :size => "470x470"
+          = image_tag @promotion.main_image_url(:teaser).to_s, :size => "470x470"		
+      #faq{:style => "border-top: 1px"}
+        %h2 Fine Print
+        %p= @promotion.limitations
+        - if @show_terms
+          %p== Terms: #{@promotion.revenue_shared}% revenue shared
+      #venue
+        %h2 About the Venue
+        .post-title-text
+          %p.one-fourth= @promotion.vendor.name
+          %p
+            .one-fourth= @promotion.vendor.city
+            &nbsp;
+          %p.one-fourth &nbsp;
+          %p.one-fourth &nbsp;
+          %p.one-fourth &nbsp;

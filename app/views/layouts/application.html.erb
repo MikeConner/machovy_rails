@@ -64,9 +64,9 @@
 					<% else %>
 					
 					<% if current_user.has_role?(Role::MERCHANT)%>
-						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'MY DEALS', '/merchant/MyDeals' %>
-						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'REPORTS', reports_merchant_vendor_path %>
-						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'PAYMENTS', payments_merchant_vendor_path %>
+						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'MY DEALS', promotions_path %>
+						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'REPORTS', reports_merchant_vendor_path(current_user.vendor) %>
+						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'PAYMENTS', payments_merchant_vendor_path(current_user.vendor) %>
 						
 					<%else%>
 						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'MY VOUCHERS', merchant_vouchers_path %>
@@ -200,7 +200,7 @@ Blog post info here									</p>
 								</li>
 								<li>
 									<div class ="blog-short-content">
-												<%=link_to 'Merchant Login', new_user_session_url %> 
+												<%=link_to 'Create a Merchant account', new_user_registration_path(:merchant => true) %> 
 									</div>
 								</li>
 							 

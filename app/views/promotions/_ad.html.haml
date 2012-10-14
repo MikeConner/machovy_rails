@@ -1,0 +1,20 @@
+%table
+  %col{:width => "200"}/
+  %col{:width => "150"}/
+  %col{:width => "100"}/
+  %col{:width => "100"}/
+  %tr
+    %th Image
+    %th Title
+    %th Expiration
+    %th Destination
+  - p_list.each do |p|
+    %tr
+      %td= link_to(image_tag(p.teaser_image_url(:teaser).to_s, :size => "200x200"), { :action => 'show' })
+      -# %td= image_tag p.teaser_image_url(:teaser).to_s, :size => "200x200"
+      %td= p.title
+      - if p.end_date.nil?
+        %td None
+      - else
+        %td= p.end_date.try(:strftime, '%b %d, %Y')
+      %td= p.destination  

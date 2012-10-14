@@ -1,0 +1,17 @@
+%h1 All promotions - Listing / Manage
+.portfolio-container
+  %h3 Promotions that need Machovy attention
+  - if 0 == @attention.count
+    None
+  - else
+    = render :partial => 'promotion_admin', :locals => { :p_list => @attention }
+  %h3 Pending Promotions
+  - if 0 == @pending.count
+    None
+  - else
+    = render :partial => 'promotion_admin', :locals => { :p_list => @pending }
+  %h3 Approved Promotions
+  - if 0 == @approved.count
+    None
+  - else
+    = render :partial => 'promotion_admin', :locals => { :p_list => @approved }

@@ -4,7 +4,7 @@
 #
 #  id                   :integer         not null, primary key
 #  title                :string(255)
-#  description          :text            default(""), not null
+#  description          :string(255)
 #  limitations          :text
 #  voucher_instructions :text
 #  teaser_image         :string(255)
@@ -15,14 +15,15 @@
 #  start_date           :datetime
 #  end_date             :datetime
 #  grid_weight          :integer
-#  destination          :string(255)     default(""), not null
+#  destination          :string(255)
 #  metro_id             :integer
 #  vendor_id            :integer
 #  created_at           :datetime        not null
 #  updated_at           :datetime        not null
 #  main_image           :string(255)
 #  slug                 :string(255)
-#  status               :string(32)      default("Proposed")
+#  status               :string(16)      default("Proposed"), not null
+#  promotion_type       :string(16)      default("Deal"), not null
 #
 
 # CHARTER
@@ -32,9 +33,21 @@
 #   See documentation for status state machine diagram. Defaults to "Proposed"
 #
 # NOTES AND WARNINGS
+#   Cannot name a field ":type" (technically, you can if you override "inheritance_column"), as this is used by 
+# the system to implement polymorphism; hence :promotion_type
 #
 class Promotion < ActiveRecord::Base
-  MAX_STATUS_LEN = 32
+  MAX_STR_LEN = 16
+  DEFAULT_GRID_WEIGHT = 10
+  MINIMUM_REVENUE_SHARE = 5
+  QUANTITY_THRESHOLD_PCT = 0.1
+  
+  # Types
+  LOCAL_DEAL = 'Deal'
+  AFFILIATE = 'Affiliate'
+  AD = 'Ad'
+  
+  # Statuses
   PROPOSED = 'Proposed'
   EDITED = 'Edited'
   MACHOVY_APPROVED = 'Approved'
@@ -42,13 +55,20 @@ class Promotion < ActiveRecord::Base
   MACHOVY_REJECTED = 'Machovy Rejected'
   VENDOR_REJECTED = 'Vendor Rejected'
 
+  # Make type explicit, rather than trying to infer from contents
+  #   This is clearer, and allows changing the "rules" later if necessary
+  #   Type-based code (e.g., in views) won't break if types are added or rules are changed
+  PROMOTION_TYPE = [LOCAL_DEAL, AFFILIATE, AD]
+  # Ads and Affiliate promotions should probably be created with "MACHOVY_APPROVED" status
+  #  At any rate they also need to have a status
   PROMOTION_STATUS = [PROPOSED, EDITED, MACHOVY_APPROVED, VENDOR_APPROVED, MACHOVY_REJECTED, VENDOR_REJECTED]
   
   extend FriendlyId
   friendly_id :title, use: [:slugged, :history]
 
-  attr_accessible :description, :destination, :end_date, :grid_weight, :limitations, :price, :quantity, :retail_value, :revenue_shared, :start_date, 
-                  :teaser_image, :title, :voucher_instructions, :main_image, :remote_main_image_url, :remote_teaser_image_url, :status,
+  attr_accessible :description, :destination, :grid_weight, :limitations, :price, :quantity, :retail_value, :revenue_shared,
+                  :start_date, :end_date, :teaser_image, :remote_teaser_image_url, :main_image, :remote_main_image_url,
+                  :status, :promotion_type, :title, :voucher_instructions,
                   :metro_id, :vendor_id, :category_ids, :blog_post_ids
 
   # Mounted fields
@@ -63,6 +83,7 @@ class Promotion < ActiveRecord::Base
   # Cannot delete a promotion if there are orders for it
   has_many :orders, :dependent => :restrict
   has_many :vouchers, :through => :orders
+  has_many :promotion_logs, :dependent => :destroy
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :blog_posts
   
@@ -70,43 +91,87 @@ class Promotion < ActiveRecord::Base
   default_scope order(:grid_weight)
   
   # These scopes are applied on top of the default scope (i.e., they are ordered)
-  # description and destination are guaranteed not null in the db layer
-  scope :deals, where("Trim(description) != ''")
-  scope :ads, where("description is null or Trim(description) = ''")
-  scope :affiliates, where("Trim(description) != '' and Trim(destination) != ''")
+  scope :deals, where("promotion_type = ?", LOCAL_DEAL)
+  scope :ads, where("promotion_type = ?", AD)
+  scope :affiliates, where("promotion_type = ?", AFFILIATE)
   
   validates_presence_of :metro_id
   validates_presence_of :vendor_id
   
-  validates_numericality_of :retail_value, :greater_than_or_equal_to => 0.0
-  validates_numericality_of :price, :greater_than_or_equal_to => 0.0
-  validates_numericality_of :revenue_shared, :greater_than_or_equal_to => 0.0
-  validates_numericality_of :quantity, { only_integer: true, greater_than_or_equal_to: 0 } 
-  validates_numericality_of :grid_weight, { only_integer: true, greater_than: 0 }
+  #TODO Are start/end dates required?
+  #TODO Are images required? Maybe safest to say no, and have views show a default image if it's nil
+  #TODO Is grid_weight required? nils would sort to the bottom (allow_nil defaults to false, so for now it is required)
+  validates :grid_weight, :numericality => { only_integer: true, greater_than: 0 }
+  validates_presence_of :title
+  # Deals *must* have a description
+  validates :description, :presence => { :if => :deal? }
+  # Non-local promotions *must* have a destination
+  validates :destination, :presence => { :unless => :deal? }
   validates :status, :presence => true,
-                     :length => { maximum: MAX_STATUS_LEN },
+                     :length => { maximum: MAX_STR_LEN },
                      :inclusion => { in: PROMOTION_STATUS }
+  validates :promotion_type, :presence => true,
+                             :length => { maximum: MAX_STR_LEN },
+                             :inclusion => { in: PROMOTION_TYPE }
+  # "Deal" fields
+  validates :retail_value, :price, :revenue_shared, 
+            :numericality => { greater_than_or_equal_to: 0.0 },
+            :if => :deal?
+  validates :quantity, :numericality => { only_integer: true, greater_than_or_equal_to: 1 },
+            :if => :deal?
+  
+  # Not sure why I need the *args, but it croaks without it!
+  def initialize(*args)
+    super
+    
+    self.grid_weight = DEFAULT_GRID_WEIGHT
+  end
   
   def approved?
     [MACHOVY_APPROVED, VENDOR_APPROVED].include?(self.status)
   end
   
+  def awaiting_vendor_action?
+    [EDITED, MACHOVY_REJECTED].include?(self.status)    
+  end
+  
+  def awaiting_machovy_action?
+    [PROPOSED, VENDOR_REJECTED].include?(self.status)        
+  end
+  
   # today is deprecated; need to set end_date such that this works (i.e., isn't confused by partial days)
+  def expired?
+    !self.end_date.nil? and Time.now > self.end_date
+  end
+  
   def displayable?
-    approved? and Time.now <= self.end_date
+    approved? and !expired?
   end
   
   # This should match the scope (scopes are DB operations)
   def ad?
-    self.description.blank?
+    self.promotion_type == AD
   end
 
   def affiliate?
-    !self.description.blank? and !self.destination.blank?
+    self.promotion_type == AFFILIATE
+  end
+  
+  def deal?
+    self.promotion_type == LOCAL_DEAL
   end
   
   # Don't return less than 0
   def remaining_quantity
     self.quantity.nil? ?  0 : [0, self.quantity - self.vouchers.count].max    
+  end
+  
+  # Apply threshold and create text to display for user
+  def quantity_description
+    self.remaining_quantity < QUANTITY_THRESHOLD_PCT * self.quantity ? "Only #{self.remaining_quantity} left!" : "Plenty"
+  end
+  
+  def discount
+    (self.retail_value.nil? or self.price.nil?) ? 0 : [0, self.retail_value - self.price].max
   end
 end

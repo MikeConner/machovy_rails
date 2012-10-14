@@ -1,0 +1,25 @@
+%h1 Listing vendors
+%table
+  %tr
+    %th Name
+    %th Url
+    %th Facebook
+    %th Phone
+    %th Address 1
+    %th Address 2
+    %th City
+    %th State
+    %th Zip
+  - @vendors.each do |vendor|
+    %tr
+      %td= vendor.name
+      %td= vendor.url
+      %td= vendor.facebook
+      %td= vendor.phone
+      %td= vendor.address_1
+      %td= vendor.address_2
+      %td= vendor.city
+      %td= vendor.state
+      %td= vendor.zip
+%br/
+= link_to 'New Vendor', new_merchant_vendor_path

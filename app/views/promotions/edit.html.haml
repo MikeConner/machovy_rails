@@ -1,0 +1,32 @@
+%h1== Editing #{@promotion.title}
+= form_for @promotion, :html => { multipart: true } do |f|
+  = render :partial => 'shared/error_messages', :locals => { :errors => @promotion.errors, :name => 'Promotion' }
+  -# Grid weight is validated, so it has to be in the form, but customers can't see it
+  - if current_user.is_customer?
+    = f.hidden_field :grid_weight
+  - else
+    -# Admins who are editing can approve or reject with comments
+    %p== Please review this promotion, proposed by #{@promotion.vendor.name}.
+    You can accept the promotion as-is, reject it, or make minor edits for the vendor to review.
+    Indicate your choice below; any comments you wish to make will be recorded along with your decision.
+    %br/
+    Keep in mind that:
+    %uldotted-list
+      %li Your comments are visible to the vendor
+      %li Accepting the promotion means it will immediately go live
+      %li You can make edits even when accepting or rejecting, though the suggested process is to write comments and let vendors make updates
+    = radio_button_tag 'decision', 'accept'
+    = label_tag 'decision_accept', 'Accept'
+    &nbsp;&nbsp;
+    = radio_button_tag 'decision', 'reject'
+    = label_tag 'decision_reject', 'Reject'
+    &nbsp;&nbsp;
+    = radio_button_tag 'decision', 'edit', true
+    = label_tag 'decision_edit', 'Edit'
+    %br/
+    Description of edits, general comments, or reason for rejection:
+    %br= text_area_tag 'comment', nil, :rows => 5, :class => "slider-input"
+    .field
+      = f.label :grid_weight
+      = f.number_field :grid_weight, :min => 1
+  = render :partial => 'shared/promotion_fields', :locals => { :f => f, :share_pct => @promotion.revenue_shared }

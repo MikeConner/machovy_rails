@@ -1,0 +1,24 @@
+%p#notice= notice
+%p
+  %b Name:
+  = @vendor.name
+%p
+  %b Url:
+  = @vendor.url
+%p
+  %b Facebook:
+  = @vendor.facebook
+%p
+  %b Phone:
+  = @vendor.phone
+%p
+  %b Address:
+  %br/
+  = @vendor.address_1
+  %br/
+  - if !@vendor.address_2.blank?
+    = @vendor.address_2
+    %br/
+  == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
+%br/
+= link_to 'Edit', edit_merchant_vendor_path(@vendor)

@@ -153,7 +153,7 @@ describe "Vendors" do
   # Should actually introduce phone normalization if we want people to type them in
   # Many of these should be valid after normalization 
   describe "facebook (invalid)" do  
-    ["xyz", "facebook.com", "https://www.facebook.com/jk.bennett.3422", "facebook.com/jeff.3423", "facebook.com/jeff"].each do |fb|
+    ["xyz", "facebook", "https://www.facebook.com", "bookface.com/jeff.3423", "@jeff", "facebook/jeff"].each do |fb|
       before { vendor.facebook = fb }
      
       it { should_not be_valid }

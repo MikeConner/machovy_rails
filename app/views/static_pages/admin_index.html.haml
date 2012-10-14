@@ -1,39 +1,19 @@
 %h1 Site Admin
-%br/
-%br/
 %br	
   -# /site_admin/front_page
   = link_to 'Front Page Manager', front_grid_manage_path
-%br/
-%br/
 %br	
   = link_to 'Add Vendor', new_merchant_vendor_path
-%br/
-%br/
 %br	
-  = link_to 'Add Local Deal', new_promotion_path(:type => 'local')
-%br/
-%br/
+  = link_to 'Add Advertising Deal', new_promotion_path(:promotion_type => Promotion::AD)
 %br	
-  = link_to 'Add advertising deal', new_promotion_path(:type => 'ad')
-%br/
-%br/
-%br	
-  = link_to 'add Affiliate Deal', new_promotion_path(:type => 'affiliate')
-%br/
-%br/
-%br	
-  = link_to 'Reports', reports_path
-%br/
-%br/
+  = link_to 'add Affiliate Deal', new_promotion_path(:promotion_type => Promotion::AFFILIATE)
 %br/	
 %h1 ADVANCED AREA
-= link_to 'add Metro Area', new_metro_path
-%br/
-%br/
+= link_to 'Review Vendor Promotions', promotions_path
+%br 
+= link_to 'Add Metro Area', new_metro_path
 %br	
   = link_to 'User Admin', manage_users_path
-%br/
-%br/
 %br	
-  = link_to 'Merchant Admin', manage_merchant_vendors_path
+  = link_to 'Merchant Admin', merchant_vendors_path

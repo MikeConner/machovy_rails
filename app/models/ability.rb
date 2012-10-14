@@ -12,10 +12,13 @@ class Ability
     else
       can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor]
       can :create, [Order, Voucher]
+      can :manage, [Promotion, Voucher] # manage Promotion necessary to create an order; manage Voucher to generate qrcode
       cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro]
     end
     
     if user.has_role?(Role::MERCHANT)
+      can :create, [Promotion]
+      can :manage, [Vendor, Promotion]
       can :redeem, [Voucher]
     end
     if user.has_role?(Role::CONTENT_ADMIN)

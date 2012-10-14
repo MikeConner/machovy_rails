@@ -4,3 +4,15 @@
 en:
   hello: "Hello world"
   admins_only: 'This function only available to Administrators.'
+  vendors_only: 'This function only available to Vendors.'
+  foreign_promotion: 'This is not one of your promotions.'
+  order_successful: 'Thank you for your order.'
+  promotion_created: "Promotion was successfully created, and will now be reviewed by Machovy."
+  ad_created: "Ad/Affiliate Promotion was successfully created."
+  promotion_updated: 'Promotion was successfully updated.'
+  promotion_accept_edits: "Thank you for approving our edits. Your promotion will now go live!"
+  promotion_accept_edits_admin: "Promotion successfully approved. It will now go live."
+  promotion_reject_edits: "Thank you for reviewing our edits; we're sorry there's still something wrong. We'll review your comments and get back to you soon."
+  promotion_reject_edits_admin: "Promotion successfully rejected."
+  promotion_update_error: "We're sorry, the status could not be updated at this time. Please try again later."
+  vendor_created: "Vendor was successfully created."

@@ -1,0 +1,39 @@
+= form_for [:merchant, @order] do |f|
+  = render :partial => 'shared/error_messages', :locals => { :errors => @order.errors, :name => 'Order' }
+  .alert#stripe_error
+    %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
+  -# The @order is created by promotions#order, and passed in here. Need to include *all* fields so they get passed back through the form,
+  -#   or the @order object will "lose" those fields and not validate
+  = f.hidden_field :stripe_card_token
+  = f.hidden_field :amount
+  = f.hidden_field :user_id
+  = f.hidden_field :promotion_id
+  = f.hidden_field :email
+  = f.hidden_field :description
+  = f.hidden_field :fine_print
+  = f.hidden_field :quantity
+  -# Uncomment to enable quantity editing (and remove hidden field above)
+  -#.field
+  -#  = f.label :quantity
+  -#  %br/
+  -#  = f.number_field :quantity, :min => 1, :onchange => "update_amount('order_quantity', 'amount_display', #{@order.amount});"
+  -# This is a computed field so the user can see the total amount, based on the quantity -- read_only
+  .field
+    = label_tag :amount_display, 'Total Amount'
+    %br/
+    = text_field_tag :amount_display, @order.amount * @order.quantity, :disabled => true
+  .field
+    = label_tag :card_number, 'Credit Card Number'
+    = text_field_tag :card_number
+  .field
+    = label_tag :card_code, "Security Code on Card (CVV)"
+    = text_field_tag :card_code
+  .field
+    = label_tag :card_month, "Card Expiration"
+    -# Would do the date selection like this if it were intended for the controller -- but Javascript intercepts and needs it this funky way
+    -# JS sets the hidden field if the card gets processed properly
+    -#= date_select :card_expiration, :card_expiration, { order: [:month, :year], discard_day: true, add_month_numbers: true,  }
+    = select_month Date.today, { add_month_numbers: true }, { name: nil, id: "card_month" }
+    = select_year Date.today, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: nil, id: "card_year" }
+  .actions
+    = f.submit "Get it NOW"

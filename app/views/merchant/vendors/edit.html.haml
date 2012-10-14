@@ -1,0 +1,6 @@
+%h1 Editing vendor
+= form_for [:merchant, @vendor] do |f|
+  = render :partial => 'shared/error_messages', :locals => { :errors => @vendor.errors, :name => 'Vendor' }
+  = render :partial => 'vendor_fields', :locals => { :f => f }
+%br/
+= link_to 'Show', merchant_vendor_path(@vendor)

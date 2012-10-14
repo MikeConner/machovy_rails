@@ -12,6 +12,7 @@
 #  created_at        :datetime        not null
 #  updated_at        :datetime        not null
 #  fine_print        :text
+#  quantity          :integer         default(1), not null
 #
 
 describe "Orders" do
@@ -24,6 +25,7 @@ describe "Orders" do
   it { should respond_to(:amount) }
   it { should respond_to(:description) }
   it { should respond_to(:email) }
+  it { should respond_to(:quantity) }
   it { should respond_to(:stripe_card_token) }
   it { should respond_to(:fine_print) }
   
@@ -31,6 +33,7 @@ describe "Orders" do
   it { should respond_to(:user) }
   it { should respond_to(:vendor) }
   it { should respond_to(:vouchers) }
+  it { should respond_to(:total_cost) }
   
   its(:user) { should == user }
   its(:promotion) { should == promotion }
@@ -82,6 +85,35 @@ describe "Orders" do
     before { order.stripe_card_token = " " }
     
     it { should_not be_valid }
+  end
+  
+  describe "missing quantity" do
+    before { order.quantity = nil }
+    
+    it { should_not be_valid }
+  end
+  
+  describe "invalid quantities" do
+    [" ", 0, 1.5, -2].each do |q|
+      before { order.quantity = q }
+      
+      it { should_not be_valid }
+    end
+  end
+  
+  describe "cost calculation" do
+    before do
+      order.quantity = 5
+      order.amount = 0.2
+    end
+    
+    it "should calculate correctly" do
+      order.total_cost.should == 1.0
+    end
+  end
+  
+  it "should have default quantity" do
+    order.quantity.should == 1
   end
   
   describe "vouchers" do

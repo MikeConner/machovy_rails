@@ -4,7 +4,7 @@ module ApplicationHelper
                  MT NC ND NE NH NJ NM NV NY OH OK OR PA PR RI SC SD TN TX UT VA VI VT WA WI WV WY )
   US_PHONE_REGEX = /^\(\d\d\d\) \d\d\d\-\d\d\d\d$/
   URL_REGEX = /^((http|https)\:\/\/)?[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?\/?([a-zA-Z0-9\-\._\?\,\'\/\\\+&amp;%\$#\=~])*[^\.\,\)\(\s]$/
-  FACEBOOK_REGEX = /^(http\:\/\/)?(www\.)?facebook\.com\/(\S+\.)+\d+$/
+  FACEBOOK_REGEX = /^(http\:\/\/)?(www\.)?facebook\.com\/\S+$/
 
   US_ZIP_REGEX = /^\d\d\d\d\d(-\d\d\d\d)?$/
   EMAIL_REGEX = /^\w.*?@\w.*?\.\w+$/

@@ -1,0 +1,8 @@
+%tr
+  %td= v.uuid
+  %td= v.redemption_date.try(:strftime, '%b %d, %Y')
+  %td= v.status
+  %td= v.notes
+  %td= v.expiration_date.try(:strftime, '%b %d, %Y')
+  %td= v.issue_date.try(:strftime, '%b %d, %Y')
+  %td= v.promotion.title

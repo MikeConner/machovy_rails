@@ -1,0 +1,34 @@
+%table
+  %col{:width => "75"}/
+  %col{:width => "75"}/
+  %col{:width => "150"}/
+  %col{:width => "100"}/
+  %col{:width => "75"}/
+  %col{:width => "75"}/
+  %col{:width => "50"}/
+  %tr
+    %th Vendor
+    %th Status
+    %th Title
+    %th Expiration
+    %th Price
+    %th Quantity
+    %th Log
+  - p_list.each do |p|
+    %tr
+      %td= link_to "#{p.vendor.name}", merchant_vendor_path(p.vendor)
+      %td= p.status
+      - if p.awaiting_machovy_action?
+        %td= link_to "#{p.title}", edit_promotion_path(p)
+      - else
+        %td= link_to "#{p.title}", promotion_path(p)
+      - if p.end_date.nil?
+        %td None
+      - else
+        %td= p.end_date.try(:strftime, '%b %d, %Y')
+      %td= number_to_currency(p.price)
+      %td= p.quantity
+      - if 0 == p.promotion_logs.count
+        %td None
+      - else
+        %td= button_to "Show (#{p.promotion_logs.count})", show_logs_promotion_path(p), :class => "button round", :method => :get

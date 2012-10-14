@@ -62,7 +62,10 @@ describe "Vouchers" do
   describe "uuid" do
     before { voucher.uuid = " " }
     
-    it { should_not be_valid }
+    it { should be_valid }
+    it "is valid because it creates one" do
+      voucher.reload.uuid.should_not be_blank
+    end
   end
   
   describe "time periods" do

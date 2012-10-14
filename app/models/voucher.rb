@@ -38,7 +38,8 @@ class Voucher < ActiveRecord::Base
   # For ease of data entry, looks like phone number: 98c-42a-7fe3
   UUID_LEN = 12
   
-  before_save :create_uuid
+  # Remember that before_save is called *after* before_validation
+  before_validation :create_uuid
   
   attr_accessible :expiration_date, :issue_date, :notes, :redemption_date, :status, :uuid,
                   :order_id
@@ -71,14 +72,18 @@ class Voucher < ActiveRecord::Base
 private
   # Guarantee unique by checking the database and retrying if necessary
   def create_uuid
-    self.uuid = format_uuid(SecureRandom.hex(5)) until Voucher.find_by_uuid(self.uuid).nil?
+    uid = false
+    until uid
+      self.uuid = format_uuid(SecureRandom.hex(5))
+      uid = Voucher.find_by_uuid(self.uuid).nil?
+    end
   end
   
   # Assumes a 10-digit number
   def format_uuid(raw)
     raise "Uuid must be 10 digits" unless 10 == raw.length
     
-     "#{raw[0..2]}-#{raw[3..5]}-#{raw[6..9]}"
+    "#{raw[0..2]}-#{raw[3..5]}-#{raw[6..9]}"
   end
   
   def time_periods

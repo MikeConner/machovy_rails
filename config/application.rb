@@ -11,8 +11,10 @@ end
 
 module MachovyRails
   class Application < Rails::Application
-     config.assets.initialize_on_precompile = false
-     config.autoload_paths += %W(#{config.root}/app/models/ckeditor)
+    config.assets.initialize_on_precompile = false
+
+    # Make sure Rails still finds the regular devise views, though I'm overriding the registrations controller
+    config.autoload_paths += %W(#{config.root}/app/models/ckeditor #{config.root}/app/views/devise)
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

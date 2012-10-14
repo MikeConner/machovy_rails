@@ -1,0 +1,19 @@
+%h1 Listing vouchers
+%table
+  %col{:width => "100"}/
+  %col{:width => "100"}/
+  %col{:width => "75"}/
+  %col{:width => "300"}/
+  %col{:width => "100"}/
+  %col{:width => "100"}/
+  %col{:width => "100"}/
+  %tr
+    %th Uuid
+    %th Redeemed on
+    %th Status
+    %th Notes
+    %th Expires on
+    %th Issued on
+    %th Promotion
+  - @vouchers.each do |voucher|
+    = render :partial => 'voucher', :locals => { :v => voucher }

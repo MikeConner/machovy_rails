@@ -34,12 +34,15 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   attr_accessible :email, :password, :password_confirmation, :remember_me,
-                  :role_ids, :order_ids
+                  :role_ids, :order_ids, :vendor_id, :vendor_attributes
          
   has_many :orders, :dependent => :restrict
   has_many :vouchers, :through => :orders
   has_and_belongs_to_many :roles, :uniq => true
-    
+  has_one :vendor, :dependent => :nullify
+  
+  accepts_nested_attributes_for :vendor, :allow_destroy => true, :reject_if => :all_blank
+  
   # Note that devise has a unique index on email (case sensitive?)
   validates :email, :presence => true,
                     :uniqueness => { case_sensitive: false },

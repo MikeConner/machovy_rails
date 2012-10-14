@@ -290,6 +290,7 @@ DEPENDENCIES
   haml-rails (= 0.3.5)
   heroku (= 2.31.5)
   jquery-rails (= 2.1.2)
+  jquery-ui-rails (= 1.1.1)
   launchy (= 2.1.2)
   mini_magick
   omniauth-facebook (= 1.4.1)

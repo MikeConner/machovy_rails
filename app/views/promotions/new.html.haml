@@ -1,0 +1,11 @@
+%h1 New Promotion
+= form_for @promotion, :html => { multipart: true } do |f|
+  = render :partial => 'shared/error_messages', :locals => { :errors => @promotion.errors, :name => 'Promotion' }
+  -# Grid weight is validated, so it has to be in the form, but customers can't see it
+  - if current_user.has_role?(Role::SUPER_ADMIN)
+    .field
+      = f.label :grid_weight
+      = f.number_field :grid_weight, :min => 1
+  - else
+    = f.hidden_field :grid_weight
+  = render :partial => 'shared/promotion_fields', :locals => { :f => f, :share_pct => Promotion::MINIMUM_REVENUE_SHARE }

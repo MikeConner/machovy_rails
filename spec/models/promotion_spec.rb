@@ -4,7 +4,7 @@
 #
 #  id                   :integer         not null, primary key
 #  title                :string(255)
-#  description          :text            default(""), not null
+#  description          :string(255)
 #  limitations          :text
 #  voucher_instructions :text
 #  teaser_image         :string(255)
@@ -15,45 +15,64 @@
 #  start_date           :datetime
 #  end_date             :datetime
 #  grid_weight          :integer
-#  destination          :string(255)     default(""), not null
+#  destination          :string(255)
 #  metro_id             :integer
 #  vendor_id            :integer
 #  created_at           :datetime        not null
 #  updated_at           :datetime        not null
 #  main_image           :string(255)
 #  slug                 :string(255)
-#  status               :string(32)      default("Proposed")
+#  status               :string(16)      default("Proposed"), not null
+#  promotion_type       :string(16)      default("Deal"), not null
 #
 
 describe "Promotions" do
-  let (:metro) { FactoryGirl.create(:metro) }
-  let (:vendor) { FactoryGirl.create(:vendor) }
-  let (:promotion) { FactoryGirl.create(:promotion, :metro => metro, :vendor => vendor) }
+  let(:metro) { FactoryGirl.create(:metro) }
+  let(:vendor) { FactoryGirl.create(:vendor) }
+  let(:promotion) { FactoryGirl.create(:promotion, :metro => metro, :vendor => vendor) }
   
   subject { promotion }
 
-  it { should respond_to(:title) }
   it { should respond_to(:description) }
   it { should respond_to(:destination) }
-  it { should respond_to(:start_date) }
-  it { should respond_to(:end_date) }
   it { should respond_to(:grid_weight) }
   it { should respond_to(:limitations) }
+  it { should respond_to(:price) }
   it { should respond_to(:quantity) }
   it { should respond_to(:retail_value) }
   it { should respond_to(:revenue_shared) }
+  it { should respond_to(:start_date) }
+  it { should respond_to(:end_date) }
   it { should respond_to(:teaser_image) }
-  it { should respond_to(:voucher_instructions) }
+  it { should respond_to(:remote_teaser_image_url) }
   it { should respond_to(:main_image) }
   it { should respond_to(:remote_main_image_url) }
-  it { should respond_to(:remote_teaser_image_url) }
+  it { should respond_to(:status) }
+  it { should respond_to(:promotion_type) }
+  it { should respond_to(:title) }
+  it { should respond_to(:voucher_instructions) }
   it { should respond_to(:orders) }
   it { should respond_to(:vouchers) }
+  it { should respond_to(:promotion_logs) }
   it { should respond_to(:categories) }
   it { should respond_to(:blog_posts) }
+  it { should respond_to(:approved?) }
+  it { should respond_to(:expired?) }
+  it { should respond_to(:displayable?) }
+  it { should respond_to(:ad?) }
+  it { should respond_to(:affiliate?) }
+  it { should respond_to(:deal?) }
+  it { should respond_to(:remaining_quantity) }
+  it { should respond_to(:awaiting_vendor_action?) }
+  it { should respond_to(:awaiting_machovy_action?) }
+  it { should respond_to(:expired?) }
+  it { should respond_to(:quantity_description) }
+  it { should respond_to(:discount) }
   
   its(:metro) { should == metro }
   its(:vendor) { should == vendor }
+  its(:promotion_type) { should == Promotion::LOCAL_DEAL }
+  its(:status) { should == Promotion::PROPOSED }
   
   it { should be_valid}
 
@@ -66,7 +85,7 @@ describe "Promotions" do
   end
   
   describe "retail value (invalid)" do   
-    [-1, -1.25, 'abc'].each do |v|
+    [-1, -1.25, 'abc', nil].each do |v|
       before { promotion.retail_value = v }
       
       it { should_not be_valid }
@@ -82,7 +101,7 @@ describe "Promotions" do
   end
   
   describe "price (invalid)" do  
-    [-1, -1.25, 'abc'].each do |p|
+    [-1, -1.25, 'abc', nil].each do |p|
       before { promotion.price = p }
       
       it { should_not be_valid }
@@ -98,7 +117,7 @@ describe "Promotions" do
   end
   
   describe "revenue shared (invalid)" do  
-    [-1, -1.25, 'abc'].each do |r|
+    [-1, -1.25, 'abc', nil].each do |r|
       before { promotion.revenue_shared = r }
       
       it { should_not be_valid }
@@ -106,7 +125,7 @@ describe "Promotions" do
   end
   
   describe "quantity (valid)" do
-    [0, 1, 5, 180].each do |q|
+    [1, 5, 180].each do |q|
       before { promotion.quantity = q }
       
       it { should be_valid }
@@ -114,7 +133,7 @@ describe "Promotions" do
   end
   
   describe "quantity (invalid)" do  
-    [1.5, -2, -1.25, 'abc'].each do |q|
+    [0, 1.5, -2, -1.25, 'abc', nil].each do |q|
       before { promotion.quantity = q }
       
       it { should_not be_valid }
@@ -130,13 +149,223 @@ describe "Promotions" do
   end
   
   describe "grid_weight (invalid)" do  
-    [0, 1.5, -2, -1.25, 'abc'].each do |w|
+    [0, 1.5, -2, -1.25, 'abc', nil].each do |w|
       before { promotion.grid_weight = w }
       
       it { should_not be_valid }
     end
   end
   
+  describe "no description" do
+    before { promotion.description = " " }
+    
+    it { should_not be_valid }
+  end
+  
+  describe "no title" do
+    before { promotion.title = " " }
+    
+    it { should_not be_valid }
+  end
+  
+  describe "valid status" do 
+    Promotion::PROMOTION_STATUS.each do |status|
+      before { promotion.status = status }
+      
+      it { should be_valid }
+    end
+  end
+  
+  describe "invalid status" do
+    [nil, "blah", "a"*(Promotion::MAX_STR_LEN + 1)].each do |status|
+      before { promotion.status = status }
+      
+      it { should_not be_valid }
+    end
+  end
+
+  describe "missing type" do
+    before { promotion.promotion_type = nil }
+    
+    it { should_not be_valid }
+  end  
+  
+  it "should be a deal" do
+    promotion.deal?.should be_true
+  end
+  
+  it "should not be an ad" do
+    promotion.ad?.should be_false
+  end
+  
+  it "should not be an affiliate" do
+    promotion.affiliate?.should be_false
+  end
+
+  describe "Missing destination" do
+    before { promotion.destination = " " }
+    
+    it { should be_valid }
+  end
+
+  describe "awaiting vendor action" do
+    [Promotion::EDITED, Promotion::MACHOVY_REJECTED].each do |status|
+      before { promotion.status = status }
+      
+      it "should be awaiting vendor action" do
+        promotion.awaiting_vendor_action?.should be_true
+        promotion.awaiting_machovy_action?.should be_false
+        promotion.approved?.should be_false
+      end
+    end
+  end
+
+  describe "awaiting machovy action" do
+    [Promotion::PROPOSED, Promotion::VENDOR_REJECTED].each do |status|
+      before { promotion.status = status }
+      
+      it "should be awaiting vendor action" do
+        promotion.awaiting_vendor_action?.should be_false
+        promotion.awaiting_machovy_action?.should be_true
+        promotion.approved?.should be_false
+      end
+    end
+  end
+
+  describe "status consistency" do
+    Promotion::PROMOTION_STATUS.each do |status|
+      before { promotion.status = status }
+      
+      it "should be consistent" do
+        (promotion.awaiting_vendor_action?^promotion.awaiting_machovy_action?^promotion.approved?).should be_true
+      end
+    end
+  end
+  
+  describe "ads" do
+    let(:promotion) { FactoryGirl.create(:ad, :metro => metro, :vendor => vendor) }
+    
+    it { should respond_to(:description) }
+    it { should respond_to(:destination) }
+    it { should respond_to(:grid_weight) }
+    it { should respond_to(:limitations) }
+    it { should respond_to(:price) }
+    it { should respond_to(:quantity) }
+    it { should respond_to(:retail_value) }
+    it { should respond_to(:revenue_shared) }
+    it { should respond_to(:start_date) }
+    it { should respond_to(:end_date) }
+    it { should respond_to(:teaser_image) }
+    it { should respond_to(:remote_teaser_image_url) }
+    it { should respond_to(:main_image) }
+    it { should respond_to(:remote_main_image_url) }
+    it { should respond_to(:status) }
+    it { should respond_to(:promotion_type) }
+    it { should respond_to(:title) }
+    it { should respond_to(:voucher_instructions) }
+    it { should respond_to(:orders) }
+    it { should respond_to(:vouchers) }
+    it { should respond_to(:promotion_logs) }
+    it { should respond_to(:categories) }
+    it { should respond_to(:blog_posts) }
+    it { should respond_to(:approved?) }
+    it { should respond_to(:expired?) }
+    it { should respond_to(:displayable?) }
+    it { should respond_to(:ad?) }
+    it { should respond_to(:affiliate?) }
+    it { should respond_to(:deal?) }
+    it { should respond_to(:remaining_quantity) }
+    
+    its(:metro) { should == metro }
+    its(:vendor) { should == vendor }
+    its(:retail_value) { should be_nil }
+    its(:price) { should be_nil }
+    its(:revenue_shared) { should be_nil }
+    its(:description) { should be_nil }
+    
+    it { should be_valid }
+
+    it "should not be a deal" do
+      promotion.deal?.should be_false
+    end
+    
+    it "should be an ad" do
+      promotion.ad?.should be_true
+    end
+    
+    it "should not be an affiliate" do
+      promotion.affiliate?.should be_false
+    end
+  
+    describe "Missing destination" do
+      before { promotion.destination = " " }
+      
+      it { should_not be_valid }
+    end
+  end
+    
+  describe "affiliates" do
+    let(:promotion) { FactoryGirl.create(:affiliate, :metro => metro, :vendor => vendor) }
+    
+    it { should respond_to(:description) }
+    it { should respond_to(:destination) }
+    it { should respond_to(:grid_weight) }
+    it { should respond_to(:limitations) }
+    it { should respond_to(:price) }
+    it { should respond_to(:quantity) }
+    it { should respond_to(:retail_value) }
+    it { should respond_to(:revenue_shared) }
+    it { should respond_to(:start_date) }
+    it { should respond_to(:end_date) }
+    it { should respond_to(:teaser_image) }
+    it { should respond_to(:remote_teaser_image_url) }
+    it { should respond_to(:main_image) }
+    it { should respond_to(:remote_main_image_url) }
+    it { should respond_to(:status) }
+    it { should respond_to(:promotion_type) }
+    it { should respond_to(:title) }
+    it { should respond_to(:voucher_instructions) }
+    it { should respond_to(:orders) }
+    it { should respond_to(:vouchers) }
+    it { should respond_to(:promotion_logs) }
+    it { should respond_to(:categories) }
+    it { should respond_to(:blog_posts) }
+    it { should respond_to(:approved?) }
+    it { should respond_to(:expired?) }
+    it { should respond_to(:displayable?) }
+    it { should respond_to(:ad?) }
+    it { should respond_to(:affiliate?) }
+    it { should respond_to(:deal?) }
+    it { should respond_to(:remaining_quantity) }
+    
+    its(:metro) { should == metro }
+    its(:vendor) { should == vendor }
+    its(:retail_value) { should be_nil }
+    its(:price) { should be_nil }
+    its(:revenue_shared) { should be_nil }
+    its(:description) { should be_nil }
+    
+    it { should be_valid }
+
+    it "should not be a deal" do
+      promotion.deal?.should be_false
+    end
+    
+    it "should not be an ad" do
+      promotion.ad?.should be_false
+    end
+    
+    it "should be an affiliate" do
+      promotion.affiliate?.should be_true
+    end
+  
+    describe "Missing destination" do
+      before { promotion.destination = " " }
+      
+      it { should_not be_valid }
+    end
+  end
+    
   describe "deletion" do
     it "should not have orders" do
       promotion.orders.count.should == 0
@@ -151,27 +380,38 @@ describe "Promotions" do
   end
   
   describe "orders" do
-    let (:promotion) { FactoryGirl.create(:promotion_with_orders, :metro => metro, :vendor => vendor) }
+    let(:promotion) { FactoryGirl.create(:promotion_with_orders, :metro => metro, :vendor => vendor) }
     
-    it { should respond_to(:title) }
     it { should respond_to(:description) }
     it { should respond_to(:destination) }
-    it { should respond_to(:start_date) }
-    it { should respond_to(:end_date) }
     it { should respond_to(:grid_weight) }
     it { should respond_to(:limitations) }
+    it { should respond_to(:price) }
     it { should respond_to(:quantity) }
     it { should respond_to(:retail_value) }
     it { should respond_to(:revenue_shared) }
+    it { should respond_to(:start_date) }
+    it { should respond_to(:end_date) }
     it { should respond_to(:teaser_image) }
-    it { should respond_to(:voucher_instructions) }
+    it { should respond_to(:remote_teaser_image_url) }
     it { should respond_to(:main_image) }
     it { should respond_to(:remote_main_image_url) }
-    it { should respond_to(:remote_teaser_image_url) }
+    it { should respond_to(:status) }
+    it { should respond_to(:promotion_type) }
+    it { should respond_to(:title) }
+    it { should respond_to(:voucher_instructions) }
     it { should respond_to(:orders) }
     it { should respond_to(:vouchers) }
+    it { should respond_to(:promotion_logs) }
     it { should respond_to(:categories) }
     it { should respond_to(:blog_posts) }
+    it { should respond_to(:approved?) }
+    it { should respond_to(:expired?) }
+    it { should respond_to(:displayable?) }
+    it { should respond_to(:ad?) }
+    it { should respond_to(:affiliate?) }
+    it { should respond_to(:deal?) }
+    it { should respond_to(:remaining_quantity) }
     
     its(:metro) { should == metro }
     its(:vendor) { should == vendor }
@@ -202,14 +442,6 @@ describe "Promotions" do
     end
   end
   
-  it "should not be an ad" do
-    promotion.ad?.should be_false
-  end
-  
-  it "should not be an affiliate" do
-    promotion.affiliate?.should be_false
-  end
-  
   it "should have all the vouchers remaining" do
     promotion.remaining_quantity.should == promotion.quantity
   end
@@ -222,21 +454,9 @@ describe "Promotions" do
     promotion.displayable?.should be_false
   end
   
-  describe "make it an ad" do
-    before { promotion.description = " " }
-    
-    it "should be an ad" do
-      promotion.ad?.should be_true
-    end
+  it "should not be expired" do
+    promotion.expired?.should be_false
   end
-  
-  describe "make it an affiliate" do
-    before { promotion.destination = "something" }
-    
-    it "should be an affiliate" do
-      promotion.affiliate?.should be_true
-    end
-  end  
   
   describe "make it approved" do
     before { promotion.status = Promotion::MACHOVY_APPROVED }
@@ -249,11 +469,23 @@ describe "Promotions" do
       promotion.displayable?.should be_true
     end
     
+    describe "no end date" do
+      before { promotion.end_date = nil }
+      
+      it "should still be displayable" do
+        promotion.displayable?.should be_true
+      end
+    end
+    
     describe "Approved but not displayable" do
       before { promotion.end_date = 1.week.ago }
       
       it "should be approved" do
         promotion.approved?.should be_true
+      end
+      
+      it "should be expired" do
+        promotion.expired?.should be_true
       end
       
       it "should not be displayable" do
@@ -262,14 +494,64 @@ describe "Promotions" do
     end      
   end
   
+  describe "discount (no retail)" do
+    before { promotion.retail_value = nil }
+    
+    it "should be zero" do
+      promotion.discount.should == 0
+    end
+  end
+  
+  describe "discount (no price)" do
+    before { promotion.price = nil }
+    
+    it "should be zero" do
+      promotion.discount.should == 0
+    end
+  end
+  
+  describe "discount (normal)" do
+    before do
+      promotion.retail_value = 1000
+      promotion.price = 500
+    end
+    
+    it "should be the difference" do
+      promotion.discount.should == 500
+    end
+  end
+  
+  describe "discount (capped)" do
+    before do
+      promotion.retail_value = 100
+      promotion.price = 500
+    end
+    
+    it "should not go negative" do
+      promotion.discount.should == 0
+    end
+  end
+  
   describe "test remaining vouchers" do
-    let (:promotion) { FactoryGirl.create(:promotion_with_vouchers) }    
+    let(:promotion) { FactoryGirl.create(:promotion_with_vouchers) }    
     before { promotion.quantity = 20 }
 
     it "should have quantity - vouchers" do
       promotion.vouchers.count.should == 15
       promotion.quantity.should == 20
       promotion.remaining_quantity.should == 5
+    end
+    
+    it "should not meet display threshold" do
+      promotion.quantity_description.should == 'Plenty'
+    end
+    
+    describe "force threshold" do
+      before { promotion.quantity = 16 }
+      
+      it "should display x left" do
+        promotion.quantity_description.should == 'Only 1 left!'
+      end
     end
     
     describe "all used" do
@@ -323,7 +605,7 @@ describe "Promotions" do
     describe "deals scope (-1)" do
       before do
         @promotion = Promotion.first
-        @promotion.update_attributes(:description => "")
+        @promotion.update_attributes(:promotion_type => Promotion::AD, :destination => "Valid Ad")
       end
       
       it "should eliminate a deal" do
@@ -342,7 +624,7 @@ describe "Promotions" do
     describe "ads scope (+1)" do
       before do
         @promotion = Promotion.first
-        @promotion.update_attributes(:description => "")
+        @promotion.update_attributes(:promotion_type => Promotion::AD, :destination => "Valid Ad")
       end
       
       describe "should have ads" do
@@ -365,7 +647,7 @@ describe "Promotions" do
     describe "affiliates scope (+1)" do
       before do
         @promotion = Promotion.first
-        @promotion.update_attributes(:destination => "amazon.com")
+        @promotion.update_attributes(:promotion_type => Promotion::AFFILIATE, :destination => "Valid Affiliate")
       end
       
       describe "should have affiliates" do
@@ -429,4 +711,23 @@ describe "Promotions" do
       end
     end
   end
+  
+  describe "promotion logs" do
+    let(:promotion) { FactoryGirl.create(:promotion_with_logs) }
+    
+    it "should have logs" do
+      promotion.promotion_logs.count.should == 5
+      promotion.promotion_logs.each do |log| 
+        log.promotion.should == promotion
+      end
+    end
+    
+    describe "should destroy" do
+      before { promotion.destroy }
+      
+      it "promotion logs should be gone" do
+        PromotionLog.count.should == 0
+      end
+    end
+  end  
 end

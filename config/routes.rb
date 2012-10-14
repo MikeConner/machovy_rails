@@ -6,7 +6,8 @@ MachovyRails::Application.routes.draw do
   mount RailsAdmin::Engine => '/Radmin', :as => 'rails_admin'
 
   # Third party authentication
-  devise_for :users
+  # Use a custom controller to support different kinds of users
+  devise_for :users, :controllers => { :registrations => 'registrations' }
   
   # Add a user admin action (not part of devise)
   resources :users, :only => [:manage] do
@@ -20,14 +21,12 @@ MachovyRails::Application.routes.draw do
 
   resources :metros
   resources :positions
-  resources :promotion_images
   resources :promotions do 
     member do
       get 'order'
-    end
-    
-    collection do
-      get 'deals'
+      get 'show_logs'
+      put 'accept_edits'
+      put 'reject_edits'
     end
   end
   resources :promotion_images
@@ -41,16 +40,12 @@ MachovyRails::Application.routes.draw do
         get 'payments'
         get 'dashboard'
         get 'reports'
-        get 'my_deals'
-      end
-      
-      collection do
-        get 'manage'
       end
     end
     resources :vouchers do
       member do
         get :redeem
+        get :generate_qrcode
       end
     end
   end
@@ -58,12 +53,12 @@ MachovyRails::Application.routes.draw do
   # Need an admin namespace?
   
   match "/deals" => "promotions#deals"
-  match "/merchant/MyDeals" => "merchant/vendors/#my_deals"
+#  match "/merchant/MyDeals" => "merchant/vendors/#my_deals"
 
   # Static pages
   match "/SiteAdmin" => "static_pages#admin_index"
   match "/about" => "static_pages#about"
-  match "/reports" => "static_pages#reports"
+#  match "/reports" => "static_pages#reports"
   match "/front_grid_manage" => "front_grid#manage"
   
 #  get "deals/index"

@@ -1,0 +1,34 @@
+.vendor
+  = f.label :name
+  %div
+    = f.text_field :name, :class => "devise-input"
+  = f.label :url
+  %em
+    (Optional)
+  %div 
+    = f.text_field :url, :class => "devise-input"
+  = f.label :facebook
+  %em
+    (Optional)
+  %div 
+    = f.text_field :facebook, :class => "devise-input"
+  = f.label :phone
+  %div 
+    = f.text_field :phone, :placeholder => "(###) 555-1212", :maxlength => 14, :class => "varlen-devise-input"
+  = f.label :address_1
+  %div 
+    = f.text_field :address_1, :class => "devise-input"
+  = f.label :address_2
+  %em
+    (Optional)
+  %div
+    = f.text_field :address_2, :class => "devise-input"
+  = f.label :city
+  %div
+    = f.text_field :city, :class => "devise-input"
+  = f.label :state
+  %div
+    = f.text_field :state, :size => 2, :maxlength => 2, :placeholder => "PA", :class => "varlen-devise-input"
+  = f.label :zip
+  %div
+    = f.text_field :zip, :maxlength => 10, :class => "varlen-devise-input"

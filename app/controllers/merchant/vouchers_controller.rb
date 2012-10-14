@@ -21,8 +21,7 @@ class Merchant::VouchersController < Merchant::BaseController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @voucher }
-      #format.png { render :qrcode =>  redeem_merchant_voucher_url(@voucher) }
-      format.png { render :qrcode => 'redeem.machovy.com/vouchers/'+@voucher.id.to_s+'redeem' }
+      format.png { render :qrcode =>  redeem_merchant_voucher_url(@voucher) }
     end
   end
 
@@ -40,6 +39,15 @@ class Merchant::VouchersController < Merchant::BaseController
   # GET /vouchers/1/edit
   def edit
     @voucher = Voucher.find(params[:id])
+  end
+  
+  def generate_qrcode
+    @voucher = Voucher.find(params[:id])
+    
+    respond_to do |format|
+      format.png { render :qrcode => redeem_merchant_voucher_url(@voucher) }
+      format.html { render :nothing => true }
+    end
   end
   
   # GET /vouchers/1/edit

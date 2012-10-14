@@ -50,7 +50,11 @@ class Vendor < ActiveRecord::Base
   validates :url, :format => { with: URL_REGEX }, :allow_blank => true
   validates :facebook, :format => { with: FACEBOOK_REGEX }, :allow_blank => true
   
-  validates_presence_of :user_id
+  # Devise creates the vendor first, then the user (when nested), so this validation breaks it
+  #  Not really satisfactory to not validate it, but defer this until I understand devise better
+  # I believe I could solve this by entirely replacing the devise create code, but then what happens
+  #   if devise revs and it changes? That's even worse. I'd rather add only, and not change devise code.
+  #validates_presence_of :user_id
   
   validates_associated :promotions
 end

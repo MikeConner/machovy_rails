@@ -1,42 +1,29 @@
+require 'phone_utils'
+
 class Merchant::VendorsController < Merchant::BaseController
   before_filter :authenticate_user!
+  # Note -- very similar filters are in registrations_controller (can't share because arguments are different)
+  before_filter :transform_phones, only: [:create, :update]
+  before_filter :upcase_state, only: [:create, :update]
+
   load_and_authorize_resource
   
-  def my_deals
-    @vendors = current_user.vendors.all
-    if @vendors.size > 0 
-        @promotions = current_user.vendors.first.promotions.deal.order(:id)
-        #right now we only have one vendor per user.  This may change in the future!
-    end
-  end
-
   def reports
   end
 
   def payments
   end
 
-  def manage    
-  end
-
   def dashboard
-    @vendors = current_user.vendors.all
-    if @vendors.size > 0 
-        @promotion = current_user.vendors.first.promotions.find(params[:id])
-        @vouchers = current_user.vendors.first.promotions.find(params[:id]).vouchers
-        #right now we only have one vendor per user.  This may change in the future!
+    @vendor = current_user.vendor
+    if !@vendor.nil?
+        @promotion = @vendor.promotions.find(params[:id])
+        @vouchers = @vendor.promotions.find(params[:id]).vouchers
     end
   end
   
   # GET /vendors
-  # GET /vendors.json
   def index
-    @vendors = Vendor.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @vendors }
-    end
   end
 
   # GET /vendors/1
@@ -70,15 +57,10 @@ class Merchant::VendorsController < Merchant::BaseController
   # POST /vendors.json
   def create
     @vendor = Vendor.new(params[:vendor])
-
-    respond_to do |format|
-      if @vendor.save
-        format.html { redirect_to @vendor, notice: 'Vendor was successfully created.' }
-        format.json { render json: @vendor, status: :created, location: @vendor }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @vendor.errors, status: :unprocessable_entity }
-      end
+    if @vendor.save
+      redirect_to [:merchant, @vendor], notice: I18n.t('vendor_created')
+    else
+      render 'new'
     end
   end
 
@@ -107,6 +89,24 @@ class Merchant::VendorsController < Merchant::BaseController
     respond_to do |format|
       format.html { redirect_to vendors_url }
       format.json { head :no_content }
+    end
+  end
+  
+private
+  def upcase_state
+    if !params[:vendor].nil?
+      if !params[:vendor][:state].blank?
+        params[:vendor][:state].upcase!
+      end
+    end
+  end
+  
+  def transform_phones
+    if !params[:vendor].nil?
+      phone_number = params[:vendor][:phone]
+      if !phone_number.blank? and (phone_number !~ /#{ApplicationHelper::US_PHONE_REGEX}/)
+        params[:vendor][:phone] = PhoneUtils::normalize_phone(phone_number)
+      end       
     end
   end
 end

@@ -1,0 +1,45 @@
+%h1== New #{@promotion.promotion_type}
+= form_for @promotion, :html => { multipart: true } do |f|
+  = render :partial => 'shared/error_messages', :locals => { :errors => @promotion.errors, :name => 'Promotion' }
+  = f.hidden_field :promotion_type
+  .field
+    = f.label :metro_id
+    %br/
+    = f.collection_select :metro_id, Metro.all, :id, :name 
+  .field
+    = f.label :vendor_id
+    %br/
+    = f.collection_select :vendor_id, Vendor.all, :id, :name 
+  .field
+    = f.label :title
+    %br/
+    = f.text_field :title, :size => 100
+  .field
+    = f.label :destination
+    %br/
+    = f.text_field :destination, :size => 100
+  .field
+    = f.label :description
+    %br/
+    = f.text_area :description, :size => "60x12"
+  .field
+    = f.label :grid_weight
+    = f.number_field :grid_weight, :min => 1
+  .field
+    = f.label :teaser_image
+    %br/
+    = f.file_field :teaser_image
+  .field
+    = f.label :remote_teaser_image_url, "or image URL"
+    %br/
+    = f.text_field :remote_teaser_image_url
+  .field
+    = f.label :start_date
+    %br/
+    = f.date_select :start_date, :order => [:month, :day, :year]
+  .field
+    = f.label :end_date
+    %br/
+    = f.date_select :end_date, :order => [:month, :day, :year]
+  .actions
+    = f.submit "Create #{@promotion.promotion_type}"
