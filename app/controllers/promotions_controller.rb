@@ -1,4 +1,4 @@
-require 'Utilities'
+require 'utilities'
 
 class PromotionsController < ApplicationController
   before_filter :authenticate_user!#, :except => [:show]
