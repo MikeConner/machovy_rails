@@ -1,7 +1,7 @@
 require 'utilities'
 
 class PromotionsController < ApplicationController
-  before_filter :authenticate_user!#, :except => [:show]
+  before_filter :authenticate_user!, :except => [:show]
   before_filter :ensure_vendor, :only => [:index, :edit, :new, :create]
   before_filter :ensure_correct_vendor, :only => [:edit, :show_logs, :accept_edits, :reject_edits]
   
@@ -67,9 +67,9 @@ class PromotionsController < ApplicationController
   def show
     @promotion = Promotion.find(params[:id])
     # When assigning booleans, need to use ||, not OR operator
-    @show_buy_button = current_user.is_customer? || current_user.has_role?(Role::SUPER_ADMIN)
-    @show_terms = !current_user.is_customer?
-    @show_accept_reject = current_user.has_role?(Role::MERCHANT) && @promotion.status == Promotion::EDITED
+    @show_buy_button = current_user.nil? || current_user.is_customer? || current_user.has_role?(Role::SUPER_ADMIN)
+    @show_terms = !current_user.nil? && !current_user.is_customer?
+    @show_accept_reject = !current_user.nil? && current_user.has_role?(Role::MERCHANT) && @promotion.status == Promotion::EDITED
   end
 
   def accept_edits
