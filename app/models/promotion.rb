@@ -91,6 +91,7 @@ class Promotion < ActiveRecord::Base
   default_scope order(:grid_weight)
   
   # These scopes are applied on top of the default scope (i.e., they are ordered)
+  scope :front_page, where("promotion_type = ? or promotion_type = ?", LOCAL_DEAL, AFFILIATE)
   scope :deals, where("promotion_type = ?", LOCAL_DEAL)
   scope :ads, where("promotion_type = ?", AD)
   scope :affiliates, where("promotion_type = ?", AFFILIATE)
