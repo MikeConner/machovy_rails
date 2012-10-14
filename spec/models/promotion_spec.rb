@@ -4,7 +4,7 @@
 #
 #  id                   :integer         not null, primary key
 #  title                :string(255)
-#  description          :string(255)
+#  description          :text
 #  limitations          :text
 #  voucher_instructions :text
 #  teaser_image         :string(255)
