@@ -3,42 +3,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <!--<![endif]-->
 <head>
-<meta name="viewport" content="initial-scale=1, maximum-scale=1"/>
-<meta name="viewport" content="width=device-width"/>
-    <title>M A C H O V Y</title>
-	<link rel="shortcut icon" href="/favicon.png"/>
-<link href='http://fonts.googleapis.com/css?family=Oswald:300,400' rel='stylesheet' type='text/css'>
-
-  <%= stylesheet_link_tag    "application", :media => "all", :debug => true%>
-  <%= stylesheet_link_tag    "body", :media => "all", :debug => true%>
- 
-
-  <%= javascript_include_tag "https://js.stripe.com/v1/" %>
-  <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
-  <%= javascript_include_tag "application" %>
-  
-  
-  <%= csrf_meta_tags %>
-      <%= yield :head %>
-
-
-
-	<!--JS FILES STARTS-->
-	<!-- JS FILES REMOVED FROM HERE>>>> MAKE SURE WE PUSH BACK-->
-
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1"/>
+	<meta name="viewport" content="width=device-width"/>
 	<meta charset="UTF-8">
+    
+	<title>M A C H O V Y</title>
+	<link rel="shortcut icon" href="/favicon.png"/>
+	<link href='http://fonts.googleapis.com/css?family=Oswald:300,400' rel='stylesheet' type='text/css'>
+
+  	<%= stylesheet_link_tag    "application", :media => "all", :debug => true%>
+	<!-- body should go away after we've moved in to proper css,etc -->
+	<%= stylesheet_link_tag    "body", :media => "all", :debug => true%>
+ 
+	<%= javascript_include_tag "https://js.stripe.com/v1/" %>
+	<%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
+	<%= javascript_include_tag "application" %>
+	<%= csrf_meta_tags %>
 	
-	<style type="text/css">
-	body,td,th {
-		font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-	}
-	</style>
+      <%= yield :head %>
 	</head>
+	
 	<body>
-
-
-
-		<body>
 		<div id="top-panel-wrapper">
 				<div class="container">
 		          <div align="left">
