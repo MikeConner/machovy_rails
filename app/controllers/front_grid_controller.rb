@@ -4,7 +4,7 @@ class FrontGridController < ApplicationController
   before_filter :admin_only, :only => [:manage]
   
   def index
-    @promotions = Promotion.deals.limit(8)
+    @promotions = Promotion.front_page.limit(8)
     # Will be ordered by default scope
     @blog_posts = BlogPost.limit(4)
     @ads = Promotion.ads.limit(5)
