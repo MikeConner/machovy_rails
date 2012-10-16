@@ -146,7 +146,19 @@ class Promotion < ActiveRecord::Base
   end
   
   def displayable?
-    approved? and !expired?
+    approved? and (!expired? || open_vouchers?)
+  end
+  
+  def open_vouchers?
+    any_open = false
+    vouchers.each do |voucher|
+      if voucher.open?
+        any_open = true
+        break
+      end
+    end
+    
+    any_open
   end
   
   # This should match the scope (scopes are DB operations)

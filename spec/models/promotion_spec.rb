@@ -66,6 +66,7 @@ describe "Promotions" do
   it { should respond_to(:awaiting_vendor_action?) }
   it { should respond_to(:awaiting_machovy_action?) }
   it { should respond_to(:expired?) }
+  it { should respond_to(:open_vouchers?) }
   it { should respond_to(:quantity_description) }
   it { should respond_to(:discount) }
   
@@ -206,6 +207,10 @@ describe "Promotions" do
     before { promotion.destination = " " }
     
     it { should be_valid }
+  end
+
+  it "should not have open vouchers" do
+    promotion.open_vouchers?.should be_false
   end
 
   describe "awaiting vendor action" do
@@ -488,8 +493,37 @@ describe "Promotions" do
         promotion.expired?.should be_true
       end
       
+      it "should not have open vouchers" do
+        promotion.open_vouchers?.should be_false
+      end
+      
       it "should not be displayable" do
         promotion.displayable?.should be_false
+      end
+    end      
+    
+    describe "Displayable with open vouchers" do
+      let(:promotion) { FactoryGirl.create(:promotion_with_vouchers) }
+      
+      before do
+        promotion.end_date = 1.week.ago
+        promotion.status = Promotion::VENDOR_APPROVED
+      end
+      
+      it "should be approved" do
+        promotion.approved?.should be_true
+      end
+      
+      it "should have open vouchers" do
+        promotion.open_vouchers?.should be_true
+      end
+      
+      it "should be expired" do
+        promotion.expired?.should be_true
+      end
+      
+      it "should be displayable" do
+        promotion.displayable?.should be_true
       end
     end      
   end

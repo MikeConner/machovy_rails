@@ -34,6 +34,8 @@ describe "Vouchers" do
   it { should respond_to(:expiration_date) }
   it { should respond_to(:issue_date) }
   it { should respond_to(:redemption_date) }
+  it { should respond_to(:expired?) }
+  it { should respond_to(:open?) }
   
   its(:order) { should == order }
   its(:user) { should == user }
@@ -68,11 +70,34 @@ describe "Vouchers" do
     end
   end
   
+  describe "status (valid)" do
+    Voucher::VOUCHER_STATUS.each do |status|
+      before { voucher.status = status }
+      
+      it { should be_valid }
+    end 
+  end
+  
+  describe "status (invalid)" do
+    ['Invalid', 'asdf', '', nil].each do |status|
+      before { voucher.status = status }
+      
+      it { should_not be_valid }
+    end 
+  end
+  
   describe "time periods" do
+    it "should be open" do
+      voucher.open?.should be_true
+    end
+    
     describe "expired before issued" do
       before { voucher.expiration_date = voucher.issue_date - 1.day }
       
       it { should_not be_valid }
+      it "should not be open" do
+        voucher.open?.should be_false
+      end
     end
     
     it "should not be expired" do

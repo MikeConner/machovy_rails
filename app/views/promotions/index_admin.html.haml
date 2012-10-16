@@ -10,8 +10,13 @@
     None
   - else
     = render :partial => 'promotion_admin', :locals => { :p_list => @pending }
-  %h3 Approved Promotions
-  - if 0 == @approved.count
+  %h3 Live Promotions
+  - if 0 == @live.count
     None
   - else
-    = render :partial => 'promotion_admin', :locals => { :p_list => @approved }
+    = render :partial => 'promotion_admin', :locals => { :p_list => @live }
+  %h3 Inactive Promotions
+  - if 0 == @inactive.count
+    None
+  - else
+    = render :partial => 'promotion_admin', :locals => { :p_list => @inactive }

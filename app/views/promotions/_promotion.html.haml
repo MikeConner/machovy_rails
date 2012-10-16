@@ -1,3 +1,8 @@
+- @display_voucher_link = false
+-# This partial is displayed many times from many places, and this argument is nearly always false
+-#   So don't require passing it in. Set the display link flag if it's passed in and true; leave it false otherwise
+- if defined?(show_vouchers)
+  - @display_voucher_link = show_vouchers
 %table
   %col{:width => "200"}/
   %col{:width => "100"}/
@@ -6,6 +11,8 @@
   %col{:width => "75"}/
   %col{:width => "75"}/
   %col{:width => "50"}/
+  - if @display_voucher_link
+    %col{:width => "75"}/
   %tr
     %th Image
     %th Status
@@ -14,6 +21,8 @@
     %th Price
     %th Quantity
     %th Log
+    - if @display_voucher_link
+      %th Vouchers
   - p_list.each do |p|
     %tr
       - if Promotion::MACHOVY_REJECTED == p.status
@@ -32,3 +41,5 @@
         %td None
       - else
         %td= button_to "Show (#{p.promotion_logs.count})", show_logs_promotion_path(p), :method => :get
+      - if @display_voucher_link
+        %td= link_to "Redeem", merchant_vouchers_path(:promotion_id => p.id)

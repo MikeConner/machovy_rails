@@ -22,6 +22,7 @@
 #   See documentation for status state machine. Defaults to "Available"
 #
 # NOTES AND WARNINGS
+#  There may be legal requirements and issues related to expiration and redemption that are not addressed here
 #
 class Voucher < ActiveRecord::Base
   extend FriendlyId
@@ -64,6 +65,11 @@ class Voucher < ActiveRecord::Base
   
   # Make sure time periods are consistent
   validate :time_periods
+  
+  # An open voucher is one that could still be used
+  def open?
+    (status == AVAILABLE) && !expired? 
+  end
   
   def expired?
     Time.now > self.expiration_date

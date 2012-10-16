@@ -8,6 +8,8 @@ class PromotionsController < ApplicationController
   load_and_authorize_resource
 
   # GET /promotions
+  # NOTES AND WARNINGS
+  #   Logic assumes there is one "Merchant" role and anything else is Machovy; revisit if this changes
   def index
     # Approved promotions (could still be expired!)     
     # These have different meanings for admins and vendors
@@ -19,35 +21,27 @@ class PromotionsController < ApplicationController
     #  because 1) it's "morally" an index action for both types of users; the distinction is on the user, not the indexed object; and
     #          2) there's going to be duplication in any case; if the similar code blocks are next to each other hopefully they'll be
     #             maintained better. 
-    @approved = []
+    @live = []
     @pending = []
     @attention = []
+    @inactive = []
     # ads will be empty for admins
     @ads = []
     
-    if current_user.has_role?(Role::SUPER_ADMIN)
-      # Nothing to do for ads or affiliates, so don't include them
-      Promotion.deals.each do |promotion|
-        if promotion.approved?
-          @approved.push(promotion)
-        elsif promotion.awaiting_vendor_action?
-          @pending.push(promotion)
-        elsif promotion.awaiting_machovy_action?
-          @attention.push(promotion)
-        else
-          # Should never happen -- catch it if somebody adds a status, doesn't update the tests, *and* doesn't update the controller
-          raise RangeError, "Unknown status: #{promotion.status}"
-        end
-      end
-      
-      render 'index_admin' and return
-    else
+    # Generalize this a bit to accommodate future roles. The essential distinction is between Merchants and Machovy,
+    #   so check for Merchant explicitly, and let all other roles (including future ones) be "Machovy". 
+    # Last ditch check to make sure customers never see this, though CanCan should prevent it anyway
+    if current_user.has_role?(Role::MERCHANT)
       vendor = current_user.vendor
       # filters should ensure this isn't nil, but don't want to throw an exception here
       if !vendor.nil?
         vendor.promotions.deals.each do |promotion|
           if promotion.approved?
-            @approved.push(promotion)
+            if promotion.displayable?
+              @live.push(promotion)
+            else
+              @inactive.push(promotion)
+            end
           elsif promotion.awaiting_machovy_action?
             @pending.push(promotion)
           elsif promotion.awaiting_vendor_action?
@@ -60,6 +54,28 @@ class PromotionsController < ApplicationController
         
         @ads = vendor.promotions.ads
       end
+    elsif !current_user.is_customer? # Assume any other status is Machovy -- Super Admin/Content Admin
+      # Nothing to do for ads or affiliates, so don't include them
+      Promotion.deals.each do |promotion|
+        if promotion.approved?
+          if promotion.displayable?
+            @live.push(promotion)
+          else
+            @inactive.push(promotion)
+          end
+        elsif promotion.awaiting_vendor_action?
+          @pending.push(promotion)
+        elsif promotion.awaiting_machovy_action?
+          @attention.push(promotion)
+        else
+          # Should never happen -- catch it if somebody adds a status, doesn't update the tests, *and* doesn't update the controller
+          raise RangeError, "Unknown status: #{promotion.status}"
+        end
+      end
+      
+      render 'index_admin' and return
+    else
+      redirect_to root_path, :alert => 'admins_only'
     end
   end
 
