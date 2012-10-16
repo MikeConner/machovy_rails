@@ -8,14 +8,11 @@ class FrontGridController < ApplicationController
   before_filter :admin_only, :only => [:manage]
   
   def index
-<<<<<<< HEAD
-    @promotions = Promotion.front_page.limit(8)
-=======
     @promotions = Promotion.front_page.select { |p| p.displayable? }
     if @promotions.length > MAX_DEALS
       @promotions.slice!(0, MAX_DEALS - 1)
     end
->>>>>>> Navigation and other fixes
+    
     # Will be ordered by default scope
     @blog_posts = BlogPost.limit(MAX_BLOGS)
     @ads = Promotion.ads.limit(MAX_ADS)

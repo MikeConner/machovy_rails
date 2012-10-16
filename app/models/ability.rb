@@ -18,12 +18,11 @@ class Ability
     
     if user.has_role?(Role::MERCHANT)
       can :create, [Promotion]
-      can :manage, [Vendor, Promotion, PromotionLog]
-      can :manage, [Vendor, Promotion, PromotionImage]
+      can :manage, [Vendor, Promotion, PromotionLog, PromotionImage]
       can :redeem, [Voucher]
     end
     if user.has_role?(Role::CONTENT_ADMIN)
-      can :manage, [BlogPost, Promotion, PromotionImage]
+      can :manage, [BlogPost, Promotion, PromotionLog, PromotionImage]
     end
     
     #   if user.admin?
