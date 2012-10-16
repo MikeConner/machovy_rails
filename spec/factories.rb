@@ -72,7 +72,7 @@ FactoryGirl.define do
     end
   end
   
-  factory :career do
+  factory :position do
     title { generate(:random_description) }
     description { generate(:random_post) }
     expiration 6.months.from_now
@@ -184,6 +184,7 @@ FactoryGirl.define do
     destination { generate(:random_url) }
     start_date Time.now
     end_date 2.weeks.from_now
+    remote_main_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
   end
   
   factory :affiliate, :class => Promotion do
@@ -197,6 +198,7 @@ FactoryGirl.define do
     destination { generate(:random_url) }
     start_date Time.now
     end_date 2.weeks.from_now
+    remote_main_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
   end
   
   factory :promotion do
@@ -214,6 +216,7 @@ FactoryGirl.define do
     description { generate(:random_comment) }
     start_date Time.now
     end_date 2.weeks.from_now
+    remote_main_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
         
     factory :promotion_with_orders do
       ignore do
@@ -268,6 +271,24 @@ FactoryGirl.define do
         FactoryGirl.create_list(:promotion_log, evaluator.num_logs, :promotion => promotion)
       end
     end
+    
+    factory :promotion_with_images do
+      ignore do
+        num_images 3
+      end
+      
+      after(:create) do |promotion, evaluator|
+        FactoryGirl.create_list(:promotion_image, evaluator.num_images, :promotion => promotion)
+      end
+    end
+  end
+  
+  factory :promotion_image do
+    promotion
+    
+    caption { generate(:random_description) }
+    media_type { PromotionImage::SUPPORTED_MEDIA_TYPES.sample }
+    remote_image_url 'http://ecx.images-amazon.com/images/I/21kMsAPQeZL.jpg'
   end
   
   factory :promotion_log do

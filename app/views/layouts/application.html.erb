@@ -47,7 +47,7 @@
  
 						<% if current_user.has_role?(Role::SUPER_ADMIN)%>
 							&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'Site Admin', '/SiteAdmin' %>
-							&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'Rails Admin', '/Radmin' %>
+							&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'Rails Admin', rails_admin_path %>
 						<%end%>
 						 &nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'LOG OUT', destroy_user_session_path, :method => :delete %>
 
@@ -71,9 +71,9 @@
 						<nav id="main-navigation">
 						<!--  MAIN  NAVIGATION-->
 						<ul class="main-menu">
-							<li><a href="/deals" title="Home">Deals & Interests </a>		
+							<li><%= link_to "Deals & Interests", deals_path, :title => "Home" %></li>
 							<ul>
-								<li><a href="/deals">See all</a></li>
+								<li><%= link_to "See all", deals_path %></li>
 						
 								</ul>
 							</li>
@@ -99,9 +99,9 @@
 						<div class="one-fourth">
 							<h4>ABOUT machovy</h4>
 							<ul>
-								<li><a href = "/about">Company Info</a>
+								<li><%= link_to "Company Info", about_path %>
 								</li>
-								<li><a href = "/careers"> Careers </a>
+								<li><%= link_to "Careers", positions_path %>
 								</li>
 								<li>Contact Us
 								</li>

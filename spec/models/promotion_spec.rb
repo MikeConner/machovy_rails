@@ -54,6 +54,7 @@ describe "Promotions" do
   it { should respond_to(:orders) }
   it { should respond_to(:vouchers) }
   it { should respond_to(:promotion_logs) }
+  it { should respond_to(:promotion_images) }
   it { should respond_to(:categories) }
   it { should respond_to(:blog_posts) }
   it { should respond_to(:approved?) }
@@ -727,6 +728,25 @@ describe "Promotions" do
       
       it "promotion logs should be gone" do
         PromotionLog.count.should == 0
+      end
+    end
+  end  
+  
+  describe "promotion images" do
+    let(:promotion) { FactoryGirl.create(:promotion_with_images) }
+    
+    it "should have images" do
+      promotion.promotion_images.count.should == 3
+      promotion.promotion_images.each do |image| 
+        image.promotion.should == promotion
+      end
+    end
+    
+    describe "should destroy" do
+      before { promotion.destroy }
+      
+      it "promotion images should be gone" do
+        PromotionImage.count.should == 0
       end
     end
   end  

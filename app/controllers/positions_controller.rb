@@ -1,21 +1,15 @@
 class PositionsController < ApplicationController
   load_and_authorize_resource
   
-  # GET /careers
-  # GET /careers.json
+  # GET /positions
   def index
-    @positions = Career.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @positions }
-    end
+    @positions = Position.all
   end
 
-  # GET /careers/1
-  # GET /careers/1.json
+  # GET /positions/1
+  # GET /positions/1.json
   def show
-    @position = Career.find(params[:id])
+    @position = Position.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -23,10 +17,10 @@ class PositionsController < ApplicationController
     end
   end
 
-  # GET /careers/new
-  # GET /careers/new.json
+  # GET /positions/new
+  # GET /positions/new.json
   def new
-    @position = Career.new
+    @position = Position.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,15 +28,15 @@ class PositionsController < ApplicationController
     end
   end
 
-  # GET /careers/1/edit
+  # GET /positions/1/edit
   def edit
-    @position = Career.find(params[:id])
+    @position = Position.find(params[:id])
   end
 
-  # POST /careers
-  # POST /careers.json
+  # POST /positions
+  # POST /positions.json
   def create
-    @position = Career.new(params[:position])
+    @position = Position.new(params[:position])
 
     respond_to do |format|
       if @position.save
@@ -55,13 +49,13 @@ class PositionsController < ApplicationController
     end
   end
 
-  # PUT /careers/1
-  # PUT /careers/1.json
+  # PUT /positions/1
+  # PUT /positions/1.json
   def update
-    @position = Career.find(params[:id])
+    @position = Position.find(params[:id])
 
     respond_to do |format|
-      if @position.update_attributes(params[:career])
+      if @position.update_attributes(params[:position])
         format.html { redirect_to @position, notice: 'Position was successfully updated.' }
         format.json { head :no_content }
       else
@@ -71,10 +65,10 @@ class PositionsController < ApplicationController
     end
   end
 
-  # DELETE /careers/1
-  # DELETE /careers/1.json
+  # DELETE /positions/1
+  # DELETE /positions/1.json
   def destroy
-    @position = Career.find(params[:id])
+    @position = Position.find(params[:id])
     @position.destroy
 
     respond_to do |format|

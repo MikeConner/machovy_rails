@@ -1,17 +1,3 @@
-# == Schema Information
-#
-# Table name: careers
-#
-#  id            :integer         not null, primary key
-#  title         :string(255)
-#  description   :text
-#  expiration    :datetime
-#  email_contact :string(255)
-#  email_subject :string(255)
-#  created_at    :datetime        not null
-#  updated_at    :datetime        not null
-#
-
 # CHARTER
 #   Describe an open position at Machovy.
 #
@@ -21,7 +7,7 @@
 #
 # NOTES AND WARNINGS
 #
-class Career < ActiveRecord::Base
+class Position < ActiveRecord::Base
   include ApplicationHelper
   
   attr_accessible :description, :email_contact, :email_subject, :expiration, :title
