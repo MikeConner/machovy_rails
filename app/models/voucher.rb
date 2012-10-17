@@ -23,6 +23,8 @@
 #
 # NOTES AND WARNINGS
 #  There may be legal requirements and issues related to expiration and redemption that are not addressed here
+#  Currently no way to set the status to EXPIRED, though the expired? function will tell you if the date has
+#  passed. Probably want to do that at the promotion level (e.g., if it gets canceled, expire all the vouchers)
 #
 class Voucher < ActiveRecord::Base
   extend FriendlyId
@@ -68,20 +70,39 @@ class Voucher < ActiveRecord::Base
   
   # An open voucher is one that could still be used
   def open?
-    (status == AVAILABLE) && !expired? 
+    (AVAILABLE == status) && !expired? 
   end
   
   def expired?
     Time.now > self.expiration_date
   end  
   
+  # From a merchant's perspective, should there be a "redeem" option? (vendor can choose to redeem even if expired)
+  # Intent is to use these switches to display buttons (or not)
+  def redeemable?
+    [AVAILABLE, EXPIRED].include?(status)
+  end
+  
+  # Can only unredeem if it's been redeemed (e.g., by mistake)
+  def unredeemable?
+    REDEEMED == status
+  end
+  
+  # Can only return if it's available
+  def returnable?
+    AVAILABLE == status
+  end
+  
 private
   # Guarantee unique by checking the database and retrying if necessary
+  # But don't overwrite if we're updating!
   def create_uuid
-    uid = false
-    until uid
-      self.uuid = format_uuid(SecureRandom.hex(5))
-      uid = Voucher.find_by_uuid(self.uuid).nil?
+    if self.uuid.nil?
+      uid = false
+      until uid
+        self.uuid = format_uuid(SecureRandom.hex(5))
+        uid = Voucher.find_by_uuid(self.uuid).nil?
+      end
     end
   end
   

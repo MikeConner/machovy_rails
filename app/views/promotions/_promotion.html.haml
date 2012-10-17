@@ -42,4 +42,7 @@
       - else
         %td= button_to "Show (#{p.promotion_logs.count})", show_logs_promotion_path(p), :method => :get
       - if @display_voucher_link
-        %td= link_to "Redeem", merchant_vouchers_path(:promotion_id => p.id)
+        - if 0 == p.vouchers.count
+          %td None
+        - else
+          %td= link_to "Redeem (#{p.num_open_vouchers})", merchant_vouchers_path(:promotion_id => p.id)

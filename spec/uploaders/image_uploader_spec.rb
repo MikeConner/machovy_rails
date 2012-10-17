@@ -20,7 +20,7 @@ describe "ImageFileUploader" do
   end
 
   context 'the teaser version' do
-    it "should resize to a teaser image for the front grid" do
+    pending "should resize to a teaser image for the front grid" do
       @uploader.teaser.should have_dimensions(470, 470)
     end
   end

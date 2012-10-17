@@ -3,10 +3,12 @@
   %col{:width => "100"}/
   %col{:width => "100"}/
   %col{:width => "75"}/
-  %col{:width => "300"}/
+  %col{:width => "250"}/
   %col{:width => "100"}/
   %col{:width => "100"}/
   %col{:width => "100"}/
+  - if @display_controls
+    %col{:width => "100"}/
   %tr
     %th Uuid
     %th Redeemed on
@@ -15,5 +17,7 @@
     %th Expires on
     %th Issued on
     %th Promotion
+    - if @display_controls
+      %th (Un)Redeem
   - @vouchers.each do |voucher|
-    = render :partial => 'voucher', :locals => { :v => voucher }
+    = render :partial => 'voucher', :locals => { :v => voucher, :controls => @display_controls }

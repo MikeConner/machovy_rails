@@ -67,6 +67,7 @@ describe "Promotions" do
   it { should respond_to(:awaiting_machovy_action?) }
   it { should respond_to(:expired?) }
   it { should respond_to(:open_vouchers?) }
+  it { should respond_to(:num_open_vouchers) }
   it { should respond_to(:quantity_description) }
   it { should respond_to(:discount) }
   
@@ -211,6 +212,7 @@ describe "Promotions" do
 
   it "should not have open vouchers" do
     promotion.open_vouchers?.should be_false
+    promotion.num_open_vouchers.should == 0
   end
 
   describe "awaiting vendor action" do
@@ -495,6 +497,7 @@ describe "Promotions" do
       
       it "should not have open vouchers" do
         promotion.open_vouchers?.should be_false
+        promotion.num_open_vouchers.should == 0
       end
       
       it "should not be displayable" do
@@ -516,6 +519,7 @@ describe "Promotions" do
       
       it "should have open vouchers" do
         promotion.open_vouchers?.should be_true
+        promotion.num_open_vouchers.should == 15
       end
       
       it "should be expired" do
@@ -572,6 +576,7 @@ describe "Promotions" do
 
     it "should have quantity - vouchers" do
       promotion.vouchers.count.should == 15
+      promotion.num_open_vouchers.should == 15
       promotion.quantity.should == 20
       promotion.remaining_quantity.should == 5
     end

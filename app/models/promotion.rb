@@ -161,6 +161,15 @@ class Promotion < ActiveRecord::Base
     any_open
   end
   
+  def num_open_vouchers
+    cnt = 0
+    vouchers.each do |voucher|
+      cnt += 1 if voucher.open?
+    end
+    
+    cnt
+  end
+  
   # This should match the scope (scopes are DB operations)
   def ad?
     self.promotion_type == AD

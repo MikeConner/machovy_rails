@@ -36,6 +36,9 @@ describe "Vouchers" do
   it { should respond_to(:redemption_date) }
   it { should respond_to(:expired?) }
   it { should respond_to(:open?) }
+  it { should respond_to(:redeemable?) }
+  it { should respond_to(:unredeemable?) }
+  it { should respond_to(:returnable?) }
   
   its(:order) { should == order }
   its(:user) { should == user }
@@ -64,7 +67,8 @@ describe "Vouchers" do
   describe "uuid" do
     before { voucher.uuid = " " }
     
-    it { should be_valid }
+    it { should_not be_valid }
+    
     it "is valid because it creates one" do
       voucher.reload.uuid.should_not be_blank
     end
@@ -75,6 +79,24 @@ describe "Vouchers" do
       before { voucher.status = status }
       
       it { should be_valid }
+      # consistency -- they can both be false, but can't both be true
+      it "should be consistent" do
+        if voucher.redeemable? || voucher.unredeemable?
+          (voucher.redeemable?^voucher.unredeemable?).should be_true
+        end
+        
+        if [Voucher::AVAILABLE, Voucher::EXPIRED].include?(voucher.status)
+          voucher.redeemable?.should be_true
+        end
+        
+        if Voucher::REDEEMED == voucher.status
+          voucher.unredeemable?.should be_true
+        end
+        
+        if Voucher::AVAILABLE == voucher.status
+          voucher.returnable?.should be_true
+        end
+      end
     end 
   end
   
