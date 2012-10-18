@@ -27,6 +27,3 @@
   - @order.vouchers.each do |voucher|
     -# Consider rendering merchant/vouchers/show -- not sure if it has the table format, though
     = render :partial => 'voucher', :locals => { :v => voucher }  
-    %br/
-    %br/
-    = image_tag url_for(generate_qrcode_merchant_voucher_path(voucher, :format => :png))

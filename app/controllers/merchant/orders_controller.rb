@@ -64,7 +64,7 @@ class Merchant::OrdersController < Merchant::BaseController
       if just_purchased.save
         flash[:notice] = I18n.t('order_successful')
         
-        UserMailer.promotion_order_email(current_user, @order).deliver
+        UserMailer.promotion_order_email(@order).deliver
         
         redirect_to merchant_order_path(@order)
       else
