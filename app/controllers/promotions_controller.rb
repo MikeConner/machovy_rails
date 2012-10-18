@@ -182,8 +182,9 @@ class PromotionsController < ApplicationController
     
     change_description = changes.empty? ? 'No changes' : changes.to_s    
     comment = "Edited by #{current_user.email}\n#{change_description}"
+    vendor_action = current_user.has_role?(Role::MERCHANT)
     
-    if current_user.has_role?(Role::MERCHANT)
+    if vendor_action
       # If merchants are updating it, it was MACHOVY_REJECTED, and editing it makes it proposed again
       # If they didn't change anything, don't change the status
       if !changes.empty?
@@ -207,7 +208,12 @@ class PromotionsController < ApplicationController
     
     if @promotion.update_attributes(params[:promotion])
       @promotion.promotion_logs.create(:status => params[:promotion][:status], 
-                                       :comment => comment)      
+                                       :comment => comment)  
+      # Send email on admin actions only   
+      if !vendor_action
+        VendorMailer.promotion_status_email(@promotion).deliver
+      end 
+      
       redirect_to @promotion, notice: I18n.t('promotion_updated')
     else
       render 'edit'  

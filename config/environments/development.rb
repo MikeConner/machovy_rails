@@ -14,7 +14,9 @@ MachovyRails::Application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default_url_options = { :host => "localhost:3000" }
+  config.action_mailer.delivery_method = :smtp
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
@@ -31,7 +33,7 @@ MachovyRails::Application.configure do
 
   # Do not compress assets
   config.assets.compress = false
-config.assets.precompile += Ckeditor.assets
+  config.assets.precompile += Ckeditor.assets
 
   # Expands the lines which load the assets
   config.assets.debug = true

@@ -1,2 +1,32 @@
-%h1 Merchant#reports
-%p Find me in app/views/merchant/reports.html.haml
+%h1= @report_title
+%table
+  %col{:width => "150"}/
+  %col{:width => "100"}/
+  %col{:width => "100"}/
+  %col{:width => "100"}/
+  %col{:width => "50"}/
+  -# Generalize over status so that this still works even if statuses are added/changed
+  - Voucher::VOUCHER_STATUS.each do |status|
+    %col{:width => "75"}/
+  %tr
+    %th Promotion
+    %th Status
+    %th Created
+    %th Expiration
+    %th Orders
+    - Voucher::VOUCHER_STATUS.each do |status|
+      %th= status
+  - @table_data.each do |promotion_data|
+    %tr
+      %td= link_to promotion_data[:promotion].title, promotion_path(promotion_data[:promotion])
+      %td= link_to promotion_data[:promotion].status, show_logs_promotion_path(promotion_data[:promotion])
+      %td= promotion_data[:promotion].updated_at.try(:strftime, '%b %d, %Y')
+      %td= promotion_data[:promotion].end_date.try(:strftime, '%b %d, %Y')
+      %td= promotion_data[:promotion].orders.count
+      -# For consistency, display all statuses (not just those associated with this promotion)
+      - Voucher::VOUCHER_STATUS.each do |status|
+        - if promotion_data[:vouchers].has_key?(status)
+          %td= promotion_data[:vouchers][status]
+        - else
+          %td 0
+

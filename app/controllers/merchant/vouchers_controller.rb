@@ -1,5 +1,5 @@
 class Merchant::VouchersController < Merchant::BaseController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => [:generate_qrcode]
   before_filter :ensure_correct_vendor, :only => [:redeem]
   load_and_authorize_resource
   

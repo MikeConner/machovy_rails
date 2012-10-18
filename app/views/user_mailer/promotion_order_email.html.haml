@@ -1,0 +1,14 @@
+%h2 Thank you for your order!
+%p== You purchased #{number_to_word(@order.quantity)} of these: #{@order.promotion.title} for #{number_to_currency(@order.total_cost)}
+%p== Be sure to use your #{"voucher".pluralize(@order.quantity)} before #{@order.promotion.end_date.try(:strftime, '%b %d, %Y')}. Just show the #{"qrcode".pluralize(@order.quantity)} to #{@order.promotion.vendor.name} to redeem.
+%p== See attachments for your #{"voucher".pluralize(@order.quantity)}. In case they didn't come through, you can also click on the links below
+%br/
+- @order.vouchers.each do |voucher|
+  %p== Voucher #{link_to voucher.uuid, generate_qrcode_merchant_voucher_url(voucher, :format => :png)}
+- if !@order.promotion.voucher_instructions.blank?
+  %h4 Voucher instructions
+  %p= @order.promotion.voucher_instructions
+- if !@order.promotion.limitations.blank?
+  %h4 Fine Print
+  %p= @order.promotion.limitations
+

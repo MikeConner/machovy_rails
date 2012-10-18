@@ -61,13 +61,11 @@ class Merchant::OrdersController < Merchant::BaseController
       just_purchased = @order.vouchers.build(:issue_date => Time.now, 
                                              :expiration_date => @order.promotion.end_date, 
                                              :notes => @order.fine_print)
-       #just_purchased.populate_from(@order)
       if just_purchased.save
         flash[:notice] = I18n.t('order_successful')
-        #  create new voucher
-        # send email to person
-        # render voucher in order afterwards
-
+        
+        UserMailer.promotion_order_email(current_user, @order).deliver
+        
         redirect_to merchant_order_path(@order)
       else
         # Maybe a different view?

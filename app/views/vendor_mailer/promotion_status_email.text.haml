@@ -1,0 +1,10 @@
+Machovy editors have taken action on your '#{link_to @promotion.title, promotion_url(@promotion)}' promotion.
+- case @promotion.status
+  - when Promotion::EDITED
+    We have slightly edited your promotion (or terms). If you approve the changes, the promotion will go live immediately.
+    Log in and click #{link_to "here", promotion_url(@promotion)} to review the promotion.
+  - when Promotion::MACHOVY_APPROVED
+    Your promotion has been approved -- it is now live on our site, and no further action is necessary.
+  - when Promotion::MACHOVY_REJECTED
+    Your promotion has been rejected -- you can still edit and resubmit it if you wish.
+    Log in and click #{link_to "here", show_logs_promotion_url(@promotion)} to review the submission history.
