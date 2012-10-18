@@ -13,7 +13,7 @@ describe "UserMailer" do
     order.email.should == TEST_EMAIL
   end
 
-  describe "Promotion status email" do
+  describe "Promotion order email" do
     let(:msg) { UserMailer.promotion_order_email(order.reload) }
     before do
       order.promotion.limitations = FINE_PRINT

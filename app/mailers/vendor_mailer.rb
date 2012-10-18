@@ -1,6 +1,8 @@
 class VendorMailer < ActionMailer::Base
   PROMOTION_STATUS_MESSAGE = 'Action on your Machovy promotion'
-
+  SIGNUP_MESSAGE = 'Welcome to Machovy!'
+  LEGAL_AGREEMENT_FILENAME = 'MachovyAgreement1.pdf'
+  
   default from: ApplicationHelper::MAILER_FROM_ADDRESS
   
   def promotion_status_email(promotion)
@@ -12,5 +14,12 @@ class VendorMailer < ActionMailer::Base
       # Should never happen
       raise "Invalid status for email"
     end
+  end
+  
+  def signup_email(vendor)
+    @vendor = vendor
+    
+    attachments['VendorAgreement.pdf'] = File.read(MachovyRails::Application.assets.find_asset(LEGAL_AGREEMENT_FILENAME).pathname)
+    mail(:to => vendor.user.email, :subject => SIGNUP_MESSAGE)
   end
 end

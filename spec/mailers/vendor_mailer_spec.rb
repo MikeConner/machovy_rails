@@ -11,6 +11,47 @@ describe "VendorMailer" do
     vendor.user.email.should == TEST_EMAIL
   end
   
+  describe "Signup email" do
+    let(:vendor) { FactoryGirl.create(:vendor) }
+    let(:msg) { VendorMailer.signup_email(vendor) }
+    
+    it "should return a message object" do
+      msg.should_not be_nil
+    end
+    
+    it "should have the right sender" do
+      msg.from.to_s.should match(ApplicationHelper::MAILER_FROM_ADDRESS)
+    end
+    
+    describe "Send the message" do
+      before { msg.deliver }
+        
+      it "should get queued" do
+        ActionMailer::Base.deliveries.should_not be_empty
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+      # msg.to is a Mail::AddressContainer object, not a string
+      # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
+      it "should be sent to the right user" do
+        msg.to.to_s.should match(vendor.user.email)
+      end
+      
+      it "should have the right subject" do
+        msg.subject.should == VendorMailer::SIGNUP_MESSAGE
+      end
+      
+      it "should have the right content" do
+        msg.body.encoded.should match('Please see the attachment for our standard Vendor agreement')
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+      
+      it "should have the attachment" do
+        msg.attachments.count.should == 1
+        msg.attachments[0].filename.should == 'VendorAgreement.pdf'
+      end
+    end
+  end
+  
   describe "Promotion status email" do
     let(:promotion) { FactoryGirl.create(:promotion, :vendor => vendor) }
     let(:msg) { VendorMailer.promotion_status_email(promotion) }

@@ -42,6 +42,8 @@ protected
     if resource_or_scope == :user
       if !resource.vendor.nil?
         resource.roles << Role.find_by_name(Role::MERCHANT)
+        
+        VendorMailer.signup_email(resource.vendor).deliver
       end
     end
     
