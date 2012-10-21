@@ -13,6 +13,7 @@ $(function() {
   });
 });
 
+// Appears in views/merchant/order/_order_form; currently commented out
 function update_amount(source, destination, unit_price) {
   $('#' + destination).val($('#' + source).val() * unit_price)
 }

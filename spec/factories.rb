@@ -161,6 +161,7 @@ FactoryGirl.define do
     amount { Random.rand * 100 }
     description { generate(:random_description) }
     stripe_card_token "nva3hvao73SI&H#Nfishuefse"
+    charge_id "ch_0aCv7NedlDjXia"
     
     factory :order_with_vouchers do
       ignore do

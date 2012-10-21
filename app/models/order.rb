@@ -13,6 +13,7 @@
 #  updated_at        :datetime        not null
 #  fine_print        :text
 #  quantity          :integer         default(1), not null
+#  charge_id         :string(255)
 #
 
 # CHARTER
@@ -46,35 +47,17 @@ class Order < ActiveRecord::Base
                        :numericality => { only_integer: true, greater_than: 0 }
   validates :amount, :presence => true,
                      :numericality => { greater_than_or_equal_to: 0.0 }
-  validates_presence_of :stripe_card_token
+  validates_presence_of :charge_id
  
   validates_associated :vouchers
        
-  def total_cost
-    self.quantity * self.amount
-  end
-  
-  def save_with_payment
-    if save
-      charge = Stripe::Charge.create(description: self.description, card: self.stripe_card_token, amount: pennies, currency: 'usd')
-      #TODO Where does ship_address go???
-      ship_address = charge.id
-      save!
+  def total_cost(in_pennies = false)
+    amount = self.quantity * self.amount
+    
+    if in_pennies
+      amount = (amount * 100.0).round
     end
-
-    rescue Stripe::InvalidRequestError => error
-      logger.error "Stripe error while creating customer: #{error.message}"
-      errors.add :base, "There was a problem with your credit card."
-      false
-
-      rescue Stripe::CardError => error
-        logger.error "Stripe error while creating customer: #{error.message}"
-        errors.add :base, "There was a problem with your credit card. CARDERR"
-        false
-  end
-  
-private
-  def pennies
-    (total_cost * 100.0).round
-  end
+    
+    amount
+  end  
 end

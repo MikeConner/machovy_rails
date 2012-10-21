@@ -15,6 +15,7 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime        not null
 #  updated_at             :datetime        not null
+#  stripe_id              :string(255)
 #
 
 describe "Users" do
@@ -32,6 +33,8 @@ describe "Users" do
   it { should respond_to(:roles) }
   it { should respond_to(:vendor) }
   it { should respond_to(:is_customer?) }
+  it { should respond_to(:stripe_id) }
+  it { should respond_to(:stripe_customer_obj) }
   
   it { should be_valid }
 
@@ -325,5 +328,24 @@ describe "Users" do
         end     
       end 
     end        
+  end
+  
+  describe "stripe id" do
+    it "should not have an id" do
+      user.stripe_id.should be_nil
+      user.stripe_customer_obj.should be_nil
+    end
+    
+    describe "bogus customer" do
+      before do
+        user.stripe_id = "bogus"
+        user.save!
+      end  
+      
+      it "should have an invalid stripe id" do
+        user.stripe_id.should == "bogus"
+        user.stripe_customer_obj.should be_nil
+      end
+    end    
   end
 end

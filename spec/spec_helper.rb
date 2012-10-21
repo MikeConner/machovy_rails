@@ -12,6 +12,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
   config.include RSpec::TagMatchers
+  
   # I think test TestHelpers only work with controllers/views
   # config.include Devise::TestHelpers
   # ## Mock Framework
