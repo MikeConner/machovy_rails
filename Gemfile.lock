@@ -275,7 +275,6 @@ PLATFORMS
 DEPENDENCIES
   annotate (~> 2.4.1.beta)
   bcrypt-ruby (~> 3.0.0)
-  bootstrap-sass (= 2.0.4.2)
   cancan (= 1.6.8)
   capybara (= 1.1.2)
   carrierwave (= 0.6.2)

@@ -2,6 +2,7 @@ class FrontGridController < ApplicationController
   MAX_DEALS = 8
   MAX_BLOGS = 4
   MAX_ADS = 5
+  DEALS_PER_ROW = 4
   
   include ApplicationHelper
   
@@ -16,6 +17,7 @@ class FrontGridController < ApplicationController
     # Will be ordered by default scope
     @blog_posts = BlogPost.limit(MAX_BLOGS)
     @ads = Promotion.ads.limit(MAX_ADS)
+    @deals_per_row = DEALS_PER_ROW
   end
   
   def deals

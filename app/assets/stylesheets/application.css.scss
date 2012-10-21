@@ -1,7 +1,10 @@
 /*
+ *= require_self
+ *= require twitter/bootstrap
+ *= require twitter/responsive
  *= require jquery-ui-1.9.0.custom
- */
-
+*/
+ 
 @mixin devise-base {
   height: 20px; 
   border: 1px solid #BFBFBF; 

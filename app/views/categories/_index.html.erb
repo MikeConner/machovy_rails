@@ -1,21 +1,12 @@
 <% @categories = Category.all %>
-<ul id="filterable">
-<li>
-<a data-categories="*" title="Show All Projects">
-<span class="project-caption">All Items</span>
-<span class="tooltip">## Items<span class="triangle-down"></span></span>
-</a>
-</li>
-
+<div class="row-fluid">
+  <div class="span12 nav-menus">
+      <ul class="nav nav-pills">
+          <li class="active"><a href="index.html">All Items</a></li>
 <% @categories.each do |category| %>
+<li><a href="#"><%=category.name%></a></li>
 
-<li>
-<a data-categories=" <%=category.name%>" title="<%=category.name%>">
-<span class="project-caption"> <%=category.name%></span>
-<span class="tooltip">  # Items<span class="triangle-down"></span></span>
-</a>
-</li>
 <% end %>						 
-</ul>
-
-
+      </ul>
+  </div><!--span12 -->
+</div><!--row-fluid -->

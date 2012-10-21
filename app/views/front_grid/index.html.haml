@@ -1,0 +1,13 @@
+= render 'categories/index'
+.row-fluid
+  - for i in 0..@promotions.count / @deals_per_row do
+    - current_row = @promotions[i * @deals_per_row, @deals_per_row]
+    - if current_row.count > 0
+      = render :partial => 'promotion_row', :locals => { :promotions => current_row }  
+.row-fluid
+  - @blog_posts.each_with_index do |blogpost, index|
+    %h4.span3
+      = link_to truncate(blogpost.title, :length => 25), blog_post_path(blogpost)
+      = truncate(blogpost.body, :length => 200).html_safe		  
+ 
+
