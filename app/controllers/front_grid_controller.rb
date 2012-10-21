@@ -11,7 +11,7 @@ class FrontGridController < ApplicationController
   def index
     @promotions = Promotion.front_page.select { |p| p.displayable? }
     if @promotions.length > MAX_DEALS
-      @promotions.slice!(0, MAX_DEALS - 1)
+      @promotions = @promotions[0, MAX_DEALS]
     end
     
     # Will be ordered by default scope
