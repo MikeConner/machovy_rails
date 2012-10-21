@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121014171435) do
+ActiveRecord::Schema.define(:version => 20121016200828) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -41,16 +41,6 @@ ActiveRecord::Schema.define(:version => 20121014171435) do
   end
 
   add_index "blog_posts_promotions", ["blog_post_id", "promotion_id"], :name => "index_blog_posts_promotions_on_blog_post_id_and_promotion_id", :unique => true
-
-  create_table "careers", :force => true do |t|
-    t.string   "title"
-    t.text     "description"
-    t.datetime "expiration"
-    t.string   "email_contact"
-    t.string   "email_subject"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-  end
 
   create_table "categories", :force => true do |t|
     t.string   "name",               :null => false
@@ -127,6 +117,26 @@ ActiveRecord::Schema.define(:version => 20121014171435) do
     t.datetime "updated_at",                       :null => false
     t.text     "fine_print"
     t.integer  "quantity",          :default => 1, :null => false
+  end
+
+  create_table "positions", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "expiration"
+    t.string   "email_contact"
+    t.string   "email_subject"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "promotion_images", :force => true do |t|
+    t.string   "caption",          :limit => 64
+    t.string   "media_type",       :limit => 16
+    t.string   "slideshow_image"
+    t.string   "remote_image_url"
+    t.integer  "promotion_id"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   create_table "promotion_logs", :force => true do |t|

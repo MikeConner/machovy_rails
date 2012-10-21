@@ -3,22 +3,192 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <!--<![endif]-->
 <head>
-<meta name="viewport" content="initial-scale=1, maximum-scale=1"/>
-<meta name="viewport" content="width=device-width"/>
-    <title>M A C H O V Y</title>
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1"/>
+	<meta name="viewport" content="width=device-width"/>
+	<meta charset="UTF-8">
+    
+	<title>M A C H O V Y</title>
 	<link rel="shortcut icon" href="/favicon.png"/>
-<link href='http://fonts.googleapis.com/css?family=Oswald:300,400' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Oswald:300,400' rel='stylesheet' type='text/css'>
+	
+  	<%= stylesheet_link_tag    "application", :media => "all", :debug => true%>
+	<!-- body should go away after we've moved in to proper css,etc -->
+	<%= stylesheet_link_tag    "bootstrap_and_overrides", :media => "all", :debug => true%>
+	<%= javascript_include_tag "https://js.stripe.com/v1/" %>
+	<%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
+	<%= javascript_include_tag "application" %>
+	<%= csrf_meta_tags %>
+	
+	</head>
+	<body>
 
-  <%= stylesheet_link_tag    "application", :media => "all", :debug => true%>
+      <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-plus"></span>
+            </a>
+            <!--<a class="brand" href="#"></a>-->
+            <div class="nav-collapse">
+              <ul class="nav">
+              	<li class="divider-vertical"></li>    	
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">Metro<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">PITTSBURGH</a></li>
+                    </ul>
+                </li>
+            	<li class="divider-vertical"></li>    				        
+                <li class="dropdown">
+                    <%= link_to 'Deals & Interests', deals_path %>
+                </li>
+                <li class="divider-vertical"></li>
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">Lifestyle <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Meet the Machovy Girls</a></li>
+                      <li><a href="#">Everything Cars</a></li>
+                      <li><a href="#">Mens Fashion</a></li>
+                      <li><a href="#">Travel & Adventure</a></li>
+                      <li><a href="#">Toys</a></li>
+                    </ul>
+                  </li>
+                  <li class="divider-vertical"></li>
+
+  				<% if current_user.nil? %>
+                <li class="dropdown">
+  					<%=link_to 'SIGN IN', new_user_session_path %> 
+				</li>
+
+                <li class="divider-vertical"></li>
+                <li class="dropdown">
+						<%=link_to 'SIGN UP', new_user_registration_path %>
+				</li>
+
+  				<% else %>
+					
+  				<% if current_user.has_role?(Role::MERCHANT)%>
+
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">MERCHANT <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                      <li><%=link_to 'MY DEALS', promotions_path %></li>
+                      <li><%=link_to 'REPORTS', reports_merchant_vendor_path(current_user.vendor) %></li>
+                      <li><%=link_to 'PAYMENTS', payments_merchant_vendor_path(current_user.vendor) %></li>
+                    </ul>
+                  </li>
+	                <li class="divider-vertical"></li>
+  				<%else%>
+                <li class="dropdown">
+					<%=link_to 'MY VOUCHERS', merchant_vouchers_path %>
+				</li>
+                <li class="divider-vertical"></li>
+				
+  				<%end%>
+
  
+  					<% if current_user.has_role?(Role::SUPER_ADMIN)%>
+	                <li class="dropdown">
+	                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">ADMIN <b class="caret"></b></a>
+	                    <ul class="dropdown-menu">
+	                      <li><%=link_to 'Site Admin', '/SiteAdmin' %></li>
+	                      <li><%=link_to 'Rails Admin',rails_admin_path %></li>
+	                    </ul>
+	                  </li>
+	                  <li class="divider-vertical"></li>
+					  <%end%>
+	                  <li class="dropdown">
+	  				<%=link_to 'LOG OUT', destroy_user_session_path, :method => :delete %>
+	  				</li>
+                     <li class="divider-vertical"></li>
+  				<% end %>	
 
-  <%= javascript_include_tag "https://js.stripe.com/v1/", "application" %>
-  <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
-  <%= javascript_include_tag "application" %>
-  
-  
-  <%= csrf_meta_tags %>
-      <%= yield :head %>
+              </ul>
+					  
+            </div><!--/.nav-collapse -->
+          </div>
+        </div>
+      </div>
+	  
+      <div class="container main">
+        <div class="row-fluid">
+          <div class="span7">
+              <h1><a href="/">
+				  <%=image_tag  "logo.png", :class => "logo", :alt => "logo"%>
+				  </a></h1>
+              <p class="sub-headline">If you think it's awesome chances are we already found it...</p>
+			  <%= render "layouts/application/header" %>
+				<%= render "layouts/application/flash_messages" %>
+			  
+          </div><!--span7 -->
+        </div> <!--row-fluid -->
+		
+		
+
+	
+      
+  	    <br/>
+
+		<%= yield %>
+		
+		<Br/>
+		<Br/>
+		<Br/>
+		
+		
+
+		<div class="row-fluid footer">
+		           <div class="span3">
+					   <h4>Machovy</h4>
+		               <ul>
+		                   <li><%= link_to "Company Info", about_path %></li>
+		                   <li><%= link_to "Careers", positions_path %></li>
+		                   <li><a href="#">FAQ</a></li>
+		                   <li><a href="#">Terms and condition</a></li>
+		               </ul>
+					   
+		           </div>
+		           <div class="span3">
+					   <h4>Social</h4>
+		               <ul>
+		                   <li>
+		                       		                   </li>
+		                   <li><a href="http://twitter.com/machovy">Twitter</a></li>
+		                   <li><a href="http://www.facebook.com/Machovy">Facebook</a></li>
+		               </ul>
+		               <p></p>
+		           </div>
+		           <div class="span3">
+		               <h4>Other Content</h3>
+		               <ul>
+		                   <li><a href="#">Lorem ipsum</a></li>
+		                   <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+		                   <li><a href="#">Lorem ipsum</a></li>
+		                   <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+		               </ul>
+		           </div>
+		           <div class="span3">
+		               <h4>Merchants</h4>
+		             
+					 Do you have a product or service that are readers must have?  Do you want access to the most interesting audience on the internet?	<a href="/merchants">Learn more...</a><br/>
+					<%=link_to 'Create a Merchant account', new_user_registration_path(:merchant => true) %> 
+					 
+					 
+		           </div>
+		         </div>
+		
+		
+		
+		
+  	</div> <!-- /container main -->
+  	<div class="container copyright">
+           <p>&copy; Machovy 2012. All right reserved.</p>
+  	</div>
+  	<br/><br/>
+		
+
+										
+	
 	<script type="text/javascript">
 
 	  var _gaq = _gaq || [];
@@ -31,200 +201,6 @@
 	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	  })();
 
-	</script>
-
-
-	<!--JS FILES STARTS-->
-	<!-- JS FILES REMOVED FROM HERE>>>> MAKE SURE WE PUSH BACK-->
-
-	<meta charset="UTF-8">
-	
-	<style type="text/css">
-	body,td,th {
-		font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-	}
-	</style>
-	</head>
-	<body>
-
-
-
-		<body>
-		<div id="top-panel-wrapper">
-				<div class="container">
-		          <div align="left">
-		          <div class="MetroArea">PITTSBURGH  
-					<% if current_user.nil? %>
- 
-						<%=link_to 'SIGN IN', new_user_session_path %> &nbsp;&nbsp;| &nbsp;&nbsp;
- 
-						<%=link_to 'SIGN UP', new_user_registration_path %>
- 
-
-					<% else %>
-					
-					<% if current_user.has_role?(Role::MERCHANT)%>
-						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'MY DEALS', promotions_path %>
-						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'REPORTS', reports_merchant_vendor_path(current_user.vendor) %>
-						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'PAYMENTS', payments_merchant_vendor_path(current_user.vendor) %>
-						
-					<%else%>
-						&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'MY VOUCHERS', merchant_vouchers_path %>
-					<%end%>
-
- 
-						<% if current_user.has_role?(Role::SUPER_ADMIN)%>
-							&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'Site Admin', '/SiteAdmin' %>
-							&nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'Rails Admin', '/Radmin' %>
-						<%end%>
-						 &nbsp;&nbsp;| &nbsp;&nbsp;<%=link_to 'LOG OUT', destroy_user_session_path, :method => :delete %>
-
-
-
-
-
-					<% end %>	
-					
- 
-				  
-				  
-				  </div>
-		          </div>
-		        </div>			
-		</div>
-            
-			<div id="center-container">
-				<div id="container">
-					<header id="header">
-					<div id="logo-wrapper">
-						<a href="/" id="logo">
-						<div class="logo"></div>
-						</a>
-					</div>
-					<div id="navigation-wrapper">
-						<nav id="main-navigation">
-						<!--  MAIN  NAVIGATION-->
-						<ul class="main-menu">
-							<li><a href="/deals" title="Home">Deals & Interests </a>		
-							<ul>
-								<li><a href="/deals">See all</a></li>
-						
-								</ul>
-							</li>
-					
-							<li><a href="#">Lifestyle</a>
-							<ul>
-								<li><a href="#">Meet the Machovy Girls</a></li>
-								<li><a href="#">Everything Cars</a></li>
-								<li><a href="#">Mens Fashion</a></li>
-								<li><a href="#">Travel & Adventure</a></li>
-								<li><a href="#">Toys</a></li>
-								</ul>
-							</li>
-							
-								
-					
-						</ul>
-						</nav>
-					</div>
-					</header>
-		
-					  <%= yield %>
-					  
-					  
-				<div id="footer-wrapper">
-					<div id="footer">
-						<div class="one-fourth">
-							<h4>ABOUT machovy</h4>
-							<ul>
-								<li><a href = "/about">Company Info</a>
-								</li>
-								<li><a href = "/careers"> Careers </a>
-								</li>
-								<li>Contact Us
-								</li>
-							</ul>
-							<ul class="social-widget">
-								<li class="twitter"><a href="#">Twitter</a></li>
-								<li class="facebook"><a href="#">Facebook</a></li>
-								<li class="rss"><a href="#">RSS feeds</a></li>
-								<li class="vimeo"><a href="#">Vimeo</a></li>
-							</ul>
-						</div>
-						<div class="one-fourth">
-							<h4>machovy now </h4>
-							<ul class="blog-post-homepage">
-								<li>
-	 
-								<div class="blog-short-content">
-									<a href="#" class="colored">Meet the Machovy Curators [NEW NAME?]</a>
-									<p>
-										 Page where we display info / bio for these characters
-									</p>
-								</div>
-								</li>
-							
-								<li>
-								<div class="blog-thumb">
-##								</div>
-								<div class="blog-short-content">
-									<a href="#" class="colored">Article</a>
-									<p> <a href="/videos">Video</a> 
-Blog post info here									</p>
-								</div>
-								</li>
-							</ul>
-						</div>
-						<div class="one-fourth">
-							<h4>LATEST TWEETS</h4>
-							<div class="twitter-feeds">
-							 <a href="/vouchers">My Vouchers</a> 
-
-
-							 <a href="/member">Members Area</a>
-						  <%= render "layouts/application/header" %>
-							<%= render "layouts/application/flash_messages" %>
-							</div>
-						</div>
-						<div class="one-fourth last">
-							<h4>Merchants</h4>
-							<div class="blog-short-content">
-
-	                                <ul class="blog-post-homepage">
-	                                <li>
-									<div class="blog-short-content">
-										Do you have a product or service that are readers must have?  Do you want access to the most interesting audience on the internet?	<a href="/merchants">Learn more...</a>
-									 
-										
-	                         	</div>
-								</li>
-								<li>
-									<div class ="blog-short-content">
-												<%=link_to 'Create a Merchant account', new_user_registration_path(:merchant => true) %> 
-									</div>
-								</li>
-							 
-									</ul>
-							</div>
-						</div>
-					</div>
-					<div id="copyrights-wrapper">
-						<div id="copyrights">
-							<div class="one-half">
-								 Copyright &copy; 2012 Machovy Inc. All rights reserved.
-							</div>
-							<div class="one-half last">
-								 Socialize with us on <a href="http://twitter.com/machovy">Twitter</a> or <a href="http://www.facebook.com/Machovy">Facebook</a>... 
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!--MAIN CONTAINER ENDS -->
-
-		</div>
-		<!--CENTER CONTAINER ENDS -->
-
-	<!--WRAPPER ENDS -->
+	</script>	
 	</body>
 	</html>

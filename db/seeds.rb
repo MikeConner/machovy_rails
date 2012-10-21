@@ -9,3 +9,4 @@
 Role.create!(:name =>'SuperAdmin')
 Role.create!(:name =>'Merchant')
 Role.create!(:name =>'ContentAdmin')
+Category.create!(:name => 'NightLife')

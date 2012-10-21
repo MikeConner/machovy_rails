@@ -52,44 +52,13 @@ MachovyRails::Application.routes.draw do
   
   # Need an admin namespace?
   
-  match "/deals" => "promotions#deals"
-#  match "/merchant/MyDeals" => "merchant/vendors/#my_deals"
+  match "/deals" => "front_grid#deals"
 
   # Static pages
   match "/SiteAdmin" => "static_pages#admin_index"
   match "/about" => "static_pages#about"
-#  match "/reports" => "static_pages#reports"
   match "/front_grid_manage" => "front_grid#manage"
   
-#  get "deals/index"
-=begin
-  get "site_admin/add_ad"
-  get "site_admin/add_deal"
-  get "site_admin/add_affiliate"
-  get "site_admin/add_vendor"
-  get "site_admin/add_metro"
-  get "site_admin/front_page"
-  get "site_admin/user_admin"
-  get "site_admin/merchant_admin"
-  get "site_admin/reports"
-  get "site_admin/index"
-=end
-#  get "membersarea/show"
-#  get "about/show"
-#  get "front_grid/index"
-
-# Confusing! What is the intent here?
-#  match "/videos" => "videos#show"
-#  match "/video" => "video#show"
-#  match "/member" => "membersarea#show"
-# ? use normal resource: /merchants/vendors#new or the like; new_merchant_vendor_path 
-
-# Don't understand this yet.
-#  match "/SiteAdmin" => "site_admin#index"
-  
-  # Static pages
-#  match "/about" => "about#show"
-   
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

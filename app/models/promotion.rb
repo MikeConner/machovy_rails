@@ -69,7 +69,7 @@ class Promotion < ActiveRecord::Base
   attr_accessible :description, :destination, :grid_weight, :limitations, :price, :quantity, :retail_value, :revenue_shared,
                   :start_date, :end_date, :teaser_image, :remote_teaser_image_url, :main_image, :remote_main_image_url,
                   :status, :promotion_type, :title, :voucher_instructions,
-                  :metro_id, :vendor_id, :category_ids, :blog_post_ids
+                  :metro_id, :vendor_id, :category_ids, :blog_post_ids, :promotion_image_ids
 
   # Mounted fields
   mount_uploader :main_image, ImageUploader  
@@ -84,6 +84,7 @@ class Promotion < ActiveRecord::Base
   has_many :orders, :dependent => :restrict
   has_many :vouchers, :through => :orders
   has_many :promotion_logs, :dependent => :destroy
+  has_many :promotion_images, :dependent => :destroy
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :blog_posts
   
@@ -99,9 +100,6 @@ class Promotion < ActiveRecord::Base
   validates_presence_of :metro_id
   validates_presence_of :vendor_id
   
-  #TODO Are start/end dates required?
-  #TODO Are images required? Maybe safest to say no, and have views show a default image if it's nil
-  #TODO Is grid_weight required? nils would sort to the bottom (allow_nil defaults to false, so for now it is required)
   validates :grid_weight, :numericality => { only_integer: true, greater_than: 0 }
   validates_presence_of :title
   # Deals *must* have a description
@@ -114,6 +112,9 @@ class Promotion < ActiveRecord::Base
   validates :promotion_type, :presence => true,
                              :length => { maximum: MAX_STR_LEN },
                              :inclusion => { in: PROMOTION_TYPE }
+  validates :main_image, :presence => { :if => :no_main_image_url }
+  validates :remote_main_image_url, :presence => { :if => :no_main_image }
+  
   # "Deal" fields
   validates :retail_value, :price, :revenue_shared, 
             :numericality => { greater_than_or_equal_to: 0.0 },
@@ -195,5 +196,14 @@ class Promotion < ActiveRecord::Base
   
   def discount
     (self.retail_value.nil? or self.price.nil?) ? 0 : [0, self.retail_value - self.price].max
+  end
+
+private
+  def no_main_image_url
+    self.remote_main_image_url.blank?
+  end
+  
+  def no_main_image
+    self.main_image.blank?
   end
 end
