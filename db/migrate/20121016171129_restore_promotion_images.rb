@@ -1,5 +1,6 @@
 class RestorePromotionImages < ActiveRecord::Migration
  def change
+	  drop_table :promotion_images  if table_exists?(:promotion_images) 
     create_table :promotion_images do |t|
       t.string :caption, :limit => PromotionImage::MAX_CAPTION_LEN
       t.string :media_type, :limit => PromotionImage::MAX_TYPE_LEN

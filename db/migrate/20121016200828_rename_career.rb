@@ -1,7 +1,8 @@
 class RenameCareer < ActiveRecord::Migration
   def up
     drop_table :careers
-    
+		
+    drop_table :positions if table_exists?(:positions) 
     create_table :positions do |t|
       t.string :title
       t.text :description
