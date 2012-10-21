@@ -121,6 +121,8 @@ class PromotionsController < ApplicationController
     @order = @promotion.orders.build(:user_id => current_user.id, :email => current_user.email, :amount => @promotion.price, 
                                      :description => "#{@promotion.vendor.name} promo #{@promotion.title} #{Date.today.to_s}",
                                      :fine_print => fine_print)
+    # Pass in stripe Customer object if there is one
+    @stripe_customer = current_user.stripe_customer_obj
   end
 
   # GET /promotions/new

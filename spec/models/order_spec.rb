@@ -13,6 +13,7 @@
 #  updated_at        :datetime        not null
 #  fine_print        :text
 #  quantity          :integer         default(1), not null
+#  charge_id         :string(255)
 #
 
 describe "Orders" do
@@ -34,6 +35,7 @@ describe "Orders" do
   it { should respond_to(:vendor) }
   it { should respond_to(:vouchers) }
   it { should respond_to(:total_cost) }
+  it { should respond_to(:charge_id) }
   
   its(:user) { should == user }
   its(:promotion) { should == promotion }
@@ -83,6 +85,12 @@ describe "Orders" do
   
   describe "missing stripe card" do
     before { order.stripe_card_token = " " }
+    
+    it { should be_valid }
+  end
+  
+  describe "missing charge id" do
+    before { order.charge_id = " " }
     
     it { should_not be_valid }
   end

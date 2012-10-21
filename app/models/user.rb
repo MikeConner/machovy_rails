@@ -15,6 +15,7 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime        not null
 #  updated_at             :datetime        not null
+#  stripe_id              :string(255)
 #
 
 # CHARTER
@@ -56,6 +57,17 @@ class User < ActiveRecord::Base
   
   def is_customer?
     0 == self.roles.count
+  end
+  
+  # Retrieve the stripe customer object for this user. One twist is that the user could have been deleted
+  #   externally. If that's the case, the object will come back "deleted". Return nil if this happens.
+  def stripe_customer_obj
+    obj = self.stripe_id.blank? ? nil : Stripe::Customer.retrieve(self.stripe_id)
+    (obj.nil? or (obj.respond_to?(:deleted) and obj.deleted)) ? nil : obj 
+    
+  rescue Stripe::InvalidRequestError => error
+    # Return value of puts is nil, which is what I want to return on exception anyway
+    puts "Stripe error: #{error.message}"
   end
 end
 
