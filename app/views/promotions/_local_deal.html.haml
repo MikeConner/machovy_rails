@@ -1,0 +1,100 @@
+- if @show_accept_reject
+  Please review the edited promotion below, and accept or reject the changes.
+  %br/
+  = link_to 'Review comment log', show_logs_promotion_path(@promotion)
+  = button_to 'Accept Machovy Changes', accept_edits_promotion_path(@promotion), :method => :put, :class => "button big round"
+  = form_tag(reject_edits_promotion_path(@promotion), :method => :put) do
+    If you're rejecting the changes, please tell us why below
+    %br= text_area_tag 'comment', nil, :rows => 5, :class => "slider-input"
+    = submit_tag 'Reject Machovy Changes', :class => "button big round"
+- if @show_accept_reject
+  Please review the edited promotion below, and accept or reject the changes.
+  %br/
+  = link_to 'Review comment log', show_logs_promotion_path(@promotion)
+  = button_to 'Accept Machovy Changes', accept_edits_promotion_path(@promotion), :method => :put, :class => "button big round"
+  = form_tag(reject_edits_promotion_path(@promotion), :method => :put) do
+    If you're rejecting the changes, please tell us why below
+    %br= text_area_tag 'comment', nil, :rows => 5, :class => "slider-input"
+    = submit_tag 'Reject Machovy Changes', :class => "button big round"
+- if @show_buy_button
+  .row-fluid
+    .span6.product
+      .carousel.slide.product-detal-slider
+        .carousel-inner
+          .item
+            = image_tag @promotion.teaser_image_url(:teaser).to_s, :size => "470x470"
+          .item
+            = image_tag @promotion.main_image_url(:teaser).to_s, :size => "470x470"
+    .span6.product-detail
+      %h3= @promotion.title
+      %h4 Strapline for product goes here
+      %p
+        %button.btn.btn-small== #{number_to_percentage(@promotion.discount_pct, :precision => 0)} off detail
+        %button.btn.btn-small only 2 left
+        %button.btn.btn-small.btn-danger 
+          = link_to 'BUY IT', order_promotion_path(@promotion)
+  .row-fluid
+    .span12.cta
+      %p== Get #{number_to_percentage(@promotion.discount_pct, :precision => 0)} off #{number_to_currency(@promotion.retail_value)}
+    .row-fluid
+      .span5.product
+        %table.table.table-condensed
+          %thead
+            %tr
+              %th Retail Value
+              %th Discount
+              %th You Save
+          %tbody
+            %tr
+              %th= number_to_currency(@promotion.retail_value)
+              %th= number_to_percentage(@promotion.discount_pct, :precision => 0)
+              %th= number_to_currency(@promotion.discount)
+      .span7.product-detail
+        %p= @promotion.description
+        %button.btn.btn-small.btn-danger 
+          = link_to 'BUY IT', order_promotion_path(@promotion)      
+      
+        
+  -#
+    %ul#breadcrumbs
+    %li= link_to 'The Deal', '#service-single'
+    %li= link_to 'Fine Print', '#faq'
+    %li= link_to 'Venue', '#career'
+    .one-column#full-tabs
+    .three-fourth-last
+    #service-single
+      %p
+      .one-half
+        %h3 Details
+        %p= @promotion.description
+        %br/
+        .one-fourth
+          %ul.dotted-list
+            %li.simple-check-list-2== Retail Value: #{number_to_currency(@promotion.retail_value)}
+            %li.simple-check-list-2== Your Price: #{number_to_currency(@promotion.price)}
+            %li.simple-check-list-2== Discount: #{number_to_currency(@promotion.discount)}
+            %li.simple-check-list-2== Quantity: #{@promotion.remaining_quantity}
+        .one-fourth-last
+          %ul.dotted-list  
+            %li.simple-check-list-2== Start Date: #{@promotion.start_date.try(:strftime, '%b %d, %Y')}
+            %li.simple-check-list-2== Expiration Date: #{@promotion.end_date.try(:strftime, '%b %d, %Y')}    
+        - if @show_buy_button 
+          = link_to 'BUY IT', order_promotion_path(@promotion), :class => "button big round"
+      .one-fourth-last
+        = image_tag @promotion.teaser_image_url(:teaser).to_s, :size => "470x470"
+        = image_tag @promotion.main_image_url(:teaser).to_s, :size => "470x470"   
+    #faq{:style => "border-top: 1px"}
+      %h2 Fine Print
+      %p= @promotion.limitations
+      - if @show_terms
+        %p== Terms: #{@promotion.revenue_shared}% revenue shared
+    #venue
+      %h2 About the Venue
+      .post-title-text
+        %p.one-fourth= @promotion.vendor.name
+        %p
+          .one-fourth= @promotion.vendor.city
+          &nbsp;
+        %p.one-fourth &nbsp;
+        %p.one-fourth &nbsp;
+        %p.one-fourth &nbsp;

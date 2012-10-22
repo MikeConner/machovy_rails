@@ -198,6 +198,10 @@ class Promotion < ActiveRecord::Base
     (self.retail_value.nil? or self.price.nil?) ? 0 : [0, self.retail_value - self.price].max
   end
 
+	def discount_pct
+		self.retail_value.nil? ? 0 : discount / self.retail_value * 100.0
+	end
+	
 private
   def no_main_image_url
     self.remote_main_image_url.blank?

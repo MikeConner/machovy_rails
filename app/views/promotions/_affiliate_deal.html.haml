@@ -1,0 +1,13 @@
+- if @show_buy_button
+  .row-fluid
+    .span3
+      = image_tag @promotion.teaser_image_url(:teaser).to_s, :size => "470x470"  
+    .span9.product-detail
+      %h3= @promotion.title
+      %h4 Strapline for product goes here
+      %p
+        %button.btn.btn-small.btn-danger 
+          = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank"
+  .row-fluid
+    .span6
+      %p= @promotion.description
