@@ -47,7 +47,7 @@ end
 gem 'bcrypt-ruby', '~> 3.0.0'
 
 # For Credit Card Processing
-gem 'stripe', '1.7.2'
+gem 'stripe', '1.7.4'
 
 # For Authentication
 

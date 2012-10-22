@@ -48,6 +48,7 @@ describe "Vendor signup" do
         
         Vendor.find_by_name('Cheerleaders').should_not be_nil
         User.find_by_email('bob@cheerleaders.com').should_not be_nil
+        User.find_by_email('bob@cheerleaders.com').has_role?(Role::MERCHANT).should be_true
       end
       
       it "should have sent the email" do
@@ -73,7 +74,6 @@ describe "Vendor signup" do
         msg.attachments.count.should == 1
         msg.attachments[0].filename.should == 'VendorAgreement.pdf'
       end
-      
     end
   end
 end

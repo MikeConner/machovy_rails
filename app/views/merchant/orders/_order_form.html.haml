@@ -12,6 +12,12 @@
   = f.hidden_field :description
   = f.hidden_field :fine_print
   = f.hidden_field :quantity
+  -# Returns param reflecting the state of the "save card" checkbox
+  -#   They will see this if they're not a customer (no saved card), or if they're a customer using a new card
+  -#   In both cases, default to not saving (if a customer, it will keep their old card as the active one, unless they check to overwrite)
+  = hidden_field_tag :save_card, false
+  -# If they're a customer, indicate whether they're using a new card or their existing one on file
+  = hidden_field_tag :new_card, false
   -# Uncomment to enable quantity editing (and remove hidden field above)
   -#.field
   -#  = f.label :quantity
@@ -22,18 +28,34 @@
     = label_tag :amount_display, 'Total Amount'
     %br/
     = text_field_tag :amount_display, @order.amount * @order.quantity, :disabled => true
-  .field
-    = label_tag :card_number, 'Credit Card Number'
-    = text_field_tag :card_number
-  .field
-    = label_tag :card_code, "Security Code on Card (CVV)"
-    = text_field_tag :card_code
-  .field
-    = label_tag :card_month, "Card Expiration"
-    -# Would do the date selection like this if it were intended for the controller -- but Javascript intercepts and needs it this funky way
-    -# JS sets the hidden field if the card gets processed properly
-    -#= date_select :card_expiration, :card_expiration, { order: [:month, :year], discard_day: true, add_month_numbers: true,  }
-    = select_month Date.today, { add_month_numbers: true }, { name: nil, id: "card_month" }
-    = select_year Date.today, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: nil, id: "card_year" }
+  - if !@stripe_customer.nil?
+    .field
+      = radio_button_tag 'decision', 'existing', true, :onchange => "hide_card_info()"
+      = label_tag 'decision_existing', "Use card with last 4 digits '#{@stripe_customer.active_card.last4}'?"
+      &nbsp;&nbsp;
+      = radio_button_tag 'decision', 'new', false, :onchange => "show_card_info()"
+      = label_tag 'decision_new', "Use another card"
+  -# coffeescript "wrapping" seems to prevent having an event that fires on this specific page load
+  -#   it first on "every" page load (which might be because the stripe code is referenced in the application layout)
+  -# So have to initialize this style right here
+  -#   normally don't want formatting elements outside CSS, but in this case I think it's justified (better encapsulated)
+  #card_info{:style => "display:#{@stripe_customer.nil? ? 'block' : 'none'}"}
+    .field
+      = label_tag :card_number, 'Credit Card Number'
+      = text_field_tag :card_number
+    .field
+      = label_tag :card_code, "Security Code on Card (CVV)"
+      = text_field_tag :card_code
+    .field
+      = label_tag :card_month, "Card Expiration"
+      -# Would do the date selection like this if it were intended for the controller -- but Javascript intercepts and needs it this funky way
+      -# JS sets the hidden field if the card gets processed properly
+      -#= date_select :card_expiration, :card_expiration, { order: [:month, :year], discard_day: true, add_month_numbers: true,  }
+      = select_month Date.today, { add_month_numbers: true }, { name: nil, id: "card_month" }
+      = select_year Date.today, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: nil, id: "card_year" }  
+    .field
+      = check_box_tag 'cb_save_card', '1', false, :onclick => "set_save_card_field()"
+      = label_tag 'cb_save_card', 'Save this card for future orders?'
+  %em Your credit card details are sent directly to our payment processor, and are never stored at Machovy
   .actions
     = f.submit "Get it NOW"
