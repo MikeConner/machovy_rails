@@ -135,6 +135,8 @@ class PromotionsController < ApplicationController
       if params[:promotion_type] != Promotion::LOCAL_DEAL
         redirect_to :back, :alert => 'Merchants can only create local deals'
       end
+      # Required to support nested attributes
+      @promotion.promotion_images.new
       # Fall through to render 'new'
     else
       # Admins can only create ads/affiliates; check type argument
@@ -165,7 +167,7 @@ class PromotionsController < ApplicationController
     end
     
     @promotion = vendor.promotions.build(params[:promotion])
-   
+    
     if @promotion.save
       redirect_to @promotion, :notice => message
     else

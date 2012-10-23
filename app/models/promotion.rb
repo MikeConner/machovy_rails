@@ -88,6 +88,8 @@ class Promotion < ActiveRecord::Base
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :blog_posts
   
+  accepts_nested_attributes_for :promotion_images, :allow_destroy => true, :reject_if => :all_blank
+  
   # Order by grid weight (Promotion.all will return a list sorted by weight)
   default_scope order(:grid_weight)
   

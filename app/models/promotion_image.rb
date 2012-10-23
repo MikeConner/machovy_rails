@@ -24,12 +24,8 @@
 #
 class PromotionImage < ActiveRecord::Base
   MAX_CAPTION_LEN = 64
-  MAX_TYPE_LEN = 16
-  
-  # Could potentially have video?
-  SUPPORTED_MEDIA_TYPES = ['image/png', 'image/jpg', 'image/gif']
-  
-  attr_accessible :caption, :media_type, :slideshow_image, :remote_image_url
+    
+  attr_accessible :caption, :slideshow_image, :remote_image_url
   
   belongs_to :promotion
   
@@ -38,9 +34,6 @@ class PromotionImage < ActiveRecord::Base
   validates :caption, :length => { maximum: MAX_CAPTION_LEN }, :allow_blank => true
   validates :slideshow_image, :presence => { :if => :no_image_url }
   validates :remote_image_url, :presence => { :if => :no_image }
-  validates :media_type, :presence => true,
-                         :length => { maximum: MAX_TYPE_LEN },
-                         :inclusion => { in: SUPPORTED_MEDIA_TYPES }
                          
   validates_presence_of :promotion_id
   

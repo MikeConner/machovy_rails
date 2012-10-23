@@ -288,7 +288,6 @@ FactoryGirl.define do
     promotion
     
     caption { generate(:random_description) }
-    media_type { PromotionImage::SUPPORTED_MEDIA_TYPES.sample }
     remote_image_url 'http://ecx.images-amazon.com/images/I/21kMsAPQeZL.jpg'
   end
   

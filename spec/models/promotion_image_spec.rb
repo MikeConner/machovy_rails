@@ -19,7 +19,6 @@ describe "PromotionImages" do
   subject { image }
   
   it { should respond_to(:caption) }
-  it { should respond_to(:media_type) }
   it { should respond_to(:slideshow_image) }
   it { should respond_to(:remote_image_url) }
   
@@ -35,32 +34,6 @@ describe "PromotionImages" do
   
   describe "caption too long" do
     before { image.caption = "a"*(PromotionImage::MAX_CAPTION_LEN + 1) }
-    
-    it { should_not be_valid }
-  end
-  
-  describe "no media type" do
-    before { image.media_type = " " }
-    
-    it { should_not be_valid }
-  end
-  
-  describe "media type too long" do
-    before { image.media_type = "a"*(PromotionImage::MAX_TYPE_LEN + 1) }
-    
-    it { should_not be_valid }
-  end
-  
-  describe "media types (valid)" do
-    PromotionImage::SUPPORTED_MEDIA_TYPES.each do |type|
-      before { image.media_type = type }
-      
-      it { should be_valid }
-    end
-  end
-  
-  describe "invalid media type" do
-    before { image.media_type = "not in list" }
     
     it { should_not be_valid }
   end
