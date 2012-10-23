@@ -68,6 +68,11 @@ class Voucher < ActiveRecord::Base
   # Make sure time periods are consistent
   validate :time_periods
   
+  # This is used for pagination; show 10/page by default (since the default of 30 is probably too many)
+  def self.per_page
+    10
+  end
+  
   # An open voucher is one that could still be used
   def open?
     (AVAILABLE == status) && !expired? 

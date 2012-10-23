@@ -1,5 +1,12 @@
 %h1 Listing vouchers
-%table
+%center
+  = page_entries_info
+  = will_paginate
+  - if @display_search
+    %br/
+    Search
+    = text_field_tag 'voucher_search', nil, { :placeholder => "Enter an email or voucher", :onchange => "find_voucher('voucher_search');" }
+%table.table.zebra-striped
   %col{:width => "100"}/
   %col{:width => "100"}/
   %col{:width => "75"}/
@@ -9,15 +16,17 @@
   %col{:width => "100"}/
   - if @display_controls
     %col{:width => "100"}/
-  %tr
-    %th Uuid
-    %th Redeemed on
-    %th Status
-    %th Notes
-    %th Expires on
-    %th Issued on
-    %th Promotion
-    - if @display_controls
-      %th (Un)Redeem
-  - @vouchers.each do |voucher|
-    = render :partial => 'voucher', :locals => { :v => voucher, :controls => @display_controls }
+  .row-fluid
+    %tr
+      %th Uuid
+      %th Redeemed on
+      %th Status
+      %th Notes
+      %th Expires on
+      %th Issued on
+      %th Promotion
+      - if @display_controls
+        %th (Un)Redeem
+    - @vouchers.each do |voucher|
+      = render :partial => 'voucher', :locals => { :v => voucher, :controls => @display_controls }
+%center= will_paginate

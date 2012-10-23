@@ -1,23 +1,33 @@
 class Merchant::VouchersController < Merchant::BaseController
+  respond_to :html, :js
+  
   before_filter :authenticate_user!, :except => [:generate_qrcode]
   before_filter :ensure_correct_vendor, :only => [:redeem]
   load_and_authorize_resource
   
   # GET /vouchers
   def index
-    # If called with a promotion_id, it's a merchant, and we want
+    # If a voucher_id or a user_id is given, it's coming from a search request
     @display_controls = false
-    if params[:promotion_id]
-      # verify once again that it's a vendor -- otherwise security risk!
+    @display_search = false
+    if params[:voucher_id] or params[:user_id] or params[:promotion_id]
       if current_user.has_role?(Role::MERCHANT)
-        @vouchers = Promotion.find(params[:promotion_id]).vouchers
         @display_controls = true
+        if params[:voucher_id]
+          @vouchers = [Voucher.find(params[:voucher_id])].paginate(page: params[:page])
+        elsif params[:user_id]
+          @vouchers = User.find(params[:user_id]).vouchers.paginate(page: params[:page])
+        else
+          @display_search = true
+          @vouchers = Promotion.find(params[:promotion_id]).vouchers.paginate(page: params[:page])
+        end
       else
         redirect_to root_path, :alert => I18n.t('vendors_only')
       end
-    else
-      @vouchers = current_user.vouchers.all
-    end
+    else      
+      # It's a user asking for their own vouchers
+      @vouchers = current_user.vouchers.paginate(page: params[:page])
+    end    
   end
 
   # GET /vouchers/1
@@ -55,6 +65,27 @@ class Merchant::VouchersController < Merchant::BaseController
       format.png { render :qrcode => redeem_merchant_voucher_url(@voucher) }
       format.html { render :nothing => true }
     end
+  end
+  
+  def search
+    voucher = Voucher.find_by_uuid(params[:key])
+    if voucher.nil?
+      user = User.find_by_email(params[:key])
+    end
+        
+    respond_to do |format|
+      format.js do
+        if voucher.nil? and user.nil?
+          render :json => "none".to_json
+        else
+          if user.nil?
+            render :js => "window.location.href = \"#{merchant_vouchers_path(:voucher_id => voucher.id)}\""
+          else
+            render :js => "window.location.href = \"#{merchant_vouchers_path(:user_id => user.id)}\""
+          end
+        end 
+      end
+    end    
   end
   
   # GET /vouchers/1/redeem

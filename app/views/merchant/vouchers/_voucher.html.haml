@@ -1,18 +1,19 @@
-%tr
-  %td= v.uuid
-  %td= v.redemption_date.try(:strftime, '%b %d, %Y')
-  %td= v.status
-  %td= v.notes
-  %td= v.expiration_date.try(:strftime, '%b %d, %Y')
-  %td= v.issue_date.try(:strftime, '%b %d, %Y')
-  %td= v.promotion.title
-  - if controls
-    %td
-      -# button_to makes a form, so they'd appear on separate lines
-      -# need promotion id to redisplay the same form (could use Ajax and a partial to render the buttons; let's try it this way first)
-      - if v.redeemable?
-        = link_to "Redeem", redeem_merchant_voucher_path(v, :status => Voucher::REDEEMED, :promotion_id => v.promotion.id), :method => :put
-      - elsif v.unredeemable?
-        = link_to "Unredeem", redeem_merchant_voucher_path(v, :status => Voucher::AVAILABLE, :promotion_id => v.promotion.id), :method => :put
-      - if v.returnable?
-        = link_to "Return", redeem_merchant_voucher_path(v, :status => Voucher::RETURNED, :promotion_id => v.promotion.id), :method => :put
+.row-fluid
+  %tr
+    %td= v.uuid
+    %td= v.redemption_date.try(:strftime, '%b %d, %Y')
+    %td= v.status
+    %td= v.notes
+    %td= v.expiration_date.try(:strftime, '%b %d, %Y')
+    %td= v.issue_date.try(:strftime, '%b %d, %Y')
+    %td= v.promotion.title
+    - if controls
+      %td
+        -# button_to makes a form, so they'd appear on separate lines
+        -# need promotion id to redisplay the same form (could use Ajax and a partial to render the buttons; let's try it this way first)
+        - if v.redeemable?
+          = link_to "Redeem", redeem_merchant_voucher_path(v, :status => Voucher::REDEEMED, :promotion_id => v.promotion.id), :method => :put
+        - elsif v.unredeemable?
+          = link_to "Unredeem", redeem_merchant_voucher_path(v, :status => Voucher::AVAILABLE, :promotion_id => v.promotion.id), :method => :put
+        - if v.returnable?
+          = link_to "Return", redeem_merchant_voucher_path(v, :status => Voucher::RETURNED, :promotion_id => v.promotion.id), :method => :put

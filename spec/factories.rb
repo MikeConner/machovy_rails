@@ -185,7 +185,7 @@ FactoryGirl.define do
     destination { generate(:random_url) }
     start_date Time.now
     end_date 2.weeks.from_now
-    remote_main_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
+    remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
   end
   
   factory :affiliate, :class => Promotion do
@@ -199,7 +199,7 @@ FactoryGirl.define do
     destination { generate(:random_url) }
     start_date Time.now
     end_date 2.weeks.from_now
-    remote_main_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
+    remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
   end
   
   factory :promotion do
@@ -217,7 +217,7 @@ FactoryGirl.define do
     description { generate(:random_comment) }
     start_date Time.now
     end_date 2.weeks.from_now
-    remote_main_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
+    remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
         
     factory :promotion_with_orders do
       ignore do

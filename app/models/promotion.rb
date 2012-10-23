@@ -112,8 +112,8 @@ class Promotion < ActiveRecord::Base
   validates :promotion_type, :presence => true,
                              :length => { maximum: MAX_STR_LEN },
                              :inclusion => { in: PROMOTION_TYPE }
-  validates :main_image, :presence => { :if => :no_main_image_url }
-  validates :remote_main_image_url, :presence => { :if => :no_main_image }
+  validates :teaser_image, :presence => { :if => :no_teaser_image_url }
+  validates :remote_teaser_image_url, :presence => { :if => :no_teaser_image }
   
   # "Deal" fields
   validates :retail_value, :price, :revenue_shared, 
@@ -203,11 +203,11 @@ class Promotion < ActiveRecord::Base
 	end
 	
 private
-  def no_main_image_url
-    self.remote_main_image_url.blank?
+  def no_teaser_image_url
+    self.remote_teaser_image_url.blank?
   end
   
-  def no_main_image
-    self.main_image.blank?
+  def no_teaser_image
+    self.teaser_image.blank?
   end
 end

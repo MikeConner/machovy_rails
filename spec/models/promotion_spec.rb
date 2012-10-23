@@ -71,6 +71,7 @@ describe "Promotions" do
   it { should respond_to(:num_open_vouchers) }
   it { should respond_to(:quantity_description) }
   it { should respond_to(:discount) }
+  it { should respond_to(:discount_pct) }
   
   its(:metro) { should == metro }
   its(:vendor) { should == vendor }
@@ -557,6 +558,7 @@ describe "Promotions" do
     
     it "should be the difference" do
       promotion.discount.should == 500
+      promotion.discount_pct.should == 50
     end
   end
   
@@ -568,6 +570,7 @@ describe "Promotions" do
     
     it "should not go negative" do
       promotion.discount.should == 0
+      promotion.discount_pct.should == 0
     end
   end
   

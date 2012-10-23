@@ -47,6 +47,10 @@ MachovyRails::Application.routes.draw do
         put :redeem
         get :generate_qrcode
       end
+      
+      collection do
+        put :search
+      end
     end
   end
   

@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: careers
+# Table name: positions
 #
 #  id            :integer         not null, primary key
 #  title         :string(255)
@@ -12,10 +12,10 @@
 #  updated_at    :datetime        not null
 #
 
-describe "Careers" do
-  let(:career) { FactoryGirl.create(:career) }
+describe "Positions" do
+  let(:position) { FactoryGirl.create(:position) }
   
-  subject { career }
+  subject { position }
   
   it { should respond_to(:description) }
   it { should respond_to(:email_contact) }
@@ -26,19 +26,19 @@ describe "Careers" do
   it { should be_valid }
   
   describe "missing description" do
-    before { career.description = " " }
+    before { position.description = " " }
     
     it { should_not be_valid }
   end
   
   describe "missing email contact" do
-    before { career.email_contact = " " }
+    before { position.email_contact = " " }
     
     it { should_not be_valid }
     
     describe "email format (valid)" do
       ApplicationHelper::VALID_EMAILS.each do |address|
-        before { career.email_contact = address }
+        before { position.email_contact = address }
         
         it { should be_valid }
       end
@@ -46,7 +46,7 @@ describe "Careers" do
 
     describe "email format (invalid)" do
       ApplicationHelper::INVALID_EMAILS.each do |address|
-        before { career.email_contact = address }
+        before { position.email_contact = address }
         
         it { should_not be_valid }
       end
@@ -54,19 +54,19 @@ describe "Careers" do
   end
   
   describe "missing email subject" do
-    before { career.email_subject = " " }
+    before { position.email_subject = " " }
     
     it { should_not be_valid }
   end
   
   describe "no expiration" do
-    before { career.expiration = nil }
+    before { position.expiration = nil }
     
     it { should_not be_valid }
   end
   
   describe "missing title" do
-    before { career.title = " " }
+    before { position.title = " " }
     
     it { should_not be_valid }
   end
