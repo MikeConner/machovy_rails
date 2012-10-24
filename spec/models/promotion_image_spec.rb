@@ -2,14 +2,14 @@
 #
 # Table name: promotion_images
 #
-#  id               :integer         not null, primary key
-#  caption          :string(64)
-#  media_type       :string(16)
-#  slideshow_image  :string(255)
-#  remote_image_url :string(255)
-#  promotion_id     :integer
-#  created_at       :datetime        not null
-#  updated_at       :datetime        not null
+#  id                         :integer         not null, primary key
+#  caption                    :string(64)
+#  media_type                 :string(16)
+#  slideshow_image            :string(255)
+#  remote_slideshow_image_url :string(255)
+#  promotion_id               :integer
+#  created_at                 :datetime        not null
+#  updated_at                 :datetime        not null
 #
 
 describe "PromotionImages" do
@@ -20,7 +20,7 @@ describe "PromotionImages" do
   
   it { should respond_to(:caption) }
   it { should respond_to(:slideshow_image) }
-  it { should respond_to(:remote_image_url) }
+  it { should respond_to(:remote_slideshow_image_url) }
   
   its(:promotion) { should == promotion }
   

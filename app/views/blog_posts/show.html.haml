@@ -1,0 +1,7 @@
+%p#notice= notice
+%h1= @blog_post.title
+%p= @blog_post.body.html_safe
+%hr
+  %p
+    %b Curator:
+    = @blog_post.curator.name

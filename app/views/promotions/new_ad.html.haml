@@ -41,5 +41,9 @@
     = f.label :end_date
     %br/
     = f.date_select :end_date, :order => [:month, :day, :year]
+  .field
+    = f.label :categories
+    %br/
+    = f.collection_select(:category_ids, Category.all, :id, :name, {}, { :multiple => true })
   .actions
     = f.submit "Create #{@promotion.promotion_type}"

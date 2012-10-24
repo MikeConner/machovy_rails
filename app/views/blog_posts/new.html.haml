@@ -1,0 +1,7 @@
+= javascript_include_tag "ckeditor/init"
+%h1 New Blog Post
+= form_for @blog_post do |f|
+  = render :partial => 'shared/error_messages', :locals => { :errors => @blog_post.errors, :name => 'Blog Post' }
+  = render :partial => 'blog_fields', :locals => { :f => f }
+  .actions
+    = f.submit 'Create Blog Post'

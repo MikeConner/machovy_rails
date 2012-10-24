@@ -114,8 +114,7 @@ class Promotion < ActiveRecord::Base
   validates :promotion_type, :presence => true,
                              :length => { maximum: MAX_STR_LEN },
                              :inclusion => { in: PROMOTION_TYPE }
-  validates :teaser_image, :presence => { :if => :no_teaser_image_url }
-  validates :remote_teaser_image_url, :presence => { :if => :no_teaser_image }
+  validates_presence_of :teaser_image
   
   # "Deal" fields
   validates :retail_value, :price, :revenue_shared, 
@@ -123,6 +122,8 @@ class Promotion < ActiveRecord::Base
             :if => :deal?
   validates :quantity, :numericality => { only_integer: true, greater_than_or_equal_to: 1 },
             :if => :deal?
+  
+  validates_associated :promotion_images
   
   # Not sure why I need the *args, but it croaks without it!
   def initialize(*args)
@@ -202,14 +203,5 @@ class Promotion < ActiveRecord::Base
 
 	def discount_pct
 		self.retail_value.nil? ? 0 : discount / self.retail_value * 100.0
-	end
-	
-private
-  def no_teaser_image_url
-    self.remote_teaser_image_url.blank?
-  end
-  
-  def no_teaser_image
-    self.teaser_image.blank?
-  end
+	end	
 end

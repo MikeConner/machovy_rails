@@ -288,7 +288,7 @@ FactoryGirl.define do
     promotion
     
     caption { generate(:random_description) }
-    remote_image_url 'http://ecx.images-amazon.com/images/I/21kMsAPQeZL.jpg'
+    remote_slideshow_image_url 'http://ecx.images-amazon.com/images/I/21kMsAPQeZL.jpg'
   end
   
   factory :promotion_log do

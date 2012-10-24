@@ -773,7 +773,7 @@ describe "Promotions" do
       end
     end
   end  
-  
+
   describe "promotion images" do
     let(:promotion) { FactoryGirl.create(:promotion_with_images) }
     
@@ -783,9 +783,9 @@ describe "Promotions" do
         image.promotion.should == promotion
       end
     end
-    
+
     describe "should destroy" do
-      before { promotion.destroy }
+      before { promotion.reload.destroy }
       
       it "promotion images should be gone" do
         PromotionImage.count.should == 0

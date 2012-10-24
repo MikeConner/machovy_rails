@@ -9,10 +9,6 @@ describe "Ordering through Stripe" do
   it "user should not have a customer id" do
     user.stripe_id.should be_nil
   end
-
-  it "order should not have a customer id" do
-    order.charge_id.should be_nil
-  end
   
   describe "Sign in first" do
     before do

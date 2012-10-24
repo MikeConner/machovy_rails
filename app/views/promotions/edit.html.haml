@@ -4,6 +4,7 @@
   -# Grid weight is validated, so it has to be in the form, but customers can't see it
   - if current_user.is_customer?
     = f.hidden_field :grid_weight
+    = f.hidden_field :category_ids
   - else
     -# Admins who are editing can approve or reject with comments
     %p== Please review this promotion, proposed by #{@promotion.vendor.name}.
@@ -29,4 +30,8 @@
     .field
       = f.label :grid_weight
       = f.number_field :grid_weight, :min => 1
+    .field
+      = f.label :categories
+      %br/
+      = f.collection_select(:category_ids, Category.all, :id, :name, { :selected => @promotion.category_ids }, { :multiple => true })      
   = render :partial => 'shared/promotion_fields', :locals => { :f => f, :share_pct => @promotion.revenue_shared }

@@ -21,8 +21,9 @@ class Ability
       can :manage, [Vendor, Promotion, PromotionLog, PromotionImage]
       can :redeem, [Voucher]
     end
+    
     if user.has_role?(Role::CONTENT_ADMIN)
-      can :manage, [BlogPost, Promotion, PromotionLog, PromotionImage]
+      can :manage, [BlogPost, Promotion, PromotionLog, PromotionImage, Metro, Vendor]
     end
     
     #   if user.admin?

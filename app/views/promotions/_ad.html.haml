@@ -10,7 +10,7 @@
     %th Destination
   - p_list.each do |p|
     %tr
-      %td= link_to(image_tag(p.teaser_image_url(:teaser).to_s, :size => "200x200"), { :action => 'show' })
+      %td= link_to(image_tag(p.teaser_image_url(:teaser).to_s, :size => "200x200"), promotion_path(p))
       -# %td= image_tag p.teaser_image_url(:teaser).to_s, :size => "200x200"
       %td= p.title
       - if p.end_date.nil?

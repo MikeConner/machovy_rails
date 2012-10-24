@@ -1,18 +1,19 @@
 %h1 Site Admin
 %br	
-  -# /site_admin/front_page
   = link_to 'Front Page Manager', front_grid_manage_path
 %br	
-  = link_to 'Add Vendor', new_merchant_vendor_path
+  = link_to 'New Advertising Deal', new_promotion_path(:promotion_type => Promotion::AD)
 %br	
-  = link_to 'Add Advertising Deal', new_promotion_path(:promotion_type => Promotion::AD)
-%br	
-  = link_to 'add Affiliate Deal', new_promotion_path(:promotion_type => Promotion::AFFILIATE)
+  = link_to 'New Affiliate Deal', new_promotion_path(:promotion_type => Promotion::AFFILIATE)
+%br 
+  = link_to 'New Blog Post', new_blog_post_path
+%br 
+  = link_to 'Show All Blog Posts', blog_posts_path
 %br/	
 %h1 ADVANCED AREA
 = link_to 'Review Vendor Promotions', promotions_path
 %br 
-= link_to 'Add Metro Area', new_metro_path
+= link_to 'New Metro Area', new_metro_path
 %br	
   = link_to 'User Admin', manage_users_path
 %br	

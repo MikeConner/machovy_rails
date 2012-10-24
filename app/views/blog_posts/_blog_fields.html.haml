@@ -1,0 +1,23 @@
+.field
+  = f.label :title
+  %br/
+  = f.text_field :title
+.field
+  = f.label :body
+  %br/
+  = f.cktext_area :body,  :input_html => {:cols => 10, :rows => 20}, :toolbar => 'Easy'
+.field
+  = f.label :curator_id
+  %br/
+  = f.collection_select :curator_id, Curator.all, :id, :name 
+.field
+  = f.label :posted_at
+  %br/
+  = f.datetime_select :posted_at, :order => [:month, :day, :year], :ampm => true
+.field
+  = f.label :weight
+  = f.number_field :weight, :min => 1
+.field
+  = f.label :promotions
+  %br/
+  = f.collection_select(:promotion_ids, Promotion.all, :id, :title, { :selected => @blog_post.promotion_ids }, { :multiple => true })

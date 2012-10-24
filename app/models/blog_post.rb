@@ -28,6 +28,8 @@ class BlogPost < ActiveRecord::Base
   extend FriendlyId
   friendly_id :title, use: [:slugged, :history]
 
+  DEFAULT_BLOG_WEIGHT = 10
+  
   attr_accessible :body, :posted_at, :title, :weight, 
                   :curator_id, :promotion_ids
                   
@@ -35,7 +37,7 @@ class BlogPost < ActiveRecord::Base
   belongs_to :curator
   
   # Curator will select a set of promotions to associate with this blog post
-  has_and_belongs_to_many :promotions, :uniq => true
+  has_and_belongs_to_many :promotions
 
   # BlogPost.all returns list ordered by weight
   default_scope order(:weight)
@@ -46,4 +48,10 @@ class BlogPost < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :body
   validates_numericality_of :weight, { :only_integer => true, :greater_than => 0 }
+  
+  def initialize(*args)
+    super
+    
+    self.weight = DEFAULT_BLOG_WEIGHT
+  end
 end

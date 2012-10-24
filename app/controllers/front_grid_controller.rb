@@ -24,7 +24,7 @@ class FrontGridController < ApplicationController
     index
   end
   
-  # "Site Admin" page
+  # Front grid manager
   def manage
     render 'static_pages/front_page'
   end

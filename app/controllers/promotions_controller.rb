@@ -1,8 +1,13 @@
 require 'utilities'
 
 class PromotionsController < ApplicationController
+  include ApplicationHelper
+  
   before_filter :authenticate_user!, :except => [:show]
-  before_filter :ensure_vendor, :only => [:index, :edit, :new, :create]
+  # SuperAdmins and ContentAdmins can do these functions
+  before_filter :ensure_vendor, :only => [:index, :new, :create]
+  # Only SuperAdmins (and vendors) can edit local deals
+  before_filter :ensure_vendor_or_super_admin, :only => [:edit]
   before_filter :ensure_correct_vendor, :only => [:edit, :show_logs, :accept_edits, :reject_edits]
   
   load_and_authorize_resource
@@ -239,6 +244,14 @@ private
   # Devise/CanCan has already ensured there's a logged in user with appropriate permissions
   # We additionally need to make sure it's a vendor (or SuperAdmin)
   def ensure_vendor
+    if !admin_user?
+      if current_user.vendor.nil?
+        redirect_to root_path, :alert => I18n.t('vendors_only') 
+      end
+    end
+  end
+
+  def ensure_vendor_or_super_admin
     if !current_user.has_role?(Role::SUPER_ADMIN)
       if current_user.vendor.nil?
         redirect_to root_path, :alert => I18n.t('vendors_only') 
@@ -247,7 +260,7 @@ private
   end
   
   def ensure_correct_vendor
-    if !current_user.has_role?(Role::SUPER_ADMIN)
+    if !admin_user?
       @promotion = Promotion.find(params[:id])
       if @promotion.vendor != current_user.vendor
         redirect_to root_path, :alert => I18n.t('foreign_promotion')

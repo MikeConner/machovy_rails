@@ -1,0 +1,15 @@
+%h1 Listing Blog Posts
+%table.table.zebra-striped
+  %tr
+    %th Title
+    %th Body
+    %th Posted
+    %th Curator
+    %th Weight
+  - @blog_posts.each do |post|
+    %tr
+      %td= link_to post.title, edit_blog_post_path(post)
+      %td= truncate(post.body, :length => 100).html_safe
+      %td= time_ago_in_words(post.posted_at)
+      %td= post.curator.nil? ? 'None' : post.curator.name
+      %td= post.weight
