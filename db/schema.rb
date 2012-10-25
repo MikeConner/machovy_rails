@@ -11,7 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20121023232516) do
+=======
+ActiveRecord::Schema.define(:version => 20121020011131) do
+>>>>>>> Updated front page design/layout
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -179,7 +183,7 @@ ActiveRecord::Schema.define(:version => 20121023232516) do
     t.string   "username"
     t.integer  "item"
     t.string   "table"
-    t.integer  "month",      :limit => 2
+    t.integer  "month"
     t.integer  "year",       :limit => 8
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
