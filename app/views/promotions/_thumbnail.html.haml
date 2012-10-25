@@ -4,28 +4,28 @@
   %tr
     %td{:valign => "top", :align => "left", :rowspan => 6}
       %b Description:
-      = @promotion.description
+      = promotion.description
   %tr
     %td
       %b Vendor:
-      = @promotion.vendor.name
+      = promotion.vendor.name
   %tr
     %td
       %b Quantity:
-      = @promotion.quantity_description
+      = promotion.quantity_description
   %tr
     %td
       %b Metro:
-      = Metro.find(@promotion.metro_id).name
+      = Metro.find(promotion.metro_id).name
   %tr
     %td
       %b Start date:
-      = @promotion.start_date.try(:strftime, '%b %d, %Y')
+      = promotion.start_date.try(:strftime, '%b %d, %Y')
   %tr
     %td
       %b Expiration date:
-      = @promotion.end_date.try(:strftime, '%b %d, %Y')
+      = promotion.end_date.try(:strftime, '%b %d, %Y')
   %tr
     %td{:colspan => 2}
       FINE PRINT:
-      = @promotion.limitations
+      = promotion.limitations

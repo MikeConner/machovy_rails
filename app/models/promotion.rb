@@ -194,7 +194,11 @@ class Promotion < ActiveRecord::Base
   
   # Apply threshold and create text to display for user
   def quantity_description
-    self.remaining_quantity < QUANTITY_THRESHOLD_PCT * self.quantity ? "Only #{self.remaining_quantity} left!" : "Plenty"
+    if self.quantity.nil?
+      "Plenty"
+    else
+      self.remaining_quantity < QUANTITY_THRESHOLD_PCT * self.quantity ? "Only #{self.remaining_quantity} left!" : "Plenty"
+    end
   end
   
   def discount

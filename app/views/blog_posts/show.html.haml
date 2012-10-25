@@ -4,4 +4,7 @@
 %hr
   %p
     %b Curator:
+    = image_tag @blog_post.curator.picture_url.to_s
     = @blog_post.curator.name
+- @blog_post.promotions.each do |promotion|
+  = render :partial => 'promotions/thumbnail', :locals => { :promotion => promotion }
