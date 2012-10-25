@@ -5,6 +5,10 @@
     - if current_row.count > 0
       = render :partial => 'promotion_row', :locals => { :promotions => current_row }  
 .row-fluid
+  .span12
+    %p.section-headline Recent Blog Posts
+
+.row-fluid
   - @blog_posts.each_with_index do |blogpost, index|
     .span3
       %h5

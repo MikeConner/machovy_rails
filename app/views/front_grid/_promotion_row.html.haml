@@ -2,11 +2,11 @@
   - promotions.each do |promotion|
     %li.span3
       .thumbnail
-        = link_to image_tag(promotion.teaser_image_url(:teaser).to_s), promotion_path(promotion) 
-        %ul.menu
-          %li.item1.product-details
-            %i{:class => "icon-plus-sign icon-white"}
-            = link_to "More Details", promotion_path(promotion) 
+      = link_to image_tag(promotion.teaser_image_url(:teaser).to_s), promotion_path(promotion) 
+      %ul.menu
+        %li.item1.product-details
+          %i{:class => "icon-plus-sign icon-white"}
+          = link_to "More Details", promotion_path(promotion) 
       .caption
         %h5=sanitize(promotion.title)
-        %p= truncate(promotion.description, :length => 120)    
+        %p= truncate(promotion.description, :length => 120)   
