@@ -19,3 +19,21 @@ function update_amount(source, destination, unit_price) {
   $('#' + destination).val($('#' + source).val() * unit_price)
 }
 
+function munge_affiliate_url(source, destination) {
+    var raw_url = $('#' + source).val();
+    // Ruby still parses the arguments out; doesn't matter for our purposes
+    //var escaped_url = jQuery('<div/>').text(raw_url).html()
+    
+	jQuery.ajax({url:"/affiliate_url",
+	             data: "url=" + raw_url,
+		         type: "GET",
+	             success: function(data) { 
+	               $('#' + destination).val(data)
+	               if (data == "") {
+	                 alert("Unable to convert url")
+	               }
+	             },
+	             error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
+	               { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
+	             async: false}); 	    		
+}

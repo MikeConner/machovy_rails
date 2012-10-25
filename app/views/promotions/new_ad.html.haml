@@ -17,7 +17,13 @@
   .field
     = f.label :destination
     %br/
-    = f.text_field :destination, :size => 100
+    - @affiliate = Promotion::AFFILIATE == @promotion.promotion_type
+    - if @affiliate
+      %em Copy the raw url here; it will be converted to an affiliate link and appear in the destination box below
+      %br/
+      = text_field_tag 'raw_affiliate_url', nil, :size => 300, :onchange => "munge_affiliate_url('raw_affiliate_url', 'promotion_destination')"
+      %br/
+    = f.text_field :destination, :size => 300, :disabled => @affiliate
   .field
     = f.label :description
     %br/
