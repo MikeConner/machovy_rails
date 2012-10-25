@@ -1,0 +1,6 @@
+%h1 MailChimp lists
+- @lists.each do |name, emails|
+  %h2= name
+  %ol
+    - emails.each do |email|
+      %li= email

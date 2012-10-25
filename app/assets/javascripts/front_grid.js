@@ -1,5 +1,5 @@
 $(function() {
-    $('ul.nav > li').click(function (e) {
+    $('ul.nav-pills > li').click(function (e) {
         e.preventDefault();
         // If we weren't redirecting, this is all you need to handle the selection
         // This gets lost on the redirect, though, so has to be done in the views instead
