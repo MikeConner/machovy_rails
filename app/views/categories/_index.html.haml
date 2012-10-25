@@ -1,12 +1,17 @@
-<% @categories = Category.all %>
-<div class="row-fluid">
-  <div class="span12 nav-menus">
-      <ul class="nav nav-pills">
-          <li class="active"><a href="index.html">All Items</a></li>
-<% @categories.each do |category| %>
-<li><a href="#"><%=category.name%></a></li>
-
-<% end %>						 
-      </ul>
-  </div><!--span12 -->
-</div><!--row-fluid -->
+.row-fluid
+  .span12.nav-menus
+    %ul.nav.nav-pills
+      - if active_category.nil? or active_category == 'All'
+        %li.active
+          = link_to 'All Items', root_path, :id => "All"
+      - else
+        %li
+          = link_to 'All Items', root_path, :id => "All"
+      -# The link is necessary for the jQuery to work, but the actual navigation is Ajax, so the destinations don't matter
+      - @categories.each do |category|
+        - if active_category == category.name
+          %li.active
+            = link_to category.name, root_path, :id => "#{category.name}"
+        - else
+          %li
+            = link_to category.name, root_path, :id => "#{category.name}"

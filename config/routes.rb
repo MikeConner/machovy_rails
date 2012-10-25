@@ -63,7 +63,8 @@ MachovyRails::Application.routes.draw do
   match "/about" => "static_pages#about"
   match "/front_grid_manage" => "front_grid#manage"
   match "/affiliate_url" => "ajax#affiliate_url"
-  
+  match "/category" => "ajax#category"
+    
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

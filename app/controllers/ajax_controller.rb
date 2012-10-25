@@ -13,4 +13,10 @@ class AjaxController < ApplicationController
     # It puts the blank value into destination, which prevents the form from validating
     render :text => ""
   end
+  
+  def category
+    respond_to do |format|
+      format.js { render :js => "window.location.href = \"#{root_path(:category => params[:category])}\"" }
+    end
+  end
 end
