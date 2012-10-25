@@ -6,8 +6,12 @@
       = render :partial => 'promotion_row', :locals => { :promotions => current_row }  
 .row-fluid
   - @blog_posts.each_with_index do |blogpost, index|
-    %h4.span3
-      = link_to truncate(blogpost.title, :length => 25), blog_post_path(blogpost)
-      = truncate(blogpost.body, :length => 200).html_safe		  
+    .span3
+      %h5
+        = link_to truncate(blogpost.title, :length => 25), blog_post_path(blogpost)
+        .i.icon-comment.pull-right
+      %p
+        = truncate(blogpost.body, :length => 200).html_safe     
+      
  
 

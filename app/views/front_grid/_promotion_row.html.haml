@@ -4,7 +4,7 @@
       .thumbnail
         = link_to image_tag(promotion.teaser_image_url(:teaser).to_s), promotion_path(promotion) 
         %ul.menu
-          %li.item1
+          %li.item1.product-details
             %i{:class => "icon-plus-sign icon-white"}
             = link_to "More Details", promotion_path(promotion) 
       .caption

@@ -13,11 +13,11 @@
   body {
     padding-top: 0;
   }
-  // Unfix the navbars
-  .navbar-fixed-top,
-  .navbar-fixed-bottom {
-    position: static;
-  }
+ // Unfix the navbars
+ // .navbar-fixed-top,
+ //.navbar-fixed-bottom {
+ //   position: static;
+ // }
   .navbar-fixed-top {
     margin-bottom: $baseLineHeight;
   }
@@ -26,7 +26,7 @@
   }
   .navbar-fixed-top .navbar-inner,
   .navbar-fixed-bottom .navbar-inner {
-    padding: 5px;
+    padding: 2px 35px 10px 0px;
   }
   .navbar .container {
     width: auto;
