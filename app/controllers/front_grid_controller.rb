@@ -20,7 +20,10 @@ class FrontGridController < ApplicationController
   end
 
   def deals
-    index
+    @active_category = params[:category]
+    @promotions = filter_deals(@active_category)
+    @deals_per_row = DEALS_PER_ROW
+    @categories = Category.all
   end
   
   # Front grid manager
@@ -34,12 +37,18 @@ private
     
     @promotions = Promotion.front_page.select { |p| p.displayable? and 
                                                     (selected_category.nil? or p.category_ids.include?(selected_category.id)) }
-
     if @promotions.length > MAX_DEALS
       @promotions = @promotions[0, MAX_DEALS]
     end      
     
     @promotions
+  end
+  
+  def filter_deals(category)   
+    selected_category = find_selection(category)
+    
+    Promotion.all.select { |p| p.displayable? and 
+                               (selected_category.nil? or p.category_ids.include?(selected_category.id)) }
   end
   
   def filter_ads(category)

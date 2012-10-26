@@ -8,24 +8,24 @@ class Ability
     
     if user.has_role?(Role::SUPER_ADMIN)
       can :manage, :all
-      can :access, :rails_admin
+      can :access, :rails_admin      
+    elsif user.has_role?(Role::CONTENT_ADMIN)
+      can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position]
+      can :create, [Order, Voucher]
+      can :manage, [BlogPost, Promotion, PromotionLog, PromotionImage, Metro, Vendor, Voucher]
+      cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro]
+    elsif user.has_role?(Role::MERCHANT)
+      can :create, [Promotion]
+      can :manage, [Vendor, Promotion, PromotionLog, PromotionImage]
+      can :redeem, [Voucher]
     else
+      # manage Promotion necessary to create an order; manage Voucher to generate qrcode
       can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position]
       can :create, [Order, Voucher]
       can :manage, [Promotion, Voucher, PromotionLog] # manage Promotion necessary to create an order; manage Voucher to generate qrcode
       cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro]
     end
-    
-    if user.has_role?(Role::MERCHANT)
-      can :create, [Promotion]
-      can :manage, [Vendor, Promotion, PromotionLog, PromotionImage]
-      can :redeem, [Voucher]
-    end
-    
-    if user.has_role?(Role::CONTENT_ADMIN)
-      can :manage, [BlogPost, Promotion, PromotionLog, PromotionImage, Metro, Vendor]
-    end
-    
+
     #   if user.admin?
     #     can :manage, :all
     #   else

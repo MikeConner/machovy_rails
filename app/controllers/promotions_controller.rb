@@ -172,6 +172,10 @@ class PromotionsController < ApplicationController
     end
     
     @promotion = vendor.promotions.build(params[:promotion])
+    # Only Local Deals need Machovy approved; others are coming in from Admins and are Approved by definition
+    if @promotion.promotion_type != Promotion::LOCAL_DEAL
+      @promotion.status = Promotion::MACHOVY_APPROVED
+    end
     
     if @promotion.save
       redirect_to @promotion, :notice => message

@@ -81,7 +81,6 @@
   						<%end%>
 
   					<% if admin_user? %>
-  						<% if current_user.has_role?(Role::SUPER_ADMIN)%>
 	                <li class="dropdown">
 	                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 												ADMIN <b class="caret"></b>
@@ -93,7 +92,7 @@
 	                      <% end %>
 	                    </ul>
 	                  </li>
-					  	<%end%>  						<% end %>	
+					  	<%end%>  						
 
 	                  <li class="dropdown">
 	  									<%=link_to 'LOG OUT', destroy_user_session_path, :method => :delete %>
