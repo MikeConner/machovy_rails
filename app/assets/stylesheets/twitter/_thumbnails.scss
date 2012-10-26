@@ -21,6 +21,11 @@
   float: left; // Explicity set the float since we don't require .span* classes
   margin-bottom: $baseLineHeight;
   margin-left: $gridGutterWidth;
+  float: left;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  border: 6px solid #ccc;
+  padding: 0px 0px 15px 0px;
 }
 
 // The actual thumbnail (can be `a` or `div`)
