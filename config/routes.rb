@@ -54,16 +54,21 @@ MachovyRails::Application.routes.draw do
     end
   end
   
-  # Need an admin namespace?
-  
-  match "/deals" => "front_grid#deals"
+  # Filtering
+  match "/deals" => "ajax#deals"
+  # Can't call this /metro because I already have a :metro resource, and it would conflict with show
+  match "/metro_filter" => "ajax#metro"
+  match "/category" => "ajax#category"
+
+  # Affiliate processing
+  match "/category" => "ajax#category"
 
   # Static pages
-  match "/SiteAdmin" => "static_pages#admin_index"
+  match "/site_admin" => "static_pages#admin_index"
   match "/about" => "static_pages#about"
   match "/front_grid_manage" => "front_grid#manage"
-  match "/affiliate_url" => "ajax#affiliate_url"
-  match "/category" => "ajax#category"
+  
+  # MailChimp integration test
   match "/mailing" => "static_pages#mailing"
     
   # The priority is based upon order of creation:

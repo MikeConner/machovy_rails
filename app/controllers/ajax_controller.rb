@@ -14,9 +14,29 @@ class AjaxController < ApplicationController
     render :text => ""
   end
   
-  def category
+  def deals
+    session[:deals] = params[:deals]
+
     respond_to do |format|
-      format.js { render :js => "window.location.href = \"#{root_path(:category => params[:category])}\"" }
+      format.html { redirect_to root_path }
+      format.js { render :js => "window.location.href = \"#{root_path}\"" }
+    end
+  end
+  
+  def metro
+    session[:metro] = params[:metro]
+
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.js { render :js => "window.location.href = \"#{root_path}\"" }
+    end
+  end
+  
+  def category
+    session[:category] = params[:category]
+    
+    respond_to do |format|
+      format.js { render :js => "window.location.href = \"#{root_path}\"" }
     end
   end
 end

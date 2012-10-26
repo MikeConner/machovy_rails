@@ -1,0 +1,43 @@
+.row-fluid.footer
+  .span3
+    %h4 Machovy
+    %ul
+      %li
+        = link_to 'Company Info', about_path
+      %li
+        = link_to 'Careers', positions_path
+      %li
+        = link_to 'FAQ', '#'
+      %li
+        = link_to 'Terms and Conditions', '#'
+  .span3
+    %h4 Social
+    %ul
+      %li
+      %li
+        = link_to 'Twitter', 'http://twitter.com/machovy'
+      %li
+        = link_to 'Facebook', 'http://www.facebook.com/Machovy'
+    %p
+  .span3
+    %h4 Other Content
+    %ul
+      - 4.times do
+        %li
+          = link_to Faker::Lorem.sentence(1), '#'
+  .span3
+    %h4 Merchants
+    Do you have a product or service that are readers must have?  Do you want access to the most interesting audience on the internet? 
+    %br/
+    = link_to 'Create a merchant account', new_user_registration_path(:merchant => true)
+  .container.copyright
+    %p Copyright &copy; Machovy 2011. All Rights Reserved.
+:javascript
+  var _gaq = _gaq || []; 
+  _gaq.push(['_setAccount', 'UA-33770108-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();

@@ -4,18 +4,18 @@
     - current_row = @promotions[i * @deals_per_row, @deals_per_row]
     - if current_row.count > 0
       = render :partial => 'promotion_row', :locals => { :promotions => current_row }  
-.row-fluid
-  .span12
-    %p.section-headline Recent Blog Posts
-
-.row-fluid
-  - @blog_posts.each_with_index do |blogpost, index|
-    .span3
-      %h5
-        = link_to truncate(blogpost.title, :length => 25), blog_post_path(blogpost)
-        .i.icon-comment.pull-right
-      %p
-        = truncate(blogpost.body, :length => 200).html_safe     
+- if session[:deals] != 'true'
+  .row-fluid
+    .span12
+      %p.section-headline Recent Blog Posts
+    .row-fluid
+      - @blog_posts.each_with_index do |blogpost, index|
+        .span3
+          %h5
+            = link_to truncate(blogpost.title, :length => 25), blog_post_path(blogpost)
+            .i.icon-comment.pull-right
+          %p
+            = truncate(blogpost.body, :length => 200).html_safe     
       
  
 

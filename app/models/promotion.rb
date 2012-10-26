@@ -131,6 +131,11 @@ class Promotion < ActiveRecord::Base
     
     self.grid_weight = DEFAULT_GRID_WEIGHT
   end
+
+  # DB scope can get lost when we're filtering and otherwise processing these as arrays
+  def <=>(other)
+    grid_weight <=> other.grid_weight
+  end
   
   def approved?
     [MACHOVY_APPROVED, VENDOR_APPROVED].include?(self.status)

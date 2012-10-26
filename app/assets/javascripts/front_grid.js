@@ -3,7 +3,7 @@ $(function() {
         e.preventDefault();
         // If we weren't redirecting, this is all you need to handle the selection
         // This gets lost on the redirect, though, so has to be done in the views instead
-//        $('ul.nav > li').removeClass('active');
+//        $('ul.nav-pills > li').removeClass('active');
 //        $(this).addClass('active');          
 
         // Filter the results              
@@ -15,5 +15,5 @@ $(function() {
 		               { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
 		             async: false
 		});
-	});         
+	});  	
 });
