@@ -1,7 +1,7 @@
 %h1= @curator.name
 .row-fluid
   .span3
-    = image_tag(@curator.picture_url.to_s)
+    = image_tag(@curator.picture_url(:curator_index).to_s)
   .span3
     = @curator.bio
     = @curator.twitter

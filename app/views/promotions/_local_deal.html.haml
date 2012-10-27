@@ -21,9 +21,9 @@
     .carousel.slide.product-detal-slider
       .carousel-inner
         .item
-          = image_tag @promotion.teaser_image_url(:teaser).to_s, :size => "200x200"
+          = image_tag @promotion.teaser_image_url(:deal_view).to_s
         .item
-          = image_tag @promotion.main_image_url(:teaser).to_s, :size => "200x200"
+          = image_tag @promotion.main_image_url(:deal_view).to_s
   .span6.product-detail
     %h3= @promotion.title
     %h4 Strapline for product goes here
@@ -54,53 +54,10 @@
       - if @show_buy_button
         %button.btn.btn-small.btn-danger 
           = link_to 'BUY IT', order_promotion_path(@promotion)   
-  -#
-    %ul#breadcrumbs
-    %li= link_to 'The Deal', '#service-single'
-    %li= link_to 'Fine Print', '#faq'
-    %li= link_to 'Venue', '#career'
-    .one-column#full-tabs
-    .three-fourth-last
-    #service-single
-      %p
-      .one-half
-        %h3 Details
-        %p= @promotion.description
-        %br/
-        .one-fourth
-          %ul.dotted-list
-            %li.simple-check-list-2== Retail Value: #{number_to_currency(@promotion.retail_value)}
-            %li.simple-check-list-2== Your Price: #{number_to_currency(@promotion.price)}
-            %li.simple-check-list-2== Discount: #{number_to_currency(@promotion.discount)}
-            %li.simple-check-list-2== Quantity: #{@promotion.remaining_quantity}
-        .one-fourth-last
-          %ul.dotted-list  
-            %li.simple-check-list-2== Start Date: #{@promotion.start_date.try(:strftime, '%b %d, %Y')}
-            %li.simple-check-list-2== Expiration Date: #{@promotion.end_date.try(:strftime, '%b %d, %Y')}    
-        - if @show_buy_button 
-          = link_to 'BUY IT', order_promotion_path(@promotion), :class => "button big round"
-      .one-fourth-last
-        = image_tag @promotion.teaser_image_url(:teaser).to_s, :size => "470x470"
-        = image_tag @promotion.main_image_url(:teaser).to_s, :size => "470x470"   
-    #faq{:style => "border-top: 1px"}
-      %h2 Fine Print
-      %p= @promotion.limitations
-      - if @show_terms
-        %p== Terms: #{@promotion.revenue_shared}% revenue shared
-    #venue
-      %h2 About the Venue
-      .post-title-text
-        %p.one-fourth= @promotion.vendor.name
-        %p
-          .one-fourth= @promotion.vendor.city
-          &nbsp;
-        %p.one-fourth &nbsp;
-        %p.one-fourth &nbsp;
-        %p.one-fourth &nbsp;
 .row-fluid
   - @curators.each do |curator|
     .span3
-      = link_to(image_tag(curator.picture_url.to_s), curator_path(curator))
+      = link_to(image_tag(curator.picture_url(:avatar).to_s), curator_path(curator))
       = link_to curator.name, curator_path(curator)
       %br/
       - curator.blog_posts_for(@promotion).each do |post|

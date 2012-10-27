@@ -2,7 +2,7 @@
 - @curators.each do |curator|
   .row-fluid
     .span3
-      = link_to(image_tag(curator.picture_url.to_s), curator_path(curator))
+      = link_to(image_tag(curator.picture_url(:curator_index).to_s), curator_path(curator))
     .span3
       = link_to curator.name, curator_path(curator)
       = curator.bio

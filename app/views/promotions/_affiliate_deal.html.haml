@@ -1,6 +1,6 @@
 .row-fluid
   .span3
-    = image_tag @promotion.teaser_image_url(:teaser).to_s, :size => "470x470"  
+    = image_tag @promotion.teaser_image_url(:deal_view).to_s  
   .span9.product-detail
     %h3= @promotion.title
     %h4 Strapline for product goes here
@@ -14,7 +14,7 @@
 .row-fluid
   - @curators.each do |curator|
     .span3
-      = link_to(image_tag(curator.picture_url.to_s), curator_path(curator))
+      = link_to(image_tag(curator.picture_url(:avatar).to_s), curator_path(curator))
       = link_to curator.name, curator_path(curator)
       %br/
       - curator.blog_posts_for(@promotion).each do |post|
