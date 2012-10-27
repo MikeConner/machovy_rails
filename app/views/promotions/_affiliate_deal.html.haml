@@ -1,13 +1,21 @@
-- if @show_buy_button
-  .row-fluid
-    .span3
-      = image_tag @promotion.teaser_image_url(:teaser).to_s, :size => "470x470"  
-    .span9.product-detail
-      %h3= @promotion.title
-      %h4 Strapline for product goes here
+.row-fluid
+  .span3
+    = image_tag @promotion.teaser_image_url(:teaser).to_s, :size => "470x470"  
+  .span9.product-detail
+    %h3= @promotion.title
+    %h4 Strapline for product goes here
+    - if @show_buy_button
       %p
         %button.btn.btn-small.btn-danger 
           = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank"
-  .row-fluid
-    .span6
-      %p= @promotion.description
+.row-fluid
+  .span6
+    %p= @promotion.description
+.row-fluid
+  - @curators.each do |curator|
+    .span3
+      = link_to(image_tag(curator.picture_url.to_s), curator_path(curator))
+      = link_to curator.name, curator_path(curator)
+      %br/
+      - curator.blog_posts_for(@promotion).each do |post|
+        = link_to post.title, blog_post_path(post)

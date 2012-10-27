@@ -1,4 +1,3 @@
-%p#notice= notice
 - if @promotion.ad?
   %h1= @promotion.title
   = link_to 'Go ahead, Visit ' + @promotion.vendor.name, @promotion.destination, :target => "_blank", :class => "button big round"

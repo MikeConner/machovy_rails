@@ -16,7 +16,6 @@
     If you're rejecting the changes, please tell us why below
     %br= text_area_tag 'comment', nil, :rows => 5, :class => "slider-input"
     = submit_tag 'Reject Machovy Changes', :class => "button big round"
--# if @show_buy_button
 .row-fluid
   .span3.product
     .carousel.slide.product-detal-slider
@@ -98,3 +97,11 @@
         %p.one-fourth &nbsp;
         %p.one-fourth &nbsp;
         %p.one-fourth &nbsp;
+.row-fluid
+  - @curators.each do |curator|
+    .span3
+      = link_to(image_tag(curator.picture_url.to_s), curator_path(curator))
+      = link_to curator.name, curator_path(curator)
+      %br/
+      - curator.blog_posts_for(@promotion).each do |post|
+        = link_to post.title, blog_post_path(post)

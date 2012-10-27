@@ -58,4 +58,8 @@ class Curator < ActiveRecord::Base
     
     @posts
   end
+  
+  def blog_posts_for(promotion)
+    blog_posts.select { |post| post.promotion_ids.include?(promotion.id) }
+  end
 end

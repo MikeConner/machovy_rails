@@ -95,7 +95,10 @@ class PromotionsController < ApplicationController
     @show_buy_button = current_user.nil? || current_user.is_customer? || current_user.has_role?(Role::SUPER_ADMIN)
     @show_terms = !current_user.nil? && !current_user.is_customer?
     @show_accept_reject = !current_user.nil? && current_user.has_role?(Role::MERCHANT) && @promotion.status == Promotion::EDITED
-    
+    @curators = @promotion.curators
+    if @curators.length > 4
+      @curators = @curators[0, 4]
+    end
     # Ignore for now logging stuff for users who aren't logged in
     if !current_user.nil? and current_user.is_customer?
       current_user.log_activity(@promotion)
