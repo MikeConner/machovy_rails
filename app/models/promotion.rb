@@ -83,6 +83,7 @@ class Promotion < ActiveRecord::Base
   # Cannot delete a promotion if there are orders for it
   has_many :orders, :dependent => :restrict
   has_many :vouchers, :through => :orders
+  has_many :feedbacks, :through => :orders, :uniq => true
   has_many :promotion_logs, :dependent => :destroy
   has_many :promotion_images, :dependent => :destroy
   has_and_belongs_to_many :categories
@@ -125,7 +126,8 @@ class Promotion < ActiveRecord::Base
   
   validates_associated :promotion_images
   
-  # Not sure why I need the *args, but it croaks without it!
+  # WARNING! Not absolutely guaranteed to be called by Rails, but seems to work for current usage
+  # after_initialize is recommended, but that doesn't fill anything on new, which is what we need for the create forms
   def initialize(*args)
     super
     

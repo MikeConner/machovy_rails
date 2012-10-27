@@ -2,15 +2,15 @@
 #
 # Table name: blog_posts
 #
-#  id         :integer         not null, primary key
-#  title      :string(255)
-#  body       :text
-#  curator_id :integer
-#  posted_at  :datetime
-#  weight     :integer
-#  created_at :datetime        not null
-#  updated_at :datetime        not null
-#  slug       :string(255)
+#  id              :integer         not null, primary key
+#  title           :string(255)
+#  body            :text
+#  curator_id      :integer
+#  activation_date :datetime
+#  weight          :integer
+#  created_at      :datetime        not null
+#  updated_at      :datetime        not null
+#  slug            :string(255)
 #
 
 describe "Blog posts" do
@@ -20,14 +20,16 @@ describe "Blog posts" do
   subject { post }
   
   it { should respond_to(:body) }
-  it { should respond_to(:posted_at) }
+  it { should respond_to(:activation_date) }
   it { should respond_to(:title) }
   it { should respond_to(:weight) }
+  it { should respond_to(:displayable?) }
   it { should respond_to(:promotions) }
   
   its(:curator) { should == curator }
   
   it { should be_valid }
+  it { should_not be_displayable }
   
   describe "weight validation" do
     before { post.weight = 0 }
@@ -56,6 +58,18 @@ describe "Blog posts" do
         @ids.push(FactoryGirl.create(:blog_post, :curator => curator, :weight => @current_weight))
       end
     end
+  end
+  
+  describe "displayable" do
+    before { post.activation_date = 1.day.ago }
+    
+    it { should be_displayable }
+  end
+  
+  describe "no activation date" do
+    before { post.activation_date = nil }
+    
+    it { should be_displayable }
   end
   
   describe "promotions" do

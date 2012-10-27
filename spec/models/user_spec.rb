@@ -22,7 +22,7 @@ describe "Users" do
   let (:user) { FactoryGirl.create(:user) }
   
   subject { user }
-  
+
   it { should respond_to(:email) }
   it { should respond_to(:password) }
   it { should respond_to(:password_confirmation) }
@@ -35,7 +35,8 @@ describe "Users" do
   it { should respond_to(:is_customer?) }
   it { should respond_to(:stripe_id) }
   it { should respond_to(:stripe_customer_obj) }
-  
+  it { should respond_to(:log_activity) }
+    
   it { should be_valid }
 
   describe "Vendor users" do
@@ -329,7 +330,43 @@ describe "Users" do
       end 
     end        
   end
-  
+
+  describe "activities" do
+    let(:user) { FactoryGirl.create(:user_with_activities) }
+    
+    it { should respond_to(:activities) }
+    
+    it { should be_valid }
+    
+    it "should have activities" do
+      user.activities.count.should == 5
+      user.activities.each do |activity|
+        activity.user.should == user
+      end
+    end
+    
+    describe "deletion" do
+      before { user.destroy }
+      
+      it "should have deleted them" do
+        User.count.should == 0
+        Activity.count.should == 0
+      end
+    end
+    
+    describe "activity logs" do
+      let(:promotion) { FactoryGirl.create(:promotion) }
+      let(:activity) { user.activities.first }
+      before { user.log_activity(promotion) }
+      
+      it "should have a log" do
+        user.activities.count.should == 6
+        activity.activity_name.should == promotion.class.name
+        activity.activity_id.should == promotion.id
+      end
+    end  
+  end
+ 
   describe "stripe id" do
     it "should not have an id" do
       user.stripe_id.should be_nil

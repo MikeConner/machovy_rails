@@ -35,21 +35,25 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   attr_accessible :email, :password, :password_confirmation, :remember_me,
-                  :role_ids, :order_ids, :vendor_id, :vendor_attributes
+                  :role_ids, :order_ids, :vendor_id, :vendor_attributes, :feedbacks_attributes
          
   has_many :orders, :dependent => :restrict
   has_many :vouchers, :through => :orders
+  has_many :activities, :dependent => :destroy
+  has_many :feedbacks, :dependent => :restrict
   has_and_belongs_to_many :roles, :uniq => true
   has_one :vendor, :dependent => :nullify
   
   accepts_nested_attributes_for :vendor, :allow_destroy => true, :reject_if => :all_blank
+  accepts_nested_attributes_for :feedbacks, :allow_destroy => true, :reject_if => :all_blank
   
   # Note that devise has a unique index on email (case sensitive?)
   validates :email, :presence => true,
                     :uniqueness => { case_sensitive: false },
                     :format => { with: EMAIL_REGEX }
 
-  validates_associated :orders
+  # Causes issues with feedback
+  #validates_associated :orders
   
   def has_role?(role)
       return !!self.roles.find_by_name(role)
@@ -57,6 +61,12 @@ class User < ActiveRecord::Base
   
   def is_customer?
     0 == self.roles.count
+  end
+  
+  def log_activity(obj)
+    activity = self.activities.build
+    activity.init_activity(obj)
+    activity.save    
   end
   
   # Retrieve the stripe customer object for this user. One twist is that the user could have been deleted

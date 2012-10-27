@@ -57,7 +57,7 @@ FactoryGirl.define do
     title { generate(:random_description) }
     body { generate(:random_post) }
     weight { Random.rand(100) + 1 }
-    posted_at 1.hour.ago
+    activation_date 2.days.from_now
     
     factory :blog_post_with_promotions do
       ignore do
@@ -69,6 +69,18 @@ FactoryGirl.define do
           blog_post.promotions << FactoryGirl.create(:promotion)
         end
       end
+    end
+  end
+  
+  factory :feedback do
+    user
+    order
+    
+    stars { Random.rand(5) + 1 }
+    comments { generate(:random_post) }
+    
+    after(:build) do |feedback|
+      feedback.recommend = Random.rand >= 0.1
     end
   end
   
@@ -171,7 +183,7 @@ FactoryGirl.define do
       after(:create) do |order, evaluator|
         FactoryGirl.create_list(:voucher, evaluator.num_vouchers, :order => order, :user => order.user, :promotion => order.promotion)
       end
-    end
+    end    
   end
   
   factory :ad, :class => Promotion do
@@ -282,6 +294,20 @@ FactoryGirl.define do
         FactoryGirl.create_list(:promotion_image, evaluator.num_images, :promotion => promotion)
       end
     end
+    
+    factory :promotion_with_feedback do
+      ignore do
+        num_orders 5
+      end
+      
+      after(:create) do |promotion, evaluator|
+        FactoryGirl.create_list(:order, evaluator.num_orders, :promotion => promotion)
+        
+        promotion.reload.orders.each do |order|
+          order.user.feedbacks << FactoryGirl.create(:feedback, :user => order.user, :order => order)
+        end
+      end      
+    end
   end
   
   factory :promotion_image do
@@ -359,6 +385,20 @@ FactoryGirl.define do
             
       after(:create) do |user, evaluator|
         FactoryGirl.create_list(:order, evaluator.num_orders, :user => user)
+      end      
+    end
+    
+    factory :user_with_feedback do
+      ignore do
+        num_orders 3
+      end
+
+      after(:create) do |user, evaluator|
+        FactoryGirl.create_list(:order, evaluator.num_orders, :user => user)
+        
+        user.reload.orders.each do |order|
+          user.feedbacks << FactoryGirl.create(:feedback, :user => user, :order => order)
+        end
       end
     end
     
@@ -371,6 +411,16 @@ FactoryGirl.define do
         FactoryGirl.create_list(:order_with_vouchers, evaluator.num_orders, :user => user)
       end
     end
+    
+    factory :user_with_activities do
+      ignore do
+        num_activities 5
+      end
+      
+      after(:create) do |user, evaluator|
+        FactoryGirl.create_list(:activity, evaluator.num_activities, :user => user)
+      end
+    end    
   end
   
   factory :vendor do   

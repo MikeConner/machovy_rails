@@ -10,7 +10,12 @@ MachovyRails::Application.routes.draw do
   devise_for :users, :controllers => { :registrations => 'registrations' }
   
   # Add a user admin action (not part of devise)
-  resources :users, :only => [:manage] do
+  resources :users, :only => [:manage, :survey, :feedback] do    
+    member do
+      get 'survey'
+      put 'feedback'
+    end
+
     get 'manage', :on => :collection
   end
   
@@ -27,7 +32,10 @@ MachovyRails::Application.routes.draw do
       get 'show_logs'
       put 'accept_edits'
       put 'reject_edits'
+      put 'update_weight'
     end
+    
+    get 'manage', :on => :collection
   end
   resources :promotion_images
   resources :roles
@@ -66,7 +74,6 @@ MachovyRails::Application.routes.draw do
   # Static pages
   match "/site_admin" => "static_pages#admin_index"
   match "/about" => "static_pages#about"
-  match "/front_grid_manage" => "front_grid#manage"
   
   # MailChimp integration test
   match "/mailing" => "static_pages#mailing"

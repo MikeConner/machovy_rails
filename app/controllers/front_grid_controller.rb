@@ -5,10 +5,6 @@ class FrontGridController < ApplicationController
   DEALS_PER_ROW = 4
   DEFAULT_METRO = 'Pittsburgh'
   
-  include ApplicationHelper
-  
-  before_filter :admin_only, :only => [:manage]
-  
   def index
     # Need to have a metro, or filtering will return nothing
     if session[:metro].nil?
@@ -26,15 +22,16 @@ class FrontGridController < ApplicationController
     else  
       @promotions = filter_promotions(@active_category, @active_metro)
       @ads = filter_ads(@active_category, @active_metro)
-      @blog_posts = BlogPost.limit(MAX_BLOGS)
-    end    
+      metro_id = Metro.find_by_name(@active_metro)
+      # Will get highest-scoring blog posts that either have no assigned promotions (and therefore no metro)
+      #   Or if they do have promotions, make sure they're associated with promotions in this metro area
+      @blog_posts = BlogPost.select { |p| p.displayable? and (p.metros.empty? or p.metro_ids.include?(metro_id)) }.sort
+      if @blog_posts.length > MAX_BLOGS
+        @blog_posts = @blog_posts[0, MAX_BLOGS]
+      end
+     end    
   end
-  
-  # Front grid manager
-  def manage
-    render 'static_pages/front_page'
-  end
-  
+    
 private
   def filter_promotions(category, metro)   
     selected_category = find_selection(category)
@@ -73,10 +70,4 @@ private
     # "All" will not be found, so will set selected_category to nil, equivalent to no category
     category.nil? ? nil : Category.find(:first, :conditions => [ "lower(name) = ?", category.downcase ]) 
   end
-    
-  def admin_only
-    unless admin_user?
-      redirect_to root_path, :alert => I18n.t('admins_only')
-    end      
-  end  
 end

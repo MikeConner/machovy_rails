@@ -72,4 +72,45 @@ describe "UserMailer" do
       end
     end
   end  
+
+  describe "Survey email" do
+    let(:msg) { UserMailer.survey_email(order.reload) }
+    
+    it "should return a message object" do
+      msg.should_not be_nil
+    end
+  
+    it "should have the right sender" do
+      msg.from.to_s.should match(ApplicationHelper::MAILER_FROM_ADDRESS)
+    end
+    
+    describe "Send the message" do
+      before { msg.deliver }
+        
+      it "should get queued" do
+        ActionMailer::Base.deliveries.should_not be_empty
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+      # msg.to is a Mail::AddressContainer object, not a string
+      # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
+      it "should be sent to the right user" do
+        msg.to.to_s.should match(order.email)
+      end
+      
+      it "should have the right subject" do
+        msg.subject.should == UserMailer::SURVEY_MESSAGE
+      end
+      
+      it "should not have attachments" do
+        msg.attachments.count.should == 0
+      end
+      
+      it "should have the right content" do
+        msg.body.encoded.should match('Thank you for redeeming your voucher')
+        msg.body.encoded.should match('We always appreciate feedback')
+      
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+    end
+  end  
 end
