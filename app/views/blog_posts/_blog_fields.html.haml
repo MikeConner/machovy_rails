@@ -11,9 +11,9 @@
   %br/
   = f.collection_select :curator_id, Curator.all, :id, :name 
 .field
-  = f.label :posted_at
+  = f.label :activation_date
   %br/
-  = f.datetime_select :posted_at, :order => [:month, :day, :year], :ampm => true
+  = f.datetime_select :activation_date, :order => [:month, :day, :year], :ampm => true
 .field
   = f.label :weight
   = f.number_field :weight, :min => 1

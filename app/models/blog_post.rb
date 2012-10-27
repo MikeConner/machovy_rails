@@ -2,15 +2,15 @@
 #
 # Table name: blog_posts
 #
-#  id         :integer         not null, primary key
-#  title      :string(255)
-#  body       :text
-#  curator_id :integer
-#  posted_at  :datetime
-#  weight     :integer
-#  created_at :datetime        not null
-#  updated_at :datetime        not null
-#  slug       :string(255)
+#  id              :integer         not null, primary key
+#  title           :string(255)
+#  body            :text
+#  curator_id      :integer
+#  activation_date :datetime
+#  weight          :integer
+#  created_at      :datetime        not null
+#  updated_at      :datetime        not null
+#  slug            :string(255)
 #
 
 # CHARTER
@@ -30,7 +30,7 @@ class BlogPost < ActiveRecord::Base
 
   DEFAULT_BLOG_WEIGHT = 10
   
-  attr_accessible :body, :posted_at, :title, :weight, 
+  attr_accessible :body, :activation_date, :title, :weight, 
                   :curator_id, :promotion_ids
                   
   # foreign keys  
@@ -49,9 +49,16 @@ class BlogPost < ActiveRecord::Base
   validates_presence_of :body
   validates_numericality_of :weight, { :only_integer => true, :greater_than => 0 }
   
+  # WARNING! Not absolutely guaranteed to be called by Rails, but seems to work for current usage
+  # after_initialize is recommended, but that doesn't fill anything on new, which is what we need for the create forms
   def initialize(*args)
     super
     
     self.weight = DEFAULT_BLOG_WEIGHT
+    self.activation_date = Time.now
+  end
+  
+  def displayable?
+    self.activation_date.nil? or Time.now >= self.activation_date
   end
 end

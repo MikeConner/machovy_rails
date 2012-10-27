@@ -57,7 +57,7 @@ FactoryGirl.define do
     title { generate(:random_description) }
     body { generate(:random_post) }
     weight { Random.rand(100) + 1 }
-    posted_at 1.hour.ago
+    activation_date 2.days.from_now
     
     factory :blog_post_with_promotions do
       ignore do
@@ -369,6 +369,16 @@ FactoryGirl.define do
             
       after(:create) do |user, evaluator|
         FactoryGirl.create_list(:order_with_vouchers, evaluator.num_orders, :user => user)
+      end
+    end
+    
+    factory :user_with_activities do
+      ignore do
+        num_activities 5
+      end
+      
+      after(:create) do |user, evaluator|
+        FactoryGirl.create_list(:activity, evaluator.num_activities, :user => user)
       end
     end
   end
