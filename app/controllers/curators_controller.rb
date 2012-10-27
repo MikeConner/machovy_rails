@@ -1,5 +1,5 @@
 class CuratorsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:some_action_without_auth]
+  before_filter :authenticate_user!, :except => [:index, :show]
   load_and_authorize_resource
 
   # GET /curators
