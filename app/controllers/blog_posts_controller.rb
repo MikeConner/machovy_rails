@@ -10,6 +10,14 @@ class BlogPostsController < ApplicationController
   # GET /blog_posts/1
   def show
     @blog_post = BlogPost.find(params[:id])
+    
+    if !current_user.nil? and current_user.is_customer?
+      current_user.log_activity(@blog_post)
+    end
+    
+    # Get associated promotions
+    metro_id = Metro.find_by_name(session[:metro])
+    @promotions = @blog_post.promotions.select { |p| p.displayable? and (p.metro.id == metro_id) }.sort
   end
 
   # GET /blog_posts/new

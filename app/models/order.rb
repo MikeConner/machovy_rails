@@ -35,8 +35,10 @@ class Order < ActiveRecord::Base
   belongs_to :user
   belongs_to :promotion
     
-  has_one :vendor, :through => :promotion
   has_many :vouchers, :dependent => :destroy
+  has_many :feedbacks, :through => :user
+  
+  has_one :vendor, :through => :promotion
     
   validates_presence_of :user_id
   validates_presence_of :promotion_id

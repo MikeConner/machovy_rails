@@ -19,6 +19,7 @@ en:
   vendor_created: "Vendor was successfully created."
   voucher_success: "Voucher status successfully updated."
   voucher_failure: "Error updating voucher status."
+  feedback_thanks: "Thank you for your feedback!"
   # This is necessary because of a bug in will_paginate (in order to display page_entries_info correctly)
   activerecord:
     models:

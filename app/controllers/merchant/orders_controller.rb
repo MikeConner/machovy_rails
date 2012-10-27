@@ -122,7 +122,8 @@ class Merchant::OrdersController < Merchant::BaseController
           
           # If everything worked (voucher saved), send the email
           UserMailer.promotion_order_email(@order).deliver
-
+          @order.user.log_activity(@order)
+          
           redirect_to merchant_order_path(@order) and return
         end
       else

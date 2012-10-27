@@ -22,8 +22,14 @@ class FrontGridController < ApplicationController
     else  
       @promotions = filter_promotions(@active_category, @active_metro)
       @ads = filter_ads(@active_category, @active_metro)
-      @blog_posts = BlogPost.limit(MAX_BLOGS)
-    end    
+      metro_id = Metro.find_by_name(@active_metro)
+      # Will get highest-scoring blog posts that either have no assigned promotions (and therefore no metro)
+      #   Or if they do have promotions, make sure they're associated with promotions in this metro area
+      @blog_posts = BlogPost.select { |p| p.displayable? and (p.metros.empty? or p.metro_ids.include?(metro_id)) }.sort
+      if @blog_posts.length > MAX_BLOGS
+        @blog_posts = @blog_posts[0, MAX_BLOGS]
+      end
+     end    
   end
     
 private

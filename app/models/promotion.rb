@@ -83,6 +83,7 @@ class Promotion < ActiveRecord::Base
   # Cannot delete a promotion if there are orders for it
   has_many :orders, :dependent => :restrict
   has_many :vouchers, :through => :orders
+  has_many :feedbacks, :through => :orders, :uniq => true
   has_many :promotion_logs, :dependent => :destroy
   has_many :promotion_images, :dependent => :destroy
   has_and_belongs_to_many :categories

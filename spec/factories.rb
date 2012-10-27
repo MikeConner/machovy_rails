@@ -72,6 +72,18 @@ FactoryGirl.define do
     end
   end
   
+  factory :feedback do
+    user
+    order
+    
+    stars { Random.rand(5) + 1 }
+    comments { generate(:random_post) }
+    
+    after(:build) do |feedback|
+      feedback.recommend = Random.rand >= 0.1
+    end
+  end
+  
   factory :position do
     title { generate(:random_description) }
     description { generate(:random_post) }
@@ -171,7 +183,7 @@ FactoryGirl.define do
       after(:create) do |order, evaluator|
         FactoryGirl.create_list(:voucher, evaluator.num_vouchers, :order => order, :user => order.user, :promotion => order.promotion)
       end
-    end
+    end    
   end
   
   factory :ad, :class => Promotion do
@@ -282,6 +294,20 @@ FactoryGirl.define do
         FactoryGirl.create_list(:promotion_image, evaluator.num_images, :promotion => promotion)
       end
     end
+    
+    factory :promotion_with_feedback do
+      ignore do
+        num_orders 5
+      end
+      
+      after(:create) do |promotion, evaluator|
+        FactoryGirl.create_list(:order, evaluator.num_orders, :promotion => promotion)
+        
+        promotion.reload.orders.each do |order|
+          order.user.feedbacks << FactoryGirl.create(:feedback, :user => order.user, :order => order)
+        end
+      end      
+    end
   end
   
   factory :promotion_image do
@@ -359,6 +385,20 @@ FactoryGirl.define do
             
       after(:create) do |user, evaluator|
         FactoryGirl.create_list(:order, evaluator.num_orders, :user => user)
+      end      
+    end
+    
+    factory :user_with_feedback do
+      ignore do
+        num_orders 3
+      end
+
+      after(:create) do |user, evaluator|
+        FactoryGirl.create_list(:order, evaluator.num_orders, :user => user)
+        
+        user.reload.orders.each do |order|
+          user.feedbacks << FactoryGirl.create(:feedback, :user => user, :order => order)
+        end
       end
     end
     
@@ -380,7 +420,7 @@ FactoryGirl.define do
       after(:create) do |user, evaluator|
         FactoryGirl.create_list(:activity, evaluator.num_activities, :user => user)
       end
-    end
+    end    
   end
   
   factory :vendor do   

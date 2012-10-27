@@ -24,6 +24,11 @@ class Activity < ActiveRecord::Base
   validates :activity_name, :presence => true, 
                             :length => { maximum: 32 } 
                             
+  def init_activity(obj)
+    self.activity_name = obj.class.name
+    self.activity_id = obj.id
+  end
+  
   # Returns duration in seconds               
   def duration
     self.updated_at - self.created_at

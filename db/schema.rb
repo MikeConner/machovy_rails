@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121023232516) do
+ActiveRecord::Schema.define(:version => 20121027025929) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -26,10 +26,10 @@ ActiveRecord::Schema.define(:version => 20121023232516) do
     t.string   "title"
     t.text     "body"
     t.integer  "curator_id"
-    t.datetime "posted_at"
+    t.datetime "activation_date"
     t.integer  "weight"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.string   "slug"
   end
 
@@ -86,6 +86,18 @@ ActiveRecord::Schema.define(:version => 20121023232516) do
 
   add_index "curators", ["name"], :name => "index_curators_on_name", :unique => true
   add_index "curators", ["twitter"], :name => "index_curators_on_twitter", :unique => true
+
+  create_table "feedbacks", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "order_id"
+    t.integer  "stars"
+    t.boolean  "recommend"
+    t.text     "comments"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "feedbacks", ["user_id", "order_id"], :name => "index_feedbacks_on_user_id_and_order_id", :unique => true
 
   create_table "friendly_id_slugs", :force => true do |t|
     t.string   "slug",                         :null => false
@@ -179,7 +191,7 @@ ActiveRecord::Schema.define(:version => 20121023232516) do
     t.string   "username"
     t.integer  "item"
     t.string   "table"
-    t.integer  "month"
+    t.integer  "month",      :limit => 2
     t.integer  "year",       :limit => 8
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
