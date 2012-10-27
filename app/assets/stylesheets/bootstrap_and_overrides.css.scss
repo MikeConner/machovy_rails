@@ -220,6 +220,8 @@ a:hover {
 	color: #333333;
 }
 
+.caption p {height:82px; overflow:hidden;}
+
 .cta {
 	background-color: #333333;
 	color: #dddddd;
@@ -374,7 +376,11 @@ ul, ul ul {
 	margin-bottom: -2px;
 }
 
+.menu {
+padding-left:10px;
+}
 
+.menu a {color:#000000; text-weight:bold;}
 
 
 /* .: Footer :. */
@@ -417,17 +423,24 @@ ul, ul ul {
 
 
 
+.product-list {background-color:white;}
 
 
 
 
 
+@media (max-width: 979px) {
+	.logo, .logo img{padding:8px 15px 0px 40px;}
+	.sub-headline {padding:20px 0px 0px 0px;}
+}
 
 @media (min-width: 1200px) {
 
   .container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
 		width:960px!important;
 	}
+	
+	.product-list {height:405px;}
 
 }
 
