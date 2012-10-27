@@ -12,5 +12,4 @@
       = f.collection_select(:category_ids, Category.all, :id, :name, {}, { :multiple => true })
   - else
     = f.hidden_field :grid_weight
-    = f.hidden_field :category_ids
   = render :partial => 'shared/promotion_fields', :locals => { :f => f, :share_pct => Promotion::MINIMUM_REVENUE_SHARE }

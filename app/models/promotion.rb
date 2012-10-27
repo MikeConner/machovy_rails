@@ -69,7 +69,7 @@ class Promotion < ActiveRecord::Base
   attr_accessible :description, :destination, :grid_weight, :limitations, :price, :quantity, :retail_value, :revenue_shared,
                   :start_date, :end_date, :teaser_image, :remote_teaser_image_url, :main_image, :remote_main_image_url,
                   :status, :promotion_type, :title, :voucher_instructions,
-                  :metro_id, :vendor_id, :category_ids, :blog_post_ids, :promotion_image_ids
+                  :metro_id, :vendor_id, :category_ids, :blog_post_ids, :promotion_image_ids, :promotion_images_attributes
 
   # Mounted fields
   mount_uploader :main_image, ImageUploader  
@@ -91,7 +91,7 @@ class Promotion < ActiveRecord::Base
   has_and_belongs_to_many :blog_posts
   
   accepts_nested_attributes_for :promotion_images, :allow_destroy => true, :reject_if => :all_blank
-  
+
   # Order by grid weight (Promotion.all will return a list sorted by weight)
   default_scope order(:grid_weight)
   
