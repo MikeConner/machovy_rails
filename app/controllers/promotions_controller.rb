@@ -1,6 +1,8 @@
 require 'utilities'
 
 class PromotionsController < ApplicationController
+  respond_to :html, :js
+
   include ApplicationHelper
   
   before_filter :authenticate_user!, :except => [:show]
@@ -9,6 +11,7 @@ class PromotionsController < ApplicationController
   # Only SuperAdmins (and vendors) can edit local deals
   before_filter :ensure_vendor_or_super_admin, :only => [:edit]
   before_filter :ensure_correct_vendor, :only => [:edit, :show_logs, :accept_edits, :reject_edits]
+  before_filter :admin_only, :only => [:manage]
   
   load_and_authorize_resource
 
@@ -87,10 +90,16 @@ class PromotionsController < ApplicationController
   # GET /promotions/1
   def show
     @promotion = Promotion.find(params[:id])
-    # When assigning booleans, need to use ||, not OR operator
+    # WARNING!
+    # When assigning booleans, need to use ||, not OR operator. If you change to and/or it will break!
     @show_buy_button = current_user.nil? || current_user.is_customer? || current_user.has_role?(Role::SUPER_ADMIN)
     @show_terms = !current_user.nil? && !current_user.is_customer?
     @show_accept_reject = !current_user.nil? && current_user.has_role?(Role::MERCHANT) && @promotion.status == Promotion::EDITED
+    
+    # Ignore for now logging stuff for users who aren't logged in
+    if !current_user.nil? and current_user.is_customer?
+      current_user.log_activity(@promotion)
+    end
   end
 
   def accept_edits
@@ -244,6 +253,29 @@ class PromotionsController < ApplicationController
     end
   end
   
+  def manage
+    @promotions = Promotion.all
+    
+    # Don't want default application layout, with footer, etc.
+    render :layout => 'layouts/admin'
+  end
+  
+  # Called from front page manager with Ajax
+  def update_weight
+    @promotion = Promotion.find(params[:id])
+    old_weight = @promotion.grid_weight
+    
+    respond_to do |format|
+      format.js do
+        if @promotion.update_attributes(params[:promotion])
+          head :ok
+        else
+          render :js => "alert('Weight update failed'); $('#grid_weight_#{params[:id]}').val(#{old_weight})"
+        end
+      end
+    end
+  end
+  
 private
   # Devise/CanCan has already ensured there's a logged in user with appropriate permissions
   # We additionally need to make sure it's a vendor (or SuperAdmin)
@@ -271,4 +303,10 @@ private
       end
     end
   end
+    
+  def admin_only
+    unless admin_user?
+      redirect_to root_path, :alert => I18n.t('admins_only')
+    end      
+  end  
 end

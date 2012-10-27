@@ -125,7 +125,8 @@ class Promotion < ActiveRecord::Base
   
   validates_associated :promotion_images
   
-  # Not sure why I need the *args, but it croaks without it!
+  # WARNING! Not absolutely guaranteed to be called by Rails, but seems to work for current usage
+  # after_initialize is recommended, but that doesn't fill anything on new, which is what we need for the create forms
   def initialize(*args)
     super
     
