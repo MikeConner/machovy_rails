@@ -1,0 +1,17 @@
+%h1= @curator.name
+.row-fluid
+  .span3
+    = image_tag(@curator.picture_url.to_s)
+  .span3
+    = @curator.bio
+    = @curator.twitter
+  .span6
+    - @curator.blog_posts.each do |post|
+      %h4= link_to post.title, blog_post_path(post)
+      %p= truncate(post.body, :length => 40).html_safe
+%br/
+.row-fluid
+  - for i in 0..@promotions.count / @deals_per_row do
+    - current_row = @promotions[i * @deals_per_row, @deals_per_row]
+    - if current_row.count > 0
+      = render :partial => 'shared/promotion_row', :locals => { :promotions => current_row }  

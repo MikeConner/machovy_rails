@@ -1,0 +1,5 @@
+%ul.thumbnails
+  - ads.each do |ad|
+    %li.span3
+      .thumbnail
+        = link_to image_tag(ad.teaser_image_url(:teaser).to_s), ad.destination 

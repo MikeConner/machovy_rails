@@ -1,26 +1,21 @@
 class CuratorsController < ApplicationController
   before_filter :authenticate_user!, :except => [:some_action_without_auth]
   load_and_authorize_resource
+
   # GET /curators
-  # GET /curators.json
   def index
     @curators = Curator.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @curators }
-    end
   end
 
   # GET /curators/1
-  # GET /curators/1.json
   def show
     @curator = Curator.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @curator }
+    @deals_per_row = 4
+    promos = []
+    @curator.blog_posts.each do |post|
+      promos = promos | post.promotions
     end
+    @promotions = promos.uniq
   end
 
   # GET /curators/new

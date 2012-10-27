@@ -1,7 +1,7 @@
 class FrontGridController < ApplicationController
   MAX_DEALS = 8
   MAX_BLOGS = 4
-  MAX_ADS = 5
+  MAX_ADS = 4
   DEALS_PER_ROW = 4
   DEFAULT_METRO = 'Pittsburgh'
   

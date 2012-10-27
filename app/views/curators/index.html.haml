@@ -1,0 +1,13 @@
+%h1 Curators
+- @curators.each do |curator|
+  .row-fluid
+    .span3
+      = link_to(image_tag(curator.picture_url.to_s), curator_path(curator))
+    .span3
+      = link_to curator.name, curator_path(curator)
+      = curator.bio
+      = curator.twitter
+    .span6
+      - curator.recent_posts.each do |post|
+        %h4= link_to post.title, blog_post_path(post)
+        %p= truncate(post.body, :length => 40).html_safe

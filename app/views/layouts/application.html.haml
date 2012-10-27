@@ -20,10 +20,6 @@
       %div{:class => "alert alert-#{key}"}
         %a.close{"data-dismiss" => "alert"} ×
         = content_tag(:div, value)
-    .row-fluid
-      .span7
-        %p.sub-headline If you think it's awesome <br> chances are we already found it...
-    %br/
     = yield
     %br/
     %br/

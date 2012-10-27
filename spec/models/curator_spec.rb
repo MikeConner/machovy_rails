@@ -22,6 +22,7 @@ describe "Curators" do
   it { should respond_to(:name) }
   it { should respond_to(:twitter) }
   it { should respond_to(:bio) }
+  it { should respond_to(:recent_posts) }
     
   it { should be_valid }
   

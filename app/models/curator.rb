@@ -27,6 +27,7 @@ class Curator < ActiveRecord::Base
   # Could move to ApplicationHelpers with other such things if it's used anywhere else
   TWITTER_REGEX = /^@[A-Za-z0-9_]+$/
   MAX_TWITTER_LEN = 16 # 15 + @-character
+  MAX_POSTS = 4
   
   attr_accessible :bio, :name, :picture, :twitter
 
@@ -35,7 +36,7 @@ class Curator < ActiveRecord::Base
   has_many :promotions, :through => :blog_posts
   
   mount_uploader :picture, ImageUploader
-    
+      
   # Note that the db-level indices are still case sensitive (in PG anyway)
   validates :name, :presence => true,
                    :uniqueness => { case_sensitive: false }
@@ -46,4 +47,15 @@ class Curator < ActiveRecord::Base
   validates_presence_of :bio
   
   validates_associated :blog_posts
+
+  #TODO Disregard default blog scope  
+  #TODO Remove default scopes? 
+  def recent_posts
+    @posts = blog_posts.find(:all, :order => 'created_at DESC')
+    if @posts.length > MAX_POSTS
+      @posts = @posts[0, MAX_POSTS]
+    end
+    
+    @posts
+  end
 end
