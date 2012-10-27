@@ -16,8 +16,9 @@ class BlogPostsController < ApplicationController
     end
     
     # Get associated promotions
-    metro_id = Metro.find_by_name(session[:metro])
+    metro_id = Metro.find_by_name(session[:metro]).id
     @promotions = @blog_post.promotions.select { |p| p.displayable? and (p.metro.id == metro_id) }.sort
+    @deals_per_row = 4
   end
 
   # GET /blog_posts/new

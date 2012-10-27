@@ -1,10 +1,14 @@
-%p#notice= notice
-%h1= @blog_post.title
-%p= @blog_post.body.html_safe
-%hr
-  %p
-    %b Curator:
-    = image_tag @blog_post.curator.picture_url.to_s
-    = @blog_post.curator.name
-- @promotions.each do |promotion|
-  = render :partial => 'promotions/thumbnail', :locals => { :promotion => promotion }
+.row-fluid
+  .span9
+    %h1= @blog_post.title
+    = @blog_post.body.html_safe
+  .span3
+    = link_to(image_tag(@blog_post.curator.picture_url.to_s), curator_path(@blog_post.curator))
+    %h3= link_to @blog_post.curator.name, curator_path(@blog_post.curator)
+    - @blog_post.curator.blog_posts.each do |post|
+      %h4= link_to post.title, blog_post_path(post)
+      %p= truncate(post.body, :length => 40).html_safe
+- for i in 0..@promotions.count / @deals_per_row do
+  - current_row = @promotions[i * @deals_per_row, @deals_per_row]
+  - if current_row.count > 0
+    = render :partial => 'shared/promotion_row', :locals => { :promotions => current_row }  
