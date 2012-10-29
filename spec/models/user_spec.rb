@@ -16,6 +16,19 @@
 #  created_at             :datetime        not null
 #  updated_at             :datetime        not null
 #  stripe_id              :string(255)
+#  confirmation_token     :string(255)
+#  confirmed_at           :datetime
+#  confirmation_sent_at   :datetime
+#  unconfirmed_email      :string(255)
+#  first_name             :string(24)
+#  last_name              :string(48)
+#  address_1              :string(50)
+#  address_2              :string(50)
+#  city                   :string(50)
+#  state                  :string(2)
+#  zipcode                :string(5)
+#  phone                  :string(14)
+#  optin                  :boolean         default(FALSE), not null
 #
 
 describe "Users" do
@@ -37,8 +50,115 @@ describe "Users" do
   it { should respond_to(:stripe_customer_obj) }
   it { should respond_to(:log_activity) }
     
+  it { should respond_to(:first_name) }
+  it { should respond_to(:last_name) }
+  it { should respond_to(:phone) }
+  it { should respond_to(:address_1) }
+  it { should respond_to(:address_2) }
+  it { should respond_to(:city) }
+  it { should respond_to(:state) }
+  it { should respond_to(:zipcode) }
+  it { should respond_to(:optin) }
+  it { should respond_to(:categories) }
+  
   it { should be_valid }
 
+  describe "Profile fields" do
+    describe "missing optin" do
+      before { user.optin = nil }
+      
+      it { should_not be_valid }
+    end
+    
+    describe "first name too long" do
+      before { user.first_name = "a" * (User::MAX_FIRST_NAME + 1) }
+      
+      it { should_not be_valid }
+    end
+
+    describe "last name too long" do
+      before { user.last_name = "a" * (User::MAX_LAST_NAME + 1) }
+      
+      it { should_not be_valid }
+    end
+    
+    describe "address 1 too long" do
+      before { user.address_1 = "a" * (User::MAX_ADDRESS + 1) }
+      
+      it { should_not be_valid }
+    end
+    
+    describe "address 2 too long" do
+      before { user.address_2 = "a" * (User::MAX_ADDRESS + 1) }
+      
+      it { should_not be_valid }
+    end
+    
+    describe "state" do 
+      describe "validate against list" do
+        ApplicationHelper::US_STATES.each do |state|
+          before { user.state = state }
+          
+          it { should be_valid }
+        end
+        
+        describe "invalid state" do
+          before { user.state = "Not a state" }
+          
+          it { should_not be_valid }
+        end
+      end
+    end
+
+    describe "zip code (valid)" do
+      ["13416", "15237", "15237"].each do |code|
+        before { user.zipcode = code }
+        
+        it { should be_valid }
+      end
+    end
+  
+    describe "zip code (invalid)" do  
+      ["xyz", "1343", "1343k", "134163423", "13432-", "13432-232", "13432-232x", "34234-32432", "32432_3423"].each do |code|
+        before { user.zipcode = code }
+       
+        it { should_not be_valid }
+      end
+    end  
+  
+    describe "phone (valid)" do
+      ["(412) 441-4378", "(724) 342-3423", "(605) 342-3242"].each do |phone|
+        before { user.phone = phone }
+        
+        it { should be_valid }
+      end
+    end
+  
+    # Should actually introduce phone normalization if we want people to type them in
+    # Many of these should be valid after normalization 
+    describe "phone (invalid)" do  
+      ["xyz", "412-441-4378", "441-4378", "1-800-342-3423", "(412) 343-34232", "(412) 343-342x"].each do |phone|
+        before { user.phone = phone }
+       
+        it { should_not be_valid }
+      end
+    end   
+    
+    describe "should not allow duplicate categories" do
+      let(:category) { FactoryGirl.create(:category) }
+      
+      before { user.categories << category }
+      
+      it "should have a category" do
+        user.categories.count.should == 1
+      end
+      
+      it "no dups" do
+        expect { user.categories << category }.to raise_exception(ActiveRecord::RecordNotUnique)
+      end
+    end   
+  end
+  
   describe "Vendor users" do
     let (:vendor) { FactoryGirl.create(:vendor, :user => user) }
     
@@ -356,7 +476,7 @@ describe "Users" do
     
     describe "activity logs" do
       let(:promotion) { FactoryGirl.create(:promotion) }
-      let(:activity) { user.activities.first }
+      let(:activity) { user.activities.last }
       before { user.log_activity(promotion) }
       
       it "should have a log" do

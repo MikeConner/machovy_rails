@@ -16,6 +16,10 @@ class CuratorsController < ApplicationController
       promos = promos | post.promotions
     end
     @promotions = promos.uniq
+    
+    if !current_user.nil? and current_user.is_customer?
+      current_user.log_activity(@curator)
+    end
   end
 
   # GET /curators/new

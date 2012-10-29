@@ -1,3 +1,5 @@
+require 'utilities'
+
 # == Schema Information
 #
 # Table name: blog_posts
@@ -28,6 +30,8 @@ class BlogPost < ActiveRecord::Base
   extend FriendlyId
   friendly_id :title, use: [:slugged, :history]
 
+  include Utilities
+  
   DEFAULT_BLOG_WEIGHT = 10
   
   attr_accessible :body, :activation_date, :title, :weight, 
@@ -73,5 +77,11 @@ class BlogPost < ActiveRecord::Base
 
   def displayable?
     self.activation_date.nil? or Time.now >= self.activation_date
+  end
+
+  def truncated_body(options = {})
+    options.reverse_merge!(:length => 40)
+    
+    Utilities.html_truncator(body, options)
   end
 end

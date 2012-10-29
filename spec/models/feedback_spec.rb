@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: feedbacks
+#
+#  id         :integer         not null, primary key
+#  user_id    :integer
+#  order_id   :integer
+#  stars      :integer
+#  recommend  :boolean
+#  comments   :text
+#  created_at :datetime        not null
+#  updated_at :datetime        not null
+#
+
 describe "Feedback" do
   let(:user) { FactoryGirl.create(:user) }
   let(:order) { FactoryGirl.create(:order, :user => user) }

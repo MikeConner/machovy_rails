@@ -254,45 +254,9 @@ describe "Promotions" do
   describe "ads" do
     let(:promotion) { FactoryGirl.create(:ad, :metro => metro, :vendor => vendor) }
     
-    it { should respond_to(:description) }
     it { should respond_to(:destination) }
-    it { should respond_to(:grid_weight) }
-    it { should respond_to(:limitations) }
-    it { should respond_to(:price) }
-    it { should respond_to(:quantity) }
-    it { should respond_to(:retail_value) }
-    it { should respond_to(:revenue_shared) }
-    it { should respond_to(:start_date) }
-    it { should respond_to(:end_date) }
-    it { should respond_to(:teaser_image) }
-    it { should respond_to(:remote_teaser_image_url) }
-    it { should respond_to(:main_image) }
-    it { should respond_to(:remote_main_image_url) }
-    it { should respond_to(:status) }
-    it { should respond_to(:promotion_type) }
-    it { should respond_to(:title) }
-    it { should respond_to(:voucher_instructions) }
-    it { should respond_to(:orders) }
-    it { should respond_to(:vouchers) }
-    it { should respond_to(:promotion_logs) }
-    it { should respond_to(:categories) }
-    it { should respond_to(:blog_posts) }
-    it { should respond_to(:approved?) }
-    it { should respond_to(:expired?) }
-    it { should respond_to(:displayable?) }
-    it { should respond_to(:ad?) }
-    it { should respond_to(:affiliate?) }
-    it { should respond_to(:deal?) }
-    it { should respond_to(:remaining_quantity) }
     
-    its(:metro) { should == metro }
-    its(:vendor) { should == vendor }
-    its(:retail_value) { should be_nil }
-    its(:price) { should be_nil }
-    its(:revenue_shared) { should be_nil }
-    its(:description) { should be_nil }
-    
-    it { should be_valid }
+     it { should be_valid }
 
     it "should not be a deal" do
       promotion.deal?.should be_false
@@ -314,45 +278,7 @@ describe "Promotions" do
   end
     
   describe "affiliates" do
-    let(:promotion) { FactoryGirl.create(:affiliate, :metro => metro, :vendor => vendor) }
-    
-    it { should respond_to(:description) }
-    it { should respond_to(:destination) }
-    it { should respond_to(:grid_weight) }
-    it { should respond_to(:limitations) }
-    it { should respond_to(:price) }
-    it { should respond_to(:quantity) }
-    it { should respond_to(:retail_value) }
-    it { should respond_to(:revenue_shared) }
-    it { should respond_to(:start_date) }
-    it { should respond_to(:end_date) }
-    it { should respond_to(:teaser_image) }
-    it { should respond_to(:remote_teaser_image_url) }
-    it { should respond_to(:main_image) }
-    it { should respond_to(:remote_main_image_url) }
-    it { should respond_to(:status) }
-    it { should respond_to(:promotion_type) }
-    it { should respond_to(:title) }
-    it { should respond_to(:voucher_instructions) }
-    it { should respond_to(:orders) }
-    it { should respond_to(:vouchers) }
-    it { should respond_to(:promotion_logs) }
-    it { should respond_to(:categories) }
-    it { should respond_to(:blog_posts) }
-    it { should respond_to(:approved?) }
-    it { should respond_to(:expired?) }
-    it { should respond_to(:displayable?) }
-    it { should respond_to(:ad?) }
-    it { should respond_to(:affiliate?) }
-    it { should respond_to(:deal?) }
-    it { should respond_to(:remaining_quantity) }
-    
-    its(:metro) { should == metro }
-    its(:vendor) { should == vendor }
-    its(:retail_value) { should be_nil }
-    its(:price) { should be_nil }
-    its(:revenue_shared) { should be_nil }
-    its(:description) { should be_nil }
+    let(:promotion) { FactoryGirl.create(:affiliate, :metro => metro, :vendor => vendor) }    
     
     it { should be_valid }
 
@@ -390,41 +316,7 @@ describe "Promotions" do
   
   describe "orders" do
     let(:promotion) { FactoryGirl.create(:promotion_with_orders, :metro => metro, :vendor => vendor) }
-    
-    it { should respond_to(:description) }
-    it { should respond_to(:destination) }
-    it { should respond_to(:grid_weight) }
-    it { should respond_to(:limitations) }
-    it { should respond_to(:price) }
-    it { should respond_to(:quantity) }
-    it { should respond_to(:retail_value) }
-    it { should respond_to(:revenue_shared) }
-    it { should respond_to(:start_date) }
-    it { should respond_to(:end_date) }
-    it { should respond_to(:teaser_image) }
-    it { should respond_to(:remote_teaser_image_url) }
-    it { should respond_to(:main_image) }
-    it { should respond_to(:remote_main_image_url) }
-    it { should respond_to(:status) }
-    it { should respond_to(:promotion_type) }
-    it { should respond_to(:title) }
-    it { should respond_to(:voucher_instructions) }
-    it { should respond_to(:orders) }
-    it { should respond_to(:vouchers) }
-    it { should respond_to(:promotion_logs) }
-    it { should respond_to(:categories) }
-    it { should respond_to(:blog_posts) }
-    it { should respond_to(:approved?) }
-    it { should respond_to(:expired?) }
-    it { should respond_to(:displayable?) }
-    it { should respond_to(:ad?) }
-    it { should respond_to(:affiliate?) }
-    it { should respond_to(:deal?) }
-    it { should respond_to(:remaining_quantity) }
-    
-    its(:metro) { should == metro }
-    its(:vendor) { should == vendor }
-    
+        
     it { should be_valid}
 
     it "should have orders" do

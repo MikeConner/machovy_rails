@@ -12,7 +12,7 @@ class Ability
     elsif user.has_role?(Role::CONTENT_ADMIN)
       can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position]
       can :create, [Order, Voucher]
-      can :manage, [BlogPost, Promotion, PromotionLog, PromotionImage, Metro, Vendor, Voucher]
+      can :manage, [BlogPost, Promotion, PromotionLog, PromotionImage, Metro, Vendor, Voucher, User]
       cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro]
     elsif user.has_role?(Role::MERCHANT)
       can :create, [Promotion]
@@ -22,7 +22,8 @@ class Ability
       # manage Promotion necessary to create an order; manage Voucher to generate qrcode
       can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position]
       can :create, [Order, Voucher]
-      can :manage, [Promotion, Voucher, PromotionLog] # manage Promotion necessary to create an order; manage Voucher to generate qrcode
+      # manage Promotion necessary to create an order; manage Voucher to generate qrcode
+      can :manage, [Promotion, Voucher, PromotionLog, User] 
       cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro]
     end
 

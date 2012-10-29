@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: feedbacks
+#
+#  id         :integer         not null, primary key
+#  user_id    :integer
+#  order_id   :integer
+#  stars      :integer
+#  recommend  :boolean
+#  comments   :text
+#  created_at :datetime        not null
+#  updated_at :datetime        not null
+#
+
 # CHARTER
 #   Represent feedback on a customer's order
 #

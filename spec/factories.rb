@@ -350,6 +350,7 @@ FactoryGirl.define do
     email { generate(:random_email) }
     password "Password"
     password_confirmation "Password"
+    confirmed_at 1.week.ago
     
     factory :super_admin_user do
       after(:create) do |user, evaluator|

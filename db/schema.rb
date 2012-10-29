@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121027025929) do
+ActiveRecord::Schema.define(:version => 20121029025116) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -58,6 +58,13 @@ ActiveRecord::Schema.define(:version => 20121027025929) do
   end
 
   add_index "categories_promotions", ["category_id", "promotion_id"], :name => "index_categories_promotions_on_category_id_and_promotion_id", :unique => true
+
+  create_table "categories_users", :id => false, :force => true do |t|
+    t.integer "category_id"
+    t.integer "user_id"
+  end
+
+  add_index "categories_users", ["category_id", "user_id"], :name => "index_categories_users_on_category_id_and_user_id", :unique => true
 
   create_table "ckeditor_assets", :force => true do |t|
     t.string   "data_file_name",                  :null => false
@@ -215,21 +222,35 @@ ActiveRecord::Schema.define(:version => 20121027025929) do
   add_index "roles_users", ["role_id", "user_id"], :name => "index_roles_users_on_role_id_and_user_id", :unique => true
 
   create_table "users", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                                :default => "",    :null => false
+    t.string   "encrypted_password",                   :default => "",    :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
+    t.integer  "sign_in_count",                        :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                                              :null => false
+    t.datetime "updated_at",                                              :null => false
     t.string   "stripe_id"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
+    t.string   "first_name",             :limit => 24
+    t.string   "last_name",              :limit => 48
+    t.string   "address_1",              :limit => 50
+    t.string   "address_2",              :limit => 50
+    t.string   "city",                   :limit => 50
+    t.string   "state",                  :limit => 2
+    t.string   "zipcode",                :limit => 5
+    t.string   "phone",                  :limit => 14
+    t.boolean  "optin",                                :default => false, :null => false
   end
 
+  add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 

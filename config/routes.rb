@@ -6,14 +6,17 @@ MachovyRails::Application.routes.draw do
   mount RailsAdmin::Engine => '/Radmin', :as => 'rails_admin'
 
   # Third party authentication
-  # Use a custom controller to support different kinds of users
-  devise_for :users, :controllers => { :registrations => 'registrations' }
+  # Use custom controllers to support different kinds of users
+  devise_for :users, :controllers => { :registrations => 'registrations', 
+                                       :confirmations => 'confirmations' }
   
   # Add a user admin action (not part of devise)
-  resources :users, :only => [:manage, :survey, :feedback] do    
+  resources :users, :only => [:manage] do    
     member do
       get 'survey'
       put 'feedback'
+      get 'edit_profile'
+      put 'update_profile'
     end
 
     get 'manage', :on => :collection
