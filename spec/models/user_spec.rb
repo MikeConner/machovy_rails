@@ -505,4 +505,40 @@ describe "Users" do
       end
     end    
   end
+  
+  describe "Feedback" do
+    let(:user) { FactoryGirl.create(:user_with_feedback) }
+    
+    it "should not allow deletion" do
+      expect { user.destroy }.to raise_exception(ActiveRecord::DeleteRestrictionError)
+    end
+    
+    describe "Delete order" do
+      before { user.orders.destroy_all }
+     
+      it "should still not allow deletion because of feedback" do
+        Order.count.should == 0
+        expect { user.destroy }.to raise_exception(ActiveRecord::DeleteRestrictionError)
+      end
+
+      describe "Delete feedback" do
+        before { user.feedbacks.destroy_all }
+       
+        it "should allow it now" do
+          Feedback.count.should == 0
+        end
+          
+        describe "Final delete" do
+          before do
+            @id = user.id
+            user.reload.destroy
+          end
+          
+          it "should be gone" do
+            expect { User.find(@id) }.to raise_exception(ActiveRecord::RecordNotFound)
+          end
+        end
+      end
+    end
+  end  
 end

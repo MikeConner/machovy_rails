@@ -36,8 +36,8 @@ class Order < ActiveRecord::Base
   belongs_to :promotion
     
   has_many :vouchers, :dependent => :destroy
-  has_many :feedbacks, :through => :user
   
+  has_one :feedback, :through => :user, :source => :feedbacks
   has_one :vendor, :through => :promotion
     
   validates_presence_of :user_id

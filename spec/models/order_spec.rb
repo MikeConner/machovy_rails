@@ -22,7 +22,7 @@ describe "Orders" do
   let (:order) { FactoryGirl.create(:order, :user => user, :promotion => promotion) }
   
   subject { order }
-  
+
   it { should respond_to(:amount) }
   it { should respond_to(:description) }
   it { should respond_to(:email) }
@@ -36,6 +36,7 @@ describe "Orders" do
   it { should respond_to(:vouchers) }
   it { should respond_to(:total_cost) }
   it { should respond_to(:charge_id) }
+  it { should respond_to(:feedback) }
   
   its(:user) { should == user }
   its(:promotion) { should == promotion }
@@ -117,6 +118,8 @@ describe "Orders" do
     
     it "should calculate correctly" do
       order.total_cost.should == 1.0
+      # pennies
+      order.total_cost(true).should == 100
     end
   end
   
@@ -127,17 +130,6 @@ describe "Orders" do
   describe "vouchers" do
     let(:order) { FactoryGirl.create(:order_with_vouchers) }
     
-    it { should respond_to(:amount) }
-    it { should respond_to(:description) }
-    it { should respond_to(:email) }
-    it { should respond_to(:stripe_card_token) }
-    it { should respond_to(:fine_print) }
-    
-    it { should respond_to(:promotion) }
-    it { should respond_to(:user) }
-    it { should respond_to(:vendor) }
-    it { should respond_to(:vouchers) }
-        
     it { should be_valid }
 
     it "should have vouchers" do
@@ -172,6 +164,21 @@ describe "Orders" do
         before { order.reload.vouchers[0].update_attributes(:expiration_date => " ") }
         
         it { should_not be_valid }
+      end
+    end
+  end
+
+  describe "Feedback" do
+    let(:user) { FactoryGirl.create(:user_with_feedback) }
+    
+    it "should have orders" do
+      user.orders.count.should == 3
+    end
+    
+    it "should have feedback" do
+      user.orders.each do |order|
+        order.feedback.should_not be_nil
+        user.feedbacks.include?(order.feedback).should be_true
       end
     end
   end

@@ -2,7 +2,14 @@ describe "Ordering through Stripe" do
   let(:user) { FactoryGirl.create(:user) }
   let(:promotion) { FactoryGirl.create(:promotion) }
   let(:order) { FactoryGirl.create(:order, :user => user, :promotion => promotion) }
-  before { ActionMailer::Base.deliveries = [] }
+  before do
+    # Need this for visit root_path to work
+    Metro.create(:name => 'Pittsburgh')
+    ActionMailer::Base.deliveries = []
+    visit root_path
+    #post works with the rack-test gem, in case we need it
+    #post new_user_session_path, :user => { :email => 'bro@user.com', :password => 'brobro' }
+  end
    
   subject { page }
   
@@ -12,12 +19,13 @@ describe "Ordering through Stripe" do
   
   describe "Sign in first" do
     before do
-      post new_user_session_path, :user => { :email => 'bro@user.com', :password => 'brobro' }
-#      sign_in user
-#      visit new_user_session_path
-#      fill_in 'user_email', :with => 'bro@user.com'
-#      fill_in 'user_password', :with => 'brobro'
-#      click_button 'Sign in'      
+      # go to sign in page
+      click_link 'SIGN IN'
+      # fill in info
+      fill_in 'user_email', :with => user.email
+      fill_in 'user_password', :with => user.password
+      # Authenticate
+      click_button 'Sign in'      
     end
      
     describe "Not a customer -- order without saving" do

@@ -37,7 +37,7 @@ class Vendor < ActiveRecord::Base
   belongs_to :user
   
   has_many :promotions, :dependent => :restrict
-  has_many :metros, :through => :promotions
+  has_many :metros, :through => :promotions, :uniq => true
   has_many :orders, :through => :promotions
   
   validates_presence_of :name

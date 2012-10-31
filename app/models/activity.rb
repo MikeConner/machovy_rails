@@ -23,13 +23,25 @@ class Activity < ActiveRecord::Base
   validates_presence_of :activity_id
   validates :activity_name, :presence => true, 
                             :length => { maximum: 32 } 
-                            
+                  
+  # It logs the class name and id of the object related to the action
+  #  e.g., "Order" 17 means they placed an order with id 17          
   def init_activity(obj)
-    self.activity_name = obj.class.name
-    self.activity_id = obj.id
+    if obj.nil?
+      logger.error("Activity #{self.id}; called init_activity with nil")
+    else
+      self.activity_name = obj.class.name
+      self.activity_id = obj.id
+    end
   end
   
-  # Returns duration in seconds               
+  # Returns duration in seconds  
+  # Currently this isn't used. The idea is you could update the same action to
+  #   indicate duration. For instance, create the action when they click on a blog
+  #   post, then update the same action when they click away. That's really hard to
+  #   detect, though. More plausibly, if we blog posts were "paged," so that users had
+  #   to click "next" or "read more," the action could be updated to indicate the
+  #   time spent/degree of interest in the post.             
   def duration
     self.updated_at - self.created_at
   end

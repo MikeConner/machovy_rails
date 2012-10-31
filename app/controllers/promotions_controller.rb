@@ -257,7 +257,8 @@ class PromotionsController < ApplicationController
   end
   
   def manage
-    @promotions = Promotion.all
+    # Without default scope, need to explicitly order by weight
+    @promotions = Promotion.order(:grid_weight)
     
     # Don't want default application layout, with footer, etc.
     render :layout => 'layouts/admin'

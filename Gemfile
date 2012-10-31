@@ -41,6 +41,7 @@ group :test do
   gem 'database_cleaner', '0.8.0'
   gem 'factory_girl_rails', '4.1.0'
   gem 'rspec-tag_matchers', '0.1.2'
+  gem 'rack-test', '0.6.2'
 end
 
 # To use ActiveModel has_secure_password

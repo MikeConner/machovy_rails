@@ -12,7 +12,8 @@
 #
 
 describe "Activity" do
-  let (:activity) { FactoryGirl.create(:activity) }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:activity) { FactoryGirl.create(:activity, :user => user) }
   
   subject { activity }
   
@@ -20,8 +21,11 @@ describe "Activity" do
   it { should respond_to(:activity_id) }
   it { should respond_to(:activity_name) }
   it { should respond_to(:description) }
+  it { should respond_to(:init_activity) }
   
   it { should respond_to(:duration) }
+  
+  its(:user) { should == user}
   
   it { should be_valid }
   
@@ -59,6 +63,23 @@ describe "Activity" do
     
     it "should show the right duration" do
       activity.reload.duration.should >= 3
+    end
+  end
+  
+  describe "init activity" do
+    let(:promotion) { FactoryGirl.create(:promotion) }
+    before { activity.init_activity(promotion) }
+    
+    it "should match the class" do
+      activity.activity_name.should == promotion.class.name
+    end
+
+    it "should match the id" do
+      activity.activity_id.should == promotion.id
+    end
+    
+    it "shouldn't fail on invalid activity" do
+      expect { activity.init_activity(nil) }.to_not raise_exception
     end
   end
 end

@@ -48,10 +48,10 @@ class Curator < ActiveRecord::Base
   
   validates_associated :blog_posts
 
-  #TODO Disregard default blog scope  
-  #TODO Remove default scopes? 
   def recent_posts
-    @posts = blog_posts.find(:all, :order => 'created_at DESC')
+    #@posts = blog_posts.find(:all, :order => 'created_at DESC')
+    # Shouldn't need the find now that we removed the default scope
+    @posts = blog_posts.order('created_at DESC')
     if @posts.length > MAX_POSTS
       @posts = @posts[0, MAX_POSTS]
     end

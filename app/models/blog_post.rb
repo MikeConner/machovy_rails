@@ -33,6 +33,7 @@ class BlogPost < ActiveRecord::Base
   include Utilities
   
   DEFAULT_BLOG_WEIGHT = 10
+  DEFAULT_TRUNCATED_BODY_LEN = 40
   
   attr_accessible :body, :activation_date, :title, :weight, 
                   :curator_id, :promotion_ids
@@ -49,10 +50,13 @@ class BlogPost < ActiveRecord::Base
   #   An alternative would be leave :select and :uniq off, allow it to get multiple metros,
   #     then call .uniq on the result. Works, but then all callers have to remember to do this.
   #     At least now the evil is localized
-  has_many :metros, :through => :promotions, :select => "metros.*, grid_weight", :uniq => true
+#  has_many :metros, :through => :promotions, :select => "metros.*, grid_weight", :uniq => true
+  has_many :metros, :through => :promotions, :uniq => true
   
   # BlogPost.all returns list ordered by weight
-  default_scope order(:weight)
+  # Having a default scope activates a PG bug with has_many :through relationships with :uniq
+  #   Since there's so much logic we're dealing with arrays anyway, this isn't needed
+#  default_scope order(:weight)
   
   # Do not validate_presence_of curator_id; can be null if Curator is deleted
   # Does not require promotion associations
@@ -79,8 +83,9 @@ class BlogPost < ActiveRecord::Base
     self.activation_date.nil? or Time.now >= self.activation_date
   end
 
+  # Intelligently truncate the HTML body text
   def truncated_body(options = {})
-    options.reverse_merge!(:length => 40)
+    options.reverse_merge!(:length => DEFAULT_TRUNCATED_BODY_LEN)
     
     Utilities.html_truncator(body, options)
   end

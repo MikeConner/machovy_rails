@@ -70,6 +70,21 @@ FactoryGirl.define do
         end
       end
     end
+    
+    factory :blog_post_with_metro_promotions do
+      ignore do
+        num_metros 2
+      end
+      
+      after(:create) do |blog_post, evaluator|
+        evaluator.num_metros.times do
+          metro = FactoryGirl.create(:metro_with_promotions)
+          metro.reload.promotions.each do |promotion|
+            blog_post.promotions << promotion
+          end
+        end
+      end      
+    end
   end
   
   factory :feedback do
@@ -274,7 +289,7 @@ FactoryGirl.define do
         end
       end
     end
-    
+
     factory :promotion_with_logs do
       ignore do
         num_logs 5

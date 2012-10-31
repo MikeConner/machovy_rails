@@ -180,21 +180,8 @@ describe "Vendors" do
   describe "promotions" do
     let(:vendor) { FactoryGirl.create(:vendor_with_promotions, :user => user) }
     
-    it { should respond_to(:address_1) }
-    it { should respond_to(:address_2) }
-    it { should respond_to(:city) }
-    it { should respond_to(:facebook) }
-    it { should respond_to(:name) }
-    it { should respond_to(:phone) }
-    it { should respond_to(:state) }
-    it { should respond_to(:url) }
-    it { should respond_to(:zip) }
-    it { should respond_to(:promotions) }
-    it { should respond_to(:metros) }
-    it { should respond_to(:orders) }
-    
-    its(:user) { should == user }
-    
+    it { should be_valid }
+        
     it "should have promotions" do
       vendor.promotions.count.should == 5
       vendor.promotions.each do |p|
@@ -228,21 +215,8 @@ describe "Vendors" do
   describe "orders" do
     let(:vendor) { FactoryGirl.create(:vendor_with_orders, :user => user) }
 
-    it { should respond_to(:address_1) }
-    it { should respond_to(:address_2) }
-    it { should respond_to(:city) }
-    it { should respond_to(:facebook) }
-    it { should respond_to(:name) }
-    it { should respond_to(:phone) }
-    it { should respond_to(:state) }
-    it { should respond_to(:url) }
-    it { should respond_to(:zip) }
-    it { should respond_to(:promotions) }
-    it { should respond_to(:metros) }
-    it { should respond_to(:orders) }
-    
-    its(:user) { should == user }
-    
+    it { should be_valid }
+        
     it "should have orders" do
       vendor.orders.count.should == 25
       vendor.orders.each do |order|
@@ -325,5 +299,34 @@ describe "Vendors" do
         end        
       end
     end   
+  end
+  
+  describe "metros" do
+    let(:metro1) { FactoryGirl.create(:metro) }
+    let(:metro2) { FactoryGirl.create(:metro) }
+    before { promotion1 = FactoryGirl.create(:promotion, :vendor => vendor, :metro => metro1) }
+    
+    it "should have the first metro" do
+      vendor.metros.count.should == 1
+      vendor.metros[0].should == metro1
+    end
+    
+    describe "Add another" do
+      before { promotion2 = FactoryGirl.create(:promotion, :vendor => vendor, :metro => metro2) }
+      
+      it "should have both metros" do
+        vendor.metros.count.should == 2
+        vendor.metros.sort.should == [metro1, metro2].sort
+      end
+      
+      describe "Ensure uniqueness" do
+        before { promotion3 = FactoryGirl.create(:promotion, :vendor => vendor, :metro => metro2) }
+        
+        it "should have two metros" do
+          vendor.metros.count.should == 2
+          vendor.metros.sort.should == [metro1, metro2].sort
+        end
+      end
+    end
   end
 end

@@ -15,7 +15,7 @@ describe "Curators" do
   let(:curator) { FactoryGirl.create(:curator) }
   
   subject { curator }
-  
+
   it { should respond_to(:blog_posts) }
   it { should respond_to(:promotions) }
   it { should respond_to(:picture) }
@@ -23,6 +23,7 @@ describe "Curators" do
   it { should respond_to(:twitter) }
   it { should respond_to(:bio) }
   it { should respond_to(:recent_posts) }
+  it { should respond_to(:blog_posts_for) }
     
   it { should be_valid }
   
@@ -87,13 +88,6 @@ describe "Curators" do
   describe "blog posts" do
     let(:curator) { FactoryGirl.create(:curator_with_blog_posts) }
     
-    it { should respond_to(:blog_posts) }
-    it { should respond_to(:promotions) }
-    it { should respond_to(:picture) }
-    it { should respond_to(:name) }
-    it { should respond_to(:twitter) }
-    it { should respond_to(:bio) }
-    
     it { should be_valid }
     
     it "should have posts" do
@@ -128,16 +122,56 @@ describe "Curators" do
     end
   end
   
+  describe "blog posts for" do
+    let(:post1) { FactoryGirl.create(:blog_post_with_promotions) }
+    let(:post2) { FactoryGirl.create(:blog_post_with_promotions) }
+    let(:post3) { FactoryGirl.create(:blog_post_with_promotions) }
+    let(:promotion) { FactoryGirl.create(:promotion) }
+    # Create 2 blog posts with different curators
+    # Create one promotion and assign to both posts
+    # blog_posts_for should only return the blog post from the given curator associated with that promotion
+    # Ignoring other blog posts and other promotions
+    before do
+      post1.promotions << promotion
+      post2.promotions << promotion
+    end
+    
+    it "should find the promotion for the first curator" do
+      post1.curator.reload.blog_posts_for(promotion).should == [post1]
+      post2.curator.reload.blog_posts_for(promotion).should == [post2]
+      post3.curator.reload.blog_posts_for(promotion).should be_empty
+    end
+  end
+
+  describe "scopes" do
+    # Create 1 post, then MAX_POSTS addition ones, at 3 second intervals
+    # Should bring back top 4 posts, and not include the first one
+    before do
+      @first_post = FactoryGirl.create(:blog_post, :curator => curator)
+      curator.blog_posts << @first_post
+      sleep 1
+      
+      Curator::MAX_POSTS.times do
+        curator.blog_posts << FactoryGirl.create(:blog_post, :curator => curator)
+        sleep 3
+      end
+    end
+    
+    it "should not show oldest post" do
+      curator.recent_posts.count.should == Curator::MAX_POSTS
+      curator.recent_posts.include?(@first_post).should be_false
+    end
+    
+    it "should show them in order" do
+      curator.recent_posts.should == curator.blog_posts[1, Curator::MAX_POSTS].reverse
+    end
+  end
+
   describe "promotions" do
     let(:curator) { FactoryGirl.create(:curator_with_promotions) }
     
-    it { should respond_to(:blog_posts) }
-    it { should respond_to(:promotions) }
-    it { should respond_to(:picture) }
-    it { should respond_to(:name) }
-    it { should respond_to(:twitter) }
-    it { should respond_to(:bio) }
-    
+    it { should be_valid }
+        
     it "should have promotions" do
       curator.promotions.count.should == 20
     end

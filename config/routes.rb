@@ -45,15 +45,14 @@ MachovyRails::Application.routes.draw do
   resources :videos
 
   namespace :merchant do
-    resources :orders
+    resources :orders, :except => [:index, :edit, :update]
     resources :vendors do
       member do
         get 'payments'
-        get 'dashboard'
         get 'reports'
       end
     end
-    resources :vouchers do
+    resources :vouchers, :only => [:index, :show] do
       member do
         put :redeem
         get :generate_qrcode

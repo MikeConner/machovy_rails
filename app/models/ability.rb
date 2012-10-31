@@ -16,7 +16,7 @@ class Ability
       cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro]
     elsif user.has_role?(Role::MERCHANT)
       can :create, [Promotion]
-      can :manage, [Vendor, Promotion, PromotionLog, PromotionImage]
+      can :manage, [Vendor, Promotion, PromotionLog, PromotionImage, Voucher]
       can :redeem, [Voucher]
     else
       # manage Promotion necessary to create an order; manage Voucher to generate qrcode

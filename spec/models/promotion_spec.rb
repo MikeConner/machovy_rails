@@ -32,7 +32,7 @@ describe "Promotions" do
   let(:promotion) { FactoryGirl.create(:promotion, :metro => metro, :vendor => vendor) }
   
   subject { promotion }
-
+  
   it { should respond_to(:description) }
   it { should respond_to(:destination) }
   it { should respond_to(:grid_weight) }
@@ -78,7 +78,7 @@ describe "Promotions" do
   its(:promotion_type) { should == Promotion::LOCAL_DEAL }
   its(:status) { should == Promotion::PROPOSED }
   
-  it { should be_valid}
+  it { should be_valid }
 
   describe "retail value (valid)" do
     [0, 2.5, 18].each do |v|
@@ -518,10 +518,13 @@ describe "Promotions" do
     before do
       Promotion.destroy_all
       @promotions = FactoryGirl.create_list(:promotion, 10)
-      @weights = Promotion.all.map { |n| n.grid_weight }
+      # No more default scope, so need to order them
+      @weights = Promotion.order(:grid_weight).map { |n| n.grid_weight }
     end
     
     it "should be ordered by grid_weight" do
+      # Make sure it's got them
+      @weights.length.should == 10
       @value = 0
       @weights.each do |w|
         w.should >= @value
@@ -684,4 +687,55 @@ describe "Promotions" do
       end
     end
   end  
+ 
+  describe "curators" do
+    let(:curator) { FactoryGirl.create(:curator) }
+    let(:blog_post1) { FactoryGirl.create(:blog_post, :curator => curator) }
+    let(:blog_post2) { FactoryGirl.create(:blog_post) }    
+    let(:blog_post3) { FactoryGirl.create(:blog_post, :curator => curator) }    
+    
+    describe "single curator" do
+      before { blog_post1.promotions << promotion }
+    
+      it "should have one" do
+        promotion.curators.should == [curator]
+      end
+    end
+    
+    describe "both curators" do
+      before do
+        blog_post1.promotions << promotion
+        blog_post2.promotions << promotion
+      end
+
+      it "should have two" do
+        promotion.curators.count.should == 2
+        promotion.curators.sort.should == [curator, blog_post2.curator].sort
+      end
+    end
+
+    describe "one curator, two posts" do
+      before do
+        blog_post1.promotions << promotion
+        blog_post3.promotions << promotion
+      end
+
+      it "should have unique curator" do
+        promotion.curators.count.should == 1
+        promotion.curators.should == [curator]
+      end
+    end
+  end
+
+  describe "feedback" do
+    let(:promotion) { FactoryGirl.create(:promotion_with_feedback) }
+    
+    it "should have feedback" do
+      promotion.feedbacks.count.should == 5
+      promotion.orders.each do |order|
+        promotion.feedbacks.include?(order.feedback).should be_true
+        order.user.feedbacks.include?(order.feedback).should be_true
+      end
+    end
+  end
 end

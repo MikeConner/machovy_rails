@@ -4,7 +4,8 @@ class BlogPostsController < ApplicationController
 
   # GET /blog_posts
   def index
-    @blog_posts = BlogPost.all
+    # Without default scope, need to explicitly order it
+    @blog_posts = BlogPost.order(:weight)
   end
 
   # GET /blog_posts/1

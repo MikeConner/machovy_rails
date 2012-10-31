@@ -9,7 +9,14 @@
 #  created_at   :datetime        not null
 #  updated_at   :datetime        not null
 #
-
+# CHARTER
+#   A comment, by Machovy or a vendor, recording the "negotiation" that may be involved in getting a promotion approved.
+# Refer to the promotion status documentation for details.
+#
+# USAGE
+#
+# NOTES AND WARNINGS
+#
 class PromotionLog < ActiveRecord::Base
   attr_accessible :status, :comment,
                   :promotion_id

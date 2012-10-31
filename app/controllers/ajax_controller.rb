@@ -3,6 +3,7 @@ require 'affiliate_converter_factory'
 class AjaxController < ApplicationController
   respond_to :js
   
+  # Detect the appropriate converter from the url, and convert it
   def affiliate_url
     converter = AffiliateConverterFactory.instance.create_converter(params[:url])
     
@@ -14,6 +15,8 @@ class AjaxController < ApplicationController
     render :text => ""
   end
   
+  # Deals/Metro/Category actions are for filtering. Set the session variables, and redirect with JS
+  # Some of these get called from jQuery
   def deals
     session[:deals] = params[:deals]
 

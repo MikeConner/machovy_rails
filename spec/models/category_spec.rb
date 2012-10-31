@@ -19,6 +19,8 @@ describe "Categories" do
   it { should respond_to(:active) }
   it { should respond_to(:promotions) }
   
+  its(:category) { should be_nil }
+  
   it { should be_valid }
   
   describe "name validation" do

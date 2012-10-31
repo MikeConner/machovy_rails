@@ -83,8 +83,8 @@ class Promotion < ActiveRecord::Base
   # Cannot delete a promotion if there are orders for it
   has_many :orders, :dependent => :restrict
   has_many :vouchers, :through => :orders
-  has_many :feedbacks, :through => :orders, :uniq => true
-  has_many :curators, :through => :blog_posts, :select => "curators.*, weight", :uniq => true
+  has_many :feedbacks, :through => :orders
+  has_many :curators, :through => :blog_posts, :uniq => true
   has_many :promotion_logs, :dependent => :destroy
   has_many :promotion_images, :dependent => :destroy
   has_and_belongs_to_many :categories
@@ -92,8 +92,10 @@ class Promotion < ActiveRecord::Base
   
   accepts_nested_attributes_for :promotion_images, :allow_destroy => true, :reject_if => :all_blank
 
+  # Having a default scope activates a PG bug with has_many :through relationships with :uniq
+  #   Since there's so much logic we're dealing with arrays anyway, this isn't needed
   # Order by grid weight (Promotion.all will return a list sorted by weight)
-  default_scope order(:grid_weight)
+  # default_scope order(:grid_weight)
   
   # These scopes are applied on top of the default scope (i.e., they are ordered)
   scope :front_page, where("promotion_type = ? or promotion_type = ?", LOCAL_DEAL, AFFILIATE)

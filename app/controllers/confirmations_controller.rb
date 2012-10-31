@@ -1,5 +1,6 @@
+# Override devise in order to handle special processing related to vendors  
+#
 class ConfirmationsController < Devise::ConfirmationsController
-    
   def show
     with_unconfirmed_confirmable do
       if @confirmable.vendor.nil?

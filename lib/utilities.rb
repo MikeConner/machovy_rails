@@ -1,4 +1,6 @@
 module Utilities
+  GLOBAL_TRUNCATED_BODY_DEFAULT = 280
+  
   # Want to compare params coming back from a form with the record on disk. The trouble is the disk attributes have database types (e.g., integers)
   #   whereas params always has strings. So diff doesn't work well. Call this instead, and it will ignore integer/string differences.
   def self.type_insensitive_diff(hash1, hash2)
@@ -94,7 +96,7 @@ module Utilities
   # :length option will also default to 280, what we think is a good
   # length for abstract/snippet display, unlike rails 10. 
   def self.html_truncator(str, options = {})
-    options.reverse_merge!(:omission => '...', :length => 280)
+    options.reverse_merge!(:omission => '...', :length => GLOBAL_TRUNCATED_BODY_DEFAULT)
     
     # works for non-html of course, but for html a quick check
     # to avoid expensive nokogiri parse if the whole string, even

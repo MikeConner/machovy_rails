@@ -18,9 +18,4 @@ class StaticPagesController < ApplicationController
       members['data'].map { |m| @lists[name].push(m['email']) }
     end
   end
-  
-  # Is this merchant reports (in which case we don't need it) or something else? 
-  def reports
-    authorize! :access, :rails_admin    
-  end
 end
