@@ -20,4 +20,4 @@
 .field
   = f.label :promotions
   %br/
-  = f.collection_select(:promotion_ids, Promotion.all, :id, :title, { :selected => @blog_post.promotion_ids }, { :multiple => true })
+  = f.collection_select(:promotion_ids, Promotion.order(:grid_weight), :id, :title, { :selected => @blog_post.promotion_ids }, { :multiple => true })

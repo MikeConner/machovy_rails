@@ -1,12 +1,14 @@
-%ul.thumbnails
+.row-fluid.thumbnails
   - promotions.each do |promotion|
-    %li.span3.product-list
-      .thumbnail
+    .span3.product-list
+      %span
         = link_to image_tag(promotion.teaser_image_url(:teaser).to_s), promotion_path(promotion) 
-      .caption
-        %h5=truncate(sanitize(promotion.title), :length => 26)
-        %p= truncate(promotion.description, :length => 124)   
-      %ul.menu
-        %li.item1.product-details
-          %i{:class => "icon-plus-sign"}
+      .title=truncate(sanitize(promotion.title), :length => 20)
+      .description= truncate(promotion.description, :length => 124)
+      .row-fluid.menu
+        .span8.details
+          %i.icon-plus-sign.icon-white
           = link_to "More Details", promotion_path(promotion)
+        .span4.price.pull-right
+          $25.00  
+        

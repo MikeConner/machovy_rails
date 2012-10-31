@@ -1,8 +1,5 @@
-.row-fluid
-  .span7
-    %p.sub-headline If you think it's awesome <br> chances are we already found it...
-%br/
 = render :partial => 'categories/index', :locals => { :active_category => @active_category }
+
 .row-fluid
   - for i in 0..@promotions.count / @deals_per_row do
     - current_row = @promotions[i * @deals_per_row, @deals_per_row]
@@ -15,10 +12,10 @@
     .row-fluid
       - @blog_posts.each_with_index do |blogpost, index|
         .span3
-          %h5
+          %h4
             = link_to truncate(blogpost.title, :length => 25), blog_post_path(blogpost)
             .i.icon-comment.pull-right
           %p
-            = truncate(blogpost.body, :length => 200).html_safe     
+            = blogpost.truncated_body(:length => 200)
     .row-fluid
       = render :partial => 'ad_row', :locals => { :ads => @ads }

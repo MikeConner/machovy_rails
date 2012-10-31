@@ -7,7 +7,7 @@
     %h3= link_to @blog_post.curator.name, curator_path(@blog_post.curator)
     - @blog_post.curator.blog_posts.each do |post|
       %h4= link_to post.title, blog_post_path(post)
-      %p= truncate(post.body, :length => 40).html_safe
+      %p= post.truncated_body
 - for i in 0..@promotions.count / @deals_per_row do
   - current_row = @promotions[i * @deals_per_row, @deals_per_row]
   - if current_row.count > 0

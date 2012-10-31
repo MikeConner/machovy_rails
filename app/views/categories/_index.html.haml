@@ -1,6 +1,6 @@
 .row-fluid
   .span12.nav-menus
-    %ul.nav.nav-pills
+    %ul.nav.nav-pills.affix
       - if active_category.nil? or active_category == 'All'
         %li.active
           = link_to 'All Items', root_path, :id => "All"

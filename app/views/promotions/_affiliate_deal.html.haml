@@ -1,21 +1,33 @@
 .row-fluid
-  .span3
+  .span4
     = image_tag @promotion.teaser_image_url(:deal_view).to_s  
-  .span9.product-detail
-    %h3= @promotion.title
-    %h4 Strapline for product goes here
-    - if @show_buy_button
-      %p
-        %button.btn.btn-small.btn-danger 
-          = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank"
+  .span8.product-detail
+    .row-fluid
+      .span12
+        %h3.affiliate-headline= @promotion.title
+    .row-fluid
+      .span12
+        - if @show_buy_button
+          %p
+            %button.btn.btn-danger 
+              = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank"
 .row-fluid
-  .span6
+  .span12.divider         
+.row-fluid.affiliate-container
+  .span8
+    %h3 Description
     %p= @promotion.description
 .row-fluid
   - @curators.each do |curator|
-    .span3
-      = link_to(image_tag(curator.picture_url(:avatar).to_s), curator_path(curator))
-      = link_to curator.name, curator_path(curator)
-      %br/
-      - curator.blog_posts_for(@promotion).each do |post|
-        = link_to post.title, blog_post_path(post)
+    .span3.curator-block
+      .row-fluid.curator-row
+        .span2
+          = link_to(image_tag(curator.picture_url(:avatar).to_s), curator_path(curator))
+        .span10.curator-name
+          = link_to curator.name, curator_path(curator)
+      .row-fluid.curator-post-row
+        .span12.curator-post-title
+          .icon-circle-arrow-right
+          - curator.blog_posts_for(@promotion).each do |post|
+            = link_to post.title, blog_post_path(post)
+    

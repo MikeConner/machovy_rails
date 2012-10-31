@@ -1,20 +1,67 @@
-%h1 Site Admin
-%br	
-  = link_to 'Front Page Manager', manage_promotions_path
-%br	
-  = link_to 'New Advertising Deal', new_promotion_path(:promotion_type => Promotion::AD)
-%br	
-  = link_to 'New Affiliate Deal', new_promotion_path(:promotion_type => Promotion::AFFILIATE)
-%br 
-  = link_to 'New Blog Post', new_blog_post_path
-%br 
-  = link_to 'Show All Blog Posts', blog_posts_path
-%br/	
-%h1 ADVANCED AREA
-= link_to 'Review Vendor Promotions', promotions_path
-%br 
-= link_to 'New Metro Area', new_metro_path
-%br	
-  = link_to 'User Admin', manage_users_path
-%br	
-  = link_to 'Merchant Admin', merchant_vendors_path
+.row-fluid
+  .span4
+    .row-fluid
+      .span12
+        %section.user-profile
+          .row-fluid
+            .span4
+              %figure
+                %img.temp
+            .span8
+              %figcaption
+                %strong
+                  Curator Name
+                %em 
+                  Title: Creative Director
+                  %ul
+                    %li.btn.btn-small.btn-danger
+                      %a{:title => "Dashboard", :href => "#{}"}
+                        settings  
+                    %li.btn.btn-small.btn-danger
+                      %a{:title => "Dashboard", :href => "#{}"}
+                        inbox
+    .row-fluid
+      .span12
+        %form.side-search
+          %input{:type => "text", :class => "rounded", :placeholder => "To search type and hit enter"}
+    .row-fluid
+      .span12
+        %nav.main-navigation{:role => "navigation"}
+          %ul
+            %li
+              %i.icon-th 
+              %a{:title => "Front Page Manager", :href => "#{}"}
+                = link_to 'Front Page Manager', manage_promotions_path
+            %li
+              %i.icon-tag
+              %a{:title => "New Advertising Deal", :href => "#{}"}
+                = link_to 'New Advertising Deal', new_promotion_path(:promotion_type => Promotion::AD)
+            %li
+              %i.icon-tags
+              %a{:title => "New Affiliate Deal", :href => "#{}"}
+                = link_to 'New Affiliate Deal', new_promotion_path(:promotion_type => Promotion::AFFILIATE)
+            %li
+              %i.icon-pencil
+              %a{:title => "New Blog Post", :href => "#{}"}
+                = link_to 'New Blog Post', new_blog_post_path
+            %li
+              %i.icon-eye-open
+              %a{:title => "Show All Blog Posts", :href => "#{}", :class => "no-submenu"}
+                = link_to 'Show All Blog Posts', blog_posts_path
+    .row-fluid
+      .span12
+        %section.side-note
+          .side-note-container
+            %h2
+              Sample Side Note
+            %p
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis erat dui, quis purus.
+  .span8
+    .row-fluid
+      .span12
+        %article.page-header
+          %h1
+            Grid Column Area
+          %p
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam blandit, dolor mollis adipiscing elementum, ipsum turpis euismod tellus, vitae mollis velit leo id nisi. Morbi non lectus turpis, eu interdum orci. In at rutrum nisi. Donec sit amet urna purus, at eleifend ipsum. Sed magna enim, tempor eu tincidunt vitae, dictum tristique arcu.
+   

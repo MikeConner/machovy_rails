@@ -10,4 +10,4 @@
     .span6
       - curator.recent_posts.each do |post|
         %h4= link_to post.title, blog_post_path(post)
-        %p= truncate(post.body, :length => 40).html_safe
+        %p= post.truncated_body

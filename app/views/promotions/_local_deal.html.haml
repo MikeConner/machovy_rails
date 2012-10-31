@@ -26,7 +26,6 @@
           = image_tag @promotion.main_image_url(:deal_view).to_s
   .span6.product-detail
     %h3= @promotion.title
-    %h4 Strapline for product goes here
     %p
       %button.btn.btn-small== #{number_to_percentage(@promotion.discount_pct, :precision => 0)} off detail
       %button.btn.btn-small only 2 left
