@@ -34,6 +34,18 @@ describe "Blog posts" do
   it { should be_valid }
   it { should_not be_displayable }
   
+  describe "initialization" do
+    before { @post = BlogPost.new }
+    
+    it "should have a default weight" do
+      @post.weight.should == BlogPost::DEFAULT_BLOG_WEIGHT
+    end
+    
+    it "should fill in the date" do
+      @post.activation_date.should_not be_nil
+    end
+  end
+  
   describe "weight validation" do
     before { post.weight = 0 }
     

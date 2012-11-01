@@ -25,7 +25,7 @@ describe "Ordering through Stripe" do
       fill_in 'user_email', :with => user.email
       fill_in 'user_password', :with => user.password
       # Authenticate
-      click_link 'Sign In'      
+      click_button 'Sign in'      
     end
      
     describe "Not a customer -- order without saving" do

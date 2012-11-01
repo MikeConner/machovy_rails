@@ -80,6 +80,14 @@ describe "Promotions" do
   
   it { should be_valid }
 
+  describe "initialization" do
+    before { @promo = Promotion.new }
+    
+    it "should have a default weight" do
+      @promo.grid_weight.should == Promotion::DEFAULT_GRID_WEIGHT
+    end
+  end
+  
   describe "retail value (valid)" do
     [0, 2.5, 18].each do |v|
       before { promotion.retail_value = v }

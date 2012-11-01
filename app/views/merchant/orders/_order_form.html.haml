@@ -28,10 +28,10 @@
     = label_tag :amount_display, 'Total Amount'
     %br/
     = text_field_tag :amount_display, @order.amount * @order.quantity, :disabled => true
-  - if !@stripe_customer.nil?
+  - if !stripe_customer.nil?
     .field
       = radio_button_tag 'decision', 'existing', true, :onchange => "hide_card_info()"
-      = label_tag 'decision_existing', "Use card with last 4 digits '#{@stripe_customer.active_card.last4}'?"
+      = label_tag 'decision_existing', "Use card with last 4 digits '#{stripe_customer.active_card.last4}'?"
       &nbsp;&nbsp;
       = radio_button_tag 'decision', 'new', false, :onchange => "show_card_info()"
       = label_tag 'decision_new', "Use another card"
@@ -39,7 +39,7 @@
   -#   it first on "every" page load (which might be because the stripe code is referenced in the application layout)
   -# So have to initialize this style right here
   -#   normally don't want formatting elements outside CSS, but in this case I think it's justified (better encapsulated)
-  #card_info{:style => "display:#{@stripe_customer.nil? ? 'block' : 'none'}"}
+  #card_info{:style => "display:#{stripe_customer.nil? ? 'block' : 'none'}"}
     .field
       = label_tag :card_number, 'Credit Card Number'
       = text_field_tag :card_number
