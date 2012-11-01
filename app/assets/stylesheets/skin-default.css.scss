@@ -424,9 +424,16 @@ blockquote.pull-right{
 }
 
 .nav-pills > li > a:hover{
-	color:#fff;
-	background-color: #e4474b;
-	
+	color:#333333!important;
+	background-color: white;
+}
+
+.nav-tabs > li > a,
+.nav-pills > li > a {
+  padding-right: 15px;
+  padding-left:0;
+  margin-right: 2px;
+  line-height: 14px;
 }
 
 .navbar-inverse .nav li.dropdown > .dropdown-toggle .caret:hover{
@@ -437,6 +444,6 @@ blockquote.pull-right{
 .nav-list > .active > a:hover,
 .nav-pills > .active > a, 
 .nav-pills > .active > a:hover{
-    background-color: #989898;
-	color:white!important;
+    background-color: white;
+	  color:#333333!important;
 }
