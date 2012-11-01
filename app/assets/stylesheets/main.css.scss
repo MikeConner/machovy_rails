@@ -28,6 +28,30 @@ body{
 a {color:#999;}
 a:hover {color:#333;}
 
+@mixin devise-base {
+  height: 20px; 
+  border: 1px solid #BFBFBF; 
+  font-size: 1em; 
+  box-shadow: inset 0 0 1em 0 #eee; 
+  border-radius: .3em;
+}
+
+.devise-submit {
+  @include devise-base;
+  text-transform: uppercase; 
+  color: white; 
+  background: #666; 
+  width: 20em; 
+}
+
+.varlen-devise-input {
+  @include devise-base 
+}
+
+.devise-input {
+  @include devise-base;
+  width: 20em; 
+}
 
 /*====================== AD ROW ======================*/
 

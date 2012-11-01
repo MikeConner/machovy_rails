@@ -1,5 +1,8 @@
 = render :partial => 'categories/index', :locals => { :active_category => @active_category }
-
+- flash.each do |key, value|
+  %div{:class => "alert alert-#{key}"}
+    %a.close{"data-dismiss" => "alert"} ×
+    = content_tag(:div, value)
 .row-fluid
   - for i in 0..@promotions.count / @deals_per_row do
     - current_row = @promotions[i * @deals_per_row, @deals_per_row]

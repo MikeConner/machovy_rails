@@ -74,7 +74,7 @@ describe "Vendor signup" do
         before { visit user_confirmation_path(:confirmation_token => User.find_by_email(VENDOR_EMAIL).confirmation_token) }
         
         it { should have_content(I18n.t('devise.confirmations.confirmed_vendor')) }
-        it { should have_link('MY DEALS') }
+        it { should have_link('My Deals') }
         
         it "should have the role assigned" do
           User.find_by_email(VENDOR_EMAIL).has_role?(Role::MERCHANT).should be_true

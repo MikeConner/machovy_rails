@@ -20,12 +20,12 @@ describe "Ordering through Stripe" do
   describe "Sign in first" do
     before do
       # go to sign in page
-      click_link 'SIGN IN'
+      click_link 'Sign In'
       # fill in info
       fill_in 'user_email', :with => user.email
       fill_in 'user_password', :with => user.password
       # Authenticate
-      click_button 'Sign in'      
+      click_link 'Sign In'      
     end
      
     describe "Not a customer -- order without saving" do

@@ -6,9 +6,13 @@
       .title=truncate(sanitize(promotion.title), :length => 20)
       .description= truncate(promotion.description, :length => 124)
       .row-fluid.menu
-        .span8.details
-          %i.icon-plus-sign.icon-white
-          = link_to "More Details", promotion_path(promotion)
-        .span4.price.pull-right
-          $25.00  
-        
+        - if promotion.deal?
+          .span8.details
+            %i.icon-plus-sign.icon-white
+            = link_to "More Details", promotion_path(promotion)
+          .span4.price.pull-right
+            = number_to_currency(promotion.retail_value)
+        - else
+          .span12.details
+            %i.icon-plus-sign.icon-white
+            = link_to "More Details", promotion_path(promotion)

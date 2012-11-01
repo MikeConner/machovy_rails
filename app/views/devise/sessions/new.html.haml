@@ -1,0 +1,18 @@
+%h2 Sign in
+= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+  - flash.each do |key, value|
+    %div{:class => "alert alert-#{key}"}
+      %a.close{"data-dismiss" => "alert"} ×
+      = content_tag(:div, value)
+  = f.label :email
+  %div
+    = f.email_field :email, :class => "devise_input"
+  = f.label :password
+  %div
+    = f.password_field :password, :class => "devise_input"
+  - if devise_mapping.rememberable?
+    %div
+      = f.check_box :remember_me, :style => "display:inline-block" 
+      = f.label :remember_me, :style => "display:inline-block"
+  %div
+    = f.submit "Sign in", :class => "devise-submit"  
