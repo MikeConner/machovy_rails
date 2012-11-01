@@ -225,15 +225,6 @@ describe "Users" do
     describe "super admin" do
       let(:user) { FactoryGirl.create(:super_admin_user) }
       
-      it { should respond_to(:email) }
-      it { should respond_to(:password) }
-      it { should respond_to(:password_confirmation) }
-      it { should respond_to(:remember_me) }
-
-      it { should respond_to(:orders) }
-      it { should respond_to(:vouchers) }
-      it { should respond_to(:roles) }
-      
       it { should be_valid }
 
       it "should be a super admin" do
@@ -245,15 +236,6 @@ describe "Users" do
     describe "content admin" do
       let(:user) { FactoryGirl.create(:content_admin_user) }
       
-      it { should respond_to(:email) }
-      it { should respond_to(:password) }
-      it { should respond_to(:password_confirmation) }
-      it { should respond_to(:remember_me) }
-    
-      it { should respond_to(:orders) }
-      it { should respond_to(:vouchers) }
-      it { should respond_to(:roles) }
-
       it { should be_valid }
 
       it "should be a content admin" do
@@ -265,15 +247,6 @@ describe "Users" do
     describe "merchant role" do
       let(:user) { FactoryGirl.create(:merchant_user) }
       
-      it { should respond_to(:email) }
-      it { should respond_to(:password) }
-      it { should respond_to(:password_confirmation) }
-      it { should respond_to(:remember_me) }
-    
-      it { should respond_to(:orders) }
-      it { should respond_to(:vouchers) }
-      it { should respond_to(:roles) }
-
       it { should be_valid }
 
       it "should be a merchant" do
@@ -285,15 +258,6 @@ describe "Users" do
     describe "multiple roles" do
       let(:user) { FactoryGirl.create(:power_user) }
       
-      it { should respond_to(:email) }
-      it { should respond_to(:password) }
-      it { should respond_to(:password_confirmation) }
-      it { should respond_to(:remember_me) }
-    
-      it { should respond_to(:orders) }
-      it { should respond_to(:vouchers) }
-      it { should respond_to(:roles) }
-
       it { should be_valid }
 
       it "should be everything" do
@@ -329,15 +293,6 @@ describe "Users" do
   describe "orders" do
     let(:user) { FactoryGirl.create(:user_with_orders) }
     
-    it { should respond_to(:email) }
-    it { should respond_to(:password) }
-    it { should respond_to(:password_confirmation) }
-    it { should respond_to(:remember_me) }
-  
-    it { should respond_to(:orders) }
-    it { should respond_to(:vouchers) }
-    it { should respond_to(:roles) }
-
     it { should be_valid }
     
     it "should have orders" do
@@ -365,15 +320,6 @@ describe "Users" do
   describe "vouchers" do
     let(:user) { FactoryGirl.create(:user_with_vouchers) }
     
-    it { should respond_to(:email) }
-    it { should respond_to(:password) }
-    it { should respond_to(:password_confirmation) }
-    it { should respond_to(:remember_me) }
-  
-    it { should respond_to(:orders) }
-    it { should respond_to(:vouchers) }
-    it { should respond_to(:roles) }
-
     it { should be_valid }
     
     it "should have orders with vouchers" do

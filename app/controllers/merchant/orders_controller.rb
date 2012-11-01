@@ -25,21 +25,21 @@ class Merchant::OrdersController < Merchant::BaseController
     # NOTE: I'm saving the associated user object in the orders controller, instead of trying to do it in the User model
     #       I think it makes more sense to isolate all the Stripe stuff here, than have it scattered through models.
     #       I also removed Stripe code from the Order model. It is all in the controller and User model (where it belongs).
-    stripe_customer = @order.user.stripe_customer_obj
+    @stripe_customer = @order.user.stripe_customer_obj
     
-    if stripe_customer.nil?
+    if @stripe_customer.nil?
       charge_success = false
       
       if params[:save_card] == 'true'
         # case 1
-        stripe_customer = Stripe::Customer.create(:email => @order.email,
-                                                  :description => @order.description,
-                                                  :card => @order.stripe_card_token)
+        @stripe_customer = Stripe::Customer.create(:email => @order.email,
+                                                   :description => @order.description,
+                                                   :card => @order.stripe_card_token)
         
         # Not in attr_accessible for security; must assign explicitly
         @order.user.stripe_id = stripe_customer.id
         if @order.user.save
-          charge_success = charge_customer(@order, stripe_customer)
+          charge_success = charge_customer(@order, @stripe_customer)
         else
           flash[:notice] = "Card could not be saved."
           charge_success = charge_card(@order)
@@ -54,17 +54,17 @@ class Merchant::OrdersController < Merchant::BaseController
         if params[:save_card] == 'true'
           # case 4
           # Update the card information for an existing customer
-          stripe_customer.card = @order.stripe_card_token
-          stripe_customer.save
+          @stripe_customer.card = @order.stripe_card_token
+          @stripe_customer.save
           
-          charge_success = charge_customer(@order, stripe_customer)
+          charge_success = charge_customer(@order, @stripe_customer)
         else
           # case 5
            charge_success = charge_card(@order)
         end
       else
         # case 3
-        charge_success = charge_customer(@order, stripe_customer)
+        charge_success = charge_customer(@order, @stripe_customer)
       end
     end
 
@@ -103,7 +103,7 @@ class Merchant::OrdersController < Merchant::BaseController
       
     rescue Stripe::CardError => error
       puts "Error #{error.message}"
-      logger.error "Stripe error while creating customer: #{error.message}"
+      logger.error "Stripe error: #{error.message}"
       @order.errors.add :base, "There was a problem with your credit card. CARDERR"
       render 'new'
   end

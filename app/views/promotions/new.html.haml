@@ -5,11 +5,11 @@
   - if admin_user?
     .field
       = f.label :grid_weight
-      = f.number_field :grid_weight, :min => 1, :value => Promotion::DEFAULT_GRID_WEIGHT
+      = f.number_field :grid_weight, :min => 1
     .field
       = f.label :categories
       %br/
       = f.collection_select(:category_ids, Category.all, :id, :name, {}, { :multiple => true })
   - else
-    = f.hidden_field :grid_weight, :value => Promotion::DEFAULT_GRID_WEIGHT
-  = render :partial => 'shared/promotion_fields', :locals => { :f => f, :share_pct => Promotion::MINIMUM_REVENUE_SHARE }
+    = f.hidden_field :grid_weight
+  = render :partial => 'shared/promotion_fields', :locals => { :f => f, :quantity => @promotion.quantity || 1, :share_pct => Promotion::MINIMUM_REVENUE_SHARE }

@@ -2,7 +2,7 @@ class Merchant::VouchersController < Merchant::BaseController
   respond_to :html, :js, :png
   
   before_filter :authenticate_user!, :except => [:generate_qrcode]
-  before_filter :ensure_correct_vendor, :only => [:redeem]
+  before_filter :ensure_correct_vendor, :only => [:redeem, :redeem_admin]
   
   load_and_authorize_resource
   
@@ -70,9 +70,31 @@ class Merchant::VouchersController < Merchant::BaseController
     end    
   end
   
+  # Redeem from a QR code (e.g., doorman)
   # GET /vouchers/1/redeem
   def redeem
-    @voucher = Voucher.find(params[:id])
+    # @voucher set from the filter
+    @voucher.status = Voucher::REDEEMED
+    @voucher.redemption_date = Time.now
+    
+    if @voucher.save
+      flash[:notice] = I18n.t('voucher_success')
+      
+      UserMailer.survey_email(@voucher.order).deliver
+    else
+      flash[:alert] = I18n.t('voucher_failure')
+    end
+
+    @vouchers = @voucher.promotion.vouchers.paginate(page: params[:page])
+    @display_controls = true
+    @display_search = false
+    render 'index'
+  end
+  
+  # Redeem (or Unredeem/Return) from the merchant admin interface
+  # PUT /vouchers/1/redeem_admin
+  def redeem_admin
+    # @voucher set from the filter
     @voucher.status = params[:status]
     if Voucher::REDEEMED == params[:status]
       @voucher.redemption_date = Time.now
@@ -83,12 +105,15 @@ class Merchant::VouchersController < Merchant::BaseController
     
     if @voucher.save
       flash[:notice] = I18n.t('voucher_success')
+      
+      UserMailer.survey_email(@voucher.order).deliver
     else
       flash[:alert] = I18n.t('voucher_failure')
     end
     
-    @vouchers = Promotion.find(params[:promotion_id]).vouchers
+    @vouchers = Promotion.find(params[:promotion_id]).vouchers.paginate(page: params[:page])
     @display_controls = true
+    @display_search = false
     render 'index'
   end
 

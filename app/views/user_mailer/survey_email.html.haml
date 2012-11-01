@@ -2,4 +2,4 @@
 %p== You purchased #{number_to_word(@order.quantity)} of these: #{@order.promotion.title} for #{number_to_currency(@order.total_cost)}
 %p We always appreciate feedback.
 %br/
-== Take this #{link_to 'survey', survey_user_path(@order.user, :order_id => @order.id) } to let us know about your experience.
+== Take this #{link_to 'survey', survey_user_url(@order.user, :order_id => @order.id) } to let us know about your experience.

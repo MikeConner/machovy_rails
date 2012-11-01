@@ -32,6 +32,8 @@ class BlogPost < ActiveRecord::Base
 
   include Utilities
   
+  after_initialize :init_weight
+  
   DEFAULT_BLOG_WEIGHT = 10
   DEFAULT_TRUNCATED_BODY_LEN = 40
   
@@ -65,15 +67,6 @@ class BlogPost < ActiveRecord::Base
   validates_presence_of :body
   validates_numericality_of :weight, { :only_integer => true, :greater_than => 0 }
   
-  # WARNING! Not absolutely guaranteed to be called by Rails, but seems to work for current usage
-  # after_initialize is recommended, but that doesn't fill anything on new, which is what we need for the create forms
-  def initialize(*args)
-    super
-    
-    self.weight = DEFAULT_BLOG_WEIGHT
-    self.activation_date = Time.now
-  end
-  
   # DB scope can get lost when we're filtering and otherwise processing these as arrays
   def <=>(other)
     weight <=> other.weight
@@ -88,5 +81,11 @@ class BlogPost < ActiveRecord::Base
     options.reverse_merge!(:length => DEFAULT_TRUNCATED_BODY_LEN)
     
     Utilities.html_truncator(body, options)
+  end
+
+private
+  def init_weight
+    self.weight = DEFAULT_BLOG_WEIGHT
+    self.activation_date = Time.now
   end
 end

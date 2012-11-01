@@ -4,4 +4,4 @@ You purchased #{number_to_word(@order.quantity)} of these: #{@order.promotion.ti
 
 We always appreciate feedback.
 
-Take this #{link_to 'survey', survey_user_path(@order.user, :order_id => @order.id) } to let us know about your experience.
+Take this #{link_to 'survey', survey_user_url(@order.user, :order_id => @order.id) } to let us know about your experience.

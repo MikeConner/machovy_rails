@@ -34,4 +34,4 @@
       = f.label :categories
       %br/
       = f.collection_select(:category_ids, Category.all, :id, :name, { :selected => @promotion.category_ids }, { :multiple => true })      
-  = render :partial => 'shared/promotion_fields', :locals => { :f => f, :share_pct => @promotion.revenue_shared }
+  = render :partial => 'shared/promotion_fields', :locals => { :f => f, :quantity => @promotion.quantity || 1, :share_pct => @promotion.revenue_shared }

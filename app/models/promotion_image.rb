@@ -32,7 +32,8 @@ class PromotionImage < ActiveRecord::Base
   mount_uploader :slideshow_image, ImageUploader
   
   validates :caption, :length => { maximum: MAX_CAPTION_LEN }, :allow_blank => true
-                         
-  validates_presence_of :promotion_id
+      
+  # Validating this causes problems with nested attributes                      
+  # validates_presence_of :promotion_id
   validates_presence_of :slideshow_image
 end

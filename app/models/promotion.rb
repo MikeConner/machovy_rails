@@ -66,6 +66,8 @@ class Promotion < ActiveRecord::Base
   extend FriendlyId
   friendly_id :title, use: [:slugged, :history]
 
+  after_initialize :init_defaults
+
   attr_accessible :description, :destination, :grid_weight, :limitations, :price, :quantity, :retail_value, :revenue_shared,
                   :start_date, :end_date, :teaser_image, :remote_teaser_image_url, :main_image, :remote_main_image_url,
                   :status, :promotion_type, :title, :voucher_instructions,
@@ -127,7 +129,8 @@ class Promotion < ActiveRecord::Base
   validates :quantity, :numericality => { only_integer: true, greater_than_or_equal_to: 1 },
             :if => :deal?
   
-  validates_associated :promotion_images
+  # Causes issues with nested attributes when enabled
+  #validates_associated :promotion_images
   
   # DB scope can get lost when we're filtering and otherwise processing these as arrays
   def <=>(other)
@@ -210,4 +213,9 @@ class Promotion < ActiveRecord::Base
 	def discount_pct
 		self.retail_value.nil? ? 0 : discount / self.retail_value * 100.0
 	end	
+	
+private
+  def init_defaults
+    self.grid_weight = DEFAULT_GRID_WEIGHT
+  end
 end

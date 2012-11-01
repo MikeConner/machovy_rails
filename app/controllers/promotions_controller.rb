@@ -153,7 +153,7 @@ class PromotionsController < ApplicationController
         redirect_to :back, :alert => 'Merchants can only create local deals'
       end
       # Required to support nested attributes
-      @promotion.promotion_images.new
+      @promotion.promotion_images.build
       # Fall through to render 'new'
     else
       # Admins can only create ads/affiliates; check type argument
@@ -239,7 +239,7 @@ class PromotionsController < ApplicationController
         VendorMailer.promotion_status_email(@promotion).deliver
       end 
       
-      redirect_to @promotion, notice: I18n.t('promotion_updated')
+      redirect_to promotions_path, notice: I18n.t('promotion_updated')
     else
       render 'edit'  
     end    
@@ -250,10 +250,7 @@ class PromotionsController < ApplicationController
     @promotion = Promotion.find(params[:id])
     @promotion.destroy
 
-    respond_to do |format|
-      format.html { redirect_to promotions_url }
-      format.json { head :no_content }
-    end
+    redirect_to promotions_path
   end
   
   def manage

@@ -54,7 +54,8 @@ MachovyRails::Application.routes.draw do
     end
     resources :vouchers, :only => [:index, :show] do
       member do
-        put :redeem
+        get :redeem
+        put :redeem_admin
         get :generate_qrcode
       end
       
