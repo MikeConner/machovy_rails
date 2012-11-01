@@ -129,14 +129,6 @@ class Promotion < ActiveRecord::Base
   
   validates_associated :promotion_images
   
-  # WARNING! Not absolutely guaranteed to be called by Rails, but seems to work for current usage
-  # after_initialize is recommended, but that doesn't fill anything on new, which is what we need for the create forms
-  def initialize(*args)
-    super
-    
-    self.grid_weight = DEFAULT_GRID_WEIGHT
-  end
-
   # DB scope can get lost when we're filtering and otherwise processing these as arrays
   def <=>(other)
     grid_weight <=> other.grid_weight

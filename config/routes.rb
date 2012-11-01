@@ -71,8 +71,8 @@ MachovyRails::Application.routes.draw do
   match "/category" => "ajax#category"
 
   # Affiliate processing
-  match "/category" => "ajax#category"
-
+  match "/affiliate_url" => "ajax#affiliate_url"
+ 
   # Static pages
   match "/site_admin" => "static_pages#admin_index"
   match "/about" => "static_pages#about"

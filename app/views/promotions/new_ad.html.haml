@@ -31,7 +31,7 @@
     = f.text_area :description, :size => "60x12"
   .field
     = f.label :grid_weight
-    = f.number_field :grid_weight, :min => 1
+    = f.number_field :grid_weight, :min => 1, :value => Promotion::DEFAULT_GRID_WEIGHT
   .field
     = f.label :teaser_image
     %br/
