@@ -11,7 +11,7 @@
             %i.icon-plus-sign.icon-white
             = link_to "More Details", promotion_path(promotion)
           .span4.price.pull-right
-            = number_to_currency(promotion.retail_value)
+            = number_to_currency(promotion.price)
         - else
           .span12.details
             %i.icon-plus-sign.icon-white

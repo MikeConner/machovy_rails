@@ -200,7 +200,11 @@ navigation-block {
   color:#999999;
 }
 
+<<<<<<< HEAD
 .main-navigation  > ul  > li a:hover{
+=======
+.main-navigation  > ul  > li a:hover {
+>>>>>>> Form styling so that labels are visible
   color:black!important;
 }
 
