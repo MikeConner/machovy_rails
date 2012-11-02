@@ -32,7 +32,7 @@
 #
 
 describe "Users" do
-  let (:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryGirl.create(:user) }
   
   subject { user }
 
@@ -160,11 +160,11 @@ describe "Users" do
   end
   
   describe "Vendor users" do
-    let (:vendor) { FactoryGirl.create(:vendor, :user => user) }
+    let(:vendor) { FactoryGirl.create(:vendor, :user => user) }
     
     it "should point to the vendor" do
       # Need to access vendor to create it so the associations will be valid
-      vendor.user.should == user
+      vendor.user.should be == user
       user.vendor.should == vendor
     end
     
@@ -181,7 +181,7 @@ describe "Users" do
       end
       
       it "should update" do
-        user.reload.vendor.state.should == "MO"
+        user.reload.vendor.state.should be == "MO"
         user.reload.vendor.zip.should == "32432"
       end
     end
@@ -296,7 +296,7 @@ describe "Users" do
     it { should be_valid }
     
     it "should have orders" do
-      user.orders.count.should == 3
+      user.orders.count.should be == 3
       user.orders.each do |order|
         order.user.should == user
       end
@@ -311,7 +311,7 @@ describe "Users" do
       end
       
       it "should still have orders" do
-        Order.all.count.should == 3
+        Order.all.count.should be == 3
         Order.find_by_user_id(@id).should_not be_nil
       end
     end
@@ -323,10 +323,10 @@ describe "Users" do
     it { should be_valid }
     
     it "should have orders with vouchers" do
-      user.orders.count.should == 3
+      user.orders.count.should be == 3
       user.orders.each do |order|
-        order.user.should == user
-        order.vouchers.count.should == 3
+        order.user.should be == user
+        order.vouchers.count.should be == 3
         order.vouchers.each do |voucher|
           voucher.order.should == order
         end
@@ -380,7 +380,7 @@ describe "Users" do
             before { Order.destroy_all }
             
             it "should have no orders" do
-              Order.unscoped.reload.count.should == 0
+              Order.unscoped.reload.count.should be == 0
               expect { Order.find(@orders[0]) }.to raise_exception(ActiveRecord::RecordNotFound)
             end
             
@@ -405,7 +405,7 @@ describe "Users" do
     it { should be_valid }
     
     it "should have activities" do
-      user.activities.count.should == 5
+      user.activities.count.should be == 5
       user.activities.each do |activity|
         activity.user.should == user
       end
@@ -415,7 +415,7 @@ describe "Users" do
       before { user.destroy }
       
       it "should have deleted them" do
-        User.count.should == 0
+        User.count.should be == 0
         Activity.count.should == 0
       end
     end
@@ -426,8 +426,8 @@ describe "Users" do
       before { user.log_activity(promotion) }
       
       it "should have a log" do
-        user.activities.count.should == 6
-        activity.activity_name.should == promotion.class.name
+        user.activities.count.should be == 6
+        activity.activity_name.should be == promotion.class.name
         activity.activity_id.should == promotion.id
       end
     end  
@@ -446,7 +446,7 @@ describe "Users" do
       end  
       
       it "should have an invalid stripe id" do
-        user.stripe_id.should == "bogus"
+        user.stripe_id.should be == "bogus"
         user.stripe_customer_obj.should be_nil
       end
     end    
@@ -463,7 +463,7 @@ describe "Users" do
       before { user.orders.destroy_all }
      
       it "should still not allow deletion because of feedback" do
-        Order.count.should == 0
+        Order.count.should be == 0
         expect { user.destroy }.to raise_exception(ActiveRecord::DeleteRestrictionError)
       end
 

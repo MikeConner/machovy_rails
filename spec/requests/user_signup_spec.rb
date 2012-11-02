@@ -18,7 +18,7 @@ describe "User signup" do
     end
     
     describe "with valid information" do
-      let (:msg) { ActionMailer::Base.deliveries[0] }
+      let(:msg) { ActionMailer::Base.deliveries[0] }
       
       before do
         # Clear any previous emails
@@ -32,7 +32,7 @@ describe "User signup" do
       end
             
       it "should create a user" do
-        User.count.should == 1
+        User.count.should be == 1
         
         User.find_by_email('jeff@machovy.com').should_not be_nil
         User.find_by_email('jeff@machovy.com').is_customer?.should be_true

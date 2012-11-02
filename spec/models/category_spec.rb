@@ -68,7 +68,7 @@ describe "Categories" do
     let(:category) { FactoryGirl.create(:category_with_promotions) }
     
     it "should have promotions" do
-      category.promotions.count.should == 5
+      category.promotions.count.should be == 5
       category.promotions.each do |p| 
         p.categories.include?(category).should be_true
       end
@@ -86,7 +86,7 @@ describe "Categories" do
       before { category.destroy }
       
       it "promotions should exist but not have any posts" do
-        Promotion.count.should == 5
+        Promotion.count.should be == 5
         Promotion.all.each do |p|
           p.categories.count.should == 0
         end
@@ -98,8 +98,8 @@ describe "Categories" do
     let(:category) { FactoryGirl.create(:hierarchical_category) }
     
     it "should have sub-categories" do
-      category.sub_categories.count.should == 3
-      Category.unscoped.all.count.should == 4
+      category.sub_categories.count.should be == 3
+      Category.unscoped.all.count.should be == 4
       
       category.sub_categories.each do |sub| 
         sub.category.should == category

@@ -3,7 +3,11 @@ class ApplicationController < ActionController::Base
 
   # Redirect on signup based on role
   def after_sign_in_path_for(resource)
-    resource.has_role?(Role::MERCHANT) ? promotions_path : session[:user_return_to]
+    if resource.has_role?(Role::MERCHANT) 
+      promotions_path
+    else
+      session[:user_return_to].nil? ? root_path : session[:user_return_to]
+    end
   end 
     
   rescue_from CanCan::AccessDenied do |exception|

@@ -91,9 +91,9 @@ describe "Curators" do
     it { should be_valid }
     
     it "should have posts" do
-      curator.blog_posts.count.should == 6
+      curator.blog_posts.count.should be == 6
       curator.blog_posts.each do |p|
-        p.curator.should == curator
+        p.curator.should be == curator
         p.metro.should == metro
       end
     end
@@ -137,8 +137,8 @@ describe "Curators" do
     end
     
     it "should find the promotion for the first curator" do
-      post1.curator.reload.blog_posts_for(promotion).should == [post1]
-      post2.curator.reload.blog_posts_for(promotion).should == [post2]
+      post1.curator.reload.blog_posts_for(promotion).should be == [post1]
+      post2.curator.reload.blog_posts_for(promotion).should be == [post2]
       post3.curator.reload.blog_posts_for(promotion).should be_empty
     end
   end
@@ -158,7 +158,7 @@ describe "Curators" do
     end
     
     it "should not show oldest post" do
-      curator.recent_posts.count.should == Curator::MAX_POSTS
+      curator.recent_posts.count.should be == Curator::MAX_POSTS
       curator.recent_posts.include?(@first_post).should be_false
     end
     

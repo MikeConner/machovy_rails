@@ -11,7 +11,7 @@
 #
 
 describe "Videos" do
-  let (:video) { FactoryGirl.create(:video) }
+  let(:video) { FactoryGirl.create(:video) }
   
   subject { video }
   
@@ -40,7 +40,7 @@ describe "Videos" do
   end
   
   describe "inactive" do
-    let (:video) { FactoryGirl.create(:inactive_video) }
+    let(:video) { FactoryGirl.create(:inactive_video) }
     
     it { should respond_to(:active) }
     it { should respond_to(:destination_url) }

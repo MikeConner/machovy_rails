@@ -72,7 +72,7 @@ describe "Metros" do
     it { should be_valid }
     
     it "should have promotions" do
-      metro.promotions.count.should == 4
+      metro.promotions.count.should be == 4
       metro.promotions.each do |p|
         p.metro.should == metro
       end
@@ -87,7 +87,7 @@ describe "Metros" do
       end
       
       it "should still have promotions" do
-        Promotion.all.count.should == 4
+        Promotion.all.count.should be == 4
         Promotion.find_by_metro_id(@id).should_not be_nil
       end
     end

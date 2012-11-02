@@ -41,7 +41,7 @@ describe "Roles" do
     let(:role) { FactoryGirl.create(:role_with_users) }
     
     it "should have users" do
-      role.users.count.should == 5
+      role.users.count.should be == 5
       role.users.each do |u| 
         u.roles.include?(role).should be_true
       end
@@ -55,7 +55,7 @@ describe "Roles" do
       before { role.destroy }
       
       it "users should exist but not have any roles" do
-        User.count.should == 5
+        User.count.should be == 5
         User.all.each do |u|
           u.roles.count.should == 0
         end

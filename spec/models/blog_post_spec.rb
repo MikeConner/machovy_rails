@@ -74,10 +74,10 @@ describe "Blog posts" do
     
     it "should be ordered by weight" do
       # Make sure it's got them
-      @weights.length.should == 10
+      @weights.length.should be == 10
       @value = 0
       @weights.each do |w|
-        w.should >= @value
+        w.should be >= @value
         @value = w
       end
     end
@@ -113,10 +113,10 @@ describe "Blog posts" do
     end
     
     it "should return the whole thing if a string and < ellipsis length" do
-      post.truncated_body(:length => 0).should == post.body[0, post.body.length - 3] + "..."
-      post.truncated_body(:length => 1).should == post.body[0, post.body.length - 2] + "..."
-      post.truncated_body(:length => 2).should == post.body[0, post.body.length - 1] + "..."
-      post.truncated_body(:length => 3).should == "..."
+      post.truncated_body(:length => 0).should be == post.body[0, post.body.length - 3] + "..."
+      post.truncated_body(:length => 1).should be == post.body[0, post.body.length - 2] + "..."
+      post.truncated_body(:length => 2).should be == post.body[0, post.body.length - 1] + "..."
+      post.truncated_body(:length => 3).should be == "..."
     end
        
     it "should take the first character" do
@@ -135,12 +135,12 @@ describe "Blog posts" do
       end
             
       it "should preserve tags" do
-        post.truncated_body(:length => 0).should == "..."
-        post.truncated_body(:length => 1).should == "<p>...</p>"
-        post.truncated_body(:length => 2).should == "<p>...</p>"
-        post.truncated_body(:length => 3).should == "<p>...</p>"
-        post.truncated_body(:length => 4).should == "<p>T...</p>"
-        post.truncated_body(:length => 11).should == "<p>This is a <b>...</b></p>"
+        post.truncated_body(:length => 0).should be == "..."
+        post.truncated_body(:length => 1).should be == "<p>...</p>"
+        post.truncated_body(:length => 2).should be == "<p>...</p>"
+        post.truncated_body(:length => 3).should be == "<p>...</p>"
+        post.truncated_body(:length => 4).should be == "<p>T...</p>"
+        post.truncated_body(:length => 11).should be == "<p>This is a <b>...</b></p>"
       end
     end
   end
@@ -149,7 +149,7 @@ describe "Blog posts" do
     let(:post) { FactoryGirl.create(:blog_post_with_promotions, :curator => curator) }
     
     it "should have promotions" do
-      post.promotions.count.should == 5
+      post.promotions.count.should be == 5
       post.promotions.each do |p| 
         p.blog_posts.include?(post).should be_true
       end
@@ -163,7 +163,7 @@ describe "Blog posts" do
       before { post.destroy }
       
       it "promotions should exist but not have any posts" do
-        Promotion.count.should == 5
+        Promotion.count.should be == 5
         Promotion.all.each do |p|
           p.blog_posts.count.should == 0
         end
@@ -175,7 +175,7 @@ describe "Blog posts" do
     let(:post) { FactoryGirl.create(:blog_post_with_metro_promotions) }
     
     it "should have the right metros list" do
-      post.metros.count.should == 2
+      post.metros.count.should be == 2
       post.metros.sort.should == Metro.all.sort
     end
   end

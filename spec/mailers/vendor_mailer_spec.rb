@@ -46,7 +46,7 @@ describe "VendorMailer" do
       end
       
       it "should have the attachment" do
-        msg.attachments.count.should == 1
+        msg.attachments.count.should be == 1
         msg.attachments[0].filename.should == 'VendorAgreement.pdf'
       end
     end

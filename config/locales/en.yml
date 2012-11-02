@@ -23,6 +23,13 @@ en:
   vendors_only: 'This function only available to Vendors.'
   voucher_success: "Voucher status successfully updated."
   voucher_failure: "Error updating voucher status."
+  promotions:
+    index_heading: 'All promotions - Listing / Manage'
+    live: 'Live Promotions'
+    attention: 'Promotions that need your attention'
+    pending: 'Pending Promotions'
+    inactive: 'Inactive Promotions'
+    ads: 'Advertisements'
   # This is necessary because of a bug in will_paginate (in order to display page_entries_info correctly)
   activerecord:
     models:

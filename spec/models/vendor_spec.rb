@@ -18,8 +18,8 @@
 #
 
 describe "Vendors" do
-  let (:user) { FactoryGirl.create(:user) }
-  let (:vendor) { FactoryGirl.create(:vendor, :user => user) }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:vendor) { FactoryGirl.create(:vendor, :user => user) }
   
   subject { vendor }
 
@@ -183,7 +183,7 @@ describe "Vendors" do
     it { should be_valid }
         
     it "should have promotions" do
-      vendor.promotions.count.should == 5
+      vendor.promotions.count.should be == 5
       vendor.promotions.each do |p|
         p.vendor.should == vendor
       end
@@ -206,7 +206,7 @@ describe "Vendors" do
       end
       
       it "should still have promotions" do
-        Promotion.unscoped.reload.count.should == 5
+        Promotion.unscoped.reload.count.should be == 5
         Promotion.find_by_metro_id(@id).should_not be_nil
       end
     end    
@@ -218,7 +218,7 @@ describe "Vendors" do
     it { should be_valid }
         
     it "should have orders" do
-      vendor.orders.count.should == 25
+      vendor.orders.count.should be == 25
       vendor.orders.each do |order|
         order.vendor.should == vendor
       end
@@ -255,7 +255,7 @@ describe "Vendors" do
       end
       
       it "should still have promotions" do
-        Promotion.unscoped.reload.count.should == 5
+        Promotion.unscoped.reload.count.should be == 5
         Order.unscoped.reload.count.should == 25
       end
     end
@@ -269,7 +269,7 @@ describe "Vendors" do
       end
       
       it "should have promotions" do
-        vendor.reload.promotions.count.should == 5
+        vendor.reload.promotions.count.should be == 5
         vendor.reload.promotions.each do |p|
           p.vendor.should == vendor
         end
@@ -283,7 +283,7 @@ describe "Vendors" do
         before { Promotion.destroy_all }
         
         it "should not have promotions" do
-          vendor.reload.promotions.count.should == 0
+          vendor.reload.promotions.count.should be == 0
           vendor.reload.orders.count.should == 0
         end
         
@@ -307,7 +307,7 @@ describe "Vendors" do
     before { promotion1 = FactoryGirl.create(:promotion, :vendor => vendor, :metro => metro1) }
     
     it "should have the first metro" do
-      vendor.metros.count.should == 1
+      vendor.metros.count.should be == 1
       vendor.metros[0].should == metro1
     end
     
@@ -315,7 +315,7 @@ describe "Vendors" do
       before { promotion2 = FactoryGirl.create(:promotion, :vendor => vendor, :metro => metro2) }
       
       it "should have both metros" do
-        vendor.metros.count.should == 2
+        vendor.metros.count.should be == 2
         vendor.metros.sort.should == [metro1, metro2].sort
       end
       
@@ -323,7 +323,7 @@ describe "Vendors" do
         before { promotion3 = FactoryGirl.create(:promotion, :vendor => vendor, :metro => metro2) }
         
         it "should have two metros" do
-          vendor.metros.count.should == 2
+          vendor.metros.count.should be == 2
           vendor.metros.sort.should == [metro1, metro2].sort
         end
       end

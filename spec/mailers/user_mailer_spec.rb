@@ -47,7 +47,7 @@ describe "UserMailer" do
       end
       
       it "should have attachments" do
-        msg.attachments.count.should == order.vouchers.count
+        msg.attachments.count.should be == order.vouchers.count
         contents = []
         order.vouchers.each do |voucher|
           str = sprintf("image/png; charset=UTF-8; filename=%s.png", voucher.uuid)

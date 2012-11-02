@@ -17,9 +17,9 @@
 #
 
 describe "Orders" do
-  let (:user) { FactoryGirl.create(:user) }
-  let (:promotion) { FactoryGirl.create(:promotion) }
-  let (:order) { FactoryGirl.create(:order, :user => user, :promotion => promotion) }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:promotion) { FactoryGirl.create(:promotion) }
+  let(:order) { FactoryGirl.create(:order, :user => user, :promotion => promotion) }
   
   subject { order }
 
@@ -117,7 +117,7 @@ describe "Orders" do
     end
     
     it "should calculate correctly" do
-      order.total_cost.should == 1.0
+      order.total_cost.should be == 1.0
       # pennies
       order.total_cost(true).should == 100
     end
@@ -133,9 +133,9 @@ describe "Orders" do
     it { should be_valid }
 
     it "should have vouchers" do
-      order.vouchers.count.should == 3
+      order.vouchers.count.should be == 3
       order.vouchers.each do |v|
-        v.order.should == order
+        v.order.should be == order
         v.user.should == order.user
       end
     end

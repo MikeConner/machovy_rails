@@ -328,7 +328,7 @@ describe "Promotions" do
     it { should be_valid}
 
     it "should have orders" do
-      promotion.orders.count.should == 5
+      promotion.orders.count.should be == 5
       promotion.orders.each do |order|
         order.promotion.should == promotion
       end
@@ -457,7 +457,7 @@ describe "Promotions" do
     end
     
     it "should be the difference" do
-      promotion.discount.should == 500
+      promotion.discount.should be == 500
       promotion.discount_pct.should == 50
     end
   end
@@ -469,7 +469,7 @@ describe "Promotions" do
     end
     
     it "should not go negative" do
-      promotion.discount.should == 0
+      promotion.discount.should be == 0
       promotion.discount_pct.should == 0
     end
   end
@@ -479,9 +479,9 @@ describe "Promotions" do
     before { promotion.quantity = 20 }
 
     it "should have quantity - vouchers" do
-      promotion.vouchers.count.should == 15
-      promotion.num_open_vouchers.should == 15
-      promotion.quantity.should == 20
+      promotion.vouchers.count.should be == 15
+      promotion.num_open_vouchers.should be == 15
+      promotion.quantity.should be == 20
       promotion.remaining_quantity.should == 5
     end
     
@@ -532,10 +532,10 @@ describe "Promotions" do
     
     it "should be ordered by grid_weight" do
       # Make sure it's got them
-      @weights.length.should == 10
+      @weights.length.should be == 10
       @value = 0
       @weights.each do |w|
-        w.should >= @value
+        w.should be >= @value
         @value = w
       end
     end
@@ -610,7 +610,7 @@ describe "Promotions" do
     let(:promotion) { FactoryGirl.create(:promotion_with_categories) }
     
     it "should have categories" do
-      promotion.categories.count.should == 5
+      promotion.categories.count.should be == 5
       promotion.categories.each do |cat| 
         cat.promotions.count.should == 1
       end
@@ -624,7 +624,7 @@ describe "Promotions" do
       before { promotion.destroy }
       
       it "categories should exist but not have any promotions" do
-        Category.count.should == 5
+        Category.count.should be == 5
         Category.all.each do |cat|
           cat.promotions.count.should == 0
         end
@@ -636,7 +636,7 @@ describe "Promotions" do
     let(:promotion) { FactoryGirl.create(:promotion_with_blog_posts) }
     
     it "should have blog posts" do
-      promotion.blog_posts.count.should == 5
+      promotion.blog_posts.count.should be == 5
       promotion.blog_posts.each do |post| 
         post.promotions.count.should == 1
       end
@@ -650,7 +650,7 @@ describe "Promotions" do
       before { promotion.destroy }
       
       it "blog posts should exist but not have any promotions" do
-        BlogPost.count.should == 5
+        BlogPost.count.should be == 5
         BlogPost.all.each do |post|
           post.promotions.count.should == 0
         end
@@ -662,7 +662,7 @@ describe "Promotions" do
     let(:promotion) { FactoryGirl.create(:promotion_with_logs) }
     
     it "should have logs" do
-      promotion.promotion_logs.count.should == 5
+      promotion.promotion_logs.count.should be == 5
       promotion.promotion_logs.each do |log| 
         log.promotion.should == promotion
       end
@@ -681,7 +681,7 @@ describe "Promotions" do
     let(:promotion) { FactoryGirl.create(:promotion_with_images) }
     
     it "should have images" do
-      promotion.promotion_images.count.should == 3
+      promotion.promotion_images.count.should be == 3
       promotion.promotion_images.each do |image| 
         image.promotion.should == promotion
       end
@@ -717,7 +717,7 @@ describe "Promotions" do
       end
 
       it "should have two" do
-        promotion.curators.count.should == 2
+        promotion.curators.count.should be == 2
         promotion.curators.sort.should == [curator, blog_post2.curator].sort
       end
     end
@@ -729,7 +729,7 @@ describe "Promotions" do
       end
 
       it "should have unique curator" do
-        promotion.curators.count.should == 1
+        promotion.curators.count.should be == 1
         promotion.curators.should == [curator]
       end
     end
@@ -739,7 +739,7 @@ describe "Promotions" do
     let(:promotion) { FactoryGirl.create(:promotion_with_feedback) }
     
     it "should have feedback" do
-      promotion.feedbacks.count.should == 5
+      promotion.feedbacks.count.should be == 5
       promotion.orders.each do |order|
         promotion.feedbacks.include?(order.feedback).should be_true
         order.user.feedbacks.include?(order.feedback).should be_true

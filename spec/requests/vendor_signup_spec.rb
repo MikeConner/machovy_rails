@@ -21,7 +21,7 @@ describe "Vendor signup" do
     end
     
     describe "with valid information" do
-      let (:msg) { ActionMailer::Base.deliveries[0] }
+      let(:msg) { ActionMailer::Base.deliveries[0] }
       
       before do
         # Clear any previous emails
@@ -43,8 +43,8 @@ describe "Vendor signup" do
       end
       
       it "should create vendors and users" do
-        Vendor.count.should == 1
-        User.count.should == 1
+        Vendor.count.should be == 1
+        User.count.should be == 1
         
         Vendor.find_by_name('Cheerleaders').should_not be_nil
         User.find_by_email(VENDOR_EMAIL).should_not be_nil
@@ -70,9 +70,13 @@ describe "Vendor signup" do
       end
       
       describe "Confirmation" do
-        let (:msg) { ActionMailer::Base.deliveries[1] }
+        let(:msg) { ActionMailer::Base.deliveries[1] }
         before { visit user_confirmation_path(:confirmation_token => User.find_by_email(VENDOR_EMAIL).confirmation_token) }
         
+        # Note that this logs in the merchant, which redirects to the promotions_path page
+        it "should have gone to promotions path" do
+          current_path.should == promotions_path
+        end
         it { should have_content(I18n.t('devise.confirmations.confirmed_vendor')) }
         it { should have_link('My Deals') }
         
@@ -95,7 +99,7 @@ describe "Vendor signup" do
         end
 
         it "should have the attachment" do
-          msg.attachments.count.should == 1
+          msg.attachments.count.should be == 1
           msg.attachments[0].filename.should == 'VendorAgreement.pdf'
         end
       end      
