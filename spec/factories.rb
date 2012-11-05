@@ -20,9 +20,9 @@ FactoryGirl.define do
   sequence(:random_zip) { |n| Faker::Address.zip_code }
   sequence(:random_email) { |n| Faker::Internet.email }
   sequence(:random_vendor_name) { |n| Faker::Company.name }
-  sequence(:random_description) { |n| Faker::Company.catch_phrase }
-  sequence(:random_comment) { |n| Faker::Lorem.sentences.join(' ') }
-  sequence(:random_post) { |n| Faker::Lorem.paragraphs.join("\n") }
+  sequence(:random_phrase) { |n| Faker::Company.catch_phrase }
+  sequence(:random_sentences) { |n| Faker::Lorem.sentences.join(' ') }
+  sequence(:random_paragraphs) { |n| Faker::Lorem.paragraphs.join("\n") }
   sequence(:random_name) { |n| Faker::Name.name }
   # This is actually sequential; Faker doesn't support Twitter
   sequence(:random_twitter) { |n| "@Cool_Dude_#{n}" }
@@ -48,14 +48,14 @@ FactoryGirl.define do
     
     activity_id { Random.rand(100) + 1 }
     activity_name { ['BlogPost', 'Order', 'Promotion', 'Video', 'Voucher'].sample }
-    description { generate(:random_description) }
+    description { generate(:random_phrase) }
   end
   
   factory :blog_post do
     curator
     
-    title { generate(:random_description) }
-    body { generate(:random_post) }
+    title { generate(:random_phrase) }
+    body { generate(:random_paragraphs) }
     weight { Random.rand(100) + 1 }
     activation_date 2.days.from_now
     
@@ -92,7 +92,7 @@ FactoryGirl.define do
     order
     
     stars { Random.rand(5) + 1 }
-    comments { generate(:random_post) }
+    comments { generate(:random_paragraphs) }
     
     after(:build) do |feedback|
       feedback.recommend = Random.rand >= 0.1
@@ -100,8 +100,8 @@ FactoryGirl.define do
   end
   
   factory :position do
-    title { generate(:random_description) }
-    description { generate(:random_post) }
+    title { generate(:random_phrase) }
+    description { generate(:random_paragraphs) }
     expiration 6.months.from_now
     email_contact "careers@machovy.com"
     email_subject { title }
@@ -141,9 +141,10 @@ FactoryGirl.define do
   end
   
   factory :curator do
-    bio { generate(:random_post) }
+    bio { generate(:random_paragraphs) }
     name { generate(:random_name) }
     twitter { generate(:random_twitter) }
+    title "Style Editor"
     
     factory :curator_with_blog_posts do
       ignore do
@@ -162,6 +163,16 @@ FactoryGirl.define do
       
       after(:create) do |curator, evaluator|
         FactoryGirl.create_list(:blog_post_with_promotions, evaluator.num_posts_with_promotions, :curator => curator)
+      end
+    end
+
+    factory :curator_with_videos do
+      ignore do
+        num_videos 5
+      end
+      
+      after(:create) do |curator, evaluator|
+        FactoryGirl.create_list(:video, evaluator.num_videos, :curator => curator)
       end
     end
   end
@@ -186,7 +197,7 @@ FactoryGirl.define do
     
     email { user.email }
     amount { Random.rand * 100 }
-    description { generate(:random_description) }
+    description { generate(:random_phrase) }
     stripe_card_token "nva3hvao73SI&H#Nfishuefse"
     charge_id "ch_0aCv7NedlDjXia"
     
@@ -207,7 +218,7 @@ FactoryGirl.define do
     
     promotion_type Promotion::AD
     status Promotion::MACHOVY_APPROVED
-    title { generate(:random_description) }
+    title { generate(:random_phrase) }
     grid_weight { Random.rand(100) + 1 }
     destination { generate(:random_url) }
     start_date Time.now
@@ -221,7 +232,7 @@ FactoryGirl.define do
     
     promotion_type Promotion::AFFILIATE
     status Promotion::MACHOVY_APPROVED
-    title { generate(:random_description) }
+    title { generate(:random_phrase) }
     grid_weight { Random.rand(100) + 1 }
     destination { generate(:random_url) }
     start_date Time.now
@@ -235,13 +246,13 @@ FactoryGirl.define do
     
     promotion_type Promotion::LOCAL_DEAL
     status Promotion::PROPOSED
-    title { generate(:random_description) }
+    title { generate(:random_phrase) }
     grid_weight { Random.rand(100) + 1 }
     retail_value { Random.rand * 1000 }
     price { Random.rand * 500 }
     revenue_shared { Random.rand }
     quantity { Random.rand(10) + 1 }
-    description { generate(:random_comment) }
+    description { generate(:random_sentences) }
     start_date Time.now
     end_date 2.weeks.from_now
     remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
@@ -328,7 +339,7 @@ FactoryGirl.define do
   factory :promotion_image do
     promotion
     
-    caption { generate(:random_description) }
+    caption { generate(:random_phrase) }
     remote_slideshow_image_url 'http://ecx.images-amazon.com/images/I/21kMsAPQeZL.jpg'
   end
   
@@ -339,7 +350,7 @@ FactoryGirl.define do
     
     after(:build) do |log|
       if Random.rand >= 0.2
-        log.comment = generate(:random_post)
+        log.comment = generate(:random_paragraphs)
       end
     end
   end
@@ -480,13 +491,11 @@ FactoryGirl.define do
   end
     
   factory :video do
-    destination_url { generate(:random_city) }
-    name { generate(:random_description) }
-    active true
+    curator
     
-    factory :inactive_video do
-      active false
-    end
+    destination_url { generate(:random_url) }
+    title { generate(:sequential_description) }
+    caption { generate(:random_sentences) }
   end
   
   factory :voucher do
@@ -497,6 +506,6 @@ FactoryGirl.define do
     redemption_date 1.week.from_now
     status Voucher::AVAILABLE
     uuid { generate(:sequential_uuid) }
-    notes { generate(:random_comment) }
+    notes { generate(:random_sentences) }
   end    
 end

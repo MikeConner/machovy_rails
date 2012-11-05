@@ -1,7 +1,7 @@
 .field
   = f.label :metro_id
   %br/
-  = f.collection_select :metro_id, Metro.all, :id, :name 
+  = f.collection_select :metro_id, metros, :id, :name 
 .field
   = f.label :title
   %br/

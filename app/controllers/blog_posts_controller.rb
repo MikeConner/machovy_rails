@@ -19,7 +19,10 @@ class BlogPostsController < ApplicationController
     # Get associated promotions
     metro_id = Metro.find_by_name(session[:metro]).id
     @promotions = @blog_post.promotions.select { |p| p.displayable? and (p.metro.id == metro_id) }.sort
-    @deals_per_row = 4
+    if @promotions.count > 5
+      @promotions = @promotions[0, 5]
+    end
+    @videos = @blog_post.curator.videos
   end
 
   # GET /blog_posts/new

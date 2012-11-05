@@ -1,10 +1,13 @@
 class MetrosController < ApplicationController
+  include ApplicationHelper
+
   before_filter :authenticate_user!
+  before_filter :ensure_admin
   load_and_authorize_resource
 
   # GET /metros
   def index
-    @metros = Metro.all
+    @metros = Metro.order(:name)
   end
 
   # GET /metros/1
@@ -48,5 +51,12 @@ class MetrosController < ApplicationController
     @metro.destroy
 
     redirect_to metros_path
+  end
+  
+private
+  def ensure_admin
+    if !admin_user?
+      redirect_to root_path, :alert => I18n.t('admins_only')
+    end
   end
 end

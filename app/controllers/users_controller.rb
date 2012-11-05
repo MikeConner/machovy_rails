@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :super_admin, :only => [:promote]
   before_filter :correct_user_order, :only => [:survey, :feedback]
   before_filter :correct_user, :only => [:edit_profile, :update_profile]
   before_filter :transform_phones, only: [:update_profile]
@@ -8,6 +9,17 @@ class UsersController < ApplicationController
   load_and_authorize_resource
 
   def manage
+  end
+  
+  def promote
+    @user = User.find(params[:id])
+    if @user.update_attributes(params[:user])
+      flash[:notice] = 'User role updated successfully'
+    else
+      flash[:alert] = 'Error updating user role'
+    end
+    
+    redirect_to manage_users_path
   end
   
   def survey
@@ -58,6 +70,12 @@ private
     
     rescue
       redirect_to root_path, :alert => I18n.t('invalid_order')
+  end
+  
+  def super_admin
+    if !current_user.has_role?(Role::SUPER_ADMIN)
+      redirect_to root_path, :alert => I18n.t('admins_only')
+    end
   end
   
   def upcase_state

@@ -45,9 +45,40 @@
               %a{:title => "New Blog Post", :href => "#{}"}
                 = link_to 'New Blog Post', new_blog_post_path
             %li
+              %i.icon-pencil
+              %a{:title => "New Video", :href => "#{}"}
+                = link_to 'New Video', new_video_path
+            %li
               %i.icon-eye-open
-              %a{:title => "Show All Blog Posts", :href => "#{}", :class => "no-submenu"}
-                = link_to 'Show All Blog Posts', blog_posts_path
+              %a{:title => "Manage Blog Posts", :href => "#{}", :class => "no-submenu"}
+                = link_to 'Manage Blog Posts', blog_posts_path
+            %li
+              %i.icon-eye-open
+              %a{:title => "Manage Videos", :href => "#{}", :class => "no-submenu"}
+                = link_to 'Manage Videos', videos_path                  
+          - if current_user.has_role?(Role::SUPER_ADMIN)
+            %h3 Advanced Area
+            %ul
+              %li
+                %i.icon-eye-open
+                %a{:title => "Review Vendor Promotions", :href => "#{}"}
+                  = link_to 'Review Vendor Promotions', promotions_path
+              %li
+                %i.icon-th
+                %a{:title => "Manage Curators", :href => "#{}"}
+                  = link_to 'Manage Curators', curators_path
+              %li
+                %i.icon-th
+                %a{:title => "Manage Metro Areas", :href => "#{}"}
+                  = link_to 'Manage Metro Areas', metros_path
+              %li
+                %i.icon-th
+                %a{:title => "Manage Users", :href => "#{}"}
+                  = link_to 'Manage Users', manage_users_path
+              %li
+                %i.icon-th
+                %a{:title => "Manage Merchants", :href => "#{}"}
+                  = link_to 'Manage Merchants', merchant_vendors_path
     .row-fluid
       .span12
         %section.side-note

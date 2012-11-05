@@ -10,7 +10,9 @@ en:
   foreign_order: 'This is not one of your orders.'
   invalid_order: 'Not a valid user/order'
   invalid_user: 'You must log in to perform this function'
+  only_n_left: "Only %{n} left!"
   order_successful: 'Thank you for your order. Check your email for the details and voucher.'
+  plenty: 'Plenty'
   profile_updated: 'Profile updated successfully.'
   promotion_created: "Promotion was successfully created, and will now be reviewed by Machovy."
   promotion_updated: 'Promotion was successfully updated.'

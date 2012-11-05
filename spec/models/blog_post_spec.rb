@@ -2,15 +2,16 @@
 #
 # Table name: blog_posts
 #
-#  id              :integer         not null, primary key
-#  title           :string(255)
-#  body            :text
-#  curator_id      :integer
-#  activation_date :datetime
-#  weight          :integer
-#  created_at      :datetime        not null
-#  updated_at      :datetime        not null
-#  slug            :string(255)
+#  id               :integer         not null, primary key
+#  title            :string(255)
+#  body             :text
+#  curator_id       :integer
+#  activation_date  :datetime
+#  weight           :integer
+#  created_at       :datetime        not null
+#  updated_at       :datetime        not null
+#  slug             :string(255)
+#  associated_image :string(255)
 #
 
 describe "Blog posts" do
@@ -28,6 +29,7 @@ describe "Blog posts" do
   it { should respond_to(:metros) }
   it { should respond_to(:<=>) }
   it { should respond_to(:truncated_body) }
+  it { should respond_to(:associated_image) }
   
   its(:curator) { should == curator }
   

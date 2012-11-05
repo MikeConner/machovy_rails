@@ -3,11 +3,13 @@
 # Table name: videos
 #
 #  id              :integer         not null, primary key
-#  name            :string(255)
 #  destination_url :string(255)
-#  active          :boolean
 #  created_at      :datetime        not null
 #  updated_at      :datetime        not null
+#  title           :string(50)
+#  curator_id      :integer
+#  caption         :text
+#  slug            :string(255)
 #
 
 # CHARTER
@@ -18,9 +20,21 @@
 # NOTES AND WARNINGS
 #
 class Video < ActiveRecord::Base
-  attr_accessible :active, :destination_url, :name
+  extend FriendlyId
+  friendly_id :title, use: [:slugged, :history]
+
+  MAX_TITLE_LEN = 50
   
-  validates_inclusion_of :active, :in => [true, false]                     
-  validates_presence_of :name
+  attr_accessible :title, :caption, :destination_url,
+                  :curator_id
+  
+  belongs_to :curator
+  
+  default_scope order('created_at DESC')
+    
+  validates_presence_of :curator_id
+  
+  validates_presence_of :title
+  validates_presence_of :caption
   validates_presence_of :destination_url
 end

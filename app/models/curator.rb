@@ -9,6 +9,8 @@
 #  twitter    :string(255)
 #  created_at :datetime        not null
 #  updated_at :datetime        not null
+#  slug       :string(255)
+#  title      :string(48)
 #
 
 # CHARTER
@@ -24,15 +26,21 @@
 # NOTES AND WARNINGS
 #
 class Curator < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :name, use: [:slugged, :history]
+  
   # Could move to ApplicationHelpers with other such things if it's used anywhere else
   TWITTER_REGEX = /^@[A-Za-z0-9_]+$/
   MAX_TWITTER_LEN = 16 # 15 + @-character
+  MAX_TITLE_LEN = 48
   MAX_POSTS = 4
   
-  attr_accessible :bio, :name, :picture, :twitter
+  # Title means the curator's "specialty" (e.g., Style Contributor)
+  attr_accessible :bio, :name, :picture, :remote_picture_url, :twitter, :title
 
   # Curators own blog_posts, but not promotions
   has_many :blog_posts, :dependent => :nullify
+  has_many :videos, :dependent => :nullify
   has_many :promotions, :through => :blog_posts
   
   mount_uploader :picture, ImageUploader
@@ -40,6 +48,8 @@ class Curator < ActiveRecord::Base
   # Note that the db-level indices are still case sensitive (in PG anyway)
   validates :name, :presence => true,
                    :uniqueness => { case_sensitive: false }
+  validates :title, :presence => true,
+                    :length => { maximum: MAX_TITLE_LEN }
   validates :twitter, :presence => true,
                       :format => { with: TWITTER_REGEX },
                       :length => { maximum: MAX_TWITTER_LEN },
@@ -57,6 +67,10 @@ class Curator < ActiveRecord::Base
     end
     
     @posts
+  end
+  
+  def twitter_path
+    "http://www.twitter.com/#{self.twitter[1, self.twitter.length - 1]}"
   end
   
   def blog_posts_for(promotion)

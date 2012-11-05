@@ -1,2 +1,12 @@
-%h1 User#manage
-%p Find me in app/views/users/manage.html.haml
+%h1 Manage Users
+= render :partial => 'shared/flash_messages'
+- User.order(:email).each do |user|
+  .row-fluid
+    = user.email
+    -# Cannot edit a SuperAdmin
+    - if user.has_role?(Role::SUPER_ADMIN)
+      %em Super Admin
+    -else
+      = form_for user, :method => :put, :url => promote_user_path(user) do |f|
+        = f.collection_select(:role_ids, Role.all, :id, :name, {:selected => user.role_ids, :include_blank => ''})
+        = f.submit 'Update Role'

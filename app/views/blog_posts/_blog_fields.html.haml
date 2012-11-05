@@ -1,4 +1,8 @@
 .field
+  = f.label :curator_id
+  %br/
+  = f.collection_select :curator_id, Curator.all, :id, :name 
+.field
   = f.label :title
   %br/
   = f.text_field :title
@@ -7,16 +11,20 @@
   %br/
   = f.cktext_area :body,  :input_html => {:cols => 10, :rows => 20}, :toolbar => 'Easy'
 .field
-  = f.label :curator_id
-  %br/
-  = f.collection_select :curator_id, Curator.all, :id, :name 
-.field
   = f.label :activation_date
   %br/
   = f.datetime_select :activation_date, :order => [:month, :day, :year], :ampm => true
 .field
   = f.label :weight
   = f.number_field :weight, :min => 1
+.field
+  = f.label :associated_image
+  %br/
+  = f.file_field :associated_image
+.field
+  = f.label :remote_associated_image_url, "or image URL"
+  %br/
+  = f.text_field :remote_associated_image_url
 .field
   = f.label :promotions
   %br/

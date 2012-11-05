@@ -3,26 +3,42 @@
 # Table name: videos
 #
 #  id              :integer         not null, primary key
-#  name            :string(255)
 #  destination_url :string(255)
-#  active          :boolean
 #  created_at      :datetime        not null
 #  updated_at      :datetime        not null
+#  title           :string(50)
+#  curator_id      :integer
+#  caption         :text
+#  slug            :string(255)
 #
 
 describe "Videos" do
-  let(:video) { FactoryGirl.create(:video) }
+  let(:curator) { FactoryGirl.create(:curator) }
+  let(:video) { FactoryGirl.create(:video, :curator => curator) }
   
   subject { video }
   
-  it { should respond_to(:active) }
+  it { should respond_to(:title) }
+  it { should respond_to(:caption) }
   it { should respond_to(:destination_url) }
-  it { should respond_to(:active) }
+  its(:curator) { should == curator }
   
   it { should be_valid }
   
-  describe "name" do
-    before { video.name = " " }
+  describe "orphan" do
+    before { video.curator = nil }
+    
+    it { should_not be_valid }
+  end
+  
+  describe "title" do
+    before { video.title = " " }
+    
+    it { should_not be_valid }
+  end
+  
+  describe "caption" do
+    before { video.caption = " " }
     
     it { should_not be_valid }
   end
@@ -31,25 +47,21 @@ describe "Videos" do
     before { video.destination_url = " " }
     
     it { should_not be_valid }
-  end
+  end 
   
-  describe "active missing" do
-    before { video.active = nil }
+  describe "default scope" do
+    before do
+      video.destroy
+      @videos = []
     
-    it { should_not be_valid }
-  end
-  
-  describe "inactive" do
-    let(:video) { FactoryGirl.create(:inactive_video) }
-    
-    it { should respond_to(:active) }
-    it { should respond_to(:destination_url) }
-    it { should respond_to(:active) }
-    
-    it { should be_valid }
-  
-    it "should be inactive" do
-      video.active.should be_false
+      3.times do
+        sleep 2
+        @videos.push(FactoryGirl.create(:video, :curator => curator) )
+      end
     end
-  end
+    
+    it "should put them in order" do
+      Video.all.should == @videos.reverse
+    end
+  end 
 end

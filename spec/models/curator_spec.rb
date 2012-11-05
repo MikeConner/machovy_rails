@@ -9,6 +9,8 @@
 #  twitter    :string(255)
 #  created_at :datetime        not null
 #  updated_at :datetime        not null
+#  slug       :string(255)
+#  title      :string(48)
 #
 
 describe "Curators" do
@@ -22,15 +24,63 @@ describe "Curators" do
   it { should respond_to(:name) }
   it { should respond_to(:twitter) }
   it { should respond_to(:bio) }
+  it { should respond_to(:title) }
   it { should respond_to(:recent_posts) }
   it { should respond_to(:blog_posts_for) }
-    
+  it { should respond_to(:twitter_path) }
+  it { should respond_to(:videos) }
+  
   it { should be_valid }
   
   describe "name validation" do
     before { curator.name = "  "}
     
     it { should_not be_valid }
+  end
+  
+  describe "title validation" do
+    before { curator.title = "  "}
+    
+    it { should_not be_valid }
+    
+    describe "too long" do
+      before { curator.title = "a"*(Curator::MAX_TITLE_LEN + 1) }
+      
+      it { should_not be_valid }
+    end
+  end
+  
+  it "should calculate twitter path" do
+    curator.twitter_path.should match('www.twitter.com')
+    curator.twitter_path.should match(curator.twitter[1, curator.twitter.length - 1])
+  end
+  
+  describe "videos" do
+    let(:curator) { FactoryGirl.create(:curator_with_videos) }
+    
+    it { should be_valid }
+    
+    it "should have videos" do
+      curator.videos.count.should be == 5
+      curator.videos.each do |video|
+        video.curator.should == curator
+      end
+    end
+    
+    describe "deleting the curator doesn't delete videos" do
+      it "should start with videos" do
+        curator.videos.count.should == 5
+      end
+      
+      it "should not destroy associated videos" do
+        videos = curator.videos
+        curator.destroy
+        videos.each do |v|
+          Video.find_by_id(v.id).should_not be_nil
+          Video.find_by_id(v.id).curator.should be_nil
+        end
+      end     
+    end     
   end
   
   describe "duplicate names" do
@@ -189,5 +239,5 @@ describe "Curators" do
         end
       end     
     end 
-  end
+  end  
 end

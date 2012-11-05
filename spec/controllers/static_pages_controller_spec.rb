@@ -1,4 +1,9 @@
+# I don't think we really need specific controller/view tests. Everything can be done in /models and /requests
+# There is some interaction with Devise here that's making these fail
 describe StaticPagesController do
+  # Need this line to actually get content; by default it just returns status but doesn't render anything, so the pages would all be blank
+  render_views
+  
   describe "GET 'about'" do
     it "returns http success" do
       get 'about'

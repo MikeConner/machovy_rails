@@ -4,6 +4,18 @@
 #
 #  id           :integer         not null, primary key
 #  promotion_id :integer
+#  status       :string(16)      not null
+#  comment      :text
+#  created_at   :datetime        not null
+#  updated_at   :datetime        not null
+#
+
+# == Schema Information
+#
+# Table name: promotion_logs
+#
+#  id           :integer         not null, primary key
+#  promotion_id :integer
 #  status       :string(32)      not null
 #  comment      :text
 #  created_at   :datetime        not null

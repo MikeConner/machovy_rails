@@ -17,6 +17,7 @@ module ApplicationHelper
   
   NUMBER_WORDS = { 1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four', 5 => 'five', 
                    6 => 'six', 7 => 'seven', 8 => 'eight', 9 => 'nine', 10 => 'ten' }
+  MAX_INT = (2**(0.size * 8 - 2) - 1)
 
   def admin_user?
     user_signed_in? && (current_user.has_role?(Role::SUPER_ADMIN) || current_user.has_role?(Role::CONTENT_ADMIN))

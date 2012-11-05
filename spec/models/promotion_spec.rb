@@ -72,6 +72,7 @@ describe "Promotions" do
   it { should respond_to(:quantity_description) }
   it { should respond_to(:discount) }
   it { should respond_to(:discount_pct) }
+  it { should respond_to(:under_quantity_threshold?) }
   
   its(:metro) { should == metro }
   its(:vendor) { should == vendor }
@@ -473,7 +474,7 @@ describe "Promotions" do
       promotion.discount_pct.should == 0
     end
   end
-  
+
   describe "test remaining vouchers" do
     let(:promotion) { FactoryGirl.create(:promotion_with_vouchers) }    
     before { promotion.quantity = 20 }
@@ -486,38 +487,51 @@ describe "Promotions" do
     end
     
     it "should not meet display threshold" do
-      promotion.quantity_description.should == 'Plenty'
+      promotion.quantity_description.should be == I18n.t('plenty')
+      promotion.under_quantity_threshold?.should be_false
     end
     
     describe "force threshold" do
       before { promotion.quantity = 16 }
       
       it "should display x left" do
-        promotion.quantity_description.should == 'Only 1 left!'
+        promotion.under_quantity_threshold?.should be_true
+        promotion.quantity_description.should == I18n.t('only_n_left', :n => 1)
       end
     end
     
-    describe "all used" do
+    describe "most used" do
       before { promotion.quantity = 20 }
       
-      it "should have none left" do
-        promotion.reload.remaining_quantity.should == 0
+      it "should have some left" do
+        promotion.remaining_quantity.should == 5
       end
     end
     
     describe "can't be negative (invalid quantity)" do
       before { promotion.quantity = 10 }
       
-      it "should say zero instead of negative" do
-        promotion.reload.remaining_quantity.should == 0
+      it "should say one instead of negative" do
+        promotion.remaining_quantity.should be == 1
+        promotion.under_quantity_threshold?.should be_true
       end
     end
     
     describe "can't be negative (nil)" do
       before { promotion.quantity = nil }
       
-      it "should say zero when nil" do
-        promotion.reload.remaining_quantity.should == 0
+      it "should say max int when nil" do
+        promotion.remaining_quantity.should be == ApplicationHelper::MAX_INT
+        promotion.under_quantity_threshold?.should be_false
+      end
+    end
+
+    describe "can't be negative" do
+      before { promotion.quantity = -10 }
+      
+      it "should say max int when nil" do
+        promotion.remaining_quantity.should be == 1
+        promotion.under_quantity_threshold?.should be_true
       end
     end
   end

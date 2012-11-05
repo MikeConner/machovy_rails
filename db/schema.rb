@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121029025116) do
+ActiveRecord::Schema.define(:version => 20121104060833) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -28,9 +28,10 @@ ActiveRecord::Schema.define(:version => 20121029025116) do
     t.integer  "curator_id"
     t.datetime "activation_date"
     t.integer  "weight"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
     t.string   "slug"
+    t.string   "associated_image"
   end
 
   add_index "blog_posts", ["slug"], :name => "index_blog_posts_on_slug"
@@ -87,11 +88,14 @@ ActiveRecord::Schema.define(:version => 20121029025116) do
     t.string   "picture"
     t.text     "bio"
     t.string   "twitter"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+    t.string   "slug"
+    t.string   "title",      :limit => 48
   end
 
   add_index "curators", ["name"], :name => "index_curators_on_name", :unique => true
+  add_index "curators", ["slug"], :name => "index_curators_on_slug"
   add_index "curators", ["twitter"], :name => "index_curators_on_twitter", :unique => true
 
   create_table "feedbacks", :force => true do |t|
@@ -198,7 +202,7 @@ ActiveRecord::Schema.define(:version => 20121029025116) do
     t.string   "username"
     t.integer  "item"
     t.string   "table"
-    t.integer  "month"
+    t.integer  "month",      :limit => 2
     t.integer  "year",       :limit => 8
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
@@ -270,11 +274,13 @@ ActiveRecord::Schema.define(:version => 20121029025116) do
   end
 
   create_table "videos", :force => true do |t|
-    t.string   "name"
     t.string   "destination_url"
-    t.boolean  "active"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.string   "title",           :limit => 50
+    t.integer  "curator_id"
+    t.text     "caption"
+    t.string   "slug"
   end
 
   create_table "vouchers", :force => true do |t|

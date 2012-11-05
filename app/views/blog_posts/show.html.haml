@@ -1,14 +1,22 @@
 .row-fluid
   .span9
-    %h1= @blog_post.title
-    = @blog_post.body.html_safe
+    .row-fluid
+      %h1= @blog_post.title
+      = @blog_post.body.html_safe
+    .row-fluid
+      .span3
+        - @videos.each do |video|
+          = video.title
+          %iframe{:width => "480", :height => "295", :frameborder => "0", :allowfullscreen => "true", |
+                  :src => video.destination_url} |   
+          = video.caption
   .span3
-    = link_to(image_tag(@blog_post.curator.picture_url.to_s), curator_path(@blog_post.curator))
+    - if !@blog_post.associated_image.nil?
+      = image_tag @blog_post.associated_image_url(:blog_content_photo).to_s
+    = link_to(image_tag(@blog_post.curator.picture_url(:contributor_photo).to_s), curator_path(@blog_post.curator))
     %h3= link_to @blog_post.curator.name, curator_path(@blog_post.curator)
-    - @blog_post.curator.blog_posts.each do |post|
-      %h4= link_to post.title, blog_post_path(post)
-      %p= post.truncated_body
-- for i in 0..@promotions.count / @deals_per_row do
-  - current_row = @promotions[i * @deals_per_row, @deals_per_row]
-  - if current_row.count > 0
-    = render :partial => 'shared/promotion_row', :locals => { :promotions => current_row }  
+    %p= @blog_post.curator.title
+    %p= link_to 'Follow on Twitter', @blog_post.curator.twitter_path, :target => "_blank"
+    == #{@blog_post.curator.name} Recommends
+    - @promotions.each do |promotion|
+      = render :partial => 'shared/promotion_column', :locals => { :promotion => promotion }

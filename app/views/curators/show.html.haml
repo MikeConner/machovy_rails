@@ -1,17 +1,22 @@
 %h1= @curator.name
 .row-fluid
   .span3
-    = image_tag(@curator.picture_url(:curator_index).to_s)
+    = image_tag(@curator.picture_url(:contributor_photo).to_s)
   .span3
     = @curator.bio
-    = @curator.twitter
+    = link_to @curator.twitter, @curator.twitter_path, :target => "_blank"
   .span6
     - @curator.blog_posts.each do |post|
       %h4= link_to post.title, blog_post_path(post)
       %p= post.truncated_body
-%br/
+== #{@curator.name} Recommends
+- @promotions.each do |promotion|
+  = render :partial => 'shared/promotion_column', :locals => { :promotion => promotion }
 .row-fluid
-  - for i in 0..@promotions.count / @deals_per_row do
-    - current_row = @promotions[i * @deals_per_row, @deals_per_row]
-    - if current_row.count > 0
-      = render :partial => 'shared/promotion_row', :locals => { :promotions => current_row }  
+  .span6
+    - @videos.each do |video|
+      %iframe{:width => "480", :height => "295", :frameborder => "0", :allowfullscreen => "true", |
+              :src => video.destination_url} |   
+      = video.title
+      = video.caption
+

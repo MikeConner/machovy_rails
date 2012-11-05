@@ -1,0 +1,6 @@
+%h1 Edit Video
+= form_for @video do |f|
+  = render :partial => 'video_fields', :locals => { :f => f }
+  .actions
+    = f.submit "Update Video"
+  

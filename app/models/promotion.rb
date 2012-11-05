@@ -37,6 +37,11 @@
 # the system to implement polymorphism; hence :promotion_type
 #
 class Promotion < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :title, use: [:slugged, :history]
+
+  include ApplicationHelper
+  
   MAX_STR_LEN = 16
   DEFAULT_GRID_WEIGHT = 10
   MINIMUM_REVENUE_SHARE = 5
@@ -63,9 +68,6 @@ class Promotion < ActiveRecord::Base
   #  At any rate they also need to have a status
   PROMOTION_STATUS = [PROPOSED, EDITED, MACHOVY_APPROVED, VENDOR_APPROVED, MACHOVY_REJECTED, VENDOR_REJECTED]
   
-  extend FriendlyId
-  friendly_id :title, use: [:slugged, :history]
-
   after_initialize :init_defaults
 
   attr_accessible :description, :destination, :grid_weight, :limitations, :price, :quantity, :retail_value, :revenue_shared,
@@ -192,17 +194,30 @@ class Promotion < ActiveRecord::Base
     self.promotion_type == LOCAL_DEAL
   end
   
-  # Don't return less than 0
+  # If undefined, return a large value, so that it's never below threshold
+  # Set min to 1 so that it never says "only 0 left!"
   def remaining_quantity
-    self.quantity.nil? ?  0 : [0, self.quantity - self.vouchers.count].max    
+    quantity_value.nil? ?  ApplicationHelper::MAX_INT : [1, quantity_value - self.vouchers.count].max    
+  end
+  
+  # There are two main cases. This is generally geared to large numbers: e.g., 100, 200, 500 available vouchers
+  #   In that case, the percentage threshold will work fine.
+  # But what about unique promotions where there's only 1, 2 or 5 available? The percentage thing isn't going to
+  #   work then. If q * threshold < 1 (i.e., q < 10), it should always trigger "low quantity"
+  def under_quantity_threshold?
+    q = quantity_value
+    threshold = q.nil? ? 0 : QUANTITY_THRESHOLD_PCT * q
+    # quantity could be zero, in which case it's under threshold (but will say 1 left)
+    # If it's 1, 1 <= 0.1*1
+    !q.nil? && ((threshold < 1.0) || (self.remaining_quantity <= threshold))
   end
   
   # Apply threshold and create text to display for user
   def quantity_description
-    if self.quantity.nil?
-      "Plenty"
+    if quantity_value.nil?
+      I18n.t('plenty')
     else
-      self.remaining_quantity < QUANTITY_THRESHOLD_PCT * self.quantity ? "Only #{self.remaining_quantity} left!" : "Plenty"
+      under_quantity_threshold? ? I18n.t('only_n_left', :n => self.remaining_quantity) : I18n.t('plenty')
     end
   end
   
@@ -217,5 +232,10 @@ class Promotion < ActiveRecord::Base
 private
   def init_defaults
     self.grid_weight = DEFAULT_GRID_WEIGHT
+  end
+  
+  # Guard against negative values (should be impossible anyway)
+  def quantity_value
+    self.quantity.nil? ? nil : [0, self.quantity].max
   end
 end

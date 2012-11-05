@@ -1,0 +1,6 @@
+%h1 New Metro
+= form_for @metro do |f|
+  = render :partial => 'shared/error_messages', :locals => { :errors => @metro.errors, :name => 'Metro' }
+  = render :partial => 'metro_fields', :locals => { :f => f }
+  .actions
+    = f.submit 'Create Metro'

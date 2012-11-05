@@ -13,8 +13,9 @@ class Ability
       can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position]
       can :create, [Order, Voucher]
       can :manage, [BlogPost, Promotion, PromotionLog, PromotionImage, Metro, Vendor, Voucher, User]
-      cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro]
+      cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro, Curator]
     elsif user.has_role?(Role::MERCHANT)
+      can :read, [Curator, BlogPost, Video]
       can :create, [Promotion]
       can :manage, [Vendor, Promotion, PromotionLog, PromotionImage, Voucher]
       can :redeem, [Voucher]

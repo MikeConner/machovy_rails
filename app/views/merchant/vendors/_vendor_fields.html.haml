@@ -9,21 +9,21 @@
   = f.text_field :facebook
 .field
   = f.label :phone
-  = f.text_field :phone
+  = f.text_field :phone, :maxlength => User::PHONE_LEN, :placeholder => '(412) 555-1212'
 .field
   = f.label :address_1
-  = f.text_field :address_1
+  = f.text_field :address_1, :maxlength => User::MAX_ADDRESS
 .field
   = f.label :address_2
-  = f.text_field :address_2
+  = f.text_field :address_2, :maxlength => User::MAX_ADDRESS
 .field
   = f.label :city
-  = f.text_field :city
+  = f.text_field :city, :maxlength => User::MAX_ADDRESS
 .field
   = f.label :state
-  = f.text_field :state
+  = f.text_field :state, :maxlength => User::STATE_LEN, :placeholder => 'PA'
 .field
   = f.label :zip
-  = f.text_field :zip
+  = f.text_field :zip, :maxlength => User::ZIPCODE_LEN
 .actions
   = f.submit

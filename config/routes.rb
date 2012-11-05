@@ -17,6 +17,7 @@ MachovyRails::Application.routes.draw do
       put 'feedback'
       get 'edit_profile'
       put 'update_profile'
+      put 'promote'
     end
 
     get 'manage', :on => :collection

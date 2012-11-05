@@ -57,10 +57,13 @@
                 %li
                   = link_to 'LOG OUT', destroy_user_session_path, :method => :delete
       %ul.nav.pull-right
+        - if !current_user.nil?
+          %li
+            == Welcome, #{current_user.email}
         %li.dropdown 
           = link_to 'Deals & Interests', deals_path(:deals => true)
         %li.dropdown
-          = link_to 'Lifestyle', curators_path   
+          = link_to 'Lifestyle', curators_path
 %section.header-fixed-top
   .container
     %header

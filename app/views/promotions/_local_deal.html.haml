@@ -21,14 +21,17 @@
     .carousel.slide.product-detal-slider
       .carousel-inner
         .item
-          = image_tag @promotion.teaser_image_url(:deal_view).to_s
+          = image_tag @promotion.teaser_image_url(:product_detail).to_s
         .item
-          = image_tag @promotion.main_image_url(:deal_view).to_s
+          = image_tag @promotion.main_image_url(:product_detail).to_s
+        - @promotion.promotion_images.each do |slideshow|
+          .item
+            = image_tag slideshow.slideshow_image_url(:product_detail).to_s
   .span6.product-detail
     %h3= @promotion.title
     %p
-      %button.btn.btn-small== #{number_to_percentage(@promotion.discount_pct, :precision => 0)} off detail
-      %button.btn.btn-small only 2 left
+      %button.btn.btn-small== #{number_to_percentage(@promotion.discount_pct, :precision => 0)} off
+      %button.btn.btn-small= @promotion.quantity_description
       - if @show_buy_button
         %button.btn.btn-small.btn-danger 
           = link_to 'BUY IT', order_promotion_path(@promotion)
@@ -56,7 +59,7 @@
 .row-fluid
   - @curators.each do |curator|
     .span3
-      = link_to(image_tag(curator.picture_url(:avatar).to_s), curator_path(curator))
+      = link_to(image_tag(curator.picture_url(:contributor_photo).to_s), curator_path(curator))
       = link_to curator.name, curator_path(curator)
       %br/
       - curator.blog_posts_for(@promotion).each do |post|

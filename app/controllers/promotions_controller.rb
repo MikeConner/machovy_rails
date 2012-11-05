@@ -144,6 +144,11 @@ class PromotionsController < ApplicationController
 
   # GET /promotions/new
   def new
+    # Don't order metros by name, or Pittsburgh won't be first
+    @metros = Metro.all
+    @vendors = Vendor.order(:name)
+    @categories = Category.order(:name)
+    
     @promotion = Promotion.new
     # Merchants should render default "new"
     if current_user.has_role?(Role::MERCHANT)
@@ -169,6 +174,9 @@ class PromotionsController < ApplicationController
   # GET /promotions/1/edit
   def edit
     # before_filter has already set @promotion
+    # Don't order metros by name, or Pittsburgh won't be first
+    @metros = Metro.all
+    @categories = Category.order(:name)
   end
 
   # POST /promotions

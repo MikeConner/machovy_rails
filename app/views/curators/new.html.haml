@@ -1,0 +1,6 @@
+%h1 New Curator
+= form_for @curator do |f|
+  = render :partial => 'shared/error_messages', :locals => { :errors => @curator.errors, :name => 'Curator' }
+  = render :partial => 'curator_fields', :locals => { :f => f }
+  .actions
+    = f.submit 'Create Curator'

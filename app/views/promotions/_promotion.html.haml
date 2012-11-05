@@ -26,9 +26,9 @@
   - p_list.each do |p|
     %tr
       - if Promotion::MACHOVY_REJECTED == p.status
-        %td= link_to(image_tag(p.teaser_image_url(:teaser).to_s, :size => "200x200", :alt => "Click to edit this promotion"), edit_promotion_path(p))
+        %td= link_to(image_tag(p.teaser_image_url(:product_thumb).to_s, :alt => "Click to edit this promotion"), edit_promotion_path(p))
       - else
-        %td= link_to(image_tag(p.teaser_image_url(:teaser).to_s, :size => "200x200"), promotion_path(p))
+        %td= link_to(image_tag(p.teaser_image_url(:product_thumb).to_s), promotion_path(p))
       %td= p.status
       %td= p.title
       - if p.end_date.nil?

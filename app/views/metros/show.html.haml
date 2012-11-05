@@ -1,0 +1,5 @@
+%h1= @metro.name
+%ul
+  - @metro.promotions.each do |promotion|
+    %li
+      = promotion.title

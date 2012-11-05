@@ -1,6 +1,6 @@
 .row-fluid
   .span4
-    = image_tag @promotion.teaser_image_url(:deal_view).to_s  
+    = image_tag @promotion.teaser_image_url(:product_detail).to_s  
   .span8.product-detail
     .row-fluid
       .span12
@@ -22,7 +22,7 @@
     .span3.curator-block
       .row-fluid.curator-row
         .span2
-          = link_to(image_tag(curator.picture_url(:avatar).to_s), curator_path(curator))
+          = link_to(image_tag(curator.picture_url(:contributor_photo).to_s), curator_path(curator))
         .span10.curator-name
           = link_to curator.name, curator_path(curator)
       .row-fluid.curator-post-row

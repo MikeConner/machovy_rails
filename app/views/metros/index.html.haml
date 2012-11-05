@@ -1,0 +1,8 @@
+%h1 Listing Metros
+- @metros.each do |metro|
+  .row-fluid
+    = link_to 'Delete', metro, method: :delete, data: { confirm: 'Are you sure?' }
+    %em= link_to metro.name, metro_path(metro)
+    = link_to 'Edit', edit_metro_path(metro)
+%br/
+= link_to 'New Metro', new_metro_path

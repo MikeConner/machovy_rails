@@ -20,10 +20,7 @@
     %tr
       %td= link_to "#{p.vendor.name}", merchant_vendor_path(p.vendor)
       %td= p.status
-      - if p.awaiting_machovy_action?
-        %td= link_to "#{p.title}", edit_promotion_path(p)
-      - else
-        %td= link_to "#{p.title}", promotion_path(p)
+      %td= link_to "#{p.title}", edit_promotion_path(p)
       - if p.end_date.nil?
         %td None
       - else

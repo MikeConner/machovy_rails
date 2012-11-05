@@ -27,6 +27,7 @@ gem 'thin', '1.4.1'
 group :development, :test do
   gem 'rspec-rails', '2.8.1'
   gem 'faker', '1.0.1'
+  gem 'spork', '0.9.2'
 end
 
 group :development do

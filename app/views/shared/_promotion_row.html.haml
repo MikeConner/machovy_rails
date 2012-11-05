@@ -2,7 +2,7 @@
   - promotions.each do |promotion|
     .span3.product-list
       %span
-        = link_to image_tag(promotion.teaser_image_url(:teaser).to_s), promotion_path(promotion) 
+        = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion) 
       .title=truncate(sanitize(promotion.title), :length => 20)
       .description= truncate(promotion.description, :length => 124)
       .row-fluid.menu

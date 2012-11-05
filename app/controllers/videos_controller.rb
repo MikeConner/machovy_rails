@@ -4,7 +4,7 @@ class VideosController < ApplicationController
 
   # GET /videos
   def index
-    @videos = Video.all
+    @curators = Curator.all
   end
 
   # GET /videos/1

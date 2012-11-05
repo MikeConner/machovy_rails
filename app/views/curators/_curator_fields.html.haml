@@ -1,0 +1,24 @@
+.field
+  = f.label :name
+  %br/
+  = f.text_field :name
+.field
+  = f.label :title
+  %br/
+  = f.text_field :title, :size => Curator::MAX_TITLE_LEN
+.field
+  = f.label :twitter, 'Twitter tag (include leading @)'
+  %br/
+  = f.text_field :twitter, :size => Curator::MAX_TWITTER_LEN
+.field
+  = f.label :picture
+  %br/
+  = f.file_field :picture
+.field
+  = f.label :remote_picture_url, "or image URL"
+  %br/
+  = f.text_field :remote_picture_url
+.field
+  = f.label :bio
+  %br/
+  = f.text_area :bio, :size => "60x6"

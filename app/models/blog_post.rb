@@ -4,15 +4,16 @@ require 'utilities'
 #
 # Table name: blog_posts
 #
-#  id              :integer         not null, primary key
-#  title           :string(255)
-#  body            :text
-#  curator_id      :integer
-#  activation_date :datetime
-#  weight          :integer
-#  created_at      :datetime        not null
-#  updated_at      :datetime        not null
-#  slug            :string(255)
+#  id               :integer         not null, primary key
+#  title            :string(255)
+#  body             :text
+#  curator_id       :integer
+#  activation_date  :datetime
+#  weight           :integer
+#  created_at       :datetime        not null
+#  updated_at       :datetime        not null
+#  slug             :string(255)
+#  associated_image :string(255)
 #
 
 # CHARTER
@@ -37,9 +38,11 @@ class BlogPost < ActiveRecord::Base
   DEFAULT_BLOG_WEIGHT = 10
   DEFAULT_TRUNCATED_BODY_LEN = 40
   
-  attr_accessible :body, :activation_date, :title, :weight, 
+  attr_accessible :body, :activation_date, :title, :weight, :associated_image, :remote_associated_image_url, 
                   :curator_id, :promotion_ids
                   
+  mount_uploader :associated_image, ImageUploader  
+                    
   # foreign keys  
   belongs_to :curator
   
@@ -52,6 +55,7 @@ class BlogPost < ActiveRecord::Base
   #   An alternative would be leave :select and :uniq off, allow it to get multiple metros,
   #     then call .uniq on the result. Works, but then all callers have to remember to do this.
   #     At least now the evil is localized
+  # Update: avoided this by removing default scope, which causes more trouble than it's worth
 #  has_many :metros, :through => :promotions, :select => "metros.*, grid_weight", :uniq => true
   has_many :metros, :through => :promotions, :uniq => true
   

@@ -6,7 +6,14 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-Role.create!(:name =>'SuperAdmin')
-Role.create!(:name =>'Merchant')
-Role.create!(:name =>'ContentAdmin')
-Category.create!(:name => 'NightLife')
+[Role::SUPER_ADMIN, Role::MERCHANT, Role::CONTENT_ADMIN].each do |role|
+  Role.create!(:name => role)
+end
+
+['Nightlife', 'Essentials', 'Hobbies', 'Cars', 'Electronics', 'Dining', 'Body Mods', 'Experiences'].each do |category|
+  Category.create!(:name => category, :active => true)
+end
+
+['Pittsburgh', 'Detroit'].each do |metro|
+  Metro.create!(:name => metro)
+end

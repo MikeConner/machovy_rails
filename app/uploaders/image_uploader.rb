@@ -37,22 +37,29 @@ class ImageUploader < CarrierWave::Uploader::Base
   # end
 
   # Create different versions of your uploaded files:
-  version :teaser do
+  version :product_front_page do
     process :resize_to_fill => [470, 470]
   end
 
-  version :deal_view do
+  version :product_detail do
     process :resize_to_fill => [400, 200]
   end
   
-  version :avatar do
+  # deal or affiliate (listing)  
+  version :product_thumb do
     process :resize_to_fill => [60, 60]
   end
-
-  version :curator_index do
-    process :resize_to_fill => [140, 140]
-  end
   
+  # Image associated with a blog post
+  version :blog_content_photo do
+    process :resize_to_fill => [282, 186]
+  end
+    
+  # Curator photos
+  version :contributor_photo do
+    process :resize_to_fill => [100, 100]
+  end
+   
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   # def extension_white_list
