@@ -134,6 +134,10 @@ class Promotion < ActiveRecord::Base
   # Causes issues with nested attributes when enabled
   #validates_associated :promotion_images
   
+  def expected_revenue
+    (displayable? and deal?) ? self.revenue_shared / 100.0 * self.price : 0
+  end
+  
   # DB scope can get lost when we're filtering and otherwise processing these as arrays
   def <=>(other)
     grid_weight <=> other.grid_weight
@@ -231,7 +235,7 @@ class Promotion < ActiveRecord::Base
 	
 private
   def init_defaults
-    self.grid_weight = DEFAULT_GRID_WEIGHT
+    self.grid_weight = DEFAULT_GRID_WEIGHT if new_record?
   end
   
   # Guard against negative values (should be impossible anyway)

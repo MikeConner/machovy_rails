@@ -89,7 +89,7 @@ class BlogPost < ActiveRecord::Base
 
 private
   def init_weight
-    self.weight = DEFAULT_BLOG_WEIGHT
-    self.activation_date = Time.now
+    self.weight = DEFAULT_BLOG_WEIGHT if new_record?
+    self.activation_date = Time.now if new_record?
   end
 end
