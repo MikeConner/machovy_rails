@@ -16,8 +16,6 @@
 #   Describe an open position at Machovy.
 #
 # USAGE
-#   Referred to as "Position" elsewhere, but unless we're ambitious, there's no compelling reason to change
-#     the name of the database table
 #
 # NOTES AND WARNINGS
 #

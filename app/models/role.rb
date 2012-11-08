@@ -21,9 +21,10 @@
 class Role < ActiveRecord::Base
   SUPER_ADMIN = "SuperAdmin"
   CONTENT_ADMIN = "ContentAdmin" # Same as Curator?
+  SALES_ADMIN = "SalesAdmin"
   MERCHANT = "Merchant"
   
-  ROLES = [SUPER_ADMIN, CONTENT_ADMIN, MERCHANT]
+  ROLES = [SUPER_ADMIN, CONTENT_ADMIN, MERCHANT, SALES_ADMIN]
   
   attr_accessible :name
   

@@ -155,18 +155,19 @@ class PromotionsController < ApplicationController
       # For now, merchants can only create local deals
       # If they can create ads later, just redirect to new_ad instead
       if params[:promotion_type] != Promotion::LOCAL_DEAL
-        redirect_to :back, :alert => 'Merchants can only create local deals'
+        redirect_to promotions_path, :alert => 'Merchants can only create local deals'
       end
       # Required to support nested attributes
       @promotion.promotion_images.build
       # Fall through to render 'new'
     else
       # Admins can only create ads/affiliates; check type argument
-      if params[:promotion_type] == Promotion::AD or params[:promotion_type] == Promotion::AFFILIATE
-        @promotion.promotion_type = params[:promotion_type]
+      # Sales admins can create local deals, too; fall through and render new
+      @promotion.promotion_type = params[:promotion_type]
+      if Promotion::AD == params[:promotion_type] or Promotion::AFFILIATE == params[:promotion_type]
         render 'new_ad' and return
-      else
-        redirect_to :back, :alert => 'Can only create ads and affiliate promotions'
+      elsif !current_user.has_role?(Role::SALES_ADMIN)
+        redirect_to promotions_path, :alert => 'Can only create ads and affiliate promotions'
       end
     end
   end
@@ -188,19 +189,19 @@ class PromotionsController < ApplicationController
       message = I18n.t('promotion_created')
     else
       vendor = Vendor.find(params[:promotion][:vendor_id])
-      message = I18n.t('ad_created')
+      message = current_user.has_role?(Role::SALES_ADMIN) ? I18n.t('local_deal_created') : I18n.t('ad_created')
     end
     
     @promotion = vendor.promotions.build(params[:promotion])
     # Only Local Deals need Machovy approved; others are coming in from Admins and are Approved by definition
-    if @promotion.promotion_type != Promotion::LOCAL_DEAL
+    if @promotion.promotion_type != Promotion::LOCAL_DEAL or current_user.has_role?(Role::SALES_ADMIN) 
       @promotion.status = Promotion::MACHOVY_APPROVED
     end
     
     if @promotion.save
       redirect_to @promotion, :notice => message
     else
-      if current_user.has_role?(Role::MERCHANT)
+      if Promotion::LOCAL_DEAL == @promotion.promotion_type
         render 'new'
       else
         render 'new_ad'

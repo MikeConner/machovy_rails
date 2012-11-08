@@ -13,9 +13,9 @@
           = image_tag promotion.teaser_image_url(:product_detail).to_s
         .span9
           - if promotion.awaiting_machovy_action?
-            == #{idx}. #{link_to promotion.title, edit_promotion_path(promotion)}
+            == #{idx}. #{link_to promotion.title, edit_promotion_path(promotion)} -- #{promotion.subtitle}
           - else
-            == #{idx}. #{promotion.title}
+            == #{idx}. #{promotion.title} -- #{promotion.subtitle}
           - if promotion.displayable?
             %h4 Live
           = form_for promotion, :remote => true, :method => :put, :url => update_weight_promotion_path(promotion) do |f|

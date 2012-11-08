@@ -49,10 +49,11 @@ MachovyRails::Application.routes.draw do
     resources :orders, :except => [:index, :edit, :update]
     resources :vendors do
       member do
-        get 'payments'
         get 'reports'
+        get 'show_payments'
       end
     end
+    resources :payments, :only => [:new, :create]
     resources :vouchers, :only => [:index, :show] do
       member do
         get :redeem

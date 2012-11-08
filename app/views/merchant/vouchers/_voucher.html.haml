@@ -1,19 +1,23 @@
 .row-fluid
   %tr
     %td= v.uuid
-    %td= v.redemption_date.try(:strftime, '%b %d, %Y')
+    %td= v.order.total_cost
     %td= v.status
-    %td= v.notes
-    %td= v.expiration_date.try(:strftime, '%b %d, %Y')
     %td= v.issue_date.try(:strftime, '%b %d, %Y')
+    %td= v.expiration_date.try(:strftime, '%b %d, %Y')
+    %td= v.redemption_date.try(:strftime, '%b %d, %Y')
+    %td= v.order.email
     %td= v.promotion.title
-    - if controls
+    %td= v.order.fine_print
+    - if admin
       %td
         -# button_to makes a form, so they'd appear on separate lines
         -# need promotion id to redisplay the same form (could use Ajax and a partial to render the buttons; let's try it this way first)
         - if v.redeemable?
-          = link_to "Redeem", redeem_admin_merchant_voucher_path(v, :status => Voucher::REDEEMED, :promotion_id => v.promotion.id), :method => :put
-        - elsif v.unredeemable?
-          = link_to "Unredeem", redeem_admin_merchant_voucher_path(v, :status => Voucher::AVAILABLE, :promotion_id => v.promotion.id), :method => :put
+          = link_to "Redeem", redeem_admin_merchant_voucher_path(v, :status => Voucher::REDEEMED), :method => :put, :confirm => 'Please verify the amount and email; your account will be charged. Are you sure?'
+        -# It is unredeemable if its status is redeemed, but it hasn't yet been paid (same conditions as payment_owed)
+        -# TODO: make this in to elsif
+        - if v.payment_owed?
+          = link_to "Unredeem", redeem_admin_merchant_voucher_path(v, :status => Voucher::AVAILABLE), :method => :put, :confirm => 'If the voucher was previously redeemed in error, you can make it available again. Are you sure?'
         - if v.returnable?
-          = link_to "Return", redeem_admin_merchant_voucher_path(v, :status => Voucher::RETURNED, :promotion_id => v.promotion.id), :method => :put
+          = link_to "Return", redeem_admin_merchant_voucher_path(v, :status => Voucher::RETURNED), :method => :put, :confirm => 'Returning a voucher voids it so that no one can use it and no further action is possible. Are you sure?'

@@ -1,0 +1,38 @@
+%h1 Merchant payments
+%em= I18n.t('customer_service')
+%table.table.zebra-striped
+  %tr
+    %th Promotion
+    %th # Sold
+    %th # Returned
+    %th # Redeemed
+    %th Total $
+    %th Machovy Share
+    %th Merchant Share
+  - @payment_data.each do |promotion_data|
+    %tr
+      %td= promotion_data[:title]
+      %td= promotion_data[:sold]
+      %td= promotion_data[:returned]
+      %td= promotion_data[:redeemed]
+      %td= number_to_currency(promotion_data[:total])
+      %td= number_to_currency(promotion_data[:total] - promotion_data[:merchant_share])
+      %td= number_to_currency(promotion_data[:merchant_share])
+%br/
+%br/
+%h2 Payment Summary
+- if @vendor.payments.count > 0
+  %table.table.zebra-striped
+    %tr
+      %th Check #
+      %th Date
+      %th Amount
+    - @vendor.payments.each do |payment|
+      %tr
+        %th= payment.check_number
+        %th= payment.check_date.try(:strftime, '%b %m, %Y')
+        %th= number_to_currency(payment.amount)
+%p== Total Paid #{number_to_currency(@vendor.total_paid)}
+%p== Amount Owed #{number_to_currency(@vendor.amount_owed)}
+- if current_user.has_role?(Role::SUPER_ADMIN)
+  = link_to 'Create Payment', new_merchant_payment_path(:vendor_id => @vendor)

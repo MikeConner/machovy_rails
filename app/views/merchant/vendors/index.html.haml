@@ -10,9 +10,13 @@
     %th City
     %th State
     %th Zip
+    %th Total Paid
+    %th Machovy Share
+    %th Merchant Share
+    %th
   - @vendors.each do |vendor|
     %tr
-      %td= vendor.name
+      %td= link_to vendor.name, merchant_vendor_path(vendor)
       %td= vendor.url
       %td= vendor.facebook
       %td= vendor.phone
@@ -21,5 +25,9 @@
       %td= vendor.city
       %td= vendor.state
       %td= vendor.zip
+      %td= number_to_currency(vendor.total_paid)
+      %td= number_to_currency(vendor.total_commission)
+      %td= number_to_currency(vendor.amount_owed)
+      %td= link_to 'Payments', show_payments_merchant_vendor_path(vendor)
 %br/
 = link_to 'New Vendor', new_merchant_vendor_path

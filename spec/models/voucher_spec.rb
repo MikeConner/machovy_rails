@@ -22,7 +22,7 @@ describe "Vouchers" do
   let(:voucher) { FactoryGirl.create(:voucher, :order => order) }
   
   subject { voucher }
-  
+
   it { should respond_to(:expiration_date) }
   it { should respond_to(:issue_date) }
   it { should respond_to(:notes) }
@@ -37,8 +37,10 @@ describe "Vouchers" do
   it { should respond_to(:expired?) }
   it { should respond_to(:open?) }
   it { should respond_to(:redeemable?) }
-  it { should respond_to(:unredeemable?) }
   it { should respond_to(:returnable?) }
+  it { should respond_to(:paid?) }
+  it { should respond_to(:payment_owed?) }
+  it { should respond_to(:payment) }
   
   its(:order) { should == order }
   its(:user) { should == user }
@@ -81,8 +83,8 @@ describe "Vouchers" do
       it { should be_valid }
       # consistency -- they can both be false, but can't both be true
       it "should be consistent" do
-        if voucher.redeemable? || voucher.unredeemable?
-          (voucher.redeemable?^voucher.unredeemable?).should be_true
+        if voucher.redeemable? || voucher.payment_owed?
+          (voucher.redeemable?^voucher.payment_owed?).should be_true
         end
         
         if [Voucher::AVAILABLE, Voucher::EXPIRED].include?(voucher.status)
@@ -90,7 +92,7 @@ describe "Vouchers" do
         end
         
         if Voucher::REDEEMED == voucher.status
-          voucher.unredeemable?.should be_true
+          voucher.payment_owed?.should be_true
         end
         
         if Voucher::AVAILABLE == voucher.status
@@ -131,6 +133,38 @@ describe "Vouchers" do
       
       it "should be expired" do
         voucher.expired?.should be_true
+      end
+    end
+  end
+
+  describe "payments" do
+    let(:payment) { FactoryGirl.create(:payment, :vendor => voucher.promotion.vendor) }
+
+    it "should not be paid" do
+      voucher.paid?.should be_false
+      voucher.payment_owed?.should be_false
+    end
+    
+    it "should not allow payment_id assignment" do
+      expect { voucher.update_attributes(:payment_id => payment.id) }.to raise_exception(ActiveModel::MassAssignmentSecurity::Error) 
+    end
+    
+    describe "should show owed when redeemed" do
+      before { voucher.status = Voucher::REDEEMED }
+      
+      it "should show owed" do
+        voucher.payment_owed?.should be_true
+      end
+    end
+    describe "should show paid when assigned" do
+      before do
+       voucher.payment_id = payment.id
+       voucher.save! 
+      end
+      
+      it "should be paid now" do
+        voucher.payment.should be == payment
+        voucher.paid?.should be_true
       end
     end
   end

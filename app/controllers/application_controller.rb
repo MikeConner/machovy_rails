@@ -4,7 +4,11 @@ class ApplicationController < ActionController::Base
   # Redirect on signup based on role
   def after_sign_in_path_for(resource)
     if resource.has_role?(Role::MERCHANT) 
-      promotions_path
+      if trying_to_redeem_voucher
+        session[:user_return_to]
+      else
+        promotions_path
+      end
     else
       session[:user_return_to].nil? ? root_path : session[:user_return_to]
     end
@@ -13,4 +17,9 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => I18n.t('admins_only')
   end  
+  
+private
+  def trying_to_redeem_voucher
+    !session[:user_return_to].nil? && session[:user_return_to] =~ /merchant\/vouchers\/.*?\/redeem$/
+  end
 end

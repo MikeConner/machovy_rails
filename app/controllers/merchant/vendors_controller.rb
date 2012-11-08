@@ -1,12 +1,15 @@
 require 'phone_utils'
 
 class Merchant::VendorsController < Merchant::BaseController
+  include ApplicationHelper
+  
   before_filter :authenticate_user!
   # Note -- very similar filters are in registrations_controller (can't share because arguments are different)
   before_filter :transform_phones, only: [:create, :update]
   before_filter :upcase_state, only: [:create, :update]
-  before_filter :ensure_correct_vendor, :only => [:reports]
-
+  before_filter :ensure_correct_vendor, :only => [:reports, :show_payments]
+  before_filter :admin_user, :except => [:reports, :show_payments]
+  
   load_and_authorize_resource
   
   def reports
@@ -32,8 +35,29 @@ class Merchant::VendorsController < Merchant::BaseController
       p_data[:vouchers] = voucher_data
     end
   end
-
-  def payments
+  
+  def show_payments
+    # Logic goes in the controller -- too much to do in a view
+    @payment_data = []
+    @vendor.promotions.each do |promotion|
+      detail = Hash.new
+      @payment_data.push(detail)
+      detail[:title] = promotion.title
+      detail[:sold] = promotion.vouchers.count
+      detail[:returned] = 0
+      detail[:redeemed] = 0
+      detail[:total] = 0
+      detail[:merchant_share] = 0
+      promotion.vouchers.each do |voucher|
+        if voucher.status == Voucher::RETURNED
+          detail[:returned] += 1
+        elsif voucher.status == Voucher::REDEEMED
+          detail[:redeemed] += 1
+          detail[:total] += voucher.order.total_cost
+          detail[:merchant_share] += voucher.order.merchant_share
+        end
+      end
+    end
   end
 
   # GET /vendors
@@ -69,7 +93,7 @@ class Merchant::VendorsController < Merchant::BaseController
   def update
     @vendor = Vendor.find(params[:id])
     if @vendor.update_attributes(params[:vendor])
-      redirect_to [:merchant, @vendor], notice: 'Vendor was successfully updated.'
+      redirect_to show_payments_merchant_vendor_path(@vendor), notice: 'Vendor was successfully updated.'
     else
       render 'edit'
     end
@@ -90,6 +114,12 @@ private
       if @vendor != current_user.vendor
         redirect_to root_path, :alert => I18n.t('foreign_vendor')
       end
+    end
+  end
+  
+  def admin_user
+    if !admin_user?
+      redirect_to root_path, :alert => I18n.t('admins_only')
     end
   end
   

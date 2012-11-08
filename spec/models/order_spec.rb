@@ -37,6 +37,8 @@ describe "Orders" do
   it { should respond_to(:total_cost) }
   it { should respond_to(:charge_id) }
   it { should respond_to(:feedback) }
+  it { should respond_to(:machovy_share) }
+  it { should respond_to(:merchant_share) }
   
   its(:user) { should == user }
   its(:promotion) { should == promotion }
@@ -119,7 +121,9 @@ describe "Orders" do
     it "should calculate correctly" do
       order.total_cost.should be == 1.0
       # pennies
-      order.total_cost(true).should == 100
+      order.total_cost(true).should be == 100.0
+      order.machovy_share.should be == promotion.revenue_shared / 100.0
+      order.merchant_share.should == (100.0 - promotion.revenue_shared) / 100.0
     end
   end
   

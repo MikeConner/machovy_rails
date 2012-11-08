@@ -261,9 +261,6 @@ describe "Users" do
       it { should be_valid }
 
       it "should be everything" do
-        user.has_role?(Role::SUPER_ADMIN).should be_true
-        user.has_role?(Role::CONTENT_ADMIN).should be_true
-        user.has_role?(Role::MERCHANT).should be_true
         user.is_customer?.should be_false
         
         Role::ROLES.each do |role|

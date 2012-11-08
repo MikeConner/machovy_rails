@@ -212,6 +212,18 @@ FactoryGirl.define do
     end    
   end
   
+  factory :payment do
+    vendor
+    
+    amount { Random.rand * 100.0 }
+    check_number { Random.rand(9000) + 100 }
+    check_date Time.now.beginning_of_day
+
+    factory :payment_with_notes do
+      notes { generate(:random_paragraphs) }
+    end
+  end
+    
   factory :ad, :class => Promotion do
     metro
     vendor
@@ -256,6 +268,10 @@ FactoryGirl.define do
     start_date Time.now
     end_date 2.weeks.from_now
     remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
+    
+    factory :promotion_with_subtitle do
+      subtitle { generate(:random_phrase) }
+    end
         
     factory :promotion_with_orders do
       ignore do
@@ -401,6 +417,7 @@ FactoryGirl.define do
       after(:create) do |user, evaluator|
         user.roles.create(:name => Role::SUPER_ADMIN)
         user.roles.create(:name => Role::CONTENT_ADMIN)
+        user.roles.create(:name => Role::SALES_ADMIN)
         user.roles.create(:name => Role::MERCHANT)
       end
     end
@@ -486,6 +503,16 @@ FactoryGirl.define do
       
       after(:create) do |vendor, evaluator|
         FactoryGirl.create_list(:promotion_with_orders, evaluator.num_promotions, :vendor => vendor)
+      end
+    end
+    
+    factory :vendor_with_vouchers do
+      ignore do
+        num_promotions 5
+      end
+      
+      after(:create) do |vendor, evaluator|
+        FactoryGirl.create_list(:promotion_with_vouchers, evaluator.num_promotions, :vendor => vendor)
       end
     end
   end

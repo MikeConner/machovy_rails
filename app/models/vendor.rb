@@ -39,6 +39,7 @@ class Vendor < ActiveRecord::Base
   has_many :promotions, :dependent => :restrict
   has_many :metros, :through => :promotions, :uniq => true
   has_many :orders, :through => :promotions
+  has_many :payments, :dependent => :restrict
   
   validates_presence_of :name
   validates_presence_of :address_1
@@ -57,4 +58,39 @@ class Vendor < ActiveRecord::Base
   #validates_presence_of :user_id
   
   validates_associated :promotions
+  
+  def total_paid
+    total = 0
+    payments.each do |payment|
+      total += payment.amount
+    end
+    
+    total
+  end
+  
+  def total_commission
+    total = 0
+    orders.each do |order|
+      order.vouchers.each do |voucher|
+        if voucher.payment_owed?
+          total += order.machovy_share
+        end
+      end
+    end
+    
+    total    
+  end
+  
+  def amount_owed
+    total = 0
+    orders.each do |order|
+      order.vouchers.each do |voucher|
+        if voucher.payment_owed?
+          total += order.merchant_share
+        end
+      end
+    end
+    
+    total
+  end
 end

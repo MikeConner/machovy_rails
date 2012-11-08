@@ -73,6 +73,7 @@ describe "Promotions" do
   it { should respond_to(:discount) }
   it { should respond_to(:discount_pct) }
   it { should respond_to(:under_quantity_threshold?) }
+  it { should respond_to(:subtitle) }
   
   its(:metro) { should == metro }
   its(:vendor) { should == vendor }
@@ -758,6 +759,14 @@ describe "Promotions" do
         promotion.feedbacks.include?(order.feedback).should be_true
         order.user.feedbacks.include?(order.feedback).should be_true
       end
+    end
+  end
+  
+  describe "subtitle" do
+    let(:promotion) { FactoryGirl.create(:promotion_with_subtitle) }
+    
+    it "should have a subtitle" do
+      promotion.subtitle.should_not be_blank
     end
   end
 end

@@ -14,7 +14,11 @@
   .field
     = f.label :title
     %br/
-    = f.text_field :title, :size => 100
+    = f.text_field :title, :size => Promotion::MAX_TITLE_LEN
+  .field
+    = f.label :subtitle
+    %br/
+    = f.text_field :subtitle, :size => Promotion::MAX_TITLE_LEN
   .field
     = f.label :destination
     %br/
@@ -22,10 +26,10 @@
     - if @affiliate
       %em Copy the raw url here; it will be converted to an affiliate link and appear in the destination box below
       %br/
-      = text_field_tag 'raw_affiliate_url', nil, :size => 300, :onchange => "munge_affiliate_url('raw_affiliate_url', 'promotion_destination')"
+      = text_field_tag 'raw_affiliate_url', nil, :onchange => "munge_affiliate_url('raw_affiliate_url', 'promotion_destination')"
       = f.hidden_field :destination
     - else
-      = f.text_field :destination, :size => 300
+      = f.text_field :destination
   .field
     = f.label :description
     %br/

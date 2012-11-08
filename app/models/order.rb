@@ -61,5 +61,13 @@ class Order < ActiveRecord::Base
     end
     
     amount
+  end
+
+  def merchant_share
+    total_cost * (100.0 - promotion.revenue_shared) / 100.0
+  end  
+  
+  def machovy_share
+    total_cost * promotion.revenue_shared / 100.0
   end  
 end

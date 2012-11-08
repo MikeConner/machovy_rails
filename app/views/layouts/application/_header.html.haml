@@ -25,10 +25,12 @@
               %ul.dropdown-menu
                 %li
                   = link_to 'My Deals', promotions_path
+                %li
+                  = link_to 'My Vouchers', merchant_vouchers_path
                 %li 
                   = link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
                 %li
-                  = link_to 'Payments', payments_merchant_vendor_path(current_user.vendor)
+                  = link_to 'Payments', show_payments_merchant_vendor_path(current_user.vendor)
           - else
             %li.dropdown
               = link_to 'My Vouchers', merchant_vouchers_path 

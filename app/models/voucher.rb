@@ -44,11 +44,13 @@ class Voucher < ActiveRecord::Base
   # Remember that before_save is called *after* before_validation
   before_validation :create_uuid
   
+  # For security, don't put payment_id in accessible fields
   attr_accessible :expiration_date, :issue_date, :notes, :redemption_date, :status, :uuid,
                   :order_id
   
   # foreign keys
   belongs_to :order
+  belongs_to :payment
   
   has_one :user, :through => :order
   has_one :promotion, :through => :order
@@ -88,14 +90,17 @@ class Voucher < ActiveRecord::Base
     [AVAILABLE, EXPIRED].include?(status)
   end
   
-  # Can only unredeem if it's been redeemed (e.g., by mistake)
-  def unredeemable?
-    REDEEMED == status
-  end
-  
   # Can only return if it's available
   def returnable?
     AVAILABLE == status
+  end
+  
+  def payment_owed?
+    (REDEEMED == status) && !paid?
+  end
+  
+  def paid?
+    !payment.nil?
   end
   
 private

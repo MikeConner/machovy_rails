@@ -8,27 +8,24 @@ class Merchant::VouchersController < Merchant::BaseController
   
   # GET /vouchers
   def index
-    # If a voucher_id or a user_id is given, it's coming from a search request
-    @display_controls = false
-    @display_search = false
-    if params[:voucher_id] or params[:user_id] or params[:promotion_id]
-      if current_user.has_role?(Role::MERCHANT)
-        @display_controls = true
-        if params[:voucher_id]
-          @vouchers = [Voucher.find(params[:voucher_id])].paginate(page: params[:page])
-        elsif params[:user_id]
-          @vouchers = User.find(params[:user_id]).vouchers.paginate(page: params[:page])
-        else
-          @display_search = true
-          @vouchers = Promotion.find(params[:promotion_id]).vouchers.paginate(page: params[:page])
-        end
+    if current_user.has_role?(Role::MERCHANT)
+      @title = 'Voucher Administration'
+      @admin = true
+      
+      # If a voucher_id or a user_id is given, it's coming from a search request
+      if params[:voucher_id]
+        @vouchers = [Voucher.find(params[:voucher_id])]
+      elsif params[:user_id]
+        @vouchers = User.find(params[:user_id]).vouchers
       else
-        redirect_to root_path, :alert => I18n.t('vendors_only')
+        @vouchers = []
       end
-    else      
+    else
       # It's a user asking for their own vouchers
-      @vouchers = current_user.vouchers.paginate(page: params[:page])
-    end    
+      @title = 'Listing Vouchers'
+      @admin = false
+      @vouchers = current_user.vouchers
+    end
   end
 
   # GET /vouchers/1
@@ -74,20 +71,22 @@ class Merchant::VouchersController < Merchant::BaseController
   # GET /vouchers/1/redeem
   def redeem
     # @voucher set from the filter
-    @voucher.status = Voucher::REDEEMED
-    @voucher.redemption_date = Time.now
-    
-    if @voucher.save
-      flash[:notice] = I18n.t('voucher_success')
-      
-      UserMailer.survey_email(@voucher.order).deliver
+    case @voucher.status
+    when Voucher::REDEEMED
+      flash[:alert] = I18n.t('voucher_already_redeemed')
+    when Voucher::RETURNED
+      flash[:alert] = I18n.t('voucher_returned')
+    when Voucher::EXPIRED
+      flash[:alert] = I18n.t('voucher_expired')
+    when Voucher::AVAILABLE
+      flash[:notice] = I18n.t('voucher_valid')
     else
-      flash[:alert] = I18n.t('voucher_failure')
+      raise 'Unknown voucher status'
     end
+    
+    @vouchers = [@voucher]
+    @admin = true
 
-    @vouchers = @voucher.promotion.vouchers.paginate(page: params[:page])
-    @display_controls = true
-    @display_search = false
     render 'index'
   end
   
@@ -106,14 +105,21 @@ class Merchant::VouchersController < Merchant::BaseController
     if @voucher.save
       flash[:notice] = I18n.t('voucher_success')
       
-      UserMailer.survey_email(@voucher.order).deliver
+      # Send survey on redemption, and a notice on unredemption (saying they can still use the voucher)
+      # Do nothing on return; presumably the customer has handed it in
+      if Voucher::REDEEMED == @voucher.status
+        UserMailer.survey_email(@voucher.order).deliver
+      elsif Voucher::AVAILABLE == @voucher.status
+        UserMailer.unredeem_email(@voucher).deliver
+      end
     else
       flash[:alert] = I18n.t('voucher_failure')
     end
     
-    @vouchers = Promotion.find(params[:promotion_id]).vouchers.paginate(page: params[:page])
-    @display_controls = true
-    @display_search = false
+    @title = 'Voucher Administration'
+    @admin = true
+    @vouchers = []
+    
     render 'index'
   end
 

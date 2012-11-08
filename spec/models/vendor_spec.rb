@@ -35,6 +35,9 @@ describe "Vendors" do
   it { should respond_to(:promotions) }
   it { should respond_to(:metros) }
   it { should respond_to(:orders) }
+  it { should respond_to(:total_paid) }
+  it { should respond_to(:amount_owed) }
+  it { should respond_to(:total_commission) }
   
   its(:user) { should == user }
   
@@ -325,6 +328,59 @@ describe "Vendors" do
         it "should have two metros" do
           vendor.metros.count.should be == 2
           vendor.metros.sort.should == [metro1, metro2].sort
+        end
+      end
+    end
+  end
+  
+  describe "vouchers and payments" do
+    let(:payment) { FactoryGirl.create(:payment, :vendor => vendor) }
+    before { FactoryGirl.create(:promotion_with_vouchers, :vendor => vendor) }
+    
+    it "should have vouchers" do
+      Voucher.all.each do |voucher|
+        voucher.promotion.vendor.should be == vendor
+        voucher.paid?.should be_false
+      end
+    end
+    
+    it "should show amounts paid and owed" do
+      vendor.total_paid.should be == payment.amount
+      # 0 because the vouchers will all be available
+      vendor.amount_owed.should be == 0
+      vendor.total_commission.should == 0
+    end
+    
+    describe "redeem vouchers" do
+      before do
+        Voucher.update_all(:status => Voucher::REDEEMED)
+        @total = 0
+        @commission = 0
+        Promotion.first.orders.each do |order|
+          @total += order.merchant_share
+          @commission += order.machovy_share
+        end 
+      end
+      
+      it "should show amounts paid and owed" do
+        vendor.total_paid.should be == payment.amount
+        vendor.amount_owed.should be == @total
+        vendor.total_commission.should == @commission
+      end 
+      
+      describe "mark paid" do
+        before { 
+          Voucher.all.each do |voucher|
+            # not in accessible fields by design
+            voucher.payment_id = payment.id
+            voucher.save!
+          end
+        }
+        
+        it "should show amounts paid and owed" do
+          vendor.total_paid.should be == payment.amount
+          vendor.amount_owed.should be == 0        
+          vendor.total_commission.should == 0  
         end
       end
     end

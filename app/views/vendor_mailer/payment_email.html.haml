@@ -1,0 +1,8 @@
+%p== Dear #{@vendor.name},
+%p== We've sent you a check (#{@payment.check_number}, dated #{@payment.check_date.try(:strftime, '%b %m, %Y')}) for #{number_to_currency(@payment.amount)}.
+%p This is in payment for the following vouchers:
+%ul
+  - @payment.vouchers.each do |voucher|
+    %li== #{voucher.uuid}, redeemed by #{voucher.user.email} on #{voucher.redemption_date.try(:strftime, '%b %m, %Y')} |
+    in the amount of #{number_to_currency(voucher.order.total_cost)} (merchant share: #{number_to_currency(voucher.order.merchant_share)}) |
+    according to the terms of the promotion '#{voucher.order.promotion.title}' |

@@ -11,6 +11,7 @@
     %th Vendor
     %th Status
     %th Title
+    %th Subtitle
     %th Expiration
     %th Price
     %th Quantity
@@ -21,6 +22,7 @@
       %td= link_to "#{p.vendor.name}", merchant_vendor_path(p.vendor)
       %td= p.status
       %td= link_to "#{p.title}", edit_promotion_path(p)
+      %td= p.subtitle
       - if p.end_date.nil?
         %td None
       - else

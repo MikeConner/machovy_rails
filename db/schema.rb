@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121104060833) do
+ActiveRecord::Schema.define(:version => 20121108035833) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -143,6 +143,16 @@ ActiveRecord::Schema.define(:version => 20121104060833) do
     t.string   "charge_id"
   end
 
+  create_table "payments", :force => true do |t|
+    t.decimal  "amount",       :null => false
+    t.integer  "check_number", :null => false
+    t.date     "check_date",   :null => false
+    t.text     "notes"
+    t.integer  "vendor_id",    :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "positions", :force => true do |t|
     t.string   "title"
     t.text     "description"
@@ -193,6 +203,7 @@ ActiveRecord::Schema.define(:version => 20121104060833) do
     t.string   "slug"
     t.string   "status",               :limit => 16, :default => "Proposed", :null => false
     t.string   "promotion_type",       :limit => 16, :default => "Deal",     :null => false
+    t.string   "subtitle"
   end
 
   add_index "promotions", ["slug"], :name => "index_promotions_on_slug"
@@ -202,7 +213,7 @@ ActiveRecord::Schema.define(:version => 20121104060833) do
     t.string   "username"
     t.integer  "item"
     t.string   "table"
-    t.integer  "month",      :limit => 2
+    t.integer  "month"
     t.integer  "year",       :limit => 8
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
@@ -294,6 +305,7 @@ ActiveRecord::Schema.define(:version => 20121104060833) do
     t.datetime "created_at",                                             :null => false
     t.datetime "updated_at",                                             :null => false
     t.string   "slug"
+    t.integer  "payment_id"
   end
 
   add_index "vouchers", ["slug"], :name => "index_vouchers_on_slug"

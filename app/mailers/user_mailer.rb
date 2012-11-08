@@ -3,6 +3,7 @@ class UserMailer < ActionMailer::Base
   
   ORDER_MESSAGE = 'Thank you for your Machovy promotion order'
   SURVEY_MESSAGE = 'Thanks for redeeming your voucher'
+  UNREDEEM_MESSAGE = 'Your Machovy voucher is available for use'
   
   default from: ApplicationHelper::MAILER_FROM_ADDRESS
   
@@ -28,4 +29,10 @@ class UserMailer < ActionMailer::Base
     
     mail(:to => @order.email, :subject => SURVEY_MESSAGE)
   end  
+  
+  def unredeem_email(voucher)
+    @voucher = voucher
+    
+    mail(:to => @voucher.order.email, :bcc => ApplicationHelper::MACHOVY_PAYMENT_ADMIN, :subject => UNREDEEM_MESSAGE)
+  end
 end

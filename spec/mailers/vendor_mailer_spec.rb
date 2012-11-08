@@ -1,4 +1,4 @@
-describe "VendorMailer" do
+describe "VendorMailer" do  
   TEST_EMAIL = 'endymionjkb@gmail.com'
   
   let(:vendor) { FactoryGirl.create(:vendor) }
@@ -10,7 +10,7 @@ describe "VendorMailer" do
   it "should have the test email" do
     vendor.user.email.should == TEST_EMAIL
   end
-  
+=begin  
   describe "Signup email" do
     let(:vendor) { FactoryGirl.create(:vendor) }
     let(:msg) { VendorMailer.signup_email(vendor) }
@@ -168,5 +168,53 @@ describe "VendorMailer" do
         expect { msg }.to raise_exception(RuntimeError)
       end
     end    
-  end  
+  end 
+=end  
+  describe "Payment email" do
+    let(:vendor) { FactoryGirl.create(:vendor_with_vouchers) }
+    let(:payment) { FactoryGirl.create(:payment, :vendor => vendor)}
+    let(:msg) { VendorMailer.payment_email(vendor, payment) }
+    
+    it "should return a message object" do
+      msg.should_not be_nil
+    end
+    
+    it "should have the right sender" do
+      msg.from.to_s.should match(ApplicationHelper::MAILER_FROM_ADDRESS)
+    end
+    
+    describe "Send the message" do
+      before { msg.deliver }
+        
+      it "should get queued" do
+        ActionMailer::Base.deliveries.should_not be_empty
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+      # msg.to is a Mail::AddressContainer object, not a string
+      # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
+      it "should be sent to the right user" do
+        msg.to.to_s.should match(vendor.user.email)
+      end
+      
+      it "should have the right subject" do
+        msg.subject.should == VendorMailer::PAYMENT_MESSAGE
+      end
+      
+      it "should have the right content" do
+        msg.body.encoded.should match("We've sent you a check")
+        msg.body.encoded.should match(payment.check_number.to_s)
+        msg.body.encoded.should match(payment.check_date.try(:strftime, '%b %m, %Y'))
+        msg.body.encoded.should match(payment.amount.round(2).to_s)
+        msg.body.encoded.should match("This is in payment for the following vouchers")
+        payment.vouchers.each do |voucher|
+          msg.body.encoded.should match(voucher.uuid)
+        end
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+      
+      it "should not have attachments" do
+        msg.attachments.count.should be == 0
+      end
+    end
+  end   
 end

@@ -4,14 +4,17 @@
 en:
   ad_created: "Ad/Affiliate Promotion was successfully created."
   admins_only: 'This function only available to Administrators.'
+  customer_service: 'If you have any questions at 3:00 am, call Arash on his cell phone...'
   feedback_thanks: "Thank you for your feedback!"
   foreign_promotion: 'This is not one of your promotions.'
   foreign_voucher: 'This is not one of your vouchers.'
   foreign_order: 'This is not one of your orders.'
   invalid_order: 'Not a valid user/order'
   invalid_user: 'You must log in to perform this function'
+  local_deal_created: "The local deal was successfully created."
   only_n_left: "Only %{n} left!"
   order_successful: 'Thank you for your order. Check your email for the details and voucher.'
+  payment_processed: 'Payment successfully processed.'
   plenty: 'Plenty'
   profile_updated: 'Profile updated successfully.'
   promotion_created: "Promotion was successfully created, and will now be reviewed by Machovy."
@@ -23,8 +26,12 @@ en:
   promotion_update_error: "We're sorry, the status could not be updated at this time. Please try again later."
   vendor_created: "Vendor was successfully created."
   vendors_only: 'This function only available to Vendors.'
-  voucher_success: "Voucher status successfully updated."
+  voucher_already_redeemed: 'This voucher has already been redeemed.'
+  voucher_expired: 'This voucher has expired. You may still choose to redeem it.'
   voucher_failure: "Error updating voucher status."
+  voucher_returned: 'This voucher has been returned and is now void.'
+  voucher_success: "Voucher status successfully updated."
+  voucher_valid: 'Valid voucher found.'
   promotions:
     index_heading: 'All promotions - Listing / Manage'
     live: 'Live Promotions'

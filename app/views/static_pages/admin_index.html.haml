@@ -40,6 +40,11 @@
               %i.icon-tags
               %a{:title => "New Affiliate Deal", :href => "#{}"}
                 = link_to 'New Affiliate Deal', new_promotion_path(:promotion_type => Promotion::AFFILIATE)
+            - if current_user.has_role?(Role::SALES_ADMIN)
+              %li
+                %i.icon-tags
+                %a{:title => "New Local Deal", :href => "#{}"}
+                  = link_to 'New Local Deal', new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)
             %li
               %i.icon-pencil
               %a{:title => "New Blog Post", :href => "#{}"}

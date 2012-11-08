@@ -113,4 +113,46 @@ describe "UserMailer" do
       end
     end
   end  
+ 
+  describe "Unredeem email" do
+    let(:msg) { UserMailer.unredeem_email(order.reload.vouchers.first) }
+    
+    it "should return a message object" do
+      msg.should_not be_nil
+    end
+  
+    it "should have the right sender" do
+      msg.from.to_s.should match(ApplicationHelper::MAILER_FROM_ADDRESS)
+    end
+    
+    describe "Send the message" do
+      before { msg.deliver }
+        
+      it "should get queued" do
+        ActionMailer::Base.deliveries.should_not be_empty
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+      # msg.to is a Mail::AddressContainer object, not a string
+      # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
+      it "should be sent to the right user" do
+        msg.to.to_s.should match(order.email)
+      end
+      
+      it "should have the right subject" do
+        msg.subject.should == UserMailer::UNREDEEM_MESSAGE
+      end
+      
+      it "should not have attachments" do
+        msg.attachments.count.should == 0
+      end
+      
+      it "should have the right content" do
+        msg.body.encoded.should match("has 'unredeemed' your voucher")
+        msg.body.encoded.should match("It's available now for immediate use")
+        msg.body.encoded.should match(order.reload.vouchers.first.uuid)
+      
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+    end
+  end  
 end
