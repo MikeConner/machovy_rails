@@ -1,30 +1,39 @@
 -# Need this to display confirmation notice on vendor signup
 = render :partial => 'shared/flash_messages'
-%h1 All promotions - Listing / Manage
-.portfolio-container
-  %h3 Live Promotions
-  - if 0 == @live.count
-    None
-  - else
-    = render :partial => 'promotion', :locals => { :p_list => @live, :show_vouchers => true }
-  %h3 Promotions that need your attention
-  - if 0 == @attention.count
-    None
-  - else
-    = render :partial => 'promotion', :locals => { :p_list => @attention }
-  %h3 Pending Promotions
-  - if 0 == @pending.count
-    None
-  - else
-    = render :partial => 'promotion', :locals => { :p_list => @pending }
-  %h3 Inactive Promotions
+%h1 Local Deals
+.row-fluid
+  .span4
+    %h3 Under Review
+    - if 0 == @pending.count
+      None
+    - else
+      = render :partial => 'promotion_dashview', :locals => { :p_list => @pending }
+    %br
+    .btn.btn-large
+      %i.icon-plus
+      = link_to 'Create a New Deal', new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)
+  .span4
+    %h3 Ready To Publish
+    - if 0 == @attention.count
+      None
+    - else
+      = render :partial => 'promotion_dashview', :locals => { :p_list => @attention }  
+  .span4
+    %h3 Live Deals
+    - if 0 == @live.count
+      None
+    - else
+      = render :partial => 'promotion_dashview', :locals => { :p_list => @live, :show_vouchers => true }
+%br
+==========================================================================================
+.row-fluid
+  %h3 Your Past Deals
   - if 0 == @inactive.count
     None
   - else
-    = render :partial => 'promotion', :locals => { :p_list => @inactive }
+    = render :partial => 'promotion_dashview', :locals => { :p_list => @inactive }
+.row-fluid
   -# Not using ads for now, so don't display an Ad header by default
   - if @ads.count > 0
     %h3 Advertisements
     = render :partial => 'ad', :locals => { :p_list => @ads }
-%br/
-= link_to 'New Promotion', new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)
