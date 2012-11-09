@@ -1,116 +1,191 @@
-/*
- *= require_self
- *= require twitter/bootstrap
- *= require twitter/responsive
- *= require jquery-ui-1.9.0.custom
+/* 
+=general
+=landing
+=blog
+=about
+=features
+=contact
+=pricing
+=footer
 */
- 
-@mixin devise-base {
-  height: 20px; 
-  border: 1px solid #BFBFBF; 
-  font-size: 1em; 
-  box-shadow: inset 0 0 1em 0 #eee; 
-  border-radius: .3em;
+
+/* ---------- =general ---------- */
+body{
+  padding-top: 60px;
 }
 
-.devise-submit {
-  @include devise-base;
-  text-transform: uppercase; 
-  color: white; 
-  background: #666; 
-  width: 20em; 
+section{
+  padding-top: 60px;
 }
 
-.varlen-devise-input {
-  @include devise-base 
+article{
+  margin-bottom: 40px;
+  padding: 0px 0px 40px;
+  border-bottom: 1px solid #DDD;
 }
 
-.slider-input {
-  width: 40%
+@media (max-width: 767px) {
+  body {
+    padding-left:0px !important;
+    padding-right: 0px !important;
+  }
+  .container{
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
 }
 
-.devise-input {
-  @include devise-base;
-  width: 20em; 
+.right{
+  float:right;
 }
 
-#signup-form {
-  float: left; 
-  width: 40%; 
+.center{
+  text-align: center;
 }
 
-#merchant-sidebar {
-  float: right;
-  width: 60%;
+p.sub{
+  color: #888;
 }
 
-.thumbnail-table {
-  border: 0px
+.stripe{
+  padding: 40px 0px;
 }
 
-/*  STUFF TO Make the Page animated a bit */
+.stripe-top{
+  background-color: #EEE;
+  margin-top: -18px;
+}
 
-.view {
+.stripe-color{
+  background-color: #EEE;
+}
 
-   margin: 1px;
-   float: left;
-   border: 0px solid #fff;
-   overflow: hidden;
-   position: relative;
-   text-align: center;
-   -webkit-box-shadow: 1px 1px 2px #e6e6e6;
-   -moz-box-shadow: 1px 1px 2px #e6e6e6;
-   box-shadow: 1px 1px 2px #e6e6e6;
-   cursor: default;
-   background: #fff url(bgimg.jpg) no-repeat center center;
+.page-heading h1{
+  position: relative;
+  bottom: 20px;
+  line-height: 24px;
 }
-.view .mask,.view .content {
-   width: 100%;
-   height: 100%;
-   position: absolute;
-   overflow: hidden;
-   top: 0;
-   left: 0;
+
+#btn-showcase td{
+  vertical-align: middle;
 }
-.view img {
-   display: block;
-   position: relative;
+
+/* ---------- =landing ---------- */
+.stripe-hero{
+  margin-top: -60px;
+  padding-top: 60px;
 }
-.view h2 {
-   text-transform: uppercase;
-   color: #fff;
-   text-align: center;
-   position: relative;
-   font-size: 17px;
-   padding: 10px;
-   background: rgba(0, 0, 0, 0.8);
-   margin: 20px 0 0 0;
+
+.stripe-hero .item{
+  padding-left: 50px;
+  padding-right: 10px;
 }
-.view p {
-   font-family: Georgia, serif;
-   font-style: italic;
-   font-size: 12px;
-   position: relative;
-   color: #fff;
-   padding: 10px 20px 20px;
-   text-align: center;
-}
-.view a.info {
-   display: inline-block;
-   text-decoration: none;
-   padding: 11px 20px;
-      font-size: 14px;
-   background: #555;
-   color: #fff;
-   text-transform: uppercase;
-   -webkit-box-shadow: 0 0 1px #000;
-   -moz-box-shadow: 0 0 1px #000;
-   box-shadow: 0 0 1px #000;
-}
-.view a.info:hover {
-   -webkit-box-shadow: 0 0 5px #000;
-   -moz-box-shadow: 0 0 5px #000;
-   box-shadow: 0 0 5px #000;
+
+#download-now .span4{
+  text-align: center;
 }
 
 
+/* ---------- =blog ---------- */
+#blog{
+  padding-top: 30px;
+}
+
+  #blog img{
+    margin: 10px 0px;
+  }
+
+
+/* ---------- =about ---------- */
+#about img.thumbnail{
+  margin: 10px 0px;
+}
+
+/* ---------- =features ---------- */
+
+
+/* ---------- =contact ---------- */
+#contact{
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+  #contact textarea{
+    height: 200px;
+  }
+
+
+/* ---------- =pricing ---------- */
+#pricing-table div{
+  background-color: #EEE;
+  text-align: center;
+  padding: 20px 0px;
+  min-height: 220px;
+}
+
+#pricing-table div.popular{
+  position: relative;
+  bottom: 10px;
+  right: 2px;
+  border: 2px solid #5BB75B;
+  margin-right: -4px;
+}
+
+  #pricing-table div ul{
+    margin-left: 0;
+  }
+
+  #pricing-table div li{
+    list-style-type: none;
+  }
+
+table tr th.empty-corner{
+  background-color: #FFF !important;
+  border-top: none;
+}
+
+#pricing-table-long td{
+  text-align: center;
+  width: 20%;
+}
+
+#pricing-table-long .packages th{
+  text-align: center;
+}
+
+/* ---------- =footer ---------- */
+footer .stripe{
+  background-color: #EEE;
+}
+
+footer .stripe-color{
+  background-color: #222;
+  color: #EEE;
+  padding-top: 40px;
+}
+
+footer .stripe-color p, footer .stripe-color address{
+  color: #888;
+}
+
+footer p.sub{
+  color: #555;
+}
+
+footer div.last{
+  padding-bottom: 20px;
+}
+
+footer div.divider{
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #333;
+  margin: 30px 0px;
+}
+
+#download-now h2{
+  text-align: center;
+}
+
+#download-now .btn{
+  margin-right: 12px;
+}
