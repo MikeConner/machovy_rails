@@ -37,7 +37,7 @@ class Merchant::OrdersController < Merchant::BaseController
                                                    :card => @order.stripe_card_token)
         
         # Not in attr_accessible for security; must assign explicitly
-        @order.user.stripe_id = stripe_customer.id
+        @order.user.stripe_id = @stripe_customer.id
         if @order.user.save
           charge_success = charge_customer(@order, @stripe_customer)
         else
