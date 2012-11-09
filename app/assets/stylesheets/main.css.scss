@@ -27,6 +27,14 @@ select,
 textarea {
   font-family: "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+label,
+input,
+button,
+select {
+  display:inline-block;
+}
+
 p,
 li,
 label {
@@ -282,7 +290,6 @@ Dropdown
 .stripe-color {
   background-image: url(../images/bgnoise.gif);
   border-top: 1px solid #EEE;
-  border-bottom: 1px solid #EEE;
 }
 
 .dropdown-menu{
@@ -731,8 +738,12 @@ Sign in / up
 
 .sign-in-footer {
   background-color: #ededed;
-  padding: 15px 5px 5px 15px;
+  padding: 15px 5px 15px 15px;
   border: 1px solid #dcdcdc;
+  position: relative;
+  right: 16px;
+  width: 100%;
+  top: 26px;
 }
 
 .reset {

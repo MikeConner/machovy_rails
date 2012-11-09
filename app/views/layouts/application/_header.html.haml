@@ -19,8 +19,6 @@
           - if current_user.nil?
             %li.dropdown.pull-right
               = link_to 'Sign In', new_user_session_path
-            %li.dropdown.pull-right
-              = link_to 'Register Now', new_user_registration_path
           - else
             - if current_user.has_role?(Role::MERCHANT)
               %li.dropdown

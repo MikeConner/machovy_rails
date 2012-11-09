@@ -6,12 +6,10 @@
   %title M A C H O V Y
   = favicon_link_tag 
   = stylesheet_link_tag "http://fonts.googleapis.com/css?family=Oswald:300,400"
+  = stylesheet_link_tag "bootstrap", media: "all", :debug => true
+  = stylesheet_link_tag "bootstrap-responsive", media: "all", :debug => true
   = stylesheet_link_tag "application", media: "all", :debug => true
-  -#= stylesheet_link_tag "bootstrap_and_overrides", media: "all", :debug => true
   = stylesheet_link_tag "main", media: "all", :debug => true
-  = stylesheet_link_tag "skin-default", media: "all", :debug => true
-  = stylesheet_link_tag "responsive", media: "all", :debug => true
-  = stylesheet_link_tag "admin", media: "all", :debug => true
   = javascript_include_tag "application"
   = csrf_meta_tags
   = render 'layouts/application/shim'

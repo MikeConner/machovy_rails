@@ -1,38 +1,44 @@
-.row-fluid.footer
-  .container
-    .span3
-      %h4 Machovy
-      %ul
-        %li
-          = link_to 'Company Info', about_path
-        %li
-          = link_to 'FAQ', '#'
-    .span3
-      %h4 Social
-      %ul
-        %li
-          = link_to 'Twitter', 'http://twitter.com/machovy'
-        %li
-          = link_to 'Facebook', 'http://www.facebook.com/Machovy'
-      %p
-    .span3
-      %h4 Details
-      %ul
-        %li
-          = link_to 'Privacy Policy', 'http://www.iubenda.com/privacy-policy/685133'
-    .span3
-      %h4 Merchants
-      %ul
-        %li
-          = link_to 'How does it work?', get_featured_path
-        %li
-          = link_to 'Create a merchant account', new_user_registration_path(:merchant => true)
-:javascript
-  var _gaq = _gaq || []; 
-  _gaq.push(['_setAccount', 'UA-33770108-1']);
-  _gaq.push(['_trackPageview']);
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();	
+%footer
+  #footer.stripe-color
+    .container
+      .row
+        .span3
+          %h6 Machovy
+          %ul
+            %li
+              = link_to 'Company Info', about_path
+            %li
+              = link_to 'FAQ', '#'
+        .span3
+          %h4 Social
+          %ul
+            %li
+              = link_to 'Twitter', 'http://twitter.com/machovy'
+            %li
+              = link_to 'Facebook', 'http://www.facebook.com/Machovy'
+        .span3
+          %h4 Details
+          %ul
+            %li
+              = link_to "Privacy Policy", '#', :onclick => "window.showModalDialog(\"#{ApplicationHelper::PRIVACY_POLICY_LINK}\", 'Privacy Policy', \"dialogWidth:700px;dialogHeight:600px\");"
+        .span3
+          %h4 Merchants
+          %ul
+            %li
+              = link_to 'How does it work?', get_featured_path
+            %li
+              = link_to 'Create a merchant account', new_user_registration_path(:merchant => true)
+      .divider
+      .row.last
+        .span12
+          %p.sub &copy; M A C H O V Y 2012 
+    :javascript
+      var _gaq = _gaq || []; 
+      _gaq.push(['_setAccount', 'UA-33770108-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })(); 
+
