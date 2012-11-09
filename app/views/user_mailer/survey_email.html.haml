@@ -1,5 +1,8 @@
-%h2 Thank you for redeeming your voucher. We hope you enjoyed it!
+%h2 Nice going on redeeming your voucher. We hope you enjoyed it!
 %p== You purchased #{number_to_word(@order.quantity)} of these: #{@order.promotion.title} for #{number_to_currency(@order.total_cost)}
 %p We always appreciate feedback.
 %br/
 == Take this #{link_to 'survey', survey_user_url(@order.user, :order_id => @order.id) } to let us know about your experience.
+
+Your feedback is most appreciated, and will continue to work hard to improve your Machovy experience!
+

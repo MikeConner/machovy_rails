@@ -1,5 +1,5 @@
 %p== Dear #{@vendor.name},
-%p== We've sent you a check (#{@payment.check_number}, dated #{@payment.check_date.try(:strftime, '%b %m, %Y')}) for #{number_to_currency(@payment.amount)}.
+%p== Please be advised that we have sent you a check (#{@payment.check_number}, dated #{@payment.check_date.try(:strftime, '%b %m, %Y')}) for #{number_to_currency(@payment.amount)}.
 %p This is in payment for the following vouchers:
 %ul
   - @payment.vouchers.each do |voucher|

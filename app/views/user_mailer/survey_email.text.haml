@@ -1,7 +1,7 @@
-Thank you for redeeming your voucher. We hope you enjoyed it!
+Nice going on redeeming your voucher. We hope you enjoyed it!
 
 You purchased #{number_to_word(@order.quantity)} of these: #{@order.promotion.title} for #{number_to_currency(@order.total_cost)}
 
-We always appreciate feedback.
+Please take this #{link_to 'survey', survey_user_url(@order.user, :order_id => @order.id) } to let us know about your experience.
 
-Take this #{link_to 'survey', survey_user_url(@order.user, :order_id => @order.id) } to let us know about your experience.
+Your feedback is most appreciated, and will continue to work hard to improve your Machovy experience!
