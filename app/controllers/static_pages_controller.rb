@@ -1,5 +1,5 @@
 class StaticPagesController < ApplicationController
-  before_filter :authenticate_user!, :except => [:about, :mailing]
+  before_filter :authenticate_user!, :except => [:about, :mailing, :get_featured]
   
   def about
   end
@@ -7,6 +7,9 @@ class StaticPagesController < ApplicationController
   def admin_index
   end
 
+  def get_featured
+	end
+	
   # NOTE: This is temporary, just to demonstrate the connection
   def mailing
     gb = Gibbon.new

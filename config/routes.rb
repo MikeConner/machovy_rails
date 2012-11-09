@@ -79,6 +79,7 @@ MachovyRails::Application.routes.draw do
   # Static pages
   match "/site_admin" => "static_pages#admin_index"
   match "/about" => "static_pages#about"
+	match "/get_featured" => "static_pages#get_featured"
   
   # MailChimp integration test
   match "/mailing" => "static_pages#mailing"

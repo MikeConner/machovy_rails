@@ -6,32 +6,27 @@
         %li
           = link_to 'Company Info', about_path
         %li
-          = link_to 'Careers', positions_path
-        %li
           = link_to 'FAQ', '#'
-        %li
-          = link_to 'Terms and Conditions', '#'
     .span3
       %h4 Social
       %ul
-        %li
         %li
           = link_to 'Twitter', 'http://twitter.com/machovy'
         %li
           = link_to 'Facebook', 'http://www.facebook.com/Machovy'
       %p
     .span3
-      %h4 Other Content
+      %h4 Details
       %ul
-        - 4.times do
-          %li
-            = link_to 'Great stuff', '#'
+        %li
+          = link_to 'Privacy Policy', 'http://www.iubenda.com/privacy-policy/685133'
     .span3
       %h4 Merchants
-      Do you have a product or service that are readers must have?  Do you want access to the most interesting audience on the internet? 
-      %br/
-      = link_to 'Create a merchant account', new_user_registration_path(:merchant => true)
-
+      %ul
+        %li
+          = link_to 'How does it work?', get_featured_path
+        %li
+          = link_to 'Create a merchant account', new_user_registration_path(:merchant => true)
 :javascript
   var _gaq = _gaq || []; 
   _gaq.push(['_setAccount', 'UA-33770108-1']);
@@ -40,4 +35,4 @@
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+  })();	
