@@ -21,9 +21,16 @@ class StaticPagesController < ApplicationController
 	end
 	
 	def make_comment
-	  FeedbackMailer.feedback_email(params[:name], params[:category], params[:comment], params[:user]).deliver
+	  if params[:comment].blank?
+      flash[:alert] = 'Please enter a comment'
+      
+      feedback
+      render 'feedback'
+	  else
+      FeedbackMailer.feedback_email(params[:name], params[:category], params[:comment], params[:user]).deliver
     
-	  redirect_to feedback_path, :notice => I18n.t('feedback_thanks')
+      redirect_to feedback_path, :notice => I18n.t('feedback_thanks')
+	  end
 	end
 	
   # NOTE: This is temporary, just to demonstrate the connection
