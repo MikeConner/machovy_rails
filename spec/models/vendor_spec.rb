@@ -22,7 +22,7 @@ describe "Vendors" do
   let(:vendor) { FactoryGirl.create(:vendor, :user => user) }
   
   subject { vendor }
-=begin
+  
   it { should respond_to(:address_1) }
   it { should respond_to(:address_2) }
   it { should respond_to(:city) }
@@ -332,7 +332,7 @@ describe "Vendors" do
       end
     end
   end
-=end  
+
   describe "vouchers and payments" do
     let(:payment) { FactoryGirl.create(:payment, :vendor => vendor) }
     before do 
@@ -372,8 +372,8 @@ describe "Vendors" do
       
       it "should show amounts paid and owed" do
         vendor.total_paid.should be == payment.amount
-        vendor.amount_owed.should be == @total * 3 # because the order has 3 vouchers
-        vendor.total_commission.should == @commission * 3
+        vendor.amount_owed.round(4).should be == (@total * 3).round(4) # because the order has 3 vouchers
+        vendor.total_commission.round(4).should == (@commission * 3).round(4)
       end 
       
       describe "mark paid" do

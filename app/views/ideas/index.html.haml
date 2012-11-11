@@ -1,0 +1,17 @@
+%h1 All Ideas
+.center
+  = will_paginate
+  = page_entries_info 
+- @ideas.each do |idea|
+  %b= link_to idea.title, idea_path(idea)
+  - if @admin
+    = link_to 'Delete', idea, :method => :delete, :data => { confirm: 'Are you sure?' }
+  %br/
+  - if idea.average_rating.nil?
+    &nbsp;&nbsp; - Unrated
+  - else
+    == &nbsp;&nbsp; - Rated #{idea.average_rating} (#{idea.ratings.count} ratings; #{idea.num_comments} comments)
+  %br/
+  = idea.content
+  %br/
+%center= will_paginate

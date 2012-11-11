@@ -1,0 +1,18 @@
+.row-fluid
+  %h2== #{@idea.name}'s Idea: #{@idea.title}
+  - if @idea.average_rating.nil?
+    %b Unrated
+  - else
+    %b== Rated #{@idea.average_rating}
+  %br/
+  %em= @idea.content
+- if !@idea.average_rating.nil?
+  .row-fluid
+    %br/
+    %h3 Ratings/Discussion
+    - @idea.ratings.each do |rating|
+      - if !rating.comment.nil?
+        == #{rating.stars} Stars
+        %p= rating.comment
+%br/
+= link_to 'Show All Ideas', ideas_path

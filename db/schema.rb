@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121108035833) do
+ActiveRecord::Schema.define(:version => 20121110200808) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -121,6 +121,15 @@ ActiveRecord::Schema.define(:version => 20121108035833) do
   add_index "friendly_id_slugs", ["sluggable_id"], :name => "index_friendly_id_slugs_on_sluggable_id"
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
 
+  create_table "ideas", :force => true do |t|
+    t.string   "name",       :limit => 16
+    t.string   "title",      :limit => 40
+    t.text     "content"
+    t.integer  "user_id"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+  end
+
   create_table "metros", :force => true do |t|
     t.string   "name",       :null => false
     t.datetime "created_at", :null => false
@@ -220,6 +229,17 @@ ActiveRecord::Schema.define(:version => 20121108035833) do
   end
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
+
+  create_table "ratings", :force => true do |t|
+    t.integer  "stars"
+    t.text     "comment"
+    t.integer  "idea_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "ratings", ["idea_id", "user_id"], :name => "index_ratings_on_idea_id_and_user_id", :unique => true
 
   create_table "roles", :force => true do |t|
     t.string   "name"

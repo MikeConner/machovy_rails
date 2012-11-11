@@ -14,6 +14,8 @@ module ApplicationHelper
 
   MAILER_FROM_ADDRESS = 'deals@machovy.com'
   MACHOVY_PAYMENT_ADMIN = 'endymionjkb@gmail.com'
+  MACHOVY_FEEDBACK_ADMIN = 'endymionjkb@gmail.com'
+  
   SMTP_PASSWORD = '%%))$$@macho'
   
   NUMBER_WORDS = { 1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four', 5 => 'five', 

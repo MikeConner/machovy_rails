@@ -4,16 +4,21 @@
 en:
   ad_created: "Ad/Affiliate Promotion was successfully created."
   admins_only: 'This function only available to Administrators.'
+  already_rated: 'Looks like you already rated this idea.'
+  anonymous: 'Anonymous'
   customer_service: 'If you have any questions at 3:00 am, call Arash on his cell phone...'
   feedback_thanks: "Thank you for your feedback!"
   foreign_promotion: 'This is not one of your promotions.'
   foreign_voucher: 'This is not one of your vouchers.'
   foreign_order: 'This is not one of your orders.'
+  idea_success: 'Great idea!'
   invalid_order: 'Not a valid user/order'
   invalid_user: 'You must log in to perform this function'
   local_deal_created: "The local deal was successfully created."
   only_n_left: "Only %{n} left!"
   order_successful: 'Thank you for your order. Check your email for the details and voucher.'
+  new_promotion: "Let's make a deal"
+  create_promotion: 'Create a New Deal'
   payment_processed: 'Payment successfully processed.'
   plenty: 'Plenty'
   profile_updated: 'Profile updated successfully.'
@@ -24,6 +29,8 @@ en:
   promotion_reject_edits: "Thank you for reviewing our edits; we're sorry there's still something wrong. We'll review your comments and get back to you soon."
   promotion_reject_edits_admin: "Promotion successfully rejected."
   promotion_update_error: "We're sorry, the status could not be updated at this time. Please try again later."
+  rate_own_idea: 'Sorry; you cannot rate your own idea'
+  rating_success: "Thanks for contributing to our idea ratings; hope you weren't too harsh!"
   vendor_created: "Vendor was successfully created."
   vendors_only: 'This function only available to Vendors.'
   voucher_already_redeemed: 'This voucher has already been redeemed.'
@@ -33,11 +40,11 @@ en:
   voucher_success: "Voucher status successfully updated."
   voucher_valid: 'Valid voucher found.'
   promotions:
-    index_heading: 'All promotions - Listing / Manage'
-    live: 'Live Promotions'
-    attention: 'Promotions that need your attention'
-    pending: 'Pending Promotions'
-    inactive: 'Inactive Promotions'
+    index_heading: 'Local Deals'
+    live: 'Live Deals'
+    attention: 'Ready To Publish'
+    pending: 'Under Review'
+    inactive: 'Your Past Deals'
     ads: 'Advertisements'
   # This is necessary because of a bug in will_paginate (in order to display page_entries_info correctly)
   activerecord:

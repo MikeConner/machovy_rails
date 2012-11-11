@@ -28,6 +28,9 @@ MachovyRails::Application.routes.draw do
   resources :categories
   resources :curators
 
+  resources :ideas, :only => [:index, :show, :create, :destroy]
+  resources :ratings, :only => [:create]
+  
   resources :metros
   resources :positions
   resources :promotions do 
@@ -80,6 +83,8 @@ MachovyRails::Application.routes.draw do
   match "/site_admin" => "static_pages#admin_index"
   match "/about" => "static_pages#about"
 	match "/get_featured" => "static_pages#get_featured"
+	match "/feedback" => "static_pages#feedback"
+  match "/make_comment" => "static_pages#make_comment", :via => :put
   
   # MailChimp integration test
   match "/mailing" => "static_pages#mailing"

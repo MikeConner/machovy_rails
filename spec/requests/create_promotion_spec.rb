@@ -42,12 +42,12 @@ describe "Demo spec" do
     it { should have_selector('h3', :text => I18n.t('promotions.inactive')) }
     # We haven't created any ads, so this shouldn't be displayed
     it { should_not have_selector('h3', :text => I18n.t('promotions.ads')) }
-    it { should have_link('New Promotion', :href => new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)) }
+    it { should have_link(I18n.t('create_promotion'), :href => new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)) }
     
     describe "new promotion" do
-      before { click_link 'New Promotion' }
+      before { click_link I18n.t('create_promotion') }
       
-      it { should have_selector('h1', :text => 'New Promotion') }
+      it { should have_selector('h1', :text => I18n.t('new_promotion')) }
       it { should have_selector('input', :id => 'promotion_revenue_shared', :value => Promotion::MINIMUM_REVENUE_SHARE) }
       
       describe "create" do

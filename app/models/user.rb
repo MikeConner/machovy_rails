@@ -68,6 +68,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :roles, :uniq => true
   has_and_belongs_to_many :categories, :uniq => true
   has_one :vendor, :dependent => :nullify
+  has_many :ideas, :dependent => :destroy
   
   accepts_nested_attributes_for :vendor, :allow_destroy => true, :reject_if => :all_blank
   accepts_nested_attributes_for :feedbacks, :allow_destroy => true, :reject_if => :all_blank

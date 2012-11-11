@@ -1,6 +1,6 @@
 class StaticPagesController < ApplicationController
-  before_filter :authenticate_user!, :except => [:about, :mailing, :get_featured]
-  
+  before_filter :authenticate_user!, :except => [:about, :mailing, :get_featured, :feedback, :make_comment]
+
   def about
   end
   
@@ -8,6 +8,22 @@ class StaticPagesController < ApplicationController
   end
 
   def get_featured
+	end
+	
+	def feedback
+    @anonymous = current_user.nil?
+    @categories = FeedbackShared.categories
+    
+    @ideas = Idea.all.sort
+    if @ideas.count > FeedbackShared::MAX_IDEAS
+      @ideas = @ideas[0, FeedbackShared::MAX_IDEAS]
+    end 
+	end
+	
+	def make_comment
+	  FeedbackMailer.feedback_email(params[:name], params[:category], params[:comment], params[:user]).deliver
+    
+	  redirect_to feedback_path, :notice => I18n.t('feedback_thanks')
 	end
 	
   # NOTE: This is temporary, just to demonstrate the connection

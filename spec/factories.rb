@@ -99,6 +99,38 @@ FactoryGirl.define do
     end
   end
   
+  factory :idea do
+    user
+    
+    name { generate(:random_name)[0, Idea::MAX_NAME_LEN] }
+    title { generate(:random_phrase)[0, Idea::MAX_TITLE_LEN] }
+    content { generate(:random_paragraphs) }
+    
+    factory :idea_with_ratings do
+      ignore do
+        num_ratings 5
+      end
+      
+      after(:create) do |idea, evaluator|
+        # Can't rate your own idea, so need to create another user
+        evaluator.num_ratings.times do
+          FactoryGirl.create(:rating_with_comment, :user => FactoryGirl.create(:user), :idea => idea)
+        end
+      end
+    end
+  end
+  
+  factory :rating do
+    idea
+    user
+    
+    stars { Random.rand(5) + 1 }
+    
+    factory :rating_with_comment do
+      comment { generate(:random_paragraphs) }
+    end
+  end
+  
   factory :position do
     title { generate(:random_phrase) }
     description { generate(:random_paragraphs) }

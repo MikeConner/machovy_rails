@@ -10,7 +10,7 @@ describe "VendorMailer" do
   it "should have the test email" do
     vendor.user.email.should == TEST_EMAIL
   end
-=begin  
+
   describe "Signup email" do
     let(:vendor) { FactoryGirl.create(:vendor) }
     let(:msg) { VendorMailer.signup_email(vendor) }
@@ -41,7 +41,7 @@ describe "VendorMailer" do
       end
       
       it "should have the right content" do
-        msg.body.encoded.should match('Please see the attachment for our standard Vendor agreement')
+        msg.body.encoded.should match('Attached, please find our standard Vendor agreement')
         ActionMailer::Base.deliveries.count.should == 1
       end
       
@@ -169,7 +169,7 @@ describe "VendorMailer" do
       end
     end    
   end 
-=end  
+
   describe "Payment email" do
     let(:vendor) { FactoryGirl.create(:vendor_with_vouchers) }
     let(:payment) { FactoryGirl.create(:payment, :vendor => vendor)}
@@ -201,7 +201,7 @@ describe "VendorMailer" do
       end
       
       it "should have the right content" do
-        msg.body.encoded.should match("We've sent you a check")
+        msg.body.encoded.should match("Please be advised that we have sent you a check")
         msg.body.encoded.should match(payment.check_number.to_s)
         msg.body.encoded.should match(payment.check_date.try(:strftime, '%b %m, %Y'))
         msg.body.encoded.should match(payment.amount.round(2).to_s)
