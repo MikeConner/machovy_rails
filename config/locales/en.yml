@@ -53,3 +53,10 @@ en:
         zero:  Vouchers
         one:   Voucher
         other: Vouchers
+  will_paginate:
+    models:
+      idea:
+        zero:  Ideas
+        one:   Idea
+        few:   Ideas
+        other: Ideas        
