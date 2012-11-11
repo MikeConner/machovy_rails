@@ -21,18 +21,21 @@
           = image_tag slideshow.slideshow_image_url(:product_detail).to_s
   .span8.product-detail
     .row-fluid
-      %h3= @promotion.title
+      .span12
+        %h3= @promotion.title
     .row-fluid
-      .span2
+      .span3
         %span.price-old= number_to_currency(@promotion.retail_value)
         %span.price-new= number_to_currency(@promotion.price)
-      .span10
+        %br
+        %span= @promotion.quantity_description
+      .span9
         - if @show_buy_button
           %button.btn.btn-large.btn-danger 
             = link_to 'Buy this now', order_promotion_path(@promotion)
     .row-fluid
       .span12
-        %span= @promotion.quantity_description 
+         
 .row-fluid
   .span5.product
     %table.table.table-condensed

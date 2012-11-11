@@ -1,9 +1,9 @@
-.row-fluid
-  .span4
+.row-fluid.product-line
+  .span4.product
     = image_tag @promotion.teaser_image_url(:product_detail).to_s  
   .span8.product-detail
     .row-fluid
-      .span12
+      .span8
         %h3.affiliate-headline= @promotion.title
     .row-fluid
       .span12
@@ -12,11 +12,18 @@
             %button.btn.btn-danger 
               = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank"
 .row-fluid
-  .span12.divider         
-.row-fluid.affiliate-container
-  .span8
-    %h3 Description
-    %p= @promotion.description
+  .span12.product-detail
+    %ul.nav.nav-tabs
+      %li
+        <a data-toggle="tab" href="#tab1">Description </a>
+      %li
+        <a data-toggle="tab" href="#tab2">Limitations</a>
+    .tab-content
+      #tab1
+        %p= @promotion.description
+      #tab2
+        %p Test
+.space        
 .row-fluid
   - @curators.each do |curator|
     .span3.curator-block

@@ -432,7 +432,7 @@ Tabs
 }
 
 .nav-tabs > li > a {
-  padding: 10px 20px;
+  padding: 5px 20px;
   line-height: 20px;
   border: 1px solid transparent;
   -webkit-border-radius: 0px 0px 0 0;
@@ -734,6 +734,32 @@ Buttons
   opacity: 0.65;
 }
 
+
+/*
+----------------------------------------------
+Curator
+----------------------------------------------*/
+
+.curator-row {
+  background-color:white;
+  border-bottom:1px solid #ddd;
+}
+
+.curator-name {
+  color: #333;
+  padding: 10px;
+  text-transform: uppercase;
+}
+
+.curator-name a {
+    font-family: Oswald;
+}
+
+.curator-post-title {
+  padding:10px 10px 10px 0px;
+  background-color:#f9f9f9;
+  font-size:11px;
+}
 /*
 ----------------------------------------------
 Index
