@@ -6,6 +6,11 @@ class IdeasController < ApplicationController
     @idea = Idea.find(params[:id])  
   end
   
+  def index
+    @ideas = Idea.all.sort.paginate(:page => params[:page])
+    @admin = !current_user.nil? && current_user.has_role?(Role::SUPER_ADMIN)
+  end
+  
   def create
     if @idea.update_attributes(params[:idea])
       redirect_to feedback_path, :notice => I18n.t('idea_success')
@@ -19,11 +24,6 @@ class IdeasController < ApplicationController
       end 
       render 'static_pages/feedback'
     end
-  end
-  
-  def index
-    @ideas = Idea.all.sort.paginate(:page => params[:page])
-    @admin = !current_user.nil? && current_user.has_role?(Role::SUPER_ADMIN)
   end
   
   def destroy
