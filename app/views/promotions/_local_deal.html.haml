@@ -61,11 +61,12 @@
         %p 
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget enim non ante consectetur mollis at sit amet est. Donec nec volutpat velit. In lacus diam, consectetur quis sagittis ac, mollis vel augue. Ut mollis scelerisque lobortis. Pellentesque id eros eu lacus consequat mattis. Quisque eleifend dui vitae nunc bibendum rutrum. Quisque pulvinar, orci vestibulum venenatis mollis, urna nulla vehicula nisl, sit amet sagittis mi elit in quam. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
       #tab2
-        %p
-          Test
+        -#%p Test
     - if @show_buy_button
-      %button.btn.btn-danger 
-        = link_to 'Buy this now', order_promotion_path(@promotion)
+      .tab-bottom-button
+        = link_to 'Click here to buy this deal', order_promotion_path(@promotion)
+    
+        
     %p.limitations
       %br
       -#%em= @promotion.limitations 

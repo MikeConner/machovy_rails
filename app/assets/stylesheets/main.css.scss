@@ -405,7 +405,39 @@ Dropdown
 }
 
 
+ 
+.navbar .nav > li > .dropdown-menu:before {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: inline-block;
+  border-right: 0px solid transparent;
+  border-bottom: 0px solid #ccc;
+  border-left: 0px solid transparent;
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  content: '';
+}
 
+.navbar .nav > li > .dropdown-menu:after {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: inline-block;
+  border-right: 0px solid transparent;
+  border-bottom: 0px solid #ffffff;
+  border-left: 0px solid transparent;
+  content: '';
+}
+
+
+.categories {
+  background-color: white;
+  font-size: 13px;
+  width: 100%;
+  padding: 0 0 0 16px;
+}
+
+.categories a{color:#999999!important}.categories a:hover{color:white!important}.categoriess a:active{color:white!important}
 
 
 /*
@@ -417,11 +449,34 @@ Tabs
   overflow: auto;
   position: relative;
   bottom: 21px;
-  padding: 10px;
+  padding: 22px;
   border-right: 1px solid #ddd;
   border-left: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
 }
+
+.tab-bottom-button {
+  position: relative;
+  background-color: #dddddd;
+  bottom: 30px;
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.tab-bottom-button a {
+  font-family: Oswald;
+  color: #999;
+  font-size: 16px;
+  display:block;
+  padding:10px
+}
+
+.tab-bottom-button a:hover {
+  color: white;
+  background-color:#333;
+}
+
 
 .nav-tabs > li > a,
 .nav-pills > li > a {
@@ -461,39 +516,7 @@ Tabs
 
 
 .navbar .nav > li > a {padding:5px 15px 5px}
-  
-.navbar .nav > li > .dropdown-menu:before {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  display: inline-block;
-  border-right: 0px solid transparent;
-  border-bottom: 0px solid #ccc;
-  border-left: 0px solid transparent;
-  border-bottom-color: rgba(0, 0, 0, 0.2);
-  content: '';
-}
-
-.navbar .nav > li > .dropdown-menu:after {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  display: inline-block;
-  border-right: 0px solid transparent;
-  border-bottom: 0px solid #ffffff;
-  border-left: 0px solid transparent;
-  content: '';
-}
-
-
-.categories {
-  background-color: white;
-  font-size: 13px;
-  width: 100%;
-  padding: 0 0 0 16px;
-}
-
-.categories a{color:#999999!important}.categories a:hover{color:white!important}.categoriess a:active{color:white!important}
+ 
 
 /*
 ----------------------------------------------

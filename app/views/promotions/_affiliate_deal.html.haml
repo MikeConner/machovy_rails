@@ -8,9 +8,8 @@
     .row-fluid
       .span12
         - if @show_buy_button
-          %p
-            %button.btn.btn-danger 
-              = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank"
+          %button.btn.btn-danger 
+            = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank"
 .row-fluid
   .span12.product-detail
     %ul.nav.nav-tabs
@@ -22,7 +21,10 @@
       #tab1
         %p= @promotion.description
       #tab2
-        %p Test
+        -#%p Test
+    - if @show_buy_button
+      .tab-bottom-button
+        = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank"
 .space        
 .row-fluid
   - @curators.each do |curator|
