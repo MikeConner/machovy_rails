@@ -7,59 +7,72 @@
     If you're rejecting the changes, please tell us why below
     %br= text_area_tag 'comment', nil, :rows => 5, :class => "slider-input"
     = submit_tag 'Reject Machovy Changes', :class => "button big round"
+.row-fluid.product-line
+  .span4.product
+    %ul.rslides{:id => 'slider2'}
+      - if !@promotion.teaser_image.nil?
+        %li
+          = image_tag @promotion.teaser_image_url(:product_detail).to_s
+      -#- if !@promotion.main_image.nil?
+        %li
+          = image_tag @promotion.main_image_url(:product_detail).to_s
+      -#- @promotion.promotion_images.each do |slideshow|
+        %li
+          = image_tag slideshow.slideshow_image_url(:product_detail).to_s
+  .span8.product-detail
+    .row-fluid
+      %h3= @promotion.title
+    .row-fluid
+      .span2
+        %span.price-old= number_to_currency(@promotion.retail_value)
+        %span.price-new= number_to_currency(@promotion.price)
+      .span10
+        - if @show_buy_button
+          %button.btn.btn-large.btn-danger 
+            = link_to 'Buy this now', order_promotion_path(@promotion)
+    .row-fluid
+      .span12
+        %span= @promotion.quantity_description 
 .row-fluid
-  .span3.product
-    .carousel.slide.product-detal-slider
-      .carousel-inner
-        - if !@promotion.teaser_image.nil?
-          .item
-            = image_tag @promotion.teaser_image_url(:product_detail).to_s
-        - if !@promotion.main_image.nil?
-          .item
-            = image_tag @promotion.main_image_url(:product_detail).to_s
-        - @promotion.promotion_images.each do |slideshow|
-          .item
-            = image_tag slideshow.slideshow_image_url(:product_detail).to_s
-  .span6.product-detail
-    %h3= @promotion.title
-    %p
-      %button.btn.btn-small== #{number_to_percentage(@promotion.discount_pct, :precision => 0)} off
-      %button.btn.btn-small= @promotion.quantity_description
-      - if @show_buy_button
-        %button.btn.btn-small.btn-danger 
-          = link_to 'BUY IT', order_promotion_path(@promotion)
-      %button.btn.btn-small= number_to_currency(@promotion.price)
+  .span5.product
+    %table.table.table-condensed
+      %thead
+        %tr
+          %th Retail Value
+          %th Discount
+          %th You Save
+      %tbody
+        %tr
+          %td= number_to_currency(@promotion.retail_value)
+          %td= number_to_percentage(@promotion.discount_pct, :precision => 0)
+          %td= number_to_currency(@promotion.discount)
+  .span7.product-detail
+    -#%p= @promotion.description
+    %ul.nav.nav-tabs
+      %li
+        <a data-toggle="tab" href="#tab1">Description </a>
+      %li
+        <a data-toggle="tab" href="#tab2">Limitations</a>
+    .tab-content
+      #tab1
+        %p 
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget enim non ante consectetur mollis at sit amet est. Donec nec volutpat velit. In lacus diam, consectetur quis sagittis ac, mollis vel augue. Ut mollis scelerisque lobortis. Pellentesque id eros eu lacus consequat mattis. Quisque eleifend dui vitae nunc bibendum rutrum. Quisque pulvinar, orci vestibulum venenatis mollis, urna nulla vehicula nisl, sit amet sagittis mi elit in quam. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+      #tab2
+        %p
+          Test
+    - if @show_buy_button
+      %button.btn.btn-danger 
+        = link_to 'Buy this now', order_promotion_path(@promotion)
+    %p.limitations
+      %br
+      -#%em= @promotion.limitations 
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget enim non ante consectetur mollis at sit amet est. Donec nec volutpat velit.
 .row-fluid
-  .span12.cta
-    %p== Get #{number_to_percentage(@promotion.discount_pct, :precision => 0)} off #{number_to_currency(@promotion.retail_value)}
-  .row-fluid
-    .span5.product
-      %table.table.table-condensed
-        %thead
-          %tr
-            %th Retail Value
-            %th Discount
-            %th You Save
-        %tbody
-          %tr
-            %th= number_to_currency(@promotion.retail_value)
-            %th= number_to_percentage(@promotion.discount_pct, :precision => 0)
-            %th= number_to_currency(@promotion.discount)
-    .span7.product-detail
-      %p= @promotion.description
-      - if @show_buy_button
-        %button.btn.btn-small.btn-danger 
-          = link_to 'BUY IT', order_promotion_path(@promotion)
-      %p
-        %em= @promotion.limitations 
-.row-fluid
-  - @curators.each do |curator|
-    .span3
-      = link_to(image_tag(curator.picture_url(:contributor_photo).to_s), curator_path(curator))
-      = link_to curator.name, curator_path(curator)
-      %br/
-      - curator.blog_posts_for(@promotion).each do |post|
-        = link_to post.title, blog_post_path(post)
-
-
-
+- @curators.each do |curator|
+  .span3
+    = link_to(image_tag(curator.picture_url(:contributor_photo).to_s), curator_path(curator))
+    = link_to curator.name, curator_path(curator)
+    %br/
+    - curator.blog_posts_for(@promotion).each do |post|
+      = link_to post.title, blog_post_path(post)
+.push

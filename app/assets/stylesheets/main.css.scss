@@ -1,5 +1,11 @@
 /*
 ----------------------------------------------
+Variables
+----------------------------------------------*/
+$red: #ed464a;
+
+/*
+----------------------------------------------
 Basic Styles
 ----------------------------------------------*/
 body {
@@ -48,13 +54,12 @@ blockquote p {
   font-style: italic;
 }
 
-a {
-  color: #333;
-}
+a{color: #333; text-decoration:none;-webkit-transition:all .2s linear;-moz-transition:all .2s linear;-o-transition:all .2s linear;-ms-transition:all .2s linear;transition:all .2s linear}
+
 a:hover{
   color: #999;
+  text-decoration:none; 
 }
-
 
 /*
 ----------------------------------------------
@@ -69,33 +74,36 @@ h6 {
 ----------------------------------------------
 NavBar
 ----------------------------------------------*/
+header h1 {
+  line-height: 0px;
+  padding-left: 12px;
+  margin: 7px 0 10px 0;
+  width: 80%;
+}
 
 #nav .navbar-inner {
-  background-color: #F6F6F6;
+  min-height:25px;
   background-image: none;
   box-shadow: none;
-  border-bottom: 4px solid #E6E6E6;
-  padding: 4px 0px;
-  background-color: #2c2c2c;
-  background-image: -moz-linear-gradient(top, #F6F6F6, #F6F6F6);
-  background-image: -ms-linear-gradient(top, #F6F6F6, #F6F6F6);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#F6F6F6), to(#F6F6F6));
-  background-image: -webkit-linear-gradient(top, #F6F6F6, #F6F6F6);
-  background-image: -o-linear-gradient(top, #F6F6F6, #F6F6F6);
-  background-image: linear-gradient(top, #F6F6F6, #F6F6F6);
+  border-bottom: 2px solid #b6b6b6;
+  background-color: #333333;
+  background-image: -moz-linear-gradient(top, #333333, #333333);
+  background-image: -ms-linear-gradient(top, #333333, #333333);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#333333), to(#333333));
+  background-image: -webkit-linear-gradient(top, #333333, #333333);
+  background-image: -o-linear-gradient(top, #333333, #333333);
+  background-image: linear-gradient(top, #333333, #333333);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F6F6F6', endColorstr='#F6F6F6', GradientType=0);
-    -webkit-box-shadow: 0 4px 0px rgba(0,0,0,.45), inset 0 0px 0 rgba(0,0,0,.1);
-  -moz-box-shadow: 0 4px 0px rgba(0,0,0,.45), inset 0 0px 0 rgba(0,0,0,.1);
-  box-shadow: 0 0px 4px rgba(0,0,0,.45), inset 0 0px 0 rgba(0,0,0,.1);
-  padding-left: 40px;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#333333', endColorstr='#333333', GradientType=0);
 }
 #nav .nav li a {
   text-shadow: none;
   font-size: 12px;
+  color:white;
 }
 #nav .nav li a:hover {
-  color: #333;
+  color: white;
+    background-color:#ed464a;
 }
 
 .navbar .nav > .active > a,
@@ -122,9 +130,7 @@ NavBar
   border-bottom-color: #555;
   border-top-color: #555;
 }
-#nav .dropdown-menu a:hover {
-  color: #555 !important;
-}
+
 #nav .btn-navbar {
   background-color: #DDD;
   background-image: none;
@@ -197,19 +203,62 @@ NavBar
 }
 
 
+
+.header-fixed-top {
+  position: fixed;
+  width: 100%;
+  top: -22px;
+  padding-top: 60px;
+  z-index:200;
+  background-color: #F6F6F6;
+  background-image: none;
+  box-shadow: none;
+  border-bottom: 1px solid #E6E6E6;
+  background-color: #2c2c2c;
+  background-image: -moz-linear-gradient(top, #F6F6F6, #F6F6F6);
+  background-image: -ms-linear-gradient(top, #F6F6F6, #F6F6F6);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#F6F6F6), to(#F6F6F6));
+  background-image: -webkit-linear-gradient(top, #F6F6F6, #F6F6F6);
+  background-image: -o-linear-gradient(top, #F6F6F6, #F6F6F6);
+  background-image: linear-gradient(top, #F6F6F6, #F6F6F6);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F6F6F6', endColorstr='#F6F6F6', GradientType=0);
+    -webkit-box-shadow: 0 4px 0px rgba(0,0,0,.25), inset 0 0px 0 rgba(0,0,0,.1);
+  -moz-box-shadow: 0 4px 0px rgba(0,0,0,.25), inset 0 0px 0 rgba(0,0,0,.1);
+  box-shadow: 0 0px 4px rgba(0,0,0,.25), inset 0 0px 0 rgba(0,0,0,.1);
+}
+
+
+.sub-headline {
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  padding: 10px 0 2px 0;
+  letter-spacing: 0.25px;
+  display: inline-block;
+}
+
+
+.highlight {color:$red;}
+
+/*
+----------------------------------------------
+Search
+----------------------------------------------*/
+
+
+
+
 /*
 ----------------------------------------------
 Dropdown
 ----------------------------------------------*/
-.dropdown-menu {
 
-}
 .dropdown-menu .sub-menu {
     left: 100%;
     position: absolute;
     top: 0;
     visibility: hidden;
-    margin-top: -1px;
 }
 
 .dropdown-menu li:hover .sub-menu {
@@ -307,24 +356,112 @@ Dropdown
 .dropdown-menu li > a,
 .dropdown-menu .active > a,
 .dropdown-menu .active > a {
-    background-color: #f6f6f6;
-    border: 1px solid #f2f2f2;
+    background-color: #333333;
+    border: 1px solid #323232;
 }
 .dropdown-menu li > a:hover,
 .dropdown-menu .active > a,
 .dropdown-menu .active > a:hover {
-  background-color: #d6d6d6;
+  background-color: #333333;
+  color:white;
 }
+.dropdown-menu li > a:hover {color:white;}
 .well {
   box-shadow: none;
 }
-.nav-pills > .active > a,
-.nav-pills > .active > a:hover,
-.nav-list > .active > a,
-.nav-list > .active > a:hover {
-  background-color: #333;
+.nav-pills > li > a {
+  padding-top: 12px;
+  padding-bottom: 10px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
 }
 
+.nav-pills > .active > a, 
+.nav-pills > .active > a:hover {
+    color: #fff;
+    background-color:transparent;;
+}
+
+.nav-tabs .dropdown-toggle .caret, 
+.nav-pills .dropdown-toggle .caret,
+.nav-tabs .dropdown-toggle:hover .caret,
+.nav-pills .dropdown-toggle:hover .caret{
+    border-bottom-color: #e95850;
+    border-top-color: #e95850;
+}
+
+
+.nav-pills .dropdown-toggle:hover .caret:hover{
+    border-bottom-color: white;
+    border-top-color:white;
+}
+
+.nav-pills > li > a:hover{
+  color:#333333!important;
+  background-color: white;
+}
+
+
+
+
+
+/*
+----------------------------------------------
+Tabs
+----------------------------------------------*/
+
+.tab-content {
+  overflow: auto;
+  position: relative;
+  bottom: 21px;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.nav-tabs > li > a,
+.nav-pills > li > a {
+  padding-right: 15px;
+  padding-left:0;
+  margin-right: 2px;
+  line-height: 14px;
+}
+
+.nav-tabs > li > a {
+  padding: 10px 20px;
+  line-height: 20px;
+  border: 1px solid transparent;
+  -webkit-border-radius: 0px 0px 0 0;
+  -moz-border-radius: 0px 0px 0 0;
+  border-radius: 0px 0px 0 0;
+  background-color: #333;
+  color: white;
+  font-family: Oswald;
+  text-transform: uppercase;
+}
+
+.nav-tabs > li > a:hover   {
+  background-color:#aaa;
+}
+
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover {
+  color: #555555;
+  cursor: default;
+  background-color: #ffffff;
+  border-bottom-color: transparent;
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+
+.navbar .nav > li > a {padding:5px 15px 5px}
+  
 .navbar .nav > li > .dropdown-menu:before {
   position: absolute;
   top: 0px;
@@ -347,6 +484,16 @@ Dropdown
   border-left: 0px solid transparent;
   content: '';
 }
+
+
+.categories {
+  background-color: white;
+  font-size: 13px;
+  width: 100%;
+  padding: 0 0 0 16px;
+}
+
+.categories a{color:#999999!important}.categories a:hover{color:white!important}.categoriess a:active{color:white!important}
 
 /*
 ----------------------------------------------
@@ -391,6 +538,9 @@ Forms
 ----------------------------------------------
 Buttons
 ----------------------------------------------*/
+.btn a {color:white; font-family:Oswald; text-transform:uppercase;}
+
+
 .btn {
   border-color: #acacac !important;
   background: #dddddd;
@@ -759,8 +909,14 @@ Sign in / up
 }
 
 
-
-
+/*
+----------------------------------------------
+Limitations
+----------------------------------------------*/
+.limitations {
+  font-size:10px;
+  color:#999;
+}
 
 
 /*
@@ -768,9 +924,9 @@ Sign in / up
 Fixes / Hacks
 ----------------------------------------------*/
 
-.space {
-  margin: 25px 0px 15px 0px;
-}
+.space {margin: 25px 0px}
+.space-medium {margin:50px 0;}
+.space-large {margin:75px 0}
 .push{
   margin: 0px 0px 200px 0px;
 }
@@ -1244,4 +1400,127 @@ img.dashboard-member-activity-avatar {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+/*
+----------------------------------------------
+Deals Front Page
+----------------------------------------------*/
+
+.more-details {
+  margin:10px;
+}
+
+.more-details a {
+  margin:10px;
+  color:#666;
+  font-size:10px; 
+}
+
+.description {
+  padding: 10px;
+  margin: -30px 0 10px 0;
+  font-size: 12px;
+  color: #666;
+}
+
+.item-bottom-bar {
+  border-top: 1px solid #ededed;
+  background-color: #f6f6f6;
+}
+
+.item-title {
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  color: #333;
+  font-size: 15px;
+  letter-spacing: 1px;
+  line-height: 35px;
+  padding: 1px 5px 0px 10px;
+  background: white;
+  bottom: 22px;
+  font-weight: 300;
+  position: relative;
+  z-index: 0;
+}
+
+
+#listings-new {
+  margin-left:0px;
+}
+
+.item {
+  background-color: #fff;
+  margin: 5px -10px 0px -10px;
+  cursor: pointer;
+  background-color: #fff;
+  color: #333;
+  box-sizing: border-box;
+  border: 8px solid #FBFBFB;
+  position: relative;
+}
+
+
+
+.item-price {
+  color: #666;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 0;
+  width: auto;
+  padding: 1px 0 0 12px;
+}
+
+
+/*
+----------------------------------------------
+Local Deals Page
+----------------------------------------------*/
+
+.cta {
+  background-color:#f6f6f6;
+}
+
+.cta p {
+  font-family:Oswald;
+  padding:10px 0 0 10px;
+}
+
+.carousel { 
+  margin:0;
+}
+
+.product {
+  margin:0;
+  padding:0;
+}
+
+.product-line {
+  border-bottom:1px solid #e9e9e9;
+}
+
+.product-detail {
+  padding:25px 0 0 0;
+}
+
+.price-old {
+  color: #ccc;
+  text-decoration: line-through;
+  font-size: 16px;
+}
+
+.price-new {
+  color: $red;
+  font-size: 25px;
+  font-weight: bold;
+}
 

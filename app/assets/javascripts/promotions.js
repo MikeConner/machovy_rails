@@ -11,13 +11,27 @@ $(function() {
   		$('#promotion_revenue_shared').val(ui.value)
   	}
   });
-	$('.carousel').carousel()
+  $(".rslides").responsiveSlides();
+
+  $('#tab1 a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+  })
+
+$('#tab2 a').click(function (e) {
+  e.preventDefault();
+  $(this).tab('show');
+})
+	//$('.carousel').carousel() Calls bootstrap slider
 });
 
 // Appears in views/merchant/order/_order_form; currently commented out
 function update_amount(source, destination, unit_price) {
   $('#' + destination).val($('#' + source).val() * unit_price)
 }
+
+
+
 
 function munge_affiliate_url(source, destination) {
     var raw_url = $('#' + source).val();
@@ -37,3 +51,4 @@ function munge_affiliate_url(source, destination) {
 	               { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
 	             async: false}); 	    		
 }
+
