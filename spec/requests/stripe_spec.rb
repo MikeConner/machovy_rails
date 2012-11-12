@@ -20,7 +20,7 @@ describe "Ordering through Stripe" do
   describe "Sign in first" do
     before do
       # go to sign in page
-      click_link 'Sign In'
+      click_link 'Sign in / Register'
       # fill in info
       fill_in 'user_email', :with => user.email
       fill_in 'user_password', :with => user.password
@@ -28,13 +28,17 @@ describe "Ordering through Stripe" do
       click_button 'Sign in'      
     end
      
-    describe "Not a customer -- order without saving" do
+    describe "Not a customer -- order without saving (case 2)", :js => true do
+      let(:msg) { ActionMailer::Base.deliveries[0] }
       before do
         visit order_promotion_path(promotion)
         fill_in 'card_number', :with => '4242424242424242'
         fill_in 'card_code', :with => '444'
         click_button 'Get it NOW'
+        save_page
       end
+      
+      it { should have_content('Check your email for the details and voucher') }
       
       it "user should not have a customer id" do
         user.stripe_id.should be_nil
@@ -44,6 +48,35 @@ describe "Ordering through Stripe" do
         order.reload.charge_id.should_not be_nil
       end
       # check for voucher presence and email sending
+      
+      it "should have a voucher" do
+        #order.reload.vouchers.count.should == 1
+        Voucher.count.should == 1
+      end
+   
+      it "should have sent the email" do
+        ActionMailer::Base.deliveries.should_not be_empty
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+
+      it "should be sent to the right user" do
+        msg.to.to_s.should match(user.email)
+      end
+      
+      it "should have the right subject" do
+        msg.subject.should == UserMailer::ORDER_MESSAGE
+      end
+      
+      it "should have the right content" do
+        msg.body.encoded.should match('Thank you for your order')
+        msg.body.encoded.should match('See attachments for your voucher')
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+      
+      it "should have attachments" do
+        msg.attachments.count.should be == 1
+        msg.attachments[0].filename.should == Voucher.first.uuid + ".png"
+      end   
     end
   end
 
