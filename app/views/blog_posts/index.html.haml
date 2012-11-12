@@ -1,24 +1,40 @@
-%h1 Listing Blog Posts
-%table.table.zebra-striped
-  %tr
-    %th Title
-    %th Body
-    %th Posted
-    %th Active
-    %th Curator
-    %th Weight
-    - if admin_user?
-      %th
-  - @blog_posts.each do |post|
-    %tr
-      %td= link_to post.title, edit_blog_post_path(post)
-      %td= post.truncated_body(:length => 100)
-      %td== #{time_ago_in_words(post.created_at)} ago
-      - if post.activation_date > Time.now
-        %td== #{time_ago_in_words(post.activation_date)} ago
-      - else
-        %td== on #{time_ago_in_words(post.activation_date)}
-      %td= post.curator.nil? ? 'None' : post.curator.name
-      %td= post.weight
-      - if admin_user?
-        %td= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }
+.container
+  .row-fluid
+    .span3
+      = render :partial => 'admin_navigation'
+    .span9
+      .row-fluid
+        .span12.column
+          .box
+            %h4.box-header.round-top Form Control States
+            .box-container-toggle
+              .box-content
+                %form.form-horizontal
+                  %fieldset
+                    %legend
+                      %h3 Listing Blog Posts
+                    .row-fluid
+                      .span12
+                        %table.table.zebra-striped
+                          %tr
+                            %th Title
+                            %th Body
+                            %th Posted
+                            %th Active
+                            %th Curator
+                            %th Weight
+                            - if admin_user?
+                              %th
+                          - @blog_posts.each do |post|
+                            %tr
+                              %td= link_to post.title, edit_blog_post_path(post)
+                              %td= post.truncated_body(:length => 100)
+                              %td== #{time_ago_in_words(post.created_at)} ago
+                              - if post.activation_date > Time.now
+                                %td== #{time_ago_in_words(post.activation_date)} ago
+                              - else
+                                %td== on #{time_ago_in_words(post.activation_date)}
+                              %td= post.curator.nil? ? 'None' : post.curator.name
+                              %td= post.weight
+                              - if admin_user?
+                                %td= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }

@@ -1,20 +1,36 @@
-%h1 Curators
-- @curators.each do |curator|
+.container
   .row-fluid
     .span3
-      = link_to(image_tag(curator.picture_url(:contributor_photo).to_s), curator_path(curator))
-    .span3
-      - if admin_user?        
-        = button_to 'Delete', curator, method: :delete, data: { confirm: 'Are you sure?' }
-        = link_to curator.name, edit_curator_path(curator)
-      - else
-        = link_to curator.name, curator_path(curator)
-      = curator.bio
-      = curator.twitter
-    .span6
-      - curator.recent_posts.each do |post|
-        %h4= link_to post.title, blog_post_path(post)
-        %p= post.truncated_body
-- if admin_user?        
-  %br/
-  = link_to 'New Curator', new_curator_path
+      = render :partial => 'admin_navigation'
+    .span9
+      .row-fluid
+        .span12.column
+          .box
+            %h4.box-header.round-top Form Control States
+            .box-container-toggle
+              .box-content
+                %form.form-horizontal
+                  %fieldset
+                    %legend
+                      %h3 Curators
+                    .row-fluid
+                      .span12
+                        - @curators.each do |curator|
+                          .row-fluid
+                            .span3
+                              = link_to(image_tag(curator.picture_url(:contributor_photo).to_s), curator_path(curator))
+                            .span3
+                              - if admin_user?        
+                                = button_to 'Delete', curator, method: :delete, data: { confirm: 'Are you sure?' }
+                                = link_to curator.name, edit_curator_path(curator)
+                              - else
+                                = link_to curator.name, curator_path(curator)
+                              = curator.bio
+                              = curator.twitter
+                            .span6
+                              - curator.recent_posts.each do |post|
+                                %h4= link_to post.title, blog_post_path(post)
+                                %p= post.truncated_body
+                        - if admin_user?        
+                          %br/
+                          = link_to 'New Curator', new_curator_path

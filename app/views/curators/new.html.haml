@@ -1,6 +1,22 @@
-%h1 New Curator
-= form_for @curator do |f|
-  = render :partial => 'shared/error_messages', :locals => { :errors => @curator.errors, :name => 'Curator' }
-  = render :partial => 'curator_fields', :locals => { :f => f }
-  .actions
-    = f.submit 'Create Curator'
+.container
+  .row-fluid
+    .span3
+      = render :partial => 'admin_navigation'
+    .span9
+      .row-fluid
+        .span12.column
+          .box
+            %h4.box-header.round-top Form Control States
+            .box-container-toggle
+              .box-content
+                %form.form-horizontal
+                  %fieldset
+                    %legend
+                      %h3 New Curator
+                    .row-fluid
+                      .span12
+                        = form_for @curator do |f|
+                          = render :partial => 'shared/error_messages', :locals => { :errors => @curator.errors, :name => 'Curator' }
+                          = render :partial => 'curator_fields', :locals => { :f => f }
+                          .actions
+                            = f.submit 'Create Curator'

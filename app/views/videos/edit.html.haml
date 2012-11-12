@@ -1,6 +1,21 @@
-%h1 Edit Video
-= form_for @video do |f|
-  = render :partial => 'video_fields', :locals => { :f => f }
-  .actions
-    = f.submit "Update Video"
-  
+.container
+  .row-fluid
+    .span3
+      = render :partial => 'admin_navigation'
+    .span9
+      .row-fluid
+        .span12.column
+          .box
+            %h4.box-header.round-top Form Control States
+            .box-container-toggle
+              .box-content
+                %form.form-horizontal
+                  %fieldset
+                    %legend
+                      %h3 Edit Video
+                    .row-fluid
+                      .span12
+                        = form_for @video do |f|
+                          = render :partial => 'video_fields', :locals => { :f => f }
+                          .actions
+                            = f.submit "Update Video"

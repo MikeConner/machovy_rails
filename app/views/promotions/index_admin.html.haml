@@ -1,23 +1,38 @@
 = render :partial => 'shared/flash_messages'
-%h1 All promotions - Listing / Manage
-.portfolio-container
-  %h3 Promotions that need Machovy attention
-  - if 0 == @attention.count
-    None
-  - else
-    = render :partial => 'promotion_admin', :locals => { :p_list => @attention }
-  %h3 Pending Promotions
-  - if 0 == @pending.count
-    None
-  - else
-    = render :partial => 'promotion_admin', :locals => { :p_list => @pending }
-  %h3 Live Promotions
-  - if 0 == @live.count
-    None
-  - else
-    = render :partial => 'promotion_admin', :locals => { :p_list => @live }
-  %h3 Inactive Promotions
-  - if 0 == @inactive.count
-    None
-  - else
-    = render :partial => 'promotion_admin', :locals => { :p_list => @inactive }
+.container
+  .row-fluid
+    .span3
+      = render :partial => 'admin_navigation'
+    .span9
+      .row-fluid
+        .span12.column
+          .box
+            %h4.box-header.round-top All promotions - Listing / Manage
+            .box-container-toggle
+              .box-content
+                %form.form-horizontal
+                  %fieldset
+                    %legend
+                      %h3 Promotions that need Machovy attention
+                    .row-fluid
+                      .span12
+                        .portfolio-container
+                          - if 0 == @attention.count
+                            None
+                          - else
+                            = render :partial => 'promotion_admin', :locals => { :p_list => @attention }
+                          %h3 Pending Promotions
+                          - if 0 == @pending.count
+                            None
+                          - else
+                            = render :partial => 'promotion_admin', :locals => { :p_list => @pending }
+                          %h3 Live Promotions
+                          - if 0 == @live.count
+                            None
+                          - else
+                            = render :partial => 'promotion_admin', :locals => { :p_list => @live }
+                          %h3 Inactive Promotions
+                          - if 0 == @inactive.count
+                            None
+                          - else
+                            = render :partial => 'promotion_admin', :locals => { :p_list => @inactive }

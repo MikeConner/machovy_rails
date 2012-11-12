@@ -1,26 +1,35 @@
-.row-fluid
-  .span12
-    %h1 Front Page Manager
-    %em Promotions appear in order. Refresh the page after editing weights to re-order
-    %br
-    %br
-.row-fluid
-  .span12
-    - idx = 1
-    - @promotions.each do |promotion|
-      .row-fluid.fpm-row
-        .span3
-          = image_tag promotion.teaser_image_url(:product_detail).to_s
-        .span9
-          - if promotion.awaiting_machovy_action?
-            == #{idx}. #{link_to promotion.title, edit_promotion_path(promotion)} -- #{promotion.subtitle}
-          - else
-            == #{idx}. #{promotion.title} -- #{promotion.subtitle}
-          - if promotion.displayable?
-            %h4 Live
-          = form_for promotion, :remote => true, :method => :put, :url => update_weight_promotion_path(promotion) do |f|
-            .field
-              = f.label :grid_weight
-              = f.number_field :grid_weight, :min => 1, :id => "grid_weight_#{promotion.id}"
-            .actions
-              = f.submit 'Update weight'
+.container
+  .row-fluid
+    .span3
+      = render :partial => 'admin_navigation'
+    .span9
+      .row-fluid
+        .span12.column
+          .box
+            %h4.box-header.round-top Promotions appear in order. Refresh the page after editing weights to re-order
+            .box-container-toggle
+              .box-content
+                %form.form-horizontal
+                  %fieldset
+                    %legend
+                      %h3 Front Page Manager
+                    .row-fluid
+                      .span12
+                        - idx = 1
+                        - @promotions.each do |promotion|
+                          .row-fluid.fpm-row
+                            .span3
+                              = image_tag promotion.teaser_image_url(:product_detail).to_s
+                            .span9
+                              - if promotion.awaiting_machovy_action?
+                                == #{idx}. #{link_to promotion.title, edit_promotion_path(promotion)} -- #{promotion.subtitle}
+                              - else
+                                == #{idx}. #{promotion.title} -- #{promotion.subtitle}
+                              - if promotion.displayable?
+                                %h4 Live
+                              = form_for promotion, :remote => true, :method => :put, :url => update_weight_promotion_path(promotion) do |f|
+                                .field
+                                  = f.label :grid_weight
+                                  = f.number_field :grid_weight, :min => 1, :id => "grid_weight_#{promotion.id}"
+                                .actions
+                                  = f.submit 'Update weight'
