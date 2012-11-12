@@ -69,11 +69,6 @@
       -#%em= @promotion.limitations 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget enim non ante consectetur mollis at sit amet est. Donec nec volutpat velit.
 .row-fluid
-- @curators.each do |curator|
-  .span3
-    = link_to(image_tag(curator.picture_url(:contributor_photo).to_s), curator_path(curator))
-    = link_to curator.name, curator_path(curator)
-    %br/
-    - curator.blog_posts_for(@promotion).each do |post|
-      = link_to post.title, blog_post_path(post)
+  - @curators.each do |curator|
+    = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }
 .push
