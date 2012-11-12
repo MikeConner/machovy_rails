@@ -1,5 +1,5 @@
 module FeedbackShared
-  MAX_IDEAS = 3
+  MAX_IDEAS = 5
 
   def self.categories
     ['Question', 'Comment', 'Complaint']

@@ -10,7 +10,7 @@
   - if idea.average_rating.nil?
     &nbsp;&nbsp; - Unrated
   - else
-    == &nbsp;&nbsp; - Rated #{idea.average_rating} (#{idea.ratings.count} ratings; #{idea.num_comments} comments)
+    == &nbsp;&nbsp; - Rated #{idea.average_rating} (#{pluralize(idea.ratings.count, "rating")}; #{pluralize(idea.num_comments, "comment")})
   %br/
   = idea.content
   %br/

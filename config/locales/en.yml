@@ -7,6 +7,7 @@ en:
   already_rated: 'Looks like you already rated this idea.'
   anonymous: 'Anonymous'
   customer_service: 'If you have any questions at 3:00 am, call Arash on his cell phone...'
+  feedback_prompt: 'Tell us what you think!'
   feedback_thanks: "Thank you for your feedback!"
   foreign_promotion: 'This is not one of your promotions.'
   foreign_voucher: 'This is not one of your vouchers.'

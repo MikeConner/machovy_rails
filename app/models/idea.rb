@@ -39,6 +39,11 @@ class Idea < ActiveRecord::Base
   
   validates_associated :ratings
   
+  # This is used for pagination; it shows 30/page by default
+  def self.per_page
+    7
+  end
+  
   def average_rating
     if 0 == self.ratings.count
       nil
