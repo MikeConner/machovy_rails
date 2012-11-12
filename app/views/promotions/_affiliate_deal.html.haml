@@ -24,16 +24,5 @@
         = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank"
 .row-fluid
   - @curators.each do |curator|
-    .span3.curator-block
-      .row-fluid.curator-row
-        .span2
-          = link_to(image_tag(curator.picture_url(:contributor_photo).to_s), curator_path(curator))
-        .span10.curator-name
-          = link_to curator.name, curator_path(curator)
-      .row-fluid.curator-post-row
-        .span12.curator-post-title
-          - curator.blog_posts_for(@promotion).each do |post|
-            .icon-circle-arrow-right
-            = link_to truncate(post.title, :length => 50), blog_post_path(post)
-            %br/
+    = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }
     
