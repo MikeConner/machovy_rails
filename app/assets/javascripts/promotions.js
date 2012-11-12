@@ -13,12 +13,12 @@ $(function() {
   });
   $(".rslides").responsiveSlides();
 
-  $('#tab1 a').click(function (e) {
+  $('#tab1').click(function (e) {
     e.preventDefault();
     $(this).tab('show');
   })
 
-$('#tab2 a').click(function (e) {
+$('#tab2').click(function (e) {
   e.preventDefault();
   $(this).tab('show');
 })

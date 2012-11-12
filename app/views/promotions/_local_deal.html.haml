@@ -13,10 +13,10 @@
       - if !@promotion.teaser_image.nil?
         %li
           = image_tag @promotion.teaser_image_url(:product_detail).to_s
-      -#- if !@promotion.main_image.nil?
+      - if !@promotion.main_image.nil?
         %li
           = image_tag @promotion.main_image_url(:product_detail).to_s
-      -#- @promotion.promotion_images.each do |slideshow|
+      - @promotion.promotion_images.each do |slideshow|
         %li
           = image_tag slideshow.slideshow_image_url(:product_detail).to_s
   .span8.product-detail
@@ -52,21 +52,18 @@
   .span7.product-detail
     -#%p= @promotion.description
     %ul.nav.nav-tabs
-      %li
+      %li.active
         <a data-toggle="tab" href="#tab1">Description </a>
       %li
         <a data-toggle="tab" href="#tab2">Limitations</a>
     .tab-content
-      #tab1
-        %p 
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget enim non ante consectetur mollis at sit amet est. Donec nec volutpat velit. In lacus diam, consectetur quis sagittis ac, mollis vel augue. Ut mollis scelerisque lobortis. Pellentesque id eros eu lacus consequat mattis. Quisque eleifend dui vitae nunc bibendum rutrum. Quisque pulvinar, orci vestibulum venenatis mollis, urna nulla vehicula nisl, sit amet sagittis mi elit in quam. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-      #tab2
-        -#%p Test
+      #tab1.tab-pane.fade.in.active
+        %p= @promotion.description 
+      #tab2.tab-pane
+        %p= @promotion.limitations 
     - if @show_buy_button
       .tab-bottom-button
-        = link_to 'Click here to buy this deal', order_promotion_path(@promotion)
-    
-        
+        = link_to 'Click here to buy this deal', order_promotion_path(@promotion)   
     %p.limitations
       %br
       -#%em= @promotion.limitations 
