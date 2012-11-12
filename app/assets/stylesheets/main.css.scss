@@ -61,6 +61,13 @@ a:hover{
   text-decoration:none; 
 }
 
+.user-email {
+  color:$red;
+  padding:5px 0 0 10px;
+}
+
+
+
 /*
 ----------------------------------------------
 Headings
@@ -561,8 +568,18 @@ Forms
 ----------------------------------------------
 Buttons
 ----------------------------------------------*/
-.btn a {color:white; font-family:Oswald; text-transform:uppercase;}
+.btn-danger a {color:white!important; font-family:Oswald; text-transform:uppercase;}
+.btn a {color:#333; font-family:Oswald; text-transform:uppercase;}
 
+.btn-admin {
+  position: relative;
+  bottom: 42px;
+  margin:0 0 0 10px;
+}
+
+.btn-feedback {
+  margin:4px 0 0 0 ;
+}
 
 .btn {
   border-color: #acacac !important;
@@ -779,9 +796,9 @@ Curator
 }
 
 .curator-post-title {
-  padding:10px 10px 10px 0px;
-  background-color:#f9f9f9;
-  font-size:11px;
+  padding: 10px 10px 10px 0px;
+  background-color: #e1e1e1;
+  font-size: 11px;
 }
 /*
 ----------------------------------------------
