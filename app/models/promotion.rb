@@ -24,6 +24,7 @@
 #  slug                 :string(255)
 #  status               :string(16)      default("Proposed"), not null
 #  promotion_type       :string(16)      default("Deal"), not null
+#  subtitle             :string(255)
 #
 
 # CHARTER

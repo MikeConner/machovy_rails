@@ -11,7 +11,7 @@
     %br
     .btn.btn-large
       %i.icon-plus
-      = link_to 'Create a New Deal', new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)
+      = link_to I18n.t('create_promotion'), new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)
   .span4
     %h3 Ready To Publish
     - if 0 == @attention.count

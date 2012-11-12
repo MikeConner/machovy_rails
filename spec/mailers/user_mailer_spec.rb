@@ -106,7 +106,7 @@ describe "UserMailer" do
       end
       
       it "should have the right content" do
-        msg.body.encoded.should match('Thank you for redeeming your voucher')
+        msg.body.encoded.should match('Nice going on redeeming your voucher')
         msg.body.encoded.should match('We always appreciate feedback')
       
         ActionMailer::Base.deliveries.count.should == 1
@@ -148,7 +148,7 @@ describe "UserMailer" do
       
       it "should have the right content" do
         msg.body.encoded.should match("has 'unredeemed' your voucher")
-        msg.body.encoded.should match("It's available now for immediate use")
+        msg.body.encoded.should match("It's now available for immediate use")
         msg.body.encoded.should match(order.reload.vouchers.first.uuid)
       
         ActionMailer::Base.deliveries.count.should == 1
