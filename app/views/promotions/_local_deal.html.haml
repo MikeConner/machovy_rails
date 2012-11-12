@@ -68,7 +68,7 @@
       %br
       -#%em= @promotion.limitations 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget enim non ante consectetur mollis at sit amet est. Donec nec volutpat velit.
+.space-medium
 .row-fluid.well
   - @curators.each do |curator|
     = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }
-.push
