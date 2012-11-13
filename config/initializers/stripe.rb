@@ -2,7 +2,7 @@ if ENV['STRIPE_SECRET'].nil?
 	Stripe.api_key = "44"
 	# "sk_0INin2jwTLiOY4xFw8wLZO3DWQWul"
 else
-	Stripe.api.key = ENV['STRIPE_SECRET']
+	Stripe.api_key = ENV['STRIPE_SECRET']
 end
 
 if ENV['STRIPE_SECRET'].nil?
