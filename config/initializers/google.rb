@@ -1,5 +1,5 @@
 if ENV['GOOGLE_TA'].nil?
-	GOOGLE_TA = "44-1"
+	GOOGLE_TA = "UA-33770108-1"
 else
   GOOGLE_TA = ENV['GOOGLE_TA']
 end
