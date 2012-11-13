@@ -1,5 +1,1 @@
-if ENV['GOOGLE_TA'].nil?
-	GOOGLE_TA = "UA-33770108-1"
-else
-  GOOGLE_TA = ENV['GOOGLE_TA']
-end
+GOOGLE_TA = ENV['GOOGLE_TA']

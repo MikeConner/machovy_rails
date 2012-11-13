@@ -1,11 +1,7 @@
-if ENV['STRIPE_SECRET'].nil?
-	Stripe.api_key = "sk_0INin2jwTLiOY4xFw8wLZO3DWQWul"
+if Rails.env.production?
+  Stripe.api_key = ENV['STRIPE_SECRET_LIVE']
+  STRIPE_PUBLIC_KEY = ENV['STRIPE_PUBLIC_LIVE']
 else
-	Stripe.api_key = ENV['STRIPE_SECRET']
-end
-
-if ENV['STRIPE_SECRET'].nil?
-	STRIPE_PUBLIC_KEY = "pk_0INiaGmtnANOHmlgZKUD44MQ8Na41"
-else
-  STRIPE_PUBLIC_KEY = ENV['STRIPE_PUBLIC']
+  Stripe.api_key = ENV['STRIPE_SECRET_TEST']
+  STRIPE_PUBLIC_KEY = ENV['STRIPE_PUBLIC_TEST']
 end
