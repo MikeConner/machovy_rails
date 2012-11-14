@@ -1,49 +1,39 @@
-.container
+#content-header
+  %h1 Front Page Manager
+#breadcrumb
+  <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Home</a>
+  <a href="#" class="current">Front Page Manager</a>
+.container-fluid
   .row-fluid
-    .span3
-      = render :partial => 'shared/admin_navigation'
-    .span9
-      .row-fluid
-        .span12.column
-          .box
-            %h4.box-header.round-top 
-              Promotions appear in order. Refresh the page after editing weights to re-order
-            .box-container-toggle
-              .box-content
-                %form.form-horizontal
-                  %fieldset
-                    %legend
-                      %h3 Front Page Manager
-                      .btn.btn-admin.pull-right
-                        = link_to 'New Affiliate Deal', new_promotion_path(:promotion_type => Promotion::AFFILIATE)
-                      - if current_user.has_role?(Role::SALES_ADMIN)
-                        .btn.btn-admin.pull-right
-                          = link_to 'New Local Deal', new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)
-                    .row-fluid
-                      .span12
-                        - idx = 1
-                        - @promotions.each do |promotion|
-                          %table.table.table-bordered
-                            %thead
-                              %tr
-                                %th.span2 Thumbnail
-                                %th.span9 Title
-                                %th.span1 Status
-                            %tbody
-                              %tr
-                                %td 
-                                  = image_tag promotion.teaser_image_url(:product_detail).to_s 
-                                %td
-                                  - if promotion.awaiting_machovy_action?
-                                    == #{idx}. #{link_to promotion.title, edit_promotion_path(promotion)} -- #{promotion.subtitle}
-                                  - else
-                                    == #{idx}. #{promotion.title} -- #{promotion.subtitle}
-                                  = form_for promotion, :remote => true, :method => :put, :url => update_weight_promotion_path(promotion) do |f|
-                                    .field
-                                      = f.label :grid_weight
-                                      = f.number_field :grid_weight, :min => 1, :id => "grid_weight_#{promotion.id}"
-                                      .actions
-                                        = f.submit 'Update weight'  
-                                %td
-                                  - if promotion.displayable?
-                                    %p Live
+    .span12
+      .widget-box
+        .widget-title
+          %h5
+            Front Page Manager
+        .widget-content.nopadding
+          %table.table.table-bordered
+            %thead
+              %tr
+                %th.span2 Thumbnail
+                %th.span9 Title
+                %th.span1 Status
+            %tbody
+            - idx = 1
+            - @promotions.each do |promotion|
+              %tr
+                %td 
+                  = image_tag promotion.teaser_image_url(:product_detail).to_s 
+                %td
+                  - if promotion.awaiting_machovy_action?
+                    == #{idx}. #{link_to promotion.title, edit_promotion_path(promotion)} -- #{promotion.subtitle}
+                  - else
+                    == #{idx}. #{promotion.title} -- #{promotion.subtitle}
+                  = form_for promotion, :remote => true, :method => :put, :url => update_weight_promotion_path(promotion) do |f|
+                    .field
+                      = f.label :grid_weight
+                      = f.number_field :grid_weight, :min => 1, :id => "grid_weight_#{promotion.id}"
+                      .actions
+                        = f.submit 'Update weight' 
+                %td
+                  - if promotion.displayable?
+                    %p Live

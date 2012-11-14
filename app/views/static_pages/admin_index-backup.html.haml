@@ -1,0 +1,46 @@
+.container
+  .row-fluid
+    .span3
+      = render :partial => 'shared/admin_navigation'
+    .span9
+      .row-fluid
+        .span12.column
+          .box
+            %h4.box-header.round-top Form Control States
+            .box-container-toggle
+              .box-content
+                %form.form-horizontal
+                  %fieldset
+                    %legend
+                      %h3 Form Control States
+                    .control-group
+                      %label.control-label Focused Input
+                      .controls
+                        %input.input-xlarge.focused{:type => 'text', :value => 'This is focused'}
+                    .control-group
+                      %label.control-label Uneditable input
+                      .controls
+                        %span.input-xlarge.uneditable-input Some value here
+                    .control-group
+                      %label.control-label Focused Input
+                      .controls
+                        %input.input-xlarge.focused{:type => 'text', :value => 'This is focused'}
+                    .control-group.warning
+                      %label.control-label Input with warning
+                      .controls
+                        %input{:type => 'text'}
+                        %span.help-inline Something may have gone wrong
+                    .control-group.error
+                      %label.control-label Input with error
+                      .controls
+                        %input{:type => 'text'}
+                        %span.help-inline Please correct the error
+                    .control-group.success
+                      %label.control-label Input with success
+                      .controls
+                        %select
+                          %option 1
+                          %option 2
+                          %option 3
+                          %option 4
+                        %span.help-inline Woohoo!

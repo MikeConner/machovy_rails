@@ -5,6 +5,7 @@ class StaticPagesController < ApplicationController
   end
   
   def admin_index
+    render :layout => 'layouts/admin'
   end
 
   def get_featured

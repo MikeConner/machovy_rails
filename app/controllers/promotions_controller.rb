@@ -165,11 +165,12 @@ class PromotionsController < ApplicationController
       # Sales admins can create local deals, too; fall through and render new
       @promotion.promotion_type = params[:promotion_type]
       if Promotion::AD == params[:promotion_type] or Promotion::AFFILIATE == params[:promotion_type]
-        render 'new_ad' and return
+        render 'new_ad', :layout => 'layouts/admin' and return
       elsif !current_user.has_role?(Role::SALES_ADMIN)
         redirect_to promotions_path, :alert => 'Can only create ads and affiliate promotions'
       end
-    end
+    end 
+    render :layout => 'layouts/admin'
   end
 
   # GET /promotions/1/edit

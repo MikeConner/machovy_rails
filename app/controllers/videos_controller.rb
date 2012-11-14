@@ -15,6 +15,7 @@ class VideosController < ApplicationController
   # GET /videos/new
   def new
     @video = Video.new
+    render :layout => 'layouts/admin'
   end
 
   # GET /videos/1/edit

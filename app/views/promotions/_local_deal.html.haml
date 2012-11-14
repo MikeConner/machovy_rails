@@ -58,8 +58,10 @@
         <a data-toggle="tab" href="#tab2">Limitations</a>
     .tab-content
       #tab1.tab-pane.fade.in.active
+        %h4.tab-title Product Description
         %p= @promotion.description 
       #tab2.tab-pane
+        %h4.tab-title Product Limitations
         %p= @promotion.limitations 
     - if @show_buy_button
       .tab-bottom-button

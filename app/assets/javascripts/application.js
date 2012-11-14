@@ -13,4 +13,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require admin/excanvas.min
+//= require admin/fullcalendar.min
+//= require admin/jquery.flot.min
+//= require admin/jquery.flot.resize.min
+//= require admin/unicorn
+//= require admin/unicorn.dashboard
 //= require_tree .
