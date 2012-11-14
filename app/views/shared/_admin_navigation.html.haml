@@ -1,36 +1,47 @@
-.container
-  .row-fluid
-    .span3
-      .sidebar-nav
-        .well{:style => 'padding:0;'}
-          %ul.nav.nav-list
-            %li.nav-header Main
+#header
+  %h1 
+    = link_to(image_tag("logo-white.png"))
+#user-nav.navbar.navbar-inverse 
+  %ul.nav.btn-group{:style => 'width:auto; margin:0px;'}
+    %li.btn.btn-inverse
+      %a Profile
+    %li.btn.btn-inverse
+      %a Settings
+    %li.btn.btn-inverse
+      %a Logout
+#sidebar
+  %ul{:style => 'display:block;'}
+    %li.submenu
+      = link_to 'Dashboard'
+      %ul
+        %li 
+          = link_to 'Front Page Manager', manage_promotions_path
+        %li 
+          = link_to 'New Advertising Deal', new_promotion_path(:promotion_type => Promotion::AD)
+        %li
+          = link_to 'New Affiliate Deal', new_promotion_path(:promotion_type => Promotion::AFFILIATE)
+        - if current_user.has_role?(Role::SALES_ADMIN)
+          %li
+            = link_to 'New Local Deal', new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)
+        %li
+          = link_to 'New Blog Post', new_blog_post_path
+        %li
+          = link_to 'New Video', new_video_path
+        %li
+          = link_to 'Manage Blog Posts', blog_posts_path
+        %li
+          = link_to 'Manage Videos', videos_path                  
+      - if current_user.has_role?(Role::SUPER_ADMIN)
+        %li.submenu
+          = link_to 'Admin Area'
+          %ul
             %li
-              = link_to 'Front Page Manager', manage_promotions_path
+              = link_to 'Review Vendor Promotions', promotions_path
             %li
-              = link_to 'New Advertising Deal', new_promotion_path(:promotion_type => Promotion::AD)
+              = link_to 'Manage Curators', curators_path 
             %li
-              = link_to 'New Affiliate Deal', new_promotion_path(:promotion_type => Promotion::AFFILIATE)
-            - if current_user.has_role?(Role::SALES_ADMIN)
-              %li
-                = link_to 'New Local Deal', new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)
+              = link_to 'Manage Metro Areas', metros_path
             %li
-              = link_to 'New Blog Post', new_blog_post_path
+              = link_to 'Manage Users', manage_users_path
             %li
-              = link_to 'New Video', new_video_path
-            %li
-              = link_to 'Manage Blog Posts', blog_posts_path
-            %li
-              = link_to 'Manage Videos', videos_path                  
-            - if current_user.has_role?(Role::SUPER_ADMIN)
-              %li.nav-header Advanced Area
-              %li
-                = link_to 'Review Vendor Promotions', promotions_path
-              %li
-                = link_to 'Manage Curators', curators_path
-              %li
-                = link_to 'Manage Metro Areas', metros_path
-              %li
-                = link_to 'Manage Users', manage_users_path
-              %li
-                = link_to 'Manage Merchants', merchant_vendors_path
+              = link_to 'Manage Merchants', merchant_vendors_path

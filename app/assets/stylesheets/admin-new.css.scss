@@ -1,3 +1,4 @@
+
 /**
  * Machovy Back-End Template
  * 
@@ -76,14 +77,14 @@ body {
 
 .dropdown-menu li a:hover, .dropdown-menu .active a, .dropdown-menu .active a:hover {
     color: #eeeeee;
-  background-color: #444444;
-    background-image: -webkit-gradient(linear, 0 0%, 0 100%, #555555, #222222);
+    background-color: #444444;
+    background-image: -webkit-gradient(linear, 0 0%, 0 100%, #555555, #222222 100%);
     background-image: -webkit-linear-gradient(top, #555555 0%, #222222 100%);
     background-image: -moz-linear-gradient(top, #555555 0%, #222222 100%);
     background-image: -ms-linear-gradient(top, #555555 0%, #222222 100%);
     background-image: -o-linear-gradient(top, #555555 0%, #222222 100%);
     background-image: linear-gradient(top, #555555 0%, #222222 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#555555', endColorstr='#222222',GradientType=0 ); /* IE6-9 */
+
 }
 
 @media (max-width: 480px) {
@@ -106,16 +107,6 @@ body {
 
 
 
-/**
-  **
-  **
-**/
-
-
-/**
- * Unicorn Admin Template
- * Diablo9983 -> diablo9983@gmail.com
-**/
 * {
   outline:none !important;
   -moz-outline: none !important;
@@ -138,15 +129,12 @@ a:hover {
 }
 
 #header h1 {
-    background: url("../img/logo.png") no-repeat scroll 0 0 transparent;
-    height: 31px;
-    left: 15px;
-    line-height: 600px;
-    overflow: hidden;
-    position: relative;
-    top: 24px;
-    width: 191px;
-    background-size: 180px;
+  height: 31px;
+  left: 25px;
+  position: relative;
+  top: 12px;
+  width: 165px;
+  background-size: 180px;
 }
 
 #header h1 a {
@@ -254,6 +242,7 @@ a:hover {
   padding: 0;
   position: absolute;
   width: 220px;
+  top:-12px;
 }
 #sidebar > ul > li {
   display: block; 
@@ -1285,7 +1274,7 @@ span.icon .checker {
     background-image: -moz-linear-gradient(center top , #555555, #222222) !important;
     background-image: -ms-linear-gradient(top, #555555, #222222) !important;
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#555555), to(#222222)) !important;
-    background-image: -webkit-linear-gradient(top, #555555, #222222); !important
+    background-image: -webkit-linear-gradient(top, #555555, #222222)important;
     background-image: -o-linear-gradient(top, #555555, #222222) !important;
     background-image: linear-gradient(top, #555555, #222222) !important;
     color: #ffffff !important;
@@ -1531,7 +1520,9 @@ form {
 
 @media (min-width: 481px) and (max-width: 767px) {
   #header h1 {
-    top: 3px;
+    top: -7px;
+    left: 62px;
+    width: 140px;
   }
   #sidebar, #sidebar > ul {
     width: 43px;
@@ -1631,5 +1622,3 @@ form {
     text-align: center;
   }
 }
-
-

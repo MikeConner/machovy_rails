@@ -452,11 +452,17 @@ Dropdown
 Tabs
 ----------------------------------------------*/
 
+.tab-title {
+  border-bottom:1px solid #eee;
+  padding-bottom:5px;  
+  margin-bottom:15px;
+}
+
 .tab-content {
   overflow: auto;
   position: relative;
   bottom: 21px;
-  padding: 22px;
+  padding: 10px 22px 22px 22px;
   border-right: 1px solid #ddd;
   border-left: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
@@ -1494,9 +1500,12 @@ Deals Front Page
 
 .description {
   padding: 10px;
-  margin: -30px 0 10px 0;
+  margin: -85px 0 10px 0;
   font-size: 12px;
   color: #666;
+  background-color:white;
+  position:relative;
+  display:block;
 }
 
 .item-bottom-bar {
@@ -1507,16 +1516,30 @@ Deals Front Page
 .item-title {
   font-family: 'Oswald', sans-serif;
   text-transform: uppercase;
-  color: #333;
-  font-size: 15px;
+  color: white;
+  font-size: 12px;
   letter-spacing: 1px;
-  line-height: 35px;
+  line-height: 28px;
   padding: 1px 5px 0px 10px;
-  background: white;
-  bottom: 22px;
-  font-weight: 300;
+  background: $red;
+  bottom: 100px;
+  font-weight: 500;
   position: relative;
   z-index: 0;
+  left:10px;
+  width:60%;
+}
+
+.item-sub-title {
+    position:relative;
+    bottom: 100px;
+    background-color: #333;
+    color: white;
+    line-height: 20px;
+    padding: 1px 10px;
+    left: 10px;
+    width: 48%;
+    font-size: 11px;
 }
 
 
@@ -1526,12 +1549,12 @@ Deals Front Page
 
 .item {
   background-color: #fff;
-  margin: 5px -10px 0px -10px;
+  margin: 5px 0px 20px -10px;
   cursor: pointer;
   background-color: #fff;
   color: #333;
   box-sizing: border-box;
-  border: 8px solid #FBFBFB;
+  border: 4px solid #FBFBFB;
   position: relative;
 }
 
@@ -1589,4 +1612,7 @@ Local Deals Page
   font-size: 25px;
   font-weight: bold;
 }
+
+
+
 

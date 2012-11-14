@@ -28,6 +28,7 @@ class BlogPostsController < ApplicationController
   # GET /blog_posts/new
   def new
     @blog_post = BlogPost.new
+    render :layout => 'layouts/admin'
   end
 
   # GET /blog_posts/1/edit
