@@ -17,12 +17,12 @@ describe "Demo spec" do
       #sign_in_as_a_valid_user
       sign_in_as_a_vendor
       # go to sign in page
-      click_link 'Sign In'
+      click_link I18n.t('sign_in_register')
       # fill in info
       fill_in 'user_email', :with => @user.email
       fill_in 'user_password', :with => @user.password
       # Authenticate
-      click_button 'Sign in'      
+      click_button I18n.t('sign_in')    
     end
     
     it "should redirect to promotions on vendor signup" do
@@ -81,8 +81,7 @@ describe "Demo spec" do
           end
           
           it { should have_selector('h3', :text => @p.title) }
-          it { should have_xpath("//div[@class='carousel-inner']") }
-          it { should have_content("Get 50% off $200.00") }
+          it { should have_xpath("//ul[@class='rslides']") }
           # Matching the whole description doesn't work because of truncation; just match part of it
           it { should have_content(@p.description[0, 24]) }
         end  
