@@ -2,10 +2,15 @@ class BlogPostsController < ApplicationController
   before_filter :authenticate_user!, :except => [:show]
   load_and_authorize_resource
 
+  include ApplicationHelper
+
   # GET /blog_posts
   def index
     # Without default scope, need to explicitly order it
     @blog_posts = BlogPost.order(:weight)
+    if admin_user?
+      render :layout => 'layouts/admin'
+    end
   end
 
   # GET /blog_posts/1
@@ -34,6 +39,7 @@ class BlogPostsController < ApplicationController
   # GET /blog_posts/1/edit
   def edit
     @blog_post = BlogPost.find(params[:id])
+    render :layout => 'layouts/admin'
   end
 
   # POST /blog_posts
@@ -43,7 +49,7 @@ class BlogPostsController < ApplicationController
     if @blog_post.save
       redirect_to @blog_post, notice: 'Blog post was successfully created.'
     else
-      render 'new'
+      render 'new', :layout => 'layouts/admin'
     end
   end
 
@@ -54,7 +60,7 @@ class BlogPostsController < ApplicationController
     if @blog_post.update_attributes(params[:blog_post])
       redirect_to @blog_post, notice: 'Blog post was successfully updated.'
     else
-      render 'edit'
+      render 'edit', :layout => 'layouts/admin'
     end
   end
 

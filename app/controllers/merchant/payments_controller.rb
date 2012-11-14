@@ -6,6 +6,7 @@ class Merchant::PaymentsController < Merchant::BaseController
     init_vouchers(params[:vendor_id])
     
     @payment = @vendor.payments.build(:amount => @vendor.amount_owed, :check_date => Time.now.beginning_of_day)
+    render :layout => 'layouts/admin'
   end
   
   def create
@@ -28,7 +29,7 @@ class Merchant::PaymentsController < Merchant::BaseController
       
       redirect_to show_payments_merchant_vendor_path(@vendor), notice: I18n.t('payment_processed')
     else
-      render 'new'
+      render 'new', :layout => 'layouts/admin'
     end    
   end
   

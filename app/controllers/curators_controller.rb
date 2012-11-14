@@ -1,10 +1,15 @@
 class CuratorsController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show]
   load_and_authorize_resource
-
+  
+  include ApplicationHelper
+  
   # GET /curators
   def index
     @curators = Curator.all
+    if admin_user?
+      render :layout => 'layouts/admin'
+    end
   end
 
   # GET /curators/1
@@ -26,11 +31,13 @@ class CuratorsController < ApplicationController
   # GET /curators/new
   def new
     @curator = Curator.new
+    render :layout => 'layouts/admin'
   end
 
   # GET /curators/1/edit
   def edit
     @curator = Curator.find(params[:id])
+    render :layout => 'layouts/admin'
   end
 
   # POST /curators
@@ -39,7 +46,7 @@ class CuratorsController < ApplicationController
     if @curator.save
       redirect_to @curator, notice: 'Curator was successfully created.'
     else
-      render 'new'
+      render 'new', :layout => 'layouts/admin'
     end
   end
 
@@ -49,7 +56,7 @@ class CuratorsController < ApplicationController
     if @curator.update_attributes(params[:curator])
       redirect_to @curator, notice: 'Curator was successfully updated.'
     else
-      render 'edit'
+      render 'edit', :layout => 'layouts/admin'
     end
   end
 

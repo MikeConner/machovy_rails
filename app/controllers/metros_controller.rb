@@ -8,6 +8,7 @@ class MetrosController < ApplicationController
   # GET /metros
   def index
     @metros = Metro.order(:name)
+    render :layout => 'layouts/admin'
   end
 
   # GET /metros/1
@@ -18,11 +19,13 @@ class MetrosController < ApplicationController
   # GET /metros/new
   def new
     @metro = Metro.new
+    render :layout => 'layouts/admin'
   end
 
   # GET /metros/1/edit
   def edit
     @metro = Metro.find(params[:id])
+    render :layout => 'layouts/admin'
   end
 
   # POST /metros
@@ -31,7 +34,7 @@ class MetrosController < ApplicationController
     if @metro.save
       redirect_to @metro, notice: 'Metro was successfully created.'
     else
-      render 'new'
+      render 'new', :layout => 'layouts/admin'
     end
   end
 
@@ -41,7 +44,7 @@ class MetrosController < ApplicationController
     if @metro.update_attributes(params[:metro])
       redirect_to @metro, notice: 'Metro was successfully updated.'
     else
-      render 'edit'
+      render 'edit', :layout => 'layouts/admin'
     end
   end
 

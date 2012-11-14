@@ -58,10 +58,15 @@ class Merchant::VendorsController < Merchant::BaseController
         end
       end
     end
+    
+    if admin_user?
+      render :layout => 'layouts/admin'
+    end
   end
 
   # GET /vendors
   def index
+    render :layout => 'layouts/admin'
   end
 
   # GET /vendors/1
@@ -72,11 +77,13 @@ class Merchant::VendorsController < Merchant::BaseController
   # GET /vendors/new
   def new
     @vendor = Vendor.new
+    render :layout => 'layouts/admin'
   end
 
   # GET /vendors/1/edit
   def edit
     @vendor = Vendor.find(params[:id])
+    render :layout => 'layouts/admin'
   end
 
   # POST /vendors
@@ -85,7 +92,7 @@ class Merchant::VendorsController < Merchant::BaseController
     if @vendor.save
       redirect_to [:merchant, @vendor], notice: I18n.t('vendor_created')
     else
-      render 'new'
+      render 'new', :layout => 'layouts/admin'
     end
   end
 
@@ -95,7 +102,7 @@ class Merchant::VendorsController < Merchant::BaseController
     if @vendor.update_attributes(params[:vendor])
       redirect_to show_payments_merchant_vendor_path(@vendor), notice: 'Vendor was successfully updated.'
     else
-      render 'edit'
+      render 'edit', :layout => 'layouts/admin'
     end
   end
 

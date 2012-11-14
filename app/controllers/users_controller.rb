@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   load_and_authorize_resource
 
   def manage
+    render :layout => 'layouts/admin'
   end
   
   def promote

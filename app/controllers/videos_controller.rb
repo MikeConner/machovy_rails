@@ -2,9 +2,14 @@
 class VideosController < ApplicationController
   load_and_authorize_resource
 
+  include ApplicationHelper
+  
   # GET /videos
   def index
     @curators = Curator.all
+    if admin_user?
+      render :layout => 'layouts/admin'
+    end
   end
 
   # GET /videos/1
@@ -21,6 +26,7 @@ class VideosController < ApplicationController
   # GET /videos/1/edit
   def edit
     @video = Video.find(params[:id])
+    render :layout => 'layouts/admin'
   end
 
   # POST /videos
@@ -29,7 +35,7 @@ class VideosController < ApplicationController
     if @video.save
       redirect_to @video, notice: 'Video was successfully created.'
     else
-      render 'new'
+      render 'new', :layout => 'layouts/admin'
     end
   end
 
@@ -39,7 +45,7 @@ class VideosController < ApplicationController
     if @video.update_attributes(params[:video])
       redirect_to @video, notice: 'Video was successfully updated.'
     else
-      render 'edit'
+      render 'edit', :layout => 'layouts/admin'
     end
   end
 

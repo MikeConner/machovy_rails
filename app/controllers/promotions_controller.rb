@@ -81,7 +81,7 @@ class PromotionsController < ApplicationController
         end
       end
       
-      render 'index_admin' and return
+      render 'index_admin', :layout => 'layouts/admin' and return
     else
       redirect_to root_path, :alert => 'admins_only'
     end
@@ -170,7 +170,10 @@ class PromotionsController < ApplicationController
         redirect_to promotions_path, :alert => 'Can only create ads and affiliate promotions'
       end
     end 
-    render :layout => 'layouts/admin'
+    
+    if admin_user?
+      render :layout => 'layouts/admin'
+    end
   end
 
   # GET /promotions/1/edit
@@ -179,6 +182,9 @@ class PromotionsController < ApplicationController
     # Don't order metros by name, or Pittsburgh won't be first
     @metros = Metro.all
     @categories = Category.order(:name)
+    if admin_user?
+      render :layout => 'layouts/admin'
+    end
   end
 
   # POST /promotions
@@ -203,9 +209,9 @@ class PromotionsController < ApplicationController
       redirect_to @promotion, :notice => message
     else
       if Promotion::LOCAL_DEAL == @promotion.promotion_type
-        render 'new'
+        render 'new', :layout => admin_user? ? 'layouts/admin' : 'layouts/application'
       else
-        render 'new_ad'
+        render 'new_ad', :layout => 'layouts/admin'
       end
     end
   end
@@ -251,7 +257,7 @@ class PromotionsController < ApplicationController
       
       redirect_to promotions_path, notice: I18n.t('promotion_updated')
     else
-      render 'edit'  
+      render 'edit', :layout => admin_user? ? 'layouts/admin' : 'layouts/application'  
     end    
   end
 
