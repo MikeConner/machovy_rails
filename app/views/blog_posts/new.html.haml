@@ -1,23 +1,19 @@
-.container
+#content-header
+  %h1 New Blog Post
+#breadcrumb
+  <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Home</a>
+  <a href="#" class="current">Front Page Manager</a>
+.container-fluid
   .row-fluid
-    .span3
-      = render :partial => 'shared/admin_navigation'
-    .span9
-      .row-fluid
-        .span12.column
-          .box
-            %h4.box-header.round-top Form Control States
-            .box-container-toggle
-              .box-content
-                %form.form-horizontal
-                  %fieldset
-                    %legend
-                      %h3 New Blog Post
-                    .row-fluid
-                      .span12
-                        = javascript_include_tag "ckeditor/init"
-                        = form_for @blog_post do |f|
-                          = render :partial => 'shared/error_messages', :locals => { :errors => @blog_post.errors, :name => 'Blog Post' }
-                          = render :partial => 'blog_fields', :locals => { :f => f }
-                          .actions
-                            = f.submit 'Create Blog Post'
+    .span12
+      .widget-box
+        .widget-title
+          %h5 Front Page Manager
+        .widget-content.nopadding
+          %form.form-horizontal
+            = javascript_include_tag "ckeditor/init"
+            = form_for @blog_post do |f|
+              = render :partial => 'shared/error_messages', :locals => { :errors => @blog_post.errors, :name => 'Blog Post' }
+              = render :partial => 'blog_fields', :locals => { :f => f }
+              .actions
+                = f.submit 'Create Blog Post'

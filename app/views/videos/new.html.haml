@@ -1,21 +1,20 @@
-.container
+#content-header
+  %h1 Form Control States
+#breadcrumb
+  <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Home</a>
+  <a href="#" class="current">Front Page Manager</a>
+.container-fluid
   .row-fluid
-    .span3
-      = render :partial => 'shared/admin_navigation'
-    .span9
-      .row-fluid
-        .span12.column
-          .box
-            %h4.box-header.round-top Form Control States
-            .box-container-toggle
-              .box-content
-                %form.form-horizontal
-                  %fieldset
-                    %legend
-                      %h3 New Video
-                    .row-fluid
-                      .span12
-                        = form_for @video do |f|
-                          = render :partial => 'video_fields', :locals => { :f => f }
-                          .actions
-                            = f.submit "Create Video"
+    .span12
+      .widget-box
+        .widget-title
+          %h5 Front Page Manager
+        .widget-content.nopadding
+          %form.form-horizontal
+            %h3 New Video
+            .row-fluid
+              .span12
+                = form_for @video do |f|
+                  = render :partial => 'video_fields', :locals => { :f => f }
+                  .actions
+                    = f.submit "Create Video"

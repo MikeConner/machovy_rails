@@ -1,77 +1,74 @@
-.container
+#content-header
+  %h1== New #{@promotion.promotion_type}
+#breadcrumb
+  <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Home</a>
+  <a href="#" class="current">Front Page Manager</a>
+.container-fluid
   .row-fluid
-    .span3
-      = render :partial => 'shared/admin_navigation'
-    .span9
-      .row-fluid
-        .span12.column
-          .box
-            %h4.box-header.round-top Form Control States
-            .box-container-toggle
-              .box-content
-                %form.form-horizontal
-                  %fieldset
-                    %legend
-                      %h3== New #{@promotion.promotion_type}
-                    .row-fluid
-                      .span12
-                        = form_for @promotion, :html => { multipart: true } do |f|
-                          = render :partial => 'shared/error_messages', :locals => { :errors => @promotion.errors, :name => 'Promotion' }
-                          = f.hidden_field :promotion_type
-                          .field
-                            = f.label :metro_id
-                            %br/
-                            = f.collection_select :metro_id, @metros, :id, :name 
-                          .field
-                            = f.label :vendor_id
-                            %br/
-                            = f.collection_select :vendor_id, @vendors, :id, :name 
-                            = link_to 'New Vendor', new_merchant_vendor_path
-                          .field
-                            = f.label :title
-                            %br/
-                            = f.text_field :title, :size => Promotion::MAX_TITLE_LEN
-                          .field
-                            = f.label :subtitle
-                            %br/
-                            = f.text_field :subtitle, :size => Promotion::MAX_TITLE_LEN
-                          .field
-                            = f.label :destination
-                            %br/
-                            - @affiliate = Promotion::AFFILIATE == @promotion.promotion_type
-                            - if @affiliate
-                              %em Copy the raw url here; it will be converted to an affiliate link and appear in the destination box below
-                              %br/
-                              = text_field_tag 'raw_affiliate_url', nil, :onchange => "munge_affiliate_url('raw_affiliate_url', 'promotion_destination')"
-                              = f.hidden_field :destination
-                            - else
-                              = f.text_field :destination
-                          .field
-                            = f.label :description
-                            %br/
-                            = f.text_area :description, :size => "60x12"
-                          .field
-                            = f.label :grid_weight
-                            = f.number_field :grid_weight, :min => 1
-                          .field
-                            = f.label :teaser_image
-                            %br/
-                            = f.file_field :teaser_image
-                          .field
-                            = f.label :remote_teaser_image_url, "or image URL"
-                            %br/
-                            = f.text_field :remote_teaser_image_url
-                          .field
-                            = f.label :start_date
-                            %br/
-                            = f.date_select :start_date, :order => [:month, :day, :year]
-                          .field
-                            = f.label :end_date
-                            %br/
-                            = f.date_select :end_date, :order => [:month, :day, :year]
-                          .field
-                            = f.label :categories
-                            %br/
-                            = f.collection_select(:category_ids, @categories, :id, :name, {}, { :multiple => true })
-                          .actions
-                            = f.submit "Create #{@promotion.promotion_type}"
+    .span12
+      .widget-box
+        .widget-title
+          %h5== New #{@promotion.promotion_type}
+        .widget-content.nopadding
+          %form.form-horizontal
+            %fieldset
+              = form_for @promotion, :html => { multipart: true } do |f|
+                = render :partial => 'shared/error_messages', :locals => { :errors => @promotion.errors, :name => 'Promotion' }
+                = f.hidden_field :promotion_type
+                .field
+                  = f.label :metro_id
+                  %br/
+                  = f.collection_select :metro_id, @metros, :id, :name 
+                .field
+                  = f.label :vendor_id
+                  %br/
+                  = f.collection_select :vendor_id, @vendors, :id, :name 
+                  = link_to 'New Vendor', new_merchant_vendor_path
+                .field
+                  = f.label :title
+                  %br/
+                  = f.text_field :title, :size => Promotion::MAX_TITLE_LEN
+                .field
+                  = f.label :subtitle
+                  %br/
+                  = f.text_field :subtitle, :size => Promotion::MAX_TITLE_LEN
+                .field
+                  = f.label :destination
+                  %br/
+                  - @affiliate = Promotion::AFFILIATE == @promotion.promotion_type
+                  - if @affiliate
+                    %em Copy the raw url here; it will be converted to an affiliate link and appear in the destination box below
+                    %br/
+                    = text_field_tag 'raw_affiliate_url', nil, :onchange => "munge_affiliate_url('raw_affiliate_url', 'promotion_destination')"
+                    = f.hidden_field :destination
+                  - else
+                    = f.text_field :destination
+                .field
+                  = f.label :description
+                  %br/
+                  = f.text_area :description, :size => "60x12"
+                .field
+                  = f.label :grid_weight
+                  = f.number_field :grid_weight, :min => 1
+                .field
+                  = f.label :teaser_image
+                  %br/
+                  = f.file_field :teaser_image
+                .field
+                  = f.label :remote_teaser_image_url, "or image URL"
+                  %br/
+                  = f.text_field :remote_teaser_image_url
+                .field
+                  = f.label :start_date
+                  %br/
+                  = f.date_select :start_date, :order => [:month, :day, :year]
+                .field
+                  = f.label :end_date
+                  %br/
+                  = f.date_select :end_date, :order => [:month, :day, :year]
+                .field
+                  = f.label :categories
+                  %br/
+                  = f.collection_select(:category_ids, @categories, :id, :name, {}, { :multiple => true })
+                .actions
+                  = f.submit "Create #{@promotion.promotion_type}"

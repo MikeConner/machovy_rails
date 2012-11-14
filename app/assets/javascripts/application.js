@@ -15,8 +15,6 @@
 //= require bootstrap
 //= require admin/excanvas.min
 //= require admin/fullcalendar.min
-//= require admin/jquery.flot.min
-//= require admin/jquery.flot.resize.min
 //= require admin/unicorn
-//= require admin/unicorn.dashboard
+//= require admin/jquery.dataTables.min
 //= require_tree .
