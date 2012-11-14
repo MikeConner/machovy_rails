@@ -8,5 +8,5 @@
     .span12.curator-post-title
       - curator.blog_posts_for(promotion).each do |post|
         .icon-circle-arrow-right
-        = link_to truncate(post.title, :length => 50), blog_post_path(post)
+        = link_to truncate(post.title, :length => 45), blog_post_path(post)
         %br/
