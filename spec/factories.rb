@@ -555,6 +555,11 @@ FactoryGirl.define do
     destination_url { generate(:random_url) }
     title { generate(:sequential_description) }
     caption { generate(:random_sentences) }
+    
+    factory :you_tube_video do
+      destination_url Video::YOU_TUBE_REFERENCE
+      source { Video::YOU_TUBE }
+    end
   end
   
   factory :voucher do

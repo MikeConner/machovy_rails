@@ -1,6 +1,7 @@
 require 'utilities'
+require 'weighting_factory'
 
-class PromotionsController < ApplicationController
+class PromotionsController < ApplicationController  
   respond_to :html, :js
 
   include ApplicationHelper
@@ -271,7 +272,13 @@ class PromotionsController < ApplicationController
   
   def manage
     # Without default scope, need to explicitly order by weight
-    @promotions = Promotion.order(:grid_weight)
+    @promotions = Promotion.order(:grid_weight).paginate(:page => params[:page])
+    @weights = Promotion.order(:grid_weight).map { |p| p.grid_weight }
+    @diff = @weights[@weights.length - 1] - @weights[0]
+    # Large step
+    @page_value = [1, @diff / 10].max.roundup
+    # Small step
+    @step_value = @page_value / 10
     
     # Don't want default application layout, with footer, etc.
     render :layout => 'layouts/admin'
@@ -291,6 +298,17 @@ class PromotionsController < ApplicationController
         end
       end
     end
+  end
+  
+  def rebalance
+    algorithm = WeightingFactory.instance.create_weighting_algorithm
+    
+    promotion_weights = WeightingFactory.instance.create_weight_data(Promotion.name)
+    Promotion.all.each { |promotion| promotion_weights.add(promotion) }
+    algorithm.reweight(promotion_weights)
+    Promotion.all.each { |promotion| logger.info(promotion_weights.save(promotion)) }    
+    
+    redirect_to manage_promotions_path, :notice => 'Recalculated promotion weights'
   end
   
 private

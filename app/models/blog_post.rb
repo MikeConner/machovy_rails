@@ -87,6 +87,11 @@ class BlogPost < ActiveRecord::Base
     Utilities.html_truncator(body, options)
   end
 
+  # This is used for pagination; it shows 30/page by default
+  def self.per_page
+    10
+  end
+
 private
   def init_weight
     self.weight = DEFAULT_BLOG_WEIGHT if new_record?

@@ -21,6 +21,7 @@ describe "Videos" do
   it { should respond_to(:title) }
   it { should respond_to(:caption) }
   it { should respond_to(:destination_url) }
+  it { should respond_to(:source) }
   its(:curator) { should == curator }
   
   it { should be_valid }
@@ -48,6 +49,35 @@ describe "Videos" do
     
     it { should_not be_valid }
   end 
+  
+  describe "blank source" do
+    before { video.source = " " }
+    
+    it { should be_valid }
+  end
+  
+  describe "source not there" do
+    before { video.source = "invalid source" }
+    
+    it { should_not be_valid }
+  end
+  
+  describe "valid sources" do
+    Video::EMBEDDING_SOURCES.each do |source|
+      before { video.source = source }
+      
+      it { should be_valid }
+    end
+  end
+  
+  describe "You Tube" do
+    let(:video) { FactoryGirl.create(:you_tube_video) }
+    before { video }
+    
+    it "should have the correct url" do
+      video.reload.destination_url.should == Video::YOU_TUBE_REF_URL
+    end
+  end
   
   describe "default scope" do
     before do

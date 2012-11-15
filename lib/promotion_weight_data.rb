@@ -35,7 +35,11 @@ class PromotionWeightData < AbstractWeightData
   
 protected
   def save_internal(obj)
-    if !obj.update_attributes(:grid_weight => @new_weight[obj.id])
+    old_weight = obj.grid_weight
+    
+    if obj.update_attributes(:grid_weight => @new_weight[obj.id])
+      "Promotion #{obj.id} changed from #{old_weight} to #{obj.grid_weight}"
+    else
       raise "Update of Promotion(#{obj.id}) to #{@new_weight[obj.id]} failed"
     end
   end

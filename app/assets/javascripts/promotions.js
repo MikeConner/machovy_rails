@@ -11,6 +11,7 @@ $(function() {
   		$('#promotion_revenue_shared').val(ui.value)
   	}
   });
+  
   $(".rslides").responsiveSlides();
 
   $('#tab1').click(function (e) {
@@ -18,10 +19,10 @@ $(function() {
     $(this).tab('show');
   })
 
-$('#tab2').click(function (e) {
-  e.preventDefault();
-  $(this).tab('show');
-})
+  $('#tab2').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+  })  
 	//$('.carousel').carousel() Calls bootstrap slider
 });
 
@@ -29,9 +30,6 @@ $('#tab2').click(function (e) {
 function update_amount(source, destination, unit_price) {
   $('#' + destination).val($('#' + source).val() * unit_price)
 }
-
-
-
 
 function munge_affiliate_url(source, destination) {
     var raw_url = $('#' + source).val();
@@ -52,3 +50,7 @@ function munge_affiliate_url(source, destination) {
 	             async: false}); 	    		
 }
 
+function update_grid_weight(id, amount) {
+	var new_value = Math.max(1, parseInt($('#grid_weight_' + id).val()) + amount);
+	$('#grid_weight_' + id).val(new_value)
+}

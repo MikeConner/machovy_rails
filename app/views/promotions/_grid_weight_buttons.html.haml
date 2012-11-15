@@ -1,0 +1,8 @@
+%button.btn-small
+  = link_to '<<', '#', :onclick => "update_grid_weight(#{id}, -#{page}); return false"
+%button.btn-small
+  = link_to '<', '#', :onclick => "update_grid_weight(#{id}, -#{step}); return false"
+%button.btn-small
+  = link_to '>', '#', :onclick => "update_grid_weight(#{id}, #{step}); return false"
+%button.btn-small
+  = link_to '>>', '#', :onclick => "update_grid_weight(#{id}, #{page}); return false"

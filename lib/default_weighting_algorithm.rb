@@ -17,7 +17,7 @@ class DefaultWeightingAlgorithm
   POPULARITY_TIME_WINDOW = 1.week.ago
   
   # AbstractWeightData
-  def reweight(weight_data)
+  def reweight(weight_data, min_spacing = 5)
     # Has current_weight, new_weight (to set), and the data hash, with value, recency, popularity, and urgency values
     #current_weights = weight_data.current_weight.sort_by { |key, value| value }
     raw_weights = Hash.new
@@ -90,9 +90,59 @@ class DefaultWeightingAlgorithm
     
     #puts "Final"
     #puts weight_data.new_weight
+    if !min_spacing.nil? and min_spacing > 1
+      #puts "Spacing with #{min_spacing}"
+      space_out(weight_data, min_spacing)
+    end
   end
   
 protected
+  # ensure gaps of at least <spacing> in the generated weights
+  def space_out(weight_data, spacing)
+    last = 1
+    offset = 0
+    first = true
+    validity = -1
+    new_weights = weight_data.new_weight.sort_by { |id, weight| weight }
+    new_weights.map do |id, weight|
+      #puts "Spacing #{id} -> #{weight}"
+      if first
+        #puts "First! #{weight}"
+        first = false
+        last = weight
+        validity = weight
+        next
+      end
+        
+      if weight <= validity
+        raise 'Input must be monotonically increasing'
+      else
+        validity = weight
+        #puts "Setting validity to #{weight}"
+      end
+      
+      #puts "Is #{weight} + #{offset} - #{spacing} < #{last}?"
+      if weight + offset - spacing < last
+        #puts "YES; need to reweight"
+        # not enough space
+        new_weight = last + spacing
+        #puts "New weight = #{last} + #{spacing}"
+        weight_data.new_weight[id] = new_weight
+        #puts "Add #{new_weight} - #{weight} - #{offset} to offset"
+        offset += new_weight - weight - offset   
+        last = new_weight
+        #puts "New offset is #{offset}; last = #{last}"
+      else
+        #puts "NO; reset offset to 0; last = #{weight}"
+        last = weight
+        offset = 0
+      end
+    end
+    
+    #puts "Final"
+    #puts weight_data.new_weight
+  end
+  
   def calculate_weight(data)
     result = 0
     if data.has_key?(AbstractWeightData::VALUE) 

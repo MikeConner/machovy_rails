@@ -35,7 +35,7 @@ class AbstractWeightData
   end
 
   def save(obj)
-    puts "#{obj.id}: New #{@new_weight[obj.id]}; Current #{@current_weight[obj.id]}"
+    #puts "#{obj.id}: New #{@new_weight[obj.id]}; Current #{@current_weight[obj.id]}"
     if !@new_weight[obj.id].nil? and (@new_weight[obj.id] != @current_weight[obj.id])
       save_internal(obj)
     end

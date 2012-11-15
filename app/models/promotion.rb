@@ -48,7 +48,7 @@ class Promotion < ActiveRecord::Base
   DEFAULT_GRID_WEIGHT = 10
   MINIMUM_REVENUE_SHARE = 5
   QUANTITY_THRESHOLD_PCT = 0.1
-  
+
   # Types
   LOCAL_DEAL = 'Deal'
   AFFILIATE = 'Affiliate'
@@ -234,6 +234,11 @@ class Promotion < ActiveRecord::Base
 	def discount_pct
 		self.retail_value.nil? ? 0 : discount / self.retail_value * 100.0
 	end	
+	
+  # This is used for pagination; it shows 30/page by default
+  def self.per_page
+    5
+  end
 	
 private
   def init_defaults

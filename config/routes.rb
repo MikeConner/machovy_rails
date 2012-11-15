@@ -24,7 +24,11 @@ MachovyRails::Application.routes.draw do
   end
   
   # Resources
-  resources :blog_posts
+  resources :blog_posts do
+    put 'update_weight', :on => :member
+    put 'rebalance', :on => :collection
+  end
+  
   resources :categories
   resources :curators
 
@@ -42,7 +46,10 @@ MachovyRails::Application.routes.draw do
       put 'update_weight'
     end
     
-    get 'manage', :on => :collection
+    collection do
+      get 'manage'
+      put 'rebalance'
+    end
   end
   resources :promotion_images
   resources :roles

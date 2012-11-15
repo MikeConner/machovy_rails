@@ -47,7 +47,7 @@ describe "Demo spec" do
     describe "new promotion" do
       before { click_link I18n.t('create_promotion') }
       
-      it { should have_selector('h1', :text => I18n.t('new_promotion')) }
+      it { should have_selector('h3', :text => I18n.t('new_promotion')) }
       it { should have_selector('input', :id => 'promotion_revenue_shared', :value => Promotion::MINIMUM_REVENUE_SHARE) }
       
       describe "create" do

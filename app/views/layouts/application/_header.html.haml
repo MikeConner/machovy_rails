@@ -62,7 +62,9 @@
                   %b.caret
                 %ul.dropdown-menu
                   %li
-                    = link_to 'Edit Profile', edit_profile_user_path(current_user)
+                    = link_to 'Edit profile', edit_profile_user_path(current_user)
+                  %li
+                    = link_to 'Change password', edit_user_registration_path
                   %li
                     = link_to 'Log out', destroy_user_session_path, :method => :delete
           - if !current_user.nil?

@@ -34,7 +34,11 @@ class BlogPostWeightData < AbstractWeightData
   
 protected
   def save_internal(obj)
-    if !obj.update_attributes(:weight => @new_weight[obj.id])
+    old_weight = obj.weight
+    
+    if obj.update_attributes(:weight => @new_weight[obj.id])
+      "BlogPost #{obj.id} changed from #{old_weight} to #{obj.weight}"
+    else
       raise "Update of BlogPost(#{obj.id}) to #{@new_weight[obj.id]} failed"
     end
   end

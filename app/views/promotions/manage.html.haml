@@ -4,6 +4,7 @@
   <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Home</a>
   <a href="#" class="current">Front Page Manager</a>
 .container-fluid
+  = render :partial => 'shared/flash_messages'
   .row-fluid
     .span12
       .widget-box
@@ -11,6 +12,11 @@
           %h5
             Front Page Manager
         .widget-content.nopadding
+          %button.btn.btn-small.pull-right 
+            = link_to 'Rebalance Weights', rebalance_promotions_path, :method => :put
+          %center
+            = will_paginate
+            = page_entries_info
           %table.table.table-bordered
             %thead
               %tr
@@ -18,7 +24,7 @@
                 %th.span9 Title
                 %th.span1 Status
             %tbody
-            - idx = 1
+            - idx = (@promotions.current_page - 1) * Promotion.per_page + 1  
             - @promotions.each do |promotion|
               %tr
                 %td 
@@ -28,12 +34,15 @@
                     == #{idx}. #{link_to promotion.title, edit_promotion_path(promotion)} -- #{promotion.subtitle}
                   - else
                     == #{idx}. #{promotion.title} -- #{promotion.subtitle}
+                  - idx += 1
                   = form_for promotion, :remote => true, :method => :put, :url => update_weight_promotion_path(promotion) do |f|
                     .field
                       = f.label :grid_weight
                       = f.number_field :grid_weight, :min => 1, :id => "grid_weight_#{promotion.id}"
+                      = render :partial => 'grid_weight_buttons', :locals => { :id => promotion.id, :step => @step_value, :page => @page_value }
                       .actions
                         = f.submit 'Update weight' 
                 %td
                   - if promotion.displayable?
                     %p Live
+          %center= will_paginate

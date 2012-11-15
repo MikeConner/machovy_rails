@@ -1,3 +1,5 @@
+require 'weighting_factory'
+
 class BlogPostsController < ApplicationController
   before_filter :authenticate_user!, :except => [:show]
   load_and_authorize_resource
@@ -7,8 +9,15 @@ class BlogPostsController < ApplicationController
   # GET /blog_posts
   def index
     # Without default scope, need to explicitly order it
-    @blog_posts = BlogPost.order(:weight)
+    @blog_posts = BlogPost.order(:weight).paginate(:page => params[:page])
     if admin_user?
+      @weights = @blog_posts.map { |p| p.weight }
+      @diff = @weights[@weights.length - 1] - @weights[0]
+      # Large step
+      @page_value = [1, @diff / 10].max.roundup
+      # Small step
+      @step_value = @page_value / 10
+      
       render :layout => 'layouts/admin'
     end
   end
@@ -70,5 +79,32 @@ class BlogPostsController < ApplicationController
     @blog_post.destroy
 
     redirect_to blog_posts_path
+  end
+  
+  # PUT /blog_posts/1/update_weight
+  def update_weight
+    @blog_post = BlogPost.find(params[:id])
+    old_weight = @blog_post.weight
+    
+    respond_to do |format|
+      format.js do
+        if @blog_post.update_attributes(params[:blog_post])
+          head :ok
+        else
+          render :js => "alert('Weight update failed'); $('#blog_weight_#{params[:id]}').val(#{old_weight})"
+        end
+      end
+    end    
+  end
+  
+  def rebalance
+    algorithm = WeightingFactory.instance.create_weighting_algorithm
+    
+    blog_weights = WeightingFactory.instance.create_weight_data(BlogPost.name)
+    BlogPost.all.each { |post| blog_weights.add(post) }
+    algorithm.reweight(blog_weights)
+    BlogPost.all.each { |post| logger.info(blog_weights.save(post)) }    
+    
+    redirect_to blog_posts_path, :notice => 'Recalculated blog post weights'    
   end
 end

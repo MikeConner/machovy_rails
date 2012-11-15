@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121110200808) do
+ActiveRecord::Schema.define(:version => 20121115061336) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -312,6 +312,7 @@ ActiveRecord::Schema.define(:version => 20121110200808) do
     t.integer  "curator_id"
     t.text     "caption"
     t.string   "slug"
+    t.string   "source",          :limit => 24
   end
 
   create_table "vouchers", :force => true do |t|

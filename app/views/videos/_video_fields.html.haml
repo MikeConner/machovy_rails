@@ -3,7 +3,12 @@
   %br/
   = f.collection_select :curator_id, Curator.all, :id, :name 
 .field
+  = f.label :source
+  %br/
+  = f.select :source, options_for_select(Video::EMBEDDING_SOURCES, Video::YOU_TUBE), { :include_blank => true }
+.field
   = f.label :destination_url
+  %em (Copy embed html)
   %br/
   = f.text_field :destination_url
 .field
