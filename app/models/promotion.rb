@@ -237,7 +237,7 @@ class Promotion < ActiveRecord::Base
 	
   # This is used for pagination; it shows 30/page by default
   def self.per_page
-    5
+    50
   end
 	
 private

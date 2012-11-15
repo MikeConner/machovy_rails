@@ -51,12 +51,14 @@ class Video < ActiveRecord::Base
                      
 private
   def extract_url_from_source
-    case self.source
-    when YOU_TUBE
-      if self.destination_url =~ /src=\"(http:\/\/www.youtube.com\/embed\/.*?)\"/
-        self.destination_url = $1
+    if !self.source.nil?
+      case self.source
+      when YOU_TUBE
+        if self.destination_url =~ /src=\"(http:\/\/www.youtube.com\/embed\/.*?)\"/
+          self.destination_url = $1
+        end
+      # else... leave unchanged, we're not embedding, but linking directly somehow 
       end
-    # else... leave unchanged, we're not embedding, but linking directly somehow 
     end
   end
 end

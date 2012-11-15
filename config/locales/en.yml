@@ -63,3 +63,13 @@ en:
         one:   Idea
         few:   Ideas
         other: Ideas        
+      promotion:
+        zero:  Promotions
+        one:   Promotion
+        few:   Promotions
+        other: Promotions   
+      blog_post:
+        zero:  Blog Posts
+        one:   Blog Post
+        few:   Blog Posts
+        other: Blog Posts   

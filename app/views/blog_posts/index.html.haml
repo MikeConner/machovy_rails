@@ -47,8 +47,9 @@
                         = f.number_field :weight, :min => 1, :id => "blog_weight_#{post.id}"
                         %br/
                         = render :partial => 'weight_buttons', :locals => { :id => post.id, :step => @step_value, :page => @page_value }
-                        .actions
-                          = f.submit 'Update weight' 
+                        -# 
+                          .actions
+                            = f.submit 'Update weight' 
                   %td= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }
                 - else
                   %td= post.weight

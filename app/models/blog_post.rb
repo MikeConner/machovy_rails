@@ -89,7 +89,7 @@ class BlogPost < ActiveRecord::Base
 
   # This is used for pagination; it shows 30/page by default
   def self.per_page
-    10
+    50
   end
 
 private

@@ -53,4 +53,12 @@ function munge_affiliate_url(source, destination) {
 function update_grid_weight(id, amount) {
 	var new_value = Math.max(1, parseInt($('#grid_weight_' + id).val()) + amount);
 	$('#grid_weight_' + id).val(new_value)
+	// Include this to update immediately on button press
+	// Alternatively, manage.html.haml can have a submit button, and this just updates the local field
+	jQuery.ajax({url:"/promotions/" + id + "/update_weight",
+	             data: "promotion[grid_weight]=" + new_value,
+		         type: "PUT",
+	             error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
+	               { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
+	             async: false}); 	    		
 }

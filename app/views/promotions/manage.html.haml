@@ -33,15 +33,16 @@
                   - if promotion.awaiting_machovy_action?
                     == #{idx}. #{link_to promotion.title, edit_promotion_path(promotion)} -- #{promotion.subtitle}
                   - else
-                    == #{idx}. #{promotion.title} -- #{promotion.subtitle}
+                    == #{idx}. #{link_to promotion.title, promotion_path(promotion)} -- #{promotion.subtitle}
                   - idx += 1
                   = form_for promotion, :remote => true, :method => :put, :url => update_weight_promotion_path(promotion) do |f|
                     .field
                       = f.label :grid_weight
                       = f.number_field :grid_weight, :min => 1, :id => "grid_weight_#{promotion.id}"
                       = render :partial => 'grid_weight_buttons', :locals => { :id => promotion.id, :step => @step_value, :page => @page_value }
-                      .actions
-                        = f.submit 'Update weight' 
+                      -#
+                        .actions
+                          = f.submit 'Update weight' 
                 %td
                   - if promotion.displayable?
                     %p Live
