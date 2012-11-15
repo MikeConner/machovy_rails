@@ -3,6 +3,7 @@ MachovyAgreement1.pdf: MachovyAgreement1-d18d27c0810b1cc944a6e3f542e07ca2.pdf
 M_logo.png: M_logo-ddd0589274fe02c3b2aadd780fc80017.png
 glyphicons-halflings-white.png: glyphicons-halflings-white-13553a5bf21ae3cc374006592488ec64.png
 glyphicons-halflings.png: glyphicons-halflings-ab3144065a860d198f1d7d9a4882640c.png
+logo-white.png: logo-white-d684bd61b107efd33b726250c706eb8e.png
 logo.png: logo-af8c450134c6db1b9a1679e2449c6cc3.png
 social-icons/circle/aim.png: social-icons/circle/aim-9bee56f4f63a28263f6beb36b5294f64.png
 social-icons/circle/apple.png: social-icons/circle/apple-224abb14542de58dc34f5a87e67be62e.png
@@ -60,7 +61,7 @@ ui-bg_glass_65_ffffff_1x400.png: ui-bg_glass_65_ffffff_1x400-a30aa544902182c133d
 ui-bg_glass_75_dadada_1x400.png: ui-bg_glass_75_dadada_1x400-38ed9f33e066d6bee977c567d4b03650.png
 ui-bg_glass_75_e6e6e6_1x400.png: ui-bg_glass_75_e6e6e6_1x400-3e20bce1b7b2f5dd47ca6ac361805162.png
 ui-icons_888888_256x240.png: ui-icons_888888_256x240-5b928d6b862809eb8130d7b7e0b51a1d.png
-application.js: application-54f299073074756a8c3945164c1b9dd4.js
+application.js: application-d0390a09175553fed640f9d115e9c004.js
 application.css: application-a722be75c3842877c7ef7f95ed757ad5.css
 rails_admin/aristo/images/bg_fallback.png: rails_admin/aristo/images/bg_fallback-55829c6af9b9af338904d5a0ed9c191d.png
 rails_admin/aristo/images/icon_sprite.png: rails_admin/aristo/images/icon_sprite-555074e93c8d91f9f72d1a211d5a820e.png
