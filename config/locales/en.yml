@@ -18,6 +18,7 @@ en:
   local_deal_created: "The local deal was successfully created."
   only_n_left: "Only %{n} left!"
   order_successful: 'Thank you for your order. Check your email for the details and voucher.'
+  machovy_attention: 'Promotions that need Machovy attention'
   new_promotion: "Let's make a deal"
   create_promotion: 'Create a New Deal'
   payment_processed: 'Payment successfully processed.'

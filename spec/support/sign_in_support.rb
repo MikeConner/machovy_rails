@@ -3,7 +3,12 @@ module ValidUserRequestHelper
   # for use in request specs
   def sign_in_as_a_valid_user
     @user ||= FactoryGirl.create :user
-    post_via_redirect user_session_path, 'user[email]' => @user.email, 'user[password]' => @user.password
+    #post_via_redirect user_session_path, 'user[email]' => @user.email, 'user[password]' => @user.password
+  end
+
+  def sign_in_as_an_admin_user
+    @user ||= FactoryGirl.create :user
+    @user.roles << Role.find_by_name(Role::SUPER_ADMIN)
   end
   
   def sign_in_as_a_vendor

@@ -440,6 +440,7 @@ FactoryGirl.define do
 
     factory :merchant_user do
       after(:create) do |user, evaluator|
+        user.vendor = FactoryGirl.create(:vendor)
         user.roles.create(:name => Role::MERCHANT)
       end
     end

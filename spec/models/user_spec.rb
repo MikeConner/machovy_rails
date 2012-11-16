@@ -251,6 +251,7 @@ describe "Users" do
 
       it "should be a merchant" do
         user.has_role?(Role::MERCHANT).should be_true
+        user.vendor.should_not be_nil
         user.is_customer?.should be_false
       end
     end
