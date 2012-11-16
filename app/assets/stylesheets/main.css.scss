@@ -362,14 +362,7 @@ Dropdown
     top: 11px;
     left: -6px;
 }
-.stripe-top {
-  background-image: url("http://subtlepatterns.com/patterns/arches.png");
-  border-bottom: 1px solid #EEE;
-}
-.stripe-color {
-  background-image: url(../images/bgnoise.gif);
-  border-top: 1px solid #EEE;
-}
+
 
 .dropdown-menu{
   padding: 0;
@@ -603,7 +596,7 @@ Buttons
   font-family: Oswald;
   text-transform: uppercase;
   display: inline-block;
-  margin: 0px!important;
+  margin: 4px 12px 4px 12px;
   padding: 0px;
 }
 
@@ -628,6 +621,7 @@ Buttons
   font-weight: 500;
   font-family: Oswald;
   text-transform: uppercase;
+  padding:0px;
 }
 .btn:hover {
   background: #eeeeee;
@@ -1615,7 +1609,6 @@ Deals Front Page
 }
 
 .more-details a {
-  margin:10px;
   color:#666;
   font-size:12px; 
 }
