@@ -1,24 +1,23 @@
-#listings-new.row.listings
-  - promotions.each do |promotion|
-    .span3.item
-      = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
-      .row-fluid 
-        .item-title= truncate(sanitize(promotion.title), :length => 20)
-        .item-sub-title This is a sub title
-      .row-fluid 
-        .description= truncate(promotion.description, :length => 124)
-      .row-fluid.item-bottom-bar 
-        - if promotion.deal?
-          .span5
-            .item-price
-              %small Price
-              %br
-              %span.current-price
-                = number_to_currency(promotion.price)
-          .span7
-            %span.more-details.btn.pull-right
-              = link_to "More Details", promotion_path(promotion)
-        - else
-          .item-detail.pull-right 
-            %span.more-details.btn.pull-right   
-              = link_to "More Details", promotion_path(promotion)
+- promotions.each do |promotion|
+  .span3.item.promotion-grid
+    = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
+    .row-fluid 
+      .item-title= truncate(sanitize(promotion.title), :length => 20)
+      .item-sub-title This is a sub title
+    .row-fluid 
+      .description= truncate(promotion.description, :length => 124)
+    .row-fluid.item-bottom-bar 
+      - if promotion.deal?
+        .span5
+          .item-price
+            %small Price
+            %br
+            %span.current-price
+              = number_to_currency(promotion.price)
+        .span7
+          %span.more-details.btn.pull-right
+            = link_to "More Details", promotion_path(promotion)
+      - else
+        .item-detail.pull-right 
+          %span.more-details.btn.pull-right   
+            = link_to "More Details", promotion_path(promotion)

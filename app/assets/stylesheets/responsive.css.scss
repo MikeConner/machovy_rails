@@ -1,0 +1,39 @@
+@media (max-width: 980px) {
+
+.row-fluid [class*="promotion-grid"] {
+  margin:3px;
+  width:32.26923%!important;   
+}
+
+}
+
+@media (max-width: 767px) {
+
+.row-fluid [class*="promotion-grid"] {
+  margin:3px;
+  width:32.26923%!important;   
+}
+
+[class*="span"],
+  .uneditable-input[class*="span"],
+  .row-fluid [class*="span"] {
+    display: visible;
+    float: left;
+    width: 100%;
+    margin-left: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+
+}
+
+@media (max-width: 738px) {
+
+.row-fluid [class*="promotion-grid"] {
+  margin:3px;
+  width:48.26923%!important;   
+}
+
+}

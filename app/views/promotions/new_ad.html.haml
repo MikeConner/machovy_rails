@@ -16,7 +16,7 @@
                 = render :partial => 'shared/error_messages', :locals => { :errors => @promotion.errors, :name => 'Promotion' }
                 = f.hidden_field :promotion_type
                 .field
-                  = f.label :metro_id
+                  = f.label :metro_id, :class => 'add class here'
                   %br/
                   = f.collection_select :metro_id, @metros, :id, :name 
                 .field
