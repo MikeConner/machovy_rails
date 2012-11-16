@@ -10,13 +10,13 @@
       .widget-box
         .widget-title
           %h5
-            Front Page Manager
-        .widget-content.nopadding
-          %button.btn.btn-small.pull-right 
-            = link_to 'Rebalance Weights', rebalance_promotions_path, :method => :put
-          %center
             = will_paginate
             = page_entries_info
+          %button.btn.btn-small.pull-right 
+            = link_to 'Rebalance Weights', rebalance_promotions_path, :method => :put
+        .widget-content.nopadding
+          
+          
           %table.table.table-bordered
             %thead
               %tr
