@@ -52,7 +52,6 @@ describe "Promotion edited and approved" do
         # Authenticate
         click_button I18n.t('sign_in')
         visit promotions_path
-        save_page
         click_link @promotion.title
         choose 'decision_edit'
         fill_in 'comment', :with => 'Almost but not quite'
@@ -122,15 +121,16 @@ describe "Promotion edited and approved" do
             click_link 'View'
             fill_in 'comment', :with => 'We want it like it was'
             click_button 'Reject Machovy Changes'
+            @promotion = Promotion.first
           end
           
           it "should be rejected" do
             current_path.should be == promotions_path
             page.should have_css('div', :id => 'error_explanation', :text => I18n.t('promotion_reject_edits'))
-            @promotion.reload.displayable?.should be_false
-            @promotion.reload.expired?.should be_false
-            @promotion.reload.approved?.should be_false
-            @promotion.reload.status.should == Promotion::VENDOR_REJECTED
+            @promotion.displayable?.should be_false
+            @promotion.expired?.should be_false
+            @promotion.approved?.should be_false
+            @promotion.status.should == Promotion::VENDOR_REJECTED
           end     
           
           describe "show have logs" do

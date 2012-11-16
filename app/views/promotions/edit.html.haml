@@ -5,7 +5,7 @@
   - if current_user.is_customer?
     = f.hidden_field :grid_weight
     = f.hidden_field :category_ids
-  - else
+  - elsif current_user.has_role?(Role::SUPER_ADMIN)
     -# Admins who are editing can approve or reject with comments
     %p== Please review this promotion, proposed by #{@promotion.vendor.name}.
     You can accept the promotion as-is, reject it, or make minor edits for the vendor to review.

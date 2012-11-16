@@ -51,7 +51,6 @@ describe "Promotion immediately approved" do
         # Authenticate
         click_button I18n.t('sign_in')
         visit promotions_path
-        save_page
         click_link @promotion.title
         choose 'decision_accept'
         click_button 'Update Promotion'

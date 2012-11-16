@@ -51,9 +51,9 @@ describe "Promotion rejected" do
         # Authenticate
         click_button I18n.t('sign_in')
         visit promotions_path
-        save_page
         click_link @promotion.title
         choose 'decision_reject'
+        fill_in 'comment', :with => 'Way off!'
         click_button 'Update Promotion'
       end
       
@@ -77,6 +77,32 @@ describe "Promotion rejected" do
           msg.to.to_s.should match(@user.email)
           msg.subject.should be == VendorMailer::PROMOTION_STATUS_MESSAGE
           msg.body.encoded.should match('Your promotion has been rejected')          
+        end
+        
+        describe "resubmit rejected" do
+          before do
+            visit root_path
+            click_link 'Log out'
+            # Log back in as vendor
+            click_link I18n.t('sign_in_register')
+            # fill in info
+            fill_in 'user_email', :with => @user.email
+            fill_in 'user_password', :with => @user.password
+            # Authenticate
+            click_button I18n.t('sign_in')
+            visit promotions_path
+            
+            click_link 'Edit'
+            click_button 'Update Promotion'
+            @promotion = Promotion.first
+          end
+          
+          it "should be pending again" do
+            Promotion.count.should be == 1
+            @promotion.status.should be == Promotion::PROPOSED
+            @promotion.awaiting_machovy_action?.should be_true
+            current_path.should be == promotions_path
+          end
         end
       end
     end
