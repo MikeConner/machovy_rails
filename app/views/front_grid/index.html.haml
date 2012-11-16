@@ -13,11 +13,14 @@
     .row-fluid
       - @blog_posts.each_with_index do |blogpost, index|
         .span3
-          %h4
+          %h5
             = link_to truncate(blogpost.title, :length => 25), blog_post_path(blogpost)
-            .i.icon-comment.pull-right
+          .borderLine
+            .borderLine-left &nbsp;
+            .borderLine-right &nbsp;
           %p
             = blogpost.truncated_body(:length => 200)
+
   .space          
   .row-fluid.well
     = render :partial => 'ad_row', :locals => { :ads => @ads }

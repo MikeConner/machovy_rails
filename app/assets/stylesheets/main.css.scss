@@ -21,7 +21,7 @@ h6 {
   font-weight: 300;
   font-family: "Oswald", Helvetica Neue, "Times New Roman", Times, serif;
   text-transform: uppercase;
-  color: #666666;
+  color: #333333;
 }
 p,
 li,
@@ -44,7 +44,7 @@ select {
 p,
 li,
 label {
-  color: #555;
+  color: #666;
 }
 label {
   font-weight: bold;
@@ -66,6 +66,29 @@ a:hover{
   padding:5px 0 0 10px;
 }
 
+p {font-size:13px;}
+
+  .borderLine {
+    float: left;
+    width: 100%;
+    padding: -10px 0px 10px 0px;
+    display: inline-block;
+    margin: -5px 0 15px 0;
+  }
+ .borderLine-left {
+    border: 3px solid $red;
+    height: 0;
+    width: 20%;
+    display: inline-block;
+    float: left;
+  }
+ .borderLine-right {
+    width: 70%;
+    margin: 2px 0px 0 2px;
+    float: left;
+    height: 1px;
+    border: 1px dotted #999;
+  }
 
 
 /*
@@ -575,7 +598,14 @@ Forms
 Buttons
 ----------------------------------------------*/
 .btn-danger a {color:white!important; font-family:Oswald; text-transform:uppercase;}
-.btn a {color:#333; font-family:Oswald; text-transform:uppercase;}
+.btn a {  
+  color: #333;
+  font-family: Oswald;
+  text-transform: uppercase;
+  display: inline-block;
+  margin: 0px!important;
+  padding: 0px;
+}
 
 .btn-admin {
   position: relative;
@@ -845,22 +875,114 @@ Features
 ----------------------------------------------
 Blog
 ----------------------------------------------*/
+article, section, aside {margin:0;padding:0;}
+
 article h2 a {
   font-family: "Droid Serif", Georgia, "Times New Roman", Times, serif;
 }
+
+aside{float:right;}
 article {
+  float: left;
   border-bottom: 1px solid #EEE;
+  border-right: 1px dotted #666;
+  padding: 0px 40px 0px 15px;
 }
-#blog-side li {
-  list-style-type: none;
+
+
+aside {
+  .curator-name {padding:0 0 10px 0}
+  .curator-post-title {
+    padding: 3px 10px 2px 10px;
+    background-color: #e1e1e1;
+    font-size: 12px;
+    font-weight:bold;
+  }
+  .curator-row {margin:10px 0px 0px 0px;}
+  .side-block {
+    background-color:white;
+  }
+  .side-title {
+  padding: 32px 0 0 5px;
+  font-family: oswald;
+  text-transform: uppercase;
+  font-size: 15px;
+  } 
+  .side-description {
+    font-size:13px;
+    margin:0 0 25px 0;
+
+  } 
+  .side-thumb {
+
+  }
+  .borderLine {
+    float: left;
+    width: 100%;
+    padding: -10px 0px 10px 0px;
+    display: inline-block;
+    margin: 0px 0 15px 0;
+  }
+ .borderLine-left {
+    border: 3px solid $red;
+    height: 0;
+    width: 20%;
+    display: inline-block;
+    float: left;
+  }
+ .borderLine-right {
+    width: 70%;
+    margin: 2px 0px 0 2px;
+    float: left;
+    height: 1px;
+    border: 1px dotted #999;
+  }
+
 }
-#blog-side h6 {
-  margin-top: 24px;
-  margin-bottom: 12px;
-}
-#blog-side ul {
-  margin-left: 0;
-}
+
+article {
+  h1 {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    font-size: 24px;
+    letter-spacing: 1px;
+    line-height: 50px;
+    font-weight: 500;
+    width: auto;
+    display: inline-block;
+  }
+
+  .blog-sub-headline {
+    margin:-20px 0px 17px 0px;
+    padding:0px 0px 0px 0px;
+    color:red;
+  }
+
+ .borderLine {
+    float: left;
+    width: 100%;
+    padding: -10px 0px 10px 0px;
+    display: inline-block;
+    margin: -15px 0 15px 0;
+  }
+ .borderLine-left {
+    border: 3px solid $red;
+    height: 0;
+    width: 10%;
+    display: inline-block;
+    float: left;
+  }
+ .borderLine-right {
+    width: 80%;
+    margin: 2px 0px 0 2px;
+    float: left;
+    height: 1px;
+    border: 1px dotted #999;
+  }
+
+} 
+
+
 
 /*
 ----------------------------------------------
