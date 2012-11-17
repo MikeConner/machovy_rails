@@ -2,7 +2,7 @@
   .span3.item.promotion-grid
     = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
     .row-fluid 
-      .item-title= truncate(sanitize(promotion.title), :length => 20)
+      .item-title= truncate(sanitize(promotion.title), :length => 31)
       .item-sub-title This is a sub title
     .row-fluid 
       .description= truncate(promotion.description, :length => 124)
