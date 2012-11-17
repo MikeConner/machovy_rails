@@ -5,6 +5,8 @@
     .row-fluid
       .span8
         %h3.affiliate-headline= @promotion.title
+        - if !@promotion.subtitle.nil?
+          %h4= @promotion.subtitle
     .row-fluid
       .span12
         - if @show_buy_button
