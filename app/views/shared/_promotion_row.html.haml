@@ -3,7 +3,11 @@
     = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
     .row-fluid 
       .item-title= truncate(sanitize(promotion.title), :length => 31)
-      .item-sub-title This is a sub title
+      .item-sub-title
+        - if !promotion.subtitle.nil?
+          = truncate(sanitize(promotion.subtitle), :length => 24)
+        - else
+          = "An amazing find"
     .row-fluid 
       .description= truncate(promotion.description, :length => 124)
     .row-fluid.item-bottom-bar 
