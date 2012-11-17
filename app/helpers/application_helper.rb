@@ -15,6 +15,7 @@ module ApplicationHelper
   MAILER_FROM_ADDRESS = 'deals@machovy.com'
   MACHOVY_PAYMENT_ADMIN = 'endymionjkb@gmail.com'
   MACHOVY_FEEDBACK_ADMIN = 'endymionjkb@gmail.com'
+  REDEMPTION_SUBDOMAIN = 'redeem'
   
   SMTP_PASSWORD = '%%))$$@macho'
   
