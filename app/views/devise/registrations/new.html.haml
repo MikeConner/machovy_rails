@@ -16,15 +16,16 @@
           = f.fields_for :vendor do |v|
             %div
               %p <strong>Personal Information</strong>
-            = v.text_field :name, {:placeholder => 'Name'}
-            = v.text_field :url, {:placeholder => 'URL (Optional)'}
-            = v.text_field :facebook,{:placeholder => 'Facebook (Optional)'}
+            = v.text_field :name, {:placeholder => 'Business Name'}
             = v.text_field :phone, :placeholder => "Phone (###) 555-1212", :maxlength => 14
             = v.text_field :address_1, {:placeholder => 'Address Line 1'}
             = v.text_field :address_2, {:placeholder => 'Address Line 2 (Optional)'}
             = v.text_field :city, {:placeholder => 'City'}
             = v.text_field :state, :size => 2, :maxlength => 2, :placeholder => "State"
             = v.text_field :zip, {:placeholder => 'Zip Code'}
+            = v.text_field :url, {:placeholder => 'Your Website (Optional)'}
+            = v.text_field :facebook,{:placeholder => 'Facebook (Optional)'}
+
           %br
           %br
           %div
