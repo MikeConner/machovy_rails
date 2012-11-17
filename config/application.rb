@@ -11,6 +11,7 @@ end
 
 module MachovyRails
   class Application < Rails::Application
+		config.force_ssl = true if Rails.env.production?
     config.assets.initialize_on_precompile = false
 
     # Make sure Rails still finds the regular devise views, though I'm overriding the registrations controller
