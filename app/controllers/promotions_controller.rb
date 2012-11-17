@@ -209,6 +209,10 @@ class PromotionsController < ApplicationController
     if @promotion.save
       redirect_to @promotion, :notice => message
     else
+      @metros = Metro.all
+      @vendors = Vendor.order(:name)
+      @categories = Category.order(:name)
+      
       if Promotion::LOCAL_DEAL == @promotion.promotion_type
         render 'new', :layout => admin_user? ? 'layouts/admin' : 'layouts/application'
       else
