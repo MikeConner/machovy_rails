@@ -15,7 +15,7 @@ class CuratorsController < ApplicationController
   # GET /curators/1
   def show
     @curator = Curator.find(params[:id])
-    @deals_per_row = 4
+    @deals_per_row = Promotion::DEALS_PER_ROW
     promos = []
     @curator.blog_posts.each do |post|
       promos = promos | post.promotions

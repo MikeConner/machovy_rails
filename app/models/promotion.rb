@@ -48,6 +48,7 @@ class Promotion < ActiveRecord::Base
   DEFAULT_GRID_WEIGHT = 10
   MINIMUM_REVENUE_SHARE = 5
   QUANTITY_THRESHOLD_PCT = 0.1
+  DEALS_PER_ROW = 4
 
   # Types
   LOCAL_DEAL = 'Deal'

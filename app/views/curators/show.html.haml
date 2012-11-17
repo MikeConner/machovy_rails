@@ -10,8 +10,10 @@
       %h4= link_to post.title, blog_post_path(post)
       %p= post.truncated_body
 == #{@curator.name} Recommends
-- @promotions.each do |promotion|
-  = render :partial => 'shared/promotion_column', :locals => { :promotion => promotion }
+- for i in 0..@promotions.count / @deals_per_row do
+  - current_row = @promotions[i * @deals_per_row, @deals_per_row]
+  - if current_row.count > 0
+    = render :partial => 'shared/promotion_row', :locals => { :promotions => current_row }  
 .row-fluid
   .span6
     - @videos.each do |video|

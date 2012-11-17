@@ -2,7 +2,6 @@ class FrontGridController < ApplicationController
   MAX_DEALS = 8
   MAX_BLOGS = 4
   MAX_ADS = 4
-  DEALS_PER_ROW = 4
   DEFAULT_METRO = 'Pittsburgh'
   
   def index
@@ -14,7 +13,7 @@ class FrontGridController < ApplicationController
     @active_category = session[:category]
     @active_metro = session[:metro]
     
-    @deals_per_row = DEALS_PER_ROW
+    @deals_per_row = Promotion::DEALS_PER_ROW
     @categories = Category.all
 
     if session[:deals] == 'true'
