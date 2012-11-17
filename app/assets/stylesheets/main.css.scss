@@ -90,6 +90,11 @@ p {font-size:13px;}
     border: 1px dotted #999;
   }
 
+.divider {
+  border-bottom:1px dotted #cfcfcf;
+  margin:10px 0;
+}
+
 
 /*
 ----------------------------------------------
@@ -257,6 +262,51 @@ header h1 {
 
 
 .highlight {color:$red;}
+
+/*
+----------------------------------------------
+Promotions
+----------------------------------------------*/
+
+#promotion-review {
+  ul {
+    margin:0 0 20px 0;
+  }
+
+  li {
+    list-style:none;
+  }
+
+  li.title {
+    font-family: Oswald;
+    text-transform: uppercase;
+    font-size: 1.2em;
+    color: black;
+  }
+
+  .btn-promo {
+    margin:20px 0;
+  }
+
+  .promo-well {
+    background-color:#efefef;
+    padding:10px 10px 0 10px;
+    margin:0 0 10px 0;
+  }
+
+}
+
+
+/*
+----------------------------------------------
+Icons
+----------------------------------------------*/
+[class^="icon-"],
+[class*=" icon-"] {
+  margin: 4px 5px 4px 0px;
+}
+
+
 
 /*
 ----------------------------------------------

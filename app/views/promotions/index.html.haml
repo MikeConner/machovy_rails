@@ -3,17 +3,19 @@
 %h1 Local Deals
 .row-fluid
   .span4
-    %h3 Under Review
+    .row-fluid
+      .span5
+        %h3 Under Review
+      .span7{:style => 'padding:15px 0px 0px 0px;'}
+        = link_to "<i class='icon-plus'></i> Create Promotion".html_safe, new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL),{:class => 'btn'}  
     - if 0 == @pending.count
       None
     - else
       = render :partial => 'promotion_dashview', :locals => { :p_list => @pending }
     %br
-    .span
-      %i.icon-plus
-      = link_to I18n.t('create_promotion'), new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL),{:class => 'btn btn-large'}
+
   .span4
-    %h3 Ready To Publish
+    %h3 Requires Revisions
     - if 0 == @attention.count
       None
     - else
@@ -25,7 +27,9 @@
     - else
       = render :partial => 'promotion_dashview', :locals => { :p_list => @live, :show_vouchers => true }
 %br
-==========================================================================================
+
+.divider
+
 .row-fluid
   %h3 Your Past Deals
   - if 0 == @inactive.count

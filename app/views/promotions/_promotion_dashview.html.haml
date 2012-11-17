@@ -3,26 +3,29 @@
 -#   So don't require passing it in. Set the display link flag if it's passed in and true; leave it false otherwise
 - if defined?(show_vouchers)
   - @display_vouchers = show_vouchers
-%ul
-- p_list.each do |p|
-  %li= p.title
-  - if p.end_date.nil?
-    %li Exp: None
-  - else
-    %li= 'Exp: ' + p.end_date.try(:strftime, '%b %d, %Y').to_s
-  %li= 'Price: ' + number_to_currency(p.price).to_s
-  .btn
-    - if Promotion::MACHOVY_REJECTED == p.status
-      = link_to('Edit', edit_promotion_path(p))
-    - else
-      = link_to('View', promotion_path(p))
-  .btn
-    - if 0 == p.promotion_logs.count
-      'No Activity'
-    - else
-      = link_to "Show (#{p.promotion_logs.count})", show_logs_promotion_path(p), :method => :get
-  - if @display_vouchers
-    - if 0 == p.vouchers.count
-      %li None
-    - else
-      %li= p.num_open_vouchers
+#promotion-review
+  - p_list.each do |p|
+    .span.promo-well
+      .span6
+        = image_tag p.teaser_image_url
+      .span6
+        %ul
+          %li.title= p.title
+          - if p.end_date.nil?
+            %li Exp: None
+          - else
+            %li= 'Exp: ' + p.end_date.try(:strftime, '%b %d, %Y').to_s
+          %li= 'Price: ' + number_to_currency(p.price).to_s
+          - if @display_vouchers
+            - if 0 == p.vouchers.count
+              %li 0 sold
+            - else
+              %li= p.num_open_vouchers
+          - if Promotion::MACHOVY_REJECTED == p.status
+            = link_to 'Edit', edit_promotion_path(p), :class => 'btn btn-small'
+          - else
+            = link_to 'View', promotion_path(p), :class => 'btn btn-small'
+          - if 0 == p.promotion_logs.count
+            'No Activity'
+          - else
+            = link_to "Show (#{p.promotion_logs.count})", show_logs_promotion_path(p), :method => :get, :class => 'btn btn-small'
