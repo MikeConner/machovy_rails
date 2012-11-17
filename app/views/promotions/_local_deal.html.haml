@@ -31,8 +31,7 @@
         %span= @promotion.quantity_description
       .span9
         - if @show_buy_button
-          %button.btn.btn-large.btn-danger 
-            = link_to 'Buy this now', order_promotion_path(@promotion)
+          = link_to 'Buy this now', order_promotion_path(@promotion), :class => 'btn btn-danger'
     .row-fluid
       .span12
          

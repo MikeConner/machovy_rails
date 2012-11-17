@@ -15,9 +15,9 @@
             %span.current-price
               = number_to_currency(promotion.price)
         .span7
-          %span.more-details.btn.pull-right
-            = link_to "More Details", promotion_path(promotion)
+          %span.more-details.pull-right
+            = link_to "More Details", promotion_path(promotion), {:class => 'btn'}
       - else
         .item-detail.pull-right 
-          %span.more-details.btn.pull-right   
-            = link_to "More Details", promotion_path(promotion)
+          %span.more-details.pull-right   
+            = link_to "More Details", promotion_path(promotion), {:class => 'btn'}

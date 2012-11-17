@@ -12,8 +12,8 @@
           %h5
             = will_paginate
             = page_entries_info
-          %button.btn.btn-small.pull-right 
-            = link_to 'Rebalance Weights', rebalance_promotions_path, :method => :put
+          %button.pull-right 
+            = link_to 'Rebalance Weights', rebalance_promotions_path, :method => :put{:class => 'btn btn-small'}
         .widget-content.nopadding
           
           

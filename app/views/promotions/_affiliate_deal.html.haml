@@ -8,8 +8,7 @@
     .row-fluid
       .span12
         - if @show_buy_button
-          %button.btn.btn-danger 
-            = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank"
+          = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank", :class => 'btn btn-danger'
 .space
 .row-fluid
   .span12.product-detail

@@ -9,9 +9,9 @@
     - else
       = render :partial => 'promotion_dashview', :locals => { :p_list => @pending }
     %br
-    .btn.btn-large
+    .span
       %i.icon-plus
-      = link_to I18n.t('create_promotion'), new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)
+      = link_to I18n.t('create_promotion'), new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL),{:class => 'btn btn-large'}
   .span4
     %h3 Ready To Publish
     - if 0 == @attention.count
