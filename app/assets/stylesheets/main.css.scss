@@ -451,7 +451,6 @@ Dropdown
 
 
 .active {
-  font-weight:bold;
   color:#000!important;
 }
 
@@ -548,6 +547,11 @@ footer p,
 footer address {
   color: #555 !important;
 }
+
+footer h1, footer h2, footer h3, footer h4, footer h5, footer h6 {
+  color:white;
+}
+
 footer a {
   color: #aaa;
 }
@@ -819,7 +823,7 @@ Curator
 }
 
 .curator-post-title {
-  padding: 3px 10px 2px 0px;
+  padding: 3px 10px 2px 5px;
   background-color: #e1e1e1;
   font-size: 12px;
 }
