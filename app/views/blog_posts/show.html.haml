@@ -18,7 +18,7 @@
             = video.caption
   .span3
     %aside
-      - if !@blog_post.associated_image.nil?
+      - if !@blog_post.associated_image.file.nil?
         = image_tag @blog_post.associated_image_url(:blog_content_photo).to_s
       .row-fluid.curator-row
         .span2.curator-block
