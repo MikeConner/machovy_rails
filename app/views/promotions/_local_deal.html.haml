@@ -23,6 +23,8 @@
     .row-fluid
       .span12
         %h3= @promotion.title
+        - if !@promotion.subtitle.nil?
+          %h4= @promotion.subtitle
     .row-fluid
       .span3
         %span.price-old= number_to_currency(@promotion.retail_value)
