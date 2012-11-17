@@ -6,11 +6,6 @@ class RegistrationsController < Devise::RegistrationsController
   before_filter :upcase_state, only: [:create, :update]
   
   def new
-    # I would rather make a new view than edit the standard devise one, but I still want the default 
-    #   controller definitions and behavior, and the controller logic seems to be hidden in the gem!
-    # So set this to trigger adding the additional fields in the view
-    @is_merchant = params[:merchant]
-    @signup_message = @is_merchant ? "Merchant Sign up" : "Sign up"
     super
   end
 
