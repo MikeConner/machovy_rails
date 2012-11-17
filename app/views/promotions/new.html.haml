@@ -9,13 +9,13 @@
         .row-fluid
           .span12.column
             .box
-              %h4.box-header.round-top Form Control States
+              %h4.box-header.round-top= I18n.t('new_promotion')
               .box-container-toggle
                 .box-content
                   .form-horizontal
                     %fieldset
                       %legend
-                        %h3= I18n.t('new_promotion')
+                        %h3
                       .row-fluid
                         .span12
                           = form_for @promotion, :html => { multipart: true } do |f|
