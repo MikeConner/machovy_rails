@@ -1,35 +1,34 @@
-.container
-  .row-fluid
-    .span12
-      .row-fluid
-        .span12.column
-          .box
-            %h4.box-header.round-top Form Control States
-            .box-container-toggle
-              .box-content
-                .form-horizontal
-                  %fieldset
-                    %legend
-                      %h3= I18n.t('new_promotion')
-                    .row-fluid
-                      .span12
-                        = form_for @promotion, :html => { multipart: true } do |f|
-                          = render :partial => 'shared/error_messages', :locals => { :errors => @promotion.errors, :name => 'Promotion' }
-                          -# Grid weight is validated, so it has to be in the form, but customers can't see it
-                          - if admin_user?
-                            .field
-                              = f.label :grid_weight
-                              = f.number_field :grid_weight, :min => 1
-                            .field
-                              = f.label :categories
-                              %br/
-                              = f.collection_select(:category_ids, @categories, :id, :name, {}, { :multiple => true })
-                            - if current_user.has_role?(Role::SALES_ADMIN)
+#promotion-form
+  .container
+    .row-fluid
+      .span12
+        .row-fluid
+          .span12.column
+            .box
+              %h4.box-header.round-top= I18n.t('new_promotion')
+              .box-container-toggle
+                .box-content
+                  .form-horizontal
+                    %fieldset
+                      .row-fluid
+                        .span12
+                          = form_for @promotion, :html => { multipart: true } do |f|
+                            = render :partial => 'shared/error_messages', :locals => { :errors => @promotion.errors, :name => 'Promotion' }
+                            -# Grid weight is validated, so it has to be in the form, but customers can't see it
+                            - if admin_user?
                               .field
-                                = f.label :vendor_id
+                                = f.label :grid_weight
+                                = f.number_field :grid_weight, :min => 1
+                              .field
+                                = f.label :categories
                                 %br/
-                                = f.collection_select(:vendor_id, @vendors, :id, :name)
-                          - else
-                            = f.hidden_field :grid_weight
-                          = render :partial => 'shared/promotion_fields', 
-                                   :locals => { :f => f, :metros => @metros, :quantity => @promotion.quantity || 1, :share_pct => Promotion::MINIMUM_REVENUE_SHARE }
+                                = f.collection_select(:category_ids, @categories, :id, :name, {}, { :multiple => true })
+                              - if current_user.has_role?(Role::SALES_ADMIN)
+                                .field
+                                  = f.label :vendor_id
+                                  %br/
+                                  = f.collection_select(:vendor_id, @vendors, :id, :name)
+                            - else
+                              = f.hidden_field :grid_weight
+                            = render :partial => 'shared/promotion_fields', 
+                                     :locals => { :f => f, :metros => @metros, :quantity => @promotion.quantity || 1, :share_pct => Promotion::MINIMUM_REVENUE_SHARE }
