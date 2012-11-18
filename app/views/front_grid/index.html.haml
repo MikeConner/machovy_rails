@@ -8,18 +8,15 @@
 - if session[:deals] != 'true'
   .space-medium
   .row-fluid
-    .span12
-      %p.section-headline Recent Blog Posts
-    .row-fluid
-      - @blog_posts.each_with_index do |blogpost, index|
-        .span3
-          %h5
-            = link_to truncate(blogpost.title, :length => 25), blog_post_path(blogpost)
-          .borderLine
-            .borderLine-left &nbsp;
-            .borderLine-right &nbsp;
-          %p
-            = blogpost.truncated_body(:length => 200)
+    - @blog_posts.each_with_index do |blogpost, index|
+      .span3
+        %h5
+          = link_to truncate(blogpost.title, :length => 25), blog_post_path(blogpost)
+        .borderLine
+          .borderLine-left &nbsp;
+          .borderLine-right &nbsp;
+        %p
+          = blogpost.truncated_body(:length => 200)
 
   .space          
   .row-fluid.well
