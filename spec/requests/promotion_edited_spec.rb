@@ -28,7 +28,7 @@ describe "Promotion edited and approved" do
       fill_in 'promotion_retail_value', :with => 1000
       fill_in 'promotion_price', :with => 500
       select '2016', :from => 'promotion_end_date_1i'
-      click_button 'Create Promotion'
+      click_button 'Submit'
       @promotion = Promotion.first
     end
     
@@ -56,7 +56,7 @@ describe "Promotion edited and approved" do
         choose 'decision_edit'
         fill_in 'comment', :with => 'Almost but not quite'
         
-        click_button 'Update Promotion'
+        click_button 'Submit'
       end
       
       it "should be a superadmin user" do

@@ -42,12 +42,12 @@ describe "Demo spec" do
     it { should have_selector('h3', :text => I18n.t('promotions.inactive')) }
     # We haven't created any ads, so this shouldn't be displayed
     it { should_not have_selector('h3', :text => I18n.t('promotions.ads')) }
-    it { should have_link(I18n.t('create_promotion'), :href => new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)) }
+    it { should have_link('Create Promotion', :href => new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)) }
     
     describe "new promotion" do
-      before { click_link I18n.t('create_promotion') }
+      before { click_link 'Create Promotion' }
       
-      it { should have_selector('h3', :text => I18n.t('new_promotion')) }
+      it { should have_selector('h4', :text => I18n.t('new_promotion')) }
       it { should have_selector('input', :id => 'promotion_revenue_shared', :value => Promotion::MINIMUM_REVENUE_SHARE) }
       
       describe "create" do
@@ -59,14 +59,14 @@ describe "Demo spec" do
           fill_in 'promotion_remote_teaser_image_url', :with => TEASER_URL
           fill_in 'promotion_remote_main_image_url', :with => MAIN_URL
           fill_in 'promotion_promotion_images_attributes_0_remote_slideshow_image_url', :with => SLIDESHOW_URL
-          fill_in 'promotion_promotion_images_attributes_0_caption', :with => FactoryGirl.generate(:random_phrase)
+          #fill_in 'promotion_promotion_images_attributes_0_caption', :with => FactoryGirl.generate(:random_phrase)
           fill_in 'promotion_retail_value', :with => 200
           fill_in 'promotion_price', :with => 100
           # Can't "fill_in" a hidden field
           find(:xpath, "//input[@id='promotion_revenue_shared']").set "10"
           fill_in 'promotion_quantity', :with => 100
           
-          click_button 'Create Promotion'
+          click_button 'Submit'
         end
         
         describe "promo page" do

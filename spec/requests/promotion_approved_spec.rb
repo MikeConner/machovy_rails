@@ -28,7 +28,7 @@ describe "Promotion immediately approved" do
       fill_in 'promotion_retail_value', :with => 1000
       fill_in 'promotion_price', :with => 500
       select '2016', :from => 'promotion_end_date_1i'
-      click_button 'Create Promotion'
+      click_button 'Submit'
       @promotion = Promotion.first
     end
     
@@ -53,7 +53,7 @@ describe "Promotion immediately approved" do
         visit promotions_path
         click_link @promotion.title
         choose 'decision_accept'
-        click_button 'Update Promotion'
+        click_button 'Submit'
       end
       
       it "should be a superadmin user" do

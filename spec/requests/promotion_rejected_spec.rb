@@ -28,7 +28,7 @@ describe "Promotion rejected" do
       fill_in 'promotion_retail_value', :with => 1000
       fill_in 'promotion_price', :with => 500
       select '2016', :from => 'promotion_end_date_1i'
-      click_button 'Create Promotion'
+      click_button 'Submit'
       @promotion = Promotion.first
     end
     
@@ -54,7 +54,7 @@ describe "Promotion rejected" do
         click_link @promotion.title
         choose 'decision_reject'
         fill_in 'comment', :with => 'Way off!'
-        click_button 'Update Promotion'
+        click_button 'Submit'
       end
       
       it "should be a superadmin user" do
@@ -93,7 +93,7 @@ describe "Promotion rejected" do
             visit promotions_path
             
             click_link 'Edit'
-            click_button 'Update Promotion'
+            click_button 'Submit'
             @promotion = Promotion.first
           end
           
