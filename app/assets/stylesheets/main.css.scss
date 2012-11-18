@@ -322,10 +322,6 @@ Promotions
     height:100px;
     width:95%;
   }
-
-
-
-
 }
 
 
@@ -451,47 +447,17 @@ Dropdown
     background-color: #333333;
     border: 1px solid #323232;
 }
-.dropdown-menu li > a:hover,
-.dropdown-menu .active > a,
-.dropdown-menu .active > a:hover {
-  background-color: #333333;
-  color:white;
-}
-.dropdown-menu li > a:hover {color:white;}
-.well {
-  box-shadow: none;
-}
-.nav-pills > li > a {
-  padding-top: 12px;
-  padding-bottom: 10px;
-  margin-top: 2px;
-  margin-bottom: 2px;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
-}
+
+
+
+/*
+----------------------------------------------
+Dropdown
+----------------------------------------------*/
+
 
 .nav-pills > .active > a, 
 .nav-pills > .active > a:hover {
-    background-color:transparent;
-    color:black;
-}
-
-.nav-tabs .dropdown-toggle .caret, 
-.nav-pills .dropdown-toggle .caret,
-.nav-tabs .dropdown-toggle:hover .caret,
-.nav-pills .dropdown-toggle:hover .caret{
-    border-bottom-color: #e95850;
-    border-top-color: #e95850;
-}
-
-
-.nav-pills .dropdown-toggle:hover .caret:hover{
-    border-bottom-color: white;
-    border-top-color:white;
-}
-
-.nav-pills > li > a:hover{
   color:#333333!important;
   background-color: white;
 }
@@ -522,19 +488,23 @@ Dropdown
 }
 
 
-.categories {
-  background-color: white;
-  font-size: 13px;
-  width: 100%;
-  padding: 0 0 0 16px;
+/*
+----------------------------------------------
+Categories
+----------------------------------------------*/
+
+/** Styles Active State of Categories **/
+.nav-pills > .active > a, .nav-pills > .active > a:hover {
+  font-weight:bold;
 }
 
-.categories a{color:#999999!important}.categories a:hover{color:white!important}.categoriess a:active{color:white!important}
-
-
-.active {
-  color:#000!important;
+.nav > li > a:hover {
+  background-color:transparent;
+  color:black;
 }
+
+.categories a{color:#999999!important}
+.categories a:hover{color:black!important;}
 
 
 /*
