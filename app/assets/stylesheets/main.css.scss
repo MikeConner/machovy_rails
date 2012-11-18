@@ -505,7 +505,6 @@ Categories
 .categories a{color:#999999!important}
 .categories a:hover{color:black!important;}
 
-.nav-tabs,
 .nav-pills {
     margin-left: 14px;
   *zoom: 1;
@@ -1813,23 +1812,26 @@ Rating Stars
   display: block;
   float: left;
 }
-.isotope-item {
-  z-index: 2;
-}
 
 .on {
   background: url('yellow-star.gif') 0 0;
-}
-.isotope-hidden.isotope-item {
-  pointer-events: none;
-  z-index: 1;
 }
 
 .vendor_map {
   height: 300px;
   width: 300px;
 }
+
 /**** Isotope CSS3 transitions ****/
+
+.isotope-item {
+  z-index: 2;
+}
+
+.isotope-hidden.isotope-item {
+  pointer-events: none;
+  z-index: 1;
+}
 
 .isotope,
 .isotope .isotope-item {
@@ -1867,9 +1869,3 @@ Rating Stars
        -o-transition-duration: 0s;
           transition-duration: 0s;
 }
-
-
-
-
-
-
