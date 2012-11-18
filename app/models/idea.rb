@@ -44,6 +44,25 @@ class Idea < ActiveRecord::Base
     7
   end
   
+  # Rather than let the user make "mistakes" and catch them with error messages,
+  #  allow the system to pre-emptively determine whether an idea is ratable by a
+  #  particular user (and don't display the rating UI in that case)
+  def ratable_by?(user)
+    if user.id == self.user.id
+      false
+    else
+      result = true
+      self.ratings.each do |rating|
+        if rating.user.id == user.id
+          result = false
+          break
+        end
+      end
+      
+      result
+    end
+  end
+  
   def average_rating
     if 0 == self.ratings.count
       nil

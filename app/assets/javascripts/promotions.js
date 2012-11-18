@@ -56,7 +56,43 @@ $(function() {
     return false;
   });
 
-	//$('.carousel').carousel() Calls bootstrap slider
+  $('.rating_star').click(function() {
+  	var star = $(this);
+  	var stars = $(this).attr('data-stars');
+  	var data_id = $(this).attr('data-id')
+  	$('#' + data_id + "_stars").val(stars)
+  	
+  	for (i = 1; i <= 5; i++) {
+  		if (i <= stars) {
+  			$('#' + data_id + "_" + i).addClass('on');
+  		}
+  		else {
+  			$('#' + data_id + "_" + i).removeClass('on');
+  		}
+  	}
+  });
+  
+  var latitude = $('#latitude').val();
+  var longitude = $('#longitude').val();
+  var label = $('#vendor').val();
+  
+  if (latitude && longitude) {
+  	var address = new google.maps.LatLng(latitude, longitude);
+  	
+  	var mapOptions = {
+      center: address,
+      zoom: 18,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    
+    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+    if (label) {
+	    var marker = new google.maps.Marker({position: address, 
+						                     map: map,
+						                     title: label
+						                     });   	
+    }
+  }
 });
 
 // Appears in views/merchant/order/_order_form; currently commented out

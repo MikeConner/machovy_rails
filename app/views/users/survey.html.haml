@@ -1,13 +1,16 @@
 %h3== Thanks again for your order from #{@order.vendor.name} (#{@order.promotion.title}, on #{@order.created_at.try(:strftime, '%b %d, %Y')})
 = form_for @user, :method => :put, :url => feedback_user_path(@user, :order_id => @order) do |f|
   = render :partial => 'shared/error_messages', :locals => { :errors => @user.errors, :name => 'Feedback' }
-  -# @user.feedbacks.build(:order_id => @order.id) if @user.feedbacks.empty?
   = f.fields_for :feedbacks do |feedback|
     = feedback.hidden_field :order_id
+    = feedback.hidden_field :stars, :id => "#{@order.id}_stars"
     .field
       = feedback.label :stars, 'Please rate your satisfaction on a scale from 1 to 5 stars (where 5 is best)'
       %br/
-      = feedback.number_field :stars, :min => 1, :max => 5, :value => 5
+      %ul.rating
+        - (1..5).each do |i|
+          %li.rating_star{:id => "#{@order.id}_#{i}", 'data-id' => "#{@order.id}", 'data-stars' => "#{i}"}
+    %br/
     %p Would you recommend this to your friends? (Or wish it on your ex-wife?)
     .field
       = feedback.radio_button :recommend, 'true', :checked => true

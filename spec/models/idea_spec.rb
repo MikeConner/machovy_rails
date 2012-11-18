@@ -24,6 +24,7 @@ describe "Idea" do
   it { should respond_to(:average_rating) }
   it { should respond_to(:num_comments) }
   it { should respond_to(:<=>) }
+  it { should respond_to(:ratable_by?) }
   
   its(:user) { should == user }
   
@@ -73,6 +74,20 @@ describe "Idea" do
       
       it "should not have ratings" do
         Rating.count.should == 0
+      end
+    end
+    
+    it "Cannot rate your own idea" do
+      idea.ratable_by?(idea.user).should be_false
+    end
+      
+    describe "Cannot rate more than once" do
+      let(:idea) { FactoryGirl.create(:idea_with_ratings) }
+      before { puts idea.ratings }
+      
+      it "shouldn't allow duplicate ratings" do
+        idea.ratings.count.should be == 5
+        idea.ratable_by?(idea.reload.ratings.first.user).should be_false
       end
     end
     
