@@ -1,29 +1,30 @@
 %p#notice= notice
 %p
-  %b Description:
+  %b Purchased:
   = @order.description
-%p
-  %b Quantity:
-  = @order.quantity
 %p 
   %b Total Amount:
   = number_to_currency(@order.total_cost)
-%p
-  %b= pluralize(@order.vouchers.count, "Voucher")
-  %table
-    %col{:width => "50"}/
-    %col{:width => "75"}/
-    %col{:width => "100"}/
-    %col{:width => "100"}/
-    %col{:width => "100"}/
-    %col{:width => "300"}/
-    %tr
-      %th ID
-      %th Status
-      %th Issued
-      %th Expires
-      %th Redeemed
-      %th Comments
-  - @order.vouchers.each do |voucher|
-    -# Consider rendering merchant/vouchers/show -- not sure if it has the table format, though
-    = render :partial => 'voucher', :locals => { :v => voucher }  
+- if admin_user?
+  %p
+    %b Quantity:
+    = @order.quantity
+  %p
+    %b= pluralize(@order.vouchers.count, "Voucher")
+    %table
+      %col{:width => "50"}/
+      %col{:width => "75"}/
+      %col{:width => "100"}/
+      %col{:width => "100"}/
+      %col{:width => "100"}/
+      %col{:width => "300"}/
+      %tr
+        %th ID
+        %th Status
+        %th Issued
+        %th Expires
+        %th Redeemed
+        %th Comments
+    - @order.vouchers.each do |voucher|
+      -# Consider rendering merchant/vouchers/show -- not sure if it has the table format, though
+      = render :partial => 'voucher', :locals => { :v => voucher }  
