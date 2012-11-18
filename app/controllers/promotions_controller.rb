@@ -151,6 +151,8 @@ class PromotionsController < ApplicationController
     @categories = Category.order(:name)
     
     @promotion = Promotion.new
+    # Required to support nested attributes
+    @promotion.promotion_images.build
     # Merchants should render default "new"
     if current_user.has_role?(Role::MERCHANT)
       # For now, merchants can only create local deals
@@ -158,8 +160,6 @@ class PromotionsController < ApplicationController
       if params[:promotion_type] != Promotion::LOCAL_DEAL
         redirect_to promotions_path, :alert => 'Merchants can only create local deals'
       end
-      # Required to support nested attributes
-      @promotion.promotion_images.build
       # Fall through to render 'new'
     else
       # Admins can only create ads/affiliates; check type argument
