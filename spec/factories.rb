@@ -551,7 +551,7 @@ FactoryGirl.define do
     
     factory :vendor_with_map do
       latitude 40.552285
-      longitude -80.029079
+      longitude { -80.029079 }
     end
   end
     
