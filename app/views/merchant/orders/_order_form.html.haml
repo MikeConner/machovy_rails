@@ -57,5 +57,6 @@
       = check_box_tag 'cb_save_card', '1', false, :onclick => "set_save_card_field()"
       = label_tag 'cb_save_card', 'Save this card for future orders?'
   %em Your credit card details are sent directly to our payment processor, and are never stored at Machovy
-  .actions
-    = f.submit "Get it NOW"
+  %br
+  %br
+  = f.submit "Get it NOW", :class => 'btn btn-danger'

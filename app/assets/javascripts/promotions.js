@@ -22,7 +22,13 @@ $(function() {
   $('#tab2').click(function (e) {
     e.preventDefault();
     $(this).tab('show');
+  })
+
+  $('#tab3').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
   })  
+
 	//$('.carousel').carousel() Calls bootstrap slider
 });
 

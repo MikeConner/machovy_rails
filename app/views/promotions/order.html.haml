@@ -1,3 +1,65 @@
-%h1 New Promotion order
-= render :partial => 'thumbnail', :locals => { :promotion => @promotion }
-= render :partial => 'merchant/orders/order_form', :locals => { :stripe_customer => @stripe_customer }
+.row-fluid.product-line
+  .span4.product
+    %ul.rslides{:id => 'slider2'}
+      - if !@promotion.teaser_image.file.nil?
+        %li
+          = image_tag @promotion.teaser_image_url(:product_detail).to_s
+      - if !@promotion.main_image.file.nil?
+        %li
+          = image_tag @promotion.main_image_url(:product_detail).to_s
+      - @promotion.promotion_images.each do |slideshow|
+        - if !slideshow.slideshow_image.file.nil?
+          %li
+            = image_tag slideshow.slideshow_image_url(:product_detail).to_s
+  .span8.product-detail
+    .row-fluid
+      .span12
+        %h3 New Promotion order
+        - if !@promotion.subtitle.nil?
+          %h4= @promotion.subtitle
+    .row-fluid
+      .span3
+        %span.price-old= number_to_currency(@promotion.retail_value)
+        %span.price-new= number_to_currency(@promotion.price)
+        %br
+        %span= @promotion.quantity_description
+      .span9
+        - if @show_buy_button
+          = link_to 'Buy this now', order_promotion_path(@promotion), :class => 'btn btn-danger'
+    .row-fluid
+      .span12
+         
+.row-fluid
+  .span5.product
+    %table.table.table-condensed
+      %thead
+        %tr
+          %th Retail Value
+          %th Discount
+          %th You Save
+      %tbody
+        %tr
+          %td= number_to_currency(@promotion.retail_value)
+          %td= number_to_percentage(@promotion.discount_pct, :precision => 0)
+          %td= number_to_currency(@promotion.discount)
+    = render :partial => 'merchant/orders/order_form', :locals => { :stripe_customer => @stripe_customer }
+  .span7.product-detail
+    -#%p= @promotion.description
+    %ul.nav.nav-tabs
+      %li.active
+        <a data-toggle="tab" href="#tab1">Description </a>
+      %li
+        <a data-toggle="tab" href="#tab2">Limitations</a>
+      %li
+        <a data-toggle="tab" href="#tab3">Voucher Instructions</a>  
+    .tab-content
+      #tab1.tab-pane.fade.in.active
+        %h4.tab-title Product Description
+        %p= @promotion.description 
+      #tab2.tab-pane
+        %h4.tab-title Product Limitations
+        %p= @promotion.limitations 
+      #tab3.tab-pane
+        %h4.tab-title Voucher Instructions
+        %p= @promotion.voucher_instructions
+
