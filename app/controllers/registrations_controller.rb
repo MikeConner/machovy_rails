@@ -12,7 +12,25 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     # Detect merchant so that it displays the right fields in case of errors
     @is_merchant = params[:user][:vendor_attributes]
-    super
+    # Kind of hacky, but it's complicated because all sign in and regular user sign up are on one page, 
+    #   and vendor signup is on another page
+    @user = User.new(params[:user])
+    if @user.save
+      super
+    else
+      if @is_merchant
+        # There could be vendor field errors, so we need to copy them from the @user object instead of overwriting
+        flash[:alert] = ''
+        
+        @user.errors.full_messages.each do |msg|
+          flash[:alert] << msg + "\n"
+        end
+      
+        redirect_to new_user_registration_path
+      else
+        redirect_to new_user_session_path, :alert => I18n.t('devise.failure.invalid')
+      end
+    end
   end
 
 private

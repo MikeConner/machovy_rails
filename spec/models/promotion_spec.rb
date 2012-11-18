@@ -75,6 +75,7 @@ describe "Promotions" do
   it { should respond_to(:discount_pct) }
   it { should respond_to(:under_quantity_threshold?) }
   it { should respond_to(:subtitle) }
+  it { should respond_to(:padded_description) }
   
   its(:metro) { should == metro }
   its(:vendor) { should == vendor }
@@ -83,6 +84,30 @@ describe "Promotions" do
   
   it { should be_valid }
 
+  describe "padded description" do
+    before { promotion.description = 'too short' }
+    
+    it "should pad it" do
+      promotion.padded_description.should == "too short".ljust(Promotion::MIN_DESCRIPTION_LEN, ' ')
+    end
+    
+    describe "exact len" do
+      before { promotion.description = "a"*Promotion::MIN_DESCRIPTION_LEN }
+      
+      it "should match exactly" do
+        promotion.description.should == promotion.padded_description
+      end
+      
+      describe "already long enough" do
+        before { promotion.description = "a"*(Promotion::MIN_DESCRIPTION_LEN * 2) }
+        
+        it "should not pad it" do
+          promotion.description.should == promotion.padded_description          
+        end
+      end
+    end
+  end
+  
   describe "initialization" do
     before { @promo = Promotion.new }
     

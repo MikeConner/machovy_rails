@@ -6,6 +6,8 @@ en:
   admins_only: 'This function only available to Administrators.'
   already_rated: 'Looks like you already rated this idea.'
   anonymous: 'Anonymous'
+  create_account: "Create your account"
+  create_account_action: "Create an account. It's free!"
   customer_service: 'If you have any questions at 3:00 am, call Arash on his cell phone...'
   feedback_prompt: 'Tell us what you think!'
   feedback_thanks: "Thank you for your feedback!"
@@ -19,6 +21,7 @@ en:
   only_n_left: "Only %{n} left!"
   order_successful: 'Thank you for your order. Check your email for the details and voucher.'
   machovy_attention: 'Promotions that need Machovy attention'
+  merchant_signup: 'Not the usual deals site'
   new_promotion: "Let's make a deal"
   create_promotion: 'Create a New Deal'
   payment_processed: 'Payment successfully processed.'

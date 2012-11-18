@@ -4,31 +4,40 @@ describe "User signup" do
   subject { page }
   
   describe "Sign up" do
-    before { visit new_user_registration_path }
+    before do
+      visit new_user_session_path
+      save_page
+    end
     
     # Should have the user header
-    it { should have_selector('h2', :text => 'Sign up') }
-    it { should_not have_selector('h3', :text => 'Not the usual deals site') }
+    it { should have_selector('h4', :text => I18n.t('create_account_action')) }
+    it { should_not have_selector('h4', :text =>  I18n.t('merchant_signup')) }
     
     describe "with invalid information" do
-      before { click_button "Sign up" }
+      before { click_button I18n.t('create_account') }
       
       it { should have_selector('div', :id => 'error_explanation') }
-      it { should have_content('Email is invalid') }
+      it { should have_content(I18n.t('devise.failure.invalid')) }
+      it "should not redirect to the merchant page" do
+        current_path.should == new_user_session_path
+      end
     end
     
     describe "with valid information" do
       let(:msg) { ActionMailer::Base.deliveries[0] }
       
       before do
+        visit new_user_session_path
         # Clear any previous emails
         ActionMailer::Base.deliveries = []
-        
-        fill_in 'user_email', :with => 'jeff@machovy.com'
-        fill_in 'user_password', :with => "machoman"
+
+        within(".sign-up-block") do
+          fill_in 'user_email', :with => 'jeff@machovy.com'
+          fill_in 'user_password', :with => "machoman"
+        end
         fill_in 'user_password_confirmation', :with => "machoman"
         
-        click_button "Sign up"
+        click_button I18n.t('create_account')
       end
             
       it "should create a user" do

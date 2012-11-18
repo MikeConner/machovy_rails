@@ -3,7 +3,7 @@
   .row
     .span7
       .sign-in-title
-        %h4 Not the usual deals site  
+        %h4= I18n.t('merchant_signup')  
       .sign-in-body
         = render :partial => 'vendor_header'
     .span5
@@ -11,7 +11,7 @@
         %h4 Merchant Signup
       .sign-in-body
         = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
-          = devise_error_messages!
+          = render :partial => 'shared/flash_messages'
           - resource.build_vendor unless resource.vendor
           = f.fields_for :vendor do |v|
             %div
@@ -25,7 +25,6 @@
             = v.text_field :zip, {:placeholder => 'Zip Code'}
             = v.text_field :url, {:placeholder => 'Your Website (Optional)'}
             = v.text_field :facebook,{:placeholder => 'Facebook (Optional)'}
-
           %br
           %br
           %div

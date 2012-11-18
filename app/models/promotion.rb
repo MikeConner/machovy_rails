@@ -49,6 +49,7 @@ class Promotion < ActiveRecord::Base
   MINIMUM_REVENUE_SHARE = 5
   QUANTITY_THRESHOLD_PCT = 0.1
   DEALS_PER_ROW = 4
+  MIN_DESCRIPTION_LEN = 30
 
   # Types
   LOCAL_DEAL = 'Deal'
@@ -136,6 +137,9 @@ class Promotion < ActiveRecord::Base
   
   # Causes issues with nested attributes when enabled
   #validates_associated :promotion_images
+  def padded_description
+    self.description.length >= MIN_DESCRIPTION_LEN ? self.description : self.description.ljust(MIN_DESCRIPTION_LEN, ' ')
+  end
   
   def expected_revenue
     (displayable? and deal?) ? self.revenue_shared / 100.0 * self.price : 0

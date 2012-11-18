@@ -1,12 +1,12 @@
 .container
   .space-large
   .row
+    = render :partial => 'shared/flash_messages'
     .span5.offset1
       .sign-in-title
         %h4 Already a member? Sign in:
       .sign-in-body
         = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
-          = render :partial => 'shared/flash_messages'
           = f.label :email
           %div
             = f.email_field :email
@@ -23,14 +23,9 @@
             = render :partial => "devise/shared/sign_in_links"
     .span5
       .sign-in-title
-        %h4 Create an account. Its free!
-      .sign-in-body
+        %h4= I18n.t('create_account_action')
+      .sign-in-body.sign-up-block
         = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
-          = devise_error_messages!
-          - if @is_merchant
-            - resource.build_vendor unless resource.vendor
-            = f.fields_for :vendor do |vendor_form|
-              = render :partial => 'vendor', :locals => { :f => vendor_form }
           = f.label :email
           %div
             = f.email_field :email
@@ -45,5 +40,5 @@
           %div
             = f.password_field :password_confirmation
           .sign-in-footer
-            = f.submit "Create your account", {:class => 'btn btn-danger'}
+            = f.submit I18n.t('create_account'), {:class => 'btn btn-danger'}
 .push
