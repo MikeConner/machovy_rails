@@ -34,11 +34,10 @@
       = f.label :price
       = f.text_field :price, :size => 15
       = f.label :revenue_shared
-      #slider_value 5%
+      #slider_value== #{share_pct}%
       .slider-input#revenue_slider
       %br
       = f.hidden_field :revenue_shared, :value => share_pct
-      -#= f.text_field :revenue_shared, :placeholder => "5 - 80%", :size => 15
       = f.label :quantity
       = f.number_field :quantity, :min => 1, :value => quantity
       = f.label :start_date
