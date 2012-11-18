@@ -1,72 +1,51 @@
-.field
-  = f.label :metro_id
-  %br/
-  = f.collection_select :metro_id, metros, :id, :name 
-.field
-  = f.label :title
-  %br/
-  = f.text_field :title, :size => Promotion::MAX_TITLE_LEN
-.field
-  = f.label :subtitle
-  %br/
-  = f.text_field :subtitle, :size => Promotion::MAX_TITLE_LEN
-.field
-  = f.label :description
-  %br/
-  = f.text_area :description, :size => "60x12"
-.field
-  = f.label :limitations
-  %br/
-  = f.text_area :limitations, :size => "60x12"
-.field
-  = f.label :voucher_instructions
-  %br/
-  = f.text_area :voucher_instructions, :size => "60x6"
-.field
-  = f.label :teaser_image
-  %br/
-  = f.file_field :teaser_image
-.field
-  = f.label :remote_teaser_image_url, "or image URL"
-  %br/
-  = f.text_field :remote_teaser_image_url
-.field
-  = f.label :main_image
-  %br/
-  = f.file_field :main_image
-.field
-  = f.label :remote_main_image_url, "or image URL"
-  %br/
-  = f.text_field :remote_main_image_url
-.slideshow
-  = f.fields_for :promotion_images do |slideshow_image_form|
-    = render :partial => 'shared/slideshow', :locals => { :f => slideshow_image_form }
-.field
-  = f.label :retail_value
-  %br/
-  = f.text_field :retail_value, :size => 15
-.field
-  = f.label :price
-  %br/
-  = f.text_field :price, :size => 15
-.field
-  = f.label :revenue_shared
-  #slider_value 5%
-  .slider-input#revenue_slider
-  %br/
-  = f.hidden_field :revenue_shared, :value => share_pct
-  -#= f.text_field :revenue_shared, :placeholder => "5 - 80%", :size => 15
-.field
-  = f.label :quantity
-  %br/
-  = f.number_field :quantity, :min => 1, :value => quantity
-.field
-  = f.label :start_date
-  %br/
-  = f.date_select :start_date, :order => [:month, :day, :year]
-.field
-  = f.label :end_date
-  %br/
-  = f.date_select :end_date, :order => [:month, :day, :year]
-.actions
-  = f.submit
+.row-fluid
+  .span8
+    = f.label :title
+    = f.text_field :title, :size => Promotion::MAX_TITLE_LEN
+    = f.label :subtitle
+    = f.text_field :subtitle, :size => Promotion::MAX_TITLE_LEN
+    = f.label :description
+    = f.text_area :description, :size => "60x12"
+    = f.label :limitations
+    = f.text_area :limitations, :size => "60x12"
+    = f.label :voucher_instructions
+    = f.text_area :voucher_instructions, :size => "60x6"
+    .row-fluid 
+      .span4 
+        = f.label :teaser_image
+        = f.file_field :teaser_image
+        = f.label :remote_teaser_image_url, "or image URL"
+        = f.text_field :remote_teaser_image_url
+      .span4
+        = f.label :main_image, "Additional Image"
+        = f.file_field :main_image
+        = f.label :remote_main_image_url, "or image URL"
+        = f.text_field :remote_main_image_url
+      .span4
+        .slideshow
+          = f.fields_for :promotion_images do |slideshow_image_form|
+            = render :partial => 'shared/slideshow', :locals => { :f => slideshow_image_form }
+  .span4
+    .field
+      = f.label :metro_id
+      = f.collection_select :metro_id, metros, :id, :name 
+      = f.label :retail_value
+      = f.text_field :retail_value, :size => 15
+      = f.label :price
+      = f.text_field :price, :size => 15
+      = f.label :revenue_shared
+      #slider_value 5%
+      .slider-input#revenue_slider
+      %br
+      = f.hidden_field :revenue_shared, :value => share_pct
+      -#= f.text_field :revenue_shared, :placeholder => "5 - 80%", :size => 15
+      = f.label :quantity
+      = f.number_field :quantity, :min => 1, :value => quantity
+      = f.label :start_date
+      = f.date_select :start_date, :order => [:month, :day, :year]
+      = f.label :end_date
+      = f.date_select :end_date, :order => [:month, :day, :year]
+.row-fluid
+  .span12
+    .space
+    = f.submit 'Submit', :class => 'btn btn-danger btn-large'

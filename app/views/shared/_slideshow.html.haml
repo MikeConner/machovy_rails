@@ -1,12 +1,4 @@
-.field
-  = f.label :slideshow_image
-  %br/
-  = f.file_field :slideshow_image
-.field
-  = f.label :remote_slideshow_image_url, 'Slideshow image url'
-  %br/
-  = f.text_field :remote_slideshow_image_url
-.field
-  = f.label :caption, 'Slideshow image caption'
-  %br/
-  = f.text_field :caption       
+= f.label :slideshow_image, "Additional Image"
+= f.file_field :slideshow_image
+= f.label :remote_slideshow_image_url, 'or image url'
+= f.text_field :remote_slideshow_image_url

@@ -296,6 +296,38 @@ Promotions
 
 }
 
+#promotion-form {
+  
+  .btn {
+    width: 100%;
+    line-height: 35px;
+    font-size: 1.5em;
+  }
+
+  .field {
+    margin:0 0 10px 0;
+  }
+
+  label {
+    display:block;
+  }
+
+  textarea, input, select {
+    display:block;
+    width:95%;
+    margin:0 0 20px 0;
+  }
+
+  textarea {
+    height:100px;
+    width:95%;
+  }
+
+
+
+
+}
+
 
 /*
 ----------------------------------------------

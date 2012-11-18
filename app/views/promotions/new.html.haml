@@ -14,27 +14,22 @@
                 .box-content
                   .form-horizontal
                     %fieldset
-                      %legend
-                        %h3
                       .row-fluid
                         .span12
-                          = form_for @promotion, :html => { multipart: true } do |f|
-                            = render :partial => 'shared/error_messages', :locals => { :errors => @promotion.errors, :name => 'Promotion' }
-                            -# Grid weight is validated, so it has to be in the form, but customers can't see it
-                            - if admin_user?
-                              .field
+                          #promotion-form
+                            = form_for @promotion, :html => { multipart: true } do |f|
+                              = render :partial => 'shared/error_messages', :locals => { :errors => @promotion.errors, :name => 'Promotion' }
+                              -# Grid weight is validated, so it has to be in the form, but customers can't see it
+                              - if admin_user?
                                 = f.label :grid_weight
                                 = f.number_field :grid_weight, :min => 1
-                              .field
                                 = f.label :categories
-                                %br/
                                 = f.collection_select(:category_ids, @categories, :id, :name, {}, { :multiple => true })
                               - if current_user.has_role?(Role::SALES_ADMIN)
-                                .field
-                                  = f.label :vendor_id
-                                  %br/
-                                  = f.collection_select(:vendor_id, @vendors, :id, :name)
-                            - else
-                              = f.hidden_field :grid_weight
-                            = render :partial => 'shared/promotion_fields', 
-                                     :locals => { :f => f, :metros => @metros, :quantity => @promotion.quantity || 1, :share_pct => Promotion::MINIMUM_REVENUE_SHARE }
+                                = f.label :vendor_id
+                                = f.collection_select(:vendor_id, @vendors, :id, :name)
+                              - else
+                                = f.hidden_field :grid_weight
+                              %br
+                              = render :partial => 'shared/promotion_fields', 
+                                       :locals => { :f => f, :metros => @metros, :quantity => @promotion.quantity || 1, :share_pct => Promotion::MINIMUM_REVENUE_SHARE }
