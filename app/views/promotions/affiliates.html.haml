@@ -1,0 +1,8 @@
+= render :partial => 'shared/flash_messages'
+%h1 Affiliate Deals
+.row-fluid
+  %center
+    = will_paginate @affiliates
+    = page_entries_info @affiliates
+  = render :partial => 'promotion_admin', :locals => { :p_list => @affiliates }
+  %center= will_paginate @affiliates

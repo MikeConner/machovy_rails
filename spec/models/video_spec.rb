@@ -10,6 +10,7 @@
 #  curator_id      :integer
 #  caption         :text
 #  slug            :string(255)
+#  source          :string(24)
 #
 
 describe "Videos" do

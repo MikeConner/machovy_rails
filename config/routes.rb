@@ -49,6 +49,7 @@ MachovyRails::Application.routes.draw do
     collection do
       get 'manage'
       put 'rebalance'
+      get 'affiliates'
     end
   end
   resources :promotion_images

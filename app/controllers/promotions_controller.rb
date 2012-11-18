@@ -12,7 +12,7 @@ class PromotionsController < ApplicationController
   # Only SuperAdmins (and vendors) can edit local deals
   before_filter :ensure_vendor_or_super_admin, :only => [:edit]
   before_filter :ensure_correct_vendor, :only => [:edit, :show_logs, :accept_edits, :reject_edits]
-  before_filter :admin_only, :only => [:manage]
+  before_filter :admin_only, :only => [:manage, :affiliates]
   
   load_and_authorize_resource
 
@@ -285,6 +285,11 @@ class PromotionsController < ApplicationController
     @step_value = @page_value / 10
     
     # Don't want default application layout, with footer, etc.
+    render :layout => 'layouts/admin'
+  end
+  
+  def affiliates
+    @affiliates = Promotion.affiliates.order(:grid_weight).paginate(:page => params[:page])
     render :layout => 'layouts/admin'
   end
   
