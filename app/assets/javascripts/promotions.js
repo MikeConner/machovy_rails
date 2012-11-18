@@ -27,7 +27,27 @@ $(function() {
   $('#tab3').click(function (e) {
     e.preventDefault();
     $(this).tab('show');
-  })  
+  }) 
+
+  var $container = $('#container');
+  $container.imagesLoaded( function(){
+    $container.isotope({
+      itemSelector : '.box',
+        masonry : {
+          resizable: false, // disable normal resizing
+           // set columnWidth to a percentage of container width
+          columnWidth: $container.width() / 100,
+          gutterWidth: 2
+        }
+    });
+
+  $(window).smartresize(function(){
+    $container.isotope({
+      // update columnWidth to a percentage of container width
+      masonry: { columnWidth: $container.width() / 100 }
+    });
+  });
+  });
 
 	//$('.carousel').carousel() Calls bootstrap slider
 });

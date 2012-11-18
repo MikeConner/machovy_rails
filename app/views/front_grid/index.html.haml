@@ -1,6 +1,6 @@
 = render :partial => 'categories/index', :locals => { :active_category => @active_category }
 = render :partial => 'shared/flash_messages'
-.row-fluid.listings
+#container.clearfix.row-fluid
   - for i in 0..@promotions.count / @deals_per_row do
     - current_row = @promotions[i * @deals_per_row, @deals_per_row]
     - if current_row.count > 0
