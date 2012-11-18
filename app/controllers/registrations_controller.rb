@@ -1,6 +1,8 @@
 require 'phone_utils'
 
 class RegistrationsController < Devise::RegistrationsController
+  include ApplicationHelper
+  
   # Note -- very similar filters are in vendors_controller (can't share because arguments are different)
   before_filter :transform_phones, only: [:create, :update]
   before_filter :upcase_state, only: [:create, :update]
@@ -15,8 +17,20 @@ class RegistrationsController < Devise::RegistrationsController
     # Kind of hacky, but it's complicated because all sign in and regular user sign up are on one page, 
     #   and vendor signup is on another page
     @user = User.new(params[:user])
+    
     if @user.save
-      super
+      if @is_merchant
+        # Attempt geo-code
+        location = geocode_address(@user.vendor.map_address)
+        if !location.nil?
+          @user.vendor.latitude = location['lat']
+          @user.vendor.longitude = location['lng']
+          @user.save
+        end
+        
+        redirect_to new_user_registration_path, :notice => I18n.t('devise.registrations.signed_up_but_unconfirmed') and return
+      end
+      redirect_to new_user_session_path, :notice => I18n.t('devise.registrations.signed_up_but_unconfirmed') and return
     else
       if @is_merchant
         # There could be vendor field errors, so we need to copy them from the @user object instead of overwriting

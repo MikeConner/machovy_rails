@@ -37,7 +37,23 @@
           = link_to 'Buy this now', order_promotion_path(@promotion), :class => 'btn btn-danger'
     .row-fluid
       .span12
-         
+        %br/
+        - @vendor = @promotion.vendor
+        %em= @vendor.name
+        %br= @vendor.address_1
+        - if !@vendor.address_2.blank?
+          %br= @vendor.address_2
+        == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
+        %br= @vendor.phone 
+        - if !@vendor.url.blank?
+          %br= @vendor.url
+        - if !@vendor.facebook.blank?
+          %br= @vendor.facebook
+        - if @vendor.mappable?
+          = hidden_field_tag :latitude, @vendor.latitude
+          = hidden_field_tag :longitude, @vendor.longitude
+          = hidden_field_tag :vendor, @vendor.name
+          #map_canvas.vendor_map
 .row-fluid
   .span5.product
     %table.table.table-condensed

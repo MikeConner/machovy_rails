@@ -15,6 +15,8 @@
 #  created_at :datetime        not null
 #  updated_at :datetime        not null
 #  user_id    :integer
+#  latitude   :decimal(, )
+#  longitude  :decimal(, )
 #
 
 # CHARTER
@@ -31,7 +33,7 @@
 class Vendor < ActiveRecord::Base
   include ApplicationHelper
   
-  attr_accessible :address_1, :address_2, :city, :facebook, :name, :phone, :state, :url, :zip,
+  attr_accessible :address_1, :address_2, :city, :facebook, :name, :phone, :state, :url, :zip, :latitude, :longitude,
                   :user_id
                   
   belongs_to :user
@@ -51,6 +53,9 @@ class Vendor < ActiveRecord::Base
   validates :url, :format => { with: URL_REGEX }, :allow_blank => true
   validates :facebook, :format => { with: FACEBOOK_REGEX }, :allow_blank => true
   
+  validates_numericality_of :latitude, :allow_nil => true
+  validates_numericality_of :longitude, :allow_nil => true
+  
   # Devise creates the vendor first, then the user (when nested), so this validation breaks it
   #  Not really satisfactory to not validate it, but defer this until I understand devise better
   # I believe I could solve this by entirely replacing the devise create code, but then what happens
@@ -58,6 +63,21 @@ class Vendor < ActiveRecord::Base
   #validates_presence_of :user_id
   
   validates_associated :promotions
+  
+  def map_address
+    address = ''
+    address += self.address_1 + ', ' unless self.address_1.blank?
+    address += self.address_2 + ' ,' unless self.address_2.blank?
+    address += self.city + ', ' unless self.city.blank?
+    address += self.state + ', ' unless self.state.blank?
+    address += self.zip unless self.zip.blank?
+    
+    address
+  end
+  
+  def mappable?
+    !self.latitude.nil? && !self.longitude.nil?
+  end
   
   def total_paid
     total = 0

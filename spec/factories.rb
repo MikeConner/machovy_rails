@@ -548,6 +548,11 @@ FactoryGirl.define do
         FactoryGirl.create_list(:promotion_with_vouchers, evaluator.num_promotions, :vendor => vendor)
       end
     end
+    
+    factory :vendor_with_map do
+      latitude 40.552285
+      longitude -80.029079
+    end
   end
     
   factory :video do
