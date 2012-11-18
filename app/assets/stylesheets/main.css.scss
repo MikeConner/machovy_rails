@@ -62,7 +62,7 @@ a:hover{
 }
 
 .user-email {
-  color:$red;
+  color:white;
   padding:5px 0 0 10px;
 }
 
@@ -506,6 +506,12 @@ Categories
 .categories a{color:#999999!important}
 .categories a:hover{color:black!important;}
 
+.nav-tabs,
+.nav-pills {
+    margin-left: 14px;
+  *zoom: 1;
+}
+
 
 /*
 ----------------------------------------------
@@ -658,6 +664,9 @@ Buttons
 
 .btn-feedback {
   margin:4px 0 0 0 ;
+  padding:3px 10px;
+  font-size:0.75em;
+  letter-spacing:0.15em;
 }
 
 .btn {
