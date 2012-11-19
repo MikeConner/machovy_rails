@@ -95,6 +95,10 @@ p {font-size:13px;}
   margin:10px 0;
 }
 
+.well {
+  padding:20px;
+  width:97%;
+}
 
 /*
 ----------------------------------------------
@@ -252,7 +256,7 @@ header h1 {
 
 
 .sub-headline {
-  font-size: 15px;
+  font-size: 100%;
   font-weight: 400;
   text-transform: uppercase;
   padding: 10px 0 2px 0;
@@ -458,10 +462,10 @@ Dropdown
 .nav-pills > .active > a, 
 .nav-pills > .active > a:hover {
   color:#333333!important;
-  background-color: white;
+  background-color: transparent;
 }
 
-
+.nav-menus {position:relative;}
  
 .navbar .nav > li > .dropdown-menu:before {
   position: absolute;
@@ -510,6 +514,16 @@ Categories
   *zoom: 1;
 }
 
+.nav-pills > li > a {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  background-color:transparent;
+}
 
 /*
 ----------------------------------------------
@@ -637,6 +651,47 @@ Forms
 
 .form-search input, .form-inline input, .form-horizontal input, .form-search textarea, .form-inline textarea, .form-horizontal textarea, .form-search select, .form-inline select, .form-horizontal select, .form-search .help-inline, .form-inline .help-inline, .form-horizontal .help-inline, .form-search .uneditable-input, .form-inline .uneditable-input, .form-horizontal .uneditable-input, .form-search .input-prepend, .form-inline .input-prepend, .form-horizontal .input-prepend, .form-search .input-append, .form-inline .input-append, .form-horizontal .input-append {
   margin: 8px 0 5px 8px;
+}
+
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+  display: inline-block;
+  height: 20px;
+  padding: 4px 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #555555;
+  vertical-align: middle;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  width: 92%;
+  height: 30px;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 0px 0 0;
+  margin-top: 1px \9;
+  *margin-top: 0;
+  line-height: normal;
+  cursor: pointer;
 }
 
 /*
@@ -1793,7 +1848,7 @@ Local Deals Page
 
 .row-fluid [class*="promotion-grid"] {
   margin:3px;
-  width:24.26923%;   
+  width:19.26923%;   
 }
 
 /*

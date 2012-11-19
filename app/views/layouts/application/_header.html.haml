@@ -1,86 +1,81 @@
 #nav.navbar.navbar-fixed-top
   .navbar-inner
-    .container
-      %a.btn.btn-navbar{:href => '#', 'data-toggle' => 'collapse', 'data-target' => '.nav-collapse'}
-        %span.icon-bar
-        %span.icon-bar
-        %span.icon-bar
-      .nav-collapse
-        %ul.nav
-          %li.dropdown
-            %a.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
-              Metro
-              %b.caret
-            %ul.dropdown-menu
-              - Metro.all.each do |metro|
+    .container-fluid
+      %ul.nav
+        %li.dropdown
+          %a.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
+            Metro
+            %b.caret
+          %ul.dropdown-menu
+            - Metro.all.each do |metro|
+              %li
+                = link_to metro.name, metro_filter_path(:metro => metro.name)
+        %li.dropdown 
+          = link_to 'Deals & Interests', deals_path(:deals => true)
+        %li.dropdown
+          = link_to 'Lifestyle', curators_path
+      %ul.nav.pull-right
+        - if current_user.nil?
+          %li.dropdown.pull-right
+            = link_to 'Sign in / Register', new_user_session_path
+        - else
+          - if current_user.has_role?(Role::MERCHANT)
+            %li.dropdown
+              %a.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
+                Merchant
+                %b.caret
+              %ul.dropdown-menu
                 %li
-                  = link_to metro.name, metro_filter_path(:metro => metro.name)
-          %li.dropdown 
-            = link_to 'Deals & Interests', deals_path(:deals => true)
-          %li.dropdown
-            = link_to 'Lifestyle', curators_path
-        %ul.nav.pull-right
-          - if current_user.nil?
-            %li.dropdown.pull-right
-              = link_to 'Sign in / Register', new_user_session_path
+                  = link_to 'My Deals', promotions_path
+                %li
+                  = link_to 'My Vouchers', merchant_vouchers_path
+                %li 
+                  = link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
+                %li
+                  = link_to 'Payments', show_payments_merchant_vendor_path(current_user.vendor)
           - else
-            - if current_user.has_role?(Role::MERCHANT)
+            %li.dropdown
+              = link_to 'My Vouchers', merchant_vouchers_path 
+            - if admin_user?
               %li.dropdown
                 %a.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
-                  Merchant
+                  Admin
                   %b.caret
                 %ul.dropdown-menu
                   %li
-                    = link_to 'My Deals', promotions_path
-                  %li
-                    = link_to 'My Vouchers', merchant_vouchers_path
-                  %li 
-                    = link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
-                  %li
-                    = link_to 'Payments', show_payments_merchant_vendor_path(current_user.vendor)
-            - else
-              %li.dropdown
-                = link_to 'My Vouchers', merchant_vouchers_path 
-              - if admin_user?
-                %li.dropdown
-                  %a.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
-                    Admin
-                    %b.caret
-                  %ul.dropdown-menu
+                    = link_to 'Site Admin', site_admin_path
+                  - if current_user.has_role?(Role::SUPER_ADMIN)
                     %li
-                      = link_to 'Site Admin', site_admin_path
-                    - if current_user.has_role?(Role::SUPER_ADMIN)
-                      %li
-                        = link_to 'Rails Admin', rails_admin_path
-            - if current_user.has_role?(Role::MERCHANT)
-              %li.dropdown
-                = link_to 'Log out', destroy_user_session_path, :method => :delete
-            - else
-              %li.dropdown
-                %a.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
-                  Account
-                  %b.caret
-                %ul.dropdown-menu
-                  %li
-                    = link_to 'Edit profile', edit_profile_user_path(current_user)
-                  %li
-                    = link_to 'Change password', edit_user_registration_path
-                  %li
-                    = link_to 'Log out', destroy_user_session_path, :method => :delete
-          - if !current_user.nil?
-            %li.user-email
-              == Welcome, #{current_user.email}        
+                      = link_to 'Rails Admin', rails_admin_path
+          - if current_user.has_role?(Role::MERCHANT)
+            %li.dropdown
+              = link_to 'Log out', destroy_user_session_path, :method => :delete
+          - else
+            %li.dropdown
+              %a.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
+                Account
+                %b.caret
+              %ul.dropdown-menu
+                %li
+                  = link_to 'Edit profile', edit_profile_user_path(current_user)
+                %li
+                  = link_to 'Change password', edit_user_registration_path
+                %li
+                  = link_to 'Log out', destroy_user_session_path, :method => :delete
+        - if !current_user.nil?
+          %li.user-email
+            == Welcome, #{current_user.email}        
 %section.header-fixed-top
-  .container
+  .container-fluid
     %header
-      .row
+      .row-fluid
         .span3.logo 
           %h1
             = link_to(image_tag("logo.png", :class => "brand", :alt => "logo"), deals_path(:deals => false))
         .span9
           %span.sub-headline If you think it's <span class="highlight">awesome</span>  chances are we already found it 
           .pull-right
-            = link_to I18n.t('feedback_prompt'), feedback_path, :class => 'btn btn-feedback'
+            = link_to I18n.t('feedback_prompt'), feedback_path, :class => 'btn btn-feedback visible-desktop'
           -#%form.navbar-search.pull-right
           -#%input.search-query{:type => 'text', :placeholder => 'Search'}
 .space-medium
