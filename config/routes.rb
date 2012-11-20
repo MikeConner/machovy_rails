@@ -96,7 +96,11 @@ MachovyRails::Application.routes.draw do
   
   # MailChimp integration test
   match "/mailing" => "static_pages#mailing"
-    
+ 
+  # Stripe web hooks
+  match "/test_stripe" => "stripe#test"
+  match "/live_stripe" => "stripe#live"
+     
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
