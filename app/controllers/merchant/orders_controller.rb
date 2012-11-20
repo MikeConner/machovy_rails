@@ -96,16 +96,16 @@ class Merchant::OrdersController < Merchant::BaseController
     
     # Don't need a begin inside a def
     rescue Stripe::InvalidRequestError => error
-      puts "Error #{error.message}"
       logger.error "Stripe error while creating customer: #{error.message}"
-      @order.errors.add :base, "There was a problem with your credit card."
-      render 'new'
+      @order.errors.add :base, "There was a problem with your credit card. #{error_message}"
+      @promotion = @order.promotion
+      render 'promotions/order'
       
     rescue Stripe::CardError => error
-      puts "Error #{error.message}"
       logger.error "Stripe error: #{error.message}"
-      @order.errors.add :base, "There was a problem with your credit card. CARDERR"
-      render 'new'
+      @order.errors.add :base, "There was a problem with your credit card. #{error.message}"
+      @promotion = @order.promotion
+      render 'promotions/order'
   end
   
   # DELETE /orders/1
