@@ -5,11 +5,11 @@ class StripeController < ApplicationController
       puts "Valid event!"
     end
     
-    render :nothing => true
+    head :ok
   end
   
   def live
-    render :nothing => true    
+    head :ok
   end
   
 private
