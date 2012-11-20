@@ -1,22 +1,26 @@
 class StripeController < ApplicationController
   def test
-    event = retrieve_event
-    if !event.nil?
-      puts "Valid event!"
-    end
+    data = JSON.parse request.body.read, :symbolize_names => true
+    puts data
+  
+    puts "Received event with ID: #{data[:id]} Type: #{data[:type]} Mode: #{data[:livemode]}"
     
     head :ok
   end
   
   def live
-    head :ok
+    event = retrieve_event
+    if !event.nil?
+      puts "Valid event!"
+      head :ok
+    else
+      head :bad_request
+    end
   end
   
 private
   def retrieve_event
-    data = JSON.parse request.body.read, :symbolize_names => true
-    p data
-  
+    data = JSON.parse request.body.read, :symbolize_names => true  
     puts "Received event with ID: #{data[:id]} Type: #{data[:type]}"
   
     # Retrieving the event from the Stripe API guarantees its authenticity  
