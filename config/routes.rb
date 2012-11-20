@@ -98,8 +98,8 @@ MachovyRails::Application.routes.draw do
   match "/mailing" => "static_pages#mailing"
  
   # Stripe web hooks
-  match "/test_stripe" => "stripe#test"
-  match "/live_stripe" => "stripe#live"
+  match "/test_stripe" => "stripe#test", :via => :post
+  match "/live_stripe" => "stripe#live", :via => :post
      
   # The priority is based upon order of creation:
   # first created -> highest priority.
