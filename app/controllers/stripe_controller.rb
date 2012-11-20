@@ -1,4 +1,4 @@
-class AjaxController < ApplicationController
+class StripeController < ApplicationController
   def test
     event = retrieve_event
     if !event.nil?
