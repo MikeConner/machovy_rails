@@ -10,7 +10,19 @@ class StripeLogsController < ApplicationController
     data = JSON.parse body, :symbolize_names => true
     logger.info "Received event with ID: #{data[:id]} Type: #{data[:type]} Mode: #{data[:livemode]}"
     if StripeLog::MONITORED_TYPES.include?(data[:type])
-      StripeLog.create!(:event_id => data[:id], :event_type => data[:type], :livemode => data[:livemode], :event => body)
+      @user = nil
+      if !data[:data][:object][:customer].blank?
+        @user = User.find_by_stripe_id(data[:data][:object][:customer])
+      end
+      if @user.nil? and !data[:data][:object][:email].blank?
+        @user = User.find_by_email(data[:data][:object][:email])
+      end
+      
+      if @user.nil?
+        StripeLog.create!(:event_id => data[:id], :event_type => data[:type], :livemode => data[:livemode], :event => body)
+      else
+        StripeLog.create!(:event_id => data[:id], :event_type => data[:type], :livemode => data[:livemode], :user_id => @user.id, :event => body)
+      end
     end
     
     head :ok

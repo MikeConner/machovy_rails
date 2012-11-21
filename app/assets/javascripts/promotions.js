@@ -93,6 +93,30 @@ $(function() {
 						                     });   	
     }
   }
+  
+  $("#jq_start_date").datepicker({
+  	onSelect: function(dateText, inst) { 
+  		// 11/28/2012 format
+  		fields = dateText.split('/');
+		// Set year
+		$('#promotion_start_date_1i').val(fields[2]);
+		// Set month
+		$('#promotion_start_date_2i').val(fields[0]);
+		// Set day
+		$('#promotion_start_date_3i').val(fields[1]);
+  	}
+  });
+  $("#jq_end_date").datepicker({
+ 	onSelect: function(dateText, inst) { 
+  		fields = dateText.split('/');
+		// Set year
+		$('#promotion_end_date_1i').val(fields[2]);
+		// Set month
+		$('#promotion_end_date_2i').val(fields[0]);
+		// Set day
+		$('#promotion_end_date_3i').val(fields[1]);  
+	}	
+  });
 });
 
 // Appears in views/merchant/order/_order_form; currently commented out
