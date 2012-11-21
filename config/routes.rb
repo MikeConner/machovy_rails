@@ -55,7 +55,8 @@ MachovyRails::Application.routes.draw do
   resources :promotion_images
   resources :roles
   resources :videos
-
+  resources :stripe_logs, :only => [:index, :show]
+  
   namespace :merchant do
     resources :orders, :except => [:index, :edit, :update]
     resources :vendors do
@@ -98,8 +99,8 @@ MachovyRails::Application.routes.draw do
   match "/mailing" => "static_pages#mailing"
  
   # Stripe web hooks
-  match "/test_stripe" => "stripe#test", :via => :post
-  match "/live_stripe" => "stripe#live", :via => :post
+  match "/test_stripe" => "stripe_logs#test", :via => :post
+  match "/live_stripe" => "stripe_logs#live", :via => :post
      
   # The priority is based upon order of creation:
   # first created -> highest priority.
