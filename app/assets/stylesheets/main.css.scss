@@ -1753,11 +1753,15 @@ Deals Front Page
   background-color: #f6f6f6;
 
   [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"]{
-    width:80%;
+    width:48%;
   }
 
   [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"] {
-    width:auto!important;
+    width:48%!important;
+  }
+
+  .btn {
+    font-size:10px;
   }
 }
 
