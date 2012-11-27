@@ -17,7 +17,7 @@
       %h3= v.promotion.title
       %h4= "$" + v.order.total_cost.to_s
       %p= v.status
-      %p= "Redeemed: " + v.redemption_date.try(:strftime, '%b %d, %Y')
+      %p= v.redemption_date.try(:strftime, '%b %d, %Y')
       %p= "Issued: " + v.issue_date.try(:strftime, '%b %d, %Y')
       %p= "Expires: "+  v.expiration_date.try(:strftime, '%b %d, %Y')
       %p= "Limitations: " + v.order.fine_print
