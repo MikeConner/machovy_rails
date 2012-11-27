@@ -16,7 +16,7 @@
           = link_to 'Lifestyle', curators_path
       %ul.nav.pull-right
         - if current_user.nil?
-          %li.dropdown.pull-right
+          %li.dropdown.pull-right.hidden-phone
             = link_to 'Sign in / Register', new_user_session_path
         - else
           - if current_user.has_role?(Role::MERCHANT)
@@ -74,8 +74,10 @@
             = link_to(image_tag("logo.png", :class => "brand", :alt => "logo"), deals_path(:deals => false))
         .span9
           %span.sub-headline If you think it's <span class="highlight">awesome</span>  chances are we already found it 
-          .pull-right
-            = link_to I18n.t('feedback_prompt'), feedback_path, :class => 'btn btn-feedback visible-desktop'
+          .pull-right.visible-desktop
+            = link_to I18n.t('feedback_prompt'), feedback_path, :class => 'btn btn-feedback'
+          %div.visible-phone
+            = link_to 'Sign in / Register', new_user_session_path, :class => ' btn btn-danger btn-register'
           -#%form.navbar-search.pull-right
           -#%input.search-query{:type => 'text', :placeholder => 'Search'}
 .space-medium

@@ -137,7 +137,7 @@ header h1 {
 }
 #nav .nav li a {
   text-shadow: none;
-  font-size: 12px;
+  font-size: 14px;
   color:white;
 }
 #nav .nav li a:hover {
@@ -721,6 +721,13 @@ Buttons
   padding:3px 10px;
   font-size:0.75em;
   letter-spacing:0.15em;
+}
+
+.btn-register {
+  margin: 32px 0 15px 0;
+  display: block!important;
+  font-size: 18px;
+  padding: 10px 0;
 }
 
 .btn {
@@ -1744,23 +1751,31 @@ Deals Front Page
 .item-bottom-bar {
   border-top: 1px solid #ededed;
   background-color: #f6f6f6;
+
+  [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"]{
+    width:80%;
+  }
+
+  [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"] {
+    width:auto!important;
+  }
 }
 
 .item-title {
   font-family: 'Oswald', sans-serif;
   text-transform: uppercase;
   color: white;
-  font-size: 0.7em;
-  letter-spacing: 1px;
+  font-size: 0.75em;
   line-height: 25px;
-  padding: 1px 5px 0px 10px;
+  padding: 0px 10px 0px 10px;
   background: #ed464a;
   bottom: 100px;
   font-weight: 500;
   position: relative;
   z-index: 0;
   left: 10px;
-  width: 80%;
+  width: auto;
+  display: inline-block;
 }
 
 .item-sub-title {
@@ -1771,8 +1786,8 @@ Deals Front Page
     line-height: 20px;
     padding: 1px 10px;
     left: 10px;
-    width: 48%;
     font-size: 11px;
+    display:inline-block;
 }
 
 

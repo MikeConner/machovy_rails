@@ -49,6 +49,7 @@
 .logo img {
   display:block;
   width:100%;
+  margin:10px 0 0 0;
 }
 
 }
@@ -111,15 +112,15 @@
   .item-title {
     font-size: 17px;
     letter-spacing: 1px;
-    line-height: 35px;
+    line-height: 25px;
     font-size: 0.7em;
-    width: 80%;
+    display:inline-block;
   }
 
 }
 
 
-@media (max-width: 524px) {
+@media (max-width: 500px) {
 
   .row-fluid [class*="promotion-grid"] {
     margin:3px;
@@ -134,8 +135,8 @@
     line-height: 25px;
     padding: 1px 10px;
     left: 10px;
-    width: 48%;
     font-size: 14px;
+    display:inline-block;
   }
 
   .item-title {
@@ -143,7 +144,7 @@
     letter-spacing: 1px;
     line-height: 35px;
     font-size: 1.3em;
-    width: 85%;
+    display:inline-block;
   }
 
   .description {
@@ -155,8 +156,9 @@
   }
 
   .sub-headline{
-    font-size:80%;
-    text-align:center;
+    font-size:68%;
+    line-height:14px;
+    margin:0 0 10px 0;
   }
 
   .well {
