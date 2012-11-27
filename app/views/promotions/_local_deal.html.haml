@@ -67,21 +67,23 @@
       #tab3.tab-pane
         %h4.tab-title Location
         - @vendor = @promotion.vendor
-        %em= @vendor.name
-        %br= @vendor.address_1
-        - if !@vendor.address_2.blank?
-          %br= @vendor.address_2
-        == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
-        %br= @vendor.phone 
-        - if !@vendor.url.blank?
-          %br= @vendor.url
-        - if !@vendor.facebook.blank?
-          %br= @vendor.facebook
-        - if @vendor.mappable?
-          = hidden_field_tag :latitude, @vendor.latitude
-          = hidden_field_tag :longitude, @vendor.longitude
-          = hidden_field_tag :vendor, @vendor.name
-          #map_canvas.vendor_map    
+        .span6
+          %em= @vendor.name
+          %br= @vendor.address_1
+          - if !@vendor.address_2.blank?
+            %br= @vendor.address_2
+          == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
+          %br= @vendor.phone 
+          - if !@vendor.url.blank?
+            %br= @vendor.url
+          - if !@vendor.facebook.blank?
+            %br= @vendor.facebook
+        .span6
+          - if @vendor.mappable?
+            = hidden_field_tag :latitude, @vendor.latitude
+            = hidden_field_tag :longitude, @vendor.longitude
+            = hidden_field_tag :vendor, @vendor.name
+            #map_canvas.vendor_map    
     - if @show_buy_button
       .tab-bottom-button
         = link_to 'Click here to buy this deal', order_promotion_path(@promotion)   
