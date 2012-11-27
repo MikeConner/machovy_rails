@@ -50,7 +50,7 @@ class Promotion < ActiveRecord::Base
   DEFAULT_REVENUE_SHARE = 40
   QUANTITY_THRESHOLD_PCT = 0.1
   DEALS_PER_ROW = 4
-  MIN_DESCRIPTION_LEN = 30
+  MIN_DESCRIPTION_LEN = 95
 
   # Types
   LOCAL_DEAL = 'Deal'

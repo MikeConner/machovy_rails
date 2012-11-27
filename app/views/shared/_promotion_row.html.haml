@@ -8,7 +8,7 @@
           = truncate(sanitize(promotion.subtitle), :length => 24)
         - else
           = "An amazing find"
-      .description= truncate(promotion.padded_description, :length => 60)
+      .description= truncate(promotion.padded_description, :length => 100)
     .row-fluid.item-bottom-bar 
       - if promotion.deal?
         .span5
