@@ -78,7 +78,8 @@ class Promotion < ActiveRecord::Base
   attr_accessible :description, :destination, :grid_weight, :limitations, :price, :quantity, :retail_value, :revenue_shared,
                   :start_date, :end_date, :teaser_image, :remote_teaser_image_url, :main_image, :remote_main_image_url,
                   :status, :promotion_type, :title, :voucher_instructions, :subtitle,
-                  :metro_id, :vendor_id, :category_ids, :blog_post_ids, :promotion_image_ids, :promotion_images_attributes
+                  :metro_id, :vendor_id, :category_ids, :blog_post_ids, :promotion_image_ids, :promotion_images_attributes, 
+									:teaser_image_cache, :main_image_cache
 
   # Mounted fields
   mount_uploader :main_image, ImageUploader  
