@@ -1,6 +1,6 @@
-.container
+.container-fluid
   .space
-  .row
+  .row-fluid
     .span7
       .sign-in-title
         %h4= I18n.t('merchant_signup')  
@@ -25,9 +25,7 @@
             = v.text_field :zip, {:placeholder => 'Zip Code'}
             = v.text_field :url, {:placeholder => 'Your Website (Optional)'}
             = v.text_field :facebook,{:placeholder => 'Facebook (Optional)'}
-          %br
-          %br
-          %div
+            .space
             %p <strong>Sign Up</strong>
             = f.email_field :email, {:placeholder => 'Email'}
             = f.password_field :password, {:placeholder => 'Password'}

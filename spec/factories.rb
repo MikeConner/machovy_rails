@@ -42,6 +42,7 @@ FactoryGirl.define do
   sequence(:sequential_post) { |n| "This is a sentence in post #{n}\n"*3 }
   sequence(:sequential_name) { |n| "Name #{n}" }
   sequence(:sequential_uuid) { |n| '2fe-cda-' + sprintf("%04d", n) }
+  sequence(:sequential_stripe_event) { |n| sprintf("evt_%014d", n) }
   
   factory :activity do
     user
@@ -548,6 +549,11 @@ FactoryGirl.define do
         FactoryGirl.create_list(:promotion_with_vouchers, evaluator.num_promotions, :vendor => vendor)
       end
     end
+    
+    factory :vendor_with_map do
+      latitude 40.552285
+      longitude { -80.029079 }
+    end
   end
     
   factory :video do
@@ -572,5 +578,41 @@ FactoryGirl.define do
     status Voucher::AVAILABLE
     uuid { generate(:sequential_uuid) }
     notes { generate(:random_sentences) }
-  end    
+  end   
+  
+  factory :stripe_log do
+    user
+    
+    event_id { generate(:sequential_stripe_event) }
+    # Note that the event_type likely won't match what's in the event JSON
+    # To make it match, use the child factories
+    event_type { StripeLog::EVENT_TYPES.sample }
+    livemode false
+    event { File.read(MachovyRails::Application.assets.find_asset('stripe-event.txt').pathname) }
+    
+    factory :live_stripe_log do
+      livemode true
+    end
+    
+    factory :monitored_stripe_log do
+      event_type 'charge.failed'
+      
+      after(:build) do |log|
+        evt = JSON.parse log.event, :symbolize_names => true
+        evt[:type] = log.event_type
+        log.event = evt.to_json
+      end
+    end
+    
+    factory :unmonitored_stripe_log do
+      event_type 'charge.succeeded'      
+
+      after(:build) do |log|
+        evt = JSON.parse log.event, :symbolize_names => true
+        evt[:type] = log.event_type
+        log.event = evt.to_json
+      end
+    end
+  end
 end
+

@@ -1,6 +1,6 @@
 = form_for [:merchant, @order] do |f|
   = render :partial => 'shared/error_messages', :locals => { :errors => @order.errors, :name => 'Order' }
-  .alert#stripe_error
+  .alert-stripe#stripe_error
     %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
   -# The @order is created by promotions#order, and passed in here. Need to include *all* fields so they get passed back through the form,
   -#   or the @order object will "lose" those fields and not validate
@@ -44,7 +44,7 @@
       = label_tag :card_number, 'Credit Card Number'
       = text_field_tag :card_number
     .field
-      = label_tag :card_code, "Security Code on Card (CVV)"
+      = label_tag :card_code, "Security Code on Card (CVC)"
       = text_field_tag :card_code
     .field
       = label_tag :card_month, "Card Expiration"

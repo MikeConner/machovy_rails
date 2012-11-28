@@ -4,30 +4,7 @@
   %br/
   Search
   = text_field_tag 'voucher_search', nil, { :placeholder => "Enter an email or voucher", :onchange => "find_voucher('voucher_search');" }
-%table.table.zebra-striped
-  %col{:width => "75"}/
-  %col{:width => "75"}/
-  %col{:width => "100"}/
-  %col{:width => "100"}/
-  %col{:width => "100"}/
-  %col{:width => "100"}/
-  %col{:width => "100"}/
-  %col{:width => "100"}/
-  %col{:width => "250"}/
-  - if @admin
-    %col{:width => "100"}/
-  .row-fluid
-    %tr
-      %th Uuid
-      %th Amount
-      %th Status
-      %th Issued
-      %th Expiration
-      %th Redeemed
-      %th Email
-      %th Promotion
-      %th Notes
-      - if @admin
-        %th Action
-    - @vouchers.each do |voucher|
-      = render :partial => 'voucher', :locals => { :v => voucher, :admin => @admin }
+.row-fluid
+  - @vouchers.each do |voucher|
+    = render :partial => 'voucher', :locals => { :v => voucher, :admin => @admin }
+

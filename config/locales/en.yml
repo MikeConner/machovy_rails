@@ -49,7 +49,7 @@ en:
   promotions:
     index_heading: 'Local Deals'
     live: 'Live Deals'
-    attention: 'Ready To Publish'
+    attention: 'Requires Revisions'
     pending: 'Under Review'
     inactive: 'Your Past Deals'
     ads: 'Advertisements'

@@ -5,12 +5,15 @@
   %b= link_to idea.title, idea_path(idea)
   %em== #{idea.average_rating.round(1)} Stars
 %p= idea.content
-- if !user.nil?
+- if !user.nil? and idea.ratable_by?(user)
   = form_for idea.ratings.build do |f|
     = f.hidden_field :user_id, :value => user.id
     = f.hidden_field :idea_id, :value => idea.id
+    = f.hidden_field :stars, :id => "#{idea.id}_stars"
     = f.label :stars, 'Your rating? (1-5; 5 is best)'
-    = f.number_field :stars, :min => 1, :max => 5
+    %ul.rating
+      - (1..5).each do |i|
+        %li.rating_star{:id => "#{idea.id}_#{i}", 'data-id' => "#{idea.id}", 'data-stars' => "#{i}"}
     %br/
     = f.label :comment
     = f.text_field :comment

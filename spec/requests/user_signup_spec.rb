@@ -4,10 +4,7 @@ describe "User signup" do
   subject { page }
   
   describe "Sign up" do
-    before do
-      visit new_user_session_path
-      save_page
-    end
+    before { visit new_user_session_path }
     
     # Should have the user header
     it { should have_selector('h4', :text => I18n.t('create_account_action')) }

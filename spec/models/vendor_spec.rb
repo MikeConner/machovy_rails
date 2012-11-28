@@ -15,6 +15,8 @@
 #  created_at :datetime        not null
 #  updated_at :datetime        not null
 #  user_id    :integer
+#  latitude   :decimal(, )
+#  longitude  :decimal(, )
 #
 
 describe "Vendors" do
@@ -38,6 +40,10 @@ describe "Vendors" do
   it { should respond_to(:total_paid) }
   it { should respond_to(:amount_owed) }
   it { should respond_to(:total_commission) }
+  it { should respond_to(:latitude) }
+  it { should respond_to(:longitude) }
+  it { should respond_to(:mappable?) }
+  it { should respond_to(:map_address) }
   
   its(:user) { should == user }
   
@@ -163,6 +169,52 @@ describe "Vendors" do
     end
   end  
 
+  describe "mapping" do
+    let(:vendor) { FactoryGirl.create(:vendor_with_map) }
+    
+    it { should be_valid }
+    
+    it "should have mapping fields" do
+      vendor.mappable?.should be_true
+    end
+    
+    describe "invalid lat/long" do
+      before { vendor.latitude = 'abc' }
+      
+      it { should_not be_valid }
+    end
+
+    describe "invalid latitude" do
+      before { vendor.latitude = 'abc' }
+      
+      it { should_not be_valid }
+    end
+
+    describe "invalid longitude" do
+      before { vendor.longitude = 'abc' }
+      
+      it { should_not be_valid }
+    end
+
+    describe "needs both for mappable" do
+      before { vendor.latitude = nil }
+      
+      it { should be_valid }
+      it "should not be mappable" do
+        vendor.mappable?.should be_false
+      end
+    end
+
+    describe "needs both for mappable" do
+      before { vendor.longitude = nil }
+      
+      it { should be_valid }
+      it "should not be mappable" do
+        vendor.mappable?.should be_false
+      end
+    end
+  end
+  
   describe "should allow deletion if no promotions" do
     it "should not have promotions" do
       vendor.promotions.count.should == 0

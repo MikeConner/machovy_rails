@@ -17,4 +17,6 @@
 //= require admin/fullcalendar.min
 //= require admin/unicorn
 //= require admin/jquery.dataTables.min
+//= require jquery.isotope.min
+//= require modernizr.custom
 //= require_tree .

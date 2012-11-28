@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121115061336) do
+ActiveRecord::Schema.define(:version => 20121120201231) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -256,6 +256,16 @@ ActiveRecord::Schema.define(:version => 20121115061336) do
 
   add_index "roles_users", ["role_id", "user_id"], :name => "index_roles_users_on_role_id_and_user_id", :unique => true
 
+  create_table "stripe_logs", :force => true do |t|
+    t.string   "event_id",   :limit => 40
+    t.string   "event_type", :limit => 40
+    t.boolean  "livemode"
+    t.text     "event"
+    t.integer  "user_id"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+  end
+
   create_table "users", :force => true do |t|
     t.string   "email",                                :default => "",    :null => false
     t.string   "encrypted_password",                   :default => "",    :null => false
@@ -302,6 +312,8 @@ ActiveRecord::Schema.define(:version => 20121115061336) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "user_id"
+    t.decimal  "latitude"
+    t.decimal  "longitude"
   end
 
   create_table "videos", :force => true do |t|

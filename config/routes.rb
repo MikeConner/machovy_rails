@@ -49,12 +49,14 @@ MachovyRails::Application.routes.draw do
     collection do
       get 'manage'
       put 'rebalance'
+      get 'affiliates'
     end
   end
   resources :promotion_images
   resources :roles
   resources :videos
-
+  resources :stripe_logs, :only => [:index, :show]
+  
   namespace :merchant do
     resources :orders, :except => [:index, :edit, :update]
     resources :vendors do
@@ -95,7 +97,11 @@ MachovyRails::Application.routes.draw do
   
   # MailChimp integration test
   match "/mailing" => "static_pages#mailing"
-    
+ 
+  # Stripe web hooks
+  match "/test_stripe" => "stripe_logs#test", :via => :post
+  match "/live_stripe" => "stripe_logs#live", :via => :post
+     
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

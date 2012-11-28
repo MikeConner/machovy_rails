@@ -34,17 +34,20 @@
       = f.label :price
       = f.text_field :price, :size => 15
       = f.label :revenue_shared
-      #slider_value 5%
+      #slider_value== #{share_pct}%
       .slider-input#revenue_slider
       %br
       = f.hidden_field :revenue_shared, :value => share_pct
-      -#= f.text_field :revenue_shared, :placeholder => "5 - 80%", :size => 15
       = f.label :quantity
       = f.number_field :quantity, :min => 1, :value => quantity
       = f.label :start_date
-      = f.date_select :start_date, :order => [:month, :day, :year]
+      -# Need the date_select elements for the nested attributes to be processed correctly by the controller
+        Just don't show them; create jQuery datepickers instead
+      = f.date_select :start_date, { :order => [:month, :day, :year] }, { :style => 'display:none' }
+      #jq_start_date
       = f.label :end_date
-      = f.date_select :end_date, :order => [:month, :day, :year]
+      = f.date_select :end_date, { :order => [:month, :day, :year] }, { :style => 'display:none' }
+      #jq_end_date
 .row-fluid
   .span12
     .space

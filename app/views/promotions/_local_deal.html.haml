@@ -35,9 +35,6 @@
       .span9
         - if @show_buy_button
           = link_to 'Buy this now', order_promotion_path(@promotion), :class => 'btn btn-danger'
-    .row-fluid
-      .span12
-         
 .row-fluid
   .span5.product
     %table.table.table-condensed
@@ -58,6 +55,8 @@
         <a data-toggle="tab" href="#tab1">Description </a>
       %li
         <a data-toggle="tab" href="#tab2">Limitations</a>
+      %li
+        <a data-toggle="tab" href="#tab3">Location</a>        
     .tab-content
       #tab1.tab-pane.fade.in.active
         %h4.tab-title Product Description
@@ -65,6 +64,26 @@
       #tab2.tab-pane
         %h4.tab-title Product Limitations
         %p= @promotion.limitations 
+      #tab3.tab-pane
+        %h4.tab-title Location
+        - @vendor = @promotion.vendor
+        .span6
+          %em= @vendor.name
+          %br= @vendor.address_1
+          - if !@vendor.address_2.blank?
+            %br= @vendor.address_2
+          == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
+          %br= @vendor.phone 
+          - if !@vendor.url.blank?
+            %br= @vendor.url
+          - if !@vendor.facebook.blank?
+            %br= @vendor.facebook
+        .span6
+          - if @vendor.mappable?
+            = hidden_field_tag :latitude, @vendor.latitude
+            = hidden_field_tag :longitude, @vendor.longitude
+            = hidden_field_tag :vendor, @vendor.name
+            #map_canvas.vendor_map    
     - if @show_buy_button
       .tab-bottom-button
         = link_to 'Click here to buy this deal', order_promotion_path(@promotion)   

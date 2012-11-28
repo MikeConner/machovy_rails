@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include ERB::Util
+  
   # Plus DC and territories
   US_STATES = %w(AK AL AR AS AZ CA CO CT DC DE FL GA HI IA ID IL IN KS KY LA MA MD ME MI MN MO MP MS 
                  MT NC ND NE NH NJ NM NV NY OH OK OR PA PR RI SC SD TN TX UT VA VI VT WA WI WV WY )
@@ -36,5 +38,23 @@ module ApplicationHelper
     else
       num
     end
+  end
+  
+  def geocode_address(address)
+    uri = URI.parse("http://maps.googleapis.com/maps/api/geocode/json?address=#{u address}&sensor=false")
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Get.new(uri.request_uri)
+          
+    response = http.request(request)                 
+    if response.code == '200'
+      result = JSON.parse(response.body)
+      # 'lat', 'lng'
+      result['results'][0]['geometry']['location']
+    else
+      nil
+    end
+    
+  rescue
+    puts "Could not convert #{address}"
   end
 end

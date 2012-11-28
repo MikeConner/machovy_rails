@@ -27,9 +27,96 @@ $(function() {
   $('#tab3').click(function (e) {
     e.preventDefault();
     $(this).tab('show');
-  })  
+  }) 
 
-	//$('.carousel').carousel() Calls bootstrap slider
+  var $container = $('#container');
+  $container.imagesLoaded( function(){
+    $container.isotope({
+      itemSelector : '.box',
+        masonry : {
+          resizable: false, // disable normal resizing
+           // set columnWidth to a percentage of container width
+          columnWidth: $container.width() / 100,
+          gutterWidth: 2
+        }
+    });
+
+  $(window).smartresize(function(){
+    $container.isotope({
+      // update columnWidth to a percentage of container width
+      masonry: { columnWidth: $container.width() / 100 }
+    });
+  });
+  });
+
+  // filter items when filter link is clicked
+  $('#filters a').click(function(){
+    var selector = $(this).attr('data-filter');
+    $container.isotope({ filter: selector });
+    return false;
+  });
+
+  $('.rating_star').click(function() {
+  	var star = $(this);
+  	var stars = $(this).attr('data-stars');
+  	var data_id = $(this).attr('data-id')
+  	$('#' + data_id + "_stars").val(stars)
+  	
+  	for (i = 1; i <= 5; i++) {
+  		if (i <= stars) {
+  			$('#' + data_id + "_" + i).addClass('on');
+  		}
+  		else {
+  			$('#' + data_id + "_" + i).removeClass('on');
+  		}
+  	}
+  });
+  
+  var latitude = $('#latitude').val();
+  var longitude = $('#longitude').val();
+  var label = $('#vendor').val();
+  
+  if (latitude && longitude) {
+  	var address = new google.maps.LatLng(latitude, longitude);
+  	
+  	var mapOptions = {
+      center: address,
+      zoom: 18,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    
+    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+    if (label) {
+	    var marker = new google.maps.Marker({position: address, 
+						                     map: map,
+						                     title: label
+						                     });   	
+    }
+  }
+  
+  $("#jq_start_date").datepicker({
+  	onSelect: function(dateText, inst) { 
+  		// 11/28/2012 format
+  		fields = dateText.split('/');
+		// Set year
+		$('#promotion_start_date_1i').val(fields[2]);
+		// Set month
+		$('#promotion_start_date_2i').val(fields[0]);
+		// Set day
+		$('#promotion_start_date_3i').val(fields[1]);
+  	}
+  });
+  $("#jq_end_date").datepicker({
+ 	onSelect: function(dateText, inst) { 
+  		fields = dateText.split('/');
+		// Set year
+		$('#promotion_end_date_1i').val(fields[2]);
+		// Set month
+		$('#promotion_end_date_2i').val(fields[0]);
+		// Set day
+		$('#promotion_end_date_3i').val(fields[1]);  
+	}	
+  });
 });
 
 // Appears in views/merchant/order/_order_form; currently commented out

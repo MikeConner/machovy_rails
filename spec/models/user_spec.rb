@@ -60,9 +60,29 @@ describe "Users" do
   it { should respond_to(:zipcode) }
   it { should respond_to(:optin) }
   it { should respond_to(:categories) }
+  it { should respond_to(:stripe_logs) }
   
   it { should be_valid }
-
+ 
+  describe "stripe logs" do
+    let(:log) { FactoryGirl.create(:stripe_log, :user => user) }
+    
+    it "should be there" do
+      log.user.id.should be == user.id
+      user.stripe_logs.count.should be == 1
+      user.stripe_logs.first.id.should be == log.id
+      expect { user.reload.destroy }.to raise_exception(ActiveRecord::DeleteRestrictionError)
+    end
+        
+    describe "delete logs first" do
+      before { StripeLog.destroy_all }
+      
+      it "can delete now" do
+        expect { user.reload.destroy }.to_not raise_exception
+      end
+    end
+  end
+  
   describe "Profile fields" do
     describe "missing optin" do
       before { user.optin = nil }

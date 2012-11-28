@@ -30,6 +30,8 @@
             %li
               = link_to 'Review Vendor Promotions', promotions_path
             %li
+              = link_to 'Review Affiliate Promotions', affiliates_promotions_path
+            %li
               = link_to 'Manage Curators', curators_path 
             %li
               = link_to 'Manage Metro Areas', metros_path
@@ -37,3 +39,6 @@
               = link_to 'Manage Users', manage_users_path
             %li
               = link_to 'Manage Merchants', merchant_vendors_path
+            %li
+              = link_to 'Monitored Stripe Events (test)', stripe_logs_path(:livemode => false)
+ 
