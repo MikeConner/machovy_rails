@@ -1,11 +1,13 @@
+.row-fluid
+  .span12.page-header
+    %h1 Local Deals <small>Make yours count</small>
 -# Need this to display confirmation notice on vendor signup
 = render :partial => 'shared/flash_messages'
-%h1 Local Deals
 .row-fluid
   .span4
     .row-fluid
       .span5
-        %h3= I18n.t('promotions.pending')
+        %h4= I18n.t('promotions.pending')
       .span7{:style => 'padding:15px 0px 0px 0px;'}
         = link_to "<i class='icon-plus'></i> Create Promotion".html_safe, new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL),{:class => 'btn'}  
     - if 0 == @pending.count
@@ -15,13 +17,13 @@
     %br
 
   .span4
-    %h3= I18n.t('promotions.attention') 
+    %h4= I18n.t('promotions.attention') 
     - if 0 == @attention.count
       None
     - else
       = render :partial => 'promotion_dashview', :locals => { :p_list => @attention }  
   .span4
-    %h3= I18n.t('promotions.live')
+    %h4= I18n.t('promotions.live')
     - if 0 == @live.count
       None
     - else
@@ -31,7 +33,7 @@
 .divider
 
 .row-fluid
-  %h3= I18n.t('promotions.inactive')
+  %h4= I18n.t('promotions.inactive')
   - if 0 == @inactive.count
     None
   - else
@@ -39,5 +41,5 @@
 .row-fluid
   -# Not using ads for now, so don't display an Ad header by default
   - if @ads.count > 0
-    %h3= I18n.t('promotions.ads')
+    %h4= I18n.t('promotions.ads')
     = render :partial => 'ad', :locals => { :p_list => @ads }

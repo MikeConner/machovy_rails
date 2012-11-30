@@ -49,6 +49,8 @@
                 %li
                   = link_to 'Log out', destroy_user_session_path, :method => :delete
           - else
+            %li.dropdown
+              = link_to 'My Vouchers', merchant_vouchers_path 
             - if admin_user?
               %li.dropdown
                 %a.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
@@ -70,8 +72,6 @@
                 %b.caret
               %ul.dropdown-menu
                 %li
-                  = link_to 'My Vouchers', merchant_vouchers_path 
-                %li
                   = link_to 'Edit profile', edit_profile_user_path(current_user)
                 %li
                   = link_to 'Change password', edit_user_registration_path
@@ -91,9 +91,8 @@
           %span.sub-headline If you think it's <span class="highlight">awesome</span>  chances are we already found it 
           .pull-right.visible-desktop
             = link_to I18n.t('feedback_prompt'), feedback_path, :class => 'btn btn-feedback'
-          - if current_user.nil?
-            %div.visible-phone
-              = link_to 'Sign in / Register', new_user_session_path, :class => ' btn btn-danger btn-register'
+          %div.visible-phone
+            = link_to 'Sign in / Register', new_user_session_path, :class => ' btn btn-danger btn-register'
           -#%form.navbar-search.pull-right
           -#%input.search-query{:type => 'text', :placeholder => 'Search'}
 .space-medium

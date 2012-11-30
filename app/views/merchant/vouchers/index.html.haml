@@ -1,10 +1,16 @@
-%h1= @title
+.row-fluid
+  .span12.page-header
+    %h1= @title
 = render 'shared/flash_messages'
 - if @admin
   %br/
-  Search
+  %h4 Search
   = text_field_tag 'voucher_search', nil, { :placeholder => "Enter an email or voucher", :onchange => "find_voucher('voucher_search');" }
 .row-fluid
   - @vouchers.each do |voucher|
     = render :partial => 'voucher', :locals => { :v => voucher, :admin => @admin }
+  .push
+    %br
+  .space
+    %br
 

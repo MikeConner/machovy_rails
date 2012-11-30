@@ -24,9 +24,10 @@
   = render 'layouts/application/shim'
 %body
   = render 'layouts/application/header'
-  .container-fluid
-    = yield
-    %br/
-    %br/
-    %br/  
-  = render 'layouts/application/footer'
+  #main
+    .container-fluid
+      = yield
+      %br/
+      %br/
+      %br/  
+    = render 'layouts/application/footer'

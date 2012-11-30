@@ -1,5 +1,7 @@
-%h1 Merchant payments
-%em= I18n.t('customer_service')
+.row-fluid
+  .span12.page-header
+    %h1 Merchant payments <small>View your payments</small>
+%h4= I18n.t('customer_service')
 %table.table.zebra-striped
   %tr
     %th Promotion
@@ -20,7 +22,7 @@
       %td= number_to_currency(promotion_data[:merchant_share])
 %br/
 %br/
-%h2 Payment Summary
+%h4 Payment Summary
 - if @vendor.payments.count > 0
   %table.table.zebra-striped
     %tr
