@@ -36,10 +36,10 @@ describe "Demo spec" do
     
     it { should have_content(I18n.t('devise.sessions.signed_in')) }
     it { should have_selector('h1', :text => I18n.t('promotions.index_heading')) }
-    it { should have_selector('h3', :text => I18n.t('promotions.live')) }
-    it { should have_selector('h3', :text => I18n.t('promotions.attention')) }
-    it { should have_selector('h3', :text => I18n.t('promotions.pending')) }
-    it { should have_selector('h3', :text => I18n.t('promotions.inactive')) }
+    it { should have_selector('h4', :text => I18n.t('promotions.live')) }
+    it { should have_selector('h4', :text => I18n.t('promotions.attention')) }
+    it { should have_selector('h4', :text => I18n.t('promotions.pending')) }
+    it { should have_selector('h4', :text => I18n.t('promotions.inactive')) }
     # We haven't created any ads, so this shouldn't be displayed
     it { should_not have_selector('h3', :text => I18n.t('promotions.ads')) }
     it { should have_link('Create Promotion', :href => new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)) }

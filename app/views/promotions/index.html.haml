@@ -1,6 +1,6 @@
 .row-fluid
   .span12.page-header
-    %h1 Local Deals <small>Make yours count</small>
+    %h1== #{I18n.t('promotions.index_heading')} <small>Make yours count</small>
 -# Need this to display confirmation notice on vendor signup
 = render :partial => 'shared/flash_messages'
 .row-fluid

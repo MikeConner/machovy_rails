@@ -1,0 +1,41 @@
+.row-fluid
+  .span8
+    = f.label :title
+    = f.text_field :title, :size => Promotion::MAX_TITLE_LEN
+    = f.label :subtitle
+    = f.text_field :subtitle, :size => Promotion::MAX_TITLE_LEN
+    = f.label :description
+    = f.text_area :description, :size => "60x12"
+    = f.label :destination
+    = f.text_field :destination
+    .row-fluid 
+      .span4 
+        = f.label :teaser_image
+        = f.file_field :teaser_image
+        = f.label :remote_teaser_image_url, "or image URL"
+        = f.text_field :remote_teaser_image_url
+      .span4
+        = f.label :main_image, "Additional Image"
+        = f.file_field :main_image
+        = f.label :remote_main_image_url, "or image URL"
+        = f.text_field :remote_main_image_url
+      .span4
+        .slideshow
+          = f.fields_for :promotion_images do |slideshow_image_form|
+            = render :partial => 'shared/slideshow', :locals => { :f => slideshow_image_form }
+  .span4
+    .field
+      = f.label :metro_id
+      = f.collection_select :metro_id, metros, :id, :name 
+      = f.label :start_date
+      -# Need the date_select elements for the nested attributes to be processed correctly by the controller
+        Just don't show them; create jQuery datepickers instead
+      = f.date_select :start_date, { :order => [:month, :day, :year] }, { :style => 'display:none' }
+      #jq_start_date
+      = f.label :end_date
+      = f.date_select :end_date, { :order => [:month, :day, :year] }, { :style => 'display:none' }
+      #jq_end_date
+.row-fluid
+  .span12
+    .space
+    = f.submit 'Submit', :class => 'btn btn-danger btn-large'
