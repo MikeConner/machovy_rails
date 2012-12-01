@@ -1,6 +1,6 @@
 #nav.navbar.navbar-fixed-top
   .navbar-inner
-    .container-fluid
+    .container
       %ul.nav
         %li.dropdown
           %a.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
@@ -81,7 +81,7 @@
           %li.user-email.hidden-phone
             == Welcome, #{current_user.email}        
 %section.header-fixed-top
-  .container-fluid
+  .container
     %header
       .row-fluid
         .span3.logo 
@@ -91,9 +91,10 @@
           %span.sub-headline If you think it's <span class="highlight">awesome</span>  chances are we already found it 
           .pull-right.visible-desktop
             = link_to I18n.t('feedback_prompt'), feedback_path, :class => 'btn btn-feedback'
-          %div.visible-phone
-            = link_to 'Sign in / Register', new_user_session_path, :class => ' btn btn-danger btn-register'
-          -#%form.navbar-search.pull-right
-          -#%input.search-query{:type => 'text', :placeholder => 'Search'}
+          - if current_user.nil?  
+            %div.visible-phone
+              = link_to 'Sign in / Register', new_user_session_path, :class => ' btn btn-danger btn-register'
+            -#%form.navbar-search.pull-right
+            -#%input.search-query{:type => 'text', :placeholder => 'Search'}
 .space-medium
 
