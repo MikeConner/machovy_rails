@@ -1,5 +1,19 @@
 
 
+#container-front {
+  
+
+  @media (min-width: 1200px) {
+    
+  }
+
+  @media (min-width: 1200px) {
+    
+  }
+
+}
+
+
 #main {
   .container-fluid{
     padding:0 35px;
@@ -14,6 +28,15 @@
   height:auto;
 }
 
+
+
+
+
+@media (min-width: 1200px) {
+  .span3 {
+    width:290px;
+  }
+}
 
 
 @media (max-width: 1220px) {
@@ -42,9 +65,6 @@
   #container-front {
     .row {
       margin-left:0px!important;
-    }
-    .span3 {
-      width:280px;
     }
   }
 }
