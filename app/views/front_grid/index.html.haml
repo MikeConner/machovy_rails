@@ -6,20 +6,20 @@
       - current_row = @promotions[i * @deals_per_row, @deals_per_row]
       - if current_row.count > 0
         = render :partial => 'shared/promotion_row', :locals => { :promotions => current_row }
-    .space-medium
-    .row
-      - @blog_posts.each_with_index do |blogpost, index|
-        .span3
-          %h5
-            = link_to truncate(blogpost.title, :length => 25), blog_post_path(blogpost)
-          .borderLine
-            .borderLine-left &nbsp;
-            .borderLine-right &nbsp;
-          %p
-            = blogpost.truncated_body(:length => 200)
-    .space          
-    .row-fluid.well
-      = render :partial => 'ad_row', :locals => { :ads => @ads }
+  .space-medium
+  .row
+    - @blog_posts.each_with_index do |blogpost, index|
+      .span3
+        %h5
+          = link_to truncate(blogpost.title, :length => 25), blog_post_path(blogpost)
+        .borderLine
+          .borderLine-left &nbsp;
+          .borderLine-right &nbsp;
+        %p
+          = blogpost.truncated_body(:length => 200)
+  .space          
+  .row-fluid.well
+    = render :partial => 'ad_row', :locals => { :ads => @ads }
 - else # -------------------------------------------DEAL PAGE VIEW
   #container.clearfix.row-fluid
     - for i in 0..@promotions.count / @deals_per_row do

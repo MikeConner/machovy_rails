@@ -11,7 +11,7 @@ Basic Styles
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   overflow-x: hidden;
-}
+} 
 h1,
 h2,
 h3,
@@ -132,6 +132,13 @@ a {color:#555555;}
 
 input, textarea, .uneditable-input {
   width:90%;
+}
+
+.logo img {max-width:220px; min-width:200px;}
+
+
+.description {
+  height:auto;
 }
 
 /*
