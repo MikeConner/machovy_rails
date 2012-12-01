@@ -1,8 +1,18 @@
-.container-fluid {
-  padding:0 40px;
+
+
+#main {
+  .container-fluid{
+    padding:0 35px;
+  }
 }
 
+
 .logo img {max-width:220px; min-width:200px;}
+
+
+
+
+
 
 @media (max-width: 1220px) {
 
@@ -56,6 +66,9 @@
 
 
 
+
+
+
 @media (max-width: 960px) {
 
 .row-fluid .span9 {
@@ -73,6 +86,15 @@
   margin:3px;
   width:32.26923%!important;   
 }
+.container-fluid{
+  padding:0 35px;
+}
+
+  #container-front {
+    [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"]{
+      width:47%;
+    }
+  }
 
 [class*="span"],
   .uneditable-input[class*="span"],
@@ -116,6 +138,7 @@
     font-size: 0.7em;
     display:inline-block;
   }
+
 }
 
 
@@ -139,10 +162,9 @@
   }
 
   .item-title {
-    font-size: 17px;
     letter-spacing: 1px;
     line-height: 35px;
-    font-size: 1.3em;
+    font-size: 1em;
     display:inline-block;
   }
 
@@ -162,6 +184,12 @@
 
   .well {
     width:88%;
+  }
+
+    #container-front {
+    [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"]{
+      width:100%;
+    }
   }
 
 }

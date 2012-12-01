@@ -9,7 +9,6 @@ class Merchant::VouchersController < Merchant::BaseController
   # GET /vouchers
   def index
     if current_user.has_role?(Role::MERCHANT)
-      @title = 'Voucher Administration'
       @admin = true
       
       # If a voucher_id or a user_id is given, it's coming from a search request
@@ -22,7 +21,6 @@ class Merchant::VouchersController < Merchant::BaseController
       end
     else
       # It's a user asking for their own vouchers
-      @title = 'Listing Vouchers'
       @admin = false
       @vouchers = current_user.vouchers
     end
@@ -33,7 +31,7 @@ class Merchant::VouchersController < Merchant::BaseController
     @voucher = Voucher.find(params[:id])
 
     respond_to do |format|
-      format.png { render :qrcode =>  redeem_merchant_voucher_url(@voucher, :subdomain => ApplicationHelper::REDEMPTION_SUBDOMAIN) }
+      format.png { render :qrcode => redeem_merchant_voucher_url(@voucher) }
     end
   end
 
@@ -41,7 +39,7 @@ class Merchant::VouchersController < Merchant::BaseController
     @voucher = Voucher.find(params[:id])
     
     respond_to do |format|
-      format.png { render :qrcode => redeem_merchant_voucher_url(@voucher, :subdomain => ApplicationHelper::REDEMPTION_SUBDOMAIN) }
+      format.png { render :qrcode => redeem_merchant_voucher_url(@voucher) }
       format.html { render :nothing => true }
     end
   end
@@ -116,7 +114,6 @@ class Merchant::VouchersController < Merchant::BaseController
       flash[:alert] = I18n.t('voucher_failure')
     end
     
-    @title = 'Voucher Administration'
     @admin = true
     @vouchers = []
     

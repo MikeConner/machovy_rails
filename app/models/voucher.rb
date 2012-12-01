@@ -109,10 +109,11 @@ private
   # But don't overwrite if we're updating!
   def create_uuid
     if self.uuid.nil?
-      uid = false
-      until uid
+      valid_uid = false
+      until valid_uid
         self.uuid = format_uuid(SecureRandom.hex(5))
-        uid = Voucher.find_by_uuid(self.uuid).nil?
+        valid_uid = Voucher.find_by_uuid(self.uuid).nil?
+        self.slug = self.uuid
       end
     end
   end

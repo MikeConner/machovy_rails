@@ -74,6 +74,8 @@ describe "Vouchers" do
     
     it "is valid because it creates one" do
       voucher.reload.uuid.should_not be_blank
+      # Should create slug at the same time
+      voucher.reload.slug.should == voucher.reload.uuid
     end
   end
   

@@ -21,7 +21,7 @@
       - if !@blog_post.associated_image.file.nil?
         = image_tag @blog_post.associated_image_url(:blog_content_photo).to_s
       .row-fluid.curator-row
-        .span2.curator-block
+        .span2.curator-block-post
           = link_to(image_tag(@blog_post.curator.picture_url(:contributor_photo).to_s), curator_path(@blog_post.curator))
         .span5.curator-name
           == #{link_to @blog_post.curator.name, curator_path(@blog_post.curator)} <span class="recommend"> Recommends </span>

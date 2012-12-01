@@ -20,6 +20,8 @@
     = javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{GOOGLE_MAPS_KEY}&sensor=false".html_safe
   = csrf_meta_tags
   = stylesheet_link_tag "https://fonts.googleapis.com/css?family=Oswald:300,400"
+  = stylesheet_link_tag "http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700"
+
   = render 'layouts/application/shim'
 %body
   = render :partial => 'shared/admin_navigation'

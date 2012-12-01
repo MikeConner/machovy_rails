@@ -238,25 +238,28 @@ class PromotionsController < ApplicationController
       end      
     else
       # If admins are updating it, have to look at the accept/reject, etc. logic
-      case params[:decision]
-        when 'accept'
-          params[:promotion][:status] = Promotion::MACHOVY_APPROVED
-        when 'reject'
-          params[:promotion][:status] = Promotion::MACHOVY_REJECTED
-        when 'edit'
-          params[:promotion][:status] = Promotion::EDITED
-        else
-          raise RangeException, "Unknown decision: #{params[:decision]}" 
+      # If editing an affiliate, there will not be a decision
+      if params[:decision]
+        case params[:decision]
+          when 'accept'
+            params[:promotion][:status] = Promotion::MACHOVY_APPROVED
+          when 'reject'
+            params[:promotion][:status] = Promotion::MACHOVY_REJECTED
+          when 'edit'
+            params[:promotion][:status] = Promotion::EDITED
+          else
+            raise RangeException, "Unknown decision: #{params[:decision]}" 
+        end
       end
       
-      comment = params[:comment] + "\n#{comment}"
+      comment = params[:comment] + "\n#{comment}" if params[:comment]
     end
     
     if @promotion.update_attributes(params[:promotion])
       @promotion.promotion_logs.create(:status => params[:promotion][:status], 
                                        :comment => comment)  
-      # Send email on admin actions only   
-      if !vendor_action
+      # Send email only on admin actions on local deals
+      if !vendor_action and @promotion.deal?
         VendorMailer.promotion_status_email(@promotion).deliver
       end 
       
