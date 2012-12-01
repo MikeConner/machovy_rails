@@ -11,7 +11,7 @@ class UserMailer < ActionMailer::Base
     @order = order
     
     @order.vouchers.each do |voucher|
-      url = redeem_merchant_voucher_url(voucher, :subdomain => ApplicationHelper::REDEMPTION_SUBDOMAIN)
+      url = redeem_merchant_voucher_url(voucher)
       qrcode = RQRCode::QRCode.new(url, :size => RQRCode.minimum_qr_size_from_string(url))
       svg = RQRCode::Renderers::SVG::render(qrcode)
       image = MiniMagick::Image.read(svg)
