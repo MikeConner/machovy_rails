@@ -15,10 +15,8 @@
         %p.description= truncate(promotion.padded_description, :length => 130)
     .row-fluid.item-bottom-bar 
       - if promotion.deal?
-        -#.span5
-          -#= number_to_currency(promotion.price)
         .deal-bottom-button
-          = link_to "More Details", promotion_path(promotion)
+          = link_to "Only " + number_to_currency(promotion.price).to_s, promotion_path(promotion)
       - else
         .deal-bottom-button
-          = link_to "More Details", promotion_path(promotion)
+          = link_to "Check it out", promotion_path(promotion)

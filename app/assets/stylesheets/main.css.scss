@@ -1067,6 +1067,8 @@ Features
 ----------------------------------------------
 Blog
 ----------------------------------------------*/
+
+
 article, section, aside {margin:0;padding:0;}
 
 article h2 a {
@@ -1801,8 +1803,6 @@ img.dashboard-member-activity-avatar {
 
 
 
-
-
 /*
 ----------------------------------------------
 Deals Front Page
@@ -1893,6 +1893,7 @@ Deals Front Page
 
 
 
+
 .item-price {
   color: #666;
   font-size: 13px;
@@ -1900,11 +1901,13 @@ Deals Front Page
   padding: 0;
   width: auto;
   padding: 1px 0 0 12px;
+  position:relative;
+  z-index:900;
 }
 
 .deal-bottom-button {
   position: relative;
-  background-color: #dddddd;
+  background-color: #efefef;
   color: white;
   text-align: center;
   text-transform: uppercase;
@@ -2046,3 +2049,8 @@ Rating Stars
        -o-transition-duration: 0s;
           transition-duration: 0s;
 }
+
+
+
+
+
