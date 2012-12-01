@@ -45,6 +45,9 @@ GEM
       rack-test (>= 0.5.4)
       selenium-webdriver (~> 2.0)
       xpath (~> 0.1.4)
+    capybara-webkit (0.13.0)
+      capybara (>= 1.0.0, < 1.2)
+      json
     carrierwave (0.6.2)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -291,6 +294,7 @@ DEPENDENCIES
   bootstrap-will_paginate (= 0.0.5)
   cancan (= 1.6.8)
   capybara (= 1.1.2)
+  capybara-webkit (= 0.13.0)
   carrierwave (= 0.6.2)
   ckeditor (= 3.7.3)
   coffee-rails (~> 3.2.1)

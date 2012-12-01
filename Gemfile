@@ -38,6 +38,7 @@ end
 
 group :test do
   gem 'capybara', '1.1.2'
+  gem 'capybara-webkit', '0.13.0'
   gem 'launchy', '2.1.2'
   gem 'database_cleaner', '0.8.0'
   gem 'factory_girl_rails', '4.1.0'
