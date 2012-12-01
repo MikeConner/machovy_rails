@@ -168,7 +168,7 @@ FactoryGirl.define do
       end
       
       after(:create) do |parent, evaluator|
-        FactoryGirl.create_list(:category, evaluator.num_children, :category => parent)
+        FactoryGirl.create_list(:category, evaluator.num_children, :parent_category_id => parent.id)
       end
     end
   end
@@ -269,6 +269,9 @@ FactoryGirl.define do
     start_date Time.now
     end_date 2.weeks.from_now
     remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
+    min_per_customer 1
+    max_per_customer Promotion::UNLIMITED
+    strategy { FactoryGirl.create(:strategy) }
   end
   
   factory :affiliate, :class => Promotion do
@@ -283,6 +286,9 @@ FactoryGirl.define do
     start_date Time.now
     end_date 2.weeks.from_now
     remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
+    min_per_customer 1
+    max_per_customer Promotion::UNLIMITED
+    strategy { FactoryGirl.create(:strategy) }
   end
   
   factory :promotion do
@@ -301,6 +307,9 @@ FactoryGirl.define do
     start_date Time.now
     end_date 2.weeks.from_now
     remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
+    min_per_customer 1
+    max_per_customer Promotion::UNLIMITED
+    strategy { FactoryGirl.create(:strategy) }
     
     factory :promotion_with_subtitle do
       subtitle { generate(:random_phrase) }
@@ -612,6 +621,26 @@ FactoryGirl.define do
         evt[:type] = log.event_type
         log.event = evt.to_json
       end
+    end
+  end
+  
+  factory :strategy, :class => FixedExpirationStrategy do
+    end_date 3.months.from_now
+  end
+  
+  factory :fixed_expiration_strategy do
+    end_date 1.month.from_now
+    
+    after(:create) do |strategy|
+      FactoryGirl.create(:promotion, :strategy => strategy)
+    end
+  end
+  
+  factory :relative_expiration_strategy do
+    period_days 30
+    
+    after(:create) do |strategy|
+      FactoryGirl.create(:promotion, :strategy => strategy)
     end
   end
 end

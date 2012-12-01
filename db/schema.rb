@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121120201231) do
+ActiveRecord::Schema.define(:version => 20121130210834) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -109,6 +109,12 @@ ActiveRecord::Schema.define(:version => 20121120201231) do
   end
 
   add_index "feedbacks", ["user_id", "order_id"], :name => "index_feedbacks_on_user_id_and_order_id", :unique => true
+
+  create_table "fixed_expiration_strategies", :force => true do |t|
+    t.datetime "end_date",   :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "friendly_id_slugs", :force => true do |t|
     t.string   "slug",                         :null => false
@@ -213,6 +219,10 @@ ActiveRecord::Schema.define(:version => 20121120201231) do
     t.string   "status",               :limit => 16, :default => "Proposed", :null => false
     t.string   "promotion_type",       :limit => 16, :default => "Deal",     :null => false
     t.string   "subtitle"
+    t.integer  "strategy_id"
+    t.string   "strategy_type"
+    t.integer  "min_per_customer",                   :default => 1,          :null => false
+    t.integer  "max_per_customer",                   :default => 0,          :null => false
   end
 
   add_index "promotions", ["slug"], :name => "index_promotions_on_slug"
@@ -240,6 +250,12 @@ ActiveRecord::Schema.define(:version => 20121120201231) do
   end
 
   add_index "ratings", ["idea_id", "user_id"], :name => "index_ratings_on_idea_id_and_user_id", :unique => true
+
+  create_table "relative_expiration_strategies", :force => true do |t|
+    t.integer  "period_days", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "roles", :force => true do |t|
     t.string   "name"

@@ -14,7 +14,7 @@ class FrontGridController < ApplicationController
     @active_metro = session[:metro]
     
     @deals_per_row = Promotion::DEALS_PER_ROW
-    @categories = Category.all
+    @categories = Category.roots
 
     if session[:deals] == 'true'
       @promotions = filter_deals(@active_category, @active_metro)

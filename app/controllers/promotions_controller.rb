@@ -1,5 +1,6 @@
 require 'utilities'
 require 'weighting_factory'
+require 'promotion_strategy_factory'
 
 class PromotionsController < ApplicationController  
   respond_to :html, :js
@@ -201,6 +202,9 @@ class PromotionsController < ApplicationController
     end
     
     @promotion = vendor.promotions.build(params[:promotion])
+    # Get the promotion strategy from the hidden field (don't want to deal with nested polymorphic attributes; just assign it)
+    @promotion.strategy = PromotionStrategyFactory.instance.create_promotion_strategy(params[:promotion_strategy], params)
+    
     # Only Local Deals need Machovy approved; others are coming in from Admins and are Approved by definition
     if @promotion.promotion_type != Promotion::LOCAL_DEAL or current_user.has_role?(Role::SALES_ADMIN) 
       @promotion.status = Promotion::MACHOVY_APPROVED

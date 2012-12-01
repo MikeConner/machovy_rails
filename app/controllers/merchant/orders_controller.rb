@@ -72,12 +72,9 @@ class Merchant::OrdersController < Merchant::BaseController
     if charge_success
       # If the charge was successful, order will have charge_id (validated on save)
       if @order.save
-        # After saving the order, create the associated voucher
+        # After saving the order, create the associated vouchers using the promotion strategy
         # status defaults to Available; uuid is created upon save
-        just_purchased = @order.vouchers.build(:issue_date => Time.now, 
-                                               :expiration_date => @order.promotion.end_date, 
-                                               :notes => @order.fine_print)
-        if just_purchased.save
+        if @order.promotion.strategy.generate_vouchers(@order)
           flash[:notice] = I18n.t('order_successful')
           
           # If everything worked (voucher saved), send the email

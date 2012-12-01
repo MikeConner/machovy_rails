@@ -17,9 +17,11 @@ describe "Categories" do
   
   it { should respond_to(:name) }
   it { should respond_to(:active) }
+  it { should respond_to(:parent_category_id) }
+  it { should respond_to(:sub_categories) }
   it { should respond_to(:promotions) }
   
-  its(:category) { should be_nil }
+  its(:parent_category) { should be_nil }
   
   it { should be_valid }
   
@@ -102,7 +104,7 @@ describe "Categories" do
       Category.unscoped.all.count.should be == 4
       
       category.sub_categories.each do |sub| 
-        sub.category.should == category
+        sub.parent_category.should == category
       end
     end
     

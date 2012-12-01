@@ -25,6 +25,10 @@
 #  status               :string(16)      default("Proposed"), not null
 #  promotion_type       :string(16)      default("Deal"), not null
 #  subtitle             :string(255)
+#  strategy_id          :integer
+#  strategy_type        :string(255)
+#  min_per_customer     :integer         default(1), not null
+#  max_per_customer     :integer         default(0), not null
 #
 
 describe "Promotions" do
@@ -76,6 +80,9 @@ describe "Promotions" do
   it { should respond_to(:under_quantity_threshold?) }
   it { should respond_to(:subtitle) }
   it { should respond_to(:padded_description) }
+  it { should respond_to(:started?) }
+  it { should respond_to(:min_per_customer) }
+  it { should respond_to(:max_per_customer) }
   
   its(:metro) { should == metro }
   its(:vendor) { should == vendor }
@@ -84,6 +91,93 @@ describe "Promotions" do
   
   it { should be_valid }
 
+  describe "Delete promotion should delete strategy" do
+    before { promotion.destroy }
+    
+    it "should be gone" do
+      Promotion.count.should be == 0
+      FixedExpirationStrategy.count.should == 0
+    end
+  end
+  
+  describe "Deleting strategy nullifies" do
+    before { promotion.strategy.destroy }
+    
+    it "should be gone" do
+      Promotion.count.should be == 1
+      FixedExpirationStrategy.count.should be == 0
+      promotion.reload.strategy.should be_nil
+      promotion.reload.should_not be_valid
+    end
+  end
+  
+  describe "Invalid minimum/customer" do
+    [0, -1, 0.5, 'abc', nil].each do |min|
+      before { promotion.min_per_customer = min }
+      
+      it { should_not be_valid }
+    end
+  end
+
+  describe "Valid minimum/customer" do
+    [1, 5, 100, 2000].each do |min|
+      before { promotion.min_per_customer = min }
+      
+      it { should be_valid }
+    end
+  end
+
+  describe "Invalid maximum/customer" do
+    # nil causes an exception in the voucher_limit_consistency
+    # it's pathological, don't want to add a check for something that will never happen
+    [-1, 0.5, 'abc'].each do |max|
+      before { promotion.max_per_customer = max }
+      
+      it { should_not be_valid }
+    end
+  end
+  
+  describe "Valid maximum/customer" do
+    [Promotion::UNLIMITED, 1, 5, 200, 5000].each do |max|
+      before { promotion.max_per_customer = max }
+      
+      it { should be_valid }
+    end
+  end
+  
+  describe "Consistent min/max (equal)" do
+    before { promotion.min_per_customer = promotion.max_per_customer = 2 }
+    
+    it { should be_valid }
+  end
+  
+  describe "Consistent min/max (unequal)" do
+    before do
+      promotion.min_per_customer = 1
+      promotion.max_per_customer = 4
+    end
+    
+    it { should be_valid }
+  end
+  
+  describe "Consistent min/max (unlimited)" do
+    before do
+      promotion.min_per_customer = 200
+      promotion.max_per_customer = Promotion::UNLIMITED
+    end
+    
+    it { should be_valid }
+  end
+  
+  describe "Inconsistent min/max" do
+    before do
+      promotion.min_per_customer = 2
+      promotion.max_per_customer = 1
+    end
+    
+    it { should_not be_valid }
+  end
+  
   describe "padded description" do
     before { promotion.description = 'too short' }
     
@@ -391,10 +485,14 @@ describe "Promotions" do
     promotion.displayable?.should be_false
   end
   
+  it "should be started" do
+    promotion.started?.should be_true
+  end
+  
   it "should not be expired" do
     promotion.expired?.should be_false
   end
-  
+
   describe "make it approved" do
     before { promotion.status = Promotion::MACHOVY_APPROVED }
     
@@ -411,6 +509,14 @@ describe "Promotions" do
       
       it "should still be displayable" do
         promotion.displayable?.should be_true
+      end
+    end
+
+    describe "no start date" do
+      before { promotion.start_date = nil }
+      
+      it "should still be started" do
+        promotion.started?.should be_true
       end
     end
     
@@ -435,6 +541,18 @@ describe "Promotions" do
       end
     end      
     
+    describe "Approved but not displayable because future" do
+      before { promotion.start_date = 2.weeks.from_now }
+      
+      it "should not be started" do
+        promotion.started?.should be_false
+      end
+      
+      it "should not be displayable" do
+        promotion.displayable?.should be_false
+      end
+    end
+
     describe "Displayable with open vouchers" do
       let(:promotion) { FactoryGirl.create(:promotion_with_vouchers) }
       
@@ -456,8 +574,16 @@ describe "Promotions" do
         promotion.expired?.should be_true
       end
       
-      it "should be displayable" do
-        promotion.displayable?.should be_true
+      it "should not be displayable (quantity)" do
+        promotion.displayable?.should be_false
+      end
+      
+      describe "add quantity to make displayable" do
+        before { promotion.quantity = 100 }
+        
+        it "should be displayable (quantity)" do
+          promotion.displayable?.should be_true
+        end
       end
     end      
   end
