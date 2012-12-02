@@ -229,7 +229,7 @@ FactoryGirl.define do
     user
     
     email { user.email }
-    amount { Random.rand * 100 }
+    amount { (Random.rand * 100).round(2) }
     description { generate(:random_phrase) }
     stripe_card_token "nva3hvao73SI&H#Nfishuefse"
     charge_id "ch_0aCv7NedlDjXia"

@@ -40,7 +40,7 @@ class FixedExpirationStrategy < ActiveRecord::Base
     
     Voucher.transaction do
       order.quantity.times do
-        voucher = order.vouchers.build(:issue_date => Time.now, 
+        voucher = order.vouchers.build(:issue_date => DateTime.now.beginning_of_day, 
                                        :expiration_date => self.end_date,
                                        :notes => order.fine_print) 
         if !voucher.save
