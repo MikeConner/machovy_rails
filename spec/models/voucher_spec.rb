@@ -8,7 +8,7 @@
 #  status          :string(16)      default("Available")
 #  notes           :text
 #  expiration_date :datetime
-#  issue_date      :datetime
+#  valid_date      :datetime
 #  order_id        :integer
 #  created_at      :datetime        not null
 #  updated_at      :datetime        not null
@@ -25,15 +25,13 @@ describe "Vouchers" do
   subject { voucher }
 
   it { should respond_to(:expiration_date) }
-  it { should respond_to(:issue_date) }
+  it { should respond_to(:valid_date) }
   it { should respond_to(:notes) }
   it { should respond_to(:status) }
   it { should respond_to(:uuid) }
   it { should respond_to(:user) }
   it { should respond_to(:order) }
   it { should respond_to(:promotion) }
-  it { should respond_to(:expiration_date) }
-  it { should respond_to(:issue_date) }
   it { should respond_to(:redemption_date) }
   it { should respond_to(:expired?) }
   it { should respond_to(:open?) }
@@ -55,8 +53,8 @@ describe "Vouchers" do
     it { should_not be_valid }
   end
 
-  describe "issue date" do
-    before { voucher.issue_date = " " }
+  describe "valid date" do
+    before { voucher.valid_date = " " }
     
     it { should_not be_valid }
   end
@@ -117,7 +115,7 @@ describe "Vouchers" do
     end
     
     describe "expired before issued" do
-      before { voucher.expiration_date = voucher.issue_date - 1.day }
+      before { voucher.expiration_date = voucher.valid_date - 1.day }
       
       it { should_not be_valid }
       it "should not be open" do

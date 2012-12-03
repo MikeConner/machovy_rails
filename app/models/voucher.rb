@@ -8,7 +8,7 @@
 #  status          :string(16)      default("Available")
 #  notes           :text
 #  expiration_date :datetime
-#  issue_date      :datetime
+#  valid_date      :datetime
 #  order_id        :integer
 #  created_at      :datetime        not null
 #  updated_at      :datetime        not null
@@ -46,7 +46,7 @@ class Voucher < ActiveRecord::Base
   before_validation :create_uuid
   
   # For security, don't put payment_id in accessible fields
-  attr_accessible :expiration_date, :issue_date, :notes, :redemption_date, :status, :uuid,
+  attr_accessible :valid_date, :expiration_date, :notes, :redemption_date, :status, :uuid,
                   :order_id
   
   # foreign keys
@@ -59,7 +59,7 @@ class Voucher < ActiveRecord::Base
   validates_presence_of :order_id
   
   validates_presence_of :expiration_date
-  validates_presence_of :issue_date
+  validates_presence_of :valid_date
   
   validates :status, :presence => true,
                      :length => { maximum: VOUCHER_STATUS_LEN },
@@ -126,8 +126,8 @@ private
   
   def time_periods
     # Don't worry about redemption_date
-    if !self.expiration_date.nil? && !self.issue_date.nil?
-      if self.expiration_date < self.issue_date
+    if !self.expiration_date.nil? && !self.valid_date.nil?
+      if self.expiration_date < self.valid_date
         self.errors.add(:base, 'Inconsistent date fields')
       end 
     end

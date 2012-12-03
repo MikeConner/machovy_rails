@@ -582,7 +582,7 @@ FactoryGirl.define do
     order
     
     expiration_date 1.year.from_now
-    issue_date 1.week.ago
+    valid_date 1.week.ago
     redemption_date 1.week.from_now
     status Voucher::AVAILABLE
     uuid { generate(:sequential_uuid) }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121130210834) do
+ActiveRecord::Schema.define(:version => 20121202235629) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -349,7 +349,7 @@ ActiveRecord::Schema.define(:version => 20121130210834) do
     t.string   "status",          :limit => 16, :default => "Available"
     t.text     "notes"
     t.datetime "expiration_date"
-    t.datetime "issue_date"
+    t.datetime "valid_date"
     t.integer  "order_id"
     t.datetime "created_at",                                             :null => false
     t.datetime "updated_at",                                             :null => false
