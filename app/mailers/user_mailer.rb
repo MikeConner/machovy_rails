@@ -33,6 +33,6 @@ class UserMailer < ActionMailer::Base
   def unredeem_email(voucher)
     @voucher = voucher
     
-    mail(:to => @voucher.order.email, :bcc => ApplicationHelper::MACHOVY_PAYMENT_ADMIN, :subject => UNREDEEM_MESSAGE)
+    mail(:to => @voucher.order.email, :bcc => ApplicationHelper::MACHOVY_MERCHANT_ADMIN, :subject => UNREDEEM_MESSAGE)
   end
 end
