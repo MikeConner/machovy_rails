@@ -11,7 +11,7 @@ class UserMailer < ActionMailer::Base
     @order = order
     
     @order.vouchers.each do |voucher|
-      url = redeem_merchant_voucher_url(voucher, :subdomain => ApplicationHelper::REDEMPTION_SUBDOMAIN)
+      url = redeem_merchant_voucher_url(voucher)
       qrcode = RQRCode::QRCode.new(url, :size => RQRCode.minimum_qr_size_from_string(url))
       svg = RQRCode::Renderers::SVG::render(qrcode)
       image = MiniMagick::Image.read(svg)
@@ -33,6 +33,6 @@ class UserMailer < ActionMailer::Base
   def unredeem_email(voucher)
     @voucher = voucher
     
-    mail(:to => @voucher.order.email, :bcc => ApplicationHelper::MACHOVY_PAYMENT_ADMIN, :subject => UNREDEEM_MESSAGE)
+    mail(:to => @voucher.order.email, :bcc => ApplicationHelper::MACHOVY_MERCHANT_ADMIN, :subject => UNREDEEM_MESSAGE)
   end
 end

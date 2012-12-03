@@ -35,5 +35,8 @@
       = f.collection_select(:category_ids, @categories, :id, :name, { :selected => @promotion.category_ids }, { :multiple => true })      
   - else
     = f.hidden_field :grid_weight
-  = render :partial => 'shared/promotion_fields', 
-           :locals => { :f => f, :metros => @metros, :quantity => @promotion.quantity || 1, :share_pct => @promotion.revenue_shared }
+  - if @promotion.deal?
+    = render :partial => 'shared/promotion_fields', 
+             :locals => { :f => f, :metros => @metros, :quantity => @promotion.quantity || 1, :share_pct => @promotion.revenue_shared }
+  - else
+    = render :partial => 'shared/nondeal_promotion_fields', :locals => { :f => f, :metros => @metros }

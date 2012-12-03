@@ -15,9 +15,8 @@ module ApplicationHelper
   VALID_EMAILS = ["j@z.com", "jeff.bennett@pittsburghmoves.com", "fish_42@verizon.net", "a.b.c.d@e.f.g.h.biz"]
 
   MAILER_FROM_ADDRESS = 'deals@machovy.com'
-  MACHOVY_PAYMENT_ADMIN = 'endymionjkb@gmail.com'
-  MACHOVY_FEEDBACK_ADMIN = 'endymionjkb@gmail.com'
-  REDEMPTION_SUBDOMAIN = 'redeem'
+  MACHOVY_MERCHANT_ADMIN = 'arash@machovy.com'
+  MACHOVY_FEEDBACK_ADMIN = 'arash@machovy.com'
   
   SMTP_PASSWORD = '%%))$$@macho'
   

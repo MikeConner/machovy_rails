@@ -7,7 +7,7 @@
   - p_list.each do |p|
     .span.promo-well
       .span6
-        = image_tag p.teaser_image_url
+        = image_tag p.teaser_image_url(:product_front_page)
       .span6
         %ul
           %li.title= p.title

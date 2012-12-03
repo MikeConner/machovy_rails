@@ -31,6 +31,9 @@
 #   Strict phone formatting requires normalization in any relevant controllers before updating
 # 
 class Vendor < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :name, use: [:slugged, :history]
+  
   include ApplicationHelper
   
   attr_accessible :address_1, :address_2, :city, :facebook, :name, :phone, :state, :url, :zip, :latitude, :longitude,

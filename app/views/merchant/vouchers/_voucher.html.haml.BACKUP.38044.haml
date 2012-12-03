@@ -13,6 +13,16 @@
         -# Don't let them return for now (business issue)
           - if v.returnable?
             = link_to "Return", redeem_admin_merchant_voucher_path(v, :status => Voucher::RETURNED), :method => :put, :confirm => 'Returning a voucher voids it so that no one can use it and no further action is possible. Are you sure?'
+<<<<<<< HEAD
+      = v.uuid + " ordered by " + v.order.email
+      %h3= v.promotion.title
+      %h4= "$" + v.order.total_cost.to_s
+      %p= v.status
+      %p= v.redemption_date.try(:strftime, '%b %d, %Y')
+      %p= "Valid from: " + v.valid_date.try(:strftime, '%b %d, %Y')
+      %p= "Expires: "+  v.expiration_date.try(:strftime, '%b %d, %Y')
+      %p= "Limitations: " + v.order.fine_print
+=======
     = v.uuid + " : " + v.order.email
     %h3= v.promotion.title
     %h4= "$" + v.order.total_cost.to_s
@@ -21,3 +31,4 @@
     %p= "Issued: " + v.issue_date.try(:strftime, '%b %d, %Y')
     %p= "Expires: "+  v.expiration_date.try(:strftime, '%b %d, %Y')
     %p= "Limitations: " + v.order.fine_print
+>>>>>>> Design-November

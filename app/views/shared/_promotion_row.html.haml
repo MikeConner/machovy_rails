@@ -9,19 +9,14 @@
           = truncate(sanitize(promotion.subtitle), :length => 24)
         - else
           = "An amazing find"
-      .description= truncate(promotion.padded_description, :length => 100)
+      - if session[:deals] != 'true'  # -------------------------------------------Front PAGE VIEW
+        %p.description= truncate(promotion.padded_description, :length => 119)
+      -else
+        %p.description= truncate(promotion.padded_description, :length => 130)
     .row-fluid.item-bottom-bar 
       - if promotion.deal?
-        .span5.pull-left
-          .item-price
-            %small Price
-            %br
-            %span.current-price
-              = number_to_currency(promotion.price)
-        .span7
-          %span.more-details.pull-right
-            = link_to "More Details", promotion_path(promotion), {:class => 'btn'}
+        .deal-bottom-button
+          = link_to "Only " + number_to_currency(promotion.price).to_s, promotion_path(promotion)
       - else
-        .item-detail.pull-right 
-          %span.more-details.pull-right   
-            = link_to "More Details", promotion_path(promotion), {:class => 'btn'}
+        .deal-bottom-button
+          = link_to "Check it out", promotion_path(promotion)

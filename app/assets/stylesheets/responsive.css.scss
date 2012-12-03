@@ -1,10 +1,39 @@
-.container-fluid {
-  padding:0 40px;
+ #container-front {
+  @media only screen and (min-width : 1200px) {
+    .span3 {
+      width:290px;
+    }
+
+  }
+  @media only screen and (min-width : 768px) and (max-width : 1023px) {
+    .description {
+      height:112px;
+    }
+  }
+  @media only screen and (max-width : 767px) {
+    [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"]{
+      width:47%;
+    }
+    .description {
+      height:auto;
+    }
+  }
+  @media only screen and (max-width:500px) {
+    [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"]{
+      width:100%;
+    }
+  }
 }
 
-.logo img {max-width:220px; min-width:200px;}
+
+
 
 @media (max-width: 1220px) {
+
+.blog-posts-front{
+  padding:0 0 0 15px;
+}
+
 
 .row-fluid [class*="promotion-grid"] {
   margin:3px;
@@ -13,8 +42,8 @@
 
 .header-fixed-top {
   position:relative;
-  padding-top:5px;
-  top:-28px;
+  padding-top:10px;
+  top:-34px;
 }
 
 .space-medium {margin:0;}
@@ -28,9 +57,13 @@
   width:31.8923%!important;   
 }
 
+.item-title{
+  font-size:0.65em;  
+}
+
 .header-fixed-top {
   position:relative;
-  top:-26px;
+  top:-38px;
 }
 
 .sub-headline {
@@ -56,6 +89,9 @@
 
 
 
+
+
+
 @media (max-width: 960px) {
 
 .row-fluid .span9 {
@@ -63,6 +99,8 @@
     margin: 5px 0 0 10px;
     float: right;
 }
+
+
 
 }
 
@@ -72,6 +110,9 @@
 .row-fluid [class*="promotion-grid"] {
   margin:3px;
   width:32.26923%!important;   
+}
+.container-fluid{
+  padding:0 35px;
 }
 
 [class*="span"],
@@ -100,6 +141,10 @@
     margin-left:-14px;
   }
 
+  .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+    width:auto;
+  }
+
 }
 
 @media (max-width: 738px) {
@@ -116,6 +161,7 @@
     font-size: 0.7em;
     display:inline-block;
   }
+
 }
 
 
@@ -125,6 +171,9 @@
     margin:3px;
     width:99.26923%!important;   
   }
+
+
+
 
   .item-sub-title {
     position: relative;
@@ -139,10 +188,9 @@
   }
 
   .item-title {
-    font-size: 17px;
     letter-spacing: 1px;
     line-height: 35px;
-    font-size: 1.3em;
+    font-size: 1em;
     display:inline-block;
   }
 

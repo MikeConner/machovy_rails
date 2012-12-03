@@ -1,34 +1,33 @@
-.container
-  .row-fluid
-    .span12
-      .row-fluid
-        .span12.column
-          .box
-            %h4.box-header.round-top Form Control States
-            .box-container-toggle
-              .box-content
-                .form-horizontal
-                  %fieldset
-                    %legend
-                      %h3 Curators
-                    .row-fluid
-                      .span12
-                        - @curators.each do |curator|
-                          .row-fluid
-                            .span3
-                              = link_to(image_tag(curator.picture_url(:contributor_photo).to_s), curator_path(curator))
-                            .span3
-                              - if admin_user?        
-                                = button_to 'Delete', curator, method: :delete, data: { confirm: 'Are you sure?' }
-                                = link_to curator.name, edit_curator_path(curator)
-                              - else
-                                = link_to curator.name, curator_path(curator)
-                              = curator.bio
-                              = curator.twitter
-                            .span6
-                              - curator.recent_posts.each do |post|
-                                %h4= link_to post.title, blog_post_path(post)
-                                %p= post.truncated_body
-                        - if admin_user?        
-                          %br/
-                          = link_to 'New Curator', new_curator_path
+.row-fluid
+  .span12.page-header
+    %h1 Curators <small>Lifestyle guidance</small>
+.row-fluid
+  .span12
+    %h4 Welcome to the Machovy Feedback Forum
+    %p Now, we know you're a genius... but it's just possible someone else had the same idea. And maybe some people even though they obviously know the best place for men's interest shopping -- might not be full-on geniuses in other areas. If so, feel free to (be)rate them. You can see the highest-rated ideas on the right. Will yours make the cut?
+.row-fluid
+  .span12
+    - @curators.each do |curator|
+      .row-fluid.curator-block
+        .span2
+          = link_to(image_tag(curator.picture_url(:contributor_photo).to_s), curator_path(curator))
+        .span7
+          - if admin_user?        
+            = button_to 'Delete', curator, method: :delete, data: { confirm: 'Are you sure?' }
+            = link_to curator.name, edit_curator_path(curator)
+          - else
+            %h4= link_to curator.name, curator_path(curator)
+            %p= curator.bio
+            -#= curator.twitter
+            -#= link_to curator_path(curator)
+        .span3
+          %h4 Latest Blog Posts
+          .borderLine
+            .borderLine-left &nbsp;
+            .borderLine-right &nbsp;
+          - curator.recent_posts.each do |post|
+            %p= link_to post.title, blog_post_path(post)
+            -#%p= post.truncated_body
+    - if admin_user?        
+      %br/
+      = link_to 'New Curator', new_curator_path

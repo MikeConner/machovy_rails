@@ -26,6 +26,12 @@
 # NOTES AND WARNINGS
 #
 class Order < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :description, use: [:slugged, :history]
+
+  # description isn't unique; override with Guid
+  before_validation :create_slug
+  
   include ApplicationHelper
   
   attr_accessible :quantity, :amount, :description, :email, :stripe_card_token, :fine_print,
@@ -70,4 +76,11 @@ class Order < ActiveRecord::Base
   def machovy_share
     total_cost * promotion.revenue_shared / 100.0
   end  
+  
+private
+  # The description is just the name of the promotion and a date
+  # It's not unique, and having friendly id append "-12" or something shows how many people are ordering
+  def create_slug
+    self.slug = SecureRandom.uuid
+  end
 end
