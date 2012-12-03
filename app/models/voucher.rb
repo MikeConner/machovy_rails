@@ -55,6 +55,7 @@ class Voucher < ActiveRecord::Base
   
   has_one :user, :through => :order
   has_one :promotion, :through => :order
+  has_one :macho_buck
   
   validates_presence_of :order_id
   

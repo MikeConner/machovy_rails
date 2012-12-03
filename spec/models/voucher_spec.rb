@@ -23,7 +23,7 @@ describe "Vouchers" do
   let(:voucher) { FactoryGirl.create(:voucher, :order => order) }
   
   subject { voucher }
-
+  
   it { should respond_to(:expiration_date) }
   it { should respond_to(:valid_date) }
   it { should respond_to(:notes) }
@@ -41,12 +41,22 @@ describe "Vouchers" do
   it { should respond_to(:paid?) }
   it { should respond_to(:payment_owed?) }
   it { should respond_to(:payment) }
+  it { should respond_to(:macho_buck) }
   
   its(:order) { should == order }
   its(:user) { should == user }
   its(:promotion) { should == promotion }
-  
+
   it { should be_valid }
+  
+  describe "macho bucks" do
+    let(:macho_buck) { FactoryGirl.create(:macho_bucks_from_voucher, :voucher => voucher) }
+    before { macho_buck }
+    
+    it "should point to the bucks" do
+      voucher.macho_buck.should == macho_buck
+    end
+  end
   
   describe "expiration date" do
     before { voucher.expiration_date = " " }

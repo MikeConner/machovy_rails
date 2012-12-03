@@ -29,6 +29,7 @@
 #  zipcode                :string(5)
 #  phone                  :string(14)
 #  optin                  :boolean         default(FALSE), not null
+#  total_macho_bucks      :decimal(, )     default(0.0)
 #
 
 # CHARTER
@@ -70,6 +71,7 @@ class User < ActiveRecord::Base
   has_one :vendor, :dependent => :nullify
   has_many :ideas, :dependent => :destroy
   has_many :stripe_logs, :dependent => :restrict
+  has_many :macho_bucks, :dependent => :destroy
   
   accepts_nested_attributes_for :vendor, :allow_destroy => true, :reject_if => :all_blank
   accepts_nested_attributes_for :feedbacks, :allow_destroy => true, :reject_if => :all_blank
@@ -79,6 +81,7 @@ class User < ActiveRecord::Base
                     :uniqueness => { case_sensitive: false },
                     :format => { with: EMAIL_REGEX }
   validates_inclusion_of :optin, :in => [true, false]
+  validates_numericality_of :total_macho_bucks
   
   # Profile fields
   validates :first_name, :length => { maximum: MAX_FIRST_NAME }, :allow_blank => true
@@ -104,6 +107,16 @@ class User < ActiveRecord::Base
     activity = self.activities.build
     activity.init_activity(obj)
     activity.save    
+  end
+  
+  # Called after each write transaction
+  def update_total_macho_bucks
+    total = 0.0
+    self.macho_bucks.all.each do |bucks|
+      total += bucks.amount
+    end
+    self.total_macho_bucks = total.round(2)
+    save!
   end
   
   # Retrieve the stripe customer object for this user. One twist is that the user could have been deleted

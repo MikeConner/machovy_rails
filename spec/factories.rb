@@ -435,6 +435,7 @@ FactoryGirl.define do
     password "Password"
     password_confirmation "Password"
     confirmed_at 1.week.ago
+    total_macho_bucks 0
     
     factory :super_admin_user do
       after(:create) do |user, evaluator|
@@ -641,6 +642,30 @@ FactoryGirl.define do
     
     after(:create) do |strategy|
       FactoryGirl.create(:promotion, :strategy => strategy)
+    end
+  end
+  
+  factory :macho_buck do
+    user
+    
+    amount { ((Random.rand * 50) + 1).round(2) }
+    notes { generate(:random_paragraphs) }
+    
+    factory :macho_bucks_from_voucher do
+      voucher
+    end
+    
+    factory :macho_bucks_from_admin do
+      after(:create) do |buck|
+        buck.admin_id = FactoryGirl.create(:super_admin_user).id
+      end
+    end
+    
+    # Invalid case
+    factory :macho_bucks_from_nonadmin do
+      after(:create) do |buck|
+        buck.admin_id = FactoryGirl.create(:user).id
+      end
     end
   end
 end
