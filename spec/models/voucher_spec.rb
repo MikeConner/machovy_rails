@@ -33,6 +33,7 @@ describe "Vouchers" do
   it { should respond_to(:order) }
   it { should respond_to(:promotion) }
   it { should respond_to(:redemption_date) }
+  it { should respond_to(:started?) }
   it { should respond_to(:expired?) }
   it { should respond_to(:open?) }
   it { should respond_to(:redeemable?) }
@@ -112,6 +113,7 @@ describe "Vouchers" do
   describe "time periods" do
     it "should be open" do
       voucher.open?.should be_true
+      voucher.in_redemption_period?.should be_true
     end
     
     describe "expired before issued" do
@@ -127,11 +129,31 @@ describe "Vouchers" do
       voucher.expired?.should be_false
     end
     
+    it "should be in redemption period" do
+      voucher.in_redemption_period?.should be_true
+      voucher.started?.should be_true
+      voucher.expired?.should be_false
+    end
+    
     describe "expired" do
       before { voucher.expiration_date = 1.day.ago }
       
       it "should be expired" do
         voucher.expired?.should be_true
+      end
+    end
+    
+    describe "test future voucher" do
+      before { voucher.valid_date = 1.week.from_now }
+      
+      it "should not be expired" do
+        voucher.expired?.should be_false
+      end
+      
+      it "should not be open" do
+        voucher.in_redemption_period?.should be_false
+        voucher.open?.should be_false
+        voucher.started?.should be_false
       end
     end
   end

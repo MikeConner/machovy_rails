@@ -78,17 +78,25 @@ class Voucher < ActiveRecord::Base
   
   # An open voucher is one that could still be used
   def open?
-    (AVAILABLE == status) && !expired? 
+    (AVAILABLE == status) and in_redemption_period?
+  end
+  
+  def started?
+    Time.now >= self.valid_date
   end
   
   def expired?
     Time.now > self.expiration_date
   end  
   
-  # From a merchant's perspective, should there be a "redeem" option? (vendor can choose to redeem even if expired)
+  def in_redemption_period?
+    started? and !expired?
+  end
+  
   # Intent is to use these switches to display buttons (or not)
+  # Vendor can choose if expired (but currently not before the valid date)
   def redeemable?
-    [AVAILABLE, EXPIRED].include?(status)
+    [AVAILABLE, EXPIRED].include?(status) and started?
   end
   
   # Can only return if it's available
