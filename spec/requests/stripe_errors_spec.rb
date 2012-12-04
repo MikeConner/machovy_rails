@@ -107,7 +107,7 @@ describe "Stripe Errors" do
       it { should have_content("There was a problem with your credit card. Your card's expiration date is incorrect") }
       
       it "should not produce a voucher" do
-        current_path.should be == merchant_orders_path #order_promotion_path(promotion)
+        current_path.should be == order_promotion_path(promotion)
         Voucher.count.should == 0
       end   
     end
