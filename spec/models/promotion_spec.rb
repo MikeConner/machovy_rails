@@ -100,6 +100,12 @@ describe "Promotions" do
     end
   end
   
+  describe "No strategy" do
+    before { promotion.strategy = nil }
+    
+    it { should_not be_valid }
+  end
+    
   describe "Deleting strategy nullifies" do
     before { promotion.strategy.destroy }
     
@@ -385,9 +391,13 @@ describe "Promotions" do
     let(:promotion) { FactoryGirl.create(:ad, :metro => metro, :vendor => vendor) }
     
     it { should respond_to(:destination) }
-    
-     it { should be_valid }
+     
+    it { should be_valid }
 
+    it "should not have a strategy" do
+      promotion.strategy.should be_nil
+    end
+    
     it "should not be a deal" do
       promotion.deal?.should be_false
     end
@@ -410,8 +420,14 @@ describe "Promotions" do
   describe "affiliates" do
     let(:promotion) { FactoryGirl.create(:affiliate, :metro => metro, :vendor => vendor) }    
     
+    it { should respond_to(:destination) }
+
     it { should be_valid }
 
+    it "should not have a strategy" do
+      promotion.strategy.should be_nil
+    end
+    
     it "should not be a deal" do
       promotion.deal?.should be_false
     end

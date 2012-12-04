@@ -271,7 +271,6 @@ FactoryGirl.define do
     remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
     min_per_customer 1
     max_per_customer Promotion::UNLIMITED
-    strategy { FactoryGirl.create(:strategy) }
   end
   
   factory :affiliate, :class => Promotion do
@@ -288,7 +287,6 @@ FactoryGirl.define do
     remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
     min_per_customer 1
     max_per_customer Promotion::UNLIMITED
-    strategy { FactoryGirl.create(:strategy) }
   end
   
   factory :promotion do

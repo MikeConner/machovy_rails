@@ -142,7 +142,7 @@ class Promotion < ActiveRecord::Base
   validate :voucher_limit_consistency
   
   validates_presence_of :teaser_image
-  validates_presence_of :strategy
+  validates_presence_of :strategy, :if => :deal?
   
   # "Deal" fields
   validates :retail_value, :price, :revenue_shared, 
