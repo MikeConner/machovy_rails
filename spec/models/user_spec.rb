@@ -252,6 +252,7 @@ describe "Users" do
         # Can't set these
         @attr.delete('created_at')
         @attr.delete('updated_at')
+        @attr.delete('slug')
         user.vendor_attributes = @attr
         user.save!
       end

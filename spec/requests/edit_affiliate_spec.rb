@@ -40,14 +40,14 @@ describe "Edit Affiliate deal" do
     
     describe "Edit the promotion" do
       before do
-        visit edit_promotion_path(Promotion.first)
+        @promotion = Promotion.first
+        visit edit_promotion_path(@promotion)
         fill_in 'promotion_subtitle', :with => '... or Melinda'
         click_button 'Submit'
-        @promotion = Promotion.first
       end
       
       it "should have the change" do
-        @promotion.subtitle.should == '... or Melinda'
+        @promotion.reload.subtitle.should == '... or Melinda'
       end
     end
   end    

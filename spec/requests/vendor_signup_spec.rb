@@ -101,9 +101,9 @@ describe "Vendor signup" do
           ActionMailer::Base.deliveries.count.should == 2
         end
 
-        it "should have the attachment" do
-          msg.attachments.count.should be == 1
-          msg.attachments[0].filename.should == 'VendorAgreement.pdf'
+        it "should not have the attachment" do
+          msg.attachments.count.should be == 0
+          #msg.attachments[0].filename.should == 'VendorAgreement.pdf'
         end
       end      
     end
