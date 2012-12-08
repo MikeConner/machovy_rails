@@ -233,6 +233,7 @@ FactoryGirl.define do
     description { generate(:random_phrase) }
     stripe_card_token "nva3hvao73SI&H#Nfishuefse"
     charge_id "ch_0aCv7NedlDjXia"
+    fine_print { generate(:random_sentences) }
     
     factory :order_with_vouchers do
       ignore do
@@ -302,8 +303,8 @@ FactoryGirl.define do
     revenue_shared { Random.rand }
     quantity { Random.rand(10) + 1 }
     description { generate(:random_sentences) }
-    start_date Time.now
-    end_date 2.weeks.from_now
+    start_date Time.now.beginning_of_day
+    end_date 2.weeks.from_now.beginning_of_day
     remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
     min_per_customer 1
     max_per_customer Promotion::UNLIMITED

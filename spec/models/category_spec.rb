@@ -15,13 +15,14 @@ describe "Categories" do
   
   subject { category }
   
-  it { should respond_to(:name) }
-  it { should respond_to(:active) }
-  it { should respond_to(:parent_category_id) }
-  it { should respond_to(:sub_categories) }
-  it { should respond_to(:promotions) }
-  
-  its(:parent_category) { should be_nil }
+  it "should respond to everything" do
+    category.should respond_to(:name)
+    category.should respond_to(:active)
+    category.should respond_to(:parent_category_id)
+    category.should respond_to(:sub_categories)
+    category.should respond_to(:promotions)
+    category.parent_category.should be_nil
+  end
   
   it { should be_valid }
   

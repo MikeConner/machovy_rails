@@ -28,9 +28,9 @@ class FixedExpirationStrategy < ActiveRecord::Base
   
   # params are the arguments into the create method of the controller
   def setup(params)
-    self.end_date = DateTime.new(Integer(params[:promotion]['end_date(1i)']),
-                                 Integer(params[:promotion]['end_date(2i)']),
-                                 Integer(params[:promotion]['end_date(3i)']))
+    self.end_date = DateTime.new(Integer(params['fixed']['end_date(1i)']),
+                                 Integer(params['fixed']['end_date(2i)']),
+                                 Integer(params['fixed']['end_date(3i)']))
   end
 
   # generate vouchers (and save)

@@ -37,60 +37,62 @@ describe "Promotions" do
   let(:promotion) { FactoryGirl.create(:promotion, :metro => metro, :vendor => vendor) }
   
   subject { promotion }
-  
-  it { should respond_to(:description) }
-  it { should respond_to(:destination) }
-  it { should respond_to(:grid_weight) }
-  it { should respond_to(:limitations) }
-  it { should respond_to(:price) }
-  it { should respond_to(:quantity) }
-  it { should respond_to(:retail_value) }
-  it { should respond_to(:revenue_shared) }
-  it { should respond_to(:start_date) }
-  it { should respond_to(:end_date) }
-  it { should respond_to(:teaser_image) }
-  it { should respond_to(:remote_teaser_image_url) }
-  it { should respond_to(:main_image) }
-  it { should respond_to(:remote_main_image_url) }
-  it { should respond_to(:status) }
-  it { should respond_to(:promotion_type) }
-  it { should respond_to(:title) }
-  it { should respond_to(:voucher_instructions) }
-  it { should respond_to(:orders) }
-  it { should respond_to(:vouchers) }
-  it { should respond_to(:promotion_logs) }
-  it { should respond_to(:promotion_images) }
-  it { should respond_to(:categories) }
-  it { should respond_to(:blog_posts) }
-  it { should respond_to(:approved?) }
-  it { should respond_to(:expired?) }
-  it { should respond_to(:displayable?) }
-  it { should respond_to(:ad?) }
-  it { should respond_to(:affiliate?) }
-  it { should respond_to(:deal?) }
-  it { should respond_to(:remaining_quantity) }
-  it { should respond_to(:awaiting_vendor_action?) }
-  it { should respond_to(:awaiting_machovy_action?) }
-  it { should respond_to(:expired?) }
-  it { should respond_to(:open_vouchers?) }
-  it { should respond_to(:num_open_vouchers) }
-  it { should respond_to(:quantity_description) }
-  it { should respond_to(:discount) }
-  it { should respond_to(:discount_pct) }
-  it { should respond_to(:under_quantity_threshold?) }
-  it { should respond_to(:subtitle) }
-  it { should respond_to(:padded_description) }
-  it { should respond_to(:started?) }
-  it { should respond_to(:min_per_customer) }
-  it { should respond_to(:max_per_customer) }
-  
-  its(:metro) { should == metro }
-  its(:vendor) { should == vendor }
-  its(:promotion_type) { should == Promotion::LOCAL_DEAL }
-  its(:status) { should == Promotion::PROPOSED }
-  
-  it { should be_valid }
 
+  it "should respond to everything" do
+    promotion.should respond_to(:description)
+    promotion.should respond_to(:destination)
+    promotion.should respond_to(:grid_weight)
+    promotion.should respond_to(:limitations)
+    promotion.should respond_to(:price)
+    promotion.should respond_to(:quantity)
+    promotion.should respond_to(:retail_value)
+    promotion.should respond_to(:revenue_shared)
+    promotion.should respond_to(:start_date)
+    promotion.should respond_to(:end_date)
+    promotion.should respond_to(:teaser_image)
+    promotion.should respond_to(:remote_teaser_image_url)
+    promotion.should respond_to(:main_image)
+    promotion.should respond_to(:remote_main_image_url)
+    promotion.should respond_to(:status)
+    promotion.should respond_to(:promotion_type)
+    promotion.should respond_to(:title)
+    promotion.should respond_to(:voucher_instructions)
+    promotion.should respond_to(:orders)
+    promotion.should respond_to(:vouchers)
+    promotion.should respond_to(:promotion_logs)
+    promotion.should respond_to(:promotion_images)
+    promotion.should respond_to(:categories)
+    promotion.should respond_to(:blog_posts)
+    promotion.should respond_to(:approved?)
+    promotion.should respond_to(:expired?)
+    promotion.should respond_to(:displayable?)
+    promotion.should respond_to(:ad?)
+    promotion.should respond_to(:affiliate?)
+    promotion.should respond_to(:deal?)
+    promotion.should respond_to(:remaining_quantity)
+    promotion.should respond_to(:awaiting_vendor_action?)
+    promotion.should respond_to(:awaiting_machovy_action?)
+    promotion.should respond_to(:expired?)
+    promotion.should respond_to(:open_vouchers?)
+    promotion.should respond_to(:num_open_vouchers)
+    promotion.should respond_to(:quantity_description)
+    promotion.should respond_to(:discount)
+    promotion.should respond_to(:discount_pct)
+    promotion.should respond_to(:under_quantity_threshold?)
+    promotion.should respond_to(:subtitle)
+    promotion.should respond_to(:padded_description)
+    promotion.should respond_to(:started?)
+    promotion.should respond_to(:min_per_customer)
+    promotion.should respond_to(:max_per_customer)
+    promotion.should respond_to(:max_quantity_for_buyer)
+    promotion.metro.should be == metro
+    promotion.vendor.should be == vendor
+    promotion.promotion_type.should be == Promotion::LOCAL_DEAL
+    promotion.status.should be == Promotion::PROPOSED
+  end
+
+  it { should be_valid }
+  
   describe "Delete promotion should delete strategy" do
     before { promotion.destroy }
     
@@ -656,7 +658,7 @@ describe "Promotions" do
     end
     
     it "should not meet display threshold" do
-      promotion.quantity_description.should be == I18n.t('plenty')
+      promotion.quantity_description.should be == I18n.t('plenty', :date => promotion.end_date.try(:strftime, '%b %d, %Y'))
       promotion.under_quantity_threshold?.should be_false
     end
     

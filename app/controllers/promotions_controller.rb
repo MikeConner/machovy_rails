@@ -14,6 +14,7 @@ class PromotionsController < ApplicationController
   before_filter :ensure_vendor_or_super_admin, :only => [:edit]
   before_filter :ensure_correct_vendor, :only => [:edit, :show_logs, :accept_edits, :reject_edits]
   before_filter :admin_only, :only => [:manage, :affiliates]
+  before_filter :validate_eligible, :only => [:order]
   
   load_and_authorize_resource
 
@@ -94,7 +95,7 @@ class PromotionsController < ApplicationController
     @promotion = Promotion.find(params[:id])
     # WARNING!
     # When assigning booleans, need to use ||, not OR operator. If you change to and/or it will break!
-    @show_buy_button = current_user.nil? || current_user.is_customer? || current_user.has_role?(Role::SUPER_ADMIN)
+    @show_buy_button = eligible_to_purchase(@promotion)
     @show_terms = !current_user.nil? && !current_user.is_customer?
     @show_accept_reject = !current_user.nil? && current_user.has_role?(Role::MERCHANT) && @promotion.status == Promotion::EDITED
     @curators = @promotion.curators
@@ -133,13 +134,15 @@ class PromotionsController < ApplicationController
   end
   
   # GET /promotions/1/order
-  def order
-    @promotion = Promotion.find(params[:id])
+  def order    
+    # @promotion set by before_filter 
     fine_print = @promotion.limitations.nil? && @promotion.voucher_instructions.nil? ? nil : 
                 @promotion.limitations.to_s + "\n" + @promotion.voucher_instructions.to_s
-    @order = @promotion.orders.build(:user_id => current_user.id, :email => current_user.email, :amount => @promotion.price, 
-                                     :description => "#{@promotion.vendor.name} promo #{@promotion.title} #{Date.today.to_s}",
-                                     :fine_print => fine_print)
+                
+    @order = @promotion.orders.build(:user_id => current_user.id, :email => current_user.email, :fine_print => fine_print,
+                                     :quantity => @promotion.min_per_customer, :amount => @promotion.price, 
+                                     :description => "#{@promotion.vendor.name} promo #{@promotion.title} #{Date.today.to_s}")
+                                     
     # Pass in stripe Customer object if there is one
     @stripe_customer = current_user.stripe_customer_obj
   end
@@ -332,6 +335,25 @@ class PromotionsController < ApplicationController
   end
   
 private
+  def eligible_to_purchase(promotion)
+    current_user.nil? || 
+    current_user.has_role?(Role::SUPER_ADMIN) ||
+    (current_user.is_customer? && 
+      # Make sure this particular user hasn't exhausted the max_per_customer
+      (promotion.max_quantity_for_buyer(current_user) > 0) &&
+      # ALSO make sure this user has enough available to satisfy the *minimum* as well
+      #   For instance, it's min 2, max 3. They bought 2 already, and only have 1 left
+      #   Pathological case, but possible unless we explicitly prevent it with very complex logic
+      (promotion.min_per_customer <= promotion.max_quantity_for_buyer(current_user)))
+  end
+  
+  def validate_eligible
+    @promotion = Promotion.find(params[:id])
+    if !eligible_to_purchase(@promotion)
+      redirect_to promotion_path(@promotion), :alert => I18n.t('nice_try')
+    end
+  end
+  
   # Devise/CanCan has already ensured there's a logged in user with appropriate permissions
   # We additionally need to make sure it's a vendor (or SuperAdmin)
   def ensure_vendor

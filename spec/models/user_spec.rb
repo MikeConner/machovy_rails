@@ -37,34 +37,34 @@ describe "Users" do
   
   subject { user }
 
-  it { should respond_to(:email) }
-  it { should respond_to(:password) }
-  it { should respond_to(:password_confirmation) }
-  it { should respond_to(:remember_me) }
-
-  it { should respond_to(:orders) }
-  it { should respond_to(:vouchers) }
-  it { should respond_to(:roles) }
-  it { should respond_to(:vendor) }
-  it { should respond_to(:is_customer?) }
-  it { should respond_to(:stripe_id) }
-  it { should respond_to(:stripe_customer_obj) }
-  it { should respond_to(:log_activity) }
-    
-  it { should respond_to(:first_name) }
-  it { should respond_to(:last_name) }
-  it { should respond_to(:phone) }
-  it { should respond_to(:address_1) }
-  it { should respond_to(:address_2) }
-  it { should respond_to(:city) }
-  it { should respond_to(:state) }
-  it { should respond_to(:zipcode) }
-  it { should respond_to(:optin) }
-  it { should respond_to(:categories) }
-  it { should respond_to(:stripe_logs) }
-  it { should respond_to(:total_macho_bucks) }
-  it { should respond_to(:update_total_macho_bucks) }
-  
+  it "should respond to everything" do
+    user.should respond_to(:email)
+    user.should respond_to(:password)
+    user.should respond_to(:password_confirmation)
+    user.should respond_to(:remember_me)
+    user.should respond_to(:orders)
+    user.should respond_to(:vouchers)
+    user.should respond_to(:roles)
+    user.should respond_to(:vendor)
+    user.should respond_to(:is_customer?)
+    user.should respond_to(:stripe_id)
+    user.should respond_to(:stripe_customer_obj)
+    user.should respond_to(:log_activity)
+    user.should respond_to(:first_name)
+    user.should respond_to(:last_name)
+    user.should respond_to(:phone)
+    user.should respond_to(:address_1)
+    user.should respond_to(:address_2)
+    user.should respond_to(:city)
+    user.should respond_to(:state)
+    user.should respond_to(:zipcode)
+    user.should respond_to(:optin)
+    user.should respond_to(:categories)
+    user.should respond_to(:stripe_logs)
+    user.should respond_to(:total_macho_bucks)
+    user.should respond_to(:update_total_macho_bucks)
+  end
+      
   it { should be_valid }
  
   describe "invalid macho bucks" do

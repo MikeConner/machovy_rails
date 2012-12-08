@@ -44,7 +44,7 @@ describe "Stripe Case 3" do
       end
                   
       it "should work" do
-        page.should have_content("Check your email for the details and voucher")
+        page.should have_content(I18n.t('order_successful'))
         order.reload.charge_id.should_not be_nil
         ActionMailer::Base.deliveries.should_not be_empty
         ActionMailer::Base.deliveries.count.should be == 1

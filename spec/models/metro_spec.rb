@@ -13,8 +13,10 @@ describe "Metros" do
   
   subject { metro }
   
-  it { should respond_to(:name) }
-  it { should respond_to(:promotions) }
+  it "should respond to everything" do
+    metro.should respond_to(:name)
+    metro.should respond_to(:promotions)
+  end
   
   it { should be_valid }
   

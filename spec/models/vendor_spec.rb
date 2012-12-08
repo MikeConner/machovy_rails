@@ -25,27 +25,28 @@ describe "Vendors" do
   
   subject { vendor }
   
-  it { should respond_to(:address_1) }
-  it { should respond_to(:address_2) }
-  it { should respond_to(:city) }
-  it { should respond_to(:facebook) }
-  it { should respond_to(:name) }
-  it { should respond_to(:phone) }
-  it { should respond_to(:state) }
-  it { should respond_to(:url) }
-  it { should respond_to(:zip) }
-  it { should respond_to(:promotions) }
-  it { should respond_to(:metros) }
-  it { should respond_to(:orders) }
-  it { should respond_to(:total_paid) }
-  it { should respond_to(:amount_owed) }
-  it { should respond_to(:total_commission) }
-  it { should respond_to(:latitude) }
-  it { should respond_to(:longitude) }
-  it { should respond_to(:mappable?) }
-  it { should respond_to(:map_address) }
-  
-  its(:user) { should == user }
+  it "should respond to everything" do
+    vendor.should respond_to(:address_1)
+    vendor.should respond_to(:address_2)
+    vendor.should respond_to(:city)
+    vendor.should respond_to(:facebook)
+    vendor.should respond_to(:name)
+    vendor.should respond_to(:phone)
+    vendor.should respond_to(:state)
+    vendor.should respond_to(:url)
+    vendor.should respond_to(:zip)
+    vendor.should respond_to(:promotions)
+    vendor.should respond_to(:metros)
+    vendor.should respond_to(:orders)
+    vendor.should respond_to(:total_paid)
+    vendor.should respond_to(:amount_owed)
+    vendor.should respond_to(:total_commission)
+    vendor.should respond_to(:latitude)
+    vendor.should respond_to(:longitude)
+    vendor.should respond_to(:mappable?)
+    vendor.should respond_to(:map_address)
+    vendor.user.should be == user
+  end
   
   it { should be_valid }
 

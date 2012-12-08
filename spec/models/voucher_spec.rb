@@ -24,28 +24,29 @@ describe "Vouchers" do
   
   subject { voucher }
   
-  it { should respond_to(:expiration_date) }
-  it { should respond_to(:valid_date) }
-  it { should respond_to(:notes) }
-  it { should respond_to(:status) }
-  it { should respond_to(:uuid) }
-  it { should respond_to(:user) }
-  it { should respond_to(:order) }
-  it { should respond_to(:promotion) }
-  it { should respond_to(:redemption_date) }
-  it { should respond_to(:started?) }
-  it { should respond_to(:expired?) }
-  it { should respond_to(:open?) }
-  it { should respond_to(:redeemable?) }
-  it { should respond_to(:returnable?) }
-  it { should respond_to(:paid?) }
-  it { should respond_to(:payment_owed?) }
-  it { should respond_to(:payment) }
-  it { should respond_to(:macho_buck) }
-  
-  its(:order) { should == order }
-  its(:user) { should == user }
-  its(:promotion) { should == promotion }
+  it "should respond to everything" do
+    voucher.should respond_to(:expiration_date)
+    voucher.should respond_to(:valid_date)
+    voucher.should respond_to(:notes)
+    voucher.should respond_to(:status)
+    voucher.should respond_to(:uuid)
+    voucher.should respond_to(:user)
+    voucher.should respond_to(:order)
+    voucher.should respond_to(:promotion)
+    voucher.should respond_to(:redemption_date)
+    voucher.should respond_to(:started?)
+    voucher.should respond_to(:expired?)
+    voucher.should respond_to(:open?)
+    voucher.should respond_to(:redeemable?)
+    voucher.should respond_to(:returnable?)
+    voucher.should respond_to(:paid?)
+    voucher.should respond_to(:payment_owed?)
+    voucher.should respond_to(:payment)
+    voucher.should respond_to(:macho_buck)
+    voucher.order.should be == order
+    voucher.user.should be == user
+    voucher.promotion.should be == promotion
+  end
 
   it { should be_valid }
   

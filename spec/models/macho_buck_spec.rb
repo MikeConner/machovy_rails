@@ -18,11 +18,13 @@ describe "MachoBucks" do
   
   subject { macho_buck }
   
-  it { should respond_to(:amount) }
-  it { should respond_to(:notes) }
-  it { should respond_to(:voucher) }
-  it { should respond_to(:admin) }
-  its(:user) { should == user }
+  it "should respond to everything" do
+    macho_buck.should respond_to(:amount)
+    macho_buck.should respond_to(:notes)
+    macho_buck.should respond_to(:voucher)
+    macho_buck.should respond_to(:admin)
+    macho_buck.user.should == user
+  end
   
   it { should be_valid }
   

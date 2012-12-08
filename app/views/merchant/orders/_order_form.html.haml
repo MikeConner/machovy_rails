@@ -11,7 +11,7 @@
   = f.hidden_field :email
   = f.hidden_field :description
   = f.hidden_field :fine_print
-  = f.hidden_field :quantity
+  -#= f.hidden_field :quantity
   -# Returns param reflecting the state of the "save card" checkbox
   -#   They will see this if they're not a customer (no saved card), or if they're a customer using a new card
   -#   In both cases, default to not saving (if a customer, it will keep their old card as the active one, unless they check to overwrite)
@@ -19,10 +19,14 @@
   -# If they're a customer, indicate whether they're using a new card or their existing one on file
   = hidden_field_tag :new_card, false
   -# Uncomment to enable quantity editing (and remove hidden field above)
-  -#.field
-  -#  = f.label :quantity
-  -#  %br/
-  -#  = f.number_field :quantity, :min => 1, :onchange => "update_amount('order_quantity', 'amount_display', #{@order.amount});"
+  .field
+    = f.label :quantity
+    %br/
+    - if Promotion::UNLIMITED == @order.promotion.max_per_customer
+      = f.number_field :quantity, :min => @order.promotion.min_per_customer, :onchange => "update_amount('order_quantity', 'amount_display', #{@order.amount});"
+    - else
+      = f.number_field :quantity, :min => @order.promotion.min_per_customer, :max => @order.promotion.max_quantity_for_buyer(current_user), |
+      :onchange => "update_amount('order_quantity', 'amount_display', #{@order.amount});" |
   -# This is a computed field so the user can see the total amount, based on the quantity -- read_only
   .field
     = label_tag :amount_display, 'Total Amount'

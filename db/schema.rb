@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121203031757) do
+ActiveRecord::Schema.define(:version => 20121203195940) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -166,6 +166,7 @@ ActiveRecord::Schema.define(:version => 20121203031757) do
     t.text     "fine_print"
     t.integer  "quantity",          :default => 1, :null => false
     t.string   "charge_id"
+    t.string   "slug"
   end
 
   create_table "payments", :force => true do |t|
@@ -341,6 +342,7 @@ ActiveRecord::Schema.define(:version => 20121203031757) do
     t.integer  "user_id"
     t.decimal  "latitude"
     t.decimal  "longitude"
+    t.string   "slug"
   end
 
   create_table "videos", :force => true do |t|

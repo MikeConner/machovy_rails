@@ -18,6 +18,7 @@
     %h4= "$" + v.order.total_cost.to_s
     %p= v.status
     %p= v.redemption_date.try(:strftime, '%b %d, %Y')
-    %p= "Issued: " + v.issue_date.try(:strftime, '%b %d, %Y')
+    %p= "Issued: " + v.valid_date.try(:strftime, '%b %d, %Y')
     %p= "Expires: "+  v.expiration_date.try(:strftime, '%b %d, %Y')
-    %p= "Limitations: " + v.order.fine_print
+    - if !v.order.fine_print.nil?
+      %p= "Limitations: " + v.order.fine_print

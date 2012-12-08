@@ -81,6 +81,6 @@ private
   # The description is just the name of the promotion and a date
   # It's not unique, and having friendly id append "-12" or something shows how many people are ordering
   def create_slug
-    self.slug = SecureRandom.uuid
+    self.slug = SecureRandom.uuid if new_record?
   end
 end

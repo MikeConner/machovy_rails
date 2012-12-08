@@ -106,7 +106,7 @@ $(function() {
 		$('#promotion_start_date_3i').val(fields[1]);
   	}
   });
-  $("#jq_fixed_end_date").datepicker({
+  $("#jq_end_date").datepicker({
  	onSelect: function(dateText, inst) { 
   		fields = dateText.split('/');
 		// Set year
@@ -118,15 +118,15 @@ $(function() {
 	}	
   });
   
-  $("#jq_rel_end_date").datepicker({
+  $("#jq_fixed_end_date").datepicker({
  	onSelect: function(dateText, inst) { 
   		fields = dateText.split('/');
 		// Set year
-		$('#promotion_end_date_1i').val(fields[2]);
+		$('#fixed_end_date_1i').val(fields[2]);
 		// Set month
-		$('#promotion_end_date_2i').val(fields[0]);
+		$('#fixed_end_date_2i').val(fields[0]);
 		// Set day
-		$('#promotion_end_date_3i').val(fields[1]);  
+		$('#fixed_end_date_3i').val(fields[1]);  
 	}	
   });
   

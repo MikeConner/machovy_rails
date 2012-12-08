@@ -17,12 +17,14 @@ describe "Positions" do
   
   subject { position }
   
-  it { should respond_to(:description) }
-  it { should respond_to(:email_contact) }
-  it { should respond_to(:email_subject) }
-  it { should respond_to(:expiration) }
-  it { should respond_to(:title) }
-  
+  it "should respond to everything" do
+    position.should respond_to(:description)
+    position.should respond_to(:email_contact)
+    position.should respond_to(:email_subject)
+    position.should respond_to(:expiration)
+    position.should respond_to(:title)
+  end
+   
   it { should be_valid }
   
   describe "missing description" do

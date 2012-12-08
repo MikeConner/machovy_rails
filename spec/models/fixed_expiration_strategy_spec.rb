@@ -13,10 +13,12 @@ describe "FixedExpirationStrategy" do
   
   subject { strategy }
   
-  it { should respond_to(:end_date) }
-  it { should respond_to(:promotion) }
-  it { should respond_to(:setup) }
-  it { should respond_to(:generate_vouchers) }
+  it "should respond to everything" do
+    strategy.should respond_to(:end_date)
+    strategy.should respond_to(:promotion)
+    strategy.should respond_to(:setup)
+    strategy.should respond_to(:generate_vouchers)
+  end
   
   it { should be_valid }
   
@@ -34,10 +36,10 @@ describe "FixedExpirationStrategy" do
   describe "setup" do
     before do
       params = Hash.new
-      params[:promotion] = Hash.new
-      params[:promotion]['end_date(1i)'] = '2012'
-      params[:promotion]['end_date(2i)'] = '11'
-      params[:promotion]['end_date(3i)'] = '30'
+      params['fixed'] = Hash.new
+      params['fixed']['end_date(1i)'] = '2012'
+      params['fixed']['end_date(2i)'] = '11'
+      params['fixed']['end_date(3i)'] = '30'
       
       strategy.setup(params)
     end

@@ -19,11 +19,13 @@ describe "Videos" do
   
   subject { video }
   
-  it { should respond_to(:title) }
-  it { should respond_to(:caption) }
-  it { should respond_to(:destination_url) }
-  it { should respond_to(:source) }
-  its(:curator) { should == curator }
+  it "should respond to everything" do
+    video.should respond_to(:title)
+    video.should respond_to(:caption)
+    video.should respond_to(:destination_url)
+    video.should respond_to(:source)
+    video.curator.should be == curator
+  end
   
   it { should be_valid }
   

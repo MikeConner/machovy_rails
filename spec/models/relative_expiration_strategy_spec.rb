@@ -13,10 +13,12 @@ describe "RelativeExpirationStrategy" do
   
   subject { strategy }
   
-  it { should respond_to(:period_days) }
-  it { should respond_to(:promotion) }
-  it { should respond_to(:setup) }
-  it { should respond_to(:generate_vouchers) }
+  it "should respond to everything" do
+    strategy.should respond_to(:period_days)
+    strategy.should respond_to(:promotion)
+    strategy.should respond_to(:setup)
+    strategy.should respond_to(:generate_vouchers)
+  end
   
   it { should be_valid }
   
