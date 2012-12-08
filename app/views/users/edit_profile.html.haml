@@ -36,5 +36,9 @@
   .field
     = f.label :categories, 'To help us target your emails, please let us know what categories you find most interesting'
     = f.collection_select(:category_ids, Category.all, :id, :name, { :selected => @user.category_ids }, { :multiple => true })
+  .field
+    = gravatar_for @user, :size => 200
+    = link_to 'Update image', "http://gravatar.com/emails"
+    %br/
   .actions
     = f.submit 'Update Profile'

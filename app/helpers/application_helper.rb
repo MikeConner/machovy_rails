@@ -38,6 +38,13 @@ module ApplicationHelper
       num
     end
   end
+
+  # Returns the Gravatar (http://gravatar.com/) for the given user. 
+  def gravatar_for(user, options = { size: 100 })
+    gravatar_id = Digest::MD5::hexdigest(user.email.downcase) 
+    gravatar_url = "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{options[:size]}" 
+    image_tag(gravatar_url, class: "gravatar", title: options[:title])
+  end
   
   def geocode_address(address)
     uri = URI.parse("http://maps.googleapis.com/maps/api/geocode/json?address=#{u address}&sensor=false")
