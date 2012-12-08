@@ -78,7 +78,7 @@ class Merchant::OrdersController < Merchant::BaseController
           flash[:notice] = I18n.t('order_successful')
           
           # If everything worked (voucher saved), send the email
-          UserMailer.promotion_order_email(@order).deliver
+          UserMailer.delay.promotion_order_email(@order)
           @order.user.log_activity(@order)
           
           redirect_to merchant_order_path(@order) and return

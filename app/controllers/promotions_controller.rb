@@ -271,7 +271,7 @@ class PromotionsController < ApplicationController
                                        :comment => comment)  
       # Send email only on admin actions on local deals
       if !vendor_action and @promotion.deal?
-        VendorMailer.promotion_status_email(@promotion).deliver
+        VendorMailer.delay.promotion_status_email(@promotion)
       end 
       
       redirect_to promotions_path, notice: I18n.t('promotion_updated')

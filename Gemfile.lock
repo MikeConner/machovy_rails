@@ -65,6 +65,11 @@ GEM
     coffee-script-source (1.4.0)
     daemons (1.1.9)
     database_cleaner (0.8.0)
+    delayed_job (3.0.4)
+      activesupport (~> 3.0)
+    delayed_job_active_record (0.3.3)
+      activerecord (>= 2.1.0, < 4)
+      delayed_job (~> 3.0)
     devise (2.1.2)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -299,12 +304,13 @@ DEPENDENCIES
   ckeditor (= 3.7.3)
   coffee-rails (~> 3.2.1)
   database_cleaner (= 0.8.0)
+  delayed_job_active_record (= 0.3.3)
   devise (= 2.1.2)
   factory_girl_rails (= 4.1.0)
   faker (= 1.0.1)
   fog
   friendly_id
-  gibbon
+  gibbon (= 0.3.5)
   haml (= 3.1.7)
   haml-rails (= 0.3.5)
   heroku (= 2.31.5)

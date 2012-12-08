@@ -78,7 +78,9 @@ gem 'friendly_id'
 gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.5'
 
-gem "gibbon"
+gem 'gibbon', '0.3.5'
+
+gem 'delayed_job_active_record', '0.3.3'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'

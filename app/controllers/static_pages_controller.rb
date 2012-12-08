@@ -28,7 +28,7 @@ class StaticPagesController < ApplicationController
       feedback
       render 'feedback'
 	  else
-      FeedbackMailer.feedback_email(params[:name], params[:category], params[:comment], params[:user]).deliver
+      FeedbackMailer.delay.feedback_email(params[:name], params[:category], params[:comment], params[:user])
     
       redirect_to feedback_path, :notice => I18n.t('feedback_thanks')
 	  end

@@ -106,9 +106,9 @@ class Merchant::VouchersController < Merchant::BaseController
       # Send survey on redemption, and a notice on unredemption (saying they can still use the voucher)
       # Do nothing on return; presumably the customer has handed it in
       if Voucher::REDEEMED == @voucher.status
-        UserMailer.survey_email(@voucher.order).deliver
+        UserMailer.delay.survey_email(@voucher.order)
       elsif Voucher::AVAILABLE == @voucher.status
-        UserMailer.unredeem_email(@voucher).deliver
+        UserMailer.delay.unredeem_email(@voucher)
       end
     else
       flash[:alert] = I18n.t('voucher_failure')
