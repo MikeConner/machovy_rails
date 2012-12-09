@@ -49,7 +49,6 @@
           %td= number_to_percentage(@promotion.discount_pct, :precision => 0)
           %td= number_to_currency(@promotion.discount)
   .span7.product-detail
-    -#%p= @promotion.description
     %ul.nav.nav-tabs
       %li.active
         <a data-toggle="tab" href="#tab1">Description </a>
@@ -59,10 +58,10 @@
         <a data-toggle="tab" href="#tab3">Location</a>        
     .tab-content
       #tab1.tab-pane.fade.in.active
-        %h4.tab-title Product Description
+        %h4.tab-title Description
         %p= @promotion.description 
       #tab2.tab-pane
-        %h4.tab-title Product Limitations
+        %h4.tab-title Limitations
         %p= @promotion.limitations 
       #tab3.tab-pane
         %h4.tab-title Location

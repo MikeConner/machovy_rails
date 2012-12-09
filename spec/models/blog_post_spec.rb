@@ -20,18 +20,19 @@ describe "Blog posts" do
   
   subject { post }
   
-  it { should respond_to(:body) }
-  it { should respond_to(:activation_date) }
-  it { should respond_to(:title) }
-  it { should respond_to(:weight) }
-  it { should respond_to(:displayable?) }
-  it { should respond_to(:promotions) }
-  it { should respond_to(:metros) }
-  it { should respond_to(:<=>) }
-  it { should respond_to(:truncated_body) }
-  it { should respond_to(:associated_image) }
-  
-  its(:curator) { should == curator }
+  it "should respond to everything" do
+    post.should respond_to(:body)
+    post.should respond_to(:activation_date)
+    post.should respond_to(:title)
+    post.should respond_to(:weight)
+    post.should respond_to(:displayable?)
+    post.should respond_to(:promotions)
+    post.should respond_to(:metros)
+    post.should respond_to(:<=>)
+    post.should respond_to(:truncated_body)
+    post.should respond_to(:associated_image)
+    post.curator.should be == curator
+  end
   
   it { should be_valid }
   it { should_not be_displayable }

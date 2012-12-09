@@ -17,15 +17,15 @@ describe "Activity" do
   
   subject { activity }
   
-  it { should respond_to(:user_id) }
-  it { should respond_to(:activity_id) }
-  it { should respond_to(:activity_name) }
-  it { should respond_to(:description) }
-  it { should respond_to(:init_activity) }
-  
-  it { should respond_to(:duration) }
-  
-  its(:user) { should == user}
+  it "should respond to everything" do
+    activity.should respond_to(:user_id)
+    activity.should respond_to(:activity_id)
+    activity.should respond_to(:activity_name)
+    activity.should respond_to(:description)
+    activity.should respond_to(:init_activity)
+    activity.should respond_to(:duration)
+    activity.user.should == user
+  end
   
   it { should be_valid }
   

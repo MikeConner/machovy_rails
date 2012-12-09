@@ -15,8 +15,8 @@ module ApplicationHelper
   VALID_EMAILS = ["j@z.com", "jeff.bennett@pittsburghmoves.com", "fish_42@verizon.net", "a.b.c.d@e.f.g.h.biz"]
 
   MAILER_FROM_ADDRESS = 'deals@machovy.com'
-  MACHOVY_PAYMENT_ADMIN = 'endymionjkb@gmail.com'
-  MACHOVY_FEEDBACK_ADMIN = 'endymionjkb@gmail.com'
+  MACHOVY_MERCHANT_ADMIN = 'arash@machovy.com'
+  MACHOVY_FEEDBACK_ADMIN = 'arash@machovy.com'
   
   SMTP_PASSWORD = '%%))$$@macho'
   
@@ -37,6 +37,13 @@ module ApplicationHelper
     else
       num
     end
+  end
+
+  # Returns the Gravatar (http://gravatar.com/) for the given user. 
+  def gravatar_for(user, options = { size: 100 })
+    gravatar_id = Digest::MD5::hexdigest(user.email.downcase) 
+    gravatar_url = "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{options[:size]}" 
+    image_tag(gravatar_url, class: "gravatar", title: options[:title])
   end
   
   def geocode_address(address)

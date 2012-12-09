@@ -18,11 +18,13 @@ describe "StripeLog" do
   
   subject { log }
   
-  it { should respond_to(:event_id) }
-  it { should respond_to(:event_type) }
-  it { should respond_to(:livemode) }
-  it { should respond_to(:event) }
-  its(:user) { should == user }
+  it "should respond to everything" do
+    log.should respond_to(:event_id)
+    log.should respond_to(:event_type)
+    log.should respond_to(:livemode)
+    log.should respond_to(:event)
+    log.user.should be == user
+  end
   
   it { should be_valid }
     

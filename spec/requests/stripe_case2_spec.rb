@@ -39,7 +39,7 @@ describe "Stripe Case 2" do
             
       it "should work" do
         # WARNING! have_content doesn't work with single-quoted strings
-        page.should have_content("Check your email for the details and voucher")
+        page.should have_content(I18n.t('order_successful'))
         user.reload.stripe_id.should be_nil
         order.reload.charge_id.should_not be_nil
         Voucher.count.should be == 1

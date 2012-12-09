@@ -168,7 +168,7 @@ FactoryGirl.define do
       end
       
       after(:create) do |parent, evaluator|
-        FactoryGirl.create_list(:category, evaluator.num_children, :category => parent)
+        FactoryGirl.create_list(:category, evaluator.num_children, :parent_category_id => parent.id)
       end
     end
   end
@@ -229,10 +229,11 @@ FactoryGirl.define do
     user
     
     email { user.email }
-    amount { Random.rand * 100 }
+    amount { (Random.rand * 100).round(2) }
     description { generate(:random_phrase) }
     stripe_card_token "nva3hvao73SI&H#Nfishuefse"
     charge_id "ch_0aCv7NedlDjXia"
+    fine_print { generate(:random_sentences) }
     
     factory :order_with_vouchers do
       ignore do
@@ -269,6 +270,8 @@ FactoryGirl.define do
     start_date Time.now
     end_date 2.weeks.from_now
     remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
+    min_per_customer 1
+    max_per_customer Promotion::UNLIMITED
   end
   
   factory :affiliate, :class => Promotion do
@@ -283,6 +286,8 @@ FactoryGirl.define do
     start_date Time.now
     end_date 2.weeks.from_now
     remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
+    min_per_customer 1
+    max_per_customer Promotion::UNLIMITED
   end
   
   factory :promotion do
@@ -298,9 +303,12 @@ FactoryGirl.define do
     revenue_shared { Random.rand }
     quantity { Random.rand(10) + 1 }
     description { generate(:random_sentences) }
-    start_date Time.now
-    end_date 2.weeks.from_now
+    start_date Time.now.beginning_of_day
+    end_date 2.weeks.from_now.beginning_of_day
     remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
+    min_per_customer 1
+    max_per_customer Promotion::UNLIMITED
+    strategy { FactoryGirl.create(:strategy) }
     
     factory :promotion_with_subtitle do
       subtitle { generate(:random_phrase) }
@@ -426,6 +434,7 @@ FactoryGirl.define do
     password "Password"
     password_confirmation "Password"
     confirmed_at 1.week.ago
+    total_macho_bucks 0
     
     factory :super_admin_user do
       after(:create) do |user, evaluator|
@@ -573,7 +582,7 @@ FactoryGirl.define do
     order
     
     expiration_date 1.year.from_now
-    issue_date 1.week.ago
+    valid_date 1.week.ago
     redemption_date 1.week.from_now
     status Voucher::AVAILABLE
     uuid { generate(:sequential_uuid) }
@@ -611,6 +620,54 @@ FactoryGirl.define do
         evt = JSON.parse log.event, :symbolize_names => true
         evt[:type] = log.event_type
         log.event = evt.to_json
+      end
+    end
+  end
+  
+  factory :strategy, :class => FixedExpirationStrategy do
+    end_date 3.months.from_now
+  end
+  
+  factory :fixed_expiration_strategy do
+    end_date 1.month.from_now
+    
+    after(:create) do |strategy|
+      FactoryGirl.create(:promotion, :strategy => strategy)
+    end
+  end
+  
+  factory :relative_expiration_strategy do
+    period_days 30
+    
+    after(:create) do |strategy|
+      FactoryGirl.create(:promotion, :strategy => strategy)
+    end
+  end
+  
+  factory :macho_buck do
+    user
+    
+    amount { ((Random.rand * 50) + 1).round(2) }
+    notes { generate(:random_paragraphs) }
+    
+    factory :macho_bucks_from_voucher do
+      voucher
+    end
+    
+    factory :macho_bucks_from_order do
+      order
+    end
+    
+    factory :macho_bucks_from_admin do
+      after(:create) do |buck|
+        buck.admin_id = FactoryGirl.create(:super_admin_user).id
+      end
+    end
+    
+    # Invalid case
+    factory :macho_bucks_from_nonadmin do
+      after(:create) do |buck|
+        buck.admin_id = FactoryGirl.create(:user).id
       end
     end
   end

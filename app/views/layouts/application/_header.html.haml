@@ -29,8 +29,8 @@
                   = link_to 'My Deals', promotions_path
                 %li
                   = link_to 'My Vouchers', merchant_vouchers_path
-                %li 
-                  = link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
+                -#%li 
+                  -#= link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
                 %li
                   = link_to 'Payments', show_payments_merchant_vendor_path(current_user.vendor)
             %li.dropdown.visible-phone
@@ -42,8 +42,8 @@
                   = link_to 'My Deals', promotions_path
                 %li
                   = link_to 'My Vouchers', merchant_vouchers_path
-                %li 
-                  = link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
+                -#%li 
+                  -#= link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
                 %li
                   = link_to 'Payments', show_payments_merchant_vendor_path(current_user.vendor)
                 %li
@@ -79,7 +79,7 @@
                   = link_to 'Log out', destroy_user_session_path, :method => :delete
         - if !current_user.nil?
           %li.user-email.hidden-phone
-            == Welcome, #{current_user.email}        
+            == #{gravatar_for current_user, :size => 30, :title => 'Edit this image in your profile'} Welcome, #{current_user.email}        
 %section.header-fixed-top
   .container
     %header

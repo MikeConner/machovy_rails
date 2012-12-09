@@ -19,11 +19,13 @@ describe "Rating" do
   
   subject { rating }
   
-  it { should respond_to(:stars) }
-  it { should respond_to(:comment) }
-  its(:idea) { should == idea }
-  its(:user) { should == rating_user }
-  
+  it "should respond to everything" do
+    rating.should respond_to(:stars)
+    rating.should respond_to(:comment)
+    rating.idea.should be == idea
+    rating.user.should be == rating_user
+  end
+   
   describe "default rating" do
     before { @new_rating = Rating.new }
     

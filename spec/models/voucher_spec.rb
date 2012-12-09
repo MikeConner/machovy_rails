@@ -8,7 +8,7 @@
 #  status          :string(16)      default("Available")
 #  notes           :text
 #  expiration_date :datetime
-#  issue_date      :datetime
+#  valid_date      :datetime
 #  order_id        :integer
 #  created_at      :datetime        not null
 #  updated_at      :datetime        not null
@@ -23,31 +23,41 @@ describe "Vouchers" do
   let(:voucher) { FactoryGirl.create(:voucher, :order => order) }
   
   subject { voucher }
+  
+  it "should respond to everything" do
+    voucher.should respond_to(:expiration_date)
+    voucher.should respond_to(:valid_date)
+    voucher.should respond_to(:notes)
+    voucher.should respond_to(:status)
+    voucher.should respond_to(:uuid)
+    voucher.should respond_to(:user)
+    voucher.should respond_to(:order)
+    voucher.should respond_to(:promotion)
+    voucher.should respond_to(:redemption_date)
+    voucher.should respond_to(:started?)
+    voucher.should respond_to(:expired?)
+    voucher.should respond_to(:open?)
+    voucher.should respond_to(:redeemable?)
+    voucher.should respond_to(:returnable?)
+    voucher.should respond_to(:paid?)
+    voucher.should respond_to(:payment_owed?)
+    voucher.should respond_to(:payment)
+    voucher.should respond_to(:macho_buck)
+    voucher.order.should be == order
+    voucher.user.should be == user
+    voucher.promotion.should be == promotion
+  end
 
-  it { should respond_to(:expiration_date) }
-  it { should respond_to(:issue_date) }
-  it { should respond_to(:notes) }
-  it { should respond_to(:status) }
-  it { should respond_to(:uuid) }
-  it { should respond_to(:user) }
-  it { should respond_to(:order) }
-  it { should respond_to(:promotion) }
-  it { should respond_to(:expiration_date) }
-  it { should respond_to(:issue_date) }
-  it { should respond_to(:redemption_date) }
-  it { should respond_to(:expired?) }
-  it { should respond_to(:open?) }
-  it { should respond_to(:redeemable?) }
-  it { should respond_to(:returnable?) }
-  it { should respond_to(:paid?) }
-  it { should respond_to(:payment_owed?) }
-  it { should respond_to(:payment) }
-  
-  its(:order) { should == order }
-  its(:user) { should == user }
-  its(:promotion) { should == promotion }
-  
   it { should be_valid }
+  
+  describe "macho bucks" do
+    let(:macho_buck) { FactoryGirl.create(:macho_bucks_from_voucher, :voucher => voucher) }
+    before { macho_buck }
+    
+    it "should point to the bucks" do
+      voucher.macho_buck.should == macho_buck
+    end
+  end
   
   describe "expiration date" do
     before { voucher.expiration_date = " " }
@@ -55,8 +65,8 @@ describe "Vouchers" do
     it { should_not be_valid }
   end
 
-  describe "issue date" do
-    before { voucher.issue_date = " " }
+  describe "valid date" do
+    before { voucher.valid_date = " " }
     
     it { should_not be_valid }
   end
@@ -116,10 +126,11 @@ describe "Vouchers" do
   describe "time periods" do
     it "should be open" do
       voucher.open?.should be_true
+      voucher.in_redemption_period?.should be_true
     end
     
     describe "expired before issued" do
-      before { voucher.expiration_date = voucher.issue_date - 1.day }
+      before { voucher.expiration_date = voucher.valid_date - 1.day }
       
       it { should_not be_valid }
       it "should not be open" do
@@ -131,11 +142,31 @@ describe "Vouchers" do
       voucher.expired?.should be_false
     end
     
+    it "should be in redemption period" do
+      voucher.in_redemption_period?.should be_true
+      voucher.started?.should be_true
+      voucher.expired?.should be_false
+    end
+    
     describe "expired" do
       before { voucher.expiration_date = 1.day.ago }
       
       it "should be expired" do
         voucher.expired?.should be_true
+      end
+    end
+    
+    describe "test future voucher" do
+      before { voucher.valid_date = 1.week.from_now }
+      
+      it "should not be expired" do
+        voucher.expired?.should be_false
+      end
+      
+      it "should not be open" do
+        voucher.in_redemption_period?.should be_false
+        voucher.open?.should be_false
+        voucher.started?.should be_false
       end
     end
   end

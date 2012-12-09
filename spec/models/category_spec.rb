@@ -15,11 +15,14 @@ describe "Categories" do
   
   subject { category }
   
-  it { should respond_to(:name) }
-  it { should respond_to(:active) }
-  it { should respond_to(:promotions) }
-  
-  its(:category) { should be_nil }
+  it "should respond to everything" do
+    category.should respond_to(:name)
+    category.should respond_to(:active)
+    category.should respond_to(:parent_category_id)
+    category.should respond_to(:sub_categories)
+    category.should respond_to(:promotions)
+    category.parent_category.should be_nil
+  end
   
   it { should be_valid }
   
@@ -102,7 +105,7 @@ describe "Categories" do
       Category.unscoped.all.count.should be == 4
       
       category.sub_categories.each do |sub| 
-        sub.category.should == category
+        sub.parent_category.should == category
       end
     end
     

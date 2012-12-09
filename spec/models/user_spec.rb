@@ -29,6 +29,7 @@
 #  zipcode                :string(5)
 #  phone                  :string(14)
 #  optin                  :boolean         default(FALSE), not null
+#  total_macho_bucks      :decimal(, )     default(0.0)
 #
 
 describe "Users" do
@@ -36,34 +37,89 @@ describe "Users" do
   
   subject { user }
 
-  it { should respond_to(:email) }
-  it { should respond_to(:password) }
-  it { should respond_to(:password_confirmation) }
-  it { should respond_to(:remember_me) }
-
-  it { should respond_to(:orders) }
-  it { should respond_to(:vouchers) }
-  it { should respond_to(:roles) }
-  it { should respond_to(:vendor) }
-  it { should respond_to(:is_customer?) }
-  it { should respond_to(:stripe_id) }
-  it { should respond_to(:stripe_customer_obj) }
-  it { should respond_to(:log_activity) }
-    
-  it { should respond_to(:first_name) }
-  it { should respond_to(:last_name) }
-  it { should respond_to(:phone) }
-  it { should respond_to(:address_1) }
-  it { should respond_to(:address_2) }
-  it { should respond_to(:city) }
-  it { should respond_to(:state) }
-  it { should respond_to(:zipcode) }
-  it { should respond_to(:optin) }
-  it { should respond_to(:categories) }
-  it { should respond_to(:stripe_logs) }
-  
+  it "should respond to everything" do
+    user.should respond_to(:email)
+    user.should respond_to(:password)
+    user.should respond_to(:password_confirmation)
+    user.should respond_to(:remember_me)
+    user.should respond_to(:orders)
+    user.should respond_to(:vouchers)
+    user.should respond_to(:roles)
+    user.should respond_to(:vendor)
+    user.should respond_to(:is_customer?)
+    user.should respond_to(:stripe_id)
+    user.should respond_to(:stripe_customer_obj)
+    user.should respond_to(:log_activity)
+    user.should respond_to(:first_name)
+    user.should respond_to(:last_name)
+    user.should respond_to(:phone)
+    user.should respond_to(:address_1)
+    user.should respond_to(:address_2)
+    user.should respond_to(:city)
+    user.should respond_to(:state)
+    user.should respond_to(:zipcode)
+    user.should respond_to(:optin)
+    user.should respond_to(:categories)
+    user.should respond_to(:stripe_logs)
+    user.should respond_to(:total_macho_bucks)
+    user.should respond_to(:update_total_macho_bucks)
+  end
+      
   it { should be_valid }
  
+  describe "invalid macho bucks" do
+    before { user.total_macho_bucks = 'abc' }
+    
+    it { should_not be_valid }
+  end
+  
+  describe "many macho bucks" do
+    before do
+      @sum = 0.0
+      10.times do
+        buck = FactoryGirl.create(:macho_buck, :user => user)
+        @sum += buck.amount
+      end
+    end
+    
+    it "should match the sum" do
+      MachoBuck.count.should be == 10
+      user.reload.total_macho_bucks.should == @sum
+    end
+  end
+  
+  describe "valid macho bucks" do
+    let(:macho_buck) { FactoryGirl.create(:macho_buck, :user => user) }
+    
+    before do
+      macho_buck
+      @bucks = MachoBuck.first
+    end
+    
+    it "should have bucks" do
+      MachoBuck.count.should be == 1
+      @bucks.user.should be == user
+      user.total_macho_bucks.should == @bucks.amount
+    end
+    
+    describe "admin adjustment" do      
+      before { FactoryGirl.create(:macho_bucks_from_admin, :user => user, :amount => -macho_buck.amount) }
+      
+      it "should be back to zero" do
+        MachoBuck.count.should be == 2
+        user.reload.total_macho_bucks.should == 0
+      end
+    end
+    
+    describe "delete policy" do
+      before { user.destroy }
+      
+      it "should also destroy macho bucks" do
+        MachoBuck.count.should == 0
+      end
+    end    
+  end
+  
   describe "stripe logs" do
     let(:log) { FactoryGirl.create(:stripe_log, :user => user) }
     
@@ -196,6 +252,7 @@ describe "Users" do
         # Can't set these
         @attr.delete('created_at')
         @attr.delete('updated_at')
+        @attr.delete('slug')
         user.vendor_attributes = @attr
         user.save!
       end

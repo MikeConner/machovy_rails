@@ -40,14 +40,42 @@
       = f.hidden_field :revenue_shared, :value => share_pct
       = f.label :quantity
       = f.number_field :quantity, :min => 1, :value => quantity
+      = f.label :min_per_customer, 'Minimum quantity customers can purchase'
+      %em Typically 1, but could be higher (e.g., 2-for-1 deals where the customer must buy 2 in order to get the price)
+      = f.number_field :min_per_customer, :min => 1
+      = f.label :max_per_customer, 'Maximum quantity per customer'
+      %em Zero means "Unlimited"
+      = f.number_field :max_per_customer, :min => 0
+      %em Choose the date range during which you want the promotion to be displayed
       = f.label :start_date
       -# Need the date_select elements for the nested attributes to be processed correctly by the controller
         Just don't show them; create jQuery datepickers instead
       = f.date_select :start_date, { :order => [:month, :day, :year] }, { :style => 'display:none' }
       #jq_start_date
+      %br/
       = f.label :end_date
       = f.date_select :end_date, { :order => [:month, :day, :year] }, { :style => 'display:none' }
       #jq_end_date
+      = hidden_field_tag :promotion_strategy, 'Fixed'
+      %br/
+      %ul.nav.nav-tabs#promotionStrategyTab
+        -# Names of anchors match PromotionStrategyFactory class arguments
+        %li.active.tab
+          %a#Fixed{:href => '#tab1'}
+            Fixed
+        %li.tab
+          %a#Relative{:href => '#tab2'}
+            Relative
+      .tab-content
+        #tab1.tab-pane.fade.in.active
+          %h4.tab-title Vouchers expire on a fixed date (typically some time after the display period ends)
+          = label_tag :fixed_end_date
+          = date_select 'fixed', 'end_date', { :order => [:month, :day, :year] }, { :style => 'display:none' }
+          #jq_fixed_end_date
+        #tab2.tab-pane
+          %h4.tab-title Vouchers expire a given number of days after purchase
+          = label_tag :period
+          = select_tag :period, options_for_select([['30','30'], ['60','60'],['90','90'],['180','180']])
 .row-fluid
   .span12
     .space

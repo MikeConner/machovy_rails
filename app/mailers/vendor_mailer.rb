@@ -1,7 +1,7 @@
 class VendorMailer < ActionMailer::Base  
   PROMOTION_STATUS_MESSAGE = 'Action on your Machovy promotion'
   SIGNUP_MESSAGE = 'Welcome to Machovy!'
-  LEGAL_AGREEMENT_FILENAME = 'MachovyAgreement1.pdf'
+  LEGAL_AGREEMENT_FILENAME = 'MachovyAgreement1b.pdf'
   PAYMENT_MESSAGE = "Your check from Machovy is in the mail"
   
   default from: ApplicationHelper::MAILER_FROM_ADDRESS
@@ -20,14 +20,14 @@ class VendorMailer < ActionMailer::Base
   def signup_email(vendor)
     @vendor = vendor
     
-    attachments['VendorAgreement.pdf'] = File.read(MachovyRails::Application.assets.find_asset(LEGAL_AGREEMENT_FILENAME).pathname)
-    mail(:to => vendor.user.email, :subject => SIGNUP_MESSAGE)
+    #attachments['VendorAgreement.pdf'] = File.read(MachovyRails::Application.assets.find_asset(LEGAL_AGREEMENT_FILENAME).pathname)
+    mail(:to => vendor.user.email, :bcc => ApplicationHelper::MACHOVY_MERCHANT_ADMIN, :subject => SIGNUP_MESSAGE)
   end
   
   def payment_email(vendor, payment)
     @vendor = vendor
     @payment = payment
     
-    mail(:to => vendor.user.email, :bcc => ApplicationHelper::MACHOVY_PAYMENT_ADMIN, :subject => PAYMENT_MESSAGE)
+    mail(:to => vendor.user.email, :bcc => ApplicationHelper::MACHOVY_MERCHANT_ADMIN, :subject => PAYMENT_MESSAGE)
   end
 end

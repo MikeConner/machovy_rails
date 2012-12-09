@@ -1,4 +1,4 @@
-describe "UserMailer" do
+describe "FeedbackMailer" do
   let(:user) { FactoryGirl.create(:user) }
     
   describe "Feedback email" do

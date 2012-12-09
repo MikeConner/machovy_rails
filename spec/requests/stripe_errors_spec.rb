@@ -28,7 +28,7 @@ describe "Stripe Errors" do
       # Authenticate
       click_button I18n.t('sign_in')    
     end
-  
+
     describe "Invalid CVC" do
       before do
         visit order_promotion_path(promotion)
@@ -106,7 +106,7 @@ describe "Stripe Errors" do
          
       it { should have_content("There was a problem with your credit card. Your card's expiration date is incorrect") }
       
-      it "should stay on the page" do
+      it "should not produce a voucher" do
         current_path.should be == order_promotion_path(promotion)
         Voucher.count.should == 0
       end   
@@ -122,7 +122,7 @@ describe "Stripe Errors" do
          
       it { should have_content("There was a problem with your credit card. An error occurred while processing your card") }
       
-      it "should stay on the page" do
+      it "should not produce a voucher" do
         current_path.should be == order_promotion_path(promotion)
         Voucher.count.should == 0
       end   

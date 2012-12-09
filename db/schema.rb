@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121120201231) do
+ActiveRecord::Schema.define(:version => 20121209050223) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -98,6 +98,22 @@ ActiveRecord::Schema.define(:version => 20121120201231) do
   add_index "curators", ["slug"], :name => "index_curators_on_slug"
   add_index "curators", ["twitter"], :name => "index_curators_on_twitter", :unique => true
 
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
     t.integer  "order_id"
@@ -109,6 +125,12 @@ ActiveRecord::Schema.define(:version => 20121120201231) do
   end
 
   add_index "feedbacks", ["user_id", "order_id"], :name => "index_feedbacks_on_user_id_and_order_id", :unique => true
+
+  create_table "fixed_expiration_strategies", :force => true do |t|
+    t.datetime "end_date",   :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "friendly_id_slugs", :force => true do |t|
     t.string   "slug",                         :null => false
@@ -128,6 +150,17 @@ ActiveRecord::Schema.define(:version => 20121120201231) do
     t.integer  "user_id"
     t.datetime "created_at",               :null => false
     t.datetime "updated_at",               :null => false
+  end
+
+  create_table "macho_bucks", :force => true do |t|
+    t.decimal  "amount",     :null => false
+    t.text     "notes"
+    t.integer  "admin_id"
+    t.integer  "user_id"
+    t.integer  "voucher_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "order_id"
   end
 
   create_table "metros", :force => true do |t|
@@ -150,6 +183,7 @@ ActiveRecord::Schema.define(:version => 20121120201231) do
     t.text     "fine_print"
     t.integer  "quantity",          :default => 1, :null => false
     t.string   "charge_id"
+    t.string   "slug"
   end
 
   create_table "payments", :force => true do |t|
@@ -213,6 +247,10 @@ ActiveRecord::Schema.define(:version => 20121120201231) do
     t.string   "status",               :limit => 16, :default => "Proposed", :null => false
     t.string   "promotion_type",       :limit => 16, :default => "Deal",     :null => false
     t.string   "subtitle"
+    t.integer  "strategy_id"
+    t.string   "strategy_type"
+    t.integer  "min_per_customer",                   :default => 1,          :null => false
+    t.integer  "max_per_customer",                   :default => 0,          :null => false
   end
 
   add_index "promotions", ["slug"], :name => "index_promotions_on_slug"
@@ -240,6 +278,12 @@ ActiveRecord::Schema.define(:version => 20121120201231) do
   end
 
   add_index "ratings", ["idea_id", "user_id"], :name => "index_ratings_on_idea_id_and_user_id", :unique => true
+
+  create_table "relative_expiration_strategies", :force => true do |t|
+    t.integer  "period_days", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -293,6 +337,7 @@ ActiveRecord::Schema.define(:version => 20121120201231) do
     t.string   "zipcode",                :limit => 5
     t.string   "phone",                  :limit => 14
     t.boolean  "optin",                                :default => false, :null => false
+    t.decimal  "total_macho_bucks",                    :default => 0.0
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
@@ -314,6 +359,7 @@ ActiveRecord::Schema.define(:version => 20121120201231) do
     t.integer  "user_id"
     t.decimal  "latitude"
     t.decimal  "longitude"
+    t.string   "slug"
   end
 
   create_table "videos", :force => true do |t|
@@ -333,7 +379,7 @@ ActiveRecord::Schema.define(:version => 20121120201231) do
     t.string   "status",          :limit => 16, :default => "Available"
     t.text     "notes"
     t.datetime "expiration_date"
-    t.datetime "issue_date"
+    t.datetime "valid_date"
     t.integer  "order_id"
     t.datetime "created_at",                                             :null => false
     t.datetime "updated_at",                                             :null => false

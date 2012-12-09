@@ -8,7 +8,7 @@
 #  status          :string(16)      default("Available")
 #  notes           :text
 #  expiration_date :datetime
-#  issue_date      :datetime
+#  valid_date      :datetime
 #  order_id        :integer
 #  created_at      :datetime        not null
 #  updated_at      :datetime        not null
@@ -46,7 +46,7 @@ class Voucher < ActiveRecord::Base
   before_validation :create_uuid
   
   # For security, don't put payment_id in accessible fields
-  attr_accessible :expiration_date, :issue_date, :notes, :redemption_date, :status, :uuid,
+  attr_accessible :valid_date, :expiration_date, :notes, :redemption_date, :status, :uuid,
                   :order_id
   
   # foreign keys
@@ -55,11 +55,12 @@ class Voucher < ActiveRecord::Base
   
   has_one :user, :through => :order
   has_one :promotion, :through => :order
+  has_one :macho_buck
   
   validates_presence_of :order_id
   
   validates_presence_of :expiration_date
-  validates_presence_of :issue_date
+  validates_presence_of :valid_date
   
   validates :status, :presence => true,
                      :length => { maximum: VOUCHER_STATUS_LEN },
@@ -78,17 +79,25 @@ class Voucher < ActiveRecord::Base
   
   # An open voucher is one that could still be used
   def open?
-    (AVAILABLE == status) && !expired? 
+    (AVAILABLE == status) and in_redemption_period?
+  end
+  
+  def started?
+    Time.now >= self.valid_date
   end
   
   def expired?
     Time.now > self.expiration_date
   end  
   
-  # From a merchant's perspective, should there be a "redeem" option? (vendor can choose to redeem even if expired)
+  def in_redemption_period?
+    started? and !expired?
+  end
+  
   # Intent is to use these switches to display buttons (or not)
+  # Vendor can choose if expired (but currently not before the valid date)
   def redeemable?
-    [AVAILABLE, EXPIRED].include?(status)
+    [AVAILABLE, EXPIRED].include?(status) and started?
   end
   
   # Can only return if it's available
@@ -127,8 +136,8 @@ private
   
   def time_periods
     # Don't worry about redemption_date
-    if !self.expiration_date.nil? && !self.issue_date.nil?
-      if self.expiration_date < self.issue_date
+    if !self.expiration_date.nil? && !self.valid_date.nil?
+      if self.expiration_date < self.valid_date
         self.errors.add(:base, 'Inconsistent date fields')
       end 
     end

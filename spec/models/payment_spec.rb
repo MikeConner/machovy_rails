@@ -18,11 +18,13 @@ describe "Payments" do
   
   subject { payment }
   
-  it { should respond_to(:amount) }
-  it { should respond_to(:check_number) }
-  it { should respond_to(:check_date) }
-  it { should respond_to(:notes) }
-  its(:vendor) { should == vendor }
+  it "should respond to everything" do
+    payment.should respond_to(:amount)
+    payment.should respond_to(:check_number)
+    payment.should respond_to(:check_date)
+    payment.should respond_to(:notes)
+    payment.vendor.should be == vendor
+  end
   
   it { should be_valid }
   

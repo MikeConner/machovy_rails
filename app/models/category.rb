@@ -26,25 +26,22 @@ class Category < ActiveRecord::Base
   attr_accessible :name, :active,
     		          :parent_category_id, :promotion_ids
   
-  belongs_to :category, :foreign_key => :parent_category_id
+  has_many :sub_categories, :class_name => 'Category', :foreign_key => 'parent_category_id'
+  belongs_to :parent_category, :class_name => 'Category'
   
   has_and_belongs_to_many :promotions, :uniq => true
-  
-  # Default to root categories
-  default_scope where('parent_category_id is null')
+ 
+  # default_scope messes with sub_categories!
+  scope :roots, where('parent_category_id is null')
   
   # Note that the db-level index is still case sensitive (on PG anyway)
   validates :name, :presence => true,
                    :uniqueness => { case_sensitive: false }
   validates_inclusion_of :active, :in => [true, false]
   
-  def sub_categories
-    Category.unscoped.where("parent_category_id = ? ", id)
-  end
-  
 private
   def destroy_sub_categories
-    sub_categories.each do |sub|
+    self.sub_categories.each do |sub|
       sub.destroy
     end
   end

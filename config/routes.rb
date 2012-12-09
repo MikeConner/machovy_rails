@@ -56,6 +56,12 @@ MachovyRails::Application.routes.draw do
   resources :roles
   resources :videos
   resources :stripe_logs, :only => [:index, :show]
+  resources :macho_bucks, :only => [:index, :create] do
+    collection do
+      get 'about'
+      put 'search'
+    end
+  end
   
   namespace :merchant do
     resources :orders, :except => [:index, :edit, :update]
@@ -94,6 +100,7 @@ MachovyRails::Application.routes.draw do
 	match "/get_featured" => "static_pages#get_featured"
 	match "/feedback" => "static_pages#feedback"
   match "/make_comment" => "static_pages#make_comment", :via => :put
+  match "/faq" => "static_pages#faq"
   
   # MailChimp integration test
   match "/mailing" => "static_pages#mailing"

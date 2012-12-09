@@ -38,6 +38,7 @@ end
 
 group :test do
   gem 'capybara', '1.1.2'
+  gem 'capybara-webkit', '0.13.0'
   gem 'launchy', '2.1.2'
   gem 'database_cleaner', '0.8.0'
   gem 'factory_girl_rails', '4.1.0'
@@ -77,7 +78,9 @@ gem 'friendly_id'
 gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.5'
 
-gem "gibbon"
+gem 'gibbon', '0.3.5'
+
+gem 'delayed_job_active_record', '0.3.3'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'

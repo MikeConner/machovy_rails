@@ -8,9 +8,10 @@ class Merchant::VouchersController < Merchant::BaseController
   
   # GET /vouchers
   def index
-    if current_user.has_role?(Role::MERCHANT)
-      @admin = true
-      
+    if current_user.is_customer?
+      # It's a user asking for their own vouchers
+      @vouchers = current_user.vouchers      
+    elsif current_user.has_role?(Role::MERCHANT) or current_user.has_role?(Role::SUPER_ADMIN)
       # If a voucher_id or a user_id is given, it's coming from a search request
       if params[:voucher_id]
         @vouchers = [Voucher.find(params[:voucher_id])]
@@ -19,10 +20,10 @@ class Merchant::VouchersController < Merchant::BaseController
       else
         @vouchers = []
       end
-    else
-      # It's a user asking for their own vouchers
-      @admin = false
-      @vouchers = current_user.vouchers
+    end
+    
+    if current_user.has_role?(Role::SUPER_ADMIN)
+      render :layout => 'layouts/admin'
     end
   end
 
@@ -45,9 +46,9 @@ class Merchant::VouchersController < Merchant::BaseController
   end
   
   def search
-    voucher = Voucher.find_by_uuid(params[:key])
-    if voucher.nil?
-      user = User.find_by_email(params[:key])
+    user = User.find_by_email(params[:key])
+    if user.nil?
+      voucher = Voucher.find_by_uuid(normalize_uuid(params[:key]))
     end
         
     respond_to do |format|
@@ -83,7 +84,6 @@ class Merchant::VouchersController < Merchant::BaseController
     end
     
     @vouchers = [@voucher]
-    @admin = true
 
     render 'index'
   end
@@ -106,60 +106,25 @@ class Merchant::VouchersController < Merchant::BaseController
       # Send survey on redemption, and a notice on unredemption (saying they can still use the voucher)
       # Do nothing on return; presumably the customer has handed it in
       if Voucher::REDEEMED == @voucher.status
-        UserMailer.survey_email(@voucher.order).deliver
+        UserMailer.delay.survey_email(@voucher.order)
       elsif Voucher::AVAILABLE == @voucher.status
-        UserMailer.unredeem_email(@voucher).deliver
+        UserMailer.delay.unredeem_email(@voucher)
+      elsif Voucher::RETURNED == @voucher.status
+        # Credit Macho Bucks
+        bucks = @voucher.build_macho_buck(:user_id => @voucher.order.user.id, :amount => @voucher.order.amount, :notes => params[:notes])
+        if !bucks.save
+          flash[:alert] = 'Unable to credit macho bucks!'
+        end
+        UserMailer.delay.macho_bucks_email(bucks)
       end
     else
       flash[:alert] = I18n.t('voucher_failure')
     end
     
-    @admin = true
     @vouchers = []
     
     render 'index'
   end
-
-  # Unused / Leftover scaffolding
-=begin
-  # GET /vouchers/1/edit
-  def edit
-    @voucher = Voucher.find(params[:id])
-  end
-  
-  # GET /vouchers/new
-  def new
-    @voucher = Voucher.new
-  end
-  
-  # POST /vouchers
-  def create
-    @voucher = Voucher.new(params[:voucher])
-   if @voucher.save
-     redirect_to @voucher, notice: 'Voucher was successfully created.'
-   else
-     render 'new'
-   end
-  end
-
-  # PUT /vouchers/1
-  def update
-    @voucher = Voucher.find(params[:id])
-    if @voucher.update_attributes(params[:voucher])
-      redirect_to @voucher, notice: 'Voucher was successfully updated.'
-    else
-      render 'edit'
-    end
-  end
-
-  # DELETE /vouchers/1
-  def destroy
-    @voucher = Voucher.find(params[:id])
-    @voucher.destroy
-
-    redirect_to vouchers_path
-  end  
-=end  
   
 private
   def ensure_correct_vendor
@@ -168,6 +133,16 @@ private
       if @voucher.promotion.vendor != current_user.vendor
         redirect_to root_path, :alert => I18n.t('foreign_voucher')
       end
+    end
+  end
+  
+  # tolerate missing dashes, mixed case, etc.
+  def normalize_uuid(key)
+    norm_key = key.downcase.gsub(/[-\s]/, '')
+    if 10 == norm_key.length
+      "#{norm_key[0..2]}-#{norm_key[3..5]}-#{norm_key[6..9]}"
+    else
+      key
     end
   end
 end

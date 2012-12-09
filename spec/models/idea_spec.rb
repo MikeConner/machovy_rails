@@ -17,16 +17,17 @@ describe "Idea" do
   
   subject { idea }
   
-  it { should respond_to(:name) }
-  it { should respond_to(:title) }
-  it { should respond_to(:content) }
-  it { should respond_to(:ratings) }
-  it { should respond_to(:average_rating) }
-  it { should respond_to(:num_comments) }
-  it { should respond_to(:<=>) }
-  it { should respond_to(:ratable_by?) }
-  
-  its(:user) { should == user }
+  it "should respond to everything" do
+    idea.should respond_to(:name)
+    idea.should respond_to(:title)
+    idea.should respond_to(:content)
+    idea.should respond_to(:ratings)
+    idea.should respond_to(:average_rating)
+    idea.should respond_to(:num_comments)
+    idea.should respond_to(:<=>)
+    idea.should respond_to(:ratable_by?)
+    idea.user.should == user
+  end
   
   it { should be_valid }
   

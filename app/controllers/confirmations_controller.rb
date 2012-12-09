@@ -13,7 +13,7 @@ class ConfirmationsController < Devise::ConfirmationsController
         
         @confirmable.roles << Role.find_by_name(Role::MERCHANT)
         
-        VendorMailer.signup_email(@confirmable.vendor).deliver
+        VendorMailer.delay.signup_email(@confirmable.vendor)
         
         sign_in_and_redirect(resource_name, @confirmable)
       end

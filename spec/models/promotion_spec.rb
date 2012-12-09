@@ -25,6 +25,10 @@
 #  status               :string(16)      default("Proposed"), not null
 #  promotion_type       :string(16)      default("Deal"), not null
 #  subtitle             :string(255)
+#  strategy_id          :integer
+#  strategy_type        :string(255)
+#  min_per_customer     :integer         default(1), not null
+#  max_per_customer     :integer         default(0), not null
 #
 
 describe "Promotions" do
@@ -33,57 +37,155 @@ describe "Promotions" do
   let(:promotion) { FactoryGirl.create(:promotion, :metro => metro, :vendor => vendor) }
   
   subject { promotion }
-  
-  it { should respond_to(:description) }
-  it { should respond_to(:destination) }
-  it { should respond_to(:grid_weight) }
-  it { should respond_to(:limitations) }
-  it { should respond_to(:price) }
-  it { should respond_to(:quantity) }
-  it { should respond_to(:retail_value) }
-  it { should respond_to(:revenue_shared) }
-  it { should respond_to(:start_date) }
-  it { should respond_to(:end_date) }
-  it { should respond_to(:teaser_image) }
-  it { should respond_to(:remote_teaser_image_url) }
-  it { should respond_to(:main_image) }
-  it { should respond_to(:remote_main_image_url) }
-  it { should respond_to(:status) }
-  it { should respond_to(:promotion_type) }
-  it { should respond_to(:title) }
-  it { should respond_to(:voucher_instructions) }
-  it { should respond_to(:orders) }
-  it { should respond_to(:vouchers) }
-  it { should respond_to(:promotion_logs) }
-  it { should respond_to(:promotion_images) }
-  it { should respond_to(:categories) }
-  it { should respond_to(:blog_posts) }
-  it { should respond_to(:approved?) }
-  it { should respond_to(:expired?) }
-  it { should respond_to(:displayable?) }
-  it { should respond_to(:ad?) }
-  it { should respond_to(:affiliate?) }
-  it { should respond_to(:deal?) }
-  it { should respond_to(:remaining_quantity) }
-  it { should respond_to(:awaiting_vendor_action?) }
-  it { should respond_to(:awaiting_machovy_action?) }
-  it { should respond_to(:expired?) }
-  it { should respond_to(:open_vouchers?) }
-  it { should respond_to(:num_open_vouchers) }
-  it { should respond_to(:quantity_description) }
-  it { should respond_to(:discount) }
-  it { should respond_to(:discount_pct) }
-  it { should respond_to(:under_quantity_threshold?) }
-  it { should respond_to(:subtitle) }
-  it { should respond_to(:padded_description) }
-  
-  its(:metro) { should == metro }
-  its(:vendor) { should == vendor }
-  its(:promotion_type) { should == Promotion::LOCAL_DEAL }
-  its(:status) { should == Promotion::PROPOSED }
-  
-  it { should be_valid }
 
+  it "should respond to everything" do
+    promotion.should respond_to(:description)
+    promotion.should respond_to(:destination)
+    promotion.should respond_to(:grid_weight)
+    promotion.should respond_to(:limitations)
+    promotion.should respond_to(:price)
+    promotion.should respond_to(:quantity)
+    promotion.should respond_to(:retail_value)
+    promotion.should respond_to(:revenue_shared)
+    promotion.should respond_to(:start_date)
+    promotion.should respond_to(:end_date)
+    promotion.should respond_to(:teaser_image)
+    promotion.should respond_to(:remote_teaser_image_url)
+    promotion.should respond_to(:main_image)
+    promotion.should respond_to(:remote_main_image_url)
+    promotion.should respond_to(:status)
+    promotion.should respond_to(:promotion_type)
+    promotion.should respond_to(:title)
+    promotion.should respond_to(:voucher_instructions)
+    promotion.should respond_to(:orders)
+    promotion.should respond_to(:vouchers)
+    promotion.should respond_to(:promotion_logs)
+    promotion.should respond_to(:promotion_images)
+    promotion.should respond_to(:categories)
+    promotion.should respond_to(:blog_posts)
+    promotion.should respond_to(:approved?)
+    promotion.should respond_to(:expired?)
+    promotion.should respond_to(:displayable?)
+    promotion.should respond_to(:ad?)
+    promotion.should respond_to(:affiliate?)
+    promotion.should respond_to(:deal?)
+    promotion.should respond_to(:remaining_quantity)
+    promotion.should respond_to(:awaiting_vendor_action?)
+    promotion.should respond_to(:awaiting_machovy_action?)
+    promotion.should respond_to(:expired?)
+    promotion.should respond_to(:open_vouchers?)
+    promotion.should respond_to(:num_open_vouchers)
+    promotion.should respond_to(:quantity_description)
+    promotion.should respond_to(:discount)
+    promotion.should respond_to(:discount_pct)
+    promotion.should respond_to(:under_quantity_threshold?)
+    promotion.should respond_to(:subtitle)
+    promotion.should respond_to(:padded_description)
+    promotion.should respond_to(:started?)
+    promotion.should respond_to(:min_per_customer)
+    promotion.should respond_to(:max_per_customer)
+    promotion.should respond_to(:max_quantity_for_buyer)
+    promotion.metro.should be == metro
+    promotion.vendor.should be == vendor
+    promotion.promotion_type.should be == Promotion::LOCAL_DEAL
+    promotion.status.should be == Promotion::PROPOSED
+  end
+
+  it { should be_valid }
+  
+  describe "Delete promotion should delete strategy" do
+    before { promotion.destroy }
+    
+    it "should be gone" do
+      Promotion.count.should be == 0
+      FixedExpirationStrategy.count.should == 0
+    end
+  end
+  
+  describe "No strategy" do
+    before { promotion.strategy = nil }
+    
+    it { should_not be_valid }
+  end
+    
+  describe "Deleting strategy nullifies" do
+    before { promotion.strategy.destroy }
+    
+    it "should be gone" do
+      Promotion.count.should be == 1
+      FixedExpirationStrategy.count.should be == 0
+      promotion.reload.strategy.should be_nil
+      promotion.reload.should_not be_valid
+    end
+  end
+  
+  describe "Invalid minimum/customer" do
+    [0, -1, 0.5, 'abc', nil].each do |min|
+      before { promotion.min_per_customer = min }
+      
+      it { should_not be_valid }
+    end
+  end
+
+  describe "Valid minimum/customer" do
+    [1, 5, 100, 2000].each do |min|
+      before { promotion.min_per_customer = min }
+      
+      it { should be_valid }
+    end
+  end
+
+  describe "Invalid maximum/customer" do
+    # nil causes an exception in the voucher_limit_consistency
+    # it's pathological, don't want to add a check for something that will never happen
+    [-1, 0.5, 'abc'].each do |max|
+      before { promotion.max_per_customer = max }
+      
+      it { should_not be_valid }
+    end
+  end
+  
+  describe "Valid maximum/customer" do
+    [Promotion::UNLIMITED, 1, 5, 200, 5000].each do |max|
+      before { promotion.max_per_customer = max }
+      
+      it { should be_valid }
+    end
+  end
+  
+  describe "Consistent min/max (equal)" do
+    before { promotion.min_per_customer = promotion.max_per_customer = 2 }
+    
+    it { should be_valid }
+  end
+  
+  describe "Consistent min/max (unequal)" do
+    before do
+      promotion.min_per_customer = 1
+      promotion.max_per_customer = 4
+    end
+    
+    it { should be_valid }
+  end
+  
+  describe "Consistent min/max (unlimited)" do
+    before do
+      promotion.min_per_customer = 200
+      promotion.max_per_customer = Promotion::UNLIMITED
+    end
+    
+    it { should be_valid }
+  end
+  
+  describe "Inconsistent min/max" do
+    before do
+      promotion.min_per_customer = 2
+      promotion.max_per_customer = 1
+    end
+    
+    it { should_not be_valid }
+  end
+  
   describe "padded description" do
     before { promotion.description = 'too short' }
     
@@ -291,9 +393,13 @@ describe "Promotions" do
     let(:promotion) { FactoryGirl.create(:ad, :metro => metro, :vendor => vendor) }
     
     it { should respond_to(:destination) }
-    
-     it { should be_valid }
+     
+    it { should be_valid }
 
+    it "should not have a strategy" do
+      promotion.strategy.should be_nil
+    end
+    
     it "should not be a deal" do
       promotion.deal?.should be_false
     end
@@ -316,8 +422,14 @@ describe "Promotions" do
   describe "affiliates" do
     let(:promotion) { FactoryGirl.create(:affiliate, :metro => metro, :vendor => vendor) }    
     
+    it { should respond_to(:destination) }
+
     it { should be_valid }
 
+    it "should not have a strategy" do
+      promotion.strategy.should be_nil
+    end
+    
     it "should not be a deal" do
       promotion.deal?.should be_false
     end
@@ -391,10 +503,14 @@ describe "Promotions" do
     promotion.displayable?.should be_false
   end
   
+  it "should be started" do
+    promotion.started?.should be_true
+  end
+  
   it "should not be expired" do
     promotion.expired?.should be_false
   end
-  
+
   describe "make it approved" do
     before { promotion.status = Promotion::MACHOVY_APPROVED }
     
@@ -411,6 +527,14 @@ describe "Promotions" do
       
       it "should still be displayable" do
         promotion.displayable?.should be_true
+      end
+    end
+
+    describe "no start date" do
+      before { promotion.start_date = nil }
+      
+      it "should still be started" do
+        promotion.started?.should be_true
       end
     end
     
@@ -435,6 +559,18 @@ describe "Promotions" do
       end
     end      
     
+    describe "Approved but not displayable because future" do
+      before { promotion.start_date = 2.weeks.from_now }
+      
+      it "should not be started" do
+        promotion.started?.should be_false
+      end
+      
+      it "should not be displayable" do
+        promotion.displayable?.should be_false
+      end
+    end
+
     describe "Displayable with open vouchers" do
       let(:promotion) { FactoryGirl.create(:promotion_with_vouchers) }
       
@@ -456,8 +592,16 @@ describe "Promotions" do
         promotion.expired?.should be_true
       end
       
-      it "should be displayable" do
-        promotion.displayable?.should be_true
+      it "should not be displayable (quantity)" do
+        promotion.displayable?.should be_false
+      end
+      
+      describe "add quantity to make displayable" do
+        before { promotion.quantity = 100 }
+        
+        it "should be displayable (quantity)" do
+          promotion.displayable?.should be_true
+        end
       end
     end      
   end
@@ -514,7 +658,7 @@ describe "Promotions" do
     end
     
     it "should not meet display threshold" do
-      promotion.quantity_description.should be == I18n.t('plenty')
+      promotion.quantity_description.should be == I18n.t('plenty', :date => promotion.end_date.try(:strftime, '%b %d, %Y'))
       promotion.under_quantity_threshold?.should be_false
     end
     

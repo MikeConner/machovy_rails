@@ -16,11 +16,12 @@ describe "PromotionLog" do
   
   subject { log }
   
-  it { should respond_to(:status) }
-  it { should respond_to(:comment ) }
-  it { should respond_to(:promotion) }
-  
-  its(:promotion) { should == promotion }
+  it "should respond to everything" do
+    log.should respond_to(:status)
+    log.should respond_to(:comment)
+    log.should respond_to(:promotion)
+    log.promotion.should be == promotion
+  end
   
   it { should be_valid }
   

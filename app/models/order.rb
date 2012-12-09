@@ -14,6 +14,7 @@
 #  fine_print        :text
 #  quantity          :integer         default(1), not null
 #  charge_id         :string(255)
+#  slug              :string(255)
 #
 
 # CHARTER
@@ -26,6 +27,12 @@
 # NOTES AND WARNINGS
 #
 class Order < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :description, use: [:slugged, :history]
+
+  # description isn't unique; override with Guid
+  before_validation :create_slug
+  
   include ApplicationHelper
   
   attr_accessible :quantity, :amount, :description, :email, :stripe_card_token, :fine_print,
@@ -39,6 +46,7 @@ class Order < ActiveRecord::Base
   
   has_one :feedback, :through => :user, :source => :feedbacks
   has_one :vendor, :through => :promotion
+  has_one :macho_buck
     
   validates_presence_of :user_id
   validates_presence_of :promotion_id
@@ -70,4 +78,11 @@ class Order < ActiveRecord::Base
   def machovy_share
     total_cost * promotion.revenue_shared / 100.0
   end  
+  
+private
+  # The description is just the name of the promotion and a date
+  # It's not unique, and having friendly id append "-12" or something shows how many people are ordering
+  def create_slug
+    self.slug = SecureRandom.uuid if new_record?
+  end
 end

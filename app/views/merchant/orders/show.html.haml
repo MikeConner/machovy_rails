@@ -1,4 +1,4 @@
-%p#notice= notice
+= render :partial => 'shared/flash_messages'
 %p
   %b Purchased:
   = @order.description
@@ -12,8 +12,8 @@
   %p
     %b= pluralize(@order.vouchers.count, "Voucher")
     %table
-      %col{:width => "50"}/
-      %col{:width => "75"}/
+      %col{:width => "100"}/
+      %col{:width => "100"}/
       %col{:width => "100"}/
       %col{:width => "100"}/
       %col{:width => "100"}/
@@ -25,6 +25,6 @@
         %th Expires
         %th Redeemed
         %th Comments
-    - @order.vouchers.each do |voucher|
-      -# Consider rendering merchant/vouchers/show -- not sure if it has the table format, though
-      = render :partial => 'voucher', :locals => { :v => voucher }  
+      - @order.vouchers.each do |voucher|
+        -# Consider rendering merchant/vouchers/show -- not sure if it has the table format, though
+        = render :partial => 'voucher', :locals => { :v => voucher }  

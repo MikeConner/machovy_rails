@@ -18,17 +18,19 @@ describe "Curators" do
   
   subject { curator }
 
-  it { should respond_to(:blog_posts) }
-  it { should respond_to(:promotions) }
-  it { should respond_to(:picture) }
-  it { should respond_to(:name) }
-  it { should respond_to(:twitter) }
-  it { should respond_to(:bio) }
-  it { should respond_to(:title) }
-  it { should respond_to(:recent_posts) }
-  it { should respond_to(:blog_posts_for) }
-  it { should respond_to(:twitter_path) }
-  it { should respond_to(:videos) }
+  it "should respond to everything" do
+    curator.should respond_to(:blog_posts)
+    curator.should respond_to(:promotions)
+    curator.should respond_to(:picture)
+    curator.should respond_to(:name)
+    curator.should respond_to(:twitter)
+    curator.should respond_to(:bio)
+    curator.should respond_to(:title)
+    curator.should respond_to(:recent_posts)
+    curator.should respond_to(:blog_posts_for)
+    curator.should respond_to(:twitter_path)
+    curator.should respond_to(:videos)
+  end
   
   it { should be_valid }
   

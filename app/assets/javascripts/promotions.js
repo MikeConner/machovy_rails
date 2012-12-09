@@ -117,11 +117,35 @@ $(function() {
 		$('#promotion_end_date_3i').val(fields[1]);  
 	}	
   });
+  
+  $("#jq_fixed_end_date").datepicker({
+ 	onSelect: function(dateText, inst) { 
+  		fields = dateText.split('/');
+		// Set year
+		$('#fixed_end_date_1i').val(fields[2]);
+		// Set month
+		$('#fixed_end_date_2i').val(fields[0]);
+		// Set day
+		$('#fixed_end_date_3i').val(fields[1]);  
+	}	
+  });
+  
+  $('#promotionStrategyTab .tab a').each(function() {
+    var $this = $(this);
+    $this.click(function (e) {
+        e.preventDefault();
+        $this.tab('show');
+        $('#promotion_strategy').val($this.attr('id'));
+    });
+  });  
 });
 
 // Appears in views/merchant/order/_order_form; currently commented out
-function update_amount(source, destination, unit_price) {
-  $('#' + destination).val($('#' + source).val() * unit_price)
+function update_amount(source, destination, unit_price, macho_bucks) {
+  var amount = Math.max(0, $('#' + source).val() * unit_price - macho_bucks)
+  $('#' + destination).val(amount)
+  // Don't show the credit card section if Macho Bucks are sufficient to pay it
+  $('#credit_card_section').toggle(amount > 0)
 }
 
 function munge_affiliate_url(source, destination) {

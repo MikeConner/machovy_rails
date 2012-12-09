@@ -36,18 +36,22 @@ describe "VendorMailer" do
         msg.to.to_s.should match(vendor.user.email)
       end
       
+      it "should be copied to the merchant admin" do
+        msg.bcc.to_s.should match(ApplicationHelper::MACHOVY_MERCHANT_ADMIN)
+      end
+      
       it "should have the right subject" do
         msg.subject.should == VendorMailer::SIGNUP_MESSAGE
       end
       
       it "should have the right content" do
-        msg.body.encoded.should match('Attached, please find our standard Vendor agreement')
+        msg.body.encoded.should match("You'll be hearing from us soon about our standard Vendor agreement")
         ActionMailer::Base.deliveries.count.should == 1
       end
       
-      it "should have the attachment" do
-        msg.attachments.count.should be == 1
-        msg.attachments[0].filename.should == 'VendorAgreement.pdf'
+      it "should not have the attachment" do
+        msg.attachments.count.should be == 0
+        #msg.attachments[0].filename.should == 'VendorAgreement.pdf'
       end
     end
   end

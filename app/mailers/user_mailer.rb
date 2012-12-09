@@ -4,6 +4,8 @@ class UserMailer < ActionMailer::Base
   ORDER_MESSAGE = 'Thank you for your Machovy promotion order'
   SURVEY_MESSAGE = 'Thanks for redeeming your voucher'
   UNREDEEM_MESSAGE = 'Your Machovy voucher is available for use'
+  MACHO_CREDIT_MESSAGE = 'Macho Bucks credit for returned voucher'
+  MACHO_REDEEM_MESSAGE = 'Macho Bucks redeemed and applied to your order'
   
   default from: ApplicationHelper::MAILER_FROM_ADDRESS
   
@@ -33,6 +35,20 @@ class UserMailer < ActionMailer::Base
   def unredeem_email(voucher)
     @voucher = voucher
     
-    mail(:to => @voucher.order.email, :bcc => ApplicationHelper::MACHOVY_PAYMENT_ADMIN, :subject => UNREDEEM_MESSAGE)
+    mail(:to => @voucher.order.email, :bcc => ApplicationHelper::MACHOVY_MERCHANT_ADMIN, :subject => UNREDEEM_MESSAGE)
+  end
+  
+  def macho_bucks_voucher_email(bucks)
+    @voucher = bucks.voucher
+    @bucks = bucks
+    
+    mail(:to => @bucks.user.email, :bcc => ApplicationHelper::MACHOVY_MERCHANT_ADMIN, :subject => MACHO_CREDIT_MESSAGE)
+  end
+
+  def macho_bucks_order_email(bucks)
+    @order = bucks.order
+    @bucks = bucks
+    
+    mail(:to => @bucks.user.email, :bcc => ApplicationHelper::MACHOVY_MERCHANT_ADMIN, :subject => MACHO_REDEEM_MESSAGE)
   end
 end

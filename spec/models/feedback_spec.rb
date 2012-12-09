@@ -19,12 +19,13 @@ describe "Feedback" do
   
   subject { feedback }
   
-  it { should respond_to(:comments) }
-  it { should respond_to(:recommend) }
-  it { should respond_to(:stars) }
-  
-  its(:user) { should == user }
-  its(:order) { should == order }
+  it "should respond to everything" do
+    feedback.should respond_to(:comments)
+    feedback.should respond_to(:recommend)
+    feedback.should respond_to(:stars)
+    feedback.user.should be == user
+    feedback.order.should == order
+  end
   
   it { should be_valid }
   

@@ -6,39 +6,26 @@
     %li.submenu
       = link_to 'Dashboard'
       %ul
-        %li 
-          = link_to 'Front Page Manager', manage_promotions_path
-        %li 
-          = link_to 'New Advertising Deal', new_promotion_path(:promotion_type => Promotion::AD)
-        %li
-          = link_to 'New Affiliate Deal', new_promotion_path(:promotion_type => Promotion::AFFILIATE)
+        %li= link_to 'Front Page Manager', manage_promotions_path
+        %li= link_to 'New Advertising Deal', new_promotion_path(:promotion_type => Promotion::AD)
+        %li= link_to 'New Affiliate Deal', new_promotion_path(:promotion_type => Promotion::AFFILIATE)
         - if current_user.has_role?(Role::SALES_ADMIN)
-          %li
-            = link_to 'New Local Deal', new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)
-        %li
-          = link_to 'New Blog Post', new_blog_post_path
-        %li
-          = link_to 'New Video', new_video_path
-        %li
-          = link_to 'Manage Blog Posts', blog_posts_path
-        %li
-          = link_to 'Manage Videos', videos_path                  
+          %li= link_to 'New Local Deal', new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)
+        %li= link_to 'New Blog Post', new_blog_post_path
+        %li= link_to 'New Video', new_video_path
+        %li= link_to 'Manage Blog Posts', blog_posts_path
+        %li= link_to 'Manage Videos', videos_path                  
       - if current_user.has_role?(Role::SUPER_ADMIN)
         %li.submenu
           = link_to 'Admin Area'
           %ul
-            %li
-              = link_to 'Review Vendor Promotions', promotions_path
-            %li
-              = link_to 'Review Affiliate Promotions', affiliates_promotions_path
-            %li
-              = link_to 'Manage Curators', curators_path 
-            %li
-              = link_to 'Manage Metro Areas', metros_path
-            %li
-              = link_to 'Manage Users', manage_users_path
-            %li
-              = link_to 'Manage Merchants', merchant_vendors_path
-            %li
-              = link_to 'Monitored Stripe Events (test)', stripe_logs_path(:livemode => false)
+            %li= link_to 'Review Vendor Promotions', promotions_path
+            %li= link_to 'Return Vouchers', merchant_vouchers_path
+            %li= link_to 'Review Affiliate Promotions', affiliates_promotions_path
+            %li= link_to 'Manage Curators', curators_path 
+            %li= link_to 'Manage Metro Areas', metros_path
+            %li= link_to 'Manage Users', manage_users_path
+            %li= link_to 'Manage Merchants', merchant_vendors_path
+            %li= link_to 'Manage Macho Bucks', macho_bucks_path
+            %li= link_to 'Monitored Stripe Events (test)', stripe_logs_path(:livemode => false)
  

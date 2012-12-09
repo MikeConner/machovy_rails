@@ -18,11 +18,12 @@ describe "PromotionImages" do
   
   subject { image }
   
-  it { should respond_to(:caption) }
-  it { should respond_to(:slideshow_image) }
-  it { should respond_to(:remote_slideshow_image_url) }
-  
-  its(:promotion) { should == promotion }
+  it "should respond to everything" do
+    image.should respond_to(:caption)
+    image.should respond_to(:slideshow_image)
+    image.should respond_to(:remote_slideshow_image_url)
+    image.promotion.should be == promotion
+  end
   
   it { should be_valid }
   

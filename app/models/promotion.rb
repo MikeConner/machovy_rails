@@ -25,6 +25,10 @@
 #  status               :string(16)      default("Proposed"), not null
 #  promotion_type       :string(16)      default("Deal"), not null
 #  subtitle             :string(255)
+#  strategy_id          :integer
+#  strategy_type        :string(255)
+#  min_per_customer     :integer         default(1), not null
+#  max_per_customer     :integer         default(0), not null
 #
 
 # CHARTER
@@ -51,6 +55,8 @@ class Promotion < ActiveRecord::Base
   QUANTITY_THRESHOLD_PCT = 0.1
   DEALS_PER_ROW = 4
   MIN_DESCRIPTION_LEN = 95
+  # Special value of max_per_customer that means unlimited. Note constraint in numericality validation; you can't change this value arbitrarily!
+  UNLIMITED = 0
 
   # Types
   LOCAL_DEAL = 'Deal'
@@ -77,7 +83,7 @@ class Promotion < ActiveRecord::Base
 
   attr_accessible :description, :destination, :grid_weight, :limitations, :price, :quantity, :retail_value, :revenue_shared,
                   :start_date, :end_date, :teaser_image, :remote_teaser_image_url, :main_image, :remote_main_image_url,
-                  :status, :promotion_type, :title, :voucher_instructions, :subtitle,
+                  :status, :promotion_type, :title, :voucher_instructions, :subtitle, :min_per_customer, :max_per_customer,
                   :metro_id, :vendor_id, :category_ids, :blog_post_ids, :promotion_image_ids, :promotion_images_attributes, 
 									:teaser_image_cache, :main_image_cache
 
@@ -89,7 +95,8 @@ class Promotion < ActiveRecord::Base
   # Foreign keys
   belongs_to :metro
   belongs_to :vendor
-
+  belongs_to :strategy, :dependent => :destroy, :polymorphic => true
+  
   # Cannot delete a promotion if there are orders for it
   has_many :orders, :dependent => :restrict
   has_many :vouchers, :through => :orders
@@ -128,7 +135,14 @@ class Promotion < ActiveRecord::Base
   validates :promotion_type, :presence => true,
                              :length => { maximum: MAX_STR_LEN },
                              :inclusion => { in: PROMOTION_TYPE }
+  validates :min_per_customer, :presence => true,
+                               :numericality => { only_integer: true, greater_than: 0 }
+  validates :max_per_customer, :presence => true,
+                               :numericality => { only_integer: true, greater_than_or_equal_to: Promotion::UNLIMITED }
+  validate :voucher_limit_consistency
+  
   validates_presence_of :teaser_image
+  validates_presence_of :strategy, :if => :deal?
   
   # "Deal" fields
   validates :retail_value, :price, :revenue_shared, 
@@ -136,6 +150,15 @@ class Promotion < ActiveRecord::Base
             :if => :deal?
   validates :quantity, :numericality => { only_integer: true, greater_than_or_equal_to: 1 },
             :if => :deal?
+  
+  # Can this user buy the promotion? Check if his orders are > maximum/person
+   def max_quantity_for_buyer(user)
+    if UNLIMITED == self.max_per_customer
+      ApplicationHelper::MAX_INT
+    else
+      self.max_per_customer - user.vouchers.where('promotion_id = ?', self.id).count
+    end    
+  end
   
   # Causes issues with nested attributes when enabled
   #validates_associated :promotion_images
@@ -169,8 +192,16 @@ class Promotion < ActiveRecord::Base
     !self.end_date.nil? and Time.now > self.end_date
   end
   
+  def started?
+    self.start_date.nil? or Time.now >= self.start_date
+  end
+  
+  def any_left?
+    !self.deal? or (quantity_value > self.vouchers.count)
+  end
+  
   def displayable?
-    approved? and (!expired? || open_vouchers?)
+    approved? and started? and any_left? and (!expired? or open_vouchers?)
   end
   
   def open_vouchers?
@@ -228,9 +259,9 @@ class Promotion < ActiveRecord::Base
   # Apply threshold and create text to display for user
   def quantity_description
     if quantity_value.nil?
-      I18n.t('plenty')
+      I18n.t('plenty', :date => self.end_date.try(:strftime, '%b %d, %Y'))
     else
-      under_quantity_threshold? ? I18n.t('only_n_left', :n => self.remaining_quantity) : I18n.t('plenty')
+      under_quantity_threshold? ? I18n.t('only_n_left', :n => self.remaining_quantity) : I18n.t('plenty', :date => self.end_date.try(:strftime, '%b %d, %Y'))
     end
   end
   
@@ -255,5 +286,11 @@ private
   # Guard against negative values (should be impossible anyway)
   def quantity_value
     self.quantity.nil? ? nil : [0, self.quantity].max
+  end
+  
+  def voucher_limit_consistency
+    if (self.max_per_customer != UNLIMITED) and (self.max_per_customer < self.min_per_customer)
+      self.errors.add :base, "Max/customer (#{self.max_per_customer}) cannot be less than min/customer (#{self.min_per_customer})"
+    end
   end
 end

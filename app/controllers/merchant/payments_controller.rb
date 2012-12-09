@@ -25,7 +25,7 @@ class Merchant::PaymentsController < Merchant::BaseController
         end
       end
       
-      VendorMailer.payment_email(@vendor, @payment).deliver
+      VendorMailer.delay.payment_email(@vendor, @payment)
       
       redirect_to show_payments_merchant_vendor_path(@vendor), notice: I18n.t('payment_processed')
     else
