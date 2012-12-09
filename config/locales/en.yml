@@ -8,6 +8,7 @@ en:
   anonymous: 'Anonymous'
   create_account: "Create your account"
   create_account_action: "Create an account. It's free!"
+  credit_card_details: 'Your credit card details are sent directly to our payment processor, and are never stored at Machovy'
   curators: 'Mentors'
   customer_service: 'If you have any questions at 3:00 am, call Arash on his cell phone...'
   feedback_prompt: 'Tell us what you think!'
@@ -26,6 +27,7 @@ en:
   nice_try: "Nice try! Unfortunately you're not eligible to purchase additional quantities of this promotion. Thank you for your previous order!"
   new_promotion: "Let's make a deal"
   create_promotion: 'Create a New Deal'
+  macho_bucks: 'Macho Bucks'
   payment_processed: 'Payment successfully processed.'
   plenty: "Buy before %{date}"
   profile_updated: 'Profile updated successfully.'
