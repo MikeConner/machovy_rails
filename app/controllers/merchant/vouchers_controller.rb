@@ -8,9 +8,10 @@ class Merchant::VouchersController < Merchant::BaseController
   
   # GET /vouchers
   def index
-    if current_user.has_role?(Role::MERCHANT)
-      @admin = true
-      
+    if current_user.is_customer?
+      # It's a user asking for their own vouchers
+      @vouchers = current_user.vouchers      
+    elsif current_user.has_role?(Role::MERCHANT) or current_user.has_role?(Role::SUPER_ADMIN)
       # If a voucher_id or a user_id is given, it's coming from a search request
       if params[:voucher_id]
         @vouchers = [Voucher.find(params[:voucher_id])]
@@ -19,10 +20,10 @@ class Merchant::VouchersController < Merchant::BaseController
       else
         @vouchers = []
       end
-    else
-      # It's a user asking for their own vouchers
-      @admin = false
-      @vouchers = current_user.vouchers
+    end
+    
+    if current_user.has_role?(Role::SUPER_ADMIN)
+      render :layout => 'layouts/admin'
     end
   end
 
@@ -83,7 +84,6 @@ class Merchant::VouchersController < Merchant::BaseController
     end
     
     @vouchers = [@voucher]
-    @admin = true
 
     render 'index'
   end
@@ -109,12 +109,18 @@ class Merchant::VouchersController < Merchant::BaseController
         UserMailer.delay.survey_email(@voucher.order)
       elsif Voucher::AVAILABLE == @voucher.status
         UserMailer.delay.unredeem_email(@voucher)
+      elsif Voucher::RETURNED == @voucher.status
+        # Credit Macho Bucks
+        bucks = @voucher.build_macho_buck(:user_id => @voucher.order.user.id, :amount => @voucher.order.amount, :notes => params[:notes])
+        if !bucks.save
+          flash[:alert] = 'Unable to credit macho bucks!'
+        end
+        UserMailer.delay.macho_bucks_email(bucks)
       end
     else
       flash[:alert] = I18n.t('voucher_failure')
     end
     
-    @admin = true
     @vouchers = []
     
     render 'index'

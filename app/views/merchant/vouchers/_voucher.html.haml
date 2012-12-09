@@ -1,6 +1,6 @@
 .row-fluid
   .well.well-large
-    - if admin
+    - if current_user.has_role?(Role::MERCHANT)
       .btn.btn-success.btn-large
         -# button_to makes a form, so they'd appear on separate lines
         -# need promotion id to redisplay the same form (could use Ajax and a partial to render the buttons; let's try it this way first)
@@ -13,6 +13,14 @@
         -# Don't let them return for now (business issue)
           - if v.returnable?
             = link_to "Return", redeem_admin_merchant_voucher_path(v, :status => Voucher::RETURNED), :method => :put, :confirm => 'Returning a voucher voids it so that no one can use it and no further action is possible. Are you sure?'
+    - elsif current_user.has_role?(Role::SUPER_ADMIN)
+      - if v.returnable?
+        = form_tag redeem_admin_merchant_voucher_path(v), :method => :put do
+          = hidden_field_tag :status, Voucher::RETURNED
+          = label_tag 'notes', 'Notes about this return'
+          = text_area_tag 'notes', nil, :size => '60x3'
+          %br/
+          = submit_tag 'Return', :class => 'btn.btn-success.btn-large', :onclick => "return confirm('Returning a voucher voids it so that no one can use it, and credits Macho Bucks. No further action is possible. Are you sure?')"
     = v.uuid + " : " + v.order.email
     %h3= v.promotion.title
     %h4= "$" + v.order.total_cost.to_s
