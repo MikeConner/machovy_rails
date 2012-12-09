@@ -141,8 +141,11 @@ $(function() {
 });
 
 // Appears in views/merchant/order/_order_form; currently commented out
-function update_amount(source, destination, unit_price) {
-  $('#' + destination).val($('#' + source).val() * unit_price)
+function update_amount(source, destination, unit_price, macho_bucks) {
+  var amount = Math.max(0, $('#' + source).val() * unit_price - macho_bucks)
+  $('#' + destination).val(amount)
+  // Don't show the credit card section if Macho Bucks are sufficient to pay it
+  $('#credit_card_section').toggle(amount > 0)
 }
 
 function munge_affiliate_url(source, destination) {

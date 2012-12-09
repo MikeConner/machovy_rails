@@ -137,7 +137,7 @@ class PromotionsController < ApplicationController
   def order    
     # @promotion set by before_filter 
     fine_print = @promotion.limitations.nil? && @promotion.voucher_instructions.nil? ? nil : 
-                @promotion.limitations.to_s + "\n" + @promotion.voucher_instructions.to_s
+                 @promotion.limitations.to_s + "\n" + @promotion.voucher_instructions.to_s
                 
     @order = @promotion.orders.build(:user_id => current_user.id, :email => current_user.email, :fine_print => fine_print,
                                      :quantity => @promotion.min_per_customer, :amount => @promotion.price, 

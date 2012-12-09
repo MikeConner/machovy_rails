@@ -17,6 +17,7 @@
 #  user_id    :integer
 #  latitude   :decimal(, )
 #  longitude  :decimal(, )
+#  slug       :string(255)
 #
 
 # CHARTER

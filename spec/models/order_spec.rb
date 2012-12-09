@@ -14,6 +14,7 @@
 #  fine_print        :text
 #  quantity          :integer         default(1), not null
 #  charge_id         :string(255)
+#  slug              :string(255)
 #
 
 describe "Orders" do
@@ -33,6 +34,7 @@ describe "Orders" do
     order.should respond_to(:promotion)
     order.should respond_to(:user)
     order.should respond_to(:vendor)
+    order.should respond_to(:macho_buck)
     order.should respond_to(:vouchers)
     order.should respond_to(:total_cost)
     order.should respond_to(:charge_id)
@@ -45,6 +47,15 @@ describe "Orders" do
   end
   
   it { should be_valid }
+  
+  describe "macho bucks" do
+    let(:macho_buck) { FactoryGirl.create(:macho_bucks_from_order, :order => order) }
+    before { macho_buck }
+    
+    it "should point to the bucks" do
+      order.macho_buck.should == macho_buck
+    end
+  end
   
   describe "missing email" do
     before { order.email = " " }
@@ -96,6 +107,12 @@ describe "Orders" do
     before { order.charge_id = " " }
     
     it { should_not be_valid }
+  end
+  
+  describe "Macho Bucks charge id" do
+    before { order.charge_id = "Macho Bucks" }
+    
+    it { should be_valid }
   end
   
   describe "missing quantity" do

@@ -25,7 +25,7 @@ class Ability
       cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro, Curator, Idea]
     else
       # manage Promotion necessary to create an order; manage Voucher to generate qrcode
-      can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position]
+      can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position, MachoBuck]
       can :create, [Order, Voucher]
       # manage Promotion necessary to create an order; manage Voucher to generate qrcode
       can :manage, [Promotion, Voucher, PromotionLog, User, Idea, Rating] 

@@ -10,6 +10,7 @@
 #  voucher_id :integer
 #  created_at :datetime        not null
 #  updated_at :datetime        not null
+#  order_id   :integer
 #
 
 describe "MachoBucks" do
@@ -22,6 +23,7 @@ describe "MachoBucks" do
     macho_buck.should respond_to(:amount)
     macho_buck.should respond_to(:notes)
     macho_buck.should respond_to(:voucher)
+    macho_buck.should respond_to(:order)
     macho_buck.should respond_to(:admin)
     macho_buck.user.should == user
   end
@@ -55,6 +57,13 @@ describe "MachoBucks" do
     let(:macho_buck) { FactoryGirl.create(:macho_bucks_from_voucher, :voucher => voucher) }
     
     its(:voucher) { should == voucher }
+  end
+  
+  describe "order bucks" do
+    let(:order) { FactoryGirl.create(:order) }
+    let(:macho_buck) { FactoryGirl.create(:macho_bucks_from_order, :order => order) }
+    
+    its(:order) { should == order }
   end
   
   describe "admin adjusted bucks" do

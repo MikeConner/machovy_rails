@@ -654,6 +654,10 @@ FactoryGirl.define do
       voucher
     end
     
+    factory :macho_bucks_from_order do
+      order
+    end
+    
     factory :macho_bucks_from_admin do
       after(:create) do |buck|
         buck.admin_id = FactoryGirl.create(:super_admin_user).id

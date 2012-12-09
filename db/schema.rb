@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121208035428) do
+ActiveRecord::Schema.define(:version => 20121209050223) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(:version => 20121208035428) do
     t.integer  "voucher_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "order_id"
   end
 
   create_table "metros", :force => true do |t|

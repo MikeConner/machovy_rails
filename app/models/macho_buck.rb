@@ -10,16 +10,20 @@
 #  voucher_id :integer
 #  created_at :datetime        not null
 #  updated_at :datetime        not null
+#  order_id   :integer
 #
 
 class MachoBuck < ActiveRecord::Base
-  attr_accessible :amount, :notes
+  attr_accessible :amount, :notes,
+                  :user_id, :voucher_id, :order_id, :admin_id
   
   after_save :update_user_total
   
   belongs_to :user
   # If the bucks come from returning a voucher
   belongs_to :voucher
+  # If the bucks are used in an order
+  belongs_to :order
   # If an admin adjusts the total
   belongs_to :admin, :class_name => 'User'
   

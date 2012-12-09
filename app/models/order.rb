@@ -14,6 +14,7 @@
 #  fine_print        :text
 #  quantity          :integer         default(1), not null
 #  charge_id         :string(255)
+#  slug              :string(255)
 #
 
 # CHARTER
@@ -45,6 +46,7 @@ class Order < ActiveRecord::Base
   
   has_one :feedback, :through => :user, :source => :feedbacks
   has_one :vendor, :through => :promotion
+  has_one :macho_buck
     
   validates_presence_of :user_id
   validates_presence_of :promotion_id

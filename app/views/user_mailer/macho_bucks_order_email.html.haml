@@ -1,0 +1,8 @@
+%p Dear Machovy customer,
+%h2 Thanks again for your order!
+- if @bucks.amount < 0
+  %p== We applied a credit of #{-@bucks.amount} #{I18n.t('macho_bucks')} to the order (#{@bucks.order.description}).
+- else
+  -# Pathological case, but possible to have negative Macho Bucks
+  %p== We applied a #{I18n.t('macho_bucks')} deficit of #{@bucks.amount} to the order (#{@bucks.order.description}).
+%p Your current #{I18n.t('macho_bucks')} balance is: #{number_to_currency(@bucks.user.total_macho_bucks)}.
