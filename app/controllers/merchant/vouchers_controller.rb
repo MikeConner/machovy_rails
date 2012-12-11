@@ -47,6 +47,7 @@ class Merchant::VouchersController < Merchant::BaseController
   
   def printable_qrcode
     @voucher = Voucher.find(params[:id])
+    render :layout => false
   end
   
   def search

@@ -5,4 +5,4 @@
 %p= @voucher.redemption_date.try(:strftime, '%b %d, %Y')
 - if !@voucher.order.fine_print.nil?
   %p= "Limitations: " + @voucher.order.fine_print
-= image_tag generate_qrcode_merchant_voucher_url(@voucher, :format => :png)
+= image_tag generate_qrcode_merchant_voucher_url(@voucher, :format => :png), :size => '350x350'
