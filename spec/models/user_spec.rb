@@ -84,7 +84,7 @@ describe "Users" do
     
     it "should match the sum" do
       MachoBuck.count.should be == 10
-      user.reload.total_macho_bucks.should == @sum
+      user.reload.total_macho_bucks.round(2).should == @sum.round(2)
     end
   end
   

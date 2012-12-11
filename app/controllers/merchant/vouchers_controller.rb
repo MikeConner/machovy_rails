@@ -119,7 +119,7 @@ class Merchant::VouchersController < Merchant::BaseController
         if !bucks.save
           flash[:alert] = 'Unable to credit macho bucks!'
         end
-        UserMailer.delay.macho_bucks_email(bucks)
+        UserMailer.delay.macho_bucks_voucher_email(bucks)
       end
     else
       flash[:alert] = I18n.t('voucher_failure')
