@@ -5,7 +5,7 @@ Be sure to use your #{"voucher".pluralize(@order.quantity)} before #{@order.prom
 See attachments for your #{"voucher".pluralize(@order.quantity)}. In case your voucher is not attached, you can also click on the links below:
 
 - @order.vouchers.each do |voucher|
-  Voucher #{link_to voucher.uuid, generate_qrcode_merchant_voucher_url(voucher, :format => :png)}
+  Voucher #{link_to voucher.uuid, printable_qrcode_merchant_voucher_url(voucher)}
 - if !@order.promotion.voucher_instructions.blank?
   Voucher instructions
   = @order.promotion.voucher_instructions

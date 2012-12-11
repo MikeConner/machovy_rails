@@ -4,10 +4,11 @@
 %p== See attachments for your #{"voucher".pluralize(@order.quantity)}. In case your voucher is not attached, you can also click on the links below:
 %br/
 - @order.vouchers.each do |voucher|
-  %p== Voucher #{link_to voucher.uuid, generate_qrcode_merchant_voucher_url(voucher, :format => :png)}
+  %p== Voucher #{link_to voucher.uuid, printable_qrcode_merchant_voucher_url(voucher)}
 - if !@order.promotion.voucher_instructions.blank?
   %h4 Voucher instructions
   %p= @order.promotion.voucher_instructions
 - if !@order.promotion.limitations.blank?
   %h4 Fine Print
   %p= @order.promotion.limitations
+.page

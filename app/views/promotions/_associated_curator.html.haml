@@ -1,8 +1,8 @@
 .span3
   .row-fluid.curator-row
-    .span2
+    .span6
       = link_to(image_tag(curator.picture_url(:contributor_photo).to_s), curator_path(curator))
-    .span10.curator-name
+    .span6.curator-name
       = link_to curator.name, curator_path(curator)
   .row-fluid.curator-post-row
     .span12.curator-post-title

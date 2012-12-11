@@ -77,6 +77,7 @@ MachovyRails::Application.routes.draw do
         get :redeem
         put :redeem_admin
         get :generate_qrcode
+        get :printable_qrcode
       end
       
       collection do

@@ -1,49 +1,40 @@
 .container
   .row-fluid
-    .span3
-      = render :partial => 'shared/admin_navigation'
-    .span9
-      .row-fluid
-        .span12.column
-          .box
-            %h4.box-header.round-top Form Control States
-            .box-container-toggle
-              .box-content
-                .form-horizontal
-                  %fieldset
-                    %legend
-                      %h3 Listing vendors
-                    .row-fluid
-                      .span12
-                        %table
-                          %tr
-                            %th Name
-                            %th Url
-                            %th Facebook
-                            %th Phone
-                            %th Address 1
-                            %th Address 2
-                            %th City
-                            %th State
-                            %th Zip
-                            %th Total Paid
-                            %th Machovy Share
-                            %th Merchant Share
-                            %th
-                          - @vendors.each do |vendor|
-                            %tr
-                              %td= link_to vendor.name, merchant_vendor_path(vendor)
-                              %td= vendor.url
-                              %td= vendor.facebook
-                              %td= vendor.phone
-                              %td= vendor.address_1
-                              %td= vendor.address_2
-                              %td= vendor.city
-                              %td= vendor.state
-                              %td= vendor.zip
-                              %td= number_to_currency(vendor.total_paid)
-                              %td= number_to_currency(vendor.total_commission)
-                              %td= number_to_currency(vendor.amount_owed)
-                              %td= link_to 'Payments', show_payments_merchant_vendor_path(vendor)
-                        %br/
-                        = link_to 'New Vendor', new_merchant_vendor_path
+    .form-horizontal
+      %fieldset
+        %legend
+          %h3 Listing vendors
+        .row-fluid
+          .span12
+            %table
+              %tr
+                %th Name
+                %th Url
+                %th Facebook
+                %th Phone
+                %th Address 1
+                %th Address 2
+                %th City
+                %th State
+                %th Zip
+                %th Total Paid
+                %th Machovy Share
+                %th Merchant Share
+                %th
+              - @vendors.each do |vendor|
+                %tr
+                  %td= link_to vendor.name, merchant_vendor_path(vendor)
+                  %td= vendor.url
+                  %td= vendor.facebook
+                  %td= vendor.phone
+                  %td= vendor.address_1
+                  %td= vendor.address_2
+                  %td= vendor.city
+                  %td= vendor.state
+                  %td= vendor.zip
+                  %td= number_to_currency(vendor.total_paid)
+                  %td= number_to_currency(vendor.total_commission)
+                  %td= number_to_currency(vendor.amount_owed)
+                  %td= link_to 'Payments', show_payments_merchant_vendor_path(vendor)
+            %br/
+            = link_to 'New Vendor', new_merchant_vendor_path

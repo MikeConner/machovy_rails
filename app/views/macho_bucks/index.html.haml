@@ -11,11 +11,13 @@
       %col{:width => "100"}/
       %col{:width => "100"}/
       %col{:width => "75"}/
+      %col{:width => "75"}/
       %col{:width => "300"}/
       %col{:width => "75"}/
       %tr
         %th Date
         %th Voucher
+        %th Order
         %th Amount
         %th Notes
         %th Admin
@@ -27,6 +29,10 @@
             %td
           - else
             %td= bucks.voucher.uuid
+          - if bucks.order.nil?
+            %td
+          - else
+            %td= bucks.order.charge_id
           %td= number_to_currency(bucks.amount)
           %td= bucks.notes
           - if bucks.admin.nil?

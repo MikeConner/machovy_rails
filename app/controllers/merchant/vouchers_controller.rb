@@ -45,6 +45,10 @@ class Merchant::VouchersController < Merchant::BaseController
     end
   end
   
+  def printable_qrcode
+    @voucher = Voucher.find(params[:id])
+  end
+  
   def search
     user = User.find_by_email(params[:key])
     if user.nil?

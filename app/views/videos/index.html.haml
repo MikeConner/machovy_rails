@@ -1,27 +1,18 @@
 .container
   .row-fluid
-    .span3
-      = render :partial => 'shared/admin_navigation'
-    .span9
-      .row-fluid
-        .span12.column
-          .box
-            %h4.box-header.round-top Form Control States
-            .box-container-toggle
-              .box-content
-                .form-horizontal
-                  %fieldset
-                    %legend
-                      %h3 All Videos
-                    .row-fluid
-                      .span12
-                        - @curators.each do |curator|
-                          %h4= curator.name
-                          - curator.videos.each do |video|
-                            .row-fluid
-                              %iframe{:frameborder => "0", :src => "http://www.youtube.com/embed/Q3Ya1AMHwiM?feature=player_detailpage"}
-                              %br 
-                              = link_to video.title, video_path(video)
-                              = video.caption
-                              = link_to 'Delete', video, method: :delete, data: { confirm: 'Are you sure?' }
-                              .space
+    .form-horizontal
+      %fieldset
+        %legend
+          %h3 All Videos
+        .row-fluid
+          .span12
+            - @curators.each do |curator|
+              %h4= curator.name
+              - curator.videos.each do |video|
+                .row-fluid
+                  %iframe{:frameborder => "0", :src => "http://www.youtube.com/embed/Q3Ya1AMHwiM?feature=player_detailpage"}
+                  %br 
+                  = link_to video.title, video_path(video)
+                  = video.caption
+                  = link_to 'Delete', video, method: :delete, data: { confirm: 'Are you sure?' }
+                  .space

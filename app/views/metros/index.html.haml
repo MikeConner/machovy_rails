@@ -1,24 +1,15 @@
 .container
   .row-fluid
-    .span3
-      = render :partial => 'shared/admin_navigation'
-    .span9
-      .row-fluid
-        .span12.column
-          .box
-            %h4.box-header.round-top Form Control States
-            .box-container-toggle
-              .box-content
-                .form-horizontal
-                  %fieldset
-                    %legend
-                      %h3 Listing Metros
-                    .row-fluid
-                      .span12
-                        - @metros.each do |metro|
-                          .row-fluid
-                            = link_to 'Delete', metro, method: :delete, data: { confirm: 'Are you sure?' }
-                            %em= link_to metro.name, metro_path(metro)
-                            = link_to 'Edit', edit_metro_path(metro)
-                        %br/
-                        = link_to 'New Metro', new_metro_path
+    .form-horizontal
+      %fieldset
+        %legend
+          %h3 Listing Metros
+        .row-fluid
+          .span12
+            - @metros.each do |metro|
+              .row-fluid
+                = link_to 'Delete', metro, method: :delete, data: { confirm: 'Are you sure?' }
+                %em= link_to metro.name, metro_path(metro)
+                = link_to 'Edit', edit_metro_path(metro)
+            %br/
+            = link_to 'New Metro', new_metro_path
