@@ -36,7 +36,8 @@
   - else
     = f.hidden_field :grid_weight
   - if @promotion.deal?
+    - @fixed_date = PromotionStrategyFactory::FIXED_STRATEGY == @promotion.strategy_name ? @promotion.strategy.end_date : Time.now.beginning_of_day
     = render :partial => 'shared/promotion_fields', 
-             :locals => { :f => f, :metros => @metros, :quantity => @promotion.quantity || 1, :share_pct => @promotion.revenue_shared }
+             :locals => { :f => f, :metros => @metros, :quantity => @promotion.quantity || 1, :share_pct => @promotion.revenue_shared, :strategy => @promotion.strategy_name, :fixed_date => @fixed_date }
   - else
     = render :partial => 'shared/nondeal_promotion_fields', :locals => { :f => f, :metros => @metros }

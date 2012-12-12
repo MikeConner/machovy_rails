@@ -8,6 +8,8 @@
 #  updated_at :datetime        not null
 #
 
+require 'promotion_strategy_factory'
+
 describe "FixedExpirationStrategy" do
   let(:strategy) { FactoryGirl.create(:fixed_expiration_strategy) }
   
@@ -16,11 +18,16 @@ describe "FixedExpirationStrategy" do
   it "should respond to everything" do
     strategy.should respond_to(:end_date)
     strategy.should respond_to(:promotion)
+    strategy.should respond_to(:name)
     strategy.should respond_to(:setup)
     strategy.should respond_to(:generate_vouchers)
   end
   
   it { should be_valid }
+  
+  it "should have the right name" do
+    strategy.name.should == PromotionStrategyFactory::FIXED_STRATEGY
+  end
   
   it "should have a promotion" do
     strategy.promotion.should_not be_nil

@@ -94,7 +94,10 @@ $(function() {
     }
   }
   
+  // Initialize start and end dates from the date_select, and write them on change
+  // This makes the jQuery datepicker transparent to the controller, which just sees the date_select fields
   $("#jq_start_date").datepicker({
+  	defaultDate: new Date($('#promotion_start_date_1i').val(), $('#promotion_start_date_2i').val() - 1,$('#promotion_start_date_3i').val()),
   	onSelect: function(dateText, inst) { 
   		// 11/28/2012 format
   		fields = dateText.split('/');
@@ -107,6 +110,7 @@ $(function() {
   	}
   });
   $("#jq_end_date").datepicker({
+  	defaultDate: new Date($('#promotion_end_date_1i').val(), $('#promotion_end_date_2i').val() - 1,$('#promotion_end_date_3i').val()),
  	onSelect: function(dateText, inst) { 
   		fields = dateText.split('/');
 		// Set year
@@ -119,6 +123,7 @@ $(function() {
   });
   
   $("#jq_fixed_end_date").datepicker({
+  	defaultDate: new Date($('#fixed_end_date_1i').val(), $('#fixed_end_date_2i').val() - 1,$('#fixed_end_date_3i').val()),
  	onSelect: function(dateText, inst) { 
   		fields = dateText.split('/');
 		// Set year
@@ -130,6 +135,17 @@ $(function() {
 	}	
   });
   
+  // The promotion strategy appears in a tab section. "promotion_strategy" is the hidden field for the result
+  // The strategy is passed in on page load; need to activate both the tab label and the content of the tab
+  var active_strategy_element = $('#' + $('#promotion_strategy').val())
+  if (active_strategy_element) {
+  	// Make tab label active
+  	active_strategy_element.parent().addClass("active")
+  	// Make tab content active
+  	$(active_strategy_element.attr('href')).addClass("fade in active")
+  }
+  
+  // Set the promotion_strategy when the user clicks on a tab
   $('#promotionStrategyTab .tab a').each(function() {
     var $this = $(this);
     $this.click(function (e) {

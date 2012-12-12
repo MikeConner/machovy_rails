@@ -17,6 +17,11 @@ class RelativeExpirationStrategy < ActiveRecord::Base
   
   validates :period_days, :presence => true, 
                           :numericality => { only_integer: true, greater_than: 0 }
+                          
+  def name
+    'Relative'
+  end  
+                          
   def setup(params)
     self.period_days = params[:period]
   end

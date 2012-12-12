@@ -21,10 +21,13 @@ require 'fixed_expiration_strategy'
 class PromotionStrategyFactory
   include Singleton
 
+  FIXED_STRATEGY = 'Fixed'
+  RELATIVE_STRATEGY = 'Relative'
+  
   def create_promotion_strategy(name, params)
-    if 'Fixed' == name
+    if FIXED_STRATEGY == name
       strategy = FixedExpirationStrategy.new
-    elsif 'Relative' == name
+    elsif RELATIVE_STRATEGY == name
       strategy = RelativeExpirationStrategy.new
     else
       raise "No strategy defined for #{name}"

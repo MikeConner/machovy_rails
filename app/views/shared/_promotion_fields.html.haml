@@ -56,21 +56,20 @@
       = f.label :end_date
       = f.date_select :end_date, { :order => [:month, :day, :year] }, { :style => 'display:none' }
       #jq_end_date
-      = hidden_field_tag :promotion_strategy, 'Fixed'
+      = hidden_field_tag :promotion_strategy, strategy
       %br/
       %ul.nav.nav-tabs#promotionStrategyTab
-        -# Names of anchors match PromotionStrategyFactory class arguments
-        %li.active.tab
-          %a#Fixed{:href => '#tab1'}
-            Fixed
         %li.tab
-          %a#Relative{:href => '#tab2'}
-            Relative
+          %a{:id => PromotionStrategyFactory::FIXED_STRATEGY, :href => '#tab1'}
+            = PromotionStrategyFactory::FIXED_STRATEGY
+        %li.tab
+          %a{:id => PromotionStrategyFactory::RELATIVE_STRATEGY, :href => '#tab2'}
+            = PromotionStrategyFactory::RELATIVE_STRATEGY
       .tab-content
-        #tab1.tab-pane.fade.in.active
+        #tab1.tab-pane
           %h4.tab-title Vouchers expire on a fixed date (typically some time after the display period ends)
           = label_tag :fixed_end_date
-          = date_select 'fixed', 'end_date', { :order => [:month, :day, :year] }, { :style => 'display:none' }
+          = date_select 'fixed', 'end_date', { :order => [:month, :day, :year], :default => { :year => fixed_date.year, :month => fixed_date.month, :day => fixed_date.day} }, { :style => 'display:none' }
           #jq_fixed_end_date
         #tab2.tab-pane
           %h4.tab-title Vouchers expire a given number of days after purchase

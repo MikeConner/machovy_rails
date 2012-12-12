@@ -25,6 +25,10 @@ class FixedExpirationStrategy < ActiveRecord::Base
   has_one :promotion, :as => :strategy, :dependent => :nullify
   
   validates_presence_of :end_date
+
+  def name
+    PromotionStrategyFactory::FIXED_STRATEGY
+  end  
   
   # params are the arguments into the create method of the controller
   def setup(params)

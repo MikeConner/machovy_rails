@@ -170,6 +170,16 @@ class Promotion < ActiveRecord::Base
     (displayable? and deal?) ? self.revenue_shared / 100.0 * self.price : 0
   end
   
+  # Called in views to select the proper UI for a strategy
+  def strategy_name
+    if self.strategy.nil?
+      # Default to something reasonable
+      PromotionStrategyFactory::FIXED_STRATEGY
+    else
+      self.strategy.name  
+    end
+  end
+  
   # DB scope can get lost when we're filtering and otherwise processing these as arrays
   def <=>(other)
     grid_weight <=> other.grid_weight
