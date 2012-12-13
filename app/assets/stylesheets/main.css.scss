@@ -146,6 +146,14 @@ input, textarea, .uneditable-input {
   height:auto;
 }
 
+
+/*
+---------------------------------------------
+Icons
+---------------------------------------------*/
+.icon-plus {margin:4px 4px 0 0;}
+
+
 /*
 ----------------------------------------------
 Headings
@@ -670,7 +678,7 @@ Tabs
 }
 
 
-.navbar .nav > li > a {padding:8px 15px}
+.navbar .nav > li > a {padding:8px 15px;}
  
 
 /*
@@ -794,6 +802,8 @@ Buttons
   font-size: 18px;
   padding: 10px 0;
 }
+
+
 
 .btn {
   border-color: #acacac !important;
@@ -1332,6 +1342,9 @@ Fixes / Hacks
 .space-large {margin:75px 0}
 .push{
   margin: 0px 0px 200px 0px;
+}
+.push-large{
+  margin: 0px 0px 400px 0px;
 }
 .footer-column {
   margin-right:-30px;

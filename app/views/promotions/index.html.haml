@@ -7,6 +7,7 @@
   .span12{:style => 'padding:15px 0px 15px 30px;'}
     = link_to "<i class='icon-plus'></i> Create Promotion".html_safe, new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL),{:class => 'btn btn-success '}  
 .divider
+.push-large
 - if (@pending.count + @attention.count + @live.count) > 0
   .row-fluid
     .span4
