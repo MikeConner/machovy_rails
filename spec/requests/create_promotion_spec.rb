@@ -33,22 +33,24 @@ describe "Demo spec" do
       @user.vendor.should_not be_nil
       @user.has_role?(Role::MERCHANT).should be_true
     end
-    
+
     it { should have_content(I18n.t('devise.sessions.signed_in')) }
     it { should have_selector('h1', :text => I18n.t('promotions.index_heading')) }
-    it { should have_selector('h4', :text => I18n.t('promotions.live')) }
-    it { should have_selector('h4', :text => I18n.t('promotions.attention')) }
-    it { should have_selector('h4', :text => I18n.t('promotions.pending')) }
-    it { should have_selector('h4', :text => I18n.t('promotions.inactive')) }
+    it { should_not have_selector('h4', :text => I18n.t('promotions.live')) }
+    it { should_not have_selector('h4', :text => I18n.t('promotions.attention')) }
+    it { should_not have_selector('h4', :text => I18n.t('promotions.pending')) }
+    it { should_not have_selector('h4', :text => I18n.t('promotions.inactive')) }
     # We haven't created any ads, so this shouldn't be displayed
     it { should_not have_selector('h3', :text => I18n.t('promotions.ads')) }
     it { should have_link('Create Promotion', :href => new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)) }
-    
+   
     describe "new promotion" do
       before { click_link 'Create Promotion' }
       
       it { should have_selector('h4', :text => I18n.t('new_promotion')) }
-      it { should have_selector('input', :id => 'promotion_revenue_shared', :value => Promotion::MINIMUM_REVENUE_SHARE) }
+      it { should have_selector('input', :id => 'promotion_revenue_shared', :value => Promotion::DEFAULT_REVENUE_SHARE) }
+      it { should have_selector('input', :id => 'promotion_quantity', :value => Promotion::DEFAULT_QUANTITY) }
+      it { should have_selector('input', :id => 'promotion_strategy', :value => Promotion::DEFAULT_STRATEGY) }
       
       describe "create" do
         before do
@@ -87,5 +89,22 @@ describe "Demo spec" do
         end  
       end
     end
+    
+    describe "add live and inactive, should show sections" do
+      before do
+        FactoryGirl.create(:promotion, :vendor => @user.vendor, :status => Promotion::MACHOVY_APPROVED)
+        FactoryGirl.create(:promotion, :vendor => @user.vendor, :status => Promotion::MACHOVY_APPROVED, :start_date => 3.weeks.ago, :end_date => 2.weeks.ago)
+        visit promotions_path
+      end
+      
+      it "should have two promotions" do
+        Promotion.count.should == 2
+      end
+      
+      it { should have_selector('h4', :text => I18n.t('promotions.live')) }
+      it { should have_selector('h4', :text => I18n.t('promotions.attention')) }
+      it { should have_selector('h4', :text => I18n.t('promotions.pending')) }
+      it { should have_selector('h4', :text => I18n.t('promotions.inactive')) }
+    end    
   end
 end

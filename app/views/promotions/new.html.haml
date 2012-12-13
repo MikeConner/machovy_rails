@@ -31,4 +31,4 @@
                             - else
                               = f.hidden_field :grid_weight
                             = render :partial => 'shared/promotion_fields', 
-                                     :locals => { :f => f, :metros => @metros, :quantity => @promotion.quantity || 1, :share_pct => Promotion::DEFAULT_REVENUE_SHARE, :strategy => PromotionStrategyFactory::FIXED_STRATEGY, :fixed_date => Time.now.beginning_of_day }
+                                     :locals => { :f => f, :metros => @metros, :quantity => @promotion.quantity || Promotion::DEFAULT_QUANTITY, :share_pct => Promotion::DEFAULT_REVENUE_SHARE, :strategy => Promotion::DEFAULT_STRATEGY, :fixed_date => Time.now.beginning_of_day }

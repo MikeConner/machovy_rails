@@ -50,11 +50,13 @@ class Promotion < ActiveRecord::Base
   MAX_STR_LEN = 16
   MAX_TITLE_LEN = 100
   DEFAULT_GRID_WEIGHT = 10
-  MINIMUM_REVENUE_SHARE = 5
+  MINIMUM_REVENUE_SHARE = 10
   DEFAULT_REVENUE_SHARE = 40
   QUANTITY_THRESHOLD_PCT = 0.1
   DEALS_PER_ROW = 4
   MIN_DESCRIPTION_LEN = 95
+  DEFAULT_QUANTITY = 200
+  DEFAULT_STRATEGY = PromotionStrategyFactory::RELATIVE_STRATEGY
   # Special value of max_per_customer that means unlimited. Note constraint in numericality validation; you can't change this value arbitrarily!
   UNLIMITED = 0
 
