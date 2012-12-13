@@ -1,7 +1,7 @@
 %h1= @curator.name
 .row-fluid
   .span3
-    = image_tag(@curator.picture_url(:contributor_photo).to_s)
+    = image_tag(@curator.picture_url(:product_front_page).to_s)
   .span3
     = @curator.bio
     = link_to @curator.twitter, @curator.twitter_path, :target => "_blank"
@@ -9,7 +9,8 @@
     - @curator.blog_posts.each do |post|
       %h4= link_to post.title, blog_post_path(post)
       %p= post.truncated_body
-== #{@curator.name} Recommends
+.row-fluid
+  %h4== #{@curator.name} Recommends
 - for i in 0..@promotions.count / @deals_per_row do
   - current_row = @promotions[i * @deals_per_row, @deals_per_row]
   - if current_row.count > 0
@@ -19,6 +20,6 @@
     - @videos.each do |video|
       %iframe{:width => "480", :height => "295", :frameborder => "0", :allowfullscreen => "true", |
               :src => video.destination_url} |   
-      = video.title
-      = video.caption
+      %br= video.title
+      %br= video.caption
 
