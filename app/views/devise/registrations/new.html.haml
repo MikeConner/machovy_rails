@@ -15,7 +15,7 @@
           - resource.build_vendor unless resource.vendor
           = f.fields_for :vendor do |v|
             %div
-              %p <strong>Personal Information</strong>
+              %p <strong>Business Information</strong>
             = v.text_field :name, {:placeholder => 'Business Name'}
             = v.text_field :phone, :placeholder => "Phone (###) 555-1212", :maxlength => 14
             = v.text_field :address_1, {:placeholder => 'Address Line 1'}
