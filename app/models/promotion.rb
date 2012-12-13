@@ -31,6 +31,8 @@
 #  max_per_customer     :integer         default(0), not null
 #
 
+require 'promotion_strategy_factory'
+
 # CHARTER
 #   Represent a regional offer (deal) or advertisement, placed by a particular vendor, for which a certain curator is responsible
 #
