@@ -43,7 +43,7 @@
 .header-fixed-top {
   position:relative;
   padding-top:10px;
-  top:-34px;
+  top:-21px;
 }
 
 .space-medium {margin:0;}
@@ -100,7 +100,7 @@
     float: right;
 }
 
-
+.header-fixed-top {top:-31px;}
 
 }
 
@@ -162,6 +162,8 @@
     display:inline-block;
   }
 
+  .header-fixed-top {top:-31px;}
+
 }
 
 
@@ -172,7 +174,7 @@
     width:99.26923%!important;   
   }
 
-
+  
 
 
   .item-sub-title {

@@ -411,6 +411,10 @@ Search
 Dropdown
 ----------------------------------------------*/
 
+.nav-label {padding:0 0 0 20px; text-transform:uppercase; font-size:10px;}
+
+
+
 .dropdown-menu .sub-menu {
     left: 100%;
     position: absolute;
@@ -569,7 +573,7 @@ Categories
 .categories a:hover{color:black!important;}
 
 .nav-pills {
-    margin-left: 14px;
+    margin-left: 0px;
   *zoom: 1;
 }
 

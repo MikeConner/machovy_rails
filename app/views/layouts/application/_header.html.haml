@@ -7,6 +7,7 @@
             Metro
             %b.caret
           %ul.dropdown-menu
+            %li.nav-label Nearest Location
             - Metro.all.each do |metro|
               %li
                 = link_to metro.name, metro_filter_path(:metro => metro.name)
@@ -19,74 +20,37 @@
           %li.dropdown.pull-right.hidden-phone
             = link_to 'Sign in / Register', new_user_session_path
         - else
-          - if current_user.has_role?(Role::MERCHANT)
-            %li.dropdown.hidden-phone
-              %a.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
-                Merchant
-                %b.caret
+          %li.dropdown.pull-right
+            %a.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
+              Account
+              %b.caret
+            - if current_user.has_role?(Role::MERCHANT)
               %ul.dropdown-menu
-                %li
-                  = link_to 'My Deals', promotions_path
-                %li
-                  = link_to 'My Vouchers', merchant_vouchers_path
-                -#%li 
-                  -#= link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
-                %li
-                  = link_to 'Payments', show_payments_merchant_vendor_path(current_user.vendor)
-            %li.dropdown.visible-phone
-              %a.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
-                Admin
-                %b.caret
+                %li.nav-label Merchant
+                %li= link_to 'My Deals', promotions_path
+                %li= link_to 'My Vouchers', merchant_vouchers_path
+                -#%li= link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
+                %li= link_to 'Payments', show_payments_merchant_vendor_path(current_user.vendor)
+                %li= link_to 'Log out', destroy_user_session_path, :method => :delete
+            - elsif admin_user?
               %ul.dropdown-menu
-                %li
-                  = link_to 'My Deals', promotions_path
-                %li
-                  = link_to 'My Vouchers', merchant_vouchers_path
-                -#%li 
-                  -#= link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
-                %li
-                  = link_to 'Payments', show_payments_merchant_vendor_path(current_user.vendor)
-                %li
-                  = link_to 'Log out', destroy_user_session_path, :method => :delete
-          - else
-            %li.dropdown
-              = link_to 'My Vouchers', merchant_vouchers_path 
-            - if admin_user?
-              %li.dropdown
-                %a.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
-                  Admin
-                  %b.caret
-                %ul.dropdown-menu
-                  %li
-                    = link_to 'Site Admin', site_admin_path
-                  - if current_user.has_role?(Role::SUPER_ADMIN)
-                    %li
-                      = link_to 'Rails Admin', rails_admin_path
-          - if current_user.has_role?(Role::MERCHANT)
-            %li.dropdown.hidden-phone
-              = link_to 'Log out', destroy_user_session_path, :method => :delete
-          - else
-            %li.dropdown
-              %a.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
-                Account
-                %b.caret
-              %ul.dropdown-menu
-                %li
-                  = link_to 'Edit profile', edit_profile_user_path(current_user)
-                %li
-                  = link_to 'Change password', edit_user_registration_path
-                %li
-                  = link_to 'Log out', destroy_user_session_path, :method => :delete
-        - if !current_user.nil?
+                %li.nav-label Admin
+                %li= link_to 'My Vouchers', merchant_vouchers_path
+                %li= link_to 'Site Admin', site_admin_path
+                - if current_user.has_role?(Role::SUPER_ADMIN)
+                  %li= link_to 'Rails Admin', rails_admin_path
+                %li.nav-label Profile
+                %li= link_to 'Edit profile', edit_profile_user_path(current_user)
+                %li= link_to 'Change password', edit_user_registration_path
+                %li= link_to 'Log out', destroy_user_session_path, :method => :delete
           %li.user-email.hidden-phone
-            == #{gravatar_for current_user, :size => 30, :title => 'Edit this image in your profile'} Welcome, #{current_user.email}        
+            == #{gravatar_for current_user, :size => 30, :title => 'Edit this image in your profile'}      
 %section.header-fixed-top
   .container
     %header
       .row-fluid
         .span3.logo 
-          %h1
-            = link_to(image_tag("logo-beta.png", :class => "brand", :alt => "logo"), deals_path(:deals => false))
+          %h1= link_to(image_tag("logo.png", :class => "brand", :alt => "logo"), deals_path(:deals => false))
         .span9
           %span.sub-headline If you think it's <span class="highlight">awesome</span>  chances are we already found it 
           .pull-right.visible-desktop
