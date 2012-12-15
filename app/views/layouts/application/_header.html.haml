@@ -32,7 +32,7 @@
               %ul.dropdown
                 %li <label> Merchant </label>
                 %li= link_to 'My Deals', promotions_path
-                %li= link_to 'My Vouchers', merchant_vouchers_path
+                %li= link_to I18n.t('my_orders'), merchant_vouchers_path
                 -#%li= link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
                 %li= link_to 'Payments', show_payments_merchant_vendor_path(current_user.vendor)
                 %li <label>Profile</label>
@@ -41,7 +41,7 @@
             - elsif admin_user?
               %ul.dropdown
                 %li <label> Admin </label>
-                %li= link_to 'My Vouchers', merchant_vouchers_path
+                %li= link_to I18n.t('my_orders'), merchant_vouchers_path
                 %li= link_to 'Site Admin', site_admin_path
                 - if current_user.has_role?(Role::SUPER_ADMIN)
                   %li= link_to 'Rails Admin', rails_admin_path
@@ -52,7 +52,7 @@
             - else
               %ul.dropdown
                 %li <label> User </label>
-                %li= link_to 'My Vouchers', merchant_vouchers_path
+                %li= link_to I18n.t('my_orders'), merchant_vouchers_path
                 %li <label> Profile </label>
                 %li= link_to 'Edit profile', edit_profile_user_path(current_user)
                 %li= link_to 'Change password', edit_user_registration_path

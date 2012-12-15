@@ -72,7 +72,7 @@ describe "User signup" do
         before { visit user_confirmation_path(:confirmation_token => User.find_by_email('jeff@machovy.com').confirmation_token) }
         
         it { should have_content(I18n.t('devise.confirmations.confirmed')) }
-        it { should have_link('My Vouchers') }
+        it { should have_link(I18n.t('my_orders')) }
       end
     end
   end

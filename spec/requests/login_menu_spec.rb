@@ -30,7 +30,7 @@ describe "Login menus" do
       page.should_not have_selector('li', :class => 'nav-label', :text => 'User')
       page.should have_link('Site Admin')
       page.should have_link('Rails Admin')
-      page.should have_link('My Vouchers')
+      page.should have_link(I18n.t('my_orders'))
       page.should have_link('Edit profile')
       page.should have_link('Change password')
     end
@@ -56,7 +56,7 @@ describe "Login menus" do
       page.should_not have_selector('li', :class => 'nav-label', :text => 'User')
       page.should have_selector('li', :class => 'nav-label', :text => 'Merchant')
       page.should have_link('My Deals', :href => promotions_path)
-      page.should have_link('My Vouchers', :href => merchant_vouchers_path)
+      page.should have_link(I18n.t('my_orders'), :href => merchant_vouchers_path)
       page.should have_link('Payments')
       page.should have_link('Change password')
     end
@@ -79,7 +79,7 @@ describe "Login menus" do
     it "should have the right links" do
       page.should have_selector('li', :class => 'nav-label', :text => 'User')
       page.should have_selector('li', :class => 'nav-label', :text => 'Profile')
-      page.should have_link('My Vouchers')
+      page.should have_link(I18n.t('my_orders'))
       page.should have_link('Edit profile')
       page.should have_link('Change password')
     end

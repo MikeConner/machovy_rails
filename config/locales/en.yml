@@ -51,6 +51,7 @@ en:
   voucher_returned: 'This voucher has been returned and is now void.'
   voucher_success: "Voucher status successfully updated."
   voucher_valid: 'Valid voucher found.'
+  my_orders: 'My Orders'
   promotions:
     index_heading: 'Local Deals'
     live: 'Live Deals'
