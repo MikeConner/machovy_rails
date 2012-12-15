@@ -1,58 +1,63 @@
-#nav.navbar.navbar-fixed-top
-  .navbar-inner
-    .container
-      %ul.nav
-        %li.dropdown
-          %a.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
-            Metro
-            %b.caret
-          %ul.dropdown-menu
-            %li.nav-label Nearest Location
+.contain-to-grid
+  %nav.top-bar.container
+    %ul
+      %li.name
+        %h1.visible-phone-nav Navigation
+      %li.toggle-topbar
+        %a{:href => '#'} 
+    %section
+      %ul.left
+        %li.divider
+        %li.has-dropdown
+          %a Metro
+          %ul.dropdown
+            %li <label> Nearest Location </label>
             - Metro.all.each do |metro|
-              %li
-                = link_to metro.name, metro_filter_path(:metro => metro.name)
-        %li.dropdown 
-          = link_to 'Deals & Interests', deals_path(:deals => true)
-        %li.dropdown
-          = link_to 'Lifestyle', curators_path
-      %ul.nav.pull-right
+              %li= link_to metro.name, metro_filter_path(:metro => metro.name)
+        %li.divider      
+        %li= link_to 'Deals & Interests', deals_path(:deals => true)
+        %li.divider
+        %li= link_to 'Lifestyle', curators_path
+        %li.divider
+      %ul.right
         - if current_user.nil?
-          %li.dropdown.pull-right.hidden-phone
-            = link_to 'Sign in / Register', new_user_session_path
+          %li.divider
+          %li= link_to 'Sign in / Register', new_user_session_path
+          %li.divider
         - else
-          %li.dropdown.pull-right
-            %a.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
-              Account
-              %b.caret
+          %li.divider
+          %li.has-dropdown
+            %a Account
             - if current_user.has_role?(Role::MERCHANT)
-              %ul.dropdown-menu
-                %li.nav-label Merchant
+              %ul.dropdown
+                %li <label> Merchant </label>
                 %li= link_to 'My Deals', promotions_path
                 %li= link_to 'My Vouchers', merchant_vouchers_path
                 -#%li= link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
                 %li= link_to 'Payments', show_payments_merchant_vendor_path(current_user.vendor)
-                %li.nav-label Profile
+                %li <label>Profile</label>
                 %li= link_to 'Change password', edit_user_registration_path
                 %li= link_to 'Log out', destroy_user_session_path, :method => :delete
             - elsif admin_user?
-              %ul.dropdown-menu
-                %li.nav-label Admin
+              %ul.dropdown
+                %li <label> Admin </label>
                 %li= link_to 'My Vouchers', merchant_vouchers_path
                 %li= link_to 'Site Admin', site_admin_path
                 - if current_user.has_role?(Role::SUPER_ADMIN)
                   %li= link_to 'Rails Admin', rails_admin_path
-                %li.nav-label Profile
+                %li <label> Profile </label>
                 %li= link_to 'Edit profile', edit_profile_user_path(current_user)
                 %li= link_to 'Change password', edit_user_registration_path
                 %li= link_to 'Log out', destroy_user_session_path, :method => :delete
             - else
-              %ul.dropdown-menu
-                %li.nav-label User
+              %ul.dropdown
+                %li <label> User </label>
                 %li= link_to 'My Vouchers', merchant_vouchers_path
-                %li.nav-label Profile
+                %li <label> Profile </label>
                 %li= link_to 'Edit profile', edit_profile_user_path(current_user)
                 %li= link_to 'Change password', edit_user_registration_path
                 %li= link_to 'Log out', destroy_user_session_path, :method => :delete
+          %li.divider
           %li.user-email.hidden-phone
             == #{gravatar_for current_user, :size => 30, :title => 'Edit this image in your profile'}      
 %section.header-fixed-top
@@ -66,9 +71,9 @@
           .pull-right.visible-desktop
             = link_to I18n.t('feedback_prompt'), feedback_path, :class => 'btn btn-feedback'
           - if current_user.nil?  
-            %div.visible-phone
+            %div.visible-phone-nav
               = link_to 'Sign in / Register', new_user_session_path, :class => ' btn btn-danger btn-register'
             -#%form.navbar-search.pull-right
             -#%input.search-query{:type => 'text', :placeholder => 'Search'}
-.space-medium
+.space
 

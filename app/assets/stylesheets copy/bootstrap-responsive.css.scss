@@ -49,10 +49,6 @@
   display: none !important;
 }
 
-.visible-phone-nav {
-  display: none !important;
-}
-
 .visible-tablet {
   display: none !important;
 }
@@ -87,17 +83,11 @@
   .visible-desktop {
     display: none !important;
   }
-  .visible-phone2 {
+  .visible-phone {
     display: inherit !important;
   }
   .hidden-phone {
     display: none !important;
-  }
-}
-
-@media (max-width: 580px) {
-  .visible-phone-nav {
-    display: inherit !important;
   }
 }
 
