@@ -102,6 +102,7 @@ MachovyRails::Application.routes.draw do
 	match "/feedback" => "static_pages#feedback"
   match "/make_comment" => "static_pages#make_comment", :via => :put
   match "/faq" => "static_pages#faq"
+  match "/merchant_contract" => "static_pages#merchant_contract"
   
   # MailChimp integration test
   match "/mailing" => "static_pages#mailing"

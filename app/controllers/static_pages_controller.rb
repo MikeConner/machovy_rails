@@ -1,6 +1,7 @@
 class StaticPagesController < ApplicationController
-  before_filter :authenticate_user!, :only => [:admin_index]
-
+  before_filter :authenticate_user!, :only => [:admin_index, :merchant_contract]
+  before_filter :ensure_merchant, :only => [:merchant_contract]
+  
   def about
   end
   
@@ -47,6 +48,19 @@ class StaticPagesController < ApplicationController
       @lists[name] = []
       members = gb.list_members({:id => list_id})
       members['data'].map { |m| @lists[name].push(m['email']) }
+    end
+  end
+  
+  def merchant_contract
+    send_data MachovyRails::Application.assets.find_asset(VendorMailer::LEGAL_AGREEMENT_FILENAME).to_s, 
+              :type => "application/pdf", 
+              :filename => 'VendorAgreement.pdf'
+  end
+  
+private
+  def ensure_merchant
+    if !current_user.has_role?(Role::MERCHANT) and !current_user.has_role?(Role::SUPER_ADMIN)
+      redirect_to root_path, :alert => I18n.t('vendors_only')
     end
   end
 end
