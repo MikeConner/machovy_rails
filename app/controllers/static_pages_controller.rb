@@ -57,6 +57,12 @@ class StaticPagesController < ApplicationController
               :filename => 'VendorAgreement.pdf'
   end
   
+  def default_gravatar
+    send_file MachovyRails::Application.assets.find_asset('Machovy_Gravatar.gif').pathname, 
+              :type => "image/gif", 
+              :disposition => 'inline'    
+  end
+  
 private
   def ensure_merchant
     if !current_user.has_role?(Role::MERCHANT) and !current_user.has_role?(Role::SUPER_ADMIN)

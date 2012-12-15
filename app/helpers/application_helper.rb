@@ -17,6 +17,7 @@ module ApplicationHelper
   MAILER_FROM_ADDRESS = 'machovy@machovy.com'
   MACHOVY_MERCHANT_ADMIN = 'arash@machovy.com'
   MACHOVY_FEEDBACK_ADMIN = 'arash@machovy.com'
+  WEB_ADDRESS = 'www.machovy.com'
   
   SMTP_PASSWORD = '%%))$$@macho'
   
@@ -42,7 +43,11 @@ module ApplicationHelper
   # Returns the Gravatar (http://gravatar.com/) for the given user. 
   def gravatar_for(user, options = { size: 100 })
     gravatar_id = Digest::MD5::hexdigest(user.email.downcase) 
-    gravatar_url = "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{options[:size]}" 
+    gravatar_url = "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{options[:size]}"
+    if !Rails.env.development?
+      gravatar_url += "&d=#{default_gravatar_url(:host => WEB_ADDRESS, :port => nil)}"
+    end
+     
     image_tag(gravatar_url, class: "gravatar", title: options[:title])
   end
   
