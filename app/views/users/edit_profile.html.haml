@@ -1,44 +1,50 @@
 .row-fluid
   .span12.page-header
     %h1 Edit Profile <small>don't be modest</small>
-= form_for @user, :method => :put, :url => update_profile_user_path(@user) do |f|
-  = render :partial => 'shared/error_messages', :locals => { :errors => @user.errors, :name => 'User' }
-  .field
-    = f.label :first_name
-    = f.text_field :first_name, :maxlength => User::MAX_FIRST_NAME
-  .field
-    = f.label :last_name
-    = f.text_field :last_name, :maxlength => User::MAX_LAST_NAME
-  .field
-    = f.label :email, 'Email (Note that changes must be reconfirmed; until then you can still log in under the old email)'
-    = f.text_field :email
-  .field
-    = f.label :phone
-    = f.text_field :phone, :maxlength => User::PHONE_LEN, :placeholder => '(412) 555-1212'
-  .field
-    = f.label :address_1
-    = f.text_field :address_1, :maxlength => User::MAX_ADDRESS
-  .field
-    = f.label :address_2
-    = f.text_field :address_2, :maxlength => User::MAX_ADDRESS
-  .field
-    = f.label :city
-    = f.text_field :city, :maxlength => User::MAX_ADDRESS
-  .field
-    = f.label :state
-    = f.text_field :state, :maxlength => User::STATE_LEN, :placeholder => 'PA'
-  .field
-    = f.label :zipcode
-    = f.text_field :zipcode, :maxlength => User::ZIPCODE_LEN
-  .field
-    = f.check_box :optin
-    = f.label :optin, 'Check here to opt in to occasional emails from Machovy about new deals'
-  .field
-    = f.label :categories, 'To help us target your emails, please let us know what categories you find most interesting'
-    = f.collection_select(:category_ids, Category.all, :id, :name, { :selected => @user.category_ids }, { :multiple => true })
-  .field
-    = gravatar_for @user, :size => 200
-    = link_to 'Update image', "http://gravatar.com/emails"
-    %br/
-  .actions
-    = f.submit 'Update Profile'
+.space
+.row
+  = form_for @user, :method => :put, :url => update_profile_user_path(@user) do |f|
+    = render :partial => 'shared/error_messages', :locals => { :errors => @user.errors, :name => 'User' }
+    .two.columns.offset-by-three
+      .field
+        = gravatar_for @user, :size => 200
+        .space
+        = link_to 'Update image', "http://gravatar.com/emails", {:class => 'btn btn-danger', :style => 'margin-bottom:10px;'}
+    .columns.five
+      %p <strong>User Information</strong>
+      = f.text_field :first_name, :maxlength => User::MAX_FIRST_NAME, :placeholder => 'First Name'
+      .field
+        = f.text_field :last_name, :maxlength => User::MAX_LAST_NAME, :placeholder => 'Last Name'
+      .field
+        = f.text_field :email, :placeholder => 'Email Address'
+        .help-block (Note that changes must be reconfirmed; until then you can still log in under the old email)
+      %p <strong>Contact Details</strong>
+      .field
+        = f.text_field :phone, :maxlength => User::PHONE_LEN, :placeholder => 'Phone Number'
+      .field
+        = f.text_field :address_1, :maxlength => User::MAX_ADDRESS, :placeholder => 'Address 1'
+      .field
+        = f.text_field :address_2, :maxlength => User::MAX_ADDRESS, :placeholder => 'Address 2'
+      .field
+        = f.text_field :city, :maxlength => User::MAX_ADDRESS, :placeholder => 'City'
+      .field
+        = f.text_field :state, :maxlength => User::STATE_LEN, :placeholder => 'State'
+      .field
+        = f.text_field :zipcode, :maxlength => User::ZIPCODE_LEN, :placeholder => 'Zipcode'
+      .field
+        = f.label :categories, 'To help us target your emails, please let us know what categories you find most interesting'
+        %br
+        = f.collection_select(:category_ids, Category.all, :id, :name, { :selected => @user.category_ids }, { :multiple => true })
+      .field
+        = f.check_box :optin
+        = f.label :optin, 'Check here to opt in to occasional emails from Machovy about new deals'
+      .field
+        = f.submit 'Update Profile', {:class => 'btn btn-danger', :style => 'margin-bottom:10px;'}
+      .actions
+      .divider
+      .space
+    .columns.four
+
+
+
+      
