@@ -45,7 +45,7 @@ module ApplicationHelper
     gravatar_id = Digest::MD5::hexdigest(user.email.downcase) 
     gravatar_url = "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{options[:size]}"
     if !Rails.env.development?
-      gravatar_url += "&d=#{default_gravatar_url(:host => WEB_ADDRESS, :port => nil)}"
+      gravatar_url += "&d=#{default_gravatar_url(:host => WEB_ADDRESS, :port => nil)}.gif"
     end
      
     image_tag(gravatar_url, class: "gravatar", title: options[:title])
