@@ -98,6 +98,7 @@ MachovyRails::Application.routes.draw do
   # Static pages
   match "/site_admin" => "static_pages#admin_index"
   match "/about" => "static_pages#about"
+  match "/terms" => "static_pages#terms"
 	match "/get_featured" => "static_pages#get_featured"
 	match "/feedback" => "static_pages#feedback"
   match "/make_comment" => "static_pages#make_comment", :via => :put

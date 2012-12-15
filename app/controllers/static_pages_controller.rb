@@ -15,6 +15,9 @@ class StaticPagesController < ApplicationController
   def get_featured
 	end
 	
+	def terms
+	end
+	
 	def feedback
     @anonymous = current_user.nil?
     @categories = FeedbackShared.categories
