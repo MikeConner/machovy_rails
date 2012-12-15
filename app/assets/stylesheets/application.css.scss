@@ -29,6 +29,17 @@ article{
   }
 }
 
+@media (max-width: 580px) {
+  body {
+    padding-left:0px !important;
+    padding-right: 0px !important;
+  }
+  .contain-to-grid > .container {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+}
+
 .slider-input {
   width: 40%;
 }

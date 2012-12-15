@@ -25,7 +25,7 @@
           %li= link_to 'Sign in / Register', new_user_session_path
           %li.divider
         - else
-          %li.divider
+          %li.divider.hidden-phone
           %li.has-dropdown
             %a Account
             - if current_user.has_role?(Role::MERCHANT)
