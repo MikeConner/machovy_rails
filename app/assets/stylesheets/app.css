@@ -14,7 +14,7 @@
 ----------------------------------------- */
 .contain-to-grid {position: relative; z-index: 300;}
 .contain-to-grid .top-bar {max-width: 100%;}
-.top-bar {background-color: #444444;}
+.top-bar {background-color: #222222;}
 .top-bar ul > li.has-dropdown .dropdown {width:150px;}
 .top-bar ul > li.name h1 { line-height: 1; font-size: 20px; padding: 12px 0 0 0; color: white!important; font-family: Arial; font-weight: bold;}
 
