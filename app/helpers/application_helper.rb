@@ -14,7 +14,7 @@ module ApplicationHelper
   INVALID_EMAILS = ["joe", "joe@", "gmail.com", "@gmail.com", "@Actually_Twitter", "joe.mama@gmail", "fish@.com", "fish@biz.", "test@com"]
   VALID_EMAILS = ["j@z.com", "jeff.bennett@pittsburghmoves.com", "fish_42@verizon.net", "a.b.c.d@e.f.g.h.biz"]
 
-  MAILER_FROM_ADDRESS = 'deals@machovy.com'
+  MAILER_FROM_ADDRESS = 'machovy@machovy.com'
   MACHOVY_MERCHANT_ADMIN = 'arash@machovy.com'
   MACHOVY_FEEDBACK_ADMIN = 'arash@machovy.com'
   
