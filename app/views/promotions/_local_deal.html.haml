@@ -48,6 +48,15 @@
           %td= number_to_currency(@promotion.retail_value)
           %td= number_to_percentage(@promotion.discount_pct, :precision => 0)
           %td= number_to_currency(@promotion.discount)
+    .spread
+      .twshare.left
+        %a.twitter-share-button.left{"data-count" => "horizontal", "data-via" => "fuonrails", :href => "http://twitter.com/share"} Tweet
+        %script{:src => "http://platform.twitter.com/widgets.js", :type => "text/javascript"}
+      .fshare.left{:style => 'padding-left: 0px; margin-left: 10px;'}
+        %script{:src => "http://connect.facebook.net/en_US/all.js#xfbml=1"}
+        %fb:like{:layout => "button_count", :show_faces => "false", :width => "450"}
+      .CLR
+
   .span7.product-detail
     %ul.nav.nav-tabs
       %li.active
