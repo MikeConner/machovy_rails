@@ -1,3 +1,6 @@
+%meta{:name => 'og:image', :content => @promotion.teaser_image_url(:product_detail).to_s}
+%meta{:name => 'og:title', :content => @promotion.title}
+%meta{:name => 'og:description', :content => @promotion.description }
 - if @show_accept_reject
   Please review the edited promotion below, and accept or reject the changes.
   %br/
@@ -56,7 +59,6 @@
         %script{:src => "http://connect.facebook.net/en_US/all.js#xfbml=1"}
         %fb:like{:layout => "button_count", :show_faces => "false", :width => "450"}
       .CLR
-
   .span7.product-detail
     %ul.nav.nav-tabs
       %li.active
