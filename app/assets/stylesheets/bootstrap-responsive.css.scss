@@ -67,7 +67,7 @@
 
 @media (min-width: 768px) and (max-width: 979px) {
   .hidden-desktop {
-    display: inherit !important;
+    display: none !important;
   }
   .visible-desktop {
     display: none !important ;
@@ -97,6 +97,12 @@
 
 @media (max-width: 580px) {
   .visible-phone-nav {
+    display: inherit !important;
+  }
+  .visible-phone {
+    display: inherit !important;
+  }
+  .hidden-desktop {
     display: inherit !important;
   }
 }

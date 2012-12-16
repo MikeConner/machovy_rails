@@ -8,6 +8,7 @@ $red: #ed464a;
 ----------------------------------------------
 Basic Styles
 ----------------------------------------------*/
+* {margin:0px; padding:0px;}
 .page { 
    page-break-after: always; 
 } 
@@ -89,6 +90,9 @@ a:hover{
   color:white;
   padding:2px 0 0 10px;
   font-size:12px;
+  width:40px;
+
+  img {width:40px;}
 }
 
 p {font-size:13px;}
