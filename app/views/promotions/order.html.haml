@@ -3,14 +3,14 @@
     %ul.rslides{:id => 'slider2'}
       - if !@promotion.teaser_image.file.nil?
         %li
-          = image_tag @promotion.teaser_image_url(:product_detail).to_s
+          = image_tag @promotion.teaser_image_url(:product_front_page).to_s
       - if !@promotion.main_image.file.nil?
         %li
-          = image_tag @promotion.main_image_url(:product_detail).to_s
+          = image_tag @promotion.main_image_url(:product_front_page).to_s
       - @promotion.promotion_images.each do |slideshow|
         - if !slideshow.slideshow_image.file.nil?
           %li
-            = image_tag slideshow.slideshow_image_url(:product_detail).to_s
+            = image_tag slideshow.slideshow_image_url(:product_front_page).to_s
   .span8.product-detail
     .row-fluid
       .span12
