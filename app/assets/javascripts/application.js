@@ -18,5 +18,9 @@
 //= require admin/unicorn
 //= require admin/jquery.dataTables.min
 //= require jquery.isotope.min
-//= require modernizr.custom
+//= require responsiveslides.min.js
+//= require foundation.min.js
+//= require app.js
+//= require jquery.foundation.topbar
+//= require jquery.foundation.navigation.js
 //= require_tree .

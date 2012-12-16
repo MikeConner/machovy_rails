@@ -46,6 +46,8 @@ class UsersController < ApplicationController
   end
   
   def update_profile
+    # This line ensures there is a category_id entry, and allows users to clear their selection
+    params[:user][:category_ids] ||= []
     if @user.update_attributes(params[:user])
       redirect_to root_path, :notice => I18n.t('profile_updated')
     else

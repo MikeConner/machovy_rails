@@ -91,7 +91,8 @@ MachovyRails::Application.routes.draw do
   # Can't call this /metro because I already have a :metro resource, and it would conflict with show
   match "/metro_filter" => "ajax#metro"
   match "/category" => "ajax#category"
-
+  match "/geocode" => "ajax#geocode"
+  
   # Affiliate processing
   match "/affiliate_url" => "ajax#affiliate_url"
  

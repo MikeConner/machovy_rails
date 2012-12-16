@@ -100,7 +100,7 @@ class Merchant::VendorsController < Merchant::BaseController
   def update
     @vendor = Vendor.find(params[:id])
     if @vendor.update_attributes(params[:vendor])
-      redirect_to show_payments_merchant_vendor_path(@vendor), notice: 'Vendor was successfully updated.'
+      redirect_to merchant_vendors_path, notice: 'Vendor was successfully updated.'
     else
       render 'edit', :layout => 'layouts/admin'
     end

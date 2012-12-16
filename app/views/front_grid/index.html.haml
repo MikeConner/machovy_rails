@@ -1,11 +1,12 @@
 = render :partial => 'categories/index', :locals => { :active_category => @active_category }
 = render :partial => 'shared/flash_messages'
 - if session[:deals] != 'true'  # -------------------------------------------Front PAGE VIEW
-  #container-front.container
-    - for i in 0..@promotions.count / @deals_per_row do
-      - current_row = @promotions[i * @deals_per_row, @deals_per_row]
-      - if current_row.count > 0
-        = render :partial => 'shared/promotion_row', :locals => { :promotions => current_row }
+  #container-front
+    .container
+      - for i in 0..@promotions.count / @deals_per_row do
+        - current_row = @promotions[i * @deals_per_row, @deals_per_row]
+        - if current_row.count > 0
+          = render :partial => 'shared/promotion_row', :locals => { :promotions => current_row }
   .space-medium
   .row-fluid
     - @blog_posts.each_with_index do |blogpost, index|

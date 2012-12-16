@@ -1,9 +1,8 @@
  #container-front {
   @media only screen and (min-width : 1200px) {
     .span3 {
-      width:287px;
+      width:279px;
     }
-
   }
   @media only screen and (min-width : 768px) and (max-width : 1023px) {
     .description {
@@ -25,6 +24,7 @@
     [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"]{
       width:100%;
     }
+
   }
 }
 
@@ -112,9 +112,14 @@
   margin:3px;
   width:32.26923%!important;   
 }
-.container-fluid{
+
+.well {
+      padding:20px;
+      width:92%;
+    }
+/*.container-fluid{
   padding:0 35px;
-}
+}*/
 
 [class*="span"],
   .uneditable-input[class*="span"],
@@ -205,13 +210,13 @@
   }
 
   .sub-headline{
-    font-size:68%;
+    font-size:82%;
     line-height:14px;
     margin:0 0 10px 0;
   }
 
   .well {
-    width:88%;
+    width:88%!important;
   }
 
 }

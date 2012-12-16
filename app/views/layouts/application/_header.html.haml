@@ -21,7 +21,7 @@
         %li.divider
       %ul.right
         - if current_user.nil?
-          %li.divider
+          %li.divider.hidden-phone
           %li= link_to 'Sign in / Register', new_user_session_path
           %li.divider
         - else

@@ -1,28 +1,50 @@
-%h1 Frequently Asked Questions
-%h4== We hope you can find the answer to your question here. If not, just go to our #{link_to 'feedback page', feedback_path} to ask a question or leave a comment.
-%h4 If you sign up for a free account, you can additionally submit ideas for the site -- and rate ideas that others post. We'll make incorporating your best ideas our top priority! 
-%h2 Promotions 
-%h4 How do local promotions work?
-%em== When you click on a local deal and buy it, you'll get a voucher by email that you can exchange for the merchant's goods or services. You'll find a #{link_to "QR Code", "http://en.wikipedia.org/wiki/QR_code"} attachment, along with a voucher ID and link. You can try to bring up the attachment on your mobile device for scanning, but lighting and glare issues always make this problematic. We recommend you follow the link, print the voucher, and have the merchant scan the paper. If the merchant does not have scanning equipment or the scan doesn't work, they can always just type in the code. |
-%h4 How long do promotions last?
-%em That's up to the merchant. You won't find cheesy countdown clocks or other gimmicks on Machovy. When merchants create promotions, they specify a total quantity and a range of display dates. We display the promotion on Machovy until they've all been sold -- or the end date passes. You'll find the end date on the promotion detail screen. After most of the available vouchers have been taken (e.g., 90%), it will show the number remaining instead. 
-%h4 What if the promotion ends before I redeem my voucher?
-%em Depending on the promotion, some vouchers are good until a fixed date (e.g., an event or sale), while others are good for a certain number of days after purchase. (Merchants are free to create more complicated voucher redemption schemes, but these are the most common types.) Once you've purchased a voucher, it is governed by the promotion terms at the time of purchase, no matter what happens on the site.
-%br/
-%br/
-%em== Promotions may have special conditions or limitations (e.g., one-per-customer), which you will find on the promotion detail screen, and printed on the voucher. If you are unable to use a voucher and it expires, various state laws may apply. The vendor may choose to honor it anyway (e.g., if a concert is postponed). Or you can return it to Machovy in exchange for #{link_to I18n.t('macho_bucks'), about_macho_bucks_path}. You can <strong>never</strong> lose the face value of what you paid.
-%h4 What form of payment do you accept?
-%em== Currently we accept all major credit cards. Given sufficient demand, we may accept other forms of payment, such as #{link_to "Paypal", "http://www.paypal.com/home"} or #{link_to "BitCoin", "http://bitcoin.org/"}
-%h4 Why do some promotions not show prices? 
-%em Machovy features both negotiated deals with local merchants -- with prominent prices and terms -- and "affiliate" deals. These affiliate deals are run by the respective merchants; click on the promotion to purchase from non-Machovy vendors.
-%h4== What are #{I18n.t('macho_bucks')}? 
-%em== #{I18n.t('macho_bucks')} are real dollars you can use just about anywhere on Machovy.com. #{link_to 'Click here for more details...', about_macho_bucks_path}
-%h2 Content
-%h4 Are the mentors real people?
-%em== Most of them, yes. You can see them all on the #{link_to "Lifestyle", curators_path} page, and interact with them on Facebook and Twitter.
-%br/
-%h2 Business Stuff
-%h4 When will you be in my town?
-%em== We've got big plans at Machovy. Today Pittsburgh; tomorrow the world! If you want a local Machovy presence, submit an idea through our #{link_to "feedback page", feedback_path} and let us know.
-%h4 How can I help bring Machovy to my town?
-%em== If you'd like to explore employment, partnership, or other types of business relationships with Machovy outside our existing metro areas, please contact our CEO at #{mail_to "mike@machovy.com"}.
+.row-fluid
+  .span12.page-header
+    %h1 Frequently Asked Questions <small>We say go big or go home</small>
+.row-fluid
+  .span12
+    .row-fluid
+      .span12
+        %p== We hope you can find the answer to your question here. If not, just go to our #{link_to 'feedback page', feedback_path} to ask a question or leave a comment.
+        %p If you sign up for a free account, you can additionally submit ideas for the site -- and rate ideas that others post. We'll make incorporating your best ideas our top priority! 
+.push-small
+
+.row-fluid
+  .span6
+    %h2 Promotions 
+    %h4 How do local promotions work?
+    %p== When you click on a local deal and buy it, you'll get a voucher by email that you can exchange for the merchant's goods or services. You'll find a #{link_to "QR Code", "http://en.wikipedia.org/wiki/QR_code"} attachment, along with a voucher ID and link. You can try to bring up the attachment on your mobile device for scanning, but lighting and glare issues always make this problematic. We recommend you follow the link, print the voucher, and have the merchant scan the paper. If the merchant does not have scanning equipment or the scan doesn't work, they can always just type in the code. |
+    %br
+    %h4 How long do promotions last?
+    %p That's up to the merchant. You won't find cheesy countdown clocks or other gimmicks on Machovy. When merchants create promotions, they specify a total quantity and a range of display dates. We display the promotion on Machovy until they've all been sold -- or the end date passes. You'll find the end date on the promotion detail screen. After most of the available vouchers have been taken (e.g., 90%), it will show the number remaining instead. 
+    %br
+    %h4 What if the promotion ends before I redeem my voucher?
+    %p Depending on the promotion, some vouchers are good until a fixed date (e.g., an event or sale), while others are good for a certain number of days after purchase. (Merchants are free to create more complicated voucher redemption schemes, but these are the most common types.) Once you've purchased a voucher, it is governed by the promotion terms at the time of purchase, no matter what happens on the site.
+    %p== Promotions may have special conditions or limitations (e.g., one-per-customer), which you will find on the promotion detail screen, and printed on the voucher. If you are unable to use a voucher and it expires, various state laws may apply. The vendor may choose to honor it anyway (e.g., if a concert is postponed). Or you can return it to Machovy in exchange for #{link_to I18n.t('macho_bucks'), about_macho_bucks_path}. You can <strong>never</strong> lose the face value of what you paid.
+    %br
+    %h4 What form of payment do you accept?
+    %p== Currently we accept all major credit cards. Given sufficient demand, we may accept other forms of payment, such as #{link_to "Paypal", "http://www.paypal.com/home"} or #{link_to "BitCoin", "http://bitcoin.org/"}
+    %br
+    %h4 Why do some promotions not show prices? 
+    %p Machovy features both negotiated deals with local merchants -- with prominent prices and terms -- and "affiliate" deals. These affiliate deals are run by the respective merchants; click on the promotion to purchase from non-Machovy vendors.
+    %br
+    %h4== What are #{I18n.t('macho_bucks')}? 
+    %p== #{I18n.t('macho_bucks')} are real dollars you can use just about anywhere on Machovy.com. #{link_to 'Click here for more details...', about_macho_bucks_path}
+
+  .span6
+
+
+    
+    %h2 Content
+    %h4 Are the mentors real people?
+    %p== Most of them, yes. You can see them all on the #{link_to "Lifestyle", curators_path} page, and interact with them on Facebook and Twitter.
+    %br/
+    %h2 Business Stuff
+    %h4 When will you be in my town?
+    %p== We've got big plans at Machovy. Today Pittsburgh; tomorrow the world! If you want a local Machovy presence, submit an idea through our #{link_to "feedback page", feedback_path} and let us know.
+    %br
+    %h4 How can I help bring Machovy to my town?
+    %em== If you'd like to explore employment, partnership, or other types of business relationships with Machovy outside our existing metro areas, please contact our CEO at #{mail_to "mike@machovy.com"}.
+
+
+       

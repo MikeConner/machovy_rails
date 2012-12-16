@@ -280,12 +280,15 @@ describe "Vendors" do
         order.vendor.should == vendor
       end
     end
-    
+
+=begin    
+    Remove this test now; since we have a vendor update without nested promotion attributes, we can't validate_associated :promotions
     describe "validate promotions" do
       before { vendor.reload.promotions[0].update_attributes(:retail_value => -1) }
       
       it { should_not be_valid }
     end
+=end
         
     describe "deleting the vendor doesn't delete orders" do
       before { @id = vendor.id }

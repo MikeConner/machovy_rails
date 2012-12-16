@@ -28,6 +28,8 @@ describe "Edit Affiliate deal" do
       select '2016', :from => 'promotion_end_date_1i'
       click_button 'Create Affiliate'
       @promotion = Promotion.first
+      # Seems to be a timing thing. Saving page makes it work.
+      #save_page
     end
     
     it "should create promotion" do

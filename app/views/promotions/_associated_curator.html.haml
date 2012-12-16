@@ -1,12 +1,13 @@
-.span3
+.span4
   .row-fluid.curator-row
-    .span6
+    .span4
       = link_to(image_tag(curator.picture_url(:contributor_photo).to_s), curator_path(curator))
-    .span6.curator-name
-      = link_to curator.name, curator_path(curator)
+    .span8.curator-name
+      %h5= link_to curator.name, curator_path(curator)
   .row-fluid.curator-post-row
     .span12.curator-post-title
       - curator.blog_posts_for(promotion).each do |post|
         .icon-circle-arrow-right
-        = link_to truncate(post.title, :length => 45), blog_post_path(post)
+        = link_to truncate(post.title, :length => 32), blog_post_path(post)
         %br/
+  .space.hidden-desktop

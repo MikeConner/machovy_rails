@@ -66,7 +66,8 @@ class Vendor < ActiveRecord::Base
   #   if devise revs and it changes? That's even worse. I'd rather add only, and not change devise code.
   #validates_presence_of :user_id
   
-  validates_associated :promotions
+  # Can't do this because it interferes with editing (promotions aren't nested attributes -- and shouldn't be)
+  #validates_associated :promotions
   
   def map_address
     address = ''

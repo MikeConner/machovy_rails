@@ -22,7 +22,7 @@
         = submit_tag 'Return', :class => 'btn.btn-success.btn-large', :onclick => "return confirm('Returning a voucher voids it so that no one can use it, and credits Macho Bucks. No further action is possible. Are you sure?')"
   .six.columns
   .seven.columns    
-    %strong.voucher= v.uuid
+    %strong.voucher= link_to v.uuid, printable_qrcode_merchant_voucher_url(v)
     %h4= v.promotion.title
     %h5= "$" + v.order.total_cost.to_s
   .four.columns 
