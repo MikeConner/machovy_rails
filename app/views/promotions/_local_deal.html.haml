@@ -66,13 +66,13 @@
             <a data-toggle="tab" href="#tab3">Location</a>        
         .tab-content
           #tab1.tab-pane.fade.in.active
-            %h4.tab-title Description
+            %h3.tab-title Description
             %p= @promotion.description 
           #tab2.tab-pane
-            %h4.tab-title Limitations
+            %h3.tab-title Limitations
             %p= @promotion.limitations 
           #tab3.tab-pane
-            %h4.tab-title Location
+            %h3.tab-title Location
             - @vendor = @promotion.vendor
             .span6
               %em= @vendor.name
