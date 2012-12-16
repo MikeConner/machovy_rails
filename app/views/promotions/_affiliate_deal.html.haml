@@ -3,27 +3,25 @@
     = image_tag @promotion.teaser_image_url(:product_front_page).to_s  
   .span8.product-detail
     .row-fluid
-      .span8
-        %h3.affiliate-headline= @promotion.title
+      .span10
+        %h2.affiliate-headline= @promotion.title
         - if !@promotion.subtitle.nil?
           %h4= @promotion.subtitle
-    .row-fluid
-      .span12
-        - if @show_buy_button
+        .space
+        -# if @show_buy_button
           = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank", :class => 'btn btn-danger'
-.space
-.row-fluid
-  .span12.product-detail
-    %ul.nav.nav-tabs
-      %li.active
-        <a data-toggle="tab" href="#tab1">Description </a>
-    .tab-content
-      #tab1.tab-pane.fade.in.active
-        %h4.tab-title Product Description
-        %p= @promotion.description
-    - if @show_buy_button
-      .tab-bottom-button
-        = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank"
+    .row-fluid
+      .span12.product-detail
+        %ul.nav.nav-tabs
+          %li.active
+            <a data-toggle="tab" href="#tab1">Description </a>
+        .tab-content
+          #tab1.tab-pane.fade.in.active
+            %h3.tab-title Product Description
+            %p= @promotion.description
+        - if @show_buy_button
+          .tab-bottom-button
+            = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank"
 .space-medium
 .row-fluid.well
   - @curators.each do |curator|
