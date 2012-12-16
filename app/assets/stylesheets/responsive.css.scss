@@ -1,7 +1,7 @@
  #container-front {
   @media only screen and (min-width : 1200px) {
     .span3 {
-      width:290px;
+      width:287px;
     }
 
   }
@@ -14,7 +14,7 @@
   }
   @media only screen and (max-width : 767px) {
     [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"]{
-      width:47%;
+      width:48%;
     }
 
     .description {
