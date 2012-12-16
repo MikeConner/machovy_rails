@@ -58,7 +58,7 @@
                 %li= link_to 'Change password', edit_user_registration_path
                 %li= link_to 'Log out', destroy_user_session_path, :method => :delete
           %li.divider
-          %li.user-email.hidden-phone
+          %li.user-email.hidden-phone{:style => 'width:40px'}
             == #{gravatar_for current_user, :size => 30, :title => 'Edit this image in your profile'}      
 %section.header-fixed-top
   .container
