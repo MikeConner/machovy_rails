@@ -69,6 +69,6 @@
                 .field
                   = f.label :categories
                   %br/
-                  = f.collection_select(:category_ids, @categories, :id, :name, {}, { :multiple => true })
+                  = render :partial => 'shared/category_selection', :locals => { :categories => @categories, :num_per_column => 4, :name => 'promotion', :object => @promotion }
                 .actions
                   = f.submit "Create #{@promotion.promotion_type}"

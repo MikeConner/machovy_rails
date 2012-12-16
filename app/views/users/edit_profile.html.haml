@@ -32,12 +32,12 @@
       .field
         = f.text_field :zipcode, :maxlength => User::ZIPCODE_LEN, :placeholder => 'Zipcode'
       .field
-        = f.label :categories, 'To help us target your emails, please let us know what categories you find most interesting'
-        %br
-        = f.collection_select(:category_ids, Category.all, :id, :name, { :selected => @user.category_ids }, { :multiple => true })
-      .field
         = f.check_box :optin
-        = f.label :optin, 'Check here to opt in to occasional emails from Machovy about new deals'
+        = f.label :optin, '<em>Check here to opt in to occasional emails from Machovy about new deals</em>'.html_safe
+      .field
+        = f.label :categories, 'To help us target your emails, please let us know what categories you find most interesting'
+        %br/
+        = render :partial => 'shared/category_selection', :locals => { :categories => Category.all, :num_per_column => 4, :name => 'user', :object => @user }
       .field
         = f.submit 'Update Profile', {:class => 'btn btn-danger', :style => 'margin-bottom:10px;'}
       .actions

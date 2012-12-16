@@ -1,0 +1,10 @@
+%table#category_table
+  - idx = 0
+  -# put 4 per column
+  - num_columns = categories.count / num_per_column
+  - categories.each do |category|
+    - if idx % num_columns == 0
+      %tr
+    - idx += 1
+    %td= check_box_tag "#{name}[category_ids][]", category.id, object.category_ids.include?(category.id)
+    %td= label_tag category.name

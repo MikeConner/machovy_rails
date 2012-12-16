@@ -22,7 +22,7 @@
                               .field
                                 = f.label :categories
                                 %br/
-                                = f.collection_select(:category_ids, @categories, :id, :name, {}, { :multiple => true })
+                                = render :partial => 'shared/category_selection', :locals => { :categories => @categories, :num_per_column => 4, :name => 'promotion', :object => @promotion }
                               - if current_user.has_role?(Role::SALES_ADMIN)
                                 .field
                                   = f.label :vendor_id

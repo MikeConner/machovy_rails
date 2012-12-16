@@ -204,6 +204,8 @@ class PromotionsController < ApplicationController
       message = current_user.has_role?(Role::SALES_ADMIN) ? I18n.t('local_deal_created') : I18n.t('ad_created')
     end
     
+    # This line ensures there is a category_id entry, and allows users to clear their selection
+    params[:promotion][:category_ids] ||= []
     @promotion = vendor.promotions.build(params[:promotion])
     
     # Only deals have strategies; vouchers are not generated for affiliates/ads
@@ -235,6 +237,8 @@ class PromotionsController < ApplicationController
   # PUT /promotions/1
   def update
     @promotion = Promotion.find(params[:id])
+    # This line ensures there is a category_id entry, and allows users to clear their selection
+    params[:promotion][:category_ids] ||= []
     changes = Utilities::type_insensitive_diff(params[:promotion], @promotion.attributes)
     
     change_description = changes.empty? ? 'No changes' : changes.to_s    
