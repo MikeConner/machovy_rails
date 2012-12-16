@@ -28,4 +28,5 @@
 .field
   = f.label :promotions
   %br/
-  = f.collection_select(:promotion_ids, Promotion.order(:grid_weight), :id, :title, { :selected => @blog_post.promotion_ids }, { :multiple => true, :size => 10 })
+  -# Order alphabetically so users can search easier
+  = f.collection_select(:promotion_ids, Promotion.order(:title), :id, :title, { :selected => @blog_post.promotion_ids }, { :multiple => true, :size => 16 })
