@@ -81,7 +81,7 @@ $(function() {
   	
   	var mapOptions = {
       center: address,
-      zoom: 18,
+      zoom: 8,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     
