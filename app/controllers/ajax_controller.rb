@@ -1,7 +1,9 @@
 require 'affiliate_converter_factory'
 
 class AjaxController < ApplicationController
-  respond_to :js
+  respond_to :js, :json
+  
+  include ApplicationHelper
   
   # Detect the appropriate converter from the url, and convert it
   def affiliate_url
@@ -40,6 +42,24 @@ class AjaxController < ApplicationController
     
     respond_to do |format|
       format.js { render :js => "window.location.href = \"#{root_path}\"" }
+    end
+  end
+  
+  def geocode
+    respond_to do |format|
+      format.json do
+        mapping = Hash.new
+        # Use the vendor "map_address" method so that it mimics signup; vendor object just goes away
+        vendor = Vendor.new(:address_1 => params['address_1'], :address_2 => params['address_2'],
+                            :city => params['city'], :state => params['state'], :zip => params['zip'])
+        location = geocode_address(vendor.map_address)
+        if !location.nil?
+          mapping['latitude'] = location['lat']
+          mapping['longitude'] = location['lng']
+        end
+        
+        render :json => mapping
+      end
     end
   end
 end

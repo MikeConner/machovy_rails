@@ -23,7 +23,15 @@
   = f.label :state
   = f.text_field :state, :maxlength => User::STATE_LEN, :placeholder => 'PA'
 .field
-  = f.label :zip
+  = f.label :zip, 'Zipcode'
   = f.text_field :zip, :maxlength => User::ZIPCODE_LEN
+= button_tag 'Update mapping info from address', :class => "btn btn-large btn-success", :onclick => "update_vendor_mapping(); return false"
+%br/
+.field
+  = f.label :latitude
+  = f.text_field :latitude
+.field
+  = f.label :longitude
+  = f.text_field :longitude
 .actions
   = f.submit
