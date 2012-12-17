@@ -12,6 +12,10 @@
   - else
     == &nbsp;&nbsp; - Rated #{idea.average_rating} (#{pluralize(idea.ratings.count, "rating")}; #{pluralize(idea.num_comments, "comment")})
   %br/
+  .user-avatar
+    = gravatar_for idea.user, :size => 40
+    = idea.name
+  %br/
   = idea.content
   %br/
 %center= will_paginate
