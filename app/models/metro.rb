@@ -18,6 +18,8 @@
 # NOTES AND WARNINGS
 #
 class Metro < ActiveRecord::Base
+  DEFAULT_METRO = 'Pittsburgh'
+  
   attr_accessible :name
   
   has_many :promotions, :dependent => :restrict

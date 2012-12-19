@@ -1,6 +1,9 @@
 class StaticPagesController < ApplicationController
-  before_filter :authenticate_user!, :only => [:admin_index, :merchant_contract]
+  include ApplicationHelper
+  
+  before_filter :authenticate_user!, :only => [:admin_index, :merchant_contract, :mailing]
   before_filter :ensure_merchant, :only => [:merchant_contract]
+  before_filter :ensure_admin, :only => [:mailing]
   
   def about
   end
@@ -70,6 +73,12 @@ private
   def ensure_merchant
     if !current_user.has_role?(Role::MERCHANT) and !current_user.has_role?(Role::SUPER_ADMIN)
       redirect_to root_path, :alert => I18n.t('vendors_only')
+    end
+  end
+
+  def ensure_admin
+    if !admin_user?
+      redirect_to root_path, :alert => I18n.t('admins_only')
     end
   end
 end
