@@ -17,4 +17,21 @@
     %br
   .space
     %br
-
+- if !@pending_gifts.empty?
+  .row-fluid
+    %h1 Pending Gift Certificates
+    - @pending_gifts.each do |certificate|
+      = render :partial => 'certificate', :locals => { :certificate => certificate }
+    .push
+      %br
+    .space
+      %br
+- if !@redeemed_gifts.empty?
+  .row-fluid
+    %h1 Redeemed Gift Certificates
+    - @redeemed_gifts.each do |certificate|
+      = render :partial => 'certificate', :locals => { :certificate => certificate }
+    .push
+      %br
+    .space
+      %br

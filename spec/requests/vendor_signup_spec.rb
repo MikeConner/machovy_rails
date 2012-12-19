@@ -64,7 +64,7 @@ describe "Vendor signup" do
       end
       
       it "should have the right subject" do
-        msg.subject.should == 'Confirmation instructions'
+        msg.subject.should == I18n.t('devise.mailer.confirmation_instructions.subject')
       end
       
       it "should have the right content" do

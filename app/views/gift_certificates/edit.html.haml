@@ -1,0 +1,13 @@
+%h1 Edit Gift Certificate recipient
+%p You can change the email associated with a gift certificate at any time up until it is redeemed.
+%p Usually this occurs because you typed in an invalid or incorrect email when you bought the certificate, or your friend signed up with a different email.
+%em== If the new email you give corresponds to an existing user, the #{I18n.t('macho_bucks')} will be credited immediately.
+%em Otherwise, we will leave it pending. In any case we will notify all parties of the change.
+%br/
+= form_for @certificate do |f|
+  = render :partial => 'shared/error_messages', :locals => { :errors => @certificate.errors, :name => 'Gift Certificate' }
+  .field
+    = f.label :email
+    = f.text_field :email
+  .actions
+    = f.submit 'Update Gift Certificate'

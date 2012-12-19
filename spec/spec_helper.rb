@@ -14,6 +14,7 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'capybara/rspec'
 require 'capybara/rails'
+include Warden::Test::Helpers
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -55,6 +56,7 @@ RSpec.configure do |config|
   
   config.after(:each) do
     DatabaseCleaner.clean
+    Warden.test_reset!
   end  
 end
 

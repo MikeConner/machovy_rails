@@ -63,10 +63,32 @@ describe "Users" do
     user.should respond_to(:stripe_logs)
     user.should respond_to(:total_macho_bucks)
     user.should respond_to(:update_total_macho_bucks)
+    user.should respond_to(:gift_certificates)
   end
       
   it { should be_valid }
  
+  describe "Gift certificates" do
+    before { @certificate = user.gift_certificates.create }
+    
+    it "should have a certificate" do
+      user.gift_certificates.should be == [@certificate]
+      @certificate.user.should be == user
+    end
+    
+    it "should not be able to delete" do
+      expect { user.destroy }.to raise_exception(ActiveRecord::DeleteRestrictionError)
+    end
+    
+    describe "delete certificate" do
+      before { GiftCertificate.destroy_all }
+      
+      it "should allow it now" do
+        expect { user.reload.destroy }.to_not raise_exception(ActiveRecord::DeleteRestrictionError)
+      end
+    end
+  end
+  
   describe "invalid macho bucks" do
     before { user.total_macho_bucks = 'abc' }
     

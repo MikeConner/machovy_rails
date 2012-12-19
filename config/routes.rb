@@ -63,6 +63,8 @@ MachovyRails::Application.routes.draw do
     end
   end
   
+  resources :gift_certificates, :except => [:show, :destroy]
+  
   namespace :merchant do
     resources :orders, :except => [:index, :edit, :update]
     resources :vendors do

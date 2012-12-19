@@ -241,4 +241,276 @@ describe "UserMailer" do
       end
     end
   end    
+
+  describe "Gift Certificate redeemed email" do
+    let(:certificate) { FactoryGirl.create(:gift_certificate) }
+    let(:msg) { UserMailer.gift_redeemed_email(certificate) }
+    
+    it "should return a message object" do
+      msg.should_not be_nil
+    end
+  
+    it "should have the right sender" do
+      msg.from.to_s.should match(ApplicationHelper::MAILER_FROM_ADDRESS)
+    end
+    
+    describe "Send the message" do
+      before { msg.deliver }
+        
+      it "should get queued" do
+        ActionMailer::Base.deliveries.should_not be_empty
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+      # msg.to is a Mail::AddressContainer object, not a string
+      # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
+      it "should be sent to the right user" do
+        msg.to.to_s.should match(certificate.user.email)
+      end
+      
+      it "should have the right subject" do
+        msg.subject.should == UserMailer::GIFT_REDEEMED_MESSAGE
+      end
+      
+      it "should not have attachments" do
+        msg.attachments.count.should == 0
+      end
+      
+      it "should have the right content" do
+        msg.body.encoded.should match("Machovy Gift Certificate purchase")
+        msg.body.encoded.should match(certificate.email)
+        msg.body.encoded.should match(certificate.amount.to_s)
+      
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+    end
+  end    
+
+  describe "Gift Certificate given email" do
+    let(:certificate) { FactoryGirl.create(:gift_certificate) }
+    let(:msg) { UserMailer.gift_given_email(certificate) }
+    
+    it "should return a message object" do
+      msg.should_not be_nil
+    end
+  
+    it "should have the right sender" do
+      msg.from.to_s.should match(ApplicationHelper::MAILER_FROM_ADDRESS)
+    end
+    
+    describe "Send the message" do
+      before { msg.deliver }
+        
+      it "should get queued" do
+        ActionMailer::Base.deliveries.should_not be_empty
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+      # msg.to is a Mail::AddressContainer object, not a string
+      # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
+      it "should be sent to the right user" do
+        msg.to.to_s.should match(certificate.user.email)
+      end
+      
+      it "should have the right subject" do
+        msg.subject.should == UserMailer::GIFT_GIVEN_MESSAGE
+      end
+      
+      it "should not have attachments" do
+        msg.attachments.count.should == 0
+      end
+      
+      it "should have the right content" do
+        msg.body.encoded.should match("Machovy Gift Certificate for")
+        msg.body.encoded.should match(certificate.email)
+        msg.body.encoded.should match(certificate.amount.to_s)
+        msg.body.encoded.should match(I18n.t('macho_bucks'))
+        msg.body.encoded.should match("We'll let you know when they sign up")
+      
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+    end
+  end    
+
+  describe "Gift Certificate received email" do
+    let(:certificate) { FactoryGirl.create(:gift_certificate) }
+    let(:msg) { UserMailer.gift_received_email(certificate) }
+    
+    it "should return a message object" do
+      msg.should_not be_nil
+    end
+  
+    it "should have the right sender" do
+      msg.from.to_s.should match(ApplicationHelper::MAILER_FROM_ADDRESS)
+    end
+    
+    describe "Send the message" do
+      before { msg.deliver }
+        
+      it "should get queued" do
+        ActionMailer::Base.deliveries.should_not be_empty
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+      # msg.to is a Mail::AddressContainer object, not a string
+      # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
+      it "should be sent to the right user" do
+        msg.to.to_s.should match(certificate.email)
+      end
+      
+      it "should have the right subject" do
+        msg.subject.should == UserMailer::GIFT_RECEIVED_MESSAGE
+      end
+      
+      it "should not have attachments" do
+        msg.attachments.count.should == 0
+      end
+      
+      it "should have the right content" do
+        msg.body.encoded.should match("You have a friend in Machovy")
+        msg.body.encoded.should match(certificate.user.email)
+        msg.body.encoded.should match(certificate.amount.to_s)
+        msg.body.encoded.should match(I18n.t('macho_bucks'))
+        msg.body.encoded.should match("create a free account")
+      
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+    end
+  end    
+
+  describe "Gift Certificate given to existing user email" do
+    let(:certificate) { FactoryGirl.create(:gift_certificate) }
+    let(:msg) { UserMailer.gift_given_user_email(certificate) }
+    
+    it "should return a message object" do
+      msg.should_not be_nil
+    end
+  
+    it "should have the right sender" do
+      msg.from.to_s.should match(ApplicationHelper::MAILER_FROM_ADDRESS)
+    end
+    
+    describe "Send the message" do
+      before { msg.deliver }
+        
+      it "should get queued" do
+        ActionMailer::Base.deliveries.should_not be_empty
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+      # msg.to is a Mail::AddressContainer object, not a string
+      # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
+      it "should be sent to the right user" do
+        msg.to.to_s.should match(certificate.user.email)
+      end
+      
+      it "should have the right subject" do
+        msg.subject.should == UserMailer::GIFT_GIVEN_MESSAGE
+      end
+      
+      it "should not have attachments" do
+        msg.attachments.count.should == 0
+      end
+      
+      it "should have the right content" do
+        msg.body.encoded.should match("purchasing a Machovy Gift Certificate")
+        msg.body.encoded.should match(certificate.email)
+        msg.body.encoded.should match(certificate.amount.to_s)
+        msg.body.encoded.should match(I18n.t('macho_bucks'))
+        msg.body.encoded.should match("already a Machovy.com member")
+      
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+    end
+  end 
+
+  describe "Gift Certificate credited email" do
+    let(:certificate) { FactoryGirl.create(:gift_certificate) }
+    let(:msg) { UserMailer.gift_credited_email(certificate) }
+    
+    it "should return a message object" do
+      msg.should_not be_nil
+    end
+  
+    it "should have the right sender" do
+      msg.from.to_s.should match(ApplicationHelper::MAILER_FROM_ADDRESS)
+    end
+    
+    describe "Send the message" do
+      before { msg.deliver }
+        
+      it "should get queued" do
+        ActionMailer::Base.deliveries.should_not be_empty
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+      # msg.to is a Mail::AddressContainer object, not a string
+      # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
+      it "should be sent to the right user" do
+        msg.to.to_s.should match(certificate.email)
+      end
+      
+      it "should have the right subject" do
+        msg.subject.should == UserMailer::GIFT_CREDITED_MESSAGE
+      end
+      
+      it "should not have attachments" do
+        msg.attachments.count.should == 0
+      end
+      
+      it "should have the right content" do
+        msg.body.encoded.should match("You have a friend in Machovy")
+        msg.body.encoded.should match(certificate.user.email)
+        msg.body.encoded.should match(certificate.amount.to_s)
+        msg.body.encoded.should match(I18n.t('macho_bucks'))
+        msg.body.encoded.should match("store credits you can use toward any purchase")
+      
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+    end
+  end 
+
+  describe "Gift Certificate recipient update email" do
+    let(:certificate) { FactoryGirl.create(:gift_certificate) }
+    let(:old_email) { FactoryGirl.generate(:random_email) }
+    let(:msg) { UserMailer.gift_update_email(certificate, old_email) }
+    
+    it "should return a message object" do
+      msg.should_not be_nil
+    end
+  
+    it "should have the right sender" do
+      msg.from.to_s.should match(ApplicationHelper::MAILER_FROM_ADDRESS)
+    end
+    
+    describe "Send the message" do
+      before { msg.deliver }
+        
+      it "should get queued" do
+        ActionMailer::Base.deliveries.should_not be_empty
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+      # msg.to is a Mail::AddressContainer object, not a string
+      # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
+      it "should be sent to the right user" do
+        msg.to.to_s.should match(certificate.user.email)
+        msg.cc.to_s.should match(certificate.email)
+        msg.cc.to_s.should match(old_email)
+      end
+      
+      it "should have the right subject" do
+        msg.subject.should == UserMailer::GIFT_UPDATE_MESSAGE
+      end
+      
+      it "should not have attachments" do
+        msg.attachments.count.should == 0
+      end
+      
+      it "should have the right content" do
+        msg.body.encoded.should match("has been updated")
+        msg.body.encoded.should match(certificate.email)
+        msg.body.encoded.should match(old_email)
+        msg.body.encoded.should match(certificate.amount.to_s)
+        msg.body.encoded.should match(I18n.t('macho_bucks'))
+        msg.body.encoded.should match("The recipient has been changed")
+      
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+    end
+  end 
 end

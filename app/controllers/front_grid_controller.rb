@@ -2,12 +2,11 @@ class FrontGridController < ApplicationController
   MAX_DEALS = 8
   MAX_BLOGS = 4
   MAX_ADS = 4
-  DEFAULT_METRO = 'Pittsburgh'
   
   def index
     # Need to have a metro, or filtering will return nothing
     if session[:metro].nil?
-      session[:metro] = DEFAULT_METRO
+      session[:metro] = Metro::DEFAULT_METRO
     end
     
     @active_category = session[:category]

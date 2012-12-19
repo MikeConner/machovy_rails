@@ -1,0 +1,8 @@
+%h1 Gift Certificates
+.row-fluid
+  .span6
+    %h4 Pending
+    = render :partial => 'certificates', :locals => { :certificates => @pending }
+  .span6
+    %h4 Redeemed
+    = render :partial => 'certificates', :locals => { :certificates => @redeemed }

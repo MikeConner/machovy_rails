@@ -1,5 +1,7 @@
 .row-fluid
-  %h2== #{@idea.name}'s Idea: #{@idea.title}
+  .user-avatar
+    = gravatar_for @idea.user, :size => 40
+    %h2== #{@idea.name}'s Idea: #{@idea.title}
   - if @idea.average_rating.nil?
     %b Unrated
   - else
@@ -13,6 +15,8 @@
     - @idea.ratings.each do |rating|
       - if !rating.comment.nil?
         == #{rating.stars} Stars
-        %p= rating.comment
+        .user-avatar
+          = gravatar_for rating.user, :size => 40
+          = rating.comment
 %br/
 = link_to 'Show All Ideas', ideas_path

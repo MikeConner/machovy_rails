@@ -1,7 +1,13 @@
 - if idea.average_rating.nil?
+  .user-avatar
+    = gravatar_for idea.user, :size => 40
+    = idea.name
   %b= idea.title
   %em Unrated
 - else
+  .user-avatar
+    = gravatar_for idea.user, :size => 40
+    = idea.name
   %b= link_to idea.title, idea_path(idea)
   %em== #{idea.average_rating.round(1)} Stars
 %p= idea.content

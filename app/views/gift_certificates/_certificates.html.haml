@@ -1,0 +1,16 @@
+%table.table.table-condensed
+  %thead
+    %tr
+      %th Purchaser
+      %th Recipient
+      %th Amount
+      %th Charge ID
+      %th Date
+  %tbody
+    - certificates.each do |certificate|
+      %tr
+        %td= certificate.user.email
+        %td= certificate.email
+        %td= number_to_currency(certificate.amount)
+        %td= certificate.charge_id
+        %td= certificate.created_at.try(:strftime, '%b %d, %Y')

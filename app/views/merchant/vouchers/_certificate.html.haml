@@ -1,0 +1,15 @@
+%table.table.table-condensed
+  %thead
+    %tr
+      %th Recipient
+      %th Amount
+      %th Date
+      - if certificate.pending?
+        %th Edit
+  %tbody
+    %tr
+      %td= certificate.email
+      %td= number_to_currency(certificate.amount)
+      %td= certificate.created_at.try(:strftime, '%b %d, %Y')
+      - if certificate.pending?
+        %td= link_to 'Change email', edit_gift_certificate_path(certificate)

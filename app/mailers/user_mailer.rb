@@ -6,6 +6,12 @@ class UserMailer < ActionMailer::Base
   UNREDEEM_MESSAGE = 'Your Machovy voucher is available for use'
   MACHO_CREDIT_MESSAGE = 'Macho Bucks credit for returned voucher'
   MACHO_REDEEM_MESSAGE = 'Macho Bucks redeemed and applied to your order'
+  GIFT_REDEEMED_MESSAGE = 'Machovy Gift Certificate redeemed'
+  GIFT_GIVEN_MESSAGE = 'Machovy Gift Certificate receipt'
+  GIFT_RECEIVED_MESSAGE = 'A Machovy Gift Certificate for you'
+  GIFT_CREDITED_MESSAGE = 'Macho Bucks Credit for you'
+  GIFT_UPDATE_MESSAGE = 'Machovy Gift Certificate -- recipient email changed'
+  
   
   default from: ApplicationHelper::MAILER_FROM_ADDRESS
   
@@ -50,5 +56,42 @@ class UserMailer < ActionMailer::Base
     @bucks = bucks
     
     mail(:to => @bucks.user.email, :bcc => ApplicationHelper::MACHOVY_MERCHANT_ADMIN, :subject => MACHO_REDEEM_MESSAGE)
+  end
+
+  def gift_redeemed_email(certificate)
+    @certificate = certificate
+    
+    mail(:to => @certificate.user.email, :subject => GIFT_REDEEMED_MESSAGE)
+  end
+  
+  def gift_given_email(certificate)
+    @certificate = certificate
+    
+    mail(:to => @certificate.user.email, :subject => GIFT_GIVEN_MESSAGE)
+  end
+   
+  def gift_received_email(certificate)
+    @certificate = certificate
+    
+    mail(:to => @certificate.email, :subject => GIFT_RECEIVED_MESSAGE)
+  end
+  
+  def gift_given_user_email(certificate)
+    @certificate = certificate
+    
+    mail(:to => @certificate.user.email, :subject => GIFT_GIVEN_MESSAGE)
+  end
+  
+  def gift_credited_email(certificate)
+    @certificate = certificate
+    
+    mail(:to => @certificate.email, :subject => GIFT_CREDITED_MESSAGE)
+  end
+  
+  def gift_update_email(certificate, old_email)
+    @certificate = certificate
+    @old_email = old_email
+    
+    mail(:to => @certificate.user.email, :cc => [@old_email, @certificate.email], :subject => GIFT_UPDATE_MESSAGE)
   end
 end
