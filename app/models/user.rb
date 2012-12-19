@@ -72,6 +72,7 @@ class User < ActiveRecord::Base
   has_many :ideas, :dependent => :destroy
   has_many :stripe_logs, :dependent => :restrict
   has_many :macho_bucks, :dependent => :destroy
+  has_many :gift_certificates, :dependent => :restrict
   
   accepts_nested_attributes_for :vendor, :allow_destroy => true, :reject_if => :all_blank
   accepts_nested_attributes_for :feedbacks, :allow_destroy => true, :reject_if => :all_blank

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121209050223) do
+ActiveRecord::Schema.define(:version => 20121216220959) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -142,6 +142,16 @@ ActiveRecord::Schema.define(:version => 20121209050223) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], :name => "index_friendly_id_slugs_on_slug_and_sluggable_type", :unique => true
   add_index "friendly_id_slugs", ["sluggable_id"], :name => "index_friendly_id_slugs_on_sluggable_id"
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
+
+  create_table "gift_certificates", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "amount",                       :null => false
+    t.string   "email",                        :null => false
+    t.string   "charge_id",                    :null => false
+    t.boolean  "pending",    :default => true
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+  end
 
   create_table "ideas", :force => true do |t|
     t.string   "name",       :limit => 16

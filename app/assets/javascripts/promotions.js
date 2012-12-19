@@ -154,6 +154,15 @@ $(function() {
         $('#promotion_strategy').val($this.attr('id'));
     });
   });  
+  
+  // Macho Bucks
+  // When they choose a pre-selected amount (radio buttons), fill in the amount text field
+  $('#macho_gift input').each(function() {
+  	var $this = $(this);
+  	$this.click(function (e) {
+  		$('#gift_certificate_amount').val($this.attr('value'))
+  	});
+  });
 });
 
 // Appears in views/merchant/order/_order_form; currently commented out

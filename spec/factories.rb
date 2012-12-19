@@ -671,5 +671,18 @@ FactoryGirl.define do
       end
     end
   end
+  
+  factory :gift_certificate do
+    user
+    
+    amount { (Random.rand(10) + 1) * 10 }
+    charge_id "ch_82374234sf"
+    email { generate(:random_email) }
+    pending true
+    
+    factory :redeemed_gift_certificate do
+      pending false
+    end
+  end
 end
 

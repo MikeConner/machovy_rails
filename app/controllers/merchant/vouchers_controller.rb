@@ -22,6 +22,10 @@ class Merchant::VouchersController < Merchant::BaseController
       end
     end
     
+    # Calculate gift certificates that they have given
+    @pending_gifts = GiftCertificate.pending.where('user_id = ?', current_user.id)
+    @redeemed_gifts = GiftCertificate.redeemed.where('user_id = ?', current_user.id)
+    
     if current_user.has_role?(Role::SUPER_ADMIN)
       render :layout => 'layouts/admin'
     end

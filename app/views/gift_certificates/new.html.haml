@@ -1,0 +1,57 @@
+%h1 
+  = image_tag 'MachoBucks.png', :size => '60x60'
+  == Buy a #{I18n.t('macho_bucks')} Gift Certificate
+%p== You can buy #{I18n.t('macho_bucks')} for an existing user -- or for someone who has not yet signed up. 
+%p In that case, they will receive them upon signup (note that your card will be charged immediately).
+= form_for @certificate, :html => { :id => 'new_order' } do |f|
+  = render :partial => 'shared/error_messages', :locals => { :errors => @certificate.errors, :name => 'Gift Certificate Recipient' }
+  = f.hidden_field :user_id
+  -# Need this for stripe JS to work
+  = hidden_field_tag :order_stripe_card_token
+  .field
+    = f.label :email, "Recipient's Email"
+    %em Check the email carefully (you can edit it later if you have to)
+    = f.text_field :email
+  .field#macho_gift
+    = label_tag :predetermined, 'Select one of these amounts... or type in even more'
+    %br/
+    - [10, 20, 25, 50, 100, 250].each do |amount|
+      %label
+        = radio_button_tag :predetermined, amount, GiftCertificate::DEFAULT_AMOUNT == amount
+        == $#{amount}
+    %br/
+    %br/
+  .field
+    = f.label :amount, "Amount $"
+    = f.number_field :amount, :min => 1
+    .alert-stripe#stripe_error
+      %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
+    - if !@stripe_customer.nil?
+      .field
+        = radio_button_tag 'decision', 'existing', true, :onchange => "hide_card_info()"
+        = label_tag 'decision_existing', "Use card with last 4 digits '#{@stripe_customer.active_card.last4}'?"
+        &nbsp;&nbsp;
+        = radio_button_tag 'decision', 'new', false, :onchange => "show_card_info()"
+        = label_tag 'decision_new', "Use another card"
+    -# coffeescript "wrapping" seems to prevent having an event that fires on this specific page load
+    -#   it first on "every" page load (which might be because the stripe code is referenced in the application layout)
+    -# So have to initialize this style right here
+    -#   normally don't want formatting elements outside CSS, but in this case I think it's justified (better encapsulated)
+    #card_info{:style => "display:#{@stripe_customer.nil? ? 'block' : 'none'}"}
+      .field
+        = label_tag :card_number, 'Credit Card Number'
+        = text_field_tag :card_number
+      .field
+        = label_tag :card_code, "Security Code on Card (CVC)"
+        = text_field_tag :card_code, nil, :maxlength => 4
+      .field
+        = label_tag :card_month, "Card Expiration"
+        -# Would do the date selection like this if it were intended for the controller -- but Javascript intercepts and needs it this funky way
+        -# JS sets the hidden field if the card gets processed properly
+        -#= date_select :card_expiration, :card_expiration, { order: [:month, :year], discard_day: true, add_month_numbers: true,  }
+        = select_month Date.today, { add_month_numbers: true }, { name: nil, id: "card_month" }
+        = select_year Date.today, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: nil, id: "card_year" }  
+    %em= I18n.t('credit_card_details')
+  .actions
+    -# Must be called #new_order for stripe JS to work
+    = f.submit I18n.t('buy_gift_certificate'), :class => "btn btn-large btn-success"

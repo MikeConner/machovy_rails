@@ -6,6 +6,7 @@ en:
   admins_only: 'This function only available to Administrators.'
   already_rated: 'Looks like you already rated this idea.'
   anonymous: 'Anonymous'
+  buy_gift_certificate: 'Give the gift of Machovy!'
   create_account: "Create your account"
   create_account_action: "Create an account. It's free!"
   credit_card_details: 'Your credit card details are sent directly to our payment processor, and are never stored at Machovy'
@@ -41,6 +42,8 @@ en:
   promotion_update_error: "We're sorry, the status could not be updated at this time. Please try again later."
   rate_own_idea: 'Sorry; you cannot rate your own idea'
   rating_success: "Thanks for contributing to our idea ratings; hope you weren't too harsh!"
+  self_gift: "Sorry; you cannot buy gift certificates for yourself"
+  gift_admin: "Sorry; you can only buy gift certificates for regular customers (not vendors or admins)"
   sign_in_register: "Sign in / Register"
   sign_in: "Sign in"
   vendor_created: "Vendor was successfully created."

@@ -6,6 +6,23 @@ class ConfirmationsController < Devise::ConfirmationsController
       if @confirmable.vendor.nil?
         # If a regular user, sign in and confirm
         super
+        
+        # Are there any GiftCertificates for this user?
+        # If a regular signup, will be in email; if they're changing their email *to* a target, it will be in unconfirmed_email
+        @certificates = GiftCertificate.pending.where('email = ? or email = ?', @confirmable.email, @confirmable.unconfirmed_email)
+        @certificates.each do |certificate|
+          ActiveRecord::Base.transaction do
+            @confirmable.macho_bucks.create!(:amount => certificate.amount, :notes => "Gift certificate bought by #{certificate.user.email}")
+            # reset pending flag
+            certificate.pending = false
+            certificate.save!
+
+            # Mail to giver saying that their macho bucks recipient has signed up and was credited
+            UserMailer.delay.gift_redeemed_email(certificate)
+            # Mail to recipient saying that their macho bucks are available
+            UserMailer.delay.gift_credited_email(certificate)
+          end
+        end
       else
         # If a vendor
         @confirmable.confirm!

@@ -1,4 +1,5 @@
 .row-fluid
+  = render :partial => 'shared/flash_messages'
   .span4
     %h1= I18n.t('macho_bucks')
     = image_tag 'MachoBucks.png'
@@ -13,6 +14,11 @@
     %em Affiliate deals (e.g., Amazon) send you directly to the merchant; that's the only time you can't use #{I18n.t('macho_bucks')}
     %br/
     %br/
+    - if current_user.nil?
+      = label_tag 'Buy a gift certificate', nil, :class => "btn btn-danger"
+      %em Must be logged in to buy a gift certificate
+    - else
+      = link_to 'Buy a gift certificate', new_gift_certificate_path, :class => "btn btn-danger"
+    %br/
     %h4 Coming soon...
-    = label_tag 'Buy a gift certificate', nil, :class => "btn btn-danger"
     = label_tag 'Refer a friend or merchant', nil, :class => "btn btn-danger"
