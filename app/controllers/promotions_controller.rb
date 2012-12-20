@@ -341,7 +341,6 @@ class PromotionsController < ApplicationController
 private
   def eligible_to_purchase(promotion)
     current_user.nil? || 
-    current_user.has_role?(Role::SUPER_ADMIN) ||
     (current_user.is_customer? && 
       # Make sure this particular user hasn't exhausted the max_per_customer
       (promotion.max_quantity_for_buyer(current_user) > 0) &&
