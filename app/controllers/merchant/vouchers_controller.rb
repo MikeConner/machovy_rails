@@ -93,6 +93,9 @@ class Merchant::VouchersController < Merchant::BaseController
     end
     
     @vouchers = [@voucher]
+    # Calculate gift certificates that they have given
+    @pending_gifts = GiftCertificate.pending.where('user_id = ?', current_user.id)
+    @redeemed_gifts = GiftCertificate.redeemed.where('user_id = ?', current_user.id)
 
     render 'index'
   end
@@ -131,6 +134,9 @@ class Merchant::VouchersController < Merchant::BaseController
     end
     
     @vouchers = []
+    # Calculate gift certificates that they have given
+    @pending_gifts = GiftCertificate.pending.where('user_id = ?', current_user.id)
+    @redeemed_gifts = GiftCertificate.redeemed.where('user_id = ?', current_user.id)
     
     render 'index'
   end

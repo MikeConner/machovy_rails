@@ -14,9 +14,38 @@ describe "Buy button rules" do
     before { visit promotion_path(promotion) }
     
     it { should have_selector('h3', :text => promotion.title) }
-    it { should have_link('Buy this now', :href => order_promotion_path(promotion)) }
+    it { should have_link(I18n.t('click_to_buy'), :href => order_promotion_path(promotion)) }
   end
 
+  describe "Logged in as an admin" do
+    before do
+      sign_in_as_an_admin_user
+      click_link I18n.t('sign_in_register')
+      # fill in info
+      fill_in 'user_email', :with => @user.email
+      fill_in 'user_password', :with => @user.password
+      # Authenticate
+      click_button I18n.t('sign_in')
+      visit promotion_path(promotion)
+    end
+    
+    it "should be an admin" do
+      @user.has_role?(Role::SUPER_ADMIN).should be_true
+    end
+    it { should have_selector('h3', :text => promotion.title) }
+    it { should_not have_link(I18n.t('click_to_buy'), :href => order_promotion_path(promotion)) }
+    
+    describe "should not be able to bypass" do
+      before { visit order_promotion_path(promotion) }
+      
+      it { should have_content(I18n.t('nice_try')) }
+      
+      it "should stay on the page" do
+        current_path.should == promotion_path(promotion)
+      end
+    end
+  end
+  
   describe "Logged in as a merchant" do
     before do
       sign_in_as_a_vendor
@@ -31,7 +60,7 @@ describe "Buy button rules" do
     end
     
     it { should have_selector('h3', :text => promotion.title) }
-    it { should_not have_link('Buy this now', :href => order_promotion_path(promotion)) }
+    it { should_not have_link(I18n.t('click_to_buy'), :href => order_promotion_path(promotion)) }
     
     describe "should not be able to bypass" do
       before { visit order_promotion_path(promotion) }
@@ -58,7 +87,7 @@ describe "Buy button rules" do
     end
     
     it { should have_selector('h3', :text => promotion.title) }
-    it { should have_link('Buy this now', :href => order_promotion_path(promotion)) }
+    it { should have_link(I18n.t('click_to_buy'), :href => order_promotion_path(promotion)) }
   end
 
   describe "Logged in as a regular user who bought some when it was unlimited" do
@@ -86,7 +115,7 @@ describe "Buy button rules" do
     end
     
     it { should have_selector('h3', :text => promotion.title) }
-    it { should have_link('Buy this now', :href => order_promotion_path(promotion)) }
+    it { should have_link(I18n.t('click_to_buy'), :href => order_promotion_path(promotion)) }
   end
 
   describe "Logged in as a regular user who bought three when the limit was four" do
@@ -119,7 +148,7 @@ describe "Buy button rules" do
     end
     
     it { should have_selector('h3', :text => promotion.title) }
-    it { should have_link('Buy this now', :href => order_promotion_path(promotion)) }
+    it { should have_link(I18n.t('click_to_buy'), :href => order_promotion_path(promotion)) }
   end
 
   describe "Logged in as a regular user who bought three when the limit was three" do
@@ -152,7 +181,7 @@ describe "Buy button rules" do
     end
     
     it { should have_selector('h3', :text => promotion.title) }
-    it { should_not have_link('Buy this now', :href => order_promotion_path(promotion)) }
+    it { should_not have_link(I18n.t('click_to_buy'), :href => order_promotion_path(promotion)) }
 
     describe "should not be able to bypass" do
       before { visit order_promotion_path(promotion) }
@@ -196,7 +225,7 @@ describe "Buy button rules" do
     end
     
     it { should have_selector('h3', :text => promotion.title) }
-    it { should_not have_link('Buy this now', :href => order_promotion_path(promotion)) }
+    it { should_not have_link(I18n.t('click_to_buy'), :href => order_promotion_path(promotion)) }
     
     describe "should not be able to bypass" do
       before { visit order_promotion_path(promotion) }

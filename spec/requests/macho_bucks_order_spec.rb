@@ -41,7 +41,7 @@ describe "Ordering with macho bucks" do
     
     describe "buy it" do
       before do
-        click_button 'Get it NOW'
+        click_button I18n.t('buy_now')
         @order = promotion10.orders.first
         @bucks = bucks100.user.reload.macho_bucks
       end
@@ -93,7 +93,7 @@ describe "Ordering with macho bucks" do
     
     describe "buy it" do
       before do
-        click_button 'Get it NOW'
+        click_button I18n.t('buy_now')
         @order = promotion100.orders.first
         @bucks = bucks100.user.reload.macho_bucks
       end
@@ -147,7 +147,7 @@ describe "Ordering with macho bucks" do
       before do
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
-        click_button 'Get it NOW'
+        click_button I18n.t('buy_now')
         @bucks = bucks10.user.reload.macho_bucks
       end
 
@@ -206,7 +206,7 @@ describe "Ordering with macho bucks" do
       before do
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
-        click_button 'Get it NOW'
+        click_button I18n.t('buy_now')
         @bucks = bucksNeg10.user.reload.macho_bucks
       end
       

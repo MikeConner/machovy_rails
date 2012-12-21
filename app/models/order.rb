@@ -66,6 +66,8 @@ class Order < ActiveRecord::Base
     
     if in_pennies
       amount = (amount * 100.0).round
+    else
+      amount = amount.round(2)
     end
     
     amount

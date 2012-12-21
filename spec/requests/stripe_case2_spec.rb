@@ -34,7 +34,7 @@ describe "Stripe Case 2" do
         visit order_promotion_path(promotion)
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
-        click_button 'Get it NOW'
+        click_button I18n.t('buy_now')
       end
             
       it "should work" do

@@ -35,7 +35,7 @@ describe "Stripe Case 3" do
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
         check 'cb_save_card'
-        click_button 'Get it NOW'
+        click_button I18n.t('buy_now')
       end
       
       after do
@@ -60,7 +60,7 @@ describe "Stripe Case 3" do
         let(:msg) { ActionMailer::Base.deliveries[1] }
         before do
           visit order_promotion_path(promotion)
-          click_button 'Get it NOW'
+          click_button I18n.t('buy_now')
         end
                       
         it "should work" do

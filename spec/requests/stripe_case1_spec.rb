@@ -35,7 +35,7 @@ describe "Stripe Case 1" do
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
         check 'cb_save_card'
-        click_button 'Get it NOW'
+        click_button I18n.t('buy_now')
       end
       
       after do
