@@ -29,6 +29,7 @@
 #  strategy_type        :string(255)
 #  min_per_customer     :integer         default(1), not null
 #  max_per_customer     :integer         default(0), not null
+#  suspended            :boolean         default(FALSE), not null
 #
 
 require 'promotion_strategy_factory'
