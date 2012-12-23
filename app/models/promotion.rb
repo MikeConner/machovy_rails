@@ -86,7 +86,7 @@ class Promotion < ActiveRecord::Base
   after_initialize :init_defaults
 
   attr_accessible :description, :destination, :grid_weight, :limitations, :price, :quantity, :retail_value, :revenue_shared,
-                  :start_date, :end_date, :teaser_image, :remote_teaser_image_url, :main_image, :remote_main_image_url,
+                  :start_date, :end_date, :teaser_image, :remote_teaser_image_url, :main_image, :remote_main_image_url, :suspended,
                   :status, :promotion_type, :title, :voucher_instructions, :subtitle, :min_per_customer, :max_per_customer,
                   :metro_id, :vendor_id, :category_ids, :blog_post_ids, :promotion_image_ids, :promotion_images_attributes, 
 									:teaser_image_cache, :main_image_cache
@@ -147,6 +147,7 @@ class Promotion < ActiveRecord::Base
   
   validates_presence_of :teaser_image
   validates_presence_of :strategy, :if => :deal?
+  validates_inclusion_of :suspended, :in => [true, false]
   
   # "Deal" fields
   validates :retail_value, :price, :revenue_shared, 
@@ -215,7 +216,7 @@ class Promotion < ActiveRecord::Base
   end
   
   def displayable?
-    approved? and started? and any_left? and (!expired? or open_vouchers?)
+    !self.suspended? and approved? and started? and any_left? and (!expired? or open_vouchers?)
   end
   
   def open_vouchers?

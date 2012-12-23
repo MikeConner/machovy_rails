@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121216220959) do
+ActiveRecord::Schema.define(:version => 20121222190848) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -261,6 +261,7 @@ ActiveRecord::Schema.define(:version => 20121216220959) do
     t.string   "strategy_type"
     t.integer  "min_per_customer",                   :default => 1,          :null => false
     t.integer  "max_per_customer",                   :default => 0,          :null => false
+    t.boolean  "suspended",                          :default => false,      :null => false
   end
 
   add_index "promotions", ["slug"], :name => "index_promotions_on_slug"

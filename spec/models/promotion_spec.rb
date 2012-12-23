@@ -85,6 +85,7 @@ describe "Promotions" do
     promotion.should respond_to(:min_per_customer)
     promotion.should respond_to(:max_per_customer)
     promotion.should respond_to(:max_quantity_for_buyer)
+    promotion.should respond_to(:suspended)
     promotion.metro.should be == metro
     promotion.vendor.should be == vendor
     promotion.promotion_type.should be == Promotion::LOCAL_DEAL
@@ -92,6 +93,12 @@ describe "Promotions" do
   end
 
   it { should be_valid }
+  
+  describe "Missing suspended" do
+    before { promotion.suspended = nil }
+    
+    it { should_not be_valid }
+  end
   
   describe "Delete promotion should delete strategy" do
     before { promotion.destroy }
@@ -520,6 +527,14 @@ describe "Promotions" do
     
     it "should be displayable" do
       promotion.displayable?.should be_true
+    end
+    
+    describe "Suspended" do
+      before { promotion.suspended = true }
+      
+      it "should not be displayable" do
+        promotion.displayable?.should be_false
+      end
     end
     
     describe "no end date" do

@@ -10,12 +10,16 @@
         = image_tag p.teaser_image_url(:product_front_page)
       .span6
         %ul
-          %li.title= p.title
+          %li.title
+            - if p.suspended?
+              == #{p.title} [Suspended] 
+            - else
+              = p.title
           - if p.end_date.nil?
             %li Exp: None
           - else
             %li= 'Exp: ' + p.end_date.try(:strftime, '%b %d, %Y').to_s
-          %li= 'Price: ' + number_to_currency(p.price).to_s
+          %li= 'Price: ' + number_to_currency(p.price.round(2)).to_s
           - if @display_vouchers
             - if 0 == p.vouchers.count
               %li 0 sold

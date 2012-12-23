@@ -15,20 +15,26 @@
         %li Your comments are visible to the vendor
         %li Accepting the promotion means it will immediately go live
         %li You can make edits even when accepting or rejecting, though the suggested process is to write comments and let vendors make updates
-      = radio_button_tag 'decision', 'accept'
-      = label_tag 'decision_accept', 'Accept'
+      %br/
+      = radio_button_tag 'decision', 'accept', true
+      = label_tag 'decision_accept', 'Accept', :style => "display:inline"
       &nbsp;&nbsp;
       = radio_button_tag 'decision', 'reject'
-      = label_tag 'decision_reject', 'Reject'
+      = label_tag 'decision_reject', 'Reject', :style => "display:inline"
       &nbsp;&nbsp;
-      = radio_button_tag 'decision', 'edit', true
-      = label_tag 'decision_edit', 'Edit'
+      = radio_button_tag 'decision', 'edit'
+      = label_tag 'decision_edit', 'Edit', :style => "display:inline"
+      %br/
       %br/
       Description of edits, general comments, or reason for rejection:
       %br= text_area_tag 'comment', nil, :rows => 5, :class => "slider-input"
     .field
       = f.label :grid_weight
       = f.number_field :grid_weight, :min => 1
+    .field
+      = f.check_box :suspended
+      = f.label :suspended, :style => "display:inline"
+    %br/
     .field
       = f.label :categories
       %br/

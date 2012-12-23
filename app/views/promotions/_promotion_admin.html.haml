@@ -20,7 +20,10 @@
   - p_list.each do |p|
     %tr
       %td= link_to "#{p.vendor.name}", merchant_vendor_path(p.vendor)
-      %td= p.status
+      - if p.suspended?
+        %td== #{p.status} [Suspended]
+      - else
+        %td= p.status
       %td= link_to "#{p.title}", edit_promotion_path(p)
       %td= p.subtitle
       - if p.end_date.nil?
