@@ -34,7 +34,7 @@ describe "Stripe Errors" do
         visit order_promotion_path(promotion)
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '44'
-        click_button 'Get it NOW'
+        click_button I18n.t('buy_now')
       end
          
       it { should have_content("Your card's security code is invalid") }
@@ -53,7 +53,7 @@ describe "Stripe Errors" do
         visit order_promotion_path(promotion)
         fill_in 'card_number', :with => INVALID
         fill_in 'card_code', :with => '444'
-        click_button 'Get it NOW'
+        click_button I18n.t('buy_now')
       end
          
       it { should have_content("This card number looks invalid") }
@@ -69,7 +69,7 @@ describe "Stripe Errors" do
         visit order_promotion_path(promotion)
         fill_in 'card_number', :with => UNKNOWN
         fill_in 'card_code', :with => '444'
-        click_button 'Get it NOW'
+        click_button I18n.t('buy_now')
       end
          
       it { should have_content("Your card number is incorrect") }
@@ -85,7 +85,7 @@ describe "Stripe Errors" do
         visit order_promotion_path(promotion)
         fill_in 'card_number', :with => DECLINED
         fill_in 'card_code', :with => '444'
-        click_button 'Get it NOW'
+        click_button I18n.t('buy_now')
       end
          
       it { should have_content("There was a problem with your credit card. Your card was declined") }
@@ -101,7 +101,7 @@ describe "Stripe Errors" do
         visit order_promotion_path(promotion)
         fill_in 'card_number', :with => EXPIRED
         fill_in 'card_code', :with => '444'
-        click_button 'Get it NOW'
+        click_button I18n.t('buy_now')
       end
          
       it { should have_content("There was a problem with your credit card. Your card's expiration date is incorrect") }
@@ -117,7 +117,7 @@ describe "Stripe Errors" do
         visit order_promotion_path(promotion)
         fill_in 'card_number', :with => PROCESSING_ERROR
         fill_in 'card_code', :with => '444'
-        click_button 'Get it NOW'
+        click_button I18n.t('buy_now')
       end
          
       it { should have_content("There was a problem with your credit card. An error occurred while processing your card") }

@@ -93,7 +93,7 @@
                 #map_canvas.vendor_map    
         - if @show_buy_button
           .tab-bottom-button
-            = link_to 'Click here to buy this deal', order_promotion_path(@promotion)   
+            = link_to I18n.t('click_to_buy'), order_promotion_path(@promotion)   
         %p.limitations
           %br
           -#%em= @promotion.limitations 

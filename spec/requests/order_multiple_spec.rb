@@ -34,7 +34,7 @@ describe "Order quantity > 1" do
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
         fill_in 'order_quantity', :with => '3'
-        click_button 'Get it NOW'
+        click_button I18n.t('buy_now')
       end
             
       it "should work and show the right quantity" do
