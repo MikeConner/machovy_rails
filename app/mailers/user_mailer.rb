@@ -18,17 +18,22 @@ class UserMailer < ActionMailer::Base
   def promotion_order_email(order)
     @order = order
     
-    @order.vouchers.each do |voucher|
-      url = redeem_merchant_voucher_url(voucher)
-      qrcode = RQRCode::QRCode.new(url, :size => RQRCode.minimum_qr_size_from_string(url))
-      svg = RQRCode::Renderers::SVG::render(qrcode)
-      image = MiniMagick::Image.read(svg)
-      image.format("png")
-
-      attachments[voucher.uuid + ".png"] = image.to_blob
+    # Don't need QRCodes for products; they're already redeemed
+    if ProductStrategy === @order.promotion.strategy      
+      mail(:to => @order.email, :subject => ORDER_MESSAGE, :template_name => 'product_order_email') 
+    else
+      @order.vouchers.each do |voucher|
+        url = redeem_merchant_voucher_url(voucher)
+        qrcode = RQRCode::QRCode.new(url, :size => RQRCode.minimum_qr_size_from_string(url))
+        svg = RQRCode::Renderers::SVG::render(qrcode)
+        image = MiniMagick::Image.read(svg)
+        image.format("png")
+  
+        attachments[voucher.uuid + ".png"] = image.to_blob
+      end
+      
+      mail(:to => @order.email, :subject => ORDER_MESSAGE) 
     end
-    
-    mail(:to => @order.email, :subject => ORDER_MESSAGE) 
   end
   
   # WARNING -- if there are multiple vouchers per order, it will send more than one email

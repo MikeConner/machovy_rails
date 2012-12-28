@@ -1,4 +1,4 @@
-describe "Demo spec" do
+describe "Create promotion spec" do
   TEASER_URL = 'http://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Georgia_Aquarium_-_Giant_Grouper_edit.jpg/220px-Georgia_Aquarium_-_Giant_Grouper_edit.jpg'
   MAIN_URL = 'http://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Pterois_volitans_Manado-e_edit.jpg/220px-Pterois_volitans_Manado-e_edit.jpg'
   SLIDESHOW_URL = 'http://upload.wikimedia.org/wikipedia/commons/4/48/DunkleosteusSannoble.JPG'

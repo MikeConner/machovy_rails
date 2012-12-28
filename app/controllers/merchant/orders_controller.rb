@@ -87,7 +87,8 @@ class Merchant::OrdersController < Merchant::BaseController
         if @order.promotion.strategy.generate_vouchers(@order)
           flash[:notice] = I18n.t('order_successful')
           
-          # If everything worked (voucher saved), send the email
+          # If everything worked (voucher(s) saved), send the email
+          # Products are handled differently in the mailer
           UserMailer.delay.promotion_order_email(@order)
           @order.user.log_activity(@order)
           

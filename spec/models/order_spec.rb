@@ -15,6 +15,12 @@
 #  quantity          :integer         default(1), not null
 #  charge_id         :string(255)
 #  slug              :string(255)
+#  name              :string(73)
+#  address_1         :string(50)
+#  address_2         :string(50)
+#  city              :string(50)
+#  state             :string(2)
+#  zipcode           :string(10)
 #
 
 describe "Orders" do
@@ -41,12 +47,54 @@ describe "Orders" do
     order.should respond_to(:feedback)
     order.should respond_to(:machovy_share)
     order.should respond_to(:merchant_share)
+    order.should respond_to(:name)
+    order.should respond_to(:address_1)
+    order.should respond_to(:address_2)
+    order.should respond_to(:city)
+    order.should respond_to(:state)
+    order.should respond_to(:zipcode)
+    order.should respond_to(:shipping_address)
+    order.should respond_to(:shipping_address_required?)
     order.user.should be == user
     order.promotion.should be == promotion
     order.vendor.should be == promotion.vendor
   end
   
   it { should be_valid }
+  
+  describe "product orders" do
+    let(:promotion) { FactoryGirl.create(:product_promotion) }
+    let(:order) { FactoryGirl.create(:order_with_address, :user => user, :promotion => promotion) }
+    
+    it "should have a shipping address" do
+      order.shipping_address_required?.should be_true
+      order.shipping_address.should match("^Ship to")
+    end
+    
+    describe "missing part of address" do
+      before { order.address_1 = " " }
+      
+      it { should_not be_valid }
+    end
+
+    describe "missing city" do
+      before { order.city = " " }
+      
+      it { should_not be_valid }
+    end
+
+    describe "missing state" do
+      before { order.state = " " }
+      
+      it { should_not be_valid }
+    end
+
+    describe "missing zipcode" do
+      before { order.zipcode = " " }
+      
+      it { should_not be_valid }
+    end
+  end
   
   describe "macho bucks" do
     let(:macho_buck) { FactoryGirl.create(:macho_bucks_from_order, :order => order) }

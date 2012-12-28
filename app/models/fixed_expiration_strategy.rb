@@ -15,7 +15,7 @@
 #   Create from factory in the create method of the controller, given the value of a hidden field with the strategy name
 #
 # NOTES AND WARNINGS
-#   Must define the setup method in order to initialize itself from view parameters
+#   Must define the name, setup, and generate_vouchers methods
 #
 class FixedExpirationStrategy < ActiveRecord::Base
   attr_accessible :end_date

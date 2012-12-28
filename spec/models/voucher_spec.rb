@@ -38,6 +38,7 @@ describe "Vouchers" do
     voucher.should respond_to(:expired?)
     voucher.should respond_to(:open?)
     voucher.should respond_to(:redeemable?)
+    voucher.should respond_to(:unredeemable?)
     voucher.should respond_to(:returnable?)
     voucher.should respond_to(:paid?)
     voucher.should respond_to(:payment_owed?)
@@ -49,6 +50,21 @@ describe "Vouchers" do
   end
 
   it { should be_valid }
+  
+  describe "Product vouchers" do
+    before do
+      FactoryGirl.create(:product_promotion_with_voucher)
+      @voucher = Voucher.last
+    end
+  
+    it "should be redeemed, and not unredeemable" do
+      @voucher.status.should be == Voucher::REDEEMED
+      @voucher.redeemable?.should be_false
+      @voucher.unredeemable?.should be_false
+      @voucher.returnable?.should be_false
+      @voucher.payment_owed?.should be_true
+    end
+  end
   
   describe "macho bucks" do
     let(:macho_buck) { FactoryGirl.create(:macho_bucks_from_voucher, :voucher => voucher) }
@@ -106,6 +122,7 @@ describe "Vouchers" do
         
         if Voucher::REDEEMED == voucher.status
           voucher.payment_owed?.should be_true
+          voucher.unredeemable?.should be_true
         end
         
         if Voucher::AVAILABLE == voucher.status

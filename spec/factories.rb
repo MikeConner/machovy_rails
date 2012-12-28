@@ -235,6 +235,27 @@ FactoryGirl.define do
     charge_id "ch_0aCv7NedlDjXia"
     fine_print { generate(:random_sentences) }
     
+    factory :order_with_address do
+      name { generate(:random_name) }
+      address_1 { generate(:random_street) }
+      city { generate(:random_city) }
+      state { generate(:random_state) }
+      zipcode { generate(:random_zip) }
+    end
+    
+    factory :order_with_address_and_voucher do
+      name { generate(:random_name) }
+      address_1 { generate(:random_street) }
+      city { generate(:random_city) }
+      state { generate(:random_state) }
+      zipcode { generate(:random_zip) }
+      
+      # Create redeemed; this is for a product promotion
+      after(:create) do |order|
+        FactoryGirl.create(:voucher, :order => order, :user => order.user, :promotion => order.promotion, :status => Voucher::REDEEMED)
+      end
+    end
+    
     factory :order_with_vouchers do
       ignore do
         num_vouchers 3
@@ -310,6 +331,32 @@ FactoryGirl.define do
     max_per_customer Promotion::UNLIMITED
     strategy { FactoryGirl.create(:strategy) }
     
+    factory :product_promotion do
+      strategy { FactoryGirl.create(:product_strategy_delivery) }      
+      
+      factory :product_promotion_with_order do
+        after(:create) do |promotion|
+          FactoryGirl.create(:order_with_address, :amount => promotion.price, :promotion => promotion)
+        end
+      end
+      
+      factory :product_promotion_with_voucher do
+        after(:create) do |promotion|
+          FactoryGirl.create(:order_with_address_and_voucher, :amount => promotion.price, :promotion => promotion)
+        end
+      end
+    end
+
+    factory :product_pickup_promotion do
+      strategy { FactoryGirl.create(:product_strategy_pickup) }      
+      
+      factory :product_pickup_promotion_with_order do
+        after(:create) do |promotion|
+          FactoryGirl.create(:order, :amount => promotion.price, :promotion => promotion)
+        end
+      end
+    end
+    
     factory :promotion_with_subtitle do
       subtitle { generate(:random_phrase) }
     end
@@ -320,7 +367,7 @@ FactoryGirl.define do
       end
       
       after(:create) do |promotion, evaluator|
-        FactoryGirl.create_list(:order, evaluator.num_orders, :promotion => promotion)
+        FactoryGirl.create_list(:order, evaluator.num_orders, :amount => promotion.price, :promotion => promotion)
       end
     end
 
@@ -626,6 +673,15 @@ FactoryGirl.define do
   
   factory :strategy, :class => FixedExpirationStrategy do
     end_date 3.months.from_now
+  end
+
+  factory :product_strategy_delivery, :class => ProductStrategy do
+    sku "sku-43234"
+  end
+
+  factory :product_strategy_pickup, :class => ProductStrategy do
+    delivery false
+    sku "sku-15902"
   end
   
   factory :fixed_expiration_strategy do

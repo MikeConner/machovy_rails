@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121222190848) do
+ActiveRecord::Schema.define(:version => 20121223020535) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -188,12 +188,18 @@ ActiveRecord::Schema.define(:version => 20121222190848) do
     t.string   "stripe_card_token"
     t.integer  "promotion_id"
     t.integer  "user_id"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
     t.text     "fine_print"
-    t.integer  "quantity",          :default => 1, :null => false
+    t.integer  "quantity",                        :default => 1, :null => false
     t.string   "charge_id"
     t.string   "slug"
+    t.string   "name",              :limit => 73
+    t.string   "address_1",         :limit => 50
+    t.string   "address_2",         :limit => 50
+    t.string   "city",              :limit => 50
+    t.string   "state",             :limit => 2
+    t.string   "zipcode",           :limit => 10
   end
 
   create_table "payments", :force => true do |t|
@@ -214,6 +220,13 @@ ActiveRecord::Schema.define(:version => 20121222190848) do
     t.string   "email_subject"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+  end
+
+  create_table "product_strategies", :force => true do |t|
+    t.boolean  "delivery",                 :default => true
+    t.string   "sku",        :limit => 48
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
   end
 
   create_table "promotion_images", :force => true do |t|

@@ -100,6 +100,11 @@ class Voucher < ActiveRecord::Base
     [AVAILABLE, EXPIRED].include?(status) and started?
   end
   
+  # Cannot unredeem a product (e.g., gift certificate) - these vouchers are created already redeemed
+  def unredeemable?
+    payment_owed? && !(ProductStrategy === self.order.promotion.strategy) 
+  end
+  
   # Can only return if it's available
   def returnable?
     AVAILABLE == status

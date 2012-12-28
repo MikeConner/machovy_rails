@@ -27,13 +27,15 @@
       %thead
         %tr
           %th Retail Value
-          %th Discount
-          %th You Save
+          - if @promotion.discount > 0
+            %th Discount
+            %th You Save
       %tbody
         %tr
           %td= number_to_currency(@promotion.retail_value)
-          %td= number_to_percentage(@promotion.discount_pct, :precision => 0)
-          %td= number_to_currency(@promotion.discount)
+          - if @promotion.discount > 0
+            %td= number_to_percentage(@promotion.discount_pct, :precision => 0)
+            %td= number_to_currency(@promotion.discount)
     .spread
       .twshare
         %a.twitter-share-button.left{"data-count" => "horizontal", "data-via" => "fuonrails", :href => "https://twitter.com/share"} Tweet
@@ -50,7 +52,8 @@
           %h4= @promotion.subtitle
     .row-fluid
       .span12
-        %span.price-old= number_to_currency(@promotion.retail_value)
+        - if @promotion.retail_value > @promotion.price
+          %span.price-old= number_to_currency(@promotion.retail_value)
         %span.price-new= number_to_currency(@promotion.price)
         %br
         %span= @promotion.quantity_description

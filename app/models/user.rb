@@ -45,11 +45,8 @@
 class User < ActiveRecord::Base
   include ApplicationHelper
   
-  MAX_FIRST_NAME = 24
-  MAX_LAST_NAME = 48
-  MAX_ADDRESS = 50
-  STATE_LEN = 2
-  ZIPCODE_LEN = 5
+  MAX_FIRST_NAME_LEN = 24
+  MAX_LAST_NAME_LEN = 48
   PHONE_LEN = 14
   
   # Include default devise modules. Others available are:
@@ -85,10 +82,10 @@ class User < ActiveRecord::Base
   validates_numericality_of :total_macho_bucks
   
   # Profile fields
-  validates :first_name, :length => { maximum: MAX_FIRST_NAME }, :allow_blank => true
-  validates :last_name, :length => { maximum: MAX_LAST_NAME }, :allow_blank => true
-  validates :address_1, :length => { maximum: MAX_ADDRESS }, :allow_blank => true
-  validates :address_2, :length => { maximum: MAX_ADDRESS }, :allow_blank => true
+  validates :first_name, :length => { maximum: MAX_FIRST_NAME_LEN }, :allow_blank => true
+  validates :last_name, :length => { maximum: MAX_LAST_NAME_LEN }, :allow_blank => true
+  validates :address_1, :length => { maximum: MAX_ADDRESS_LEN }, :allow_blank => true
+  validates :address_2, :length => { maximum: MAX_ADDRESS_LEN }, :allow_blank => true
   validates :state, :inclusion => { in: US_STATES }, :allow_blank => true
   validates :phone, :format => { with: US_PHONE_REGEX }, :allow_blank => true
   validates :zipcode, :format => { with: US_ZIP_REGEX }, :allow_blank => true

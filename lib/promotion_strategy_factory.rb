@@ -23,12 +23,15 @@ class PromotionStrategyFactory
 
   FIXED_STRATEGY = 'Fixed'
   RELATIVE_STRATEGY = 'Relative'
+  PRODUCT_STRATEGY = 'Product'
   
   def create_promotion_strategy(name, params)
     if FIXED_STRATEGY == name
       strategy = FixedExpirationStrategy.new
     elsif RELATIVE_STRATEGY == name
       strategy = RelativeExpirationStrategy.new
+    elsif PRODUCT_STRATEGY == name
+      strategy = ProductStrategy.new
     else
       raise "No strategy defined for #{name}"
     end

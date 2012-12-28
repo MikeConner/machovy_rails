@@ -10,7 +10,12 @@ module ApplicationHelper
 
   US_ZIP_REGEX = /^\d\d\d\d\d(-\d\d\d\d)?$/
   EMAIL_REGEX = /^\w.*?@\w.*?\.\w+$/
-  
+  MAX_ADDRESS_LEN = 50
+  STATE_LEN = 2
+  ZIPCODE_LEN = 5
+  ZIP_PLUS4_LEN = 10
+  MAX_SKU_LEN = 48
+    
   INVALID_EMAILS = ["joe", "joe@", "gmail.com", "@gmail.com", "@Actually_Twitter", "joe.mama@gmail", "fish@.com", "fish@biz.", "test@com"]
   VALID_EMAILS = ["j@z.com", "jeff.bennett@pittsburghmoves.com", "fish_42@verizon.net", "a.b.c.d@e.f.g.h.biz"]
 

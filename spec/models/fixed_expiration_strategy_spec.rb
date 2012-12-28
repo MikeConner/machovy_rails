@@ -74,7 +74,7 @@ describe "FixedExpirationStrategy" do
       @voucher.expiration_date.should be == strategy.end_date
       @voucher.order.should be == order
       @voucher.promotion.should be == order.promotion
-      order.total_cost.should == promotion.price
+      order.total_cost.should == promotion.price.round(2)
     end
   end
 
@@ -89,7 +89,7 @@ describe "FixedExpirationStrategy" do
     it "should create a voucher" do
       Voucher.count.should be == 3
       order.vouchers.count.should be == 3
-      order.total_cost.should be == promotion.price * 3
+      order.total_cost.should be == (promotion.price * 3).round(2)
       @vouchers.each do |voucher|
         order.vouchers.include?(voucher).should be_true
         voucher.notes.should be == order.fine_print

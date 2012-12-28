@@ -169,25 +169,25 @@ describe "Users" do
     end
     
     describe "first name too long" do
-      before { user.first_name = "a" * (User::MAX_FIRST_NAME + 1) }
+      before { user.first_name = "a" * (User::MAX_FIRST_NAME_LEN + 1) }
       
       it { should_not be_valid }
     end
 
     describe "last name too long" do
-      before { user.last_name = "a" * (User::MAX_LAST_NAME + 1) }
+      before { user.last_name = "a" * (User::MAX_LAST_NAME_LEN + 1) }
       
       it { should_not be_valid }
     end
     
     describe "address 1 too long" do
-      before { user.address_1 = "a" * (User::MAX_ADDRESS + 1) }
+      before { user.address_1 = "a" * (ApplicationHelper::MAX_ADDRESS_LEN + 1) }
       
       it { should_not be_valid }
     end
     
     describe "address 2 too long" do
-      before { user.address_2 = "a" * (User::MAX_ADDRESS + 1) }
+      before { user.address_2 = "a" * (ApplicationHelper::MAX_ADDRESS_LEN + 1) }
       
       it { should_not be_valid }
     end

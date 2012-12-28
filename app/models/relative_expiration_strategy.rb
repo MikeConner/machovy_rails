@@ -8,6 +8,15 @@
 #  updated_at  :datetime        not null
 #
 
+# CHARTER
+#   Encapsulate data for the relative promotion strategy -- vouchers should expire after x days
+#
+# USAGE
+#   Create from factory in the create method of the controller, given the value of a hidden field with the strategy name
+#
+# NOTES AND WARNINGS
+#   Must define the name, setup, and generate_vouchers methods
+#
 class RelativeExpirationStrategy < ActiveRecord::Base
   attr_accessible :period_days
 

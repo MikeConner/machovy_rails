@@ -67,7 +67,7 @@
         .span3.logo 
           %h1= link_to(image_tag("logo.png", :class => "brand", :alt => "logo"), deals_path(:deals => false))
         .span9
-          %span.sub-headline If you think it's <span class="highlight">awesome</span>  chances are we already found it 
+          %span.sub-headline If you think it's <span class="highlight">awesome</span>  chances are we've already found it 
           .pull-right.visible-desktop
             = link_to I18n.t('feedback_prompt'), feedback_path, :class => 'btn btn-feedback'
           - if current_user.nil?  

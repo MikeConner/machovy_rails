@@ -15,6 +15,12 @@
 #  quantity          :integer         default(1), not null
 #  charge_id         :string(255)
 #  slug              :string(255)
+#  name              :string(73)
+#  address_1         :string(50)
+#  address_2         :string(50)
+#  city              :string(50)
+#  state             :string(2)
+#  zipcode           :string(10)
 #
 
 # CHARTER
@@ -36,6 +42,7 @@ class Order < ActiveRecord::Base
   include ApplicationHelper
   
   attr_accessible :quantity, :amount, :description, :email, :stripe_card_token, :fine_print,
+                  :name, :address_1, :address_2, :city, :state, :zipcode,
                   :user_id, :promotion_id
   
   # foreign keys
@@ -58,6 +65,15 @@ class Order < ActiveRecord::Base
   validates :amount, :presence => true,
                      :numericality => { greater_than_or_equal_to: 0.0 }
   validates_presence_of :charge_id
+  
+  validates :name, :length => { maximum: User::MAX_FIRST_NAME_LEN + User::MAX_LAST_NAME_LEN + 1 }, :presence => { :if => :shipping_address_required? }
+  validates :address_1, :length => { maximum: MAX_ADDRESS_LEN }, :presence => { :if => :shipping_address_required? }
+  validates :address_2, :length => { maximum: MAX_ADDRESS_LEN }, :allow_blank => true
+  validates :city, :length => { maximum: MAX_ADDRESS_LEN }, :presence => { :if => :shipping_address_required? }
+  validates :state, :inclusion => { in: US_STATES }, :presence => { :if => :shipping_address_required? }, 
+                                                     :allow_blank => { :unless => :shipping_address_required? }
+  validates :zipcode, :format => { with: US_ZIP_REGEX }, :presence => { :if => :shipping_address_required? }, 
+                                                         :allow_blank => { :unless => :shipping_address_required? }
  
   validates_associated :vouchers
        
@@ -81,6 +97,25 @@ class Order < ActiveRecord::Base
     total_cost * promotion.revenue_shared / 100.0
   end  
   
+  def shipping_address_required?
+    # Is this a product order?
+    (ProductStrategy === promotion.strategy) and promotion.strategy.delivery? 
+  end
+  
+  def shipping_address
+    if shipping_address_required?
+      address = 'Ship to: '
+      address += self.address_1 + ', ' unless self.address_1.blank?
+      address += self.address_2 + ' ,' unless self.address_2.blank?
+      address += self.city + ', ' unless self.city.blank?
+      address += self.state + ', ' unless self.state.blank?
+      address += self.zipcode unless self.zipcode.blank?
+   
+      address
+    else
+      'For pickup'
+    end    
+  end
 private
   # The description is just the name of the promotion and a date
   # It's not unique, and having friendly id append "-12" or something shows how many people are ordering

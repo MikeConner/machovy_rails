@@ -7,7 +7,7 @@
         = link_to "Redeem", redeem_admin_merchant_voucher_path(v, :status => Voucher::REDEEMED), :method => :put, :confirm => 'Please verify the amount and email. Redeem this voucher?'
       -# It is unredeemable if its status is redeemed, but it hasn't yet been paid (same conditions as payment_owed)
       -# TODO: make this in to elsif
-      - if v.payment_owed?
+      - if v.unredeemable?
         = link_to "Unredeem", redeem_admin_merchant_voucher_path(v, :status => Voucher::AVAILABLE), :method => :put, :confirm => 'You will make the voucher available again. Payment will be made after redemption. Are you sure?'
       -# Don't let them return for now (business issue)
         - if v.returnable?
