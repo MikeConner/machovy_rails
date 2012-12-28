@@ -102,6 +102,7 @@ describe "UserMailer" do
       # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
       it "should be sent to the right user" do
         @msg.to.to_s.should match(@order.email)
+        @msg.bcc.to_s.should match(ApplicationHelper::MACHOVY_SALES_ADMIN)
       end
       
       it "should have the right subject" do
@@ -156,6 +157,7 @@ describe "UserMailer" do
       # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
       it "should be sent to the right user" do
         @msg.to.to_s.should match(@order.email)
+        @msg.bcc.to_s.should be_blank
       end
       
       it "should have the right subject" do

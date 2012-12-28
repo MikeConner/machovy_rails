@@ -22,6 +22,8 @@ module ApplicationHelper
   MAILER_FROM_ADDRESS = 'machovy@machovy.com'
   MACHOVY_MERCHANT_ADMIN = 'arash@machovy.com'
   MACHOVY_FEEDBACK_ADMIN = 'arash@machovy.com'
+  MACHOVY_SALES_ADMIN = 'arash@machovy.com'
+  
   WEB_ADDRESS = 'www.machovy.com'
   
   SMTP_PASSWORD = '%%))$$@macho'

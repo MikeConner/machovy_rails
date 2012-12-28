@@ -20,7 +20,11 @@ class UserMailer < ActionMailer::Base
     
     # Don't need QRCodes for products; they're already redeemed
     if ProductStrategy === @order.promotion.strategy      
-      mail(:to => @order.email, :subject => ORDER_MESSAGE, :template_name => 'product_order_email') 
+      if @order.shipping_address_required?
+        mail(:to => @order.email, :bcc => ApplicationHelper::MACHOVY_SALES_ADMIN, :subject => ORDER_MESSAGE, :template_name => 'product_order_email') 
+      else
+        mail(:to => @order.email, :subject => ORDER_MESSAGE, :template_name => 'product_order_email') 
+      end
     else
       @order.vouchers.each do |voucher|
         url = redeem_merchant_voucher_url(voucher)
