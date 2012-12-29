@@ -150,6 +150,10 @@ FactoryGirl.define do
       active false
     end
     
+    factory :exclusive_category do
+      exclusive true
+    end
+    
     factory :category_with_promotions do
       ignore do
         num_promotions 5

@@ -20,6 +20,7 @@ en:
   foreign_voucher: 'This is not one of your vouchers.'
   foreign_order: 'This is not one of your orders.'
   idea_success: 'Great idea!'
+  inconsistent_categories: 'Inconsistent category assignment; exclusive (red) category assignments must be unique'
   invalid_order: 'Not a valid user/order'
   invalid_user: 'You must log in to perform this function'
   local_deal_created: "The local deal was successfully created."

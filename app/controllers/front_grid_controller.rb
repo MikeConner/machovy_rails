@@ -33,9 +33,16 @@ class FrontGridController < ApplicationController
 private
   def filter_promotions(category, metro)   
     selected_category = find_selection(category)
-
-    @promotions = Promotion.front_page.select { |p| p.displayable? and (p.metro.name == metro) and
-                                                    (selected_category.nil? or p.category_ids.include?(selected_category.id)) }.sort
+    # nil here means no category is defined, or it's "All Items"
+    # All means all non_exclusive, so get the list of non-exclusive ids
+    # If it's defined, use the empty set so that the non_exclusive array intersection test always fails, so that it's only triggered by the direct comparison
+    if selected_category.nil?
+      non_exclusive = Category.non_exclusive.map { |c| c.id }
+      @promotions = Promotion.front_page.select { |p| p.displayable? and (p.metro.name == metro) and !(p.category_ids & non_exclusive).empty? }.sort
+    else
+      @promotions = Promotion.front_page.select { |p| p.displayable? and (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
+    end
+    
     if @promotions.length > MAX_DEALS
       @promotions = @promotions[0, MAX_DEALS]
     end      
@@ -46,17 +53,24 @@ private
   def filter_deals(category, metro)   
     selected_category = find_selection(category)
     
-    Promotion.all.select { |p| p.displayable? and (p.metro.name == metro) and
-                               (selected_category.nil? or p.category_ids.include?(selected_category.id)) }.sort
+    if selected_category.nil?
+      non_exclusive = Category.non_exclusive.map { |c| c.id }
+      Promotion.all.select { |p| p.displayable? and (p.metro.name == metro) and !(p.category_ids & non_exclusive).empty? }.sort
+    else
+      Promotion.all.select { |p| p.displayable? and (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
+    end
   end
   
   def filter_ads(category, metro)
     selected_category = find_selection(category)
-
-    @ads = selected_category.nil? ? 
-        Promotion.ads.select { |p| p.metro.name == metro }.sort : 
-        Promotion.ads.select { |p| (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
-
+    
+    if selected_category.nil?
+      non_exclusive = Category.non_exclusive.map { |c| c.id }
+      @ads = Promotion.ads.select { |p| p.displayable? and (p.metro.name == metro) and !(p.category_ids & non_exclusive).empty? }.sort
+    else
+      @ads = Promotion.ads.select { |p| p.displayable? and (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
+    end
+    
     if @ads.length > MAX_ADS
       @ads = @ads[0, MAX_ADS]
     end      

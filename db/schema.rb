@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121223020535) do
+ActiveRecord::Schema.define(:version => 20121229032327) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -44,11 +44,12 @@ ActiveRecord::Schema.define(:version => 20121223020535) do
   add_index "blog_posts_promotions", ["blog_post_id", "promotion_id"], :name => "index_blog_posts_promotions_on_blog_post_id_and_promotion_id", :unique => true
 
   create_table "categories", :force => true do |t|
-    t.string   "name",               :null => false
+    t.string   "name",                                  :null => false
     t.boolean  "active"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.integer  "parent_category_id"
+    t.boolean  "exclusive",          :default => false
   end
 
   add_index "categories", ["name"], :name => "index_categories_on_name", :unique => true

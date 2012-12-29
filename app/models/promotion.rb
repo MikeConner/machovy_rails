@@ -157,6 +157,8 @@ class Promotion < ActiveRecord::Base
   validates :quantity, :numericality => { only_integer: true, greater_than_or_equal_to: 1 },
             :if => :deal?
   
+  validate :category_consistency
+  
   # Can this user buy the promotion? Check if his orders are > maximum/person
    def max_quantity_for_buyer(user)
     if UNLIMITED == self.max_per_customer
@@ -307,6 +309,13 @@ private
   def voucher_limit_consistency
     if (self.max_per_customer != UNLIMITED) and (self.max_per_customer < self.min_per_customer)
       self.errors.add :base, "Max/customer (#{self.max_per_customer}) cannot be less than min/customer (#{self.min_per_customer})"
+    end
+  end
+  
+  def category_consistency
+    exclusive = Category.exclusive.map { |c| c.id }
+    if !(self.category_ids & exclusive).empty? and self.category_ids.count > 1
+      self.errors.add :base, I18n.t('inconsistent_categories')
     end
   end
 end

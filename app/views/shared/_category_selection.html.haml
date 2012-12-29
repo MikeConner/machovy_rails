@@ -1,10 +1,14 @@
 %table#category_table
   - idx = 0
-  -# put 4 per column
-  - num_columns = categories.count / num_per_column
+  -# put 4 per column (have to have at least one column)
+  - num_columns = [1, categories.count / num_per_column].max
   - categories.each do |category|
     - if idx % num_columns == 0
       %tr
     - idx += 1
-    %td= check_box_tag "#{name}[category_ids][]", category.id, object.category_ids.include?(category.id)
-    %td= label_tag category.name
+    %td= check_box_tag "#{name}[category_ids][]", category.id, object.category_ids.include?(category.id), :id => "#{name}_category_ids_#{category.id}"
+    - if category.exclusive?
+      -# Why doesn't class='highlight' work?
+      %td= label_tag category.name, nil, :style => 'color:red', :title => 'Exclusive Category'
+    - else
+      %td= label_tag category.name

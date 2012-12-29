@@ -280,6 +280,8 @@ class PromotionsController < ApplicationController
       
       redirect_to promotions_path, notice: I18n.t('promotion_updated')
     else
+      @metros = Metro.all
+      @categories = Category.order(:name)
       render 'edit', :layout => admin_user? ? 'layouts/admin' : 'layouts/application'  
     end    
   end

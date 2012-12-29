@@ -12,7 +12,8 @@
 
 describe "Categories" do
   let(:category) { FactoryGirl.create(:category) }
-  
+  let(:for_her) { FactoryGirl.create(:exclusive_category) }
+  let(:metro) { FactoryGirl.create(:metro) }
   subject { category }
   
   it "should respond to everything" do
@@ -21,10 +22,44 @@ describe "Categories" do
     category.should respond_to(:parent_category_id)
     category.should respond_to(:sub_categories)
     category.should respond_to(:promotions)
+    category.should respond_to(:exclusive)
     category.parent_category.should be_nil
   end
   
   it { should be_valid }
+  
+  it "should default to non-exclusive" do
+    category.exclusive.should be_false
+  end
+  
+  it "should define the scope" do
+    category.exclusive.should be_false
+    for_her.exclusive.should be_true
+    Category.count.should be == 2
+    Category.non_exclusive.should be == [category]
+    Category.exclusive.should be == [for_her]
+    Category.roots.should be == [category, for_her]
+  end
+  
+  describe "Filtering" do
+    before do
+      @third = FactoryGirl.create(:category)
+      @p1 = FactoryGirl.create(:promotion, :metro => metro, :status => Promotion::MACHOVY_APPROVED)
+      @p2 = FactoryGirl.create(:promotion, :metro => metro, :status => Promotion::MACHOVY_APPROVED)
+      @p3 = FactoryGirl.create(:promotion, :metro => metro, :status => Promotion::MACHOVY_APPROVED)
+      @p1.categories << category
+      @p2.categories << for_her
+      @p3.categories << @third
+    end
+    
+    it "should filter the promotions correctly" do
+      find_selection(Category::ALL_ITEMS_ID).should be_nil
+      (filter_deals(nil, metro.name) & [@p1, @p3]).count.should be == 2
+      filter_deals(category.name, metro.name).should be == [@p1]
+      filter_deals(for_her.name, metro.name).should be == [@p2]
+      filter_deals(@third.name, metro.name).should be == [@p3]
+    end
+  end
   
   describe "name validation" do
     before { category.name = " " }
@@ -118,3 +153,20 @@ describe "Categories" do
     end  
   end  
 end
+
+def find_selection(category)
+  # "All" will not be found, so will set selected_category to nil, equivalent to no category
+  category.nil? ? nil : Category.find(:first, :conditions => [ "lower(name) = ?", category.downcase ]) 
+end
+
+def filter_deals(category, metro)   
+  selected_category = find_selection(category)
+  
+  if selected_category.nil?
+    non_exclusive = Category.non_exclusive.map { |c| c.id }
+    Promotion.all.select { |p| p.displayable? and (p.metro.name == metro) and !(p.category_ids & non_exclusive).empty? }.sort
+  else
+    Promotion.all.select { |p| p.displayable? and (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
+  end
+end
+
