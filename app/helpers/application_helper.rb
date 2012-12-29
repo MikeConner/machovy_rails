@@ -24,6 +24,9 @@ module ApplicationHelper
   MACHOVY_FEEDBACK_ADMIN = 'arash@machovy.com'
   MACHOVY_SALES_ADMIN = 'arash@machovy.com'
   
+  LEGAL_PHONE = '(412) 532-6243'
+  LEGAL_FAX = '(313) 347-4528'
+  
   WEB_ADDRESS = 'www.machovy.com'
   
   SMTP_PASSWORD = '%%))$$@macho'

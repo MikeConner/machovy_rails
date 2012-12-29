@@ -45,7 +45,10 @@ describe "VendorMailer" do
       end
       
       it "should have the right content" do
-        msg.body.encoded.should match("You'll be hearing from us soon about our standard Vendor agreement")
+        msg.body.encoded.should match("You'll be hearing from us soon about our standard merchant agreement")
+        # It's chopped because the () interfere with the matching
+        msg.body.encoded.should match(ApplicationHelper::LEGAL_FAX[6,14])
+        msg.body.encoded.should match(ApplicationHelper::LEGAL_PHONE[6,14])
         ActionMailer::Base.deliveries.count.should == 1
       end
       
