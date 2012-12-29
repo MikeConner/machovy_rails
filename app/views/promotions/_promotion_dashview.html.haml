@@ -24,7 +24,8 @@
             - if 0 == p.vouchers.count
               %li 0 sold
             - else
-              %li= p.num_open_vouchers
+              -# If a product promotion, there won't be any available (instantly redeemed); show the total number sold
+              %li= (ProductStrategy === p.strategy) ? p.vouchers.count : p.num_open_vouchers
           - if Promotion::MACHOVY_REJECTED == p.status
             = link_to 'Edit', edit_promotion_path(p), :class => 'btn btn-small'
           - else
