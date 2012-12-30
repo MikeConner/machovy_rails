@@ -1,5 +1,6 @@
 describe "Buy button rules" do
-  let(:promotion) { FactoryGirl.create(:promotion) }
+  let(:promotion) { FactoryGirl.create(:approved_promotion) }
+  let(:promotion_with_orders) { FactoryGirl.create(:promotion_with_vouchers, :status => Promotion::MACHOVY_APPROVED) }
   before do
     # Need this for visit root_path to work
     Metro.create(:name => 'Pittsburgh')
@@ -10,8 +11,33 @@ describe "Buy button rules" do
 
   subject { page }
 
+  it "should be a zombie" do
+    promotion_with_orders.zombie?.should be_true
+    promotion.displayable?.should be_true
+  end
+
+  describe "Trying to buy zombie" do
+    before do
+      sign_in_as_a_valid_user
+      # go to sign in page
+      click_link I18n.t('sign_in_register')
+      # fill in info
+      fill_in 'user_email', :with => @user.email
+      fill_in 'user_password', :with => @user.password
+      # Authenticate
+      click_button I18n.t('sign_in')
+      visit promotion_path(promotion_with_orders)
+    end
+        
+    it { should have_selector('h3', :text => promotion_with_orders.title) }
+    it { should_not have_link(I18n.t('click_to_buy')) }
+  end
+
   describe "Not logged in" do
-    before { visit promotion_path(promotion) }
+    before do
+      visit promotion_path(promotion)
+      save_page
+    end
     
     it { should have_selector('h3', :text => promotion.title) }
     it { should have_link(I18n.t('click_to_buy'), :href => order_promotion_path(promotion)) }
@@ -100,6 +126,7 @@ describe "Buy button rules" do
       fill_in 'user_password', :with => @user.password
       # Authenticate
       click_button I18n.t('sign_in')
+      promotion.quantity = 100
       order = FactoryGirl.create(:order_with_vouchers, :promotion => promotion, :user => @user)
       visit promotion_path(promotion)
     end
@@ -111,6 +138,7 @@ describe "Buy button rules" do
         voucher.order.promotion.should == promotion
       end
       
+      promotion.displayable?.should be_true
       promotion.max_quantity_for_buyer(@user).should == ApplicationHelper::MAX_INT
     end
     
@@ -119,7 +147,7 @@ describe "Buy button rules" do
   end
 
   describe "Logged in as a regular user who bought three when the limit was four" do
-    let(:promotion) { FactoryGirl.create(:promotion, :max_per_customer => 4) }
+    let(:promotion) { FactoryGirl.create(:approved_promotion, :max_per_customer => 4) }
     before do
       sign_in_as_a_valid_user
       # go to sign in page
@@ -134,7 +162,8 @@ describe "Buy button rules" do
     end
     
     it "should show a max quantity of 4" do
-      promotion.max_per_customer.should == 4
+      promotion.max_per_customer.should be == 4
+      promotion.displayable?.should be_true
     end
     
     it "should show that he bought some" do
@@ -152,7 +181,7 @@ describe "Buy button rules" do
   end
 
   describe "Logged in as a regular user who bought three when the limit was three" do
-    let(:promotion) { FactoryGirl.create(:promotion, :max_per_customer => 3) }
+    let(:promotion) { FactoryGirl.create(:approved_promotion, :max_per_customer => 3) }
     before do
       sign_in_as_a_valid_user
       # go to sign in page
@@ -167,6 +196,7 @@ describe "Buy button rules" do
     end
     
     it "should show a max quantity of 3" do
+      promotion.displayable?.should be_true
       promotion.max_per_customer.should == 3
     end
     
@@ -195,7 +225,7 @@ describe "Buy button rules" do
   end
 
   describe "Logged in as a regular user who bought three with a range of 2-4" do
-    let(:promotion) { FactoryGirl.create(:promotion, :min_per_customer => 2, :max_per_customer => 4) }
+    let(:promotion) { FactoryGirl.create(:approved_promotion, :min_per_customer => 2, :max_per_customer => 4) }
     before do
       sign_in_as_a_valid_user
       # go to sign in page
@@ -211,7 +241,8 @@ describe "Buy button rules" do
     
     it "should show a quantity range" do
       promotion.min_per_customer.should be == 2
-      promotion.max_per_customer.should == 4
+      promotion.max_per_customer.should be == 4
+      promotion.displayable?.should be_true
     end
     
     it "should show that he bought some" do

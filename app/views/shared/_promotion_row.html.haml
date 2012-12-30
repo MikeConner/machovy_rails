@@ -1,6 +1,10 @@
 - promotions.each do |promotion|
   .span3.item.promotion-grid.box
-    = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
+    - if promotion.zombie?
+      -#= image_tag(promotion.teaser_image_url(:product_front_page).to_s, :style => "background:url('/assets/sold_out.jpg')")
+      %img.zombie_image{:src => promotion.teaser_image_url(:product_front_page).to_s}
+    - else
+      = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
     .row-fluid
       .item-title= truncate(sanitize(promotion.title), :length => 28)
       %br
@@ -8,7 +12,7 @@
         - if !promotion.subtitle.nil?
           = truncate(sanitize(promotion.subtitle), :length => 24)
         - else
-          = "An amazing find"
+          An amazing find
       - if session[:deals] != 'true'  # -------------------------------------------Front PAGE VIEW
         %p.description= truncate(promotion.padded_description, :length => 119)
       -else

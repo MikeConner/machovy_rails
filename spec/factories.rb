@@ -335,16 +335,25 @@ FactoryGirl.define do
     max_per_customer Promotion::UNLIMITED
     strategy { FactoryGirl.create(:strategy) }
     
+    factory :approved_promotion do
+      status Promotion::MACHOVY_APPROVED
+      quantity 100
+    end
+    
     factory :product_promotion do
       strategy { FactoryGirl.create(:product_strategy_delivery) }      
       
       factory :product_promotion_with_order do
+        status Promotion::MACHOVY_APPROVED
+        
         after(:create) do |promotion|
           FactoryGirl.create(:order_with_address, :amount => promotion.price, :promotion => promotion)
         end
       end
       
       factory :product_promotion_with_voucher do
+        status Promotion::MACHOVY_APPROVED
+        
         after(:create) do |promotion|
           FactoryGirl.create(:order_with_address_and_voucher, :amount => promotion.price, :promotion => promotion)
         end
@@ -352,6 +361,8 @@ FactoryGirl.define do
     end
 
     factory :product_pickup_promotion do
+      status Promotion::MACHOVY_APPROVED
+        
       strategy { FactoryGirl.create(:product_strategy_pickup) }      
       
       factory :product_pickup_promotion_with_order do

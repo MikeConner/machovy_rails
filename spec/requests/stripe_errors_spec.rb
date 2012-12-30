@@ -7,7 +7,7 @@ describe "Stripe Errors" do
   UNKNOWN = '4242424242424241'
   
   let(:user) { FactoryGirl.create(:user) }
-  let(:promotion) { FactoryGirl.create(:promotion) }
+  let(:promotion) { FactoryGirl.create(:approved_promotion) }
   let(:order) { FactoryGirl.create(:order, :user => user, :promotion => promotion) }
   before do
     # Need this for visit root_path to work

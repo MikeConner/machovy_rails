@@ -3,8 +3,8 @@ describe "Ordering with macho bucks" do
   let(:bucks100) { FactoryGirl.create(:macho_buck, :amount => 100) }
   let(:bucks10) { FactoryGirl.create(:macho_buck, :amount => 10) }
   let(:bucksNeg10) { FactoryGirl.create(:macho_buck, :amount => -10) }
-  let(:promotion10) { FactoryGirl.create(:promotion, :price => 10) }
-  let(:promotion100) { FactoryGirl.create(:promotion, :price => 100) }
+  let(:promotion10) { FactoryGirl.create(:approved_promotion, :price => 10) }
+  let(:promotion100) { FactoryGirl.create(:approved_promotion, :price => 100) }
   let(:order_msg) { ActionMailer::Base.deliveries[0] }
   let(:bucks_msg) { ActionMailer::Base.deliveries[1] }
   before do
@@ -148,6 +148,7 @@ describe "Ordering with macho bucks" do
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
         click_button I18n.t('buy_now')
+        save_page
         @bucks = bucks10.user.reload.macho_bucks
       end
 

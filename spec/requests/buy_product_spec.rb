@@ -69,6 +69,7 @@ describe "Buy product" do
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
         click_button I18n.t('buy_now')
+        save_page
       end
             
       it "should work" do

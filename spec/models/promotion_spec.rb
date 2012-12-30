@@ -87,6 +87,7 @@ describe "Promotions" do
     promotion.should respond_to(:max_per_customer)
     promotion.should respond_to(:max_quantity_for_buyer)
     promotion.should respond_to(:suspended)
+    promotion.should respond_to(:zombie?)
     promotion.metro.should be == metro
     promotion.vendor.should be == vendor
     promotion.promotion_type.should be == Promotion::LOCAL_DEAL
@@ -94,6 +95,39 @@ describe "Promotions" do
   end
 
   it { should be_valid }
+  
+  it "should default to correct settings" do
+    promotion.displayable?.should be_false
+    promotion.zombie?.should be_false
+  end
+  
+  describe "Zombie cases" do
+    let(:ad) { FactoryGirl.create(:ad) }
+    let(:expired_ad) { FactoryGirl.create(:ad, :end_date => 3.days.ago) }
+    let(:affiliate) { FactoryGirl.create(:affiliate) }
+    let(:promotion) { FactoryGirl.create(:promotion, :status => Promotion::MACHOVY_APPROVED) }
+    let(:long_expired) { FactoryGirl.create(:promotion, :status => Promotion::MACHOVY_APPROVED, :end_date => 1.month.ago) }
+    let(:just_expired) { FactoryGirl.create(:promotion, :status => Promotion::MACHOVY_APPROVED, :end_date => 3.days.ago) }
+    let(:promotion_with_orders) { FactoryGirl.create(:promotion_with_vouchers, :status => Promotion::MACHOVY_APPROVED) }
+    
+    it "should have correct settings" do
+      ad.displayable?.should be_true
+      expired_ad.displayable?.should be_false
+      affiliate.displayable?.should be_true
+      promotion.displayable?.should be_true
+      long_expired.displayable?.should be_false
+      just_expired.displayable?.should be_false
+      promotion_with_orders.displayable?.should be_false
+      
+      ad.zombie?.should be_false
+      expired_ad.zombie?.should be_false
+      affiliate.zombie?.should be_false
+      promotion.zombie?.should be_false
+      long_expired.zombie?.should be_false
+      just_expired.zombie?.should be_true
+      promotion_with_orders.zombie?.should be_true
+    end
+  end
   
   describe "Missing suspended" do
     before { promotion.suspended = nil }

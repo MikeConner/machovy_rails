@@ -38,9 +38,9 @@ private
     # If it's defined, use the empty set so that the non_exclusive array intersection test always fails, so that it's only triggered by the direct comparison
     if selected_category.nil?
       non_exclusive = Category.non_exclusive.map { |c| c.id }
-      @promotions = Promotion.front_page.select { |p| p.displayable? and (p.metro.name == metro) and !(p.category_ids & non_exclusive).empty? }.sort
+      @promotions = Promotion.front_page.select { |p| (p.displayable? or p.zombie?) and (p.metro.name == metro) and !(p.category_ids & non_exclusive).empty? }.sort
     else
-      @promotions = Promotion.front_page.select { |p| p.displayable? and (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
+      @promotions = Promotion.front_page.select { |p| (p.displayable? or p.zombie?) and (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
     end
     
     if @promotions.length > MAX_DEALS
@@ -55,9 +55,9 @@ private
     
     if selected_category.nil?
       non_exclusive = Category.non_exclusive.map { |c| c.id }
-      Promotion.all.select { |p| p.displayable? and (p.metro.name == metro) and !(p.category_ids & non_exclusive).empty? }.sort
+      Promotion.all.select { |p| (p.displayable? or p.zombie?) and (p.metro.name == metro) and !(p.category_ids & non_exclusive).empty? }.sort
     else
-      Promotion.all.select { |p| p.displayable? and (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
+      Promotion.all.select { |p| (p.displayable? or p.zombie?) and (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
     end
   end
   

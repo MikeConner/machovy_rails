@@ -62,7 +62,9 @@ class Promotion < ActiveRecord::Base
   DEFAULT_STRATEGY = PromotionStrategyFactory::RELATIVE_STRATEGY
   # Special value of max_per_customer that means unlimited. Note constraint in numericality validation; you can't change this value arbitrarily!
   UNLIMITED = 0
-
+  # Amount of time to display sold old deal after it expires or sells out
+  ZOMBIE_THRESHOLD = 1.week
+  
   # Types
   LOCAL_DEAL = 'Deal'
   AFFILIATE = 'Affiliate'
@@ -222,6 +224,13 @@ class Promotion < ActiveRecord::Base
     !self.suspended? and approved? and started? and any_left? and (!expired? or open_vouchers?)
   end
   
+  # A zombie is a recently expired or sold out local deal
+  # Check explicitly for !displayable as a defensive measure; we don't want both at the same time
+  # An expired deal with open vouchers could otherwise lead to both being true!
+  def zombie?
+    deal? and !displayable? and !self.suspended? and approved? and (recently_sold_out? or recently_expired?)
+  end
+  
   def open_vouchers?
     any_open = false
     vouchers.each do |voucher|
@@ -316,6 +325,19 @@ private
     exclusive = Category.exclusive.map { |c| c.id }
     if !(self.category_ids & exclusive).empty? and self.category_ids.count > 1
       self.errors.add :base, I18n.t('inconsistent_categories')
+    end
+  end
+  
+  def recently_expired?
+    expired? and (Time.now - self.end_date <= ZOMBIE_THRESHOLD)
+  end
+  
+  def recently_sold_out?
+    if any_left?
+      false
+    else
+      # Should not be zero orders in this case, but don't fail even in pathological case
+      0 == orders.count ? false : Time.now - orders.last.created_at <= ZOMBIE_THRESHOLD
     end
   end
 end

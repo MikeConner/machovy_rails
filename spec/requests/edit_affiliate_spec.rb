@@ -29,7 +29,7 @@ describe "Edit Affiliate deal" do
       click_button 'Create Affiliate'
       @promotion = Promotion.first
       # Seems to be a timing thing. Saving page makes it work.
-      #save_page
+      save_page
     end
     
     it "should create promotion" do

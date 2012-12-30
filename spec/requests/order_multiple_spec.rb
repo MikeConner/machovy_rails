@@ -2,7 +2,7 @@ describe "Order quantity > 1" do
   VISA = '4242424242424242'
 
   let(:user) { FactoryGirl.create(:user) }
-  let(:promotion) { FactoryGirl.create(:promotion) }
+  let(:promotion) { FactoryGirl.create(:approved_promotion) }
   before do
     # Need this for visit root_path to work
     Metro.create(:name => 'Pittsburgh')
