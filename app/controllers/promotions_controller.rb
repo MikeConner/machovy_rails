@@ -239,6 +239,13 @@ class PromotionsController < ApplicationController
     @promotion = Promotion.find(params[:id])
     # This line ensures there is a category_id entry, and allows users to clear their selection
     params[:promotion][:category_ids] ||= []
+    
+    # Convert to start_date, end_date properties so that the diff will detect them
+    # Still won't find derivative things like the fixed promotion strategy dates.
+    #   Could address that by showing missing keys, but that would also show spurious "changes" in array variables (e.g., categories)
+    params[:promotion][:start_date] = DateTime.new(params[:promotion]['start_date(1i)'].to_i, params[:promotion]['start_date(2i)'].to_i, params[:promotion]['start_date(3i)'].to_i).utc
+    params[:promotion][:end_date] = DateTime.new(params[:promotion]['end_date(1i)'].to_i, params[:promotion]['end_date(2i)'].to_i, params[:promotion]['end_date(3i)'].to_i).utc
+    
     changes = Utilities::type_insensitive_diff(params[:promotion], @promotion.attributes)
     
     change_description = changes.empty? ? 'No changes' : changes.to_s    

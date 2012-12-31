@@ -14,11 +14,20 @@ module Utilities
         elsif value.class.name == 'Fixnum' and hash2[key].class.name == 'String' and value == Integer(hash2[key])
         elsif value.class.name == 'String' and (hash2[key].class.name == 'BigDecimal' or hash2[key].class.name == 'Float') and Float(value) == hash2[key]
         elsif (value.class.name == 'BigDecimal' or value.class.name == 'Float') and hash2[key].class.name == 'String' and value == Float(hash2[key])
+        elsif (value.class.name == 'BigDecimal' or value.class.name == 'Float') and hash2[key].class.name == 'String' and value == Float(hash2[key])
+        elsif value.class.name == 'String' and hash2[key].class.name == 'FalseClass' and value.to_i == 0
+        elsif value.class.name == 'String' and hash2[key].class.name == 'TrueClass' and value.to_i == 1
         elsif value.class.name == hash2[key].class.name and value == hash2[key]
           # head scratcher -- you'd think diff would reject this...
         else
           real_changes[key] = value
-        end        
+        end
+      else
+        # Controversial whether to do this or not. If you add it it will consider anything not in the attributes list as a change, this includes array
+        #   properties like categories, and derivative things like the properties of promotion strategy dates. It's not perfect. Without it you can't
+        #   see changes to categories or those derived things; with it, you see them whether they're changed or not.
+        # Current compromise is to show *all* differences, so that we won't miss anything, but mark the ones that might not be changes with a "?"
+        real_changes["(?)#{key}"] = value
       end
     end
     

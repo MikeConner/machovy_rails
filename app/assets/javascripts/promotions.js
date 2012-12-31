@@ -104,9 +104,9 @@ $(function() {
 		// Set year
 		$('#promotion_start_date_1i').val(fields[2]);
 		// Set month
-		$('#promotion_start_date_2i').val(fields[0]);
+		$('#promotion_start_date_2i').val(parseInt(fields[0]));
 		// Set day
-		$('#promotion_start_date_3i').val(fields[1]);
+		$('#promotion_start_date_3i').val(parseInt(fields[1]));
   	}
   });
   $("#jq_end_date").datepicker({
@@ -116,9 +116,9 @@ $(function() {
 		// Set year
 		$('#promotion_end_date_1i').val(fields[2]);
 		// Set month
-		$('#promotion_end_date_2i').val(fields[0]);
+		$('#promotion_end_date_2i').val(parseInt(fields[0]));
 		// Set day
-		$('#promotion_end_date_3i').val(fields[1]);  
+		$('#promotion_end_date_3i').val(parseInt(fields[1]));  
 	}	
   });
   
@@ -129,9 +129,9 @@ $(function() {
 		// Set year
 		$('#fixed_end_date_1i').val(fields[2]);
 		// Set month
-		$('#fixed_end_date_2i').val(fields[0]);
+		$('#fixed_end_date_2i').val(parseInt(fields[0]));
 		// Set day
-		$('#fixed_end_date_3i').val(fields[1]);  
+		$('#fixed_end_date_3i').val(parseInt(fields[1]));  
 	}	
   });
   
