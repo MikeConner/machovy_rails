@@ -3,6 +3,7 @@
 Variables
 ----------------------------------------------*/
 $red: #ed464a;
+$grey: #333333;
 
 /*
 ----------------------------------------------
@@ -122,10 +123,10 @@ p {font-size:14px;}
     border: 1px dotted #999;
   }
 
-/*.divider {
+.section-divider {
   border-bottom:1px dotted #cfcfcf;
   margin:10px 0;
-}*/
+}
 
 .well {
   padding:20px;
@@ -632,7 +633,7 @@ Tabs
 
 .tab-bottom-button {
   position: relative;
-  background-color: #dddddd;
+  background-color: $grey;
   bottom: 30px;
   color: white;
   text-align: center;
@@ -641,7 +642,7 @@ Tabs
 
 .tab-bottom-button a {
   font-family: Oswald;
-  color: #999;
+  color: white;
   font-size: 16px;
   display:block;
   padding:10px
@@ -649,7 +650,7 @@ Tabs
 
 .tab-bottom-button a:hover {
   color: white;
-  background-color:#333;
+  background-color:$red;
 }
 
 

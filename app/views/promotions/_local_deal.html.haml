@@ -99,13 +99,18 @@
                 #map_canvas.vendor_map    
         - if @show_buy_button
           .tab-bottom-button
-            = link_to I18n.t('click_to_buy'), order_promotion_path(@promotion)   
+            = link_to "<i class='icon-plus icon-white'></i> #{I18n.t('click_to_buy')}".html_safe, order_promotion_path(@promotion)   
+        - elsif @promotion.zombie?
+          .tab-bottom-button
+            Zombie! Run!
         %p.limitations
           %br
           -#%em= @promotion.limitations 
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget enim non ante consectetur mollis at sit amet est. Donec nec volutpat velit.
-
-.space-medium
+.section-divider  
+.space-small
+.row-fluid
+  %h4 Associated Mentors
 .row-fluid.well
   - @curators.each do |curator|
     = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }
