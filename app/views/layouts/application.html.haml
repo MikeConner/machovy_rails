@@ -7,12 +7,12 @@
   %meta{:name => 'description', :content => I18n.t('meta_description') }
   %meta{:name => 'fb:app_id', :content => "274942492605472"}
   %meta{:name => 'fb:admins', :content => "bastille"}
+  %meta{:name => 'og:url', :content => "http://#{request.host+request.fullpath}"}
   %meta{:name => 'og:type', :content => "website"}
   - if !@promotion.nil?
     %meta{:name => 'og:image', :content => @promotion.teaser_image_url(:product_front_page).to_s}
     %meta{:name => 'og:title', :content => @promotion.title}
-    %meta{:name => 'og:description', :content => @promotion.description }\
-
+    %meta{:name => 'og:description', :content => @promotion.description}
   %title M A C H O V Y
   = favicon_link_tag 
   = javascript_include_tag "application"
