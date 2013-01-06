@@ -9,6 +9,7 @@ gem 'pg'
 gem 'taps'
 gem "ckeditor", "3.7.3"
 gem 'sass-rails',   '3.2.5'
+gem 'activemerchant', '1.29.3'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -48,11 +49,6 @@ end
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
-
-# For Credit Card Processing
-gem 'stripe', '1.7.4'
-
-# For Authentication
 
 #for QR Codes
 gem 'rqrcode-rails3', '0.1.5'
