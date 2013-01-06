@@ -30,6 +30,7 @@ describe "Buy button rules" do
     end
         
     it { should have_selector('h3', :text => promotion_with_orders.title) }
+    it { should have_selector('p', :text => I18n.t('sold_out')) }
     it { should_not have_link(I18n.t('click_to_buy')) }
   end
 
@@ -41,6 +42,7 @@ describe "Buy button rules" do
     
     it { should have_selector('h3', :text => promotion.title) }
     it { should have_link(I18n.t('click_to_buy'), :href => order_promotion_path(promotion)) }
+    it { should_not have_selector('p', :text => I18n.t('sold_out')) }
   end
 
   describe "Logged in as an admin" do

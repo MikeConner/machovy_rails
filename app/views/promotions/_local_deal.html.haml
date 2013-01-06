@@ -97,7 +97,7 @@
             = link_to "<i class='icon-plus icon-white'></i> #{I18n.t('click_to_buy')}".html_safe, order_promotion_path(@promotion)   
         - elsif @promotion.zombie?
           .tab-bottom-button
-            %p Sold Out
+            %p= I18n.t('sold_out')
         %p.limitations
           %br
           -#%em= @promotion.limitations 
