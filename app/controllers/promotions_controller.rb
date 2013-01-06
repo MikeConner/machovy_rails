@@ -53,7 +53,7 @@ class PromotionsController < ApplicationController
             else
               @inactive.push(promotion)
             end
-          elsif promotion.awaiting_machovy_action?
+          elsif promotion.suspended? or promotion.awaiting_machovy_action?
             @pending.push(promotion)
           elsif promotion.awaiting_vendor_action?
             @attention.push(promotion)
@@ -97,7 +97,7 @@ class PromotionsController < ApplicationController
     # When assigning booleans, need to use ||, not OR operator. If you change to and/or it will break!
     @show_buy_button = eligible_to_purchase(@promotion)
     @show_terms = !current_user.nil? && !current_user.is_customer?
-    @show_accept_reject = !current_user.nil? && current_user.has_role?(Role::MERCHANT) && @promotion.status == Promotion::EDITED
+    @show_accept_reject = !current_user.nil? && current_user.has_role?(Role::MERCHANT) && @promotion.status == Promotion::EDITED && !@promotion.suspended?
     @curators = @promotion.curators
     if @curators.length > 4
       @curators = @curators[0, 4]
@@ -214,8 +214,10 @@ class PromotionsController < ApplicationController
       @promotion.strategy = PromotionStrategyFactory.instance.create_promotion_strategy(params[:promotion_strategy], params)
     end
     
-    # Only Local Deals need Machovy approved; others are coming in from Admins and are Approved by definition
-    if @promotion.promotion_type != Promotion::LOCAL_DEAL or current_user.has_role?(Role::SALES_ADMIN) 
+    # Only Local Deals need Machovy approved; others are coming in from Admins and are Edited by definition (so that they don't instantly go live)
+    if Promotion::LOCAL_DEAL == @promotion.promotion_type 
+      @promotion.status = current_user.has_role?(Role::SALES_ADMIN) ? Promotion::EDITED : Promotion::MACHOVY_APPROVED
+    else
       @promotion.status = Promotion::MACHOVY_APPROVED
     end
     
