@@ -639,8 +639,16 @@ Tabs
   text-align: center;
   text-transform: uppercase;
 }
+.tab-bottom-button p {
+  font-family: Oswald;
+  background-color: #ddd;
+  color: white;
+  font-size: 16px;
+  display:block;
+  padding:10px
+}
 
-.tab-bottom-button a {
+.tab-bottom-button a{
   font-family: Oswald;
   color: white;
   font-size: 16px;
