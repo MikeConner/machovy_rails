@@ -2105,12 +2105,13 @@ Rating Stars
 /**** Sold out overlay */
 
 .zombie_image {
-   z-index: -1;
-   opacity:0.6;
-   filter:alpha(opacity=60); /* For IE8 and earlier */
+  top:0;
+  left: 0;
+  position:absolute;
+  /*background:url(/assets/sold_out.jpg);*/
 }  
 
-.zombie_image:before {
+/*.zombie_image:before {
    content:"";
    z-index:1;
    top:0;
@@ -2119,8 +2120,8 @@ Rating Stars
    right:0;
    background:url(/assets/sold_out.jpg);
    opacity:0.4;
-   filter:alpha(opacity=40); /* For IE8 and earlier */
-}
+   filter:alpha(opacity=40); /* For IE8 and earlier 
+}*/
 
 /*
 .zombie_image {
