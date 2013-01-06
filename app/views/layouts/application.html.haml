@@ -7,7 +7,7 @@
   %meta{:name => 'description', :content => I18n.t('meta_description') }
   %meta{ :property => "fb:app_id", :content => "274942492605472"}
   %meta{ :property => "fb:admins", :content => "bastille"}
-  #%meta{ :property => "og:url", :content => "http://#{request.host+request.fullpath}".to_s }
+  %meta{ :property => "og:url", :content => "https://#{request.host+request.fullpath}".to_s }
   %meta{ :property => 'og:type', :content => "website"}
   - if !@promotion.nil?
     %meta{ :property => 'og:image', :content => @promotion.teaser_image_url(:product_front_page).to_s}
