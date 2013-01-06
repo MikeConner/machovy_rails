@@ -45,7 +45,8 @@ module ActiveMerchant #:nodoc:
 #      self.wiredump_device = STDOUT
 
 #      self.test_url = 'https://certify.securenet.com/api/Gateway.svc'
-      self.test_url = 'https://certify.securenet.com/API/gateway.svc/webHttp/ProcessTransaction'
+#      self.test_url = 'https://certify.securenet.com/API/gateway.svc/webHttp/ProcessTransaction'
+      self.test_url = 'https://gateway.securenet.com/API/gateway.svc/webHttp/ProcessTransaction'
       self.live_url = 'https://gateway.securenet.com/api/Gateway.svc'
 
       APPROVED, DECLINED, ERROR = 1, 2, 3
@@ -128,7 +129,11 @@ module ActiveMerchant #:nodoc:
         # ??? Override_From is required????
         xml.tag! 'OVERRIDE_FROM', 0 # Docs say not required, but doesn't work without it
         xml.tag! 'RETAIL_LANENUM', 0
-        xml.tag! 'TEST', 'TRUE'
+        if test?
+          xml.tag! 'TEST', 'TRUE'
+        else
+          xml.tag! 'TEST', SECURENET_MODE
+        end
         # BS Crap that it should't need but does!
         xml.tag! 'TOTAL_INSTALLMENTCOUNT', 0
         xml.tag! 'TRANSACTION_SERVICE', 0

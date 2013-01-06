@@ -38,7 +38,7 @@ describe "SecureNet" do
     
     describe "it should process" do
       before do
-        @response = gateway.authorize(1000, @cc, :order_id => 17)
+        @response = gateway.authorize(1000, @cc, :order_id => Random.rand(10000) + 132)
         puts @response.message
       end
       

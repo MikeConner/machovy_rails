@@ -1,3 +1,4 @@
 SECURENET_ID = '1068536'
 SECURENET_KEY = 'B2zVV6hhBWTr'
+SECURENET_MODE = ENV['SECURENET_TEST_MODE'].nil? ? 'TRUE' : ENV['SECURENET_TEST_MODE']
 ActiveMerchant::Billing::Base.mode = :test
