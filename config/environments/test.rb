@@ -42,4 +42,8 @@ MachovyRails::Application.configure do
   silence_warnings do
     BCrypt::Engine::DEFAULT_COST = BCrypt::Engine::MIN_COST
   end  
+  
+  ActiveMerchant::Billing::Base.mode = :test
+  SECURENET_ID = '7001823'
+  SECURENET_KEY = '9vx7ohoqC32A'  
 end

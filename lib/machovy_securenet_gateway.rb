@@ -2,8 +2,24 @@ module ActiveMerchant #:nodoc:
   module Billing #:nodoc:
     class MachovySecureNetGateway < Gateway
 
-      API_VERSION = "4.0"
+      DEVELOPER_ID = '10000148'      
+      API_VERSION = '4.1.4'
+      TRANSACTION_ID_LEN = 15
 
+      # No Magic Numbers!
+      # OVERRIDE_FROM
+      BILLING_INFO_FROM_TRANSACTION = 0
+      # IndustrySpecificData
+      PHYSICAL_GOODS = 'P'
+      DIGITAL_GOODS = 'D'
+      # TransactionService
+      REGULAR_TRANSACTION = 0
+      VAULT_CUSTOMER_ID = 1
+      VAULT_SECONDARY_KEY = 2
+      VAULT_ADD_CUSTOMER = 3
+      # DCI
+      NO_DUPLICATE_CHECKING = 0
+      
       TRANSACTIONS = {
         :auth_only                      => "0000",  #
         :partial_auth_only              => "0001",
@@ -33,22 +49,15 @@ module ActiveMerchant #:nodoc:
       XML_ATTRIBUTES = { 'xmlns' => "http://gateway.securenet.com/API/Contracts",
                          'xmlns:i' => "http://www.w3.org/2001/XMLSchema-instance"
                        }
-      NIL_ATTRIBUTE = { 'i:nil' => "true" }
-
-#      SUCCESS = "true"
-#      SENSITIVE_FIELDS = [ :verification_str2, :expiry_date, :card_number ]
-
+                             
       self.supported_countries = ['US']
       self.supported_cardtypes = [:visa, :master, :american_express, :discover]
       self.homepage_url = 'http://www.securenet.com/'
       self.display_name = 'SecureNet'
-#      self.wiredump_device = STDOUT
 
-#      self.test_url = 'https://certify.securenet.com/api/Gateway.svc'
-#      self.test_url = 'https://certify.securenet.com/API/gateway.svc/webHttp/ProcessTransaction'
-      self.test_url = 'https://gateway.securenet.com/API/gateway.svc/webHttp/ProcessTransaction'
-      self.live_url = 'https://gateway.securenet.com/api/Gateway.svc'
-
+      self.test_url = 'https://certify.securenet.com/API/gateway.svc/webHttp/'     
+      self.live_url = 'https://gateway.securenet.com/api/Gateway.svc/webHttp/'
+      
       APPROVED, DECLINED, ERROR = 1, 2, 3
 
       RESPONSE_CODE, RESPONSE_REASON_CODE, RESPONSE_REASON_TEXT = 0, 2, 3
@@ -62,192 +71,176 @@ module ActiveMerchant #:nodoc:
         super
       end
 
+      # Access as a singleton
+      @@instance = nil
+      
+      def self.instance
+        if @@instance.nil?
+          @@instance = ActiveMerchant::Billing::MachovySecureNetGateway.new(:login => SECURENET_ID, :password => SECURENET_KEY)
+        end
+        
+        return @@instance
+      end
+      
       def authorize(money, creditcard, options = {})
-        commit(build_sale_or_authorization_request(creditcard, options, :auth_only), money)
+        commit(build_sale_params(creditcard, options, :auth_only), money)
       end
 
       def purchase(money, creditcard, options = {})
-        commit(build_sale_or_authorization_request(creditcard, options, :auth_capture), money)
+        commit(build_sale_params(creditcard, options, :auth_capture), money)
       end
 
       def capture(money, creditcard, authorization, options = {})
-        commit(build_capture_request(authorization, creditcard, options, :prior_auth_capture), money)
-      end
-
-      def void(money, creditcard, authorization, options = {})
-        commit(build_void_request(authorization, creditcard, options, :void), money)
+        commit(build_sale_params_with_authorization(authorization, creditcard, options, :prior_auth_capture), money)
       end
 
       def credit(money, creditcard, authorization, options = {})
-        commit(build_credit_request(authorization, creditcard, options, :credit), money)
+        commit(build_sale_params_with_authorization(authorization, creditcard, options, :credit), money)
       end
 
-      private
-      def commit(request, money)
-        xml = build_request(request, money)
-        puts xml
-        data = ssl_post(self.test_url, xml, "Content-Type" => "text/xml")
-        response = parse(data)
+      def void(money, creditcard, authorization, options = {})
+        commit(build_sale_params_with_authorization(authorization, creditcard, options, :void), money)
+      end
 
-        test_mode = test?
+      # Required for settling transactions before issuing credits
+      def close_batch
+        xml = build_batch_xml
+        #puts xml
+        post_xml(xml, test? ? 'TRUE' : SECURENET_MODE, true)
+      end
+      
+      # Utilities for creating credit card objects from parameters, and generating text error messages
+      def parse_card(params)
+        ActiveMerchant::Billing::CreditCard.new(:number => params[:card_number],
+                                                :verification_value => params[:card_code],
+                                                :month => params[:card_month], 
+                                                :year => params[:card_year], 
+                                                :first_name => params[:first_name],
+                                                :last_name => params[:last_name])     
+      end
+      
+      def parse_address(params)
+        address = Hash.new
+        
+        address[:city] = params[:city] if params.has_key?(:city)
+        address[:state] = params[:state] if params.has_key?(:state)
+        address[:zip] = params[:zipcode] if params.has_key?(:zipcode)
+        
+        address
+      end
+           
+      # Convert errors into a single string
+      # Note that an invalid credit card will generate "invalid number" if it's *close*, 
+      #   and "brand is required" if it's so far off it can't determine the CC type
+      def generate_card_error_msg(card)
+        if card.valid?
+          ''
+        else
+          error_message = ''
+          
+          # Key -> [error array]
+          card.errors.each do |key, errors|
+            if !errors.empty?
+              errors.each do |error|
+                if !error_message.blank?
+                  error_message += '; '
+                end
+                
+                error_message += "#{key} #{error}"
+              end
+            end
+          end
+          
+          error_message
+        end
+      end  
+          
+    private
+      def commit(params, money)
+        post_xml(build_transaction_xml(params, money), 'TRUE' == params[:test])
+      end
+      
+      def post_xml(xml, test_mode, batch = false)
+        #puts "Posting to #{self.test_url}"
+        #puts "With #{SECURENET_ID}, #{SECURENET_KEY}"
+        #puts xml
+        # Don't call test?, since to be truly live requires an environment key, even if we're on the production machine
+        # add_common_fields sets the params['TEST'] variable correctly
+        target_url = test_mode ? self.test_url : self.live_url
+        target_url += batch ? "CloseBatch" : "ProcessTransaction"
+        
+        data = ssl_post(target_url, xml, "Content-Type" => "text/xml")
+        response = parse(data)
+        #puts "Raw response: " + response.inspect
+        
         Response.new(success?(response), message_from(response), response,
-          :test => test_mode,
+          :test => test?,
           :authorization => response[:transactionid],
           :avs_result => { :code => response[:avs_result_code] },
           :cvv_result => response[:card_code_response_code]
-        )
-      end
-
-      def build_request(request, money)
-        xml = Builder::XmlMarkup.new
-
-        xml.instruct!
-        xml.tag!("TRANSACTION", XML_ATTRIBUTES) do
-          xml.tag! 'AMOUNT', amount(money)
-          xml << request
-        end
-
-        xml.target!
+        )                
       end
       
-      # Construct XML request
-      def build_sale_or_authorization_request(creditcard, options, action)
-        xml = Builder::XmlMarkup.new
-
-        # If you change the order of these flags, or remove "optional" flags, it breaks with a 400 Bad Request!
-        add_credit_card(xml, creditcard)
-        xml.tag! 'CODE', TRANSACTIONS[action]
-        add_customer_data(xml, options)
-        add_address(xml, creditcard, options)
-        xml.tag! 'DCI', 0 # No duplicate checking will be done, except for ORDERID
-        # ??? Why is Installment_sequencenum required??? I get a 400 bad request if I leave it out
-        xml.tag! 'INSTALLMENT_SEQUENCENUM', 0
-        #add_invoice(xml, options)
-        add_merchant_key(xml, options)
-        xml.tag! 'METHOD', 'CC'
-        xml.tag! 'ORDERID', options[:order_id]#'30'.to_i.to_s#'22'# @options[:order_id]
-        # ??? Override_From is required????
-        xml.tag! 'OVERRIDE_FROM', 0 # Docs say not required, but doesn't work without it
-        xml.tag! 'RETAIL_LANENUM', 0
-        if test?
-          xml.tag! 'TEST', 'TRUE'
-        else
-          xml.tag! 'TEST', SECURENET_MODE
-        end
-        # BS Crap that it should't need but does!
-        xml.tag! 'TOTAL_INSTALLMENTCOUNT', 0
-        xml.tag! 'TRANSACTION_SERVICE', 0
-        xml.tag! 'INDUSTRYSPECIFICDATA', options.has_key?(:shipping_required) ? 'P' : 'D'
-
-=begin
-        # What I think it "should" be
+      def build_sale_params(creditcard, options, action)
+        #puts "Build sale params: #{options.inspect}"
+        params = Hash.new
         
-        # Add authorization information, identifying Machovy as the merchant
-        add_merchant_key(xml, options)
-        # Add code for what we're doing
-        xml.tag! 'CODE', TRANSACTIONS[action]
-        # Set standard flags (eCommerce credit card transaction)
-        xml.tag! 'DCI', 0 # No duplicate checking will be done, except for ORDERID
-        xml.tag! 'METHOD', 'CC'
-        xml.tag! 'TRANSACTION_SERVICE', 0
-        xml.tag! 'VERSION', API_VERSION # ?????
-        xml.tag! 'DEVELOPERID', '496201754884'   # ????
-        xml.tag! 'TEST', test? ? 'TRUE' : 'FALSE' # JKB - was TRUE; documentation says you have to set Terminal to Live and Test to False ???
-#
-        # Now add transaction-specific data
-        add_credit_card(xml, creditcard)
-        # Customer ID or IP address, if given
-        add_customer_data(xml, options)
-        add_address(xml, creditcard, options)
-        xml.tag! 'ORDERID', options[:order_id]
-        # 'Physical' or 'Digital' goods (or a 1-3 code for recurring and special transactions)
-        xml.tag! 'INDUSTRYSPECIFICDATA', options.has_key?(:shipping_required) ? 'P' : 'D'
-=end
-        xml.target!
+        add_common_fields(params, options, action, creditcard)
+
+        # Add name, billing address, email
+        add_address(params, creditcard, options)
+
+        #puts "After building: #{params.inspect}"
+        params
       end
 
-      def build_capture_or_credit_request(identification, options)
-        xml = Builder::XmlMarkup.new
+      def build_sale_params_with_authorization(authorization, creditcard, options, action)
+        params = build_sale_params(creditcard, options, action)
+        
+        params[:ref_transaction_id] = authorization if !authorization.nil?
 
-        add_identification(xml, identification)
-        add_customer_data(xml, options)
-
-        xml.target!
-      end
-
-      def build_capture_request(authorization, creditcard, options, action)
-        xml = Builder::XmlMarkup.new
-
-        add_credit_card(xml, creditcard)
-        xml.tag! 'CODE', TRANSACTIONS[action]
-        add_customer_data(xml, options)
-        xml.tag! 'DCI', 0 # No duplicate checking will be done, except for ORDERID
-        xml.tag! 'INSTALLMENT_SEQUENCENUM', 1
-        add_merchant_key(xml, options)
-        xml.tag! 'METHOD', 'CC'
-        xml.tag! 'ORDERID', options[:order_id]#'30'.to_i.to_s#'22'# @options[:order_id]
-        xml.tag! 'OVERRIDE_FROM', 0 # Docs say not required, but doesn't work without it
-        xml.tag! 'REF_TRANSID', authorization
-        xml.tag! 'RETAIL_LANENUM', '0' # Docs say string, but it's an integer!?
-        xml.tag! 'TEST', 'TRUE'
-        xml.tag! 'TOTAL_INSTALLMENTCOUNT', 0
-        xml.tag! 'TRANSACTION_SERVICE', 0
-
-        xml.target!
-      end
-
-      def build_credit_request(authorization, creditcard, options, action)
-#        requires!(options, :card_number)
-        xml = Builder::XmlMarkup.new
-
-        add_credit_card(xml, creditcard)
-        xml.tag! 'CODE', TRANSACTIONS[action]
-        add_customer_data(xml, options)
-        xml.tag! 'DCI', 0 # No duplicate checking will be done, except for ORDERID
-        xml.tag! 'INSTALLMENT_SEQUENCENUM', 1
-        add_merchant_key(xml, options)
-        xml.tag! 'METHOD', 'CC'
-        xml.tag! 'ORDERID', options[:order_id]#'30'.to_i.to_s#'22'# @options[:order_id]
-        xml.tag! 'OVERRIDE_FROM', 0 # Docs say not required, but doesn't work without it
-        xml.tag! 'REF_TRANSID', authorization
-        xml.tag! 'RETAIL_LANENUM', '0' # Docs say string, but it's an integer!?
-        xml.tag! 'TEST', 'TRUE'
-        xml.tag! 'TOTAL_INSTALLMENTCOUNT', 0
-        xml.tag! 'TRANSACTION_SERVICE', 0
-
-        xml.target!
-      end
-
-      def build_void_request(authorization, creditcard, options, action)
-        xml = Builder::XmlMarkup.new
-
-        add_credit_card(xml, creditcard)
-        xml.tag! 'CODE', TRANSACTIONS[action]
-        add_customer_data(xml, options)
-        xml.tag! 'DCI', 0 # No duplicate checking will be done, except for ORDERID
-        xml.tag! 'INSTALLMENT_SEQUENCENUM', 1
-        add_merchant_key(xml, options)
-        xml.tag! 'METHOD', 'CC'
-        xml.tag! 'ORDERID', options[:order_id]#'30'.to_i.to_s#'22'# @options[:order_id]
-        xml.tag! 'OVERRIDE_FROM', 0 # Docs say not required, but doesn't work without it
-        xml.tag! 'REF_TRANSID', authorization
-        xml.tag! 'RETAIL_LANENUM', '0' # Docs say string, but it's an integer!?
-        xml.tag! 'TEST', 'TRUE'
-        xml.tag! 'TOTAL_INSTALLMENTCOUNT', 0
-        xml.tag! 'TRANSACTION_SERVICE', 0
-
-        xml.target!
+        params        
       end
 
       #########################################################################
-      # FUNCTIONS RELATED TO BUILDING THE XML
+      # FUNCTIONS RELATED TO BUILDING THE PARAMETERS
       #########################################################################
-      def add_credit_card(xml, creditcard)
-        xml.tag!("CARD") do
-          xml.tag! 'CARDCODE', creditcard.verification_value if creditcard.verification_value?
-          xml.tag! 'CARDNUMBER', creditcard.number
-          xml.tag! 'EXPDATE', expdate(creditcard)
-        end
+      def add_common_fields(params, options, action, creditcard)
+        # Merchant ID and KEY
+        add_merchant_key(params)
+        
+        # Type of transaction
+        params[:code] = TRANSACTIONS[action]
+        # Regular transaction (i.e., not recurring)
+        params[:transaction_service] = REGULAR_TRANSACTION
+        # No duplicate checking will be done, except for ORDERID
+        params[:dci] = NO_DUPLICATE_CHECKING
+        # Credit card transaction
+        params[:method] = 'CC' 
+        # Billing info comes from the transaction request (vs. the Vault)
+        params[:override_from] = BILLING_INFO_FROM_TRANSACTION
+        # Physical vs. Digital goods
+        params[:industry_specific_data] = options[:shipping_required] ? PHYSICAL_GOODS : DIGITAL_GOODS
+        # Ensure there is some kind of order id
+        params[:order_id] = options.has_key?(:order_id) ? options[:order_id].to_s : SecureRandom.hex(10)
+        # Test flag; if production, retrieve from environment
+        # In Test environment (or development), set to FALSE so that transactions settle (otherwise it will fail certification)
+        if test?
+          params[:test] = options.has_key?(:certification_test) ? 'FALSE' : 'TRUE'
+        else
+          params[:test] = SECURENET_MODE
+        end  
+              
+        # Add Card #, CVV, and Expiration Date
+        add_credit_card(params, creditcard)
+        # Add ip (or customer id if vault)
+        add_customer_data(params, options)
+      end
+
+      def add_credit_card(params, creditcard)
+        params[:card] = { :card_code => creditcard.verification_value,
+                          :card_number => creditcard.number,
+                          :expiration_date => expdate(creditcard) }
       end
 
       def expdate(creditcard)
@@ -257,68 +250,146 @@ module ActiveMerchant #:nodoc:
         "#{month}#{year[-2..-1]}"
       end
 
-      def add_customer_data(xml, options)
-        if options.has_key? :customer
-          xml.tag! 'CUSTOMERID', options[:customer]
+      def add_customer_data(params, options)
+        if options.has_key? :customer_id
+          params[:customer_id] = options[:customer_id]
         end
 
-        if options.has_key? :ip
-          xml.tag! 'CUSTOMERIP', options[:ip]
+        if options.has_key? :customer_ip
+          params[:customer_ip] = options[:customer_ip]
         end
       end
 
-      def add_address(xml, creditcard, options)
-
-        if address = options[:billing_address] || options[:address]
-          xml.tag!("CUSTOMER_BILL") do
-            xml.tag! 'ADDRESS', address[:address1].to_s
-            xml.tag! 'CITY', address[:city].to_s
-            xml.tag! 'COMPANY', address[:company].to_s
-            xml.tag! 'COUNTRY', address[:country].to_s
-            if options.has_key? :email
-              xml.tag! 'EMAIL', options[:email]
-#              xml.tag! 'EMAIL', 'myemail@yahoo.com'
-              xml.tag! 'EMAILRECEIPT', 'FALSE'
-            end
-            xml.tag! 'FIRSTNAME', creditcard.first_name
-            xml.tag! 'LASTNAME', creditcard.last_name
-            xml.tag! 'PHONE', address[:phone].to_s
-            xml.tag! 'STATE', address[:state].blank?  ? 'n/a' : address[:state]
-            xml.tag! 'ZIP', address[:zip].to_s
-          end
+      def add_address(params, creditcard, options)
+        params[:billing_address] = { :first_name => creditcard.first_name,
+                                     :last_name => creditcard.last_name }
+        
+        if address = options[:billing_address]          
+          params[:billing_address][:email] = address[:email] if address.has_key? :email
+          params[:billing_address][:address1] = address[:address1] if address.has_key?(:address1)
+          params[:billing_address][:city] = address[:city] if address.has_key?(:city)
+          params[:billing_address][:company] = address[:company] if address.has_key?(:company)
+          params[:billing_address][:country] = address[:country] if address.has_key?(:country)
+          params[:billing_address][:phone] = address[:phone] if address.has_key?(:phone)
+          params[:billing_address][:state] = address[:state] if address.has_key?(:state)
+          params[:billing_address][:zip] = address[:zip] if address.has_key?(:zip)
         end
 
         if address = options[:shipping_address]
-          xml.tag!("CUSTOMER_SHIP") do
-            xml.tag! 'ADDRESS', address[:address1].to_s
-            xml.tag! 'CITY', address[:city].to_s
-            xml.tag! 'COMPANY', address[:company].to_s
-            xml.tag! 'COUNTRY', address[:country].to_s
-            xml.tag! 'FIRSTNAME', address[:first_name].to_s
-            xml.tag! 'LASTNAME', address[:last_name].to_s
-            xml.tag! 'STATE', address[:state].blank?  ? 'n/a' : address[:state]
-            xml.tag! 'ZIP', address[:zip].to_s
-          end
-        #else
-        #  xml.tag!('CUSTOMER_SHIP', NIL_ATTRIBUTE) do
-        #  end
+          params[:shipping_address] = Hash.new
+          params[:shipping_address][:first_name] = address[:first_name] if address.has_key?(:first_name)
+          params[:shipping_address][:last_name] = address[:last_name] if address.has_key?(:last_name)
+          params[:shipping_address][:address1] = address[:address1] if address.has_key?(:address1)
+          params[:shipping_address][:city] = address[:city] if address.has_key?(:city)
+          params[:shipping_address][:company] = address[:company] if address.has_key?(:company)
+          params[:shipping_address][:country] = address[:country] if address.has_key?(:country)
+          params[:shipping_address][:state] = address[:state] if address.has_key?(:state)
+          params[:shipping_address][:zip] = address[:zip] if address.has_key?(:zip)
         end
-
       end
 
-      def add_invoice(xml, options)
-        xml.tag! 'INVOICEDESC', options[:description]
-        xml.tag! 'INVOICENUM', 'inv-8'
+      def add_merchant_key(params)
+        # Reference parent options (Gateway constructor)
+        params[:merchant_key] = { :group_id => 0, # Why 0?
+                                  :login => @options[:login],
+                                  :password => @options[:password] }
+                                  
+        params[:developer_id] = DEVELOPER_ID
+        params[:api_version] = API_VERSION
       end
 
-      def add_merchant_key(xml, options)
-        xml.tag!("MERCHANT_KEY") do
+      def build_batch_xml
+       xml = Builder::XmlMarkup.new
+
+        xml.instruct!
+        xml.tag!('MERCHANT_KEY', XML_ATTRIBUTES) do
           xml.tag! 'GROUPID', 0
           xml.tag! 'SECUREKEY', @options[:password]
           xml.tag! 'SECURENETID', @options[:login]
         end
+        
+        xml.target!      
       end
+      
+      def build_transaction_xml(params, money)
+        #puts "Building transaction XML: #{params.inspect}"
+        xml = Builder::XmlMarkup.new
 
+        xml.instruct!
+        xml.tag!('TRANSACTION', XML_ATTRIBUTES) do
+          # Amount is the first element anyway, so let this stay
+          xml.tag! 'AMOUNT', amount(money)
+          # The schema is order dependent. Rather than require all the build methods to know this order, let them
+          #   make a regular Ruby hash in a sensible order (which allows factoring out common elements, etc.)
+          #   Then put the schema knowledge in one place -- here
+          # Could actually read the schema, but it's a little too complex to be worth it with all the embedded objects
+          xml.tag!('CARD') do
+            xml.tag! 'CARDCODE', params[:card][:card_code]
+            xml.tag! 'CARDNUMBER', params[:card][:card_number]
+            xml.tag! 'EXPDATE', params[:card][:expiration_date]
+          end
+          xml.tag! 'CODE', params[:code]
+          xml.tag! 'CUSTOMERID', params[:customer_id] if params.has_key?(:customer_id)
+          xml.tag! 'CUSTOMERIP', params[:customer_ip] if params.has_key?(:customer_ip)
+          
+          xml.tag!('CUSTOMER_BILL') do
+            xml.tag! 'ADDRESS', params[:billing_address][:address1] if params[:billing_address].has_key?(:address1)
+            xml.tag! 'CITY', params[:billing_address][:city] if params[:billing_address].has_key?(:city)
+            xml.tag! 'COMPANY', params[:billing_address][:company] if params[:billing_address].has_key?(:company)
+            xml.tag! 'COUNTRY', params[:billing_address][:country] if params[:billing_address].has_key?(:country)
+            if params[:billing_address].has_key?(:email)
+              xml.tag! 'EMAIL', params[:billing_address][:email] 
+              xml.tag! 'EMAILRECEIPT', 'FALSE'
+            end
+            xml.tag! 'FIRSTNAME', params[:billing_address][:first_name]
+            xml.tag! 'LASTNAME', params[:billing_address][:last_name]
+            xml.tag! 'PHONE', params[:billing_address][:phone] if params[:billing_address].has_key?(:phone)
+            xml.tag! 'STATE', params[:billing_address][:state] if params[:billing_address].has_key?(:state)
+            xml.tag! 'ZIP', params[:billing_address][:zip] if params[:billing_address].has_key?(:zip)
+          end
+          
+          if params.has_key?(:shipping_address)
+            xml.tag!('CUSTOMER_SHIP') do
+              xml.tag! 'ADDRESS', params[:shipping_address][:address1] if params[:shipping_address].has_key?(:address1)
+              xml.tag! 'CITY', params[:shipping_address][:city] if params[:shipping_address].has_key?(:city)
+              xml.tag! 'COMPANY', params[:shipping_address][:company] if params[:shipping_address].has_key?(:company)
+              xml.tag! 'COUNTRY', params[:shipping_address][:country] if params[:shipping_address].has_key?(:country)
+              xml.tag! 'FIRSTNAME', params[:shipping_address][:first_name] if params[:shipping_address].has_key?(:first_name)
+              xml.tag! 'LASTNAME', params[:shipping_address][:last_name] if params[:shipping_address].has_key?(:last_name)
+              xml.tag! 'STATE', params[:shipping_address][:state] if params[:shipping_address].has_key?(:state)
+              xml.tag! 'ZIP', params[:shipping_address][:zip] if params[:shipping_address].has_key?(:zip)
+            end
+          end
+          
+          xml.tag! 'DCI', params[:dci]
+          xml.tag! 'INDUSTRYSPECIFICDATA', params[:industry_specific_data]
+          xml.tag! 'INSTALLMENT_SEQUENCENUM', 0 # useless; required by schema
+          
+          xml.tag!('MERCHANT_KEY') do
+            xml.tag! 'GROUPID', params[:merchant_key][:group_id]
+            xml.tag! 'SECUREKEY', params[:merchant_key][:password]
+            xml.tag! 'SECURENETID', params[:merchant_key][:login]
+          end
+          
+          xml.tag! 'METHOD', params[:method]
+          xml.tag! 'ORDERID', params[:order_id]
+          xml.tag! 'OVERRIDE_FROM', params[:override_from]
+          xml.tag! 'REF_TRANSID', params[:ref_transaction_id] if params.has_key?(:ref_transaction_id)
+          xml.tag! 'RETAIL_LANENUM', 0 # useless; required by schema
+          xml.tag! 'TEST', params[:test]
+          xml.tag! 'TOTAL_INSTALLMENTCOUNT', 0 # useless; required by schema
+          xml.tag! 'TRANSACTION_SERVICE', params[:transaction_service]
+          xml.tag! 'DEVELOPERID', params[:developer_id]
+          xml.tag! 'VERSION', params[:api_version]
+        end
+           
+        xml.target!
+      rescue Exception => e
+        puts e.message
+        
+        xml.target!
+      end
+       
       #########################################################################
       # FUNCTIONS RELATED TO THE RESPONSE
       #########################################################################
@@ -336,11 +407,10 @@ module ActiveMerchant #:nodoc:
       end
 
       def parse(xml)
+        #puts "Raw XML response: #{xml}"
         response = {}
         xml = REXML::Document.new(xml)
         root = REXML::XPath.first(xml, "//GATEWAYRESPONSE")# ||
-#        root = REXML::XPath.first(xml, "//ProcessTransactionResponse")# ||
-#               REXML::XPath.first(xml, "//ErrorResponse")
         if root
           root.elements.to_a.each do |node|
             recurring_parse_element(response, node)
@@ -356,9 +426,7 @@ module ActiveMerchant #:nodoc:
         else
           response[node.name.underscore.to_sym] = node.text
         end
-      end
-
-
+      end      
     end
   end
 end

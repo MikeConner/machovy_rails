@@ -37,4 +37,8 @@ MachovyRails::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+  
+  ActiveMerchant::Billing::Base.mode = :test
+  SECURENET_ID = '7001823'
+  SECURENET_KEY = '9vx7ohoqC32A'  
 end
