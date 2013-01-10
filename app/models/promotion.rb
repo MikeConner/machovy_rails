@@ -63,7 +63,7 @@ class Promotion < ActiveRecord::Base
   # Special value of max_per_customer that means unlimited. Note constraint in numericality validation; you can't change this value arbitrarily!
   UNLIMITED = 0
   # Amount of time to display sold old deal after it expires or sells out
-  ZOMBIE_THRESHOLD = 1.week
+  ZOMBIE_THRESHOLD = 1.month
   
   # Types
   LOCAL_DEAL = 'Deal'
@@ -228,7 +228,7 @@ class Promotion < ActiveRecord::Base
   # Check explicitly for !displayable as a defensive measure; we don't want both at the same time
   # An expired deal with open vouchers could otherwise lead to both being true!
   def zombie?
-    deal? and !displayable? and !self.suspended? and approved? and (recently_sold_out? or recently_expired?)
+    deal? and !displayable? and !self.suspended? and approved? and sold_out_or_expired?
   end
   
   def open_vouchers?
@@ -325,6 +325,23 @@ private
     exclusive = Category.exclusive.map { |c| c.id }
     if !(self.category_ids & exclusive).empty? and self.category_ids.count > 1
       self.errors.add :base, I18n.t('inconsistent_categories')
+    end
+  end
+  
+  # If you say (recently_sold_out? or recently_expired?), it's possible for it to show up as a zombie, then go away, then come back (Jason?)
+  def sold_out_or_expired?
+    exp = recently_expired?
+    sold = recently_sold_out?
+    if exp or sold 
+      # Find out which is *first*, and make sure we're within the threshold of that, preventing it from coming back twice
+      # Only have that problem if they're both true
+      if exp and sold
+        Time.now - [self.end_date, orders.last.created_at].min <= ZOMBIE_THRESHOLD
+      else
+        true
+      end
+    else
+      false  
     end
   end
   
