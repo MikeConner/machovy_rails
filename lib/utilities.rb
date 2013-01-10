@@ -119,4 +119,8 @@ module Utilities
       Utilities.nokogiri_truncate(noko, options[:length], options[:omission], options[:separator]).inner_html.html_safe
     end
   end
+  
+  def self.generate_order
+    (Time.now.to_f * 1000).to_i
+  end
 end

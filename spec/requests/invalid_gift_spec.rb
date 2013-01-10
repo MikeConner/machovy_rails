@@ -27,6 +27,8 @@ describe "Buy Gift Certificate (non-standard and error conditions)" do
         fill_in :gift_certificate_email, :with => target_email
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
+        fill_in 'first_name', :with => 'Jeffrey'
+        fill_in 'last_name', :with => 'Bennett'
         choose "predetermined_250"
         click_button I18n.t('buy_gift_certificate')
         save_page
@@ -42,6 +44,8 @@ describe "Buy Gift Certificate (non-standard and error conditions)" do
       before do
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
+        fill_in 'first_name', :with => 'Jeffrey'
+        fill_in 'last_name', :with => 'Bennett'
         click_button I18n.t('buy_gift_certificate')
       end
       
@@ -55,6 +59,8 @@ describe "Buy Gift Certificate (non-standard and error conditions)" do
 
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
+        fill_in 'first_name', :with => 'Jeffrey'
+        fill_in 'last_name', :with => 'Bennett'
         save_page
         click_button I18n.t('buy_gift_certificate')
       end

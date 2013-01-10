@@ -38,6 +38,8 @@ describe "Buy Gift Certificate for pending signup, then change" do
         fill_in :gift_certificate_email, :with => target_email
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
+        fill_in 'first_name', :with => 'Jeffrey'
+        fill_in 'last_name', :with => 'Bennett'
         click_button I18n.t('buy_gift_certificate')
         # Go to dashboard; should show gift certificates
         visit merchant_vouchers_path
@@ -53,7 +55,7 @@ describe "Buy Gift Certificate for pending signup, then change" do
         @certificate.user.should be == @user
         @certificate.email.should be == target_email
         @certificate.amount.should be == GiftCertificate::DEFAULT_AMOUNT
-        @certificate.charge_id.should_not be_nil
+        @certificate.transaction_id.should_not be_nil
         @certificate.pending.should be_true 
         # Show show the pending gift certificate
         page.should have_selector('h1', :text => 'Pending Gift Certificates')
@@ -91,7 +93,7 @@ describe "Buy Gift Certificate for pending signup, then change" do
           @certificate.user.should be == @user
           @certificate.email.should be == old_email
           @certificate.amount.should be == GiftCertificate::DEFAULT_AMOUNT
-          @certificate.charge_id.should_not be_nil
+          @certificate.transaction_id.should_not be_nil
           @certificate.pending.should be_false
           MachoBuck.count.should be == 1
           User.find_by_email(old_email).total_macho_bucks.should be == GiftCertificate::DEFAULT_AMOUNT     
@@ -123,7 +125,7 @@ describe "Buy Gift Certificate for pending signup, then change" do
           @certificate.user.should be == @user
           @certificate.email.should be == old_email
           @certificate.amount.should be == GiftCertificate::DEFAULT_AMOUNT
-          @certificate.charge_id.should_not be_nil
+          @certificate.transaction_id.should_not be_nil
           @certificate.pending.should be_true
           MachoBuck.count.should be == 0
           @user.reload.total_macho_bucks.should be == 0   

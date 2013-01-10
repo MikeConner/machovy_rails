@@ -6,8 +6,6 @@
 = form_for @certificate, :html => { :id => 'new_order' } do |f|
   = render :partial => 'shared/error_messages', :locals => { :errors => @certificate.errors, :name => 'Gift Certificate Recipient' }
   = f.hidden_field :user_id
-  -# Need this for stripe JS to work
-  = hidden_field_tag :order_stripe_card_token
   .field
     = f.label :email, "Recipient's Email"
     %em Check the email carefully (you can edit it later if you have to)
@@ -24,8 +22,9 @@
   .field
     = f.label :amount, "Amount $"
     = f.number_field :amount, :min => 1
-    .alert-stripe#stripe_error
+    .alert-credit_card#card_error
       %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
+    -#TODO Replace stripe with Vault
     - if !@stripe_customer.nil?
       .field
         = radio_button_tag 'decision', 'existing', true, :onchange => "hide_card_info()"
@@ -39,19 +38,38 @@
     -#   normally don't want formatting elements outside CSS, but in this case I think it's justified (better encapsulated)
     #card_info{:style => "display:#{@stripe_customer.nil? ? 'block' : 'none'}"}
       .field
+        = label_tag :first_name
+        = text_field_tag :first_name, nil, :maxlength => User::MAX_FIRST_NAME_LEN
+      .field
+        = label_tag :last_name
+        = text_field_tag :last_name, nil, :maxlength => User::MAX_LAST_NAME_LEN
+      .field
         = label_tag :card_number, 'Credit Card Number'
         = text_field_tag :card_number
       .field
-        = label_tag :card_code, "Security Code on Card (CVC)"
+        = label_tag :card_code, "Security Code on Card (CVV)"
         = text_field_tag :card_code, nil, :maxlength => 4
       .field
         = label_tag :card_month, "Card Expiration"
         -# Would do the date selection like this if it were intended for the controller -- but Javascript intercepts and needs it this funky way
         -# JS sets the hidden field if the card gets processed properly
         -#= date_select :card_expiration, :card_expiration, { order: [:month, :year], discard_day: true, add_month_numbers: true,  }
-        = select_month Date.today, { add_month_numbers: true }, { name: nil, id: "card_month" }
-        = select_year Date.today, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: nil, id: "card_year" }  
+        = select_month Date.today, { add_month_numbers: true }, { name: "card_month", id: "card_month" }
+        = select_year Date.today, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: "card_year", id: "card_year" }  
+      %em Billing address (optional, but makes the transaction more secure) 
+      .field
+        = label_tag :address, "Street address"
+        = text_field_tag :address
+      .field
+        = label_tag :city
+        = text_field_tag :city
+      .field
+        = label_tag :state
+        = text_field_tag :state
+      .field
+        = label_tag :zipcode
+        = text_field_tag :zipcode
     %em= I18n.t('credit_card_details')
   .actions
-    -# Must be called #new_order for stripe JS to work
+    -# Must be called #new_order for common order/gift JS to work
     = f.submit I18n.t('buy_gift_certificate'), :class => "btn btn-large btn-success"

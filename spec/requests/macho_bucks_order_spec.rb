@@ -48,7 +48,7 @@ describe "Ordering with macho bucks" do
             
       it "should work" do
         page.should have_content(I18n.t('order_successful'))
-        @order.charge_id.should be == "Macho Bucks"
+        @order.transaction_id.should be == Order::MACHO_BUCKS_TRANSACTION_ID
         bucks100.user.reload.total_macho_bucks.should be == 90
         @bucks.count.should be == 2
         @bucks[0].amount.should be == 100
@@ -100,7 +100,7 @@ describe "Ordering with macho bucks" do
       
       it "should work" do
         page.should have_content(I18n.t('order_successful'))
-        @order.charge_id.should be == "Macho Bucks"
+        @order.transaction_id.should be == Order::MACHO_BUCKS_TRANSACTION_ID
         bucks100.user.reload.total_macho_bucks.should be == 0
         @bucks.count.should be == 2
         @bucks[0].amount.should be == 100
@@ -147,6 +147,8 @@ describe "Ordering with macho bucks" do
       before do
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
+        fill_in 'first_name', :with => 'Jeffrey'
+        fill_in 'last_name', :with => 'Bennett'
         click_button I18n.t('buy_now')
         save_page
         @bucks = bucks10.user.reload.macho_bucks
@@ -156,8 +158,8 @@ describe "Ordering with macho bucks" do
         page.should have_content(I18n.t('order_successful'))
         # Amount is full amount, even if card is charged less!
         Order.first.amount.should be == 100
-        Order.first.charge_id.should_not be_nil
-        Order.first.charge_id.should_not be == "Macho Bucks"
+        Order.first.transaction_id.should_not be_nil
+        Order.first.transaction_id.should_not be == Order::MACHO_BUCKS_TRANSACTION_ID
         bucks10.user.reload.total_macho_bucks.should be == 0
         @bucks.count.should be == 2
         @bucks[0].amount.should be == 10
@@ -181,7 +183,8 @@ describe "Ordering with macho bucks" do
         # Seems to have trouble with $
         bucks_msg.body.encoded.should match("0.00.")     
         
-        Stripe::Charge.retrieve(Order.first.charge_id).amount.should be == 9000   
+        #TODO Replace with Vault
+        #Stripe::Charge.retrieve(Order.first.transaction_id).amount.should be == 9000   
       end
     end
   end
@@ -207,6 +210,8 @@ describe "Ordering with macho bucks" do
       before do
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
+        fill_in 'first_name', :with => 'Jeffrey'
+        fill_in 'last_name', :with => 'Bennett'
         click_button I18n.t('buy_now')
         @bucks = bucksNeg10.user.reload.macho_bucks
       end
@@ -215,8 +220,8 @@ describe "Ordering with macho bucks" do
         page.should have_content(I18n.t('order_successful'))
         # Amount is full amount, even if card is charged less!
         Order.first.amount.should be == 10
-        Order.first.charge_id.should_not be == "Macho Bucks"
-        Order.first.charge_id.should_not be_nil
+        Order.first.transaction_id.should_not be == Order::MACHO_BUCKS_TRANSACTION_ID
+        Order.first.transaction_id.should_not be_nil
         bucksNeg10.user.reload.total_macho_bucks.should be == 0
         @bucks.count.should be == 2
         @bucks[0].amount.should be == -10
@@ -240,7 +245,8 @@ describe "Ordering with macho bucks" do
         # Trouble with $; check for total at the end
         bucks_msg.body.encoded.should match("0.00.")
         
-        Stripe::Charge.retrieve(Order.first.charge_id).amount.should be == 2000
+        #TODO Replace with Vault
+        #Stripe::Charge.retrieve(Order.first.transaction_id).amount.should be == 2000
       end
     end
   end

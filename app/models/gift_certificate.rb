@@ -2,14 +2,16 @@
 #
 # Table name: gift_certificates
 #
-#  id         :integer         not null, primary key
-#  user_id    :integer
-#  amount     :integer         not null
-#  email      :string(255)     not null
-#  charge_id  :string(255)     not null
-#  pending    :boolean         default(TRUE)
-#  created_at :datetime        not null
-#  updated_at :datetime        not null
+#  id             :integer         not null, primary key
+#  user_id        :integer
+#  amount         :integer         not null
+#  email          :string(255)     not null
+#  pending        :boolean         default(TRUE)
+#  created_at     :datetime        not null
+#  updated_at     :datetime        not null
+#  transaction_id :string(15)
+#  first_name     :string(24)
+#  last_name      :string(48)
 #
 
 class GiftCertificate < ActiveRecord::Base
@@ -17,7 +19,7 @@ class GiftCertificate < ActiveRecord::Base
   
   DEFAULT_AMOUNT = 25
   
-  attr_accessible :amount, :charge_id, :email,
+  attr_accessible :amount, :transaction_id, :email, :first_name, :last_name,
                   :user_id
                   
   belongs_to :user
@@ -26,7 +28,13 @@ class GiftCertificate < ActiveRecord::Base
   scope :redeemed, where("pending = #{ActiveRecord::Base.connection.quoted_false}")
   
   validates_presence_of :user_id
-  validates_presence_of :charge_id
+  validates :transaction_id, :presence => true,
+                             :length => { maximum: ActiveMerchant::Billing::MachovySecureNetGateway::TRANSACTION_ID_LEN },
+                             :format => { with: /^\d+$/ }
+  
+  validates :first_name, :length => { maximum: User::MAX_FIRST_NAME_LEN }, :allow_blank => true
+  validates :last_name, :length => { maximum: User::MAX_LAST_NAME_LEN }, :allow_blank => true
+  
   validates_inclusion_of :pending, :in => [true, false]
   validates :email, :presence => true,
                     :format => { with: EMAIL_REGEX }

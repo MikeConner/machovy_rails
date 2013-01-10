@@ -1,10 +1,9 @@
 = form_for [:merchant, @order] do |f|
   = render :partial => 'shared/error_messages', :locals => { :errors => @order.errors, :name => 'Order' }
-  .alert-stripe#stripe_error
+  .alert-credit_card#card_error
     %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
   -# The @order is created by promotions#order, and passed in here. Need to include *all* fields so they get passed back through the form,
   -#   or the @order object will "lose" those fields and not validate
-  = f.hidden_field :stripe_card_token
   = f.hidden_field :amount
   = f.hidden_field :user_id
   = f.hidden_field :promotion_id
@@ -51,25 +50,50 @@
     -# So have to initialize this style right here
     -#   normally don't want formatting elements outside CSS, but in this case I think it's justified (better encapsulated)
     #card_info{:style => "display:#{stripe_customer.nil? ? 'block' : 'none'}"}
+      -# first_name and last_name are now Order fields, and could be done as f.label, f.text_field
+      -# However, this causes complexity in the controller; the JS params have to match the Post params, since the card gets parsed
+      -#   twice: once before posting, and once after. So you'd have order_first_name and order[first_name]. So leave it a text_field_tag
+      .field
+        = label_tag :first_name
+        = text_field_tag :first_name, nil, :maxlength => User::MAX_FIRST_NAME_LEN
+      .field
+        = label_tag :last_name
+        = text_field_tag :last_name, nil, :maxlength => User::MAX_LAST_NAME_LEN
       .field
         = label_tag :card_number, 'Credit Card Number'
         = text_field_tag :card_number
       .field
-        = label_tag :card_code, "Security Code on Card (CVC)"
+        = label_tag :card_code, "Security Code on Card (CVV)"
         = text_field_tag :card_code, nil, :maxlength => 4
       .field
         = label_tag :card_month, "Card Expiration"
         -# Would do the date selection like this if it were intended for the controller -- but Javascript intercepts and needs it this funky way
         -# JS sets the hidden field if the card gets processed properly
         -#= date_select :card_expiration, :card_expiration, { order: [:month, :year], discard_day: true, add_month_numbers: true,  }
-        = select_month Date.today, { add_month_numbers: true }, { name: nil, id: "card_month" }
-        = select_year Date.today, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: nil, id: "card_year" }  
+        = select_month Date.today, { add_month_numbers: true }, { name: "card_month", id: "card_month" }
+        = select_year Date.today, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: "card_year", id: "card_year" } 
+      %em Billing address (optional, but makes the transaction more secure) 
       .field
-        = check_box_tag 'cb_save_card', '1', false, :onclick => "set_save_card_field()"
-        = label_tag 'cb_save_card', 'Save this card for future orders?'
+        = label_tag :address, "Street address"
+        = text_field_tag :address
+      .field
+        = label_tag :city
+        = text_field_tag :city
+      .field
+        = label_tag :state
+        = text_field_tag :state
+      .field
+        = label_tag :zipcode
+        = text_field_tag :zipcode
+      -#
+        Hide for now...
+        .field
+          = check_box_tag 'cb_save_card', '1', false, :onclick => "set_save_card_field()"
+          = label_tag 'cb_save_card', 'Save this card for future orders?'
     %em= I18n.t('credit_card_details')
     #shipping_info{:style => "display:#{@order.shipping_address_required? ? 'block' : 'none'}"}
       %h4 Shipping Address
+      = button_tag 'Copy from billing address', :type => 'button', :onclick => "carry_over_address()"
       .field
         = f.text_field :name, :maxlength => User::MAX_FIRST_NAME_LEN + User::MAX_LAST_NAME_LEN + 1, :placeholder => 'Name'
       .field

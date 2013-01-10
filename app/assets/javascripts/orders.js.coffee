@@ -1,8 +1,8 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+
 jQuery ->
-  Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'))
   order.setupForm()
 
 order =
@@ -18,21 +18,32 @@ order =
 
   processCard: ->
     card =
-      number: $('#card_number').val()
-      cvc: $('#card_code').val()
-      expMonth: $('#card_month').val()
-      expYear: $('#card_year').val()
-    Stripe.createToken(card, order.handleStripeResponse)    
+      card_number: $('#card_number').val()
+      card_code: $('#card_code').val()
+      card_month: $('#card_month').val()
+      card_year: $('#card_year').val()
+      first_name: $('#first_name').val()
+      last_name: $('#last_name').val()
+      address: $('#address').val()
+      city: $('#city').val()
+      state: $('#state').val()
+      zipcode: $('#zipcode').val()
     
-  handleStripeResponse: (status, response) ->
-    if status == 200
-      $('#order_stripe_card_token').val(response.id)
-      $('#new_order')[0].submit()
-    else
-      $('#stripe_error').text(response.error.message)
-      $('#stripe_error').show()
-      $('input[type=submit]').attr('disabled', false)
-
+    $.ajax '/validate_card',
+          type: 'PUT'
+          data: card
+          success: (data, textStatus, jqXHR) ->
+            if (data == "")
+              $('#new_order')[0].submit()
+            else
+              $('#card_error').text(data)
+              $('#card_error').show()
+              $('input[type=submit]').attr('disabled', false)                   
+          error: (jqXHR, textStatus, errorThrown) -> 
+            $('#card_error').text(textStatus + '; ' + errorThrown)
+            $('#card_error').show()
+            $('input[type=submit]').attr('disabled', false)
+                  
 # Have to make these global, or they're not accessible from outside this file!    
 window.hide_card_info = ->
   $('#card_info').toggle(false)
@@ -44,3 +55,10 @@ window.show_card_info = ->
     
 window.set_save_card_field = ->
   $('#save_card').val(document.getElementById('cb_save_card').checked) 
+
+window.carry_over_address = ->
+  $('#order_name').val($('#first_name').val() + " " + $('#last_name').val())
+  $('#order_address_1').val($('#address').val())
+  $('#order_city').val($('#city').val())
+  $('#order_state').val($('#state').val())
+  $('#order_zipcode').val($('#zipcode').val())

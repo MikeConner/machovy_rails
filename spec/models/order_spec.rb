@@ -2,25 +2,26 @@
 #
 # Table name: orders
 #
-#  id                :integer         not null, primary key
-#  description       :string(255)
-#  email             :string(255)
-#  amount            :decimal(, )
-#  stripe_card_token :string(255)
-#  promotion_id      :integer
-#  user_id           :integer
-#  created_at        :datetime        not null
-#  updated_at        :datetime        not null
-#  fine_print        :text
-#  quantity          :integer         default(1), not null
-#  charge_id         :string(255)
-#  slug              :string(255)
-#  name              :string(73)
-#  address_1         :string(50)
-#  address_2         :string(50)
-#  city              :string(50)
-#  state             :string(2)
-#  zipcode           :string(10)
+#  id             :integer         not null, primary key
+#  description    :string(255)
+#  email          :string(255)
+#  amount         :decimal(, )
+#  promotion_id   :integer
+#  user_id        :integer
+#  created_at     :datetime        not null
+#  updated_at     :datetime        not null
+#  fine_print     :text
+#  quantity       :integer         default(1), not null
+#  slug           :string(255)
+#  name           :string(73)
+#  address_1      :string(50)
+#  address_2      :string(50)
+#  city           :string(50)
+#  state          :string(2)
+#  zipcode        :string(10)
+#  transaction_id :string(15)
+#  first_name     :string(24)
+#  last_name      :string(48)
 #
 
 describe "Orders" do
@@ -35,7 +36,6 @@ describe "Orders" do
     order.should respond_to(:description)
     order.should respond_to(:email)
     order.should respond_to(:quantity)
-    order.should respond_to(:stripe_card_token)
     order.should respond_to(:fine_print)
     order.should respond_to(:promotion)
     order.should respond_to(:user)
@@ -43,10 +43,11 @@ describe "Orders" do
     order.should respond_to(:macho_buck)
     order.should respond_to(:vouchers)
     order.should respond_to(:total_cost)
-    order.should respond_to(:charge_id)
     order.should respond_to(:feedback)
     order.should respond_to(:machovy_share)
     order.should respond_to(:merchant_share)
+    order.should respond_to(:first_name)
+    order.should respond_to(:last_name)
     order.should respond_to(:name)
     order.should respond_to(:address_1)
     order.should respond_to(:address_2)
@@ -55,6 +56,7 @@ describe "Orders" do
     order.should respond_to(:zipcode)
     order.should respond_to(:shipping_address)
     order.should respond_to(:shipping_address_required?)
+    order.should respond_to(:transaction_id)
     order.user.should be == user
     order.promotion.should be == promotion
     order.vendor.should be == promotion.vendor
@@ -62,6 +64,48 @@ describe "Orders" do
   
   it { should be_valid }
   
+  describe "First name too long" do
+    before { order.first_name = "a"*(User::MAX_FIRST_NAME_LEN + 1) }
+    
+    it { should_not be_valid }
+  end
+  
+  describe "Last name too long" do
+    before { order.last_name = "a"*(User::MAX_LAST_NAME_LEN + 1) }
+    
+    it { should_not be_valid }
+  end
+  
+  describe "with name" do
+    before do
+      order.first_name = 'Jeffrey'
+      order.last_name = 'Bennett'
+    end
+    
+    it { should be_valid }
+  end
+  
+  describe "long transaction id" do
+#    before { order.transaction_id = "8"*(ActiveMerchant::Billing::MachovySecureNetGateway::TRANSACTION_ID_LEN + 1) }
+    before { order.transaction_id = "8"*(15 + 1) }
+    
+    it { should_not be_valid }
+  end
+  
+  describe "invalid transaction id" do
+    ['abc', "-1", "2.5", "", " ", nil].each do |id|
+      before { order.transaction_id = id }  
+      
+      it { should_not be_valid }
+    end
+  end
+  
+  describe "Macho Bucks transaction id" do
+    before { order.transaction_id = Order::MACHO_BUCKS_TRANSACTION_ID }
+    
+    it { should be_valid }
+  end
+
   describe "product orders" do
     let(:promotion) { FactoryGirl.create(:product_promotion) }
     let(:order) { FactoryGirl.create(:order_with_address, :user => user, :promotion => promotion) }
@@ -143,24 +187,6 @@ describe "Orders" do
       
       it { should_not be_valid }
     end
-  end
-  
-  describe "missing stripe card" do
-    before { order.stripe_card_token = " " }
-    
-    it { should be_valid }
-  end
-  
-  describe "missing charge id" do
-    before { order.charge_id = " " }
-    
-    it { should_not be_valid }
-  end
-  
-  describe "Macho Bucks charge id" do
-    before { order.charge_id = "Macho Bucks" }
-    
-    it { should be_valid }
   end
   
   describe "missing quantity" do

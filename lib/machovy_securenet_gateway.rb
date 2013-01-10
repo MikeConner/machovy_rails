@@ -106,7 +106,7 @@ module ActiveMerchant #:nodoc:
       def close_batch
         xml = build_batch_xml
         #puts xml
-        post_xml(xml, test? ? 'TRUE' : SECURENET_MODE, true)
+        post_xml(xml, true)
       end
       
       # Utilities for creating credit card objects from parameters, and generating text error messages
@@ -157,17 +157,20 @@ module ActiveMerchant #:nodoc:
           
     private
       def commit(params, money)
-        post_xml(build_transaction_xml(params, money), 'TRUE' == params[:test])
+        post_xml(build_transaction_xml(params, money))
       end
       
-      def post_xml(xml, test_mode, batch = false)
+      def post_xml(xml, batch = false)
         #puts "Posting to #{self.test_url}"
         #puts "With #{SECURENET_ID}, #{SECURENET_KEY}"
-        #puts xml
-        # Don't call test?, since to be truly live requires an environment key, even if we're on the production machine
-        # add_common_fields sets the params['TEST'] variable correctly
-        target_url = test_mode ? self.test_url : self.live_url
+        target_url = (test? || 'TRUE' == SECURENET_MODE) ? self.test_url : self.live_url
         target_url += batch ? "CloseBatch" : "ProcessTransaction"
+        #puts target_url
+        #puts xml
+        # Some kind of timing issue here! Need to wait for it to settle the transaction!
+        if batch
+          sleep 1
+        end
         
         data = ssl_post(target_url, xml, "Content-Type" => "text/xml")
         response = parse(data)

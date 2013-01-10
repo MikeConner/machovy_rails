@@ -55,7 +55,6 @@ MachovyRails::Application.routes.draw do
   resources :promotion_images
   resources :roles
   resources :videos
-  resources :stripe_logs, :only => [:index, :show]
   resources :macho_bucks, :only => [:index, :create] do
     collection do
       get 'about'
@@ -94,6 +93,7 @@ MachovyRails::Application.routes.draw do
   match "/metro_filter" => "ajax#metro"
   match "/category" => "ajax#category"
   match "/geocode" => "ajax#geocode"
+  match "/validate_card" => "ajax#validate_card", :via => :put
   
   # Affiliate processing
   match "/affiliate_url" => "ajax#affiliate_url"
@@ -108,14 +108,10 @@ MachovyRails::Application.routes.draw do
   match "/faq" => "static_pages#faq"
   match "/merchant_contract" => "static_pages#merchant_contract"
   match "/default_gravatar" => "static_pages#default_gravatar"
-  
+
   # MailChimp integration test
   match "/mailing" => "static_pages#mailing"
  
-  # Stripe web hooks
-  match "/test_stripe" => "stripe_logs#test", :via => :post
-  match "/live_stripe" => "stripe_logs#live", :via => :post
-     
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

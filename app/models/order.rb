@@ -2,25 +2,26 @@
 #
 # Table name: orders
 #
-#  id                :integer         not null, primary key
-#  description       :string(255)
-#  email             :string(255)
-#  amount            :decimal(, )
-#  stripe_card_token :string(255)
-#  promotion_id      :integer
-#  user_id           :integer
-#  created_at        :datetime        not null
-#  updated_at        :datetime        not null
-#  fine_print        :text
-#  quantity          :integer         default(1), not null
-#  charge_id         :string(255)
-#  slug              :string(255)
-#  name              :string(73)
-#  address_1         :string(50)
-#  address_2         :string(50)
-#  city              :string(50)
-#  state             :string(2)
-#  zipcode           :string(10)
+#  id             :integer         not null, primary key
+#  description    :string(255)
+#  email          :string(255)
+#  amount         :decimal(, )
+#  promotion_id   :integer
+#  user_id        :integer
+#  created_at     :datetime        not null
+#  updated_at     :datetime        not null
+#  fine_print     :text
+#  quantity       :integer         default(1), not null
+#  slug           :string(255)
+#  name           :string(73)
+#  address_1      :string(50)
+#  address_2      :string(50)
+#  city           :string(50)
+#  state          :string(2)
+#  zipcode        :string(10)
+#  transaction_id :string(15)
+#  first_name     :string(24)
+#  last_name      :string(48)
 #
 
 # CHARTER
@@ -36,12 +37,17 @@ class Order < ActiveRecord::Base
   extend FriendlyId
   friendly_id :description, use: [:slugged, :history]
 
+  # Special value of "transaction id" for Macho Bucks transactions, which don't go through the SecureNet gateway
+  # Has to be numeric, so we can't assign it "Macho Bucks" like before. Presumably the Gateway isn't going to use a 
+  # transaction id that is all zeros. Alternatively, I could make the regex more complicated and use "-" or something.
+  MACHO_BUCKS_TRANSACTION_ID = '000000000000000'
+  
   # description isn't unique; override with Guid
   before_validation :create_slug
   
   include ApplicationHelper
   
-  attr_accessible :quantity, :amount, :description, :email, :stripe_card_token, :fine_print,
+  attr_accessible :quantity, :amount, :description, :email, :fine_print, :first_name, :last_name,
                   :name, :address_1, :address_2, :city, :state, :zipcode,
                   :user_id, :promotion_id
   
@@ -64,7 +70,12 @@ class Order < ActiveRecord::Base
                        :numericality => { only_integer: true, greater_than: 0 }
   validates :amount, :presence => true,
                      :numericality => { greater_than_or_equal_to: 0.0 }
-  validates_presence_of :charge_id
+  validates :transaction_id, :presence => true,
+                             :length => { maximum: ActiveMerchant::Billing::MachovySecureNetGateway::TRANSACTION_ID_LEN },
+                             :format => { with: /^\d+$/ }
+  
+  validates :first_name, :length => { maximum: User::MAX_FIRST_NAME_LEN }, :allow_blank => true
+  validates :last_name, :length => { maximum: User::MAX_LAST_NAME_LEN }, :allow_blank => true
   
   validates :name, :length => { maximum: User::MAX_FIRST_NAME_LEN + User::MAX_LAST_NAME_LEN + 1 }, :presence => { :if => :shipping_address_required? }
   validates :address_1, :length => { maximum: MAX_ADDRESS_LEN }, :presence => { :if => :shipping_address_required? }

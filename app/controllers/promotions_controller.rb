@@ -144,7 +144,8 @@ class PromotionsController < ApplicationController
                                      :description => "#{@promotion.vendor.name} promo #{@promotion.title} #{Date.today.to_s}")
                                      
     # Pass in stripe Customer object if there is one
-    @stripe_customer = current_user.stripe_customer_obj
+    #TODO Handle with Vault
+    @stripe_customer = nil; #current_user.stripe_customer_obj
   end
 
   # GET /promotions/new
@@ -216,7 +217,9 @@ class PromotionsController < ApplicationController
     
     # Only Local Deals need Machovy approved; others are coming in from Admins and are Edited by definition (so that they don't instantly go live)
     if Promotion::LOCAL_DEAL == @promotion.promotion_type 
-      @promotion.status = current_user.has_role?(Role::SALES_ADMIN) ? Promotion::EDITED : Promotion::MACHOVY_APPROVED
+      if current_user.has_role?(Role::SALES_ADMIN)
+        @promotion.status = Promotion::EDITED
+      end   
     else
       @promotion.status = Promotion::MACHOVY_APPROVED
     end

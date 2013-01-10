@@ -34,6 +34,8 @@ describe "Buy Gift Certificate for pending signup; recipient changes email to ta
         fill_in :gift_certificate_email, :with => target_email
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
+        fill_in 'first_name', :with => 'Jeffrey'
+        fill_in 'last_name', :with => 'Bennett'
         click_button I18n.t('buy_gift_certificate')
         save_page # Seem to need this for timing!
         @certificate = GiftCertificate.first
@@ -47,7 +49,7 @@ describe "Buy Gift Certificate for pending signup; recipient changes email to ta
         @certificate.user.should be == @user
         @certificate.email.should be == target_email
         @certificate.amount.should be == GiftCertificate::DEFAULT_AMOUNT
-        @certificate.charge_id.should_not be_nil
+        @certificate.transaction_id.should_not be_nil
         @certificate.pending.should be_true 
         # Show show the pending gift certificate
         ActionMailer::Base.deliveries.count.should be == 2
@@ -91,7 +93,7 @@ describe "Buy Gift Certificate for pending signup; recipient changes email to ta
           @certificate.user.should be == distractor_user
           @certificate.email.should be == target_email
           @certificate.amount.should be == GiftCertificate::DEFAULT_AMOUNT
-          @certificate.charge_id.should_not be_nil
+          @certificate.transaction_id.should_not be_nil
           @certificate.pending.should be_false
           MachoBuck.count.should be == 1
           @user.reload.total_macho_bucks.should be == GiftCertificate::DEFAULT_AMOUNT     

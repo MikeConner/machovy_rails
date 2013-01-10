@@ -15,7 +15,6 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime        not null
 #  updated_at             :datetime        not null
-#  stripe_id              :string(255)
 #  confirmation_token     :string(255)
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
@@ -30,6 +29,7 @@
 #  phone                  :string(14)
 #  optin                  :boolean         default(FALSE), not null
 #  total_macho_bucks      :decimal(, )     default(0.0)
+#  customer_id            :string(25)
 #
 
 # CHARTER
@@ -48,6 +48,7 @@ class User < ActiveRecord::Base
   MAX_FIRST_NAME_LEN = 24
   MAX_LAST_NAME_LEN = 48
   PHONE_LEN = 14
+  CUSTOMER_ID_LEN = 25
   
   # Include default devise modules. Others available are:
   # :token_authenticatable,
@@ -67,7 +68,6 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :categories, :uniq => true
   has_one :vendor, :dependent => :nullify
   has_many :ideas, :dependent => :destroy
-  has_many :stripe_logs, :dependent => :restrict
   has_many :macho_bucks, :dependent => :destroy
   has_many :gift_certificates, :dependent => :restrict
   
@@ -89,6 +89,8 @@ class User < ActiveRecord::Base
   validates :state, :inclusion => { in: US_STATES }, :allow_blank => true
   validates :phone, :format => { with: US_PHONE_REGEX }, :allow_blank => true
   validates :zipcode, :format => { with: US_ZIP_REGEX }, :allow_blank => true
+  
+  validates :customer_id, :length => { maximum: CUSTOMER_ID_LEN }, :allow_blank => true
   
   # Causes issues with feedback
   #validates_associated :orders
@@ -117,17 +119,6 @@ class User < ActiveRecord::Base
     save!
   end
   
-  # Retrieve the stripe customer object for this user. One twist is that the user could have been deleted
-  #   externally. If that's the case, the object will come back "deleted". Return nil if this happens.
-  def stripe_customer_obj
-    obj = self.stripe_id.blank? ? nil : Stripe::Customer.retrieve(self.stripe_id)
-    (obj.nil? or (obj.respond_to?(:deleted) and obj.deleted)) ? nil : obj 
-    
-  rescue Stripe::InvalidRequestError => error
-    # Return value of puts is nil, which is what I want to return on exception anyway
-    puts "Stripe error: #{error.message}"
-  end
-
   # Needed for devise, overriding confirmations controller to accommodate special vendor processing  
   def only_if_unconfirmed
     pending_any_confirmation {yield}

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121229032327) do
+ActiveRecord::Schema.define(:version => 20130105161011) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -146,12 +146,14 @@ ActiveRecord::Schema.define(:version => 20121229032327) do
 
   create_table "gift_certificates", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "amount",                       :null => false
-    t.string   "email",                        :null => false
-    t.string   "charge_id",                    :null => false
-    t.boolean  "pending",    :default => true
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
+    t.integer  "amount",                                         :null => false
+    t.string   "email",                                          :null => false
+    t.boolean  "pending",                      :default => true
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
+    t.string   "transaction_id", :limit => 15
+    t.string   "first_name",     :limit => 24
+    t.string   "last_name",      :limit => 48
   end
 
   create_table "ideas", :force => true do |t|
@@ -186,21 +188,22 @@ ActiveRecord::Schema.define(:version => 20121229032327) do
     t.string   "description"
     t.string   "email"
     t.decimal  "amount"
-    t.string   "stripe_card_token"
     t.integer  "promotion_id"
     t.integer  "user_id"
-    t.datetime "created_at",                                     :null => false
-    t.datetime "updated_at",                                     :null => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
     t.text     "fine_print"
-    t.integer  "quantity",                        :default => 1, :null => false
-    t.string   "charge_id"
+    t.integer  "quantity",                     :default => 1, :null => false
     t.string   "slug"
-    t.string   "name",              :limit => 73
-    t.string   "address_1",         :limit => 50
-    t.string   "address_2",         :limit => 50
-    t.string   "city",              :limit => 50
-    t.string   "state",             :limit => 2
-    t.string   "zipcode",           :limit => 10
+    t.string   "name",           :limit => 73
+    t.string   "address_1",      :limit => 50
+    t.string   "address_2",      :limit => 50
+    t.string   "city",           :limit => 50
+    t.string   "state",          :limit => 2
+    t.string   "zipcode",        :limit => 10
+    t.string   "transaction_id", :limit => 15
+    t.string   "first_name",     :limit => 24
+    t.string   "last_name",      :limit => 48
   end
 
   create_table "payments", :force => true do |t|
@@ -325,16 +328,6 @@ ActiveRecord::Schema.define(:version => 20121229032327) do
 
   add_index "roles_users", ["role_id", "user_id"], :name => "index_roles_users_on_role_id_and_user_id", :unique => true
 
-  create_table "stripe_logs", :force => true do |t|
-    t.string   "event_id",   :limit => 40
-    t.string   "event_type", :limit => 40
-    t.boolean  "livemode"
-    t.text     "event"
-    t.integer  "user_id"
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
-  end
-
   create_table "users", :force => true do |t|
     t.string   "email",                                :default => "",    :null => false
     t.string   "encrypted_password",                   :default => "",    :null => false
@@ -348,7 +341,6 @@ ActiveRecord::Schema.define(:version => 20121229032327) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                                              :null => false
     t.datetime "updated_at",                                              :null => false
-    t.string   "stripe_id"
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
@@ -363,6 +355,7 @@ ActiveRecord::Schema.define(:version => 20121229032327) do
     t.string   "phone",                  :limit => 14
     t.boolean  "optin",                                :default => false, :null => false
     t.decimal  "total_macho_bucks",                    :default => 0.0
+    t.string   "customer_id",            :limit => 25
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

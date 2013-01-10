@@ -106,7 +106,7 @@ describe "Promotions" do
     let(:expired_ad) { FactoryGirl.create(:ad, :end_date => 3.days.ago) }
     let(:affiliate) { FactoryGirl.create(:affiliate) }
     let(:promotion) { FactoryGirl.create(:promotion, :status => Promotion::MACHOVY_APPROVED) }
-    let(:long_expired) { FactoryGirl.create(:promotion, :status => Promotion::MACHOVY_APPROVED, :end_date => 1.month.ago) }
+    let(:long_expired) { FactoryGirl.create(:promotion, :status => Promotion::MACHOVY_APPROVED, :end_date => 3.months.ago) }
     let(:just_expired) { FactoryGirl.create(:promotion, :status => Promotion::MACHOVY_APPROVED, :end_date => 3.days.ago) }
     let(:promotion_with_orders) { FactoryGirl.create(:promotion_with_vouchers, :status => Promotion::MACHOVY_APPROVED) }
     

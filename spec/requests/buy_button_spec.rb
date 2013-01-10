@@ -129,13 +129,13 @@ describe "Buy button rules" do
       # Authenticate
       click_button I18n.t('sign_in')
       promotion.quantity = 100
-      order = FactoryGirl.create(:order_with_vouchers, :promotion => promotion, :user => @user)
+      @order = FactoryGirl.create(:order_with_vouchers, :promotion => promotion, :user => @user)
       visit promotion_path(promotion)
     end
     
     it "should show that he bought some" do
       Voucher.count.should be == 3 + promotion_with_orders.vouchers.count
-      Voucher.all.each do |voucher|
+      @order.vouchers.each do |voucher|
         voucher.order.user.should be == @user
         voucher.order.promotion.should == promotion
       end
@@ -159,7 +159,7 @@ describe "Buy button rules" do
       fill_in 'user_password', :with => @user.password
       # Authenticate
       click_button I18n.t('sign_in')
-      order = FactoryGirl.create(:order_with_vouchers, :promotion => promotion, :user => @user)
+      @order = FactoryGirl.create(:order_with_vouchers, :promotion => promotion, :user => @user)
       visit promotion_path(promotion)
     end
     
@@ -170,7 +170,7 @@ describe "Buy button rules" do
     
     it "should show that he bought some" do
       Voucher.count.should be == 3 + promotion_with_orders.vouchers.count
-      Voucher.all.each do |voucher|
+      @order.vouchers.each do |voucher|
         voucher.order.user.should be == @user
         voucher.order.promotion.should == promotion
       end
@@ -193,7 +193,7 @@ describe "Buy button rules" do
       fill_in 'user_password', :with => @user.password
       # Authenticate
       click_button I18n.t('sign_in')
-      order = FactoryGirl.create(:order_with_vouchers, :promotion => promotion, :user => @user)
+      @order = FactoryGirl.create(:order_with_vouchers, :promotion => promotion, :user => @user)
       visit promotion_path(promotion)
     end
     
@@ -204,7 +204,7 @@ describe "Buy button rules" do
     
     it "should show that he bought some" do
       Voucher.count.should be == 3 + promotion_with_orders.vouchers.count
-      Voucher.all.each do |voucher|
+      @order.vouchers.each do |voucher|
         voucher.order.user.should be == @user
         voucher.order.promotion.should == promotion
       end
@@ -237,7 +237,7 @@ describe "Buy button rules" do
       fill_in 'user_password', :with => @user.password
       # Authenticate
       click_button I18n.t('sign_in')
-      order = FactoryGirl.create(:order_with_vouchers, :promotion => promotion, :user => @user)
+      @order = FactoryGirl.create(:order_with_vouchers, :promotion => promotion, :user => @user)
       visit promotion_path(promotion)
     end
     
@@ -249,7 +249,7 @@ describe "Buy button rules" do
     
     it "should show that he bought some" do
       Voucher.count.should be == 3 + promotion_with_orders.vouchers.count
-      Voucher.all.each do |voucher|
+      @order.vouchers.each do |voucher|
         voucher.order.user.should be == @user
         voucher.order.promotion.should == promotion
       end

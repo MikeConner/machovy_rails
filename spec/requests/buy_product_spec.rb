@@ -23,7 +23,7 @@ describe "Buy product" do
     end
 
     it "user should not have a customer id" do
-      user.stripe_id.should be_nil
+      user.customer_id.should be_nil
     end
     
     describe "Order a product for delivery", :js => true do
@@ -34,6 +34,8 @@ describe "Buy product" do
         visit order_promotion_path(promotion)
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
+        fill_in 'first_name', :with => 'Jeffrey'
+        fill_in 'last_name', :with => 'Bennett'
         fill_in 'order_name', :with => FactoryGirl.generate(:random_name)
         fill_in 'order_address_1', :with => FactoryGirl.generate(:random_street)
         fill_in 'order_city', :with => FactoryGirl.generate(:random_city)
@@ -46,8 +48,8 @@ describe "Buy product" do
       it "should work" do
         # WARNING! have_content doesn't work with single-quoted strings
         page.should have_content(I18n.t('order_successful'))
-        user.reload.stripe_id.should be_nil
-        order.reload.charge_id.should_not be_nil
+        user.reload.customer_id.should be_nil
+        order.reload.transaction_id.should_not be_nil
         Voucher.count.should be == 1
         ActionMailer::Base.deliveries.should_not be_empty
         ActionMailer::Base.deliveries.count.should be == 1
@@ -68,6 +70,8 @@ describe "Buy product" do
         visit order_promotion_path(promotion)
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
+        fill_in 'first_name', :with => 'Jeffrey'
+        fill_in 'last_name', :with => 'Bennett'
         click_button I18n.t('buy_now')
         save_page
       end
@@ -75,8 +79,8 @@ describe "Buy product" do
       it "should work" do
         # WARNING! have_content doesn't work with single-quoted strings
         page.should have_content(I18n.t('order_successful'))
-        user.reload.stripe_id.should be_nil
-        order.reload.charge_id.should_not be_nil
+        user.reload.customer_id.should be_nil
+        order.reload.transaction_id.should_not be_nil
         Voucher.count.should be == 1
         ActionMailer::Base.deliveries.should_not be_empty
         ActionMailer::Base.deliveries.count.should be == 1

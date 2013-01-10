@@ -28,6 +28,8 @@ describe "Buy Gift Certificate for existing user" do
         fill_in :gift_certificate_email, :with => recipient_user.email
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
+        fill_in 'first_name', :with => 'Jeffrey'
+        fill_in 'last_name', :with => 'Bennett'
         click_button I18n.t('buy_gift_certificate')
         save_page # Seem to need this for timing!
         @certificate = GiftCertificate.first
@@ -41,7 +43,7 @@ describe "Buy Gift Certificate for existing user" do
         @certificate.user.should be == @user
         @certificate.email.should be == recipient_user.email
         @certificate.amount.should be == GiftCertificate::DEFAULT_AMOUNT
-        @certificate.charge_id.should_not be_nil
+        @certificate.transaction_id.should_not be_nil
         @certificate.pending.should be_false
         ActionMailer::Base.deliveries.count.should be == 2
         gift_given_msg.subject.should be == UserMailer::GIFT_GIVEN_MESSAGE

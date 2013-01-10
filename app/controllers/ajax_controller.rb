@@ -1,4 +1,5 @@
 require 'affiliate_converter_factory'
+require 'machovy_securenet_gateway'
 
 class AjaxController < ApplicationController
   respond_to :js, :json
@@ -59,6 +60,33 @@ class AjaxController < ApplicationController
         end
         
         render :json => mapping
+      end
+    end
+  end
+  
+  def validate_card
+    respond_to do |format|
+      format.js do
+        @card = ActiveMerchant::Billing::MachovySecureNetGateway.instance.parse_card(params)
+         
+        if @card.valid?
+          # Additional validations on the CVV
+          msg = ''
+          case @card.brand
+          when 'visa', 'master', 'discover'
+            if @card.verification_value !~ /^\d\d\d$/
+              msg = "Invalid #{@card.brand} card CVV"
+            end
+          when 'american_express'
+            if @card.verification_value !~ /^\d\d\d\d$/
+              msg = 'Invalid AMEX CVV'
+            end 
+          end
+        else
+          msg = ActiveMerchant::Billing::MachovySecureNetGateway.instance.generate_card_error_msg(@card)
+        end
+                
+        render :text => msg, :content_type => Mime::TEXT
       end
     end
   end
