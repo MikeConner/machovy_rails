@@ -15,7 +15,6 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime        not null
 #  updated_at             :datetime        not null
-#  stripe_id              :string(255)
 #  confirmation_token     :string(255)
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
@@ -30,10 +29,17 @@
 #  phone                  :string(14)
 #  optin                  :boolean         default(FALSE), not null
 #  total_macho_bucks      :decimal(, )     default(0.0)
+#  customer_id            :string(25)
 #
 
 describe "Users" do
   let(:user) { FactoryGirl.create(:user) }
+  before do
+    Role.create(:name => Role::SUPER_ADMIN)
+    Role.create(:name => Role::CONTENT_ADMIN)
+    Role.create(:name => Role::SALES_ADMIN)
+    Role.create(:name => Role::MERCHANT)
+  end
   
   subject { user }
 
@@ -47,8 +53,6 @@ describe "Users" do
     user.should respond_to(:roles)
     user.should respond_to(:vendor)
     user.should respond_to(:is_customer?)
-    user.should respond_to(:stripe_id)
-    user.should respond_to(:stripe_customer_obj)
     user.should respond_to(:log_activity)
     user.should respond_to(:first_name)
     user.should respond_to(:last_name)
@@ -60,14 +64,20 @@ describe "Users" do
     user.should respond_to(:zipcode)
     user.should respond_to(:optin)
     user.should respond_to(:categories)
-    user.should respond_to(:stripe_logs)
     user.should respond_to(:total_macho_bucks)
     user.should respond_to(:update_total_macho_bucks)
     user.should respond_to(:gift_certificates)
+    user.should respond_to(:customer_id)
   end
       
   it { should be_valid }
  
+  describe "Invalid customer id" do
+    before { user.customer_id = "X"*(User::CUSTOMER_ID_LEN + 1) }
+    
+    it { should_not be_valid }
+  end
+  
   describe "Gift certificates" do
     before { @certificate = user.gift_certificates.create }
     
@@ -140,25 +150,6 @@ describe "Users" do
         MachoBuck.count.should == 0
       end
     end    
-  end
-  
-  describe "stripe logs" do
-    let(:log) { FactoryGirl.create(:stripe_log, :user => user) }
-    
-    it "should be there" do
-      log.user.id.should be == user.id
-      user.stripe_logs.count.should be == 1
-      user.stripe_logs.first.id.should be == log.id
-      expect { user.reload.destroy }.to raise_exception(ActiveRecord::DeleteRestrictionError)
-    end
-        
-    describe "delete logs first" do
-      before { StripeLog.destroy_all }
-      
-      it "can delete now" do
-        expect { user.reload.destroy }.to_not raise_exception
-      end
-    end
   end
   
   describe "Profile fields" do
@@ -530,25 +521,6 @@ describe "Users" do
     end  
   end
  
-  describe "stripe id" do
-    it "should not have an id" do
-      user.stripe_id.should be_nil
-      user.stripe_customer_obj.should be_nil
-    end
-    
-    describe "bogus customer" do
-      before do
-        user.stripe_id = "bogus"
-        user.save!
-      end  
-      
-      it "should have an invalid stripe id" do
-        user.stripe_id.should be == "bogus"
-        user.stripe_customer_obj.should be_nil
-      end
-    end    
-  end
-  
   describe "Feedback" do
     let(:user) { FactoryGirl.create(:user_with_feedback) }
     

@@ -42,7 +42,6 @@ FactoryGirl.define do
   sequence(:sequential_post) { |n| "This is a sentence in post #{n}\n"*3 }
   sequence(:sequential_name) { |n| "Name #{n}" }
   sequence(:sequential_uuid) { |n| '2fe-cda-' + sprintf("%04d", n) }
-  sequence(:sequential_stripe_event) { |n| sprintf("evt_%014d", n) }
   
   factory :activity do
     user
@@ -235,8 +234,7 @@ FactoryGirl.define do
     email { user.email }
     amount { (Random.rand * 100).round(2) }
     description { generate(:random_phrase) }
-    stripe_card_token "nva3hvao73SI&H#Nfishuefse"
-    charge_id "ch_0aCv7NedlDjXia"
+    transaction_id '838284838203840'
     fine_print { generate(:random_sentences) }
     
     factory :order_with_address do
@@ -500,30 +498,30 @@ FactoryGirl.define do
     
     factory :super_admin_user do
       after(:create) do |user, evaluator|
-        user.roles.create(:name => Role::SUPER_ADMIN)
+        user.roles << Role.find_by_name(Role::SUPER_ADMIN)
       end
     end
 
     factory :content_admin_user do
       after(:create) do |user, evaluator|
-        user.roles.create(:name => Role::CONTENT_ADMIN)
+        user.roles << Role.find_by_name(Role::CONTENT_ADMIN)
       end
     end
 
     factory :merchant_user do
       after(:create) do |user, evaluator|
         user.vendor = FactoryGirl.create(:vendor)
-        user.roles.create(:name => Role::MERCHANT)
+        user.roles << Role.find_by_name(Role::MERCHANT)
       end
     end
 
     # Doesn't really make sense; just testing multiple roles
     factory :power_user do
       after(:create) do |user, evaluator|
-        user.roles.create(:name => Role::SUPER_ADMIN)
-        user.roles.create(:name => Role::CONTENT_ADMIN)
-        user.roles.create(:name => Role::SALES_ADMIN)
-        user.roles.create(:name => Role::MERCHANT)
+        user.roles << Role.find_by_name(Role::SUPER_ADMIN)
+        user.roles << Role.find_by_name(Role::CONTENT_ADMIN)
+        user.roles << Role.find_by_name(Role::SALES_ADMIN)
+        user.roles << Role.find_by_name(Role::MERCHANT)
       end
     end
     
@@ -651,41 +649,6 @@ FactoryGirl.define do
     notes { generate(:random_sentences) }
   end   
   
-  factory :stripe_log do
-    user
-    
-    event_id { generate(:sequential_stripe_event) }
-    # Note that the event_type likely won't match what's in the event JSON
-    # To make it match, use the child factories
-    event_type { StripeLog::EVENT_TYPES.sample }
-    livemode false
-    event { File.read(MachovyRails::Application.assets.find_asset('stripe-event.txt').pathname) }
-    
-    factory :live_stripe_log do
-      livemode true
-    end
-    
-    factory :monitored_stripe_log do
-      event_type 'charge.failed'
-      
-      after(:build) do |log|
-        evt = JSON.parse log.event, :symbolize_names => true
-        evt[:type] = log.event_type
-        log.event = evt.to_json
-      end
-    end
-    
-    factory :unmonitored_stripe_log do
-      event_type 'charge.succeeded'      
-
-      after(:build) do |log|
-        evt = JSON.parse log.event, :symbolize_names => true
-        evt[:type] = log.event_type
-        log.event = evt.to_json
-      end
-    end
-  end
-  
   factory :strategy, :class => FixedExpirationStrategy do
     end_date 3.months.from_now
   end
@@ -747,7 +710,7 @@ FactoryGirl.define do
     user
     
     amount { (Random.rand(10) + 1) * 10 }
-    charge_id "ch_82374234sf"
+    transaction_id '838284838203840'
     email { generate(:random_email) }
     pending true
     

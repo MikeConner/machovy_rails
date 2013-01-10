@@ -6,6 +6,8 @@ describe "Buy button rules" do
     Metro.create(:name => 'Pittsburgh')
     Role.create(:name => Role::SUPER_ADMIN)
     Role.create(:name => Role::MERCHANT)
+    # Have to create this or I get RecordNotSaved errors
+    promotion_with_orders
     visit root_path
   end
 
@@ -132,7 +134,7 @@ describe "Buy button rules" do
     end
     
     it "should show that he bought some" do
-      Voucher.count.should be == 3
+      Voucher.count.should be == 3 + promotion_with_orders.vouchers.count
       Voucher.all.each do |voucher|
         voucher.order.user.should be == @user
         voucher.order.promotion.should == promotion
@@ -167,7 +169,7 @@ describe "Buy button rules" do
     end
     
     it "should show that he bought some" do
-      Voucher.count.should be == 3
+      Voucher.count.should be == 3 + promotion_with_orders.vouchers.count
       Voucher.all.each do |voucher|
         voucher.order.user.should be == @user
         voucher.order.promotion.should == promotion
@@ -201,7 +203,7 @@ describe "Buy button rules" do
     end
     
     it "should show that he bought some" do
-      Voucher.count.should be == 3
+      Voucher.count.should be == 3 + promotion_with_orders.vouchers.count
       Voucher.all.each do |voucher|
         voucher.order.user.should be == @user
         voucher.order.promotion.should == promotion
@@ -246,7 +248,7 @@ describe "Buy button rules" do
     end
     
     it "should show that he bought some" do
-      Voucher.count.should be == 3
+      Voucher.count.should be == 3 + promotion_with_orders.vouchers.count
       Voucher.all.each do |voucher|
         voucher.order.user.should be == @user
         voucher.order.promotion.should == promotion

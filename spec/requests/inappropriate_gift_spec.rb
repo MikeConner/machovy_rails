@@ -3,6 +3,9 @@ describe "Buy Gift Certificate for inappropriate users" do
 
   before do
     Metro.create!(:name => 'Pittsburgh')
+    Role.create(:name => Role::SUPER_ADMIN)
+    Role.create(:name => Role::CONTENT_ADMIN)
+    Role.create(:name => Role::MERCHANT)
     ActionMailer::Base.deliveries = []
     visit root_path
     Warden.test_mode!
@@ -25,6 +28,8 @@ describe "Buy Gift Certificate for inappropriate users" do
         fill_in :gift_certificate_email, :with => @user.email
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
+        fill_in 'first_name', :with => 'Jeffrey'
+        fill_in 'last_name', :with => 'Bennett'
         click_button I18n.t('buy_gift_certificate')
       end
       
@@ -37,6 +42,8 @@ describe "Buy Gift Certificate for inappropriate users" do
         fill_in :gift_certificate_email, :with => admin.email
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
+        fill_in 'first_name', :with => 'Jeffrey'
+        fill_in 'last_name', :with => 'Bennett'
         click_button I18n.t('buy_gift_certificate')
       end
       
@@ -53,6 +60,8 @@ describe "Buy Gift Certificate for inappropriate users" do
         fill_in :gift_certificate_email, :with => admin.email
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
+        fill_in 'first_name', :with => 'Jeffrey'
+        fill_in 'last_name', :with => 'Bennett'
         click_button I18n.t('buy_gift_certificate')
       end
       
@@ -69,6 +78,8 @@ describe "Buy Gift Certificate for inappropriate users" do
         fill_in :gift_certificate_email, :with => vendor.email
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
+        fill_in 'first_name', :with => 'Jeffrey'
+        fill_in 'last_name', :with => 'Bennett'
         click_button I18n.t('buy_gift_certificate')
       end
       

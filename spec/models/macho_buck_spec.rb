@@ -16,7 +16,10 @@
 describe "MachoBucks" do
   let(:user) { FactoryGirl.create(:user) }
   let(:macho_buck) { FactoryGirl.create(:macho_buck, :user => user) }
-  
+  before do
+    Role.create(:name => Role::SUPER_ADMIN)
+  end 
+    
   subject { macho_buck }
   
   it "should respond to everything" do
