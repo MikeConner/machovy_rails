@@ -3,7 +3,6 @@
   %meta{:content => 'text/html', :charset => 'UTF-8', 'http-equiv' => 'Content-Type'}
   %meta{:name => 'viewport', :content => "initial-scale=1, maximum-scale=1" }
   %meta{:name => 'viewport', :content => "width=device-width" }
-  %meta{:name => 'stripe-key', :content => STRIPE_PUBLIC_KEY }
   %title M A C H O V Y
   = favicon_link_tag 
   = javascript_include_tag "application"
@@ -13,7 +12,6 @@
   = stylesheet_link_tag "application", media: "all", :debug => true
   = stylesheet_link_tag "jquery-ui-1.9.0.custom.css", media: "all", :debug => true
   = stylesheet_link_tag "admin-new", media: "all", :debug => true
-  = javascript_include_tag "https://js.stripe.com/v1/"
   - if GOOGLE_MAPS_KEY.nil?
     = javascript_include_tag "https://maps.googleapis.com/maps/api/js?sensor=false"
   - else

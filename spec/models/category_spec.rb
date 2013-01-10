@@ -8,6 +8,7 @@
 #  created_at         :datetime        not null
 #  updated_at         :datetime        not null
 #  parent_category_id :integer
+#  exclusive          :boolean         default(FALSE)
 #
 
 describe "Categories" do
