@@ -1,5 +1,4 @@
 = form_for [:merchant, @order] do |f|
-<<<<<<< HEAD
   = render :partial => 'shared/error_messages', :locals => { :errors => @order.errors, :name => 'Order' }
   .alert-credit_card#card_error
     %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
@@ -92,96 +91,9 @@
           = check_box_tag 'cb_save_card', '1', false, :onclick => "set_save_card_field()"
           = label_tag 'cb_save_card', 'Save this card for future orders?'
     %em= I18n.t('credit_card_details')
-=======
-  .six.columns
-    %h4 Order Information
-    .section-divider
-    = render :partial => 'shared/error_messages', :locals => { :errors => @order.errors, :name => 'Order' }
-    -#.alert-stripe#stripe_error
-      -#%noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
-    -# The @order is created by promotions#order, and passed in here. Need to include *all* fields so they get passed back through the form,
-    -#   or the @order object will "lose" those fields and not validate
-    = f.hidden_field :stripe_card_token
-    = f.hidden_field :amount
-    = f.hidden_field :user_id
-    = f.hidden_field :promotion_id
-    = f.hidden_field :email
-    = f.hidden_field :description
-    = f.hidden_field :fine_print
-    -#= f.hidden_field :quantity
-    -# Returns param reflecting the state of the "save card" checkbox
-    -#   They will see this if they're not a customer (no saved card), or if they're a customer using a new card
-    -#   In both cases, default to not saving (if a customer, it will keep their old card as the active one, unless they check to overwrite)
-    = hidden_field_tag :save_card, false
-    -# If they're a customer, indicate whether they're using a new card or their existing one on file
-    = hidden_field_tag :new_card, false
-    -# Uncomment to enable quantity editing (and remove hidden field above)
-    .field
-      = f.label :quantity
-      %br/
-      - if Promotion::UNLIMITED == @order.promotion.max_per_customer
-        = f.number_field :quantity, :min => @order.promotion.min_per_customer, :onchange => "update_amount('order_quantity', 'amount_display', #{@order.amount}, #{@order.user.total_macho_bucks * 3});"
-      - else
-        = f.number_field :quantity, :min => @order.promotion.min_per_customer, :max => @order.promotion.max_quantity_for_buyer(current_user), |
-        :onchange => "update_amount('order_quantity', 'amount_display', #{@order.amount}, #{@order.user.total_macho_bucks});" |
-    -# This is a computed field so the user can see the total amount, based on the quantity -- read_only
-    .field
-      - if 0 == @order.user.total_macho_bucks
-        = label_tag :amount_display, "Total Amount"
-      - elsif @order.user.total_macho_bucks < 0
-        = label_tag :amount_display, "Total Amount (includes a #{I18n.t('macho_bucks')} charge of #{number_to_currency(-@order.user.total_macho_bucks)})"
-      - else
-        = label_tag :amount_display, "Total Amount (includes a #{I18n.t('macho_bucks')} credit of #{number_to_currency(@order.user.total_macho_bucks)})"
-      %br/
-      - initial_total = [0, @order.amount * @order.quantity - @order.user.total_macho_bucks].max
-      = text_field_tag :amount_display, initial_total, :disabled => true
-    #credit_card_section{:style => initial_total > 0 ? "display:block" : "display:none"}
-      - if !stripe_customer.nil?
-        .field
-          = radio_button_tag 'decision', 'existing', true, :onchange => "hide_card_info()"
-          = label_tag 'decision_existing', "Use card with last 4 digits '#{stripe_customer.active_card.last4}'?"
-          &nbsp;&nbsp;
-          = radio_button_tag 'decision', 'new', false, :onchange => "show_card_info()"
-          = label_tag 'decision_new', "Use another card"
-      -# coffeescript "wrapping" seems to prevent having an event that fires on this specific page load
-      -#   it first on "every" page load (which might be because the stripe code is referenced in the application layout)
-      -# So have to initialize this style right here
-      -#   normally don't want formatting elements outside CSS, but in this case I think it's justified (better encapsulated)
-      #card_info{:style => "display:#{stripe_customer.nil? ? 'block' : 'none'}"}
-        .field
-          = label_tag :card_number, 'Credit Card Number'
-          = text_field_tag :card_number
-        .field
-          = label_tag :card_code, "Security Code on Card (CVC)"
-          = text_field_tag :card_code, nil, :maxlength => 4
-        .field
-          = label_tag :card_month, "Card Expiration  " 
-          -# Would do the date selection like this if it were intended for the controller -- but Javascript intercepts and needs it this funky way
-          -# JS sets the hidden field if the card gets processed properly
-          -#= date_select :card_expiration, :card_expiration, { order: [:month, :year], discard_day: true, add_month_numbers: true,  }
-          = select_month Date.today, { add_month_numbers: true }, { name: nil, id: "card_month" }
-          = select_year Date.today, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: nil, id: "card_year" }  
-        .field
-          = check_box_tag 'cb_save_card', '1', false, :onclick => "set_save_card_field()"
-          = label_tag 'cb_save_card', 'Save this card for future orders?'
-      %em= I18n.t('credit_card_details').html_safe
-      %br
-      -# Buy button logic in two places! If there's a shipping address, it's under there
-      -#   otherwise under CC entry
-      - if !@order.shipping_address_required?
-        %br
-        = f.submit I18n.t('buy_now'), :class => 'btn btn-danger btn-full'
-  .six.columns
->>>>>>> msater_SecureNet
     #shipping_info{:style => "display:#{@order.shipping_address_required? ? 'block' : 'none'}"}
-      %br.visible-phone
       %h4 Shipping Address
-<<<<<<< HEAD
       = button_tag 'Copy from billing address', :type => 'button', :onclick => "carry_over_address()"
-=======
-      .section-divider
-      %br
->>>>>>> msater_SecureNet
       .field
         = f.text_field :name, :maxlength => User::MAX_FIRST_NAME_LEN + User::MAX_LAST_NAME_LEN + 1, :placeholder => 'Name'
       .field
@@ -194,6 +106,6 @@
         = f.text_field :state, :maxlength => ApplicationHelper::STATE_LEN, :placeholder => 'State'
       .field
         = f.text_field :zipcode, :maxlength => ApplicationHelper::ZIPCODE_LEN, :placeholder => 'Zipcode'
-      %br
-      -# Buy button logic in two places; see above
-      = f.submit I18n.t('buy_now'), :class => 'btn btn-danger btn-full'
+  %br
+  %br
+  = f.submit I18n.t('buy_now'), :class => 'btn btn-danger'
