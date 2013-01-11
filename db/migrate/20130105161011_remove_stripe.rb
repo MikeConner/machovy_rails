@@ -5,10 +5,10 @@ class RemoveStripe < ActiveRecord::Migration
     remove_column :orders, :charge_id
     remove_column :gift_certificates, :charge_id
     remove_column :users, :stripe_id
-    add_column :orders, :transaction_id, :string, :limit => 15
+    add_column :orders, :transaction_id, :string, :limit => ActiveMerchant::Billing::MachovySecureNetGateway::TRANSACTION_ID_LEN
     add_column :orders, :first_name, :string, :limit => User::MAX_FIRST_NAME_LEN
     add_column :orders, :last_name, :string, :limit => User::MAX_LAST_NAME_LEN
-    add_column :gift_certificates, :transaction_id, :string, :limit => 15
+    add_column :gift_certificates, :transaction_id, :string, :limit => ActiveMerchant::Billing::MachovySecureNetGateway::TRANSACTION_ID_LEN
     add_column :gift_certificates, :first_name, :string, :limit => User::MAX_FIRST_NAME_LEN
     add_column :gift_certificates, :last_name, :string, :limit => User::MAX_LAST_NAME_LEN
     add_column :users, :customer_id, :string, :limit => User::CUSTOMER_ID_LEN
