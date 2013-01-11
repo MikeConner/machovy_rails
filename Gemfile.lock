@@ -13,8 +13,7 @@ GEM
       rack (~> 1.4.0)
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
-<<<<<<< HEAD
-      sprockets (~> 2.1.3)
+      sprockets (~> 2.2.1)
     active_utils (1.0.5)
       activesupport (>= 2.3.11)
       i18n
@@ -26,13 +25,8 @@ GEM
       json (>= 1.5.1)
       money
       nokogiri
-    activemodel (3.2.8)
-      activesupport (= 3.2.8)
-=======
-      sprockets (~> 2.2.1)
     activemodel (3.2.11)
       activesupport (= 3.2.11)
->>>>>>> msater_SecureNet
       builder (~> 3.0.0)
     activerecord (3.2.11)
       activemodel (= 3.2.11)
@@ -50,7 +44,8 @@ GEM
     arel (3.0.2)
     bbenezech-nested_form (0.0.6)
     bcrypt-ruby (3.0.1)
-    bootstrap-sass (2.1.0.1)
+    bootstrap-sass (2.2.2.0)
+      sass (~> 3.2)
     bootstrap-will_paginate (0.0.5)
       will_paginate
     builder (3.0.4)
@@ -95,7 +90,7 @@ GEM
     diff-lcs (1.1.3)
     erubis (2.7.0)
     eventmachine (1.0.0)
-    excon (0.16.7)
+    excon (0.16.10)
     execjs (1.4.0)
       multi_json (~> 1.0)
     factory_girl (4.1.0)
@@ -107,8 +102,8 @@ GEM
       i18n (~> 0.4)
     faraday (0.8.4)
       multipart-post (~> 1.1)
-    ffi (1.1.5)
-    fog (1.6.0)
+    ffi (1.3.1)
+    fog (1.8.0)
       builder
       excon (~> 0.14)
       formatador (~> 0.2.0)
@@ -118,7 +113,7 @@ GEM
       net-ssh (>= 2.1.3)
       nokogiri (~> 1.5.0)
       ruby-hmac
-    formatador (0.2.3)
+    formatador (0.2.4)
     friendly_id (4.0.9)
     gibbon (0.3.5)
       httparty (> 0.6.0)
@@ -139,10 +134,10 @@ GEM
       netrc (~> 0.7.7)
       rest-client (~> 1.6.1)
       rubyzip
-    heroku-api (0.3.5)
-      excon (~> 0.16.1)
+    heroku-api (0.3.7)
+      excon (~> 0.16.10)
     hike (1.2.1)
-    httparty (0.9.0)
+    httparty (0.10.0)
       multi_json (~> 1.0)
       multi_xml
     httpauth (0.2.0)
@@ -162,8 +157,9 @@ GEM
       activesupport (>= 3.0.0)
     launchy (2.1.2)
       addressable (~> 2.3)
-    libwebsocket (0.1.5)
+    libwebsocket (0.1.7.1)
       addressable
+      websocket
     mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -171,20 +167,16 @@ GEM
     mime-types (1.19)
     mini_magick (3.4)
       subexec (~> 0.2.1)
-<<<<<<< HEAD
     money (5.1.0)
       i18n (~> 0.6.0)
-    multi_json (1.3.6)
-=======
     multi_json (1.5.0)
->>>>>>> msater_SecureNet
-    multi_xml (0.5.1)
+    multi_xml (0.5.2)
     multipart-post (1.1.5)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
-    net-ssh (2.6.1)
+    net-ssh (2.6.3)
     netrc (0.7.7)
-    nokogiri (1.5.5)
+    nokogiri (1.5.6)
     oauth2 (0.8.0)
       faraday (~> 0.8)
       httpauth (~> 0.1)
@@ -205,7 +197,7 @@ GEM
     rack (1.4.3)
     rack-cache (1.2)
       rack (>= 0.4)
-    rack-pjax (0.6.0)
+    rack-pjax (0.7.0)
       nokogiri (~> 1.5)
       rack (~> 1.3)
     rack-ssl (1.3.2)
@@ -267,12 +259,12 @@ GEM
       nokogiri
     ruby-hmac (0.4.0)
     rubyzip (0.9.9)
-    sass (3.2.1)
+    sass (3.2.5)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
-    selenium-webdriver (2.25.0)
+    selenium-webdriver (2.27.2)
       childprocess (>= 0.2.5)
       libwebsocket (~> 0.1.3)
       multi_json (~> 1.0)
@@ -307,6 +299,7 @@ GEM
       multi_json (~> 1.0, >= 1.0.2)
     warden (1.2.1)
       rack (>= 1.0)
+    websocket (1.0.6)
     will_paginate (3.0.3)
     xpath (0.1.4)
       nokogiri (~> 1.3)
