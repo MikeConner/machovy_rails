@@ -11,7 +11,7 @@ en:
   click_to_buy: 'Click here to buy this deal'
   create_account: "Create your account"
   create_account_action: "Create an account. It's free!"
-  credit_card_details: 'Your credit card details are sent directly to our payment processor, and are never stored at Machovy'
+  credit_card_details: 'Your credit card details are sent directly to our payment processor, <br/> and are never stored at Machovy'
   curators: 'Mentors'
   customer_service: 'If you have any questions, email us at info@machovy.com ...'
   feedback_prompt: 'Tell us what you think!'
@@ -49,6 +49,7 @@ en:
   gift_admin: "Sorry; you can only buy gift certificates for regular customers (not vendors or admins)"
   sign_in_register: "Sign in / Register"
   sign_in: "Sign in"
+  sold_out: 'Sold Out'
   vendor_created: "Vendor was successfully created."
   vendors_only: 'This function only available to Vendors.'
   voucher_already_redeemed: 'This voucher has already been redeemed.'

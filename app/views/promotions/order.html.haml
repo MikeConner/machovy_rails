@@ -11,27 +11,6 @@
         - if !slideshow.slideshow_image.file.nil?
           %li
             = image_tag slideshow.slideshow_image_url(:product_front_page).to_s
-  .span8.product-detail
-    .row-fluid
-      .span12
-        %h3 New Promotion order
-        - if !@promotion.subtitle.nil?
-          %h4= @promotion.subtitle
-    .row-fluid
-      .span3
-        - if @promotion.retail_value > @promotion.price
-          %span.price-old= number_to_currency(@promotion.retail_value)
-        %span.price-new= number_to_currency(@promotion.price)
-        %br
-        %span= @promotion.quantity_description
-      .span9
-        - if @show_buy_button
-          = link_to 'Buy this now', order_promotion_path(@promotion), :class => 'btn btn-danger'
-    .row-fluid
-      .span12
-         
-.row-fluid
-  .span5.product
     %table.table.table-condensed
       %thead
         %tr
@@ -45,24 +24,74 @@
           - if @promotion.discount > 0
             %td= number_to_percentage(@promotion.discount_pct, :precision => 0)
             %td= number_to_currency(@promotion.discount)
-    = render :partial => 'merchant/orders/order_form', :locals => { :stripe_customer => @stripe_customer }
-  .span7.product-detail
-    -#%p= @promotion.description
-    %ul.nav.nav-tabs
-      %li.active
-        <a data-toggle="tab" href="#tab1">Description </a>
-      %li
-        <a data-toggle="tab" href="#tab2">Limitations</a>
-      %li
-        <a data-toggle="tab" href="#tab3">Voucher Instructions</a>  
-    .tab-content
-      #tab1.tab-pane.fade.in.active
-        %h4.tab-title Product Description
-        %p= @promotion.description 
-      #tab2.tab-pane
-        %h4.tab-title Product Limitations
-        %p= @promotion.limitations 
-      #tab3.tab-pane
-        %h4.tab-title Voucher Instructions
-        %p= @promotion.voucher_instructions
+    .spread
+      .twshare
+        %a.twitter-share-button.left{"data-count" => "horizontal", "data-via" => "fuonrails", :href => "https://twitter.com/share"} Tweet
+        %script{:src => "https://platform.twitter.com/widgets.js", :type => "text/javascript"}
+      .fshare{:style => 'padding-left: 0px; margin-left: 10px;'}
+        %script{:src => "https://connect.facebook.net/en_US/all.js#xfbml=1"}
+        %fb:like{:layout => "button_count", :show_faces => "false", :width => "450"}
+      .space
+  .span8.product-detail
+    .row-fluid
+      .span12
+        %h3= @promotion.title
+        - if !@promotion.subtitle.nil?
+          %h4= @promotion.subtitle
+    .row-fluid
+      .span12
+        - if @promotion.retail_value > @promotion.price
+          %span.price-old= number_to_currency(@promotion.retail_value)
+        %span.price-new= number_to_currency(@promotion.price)
+        %br
+        %span= @promotion.quantity_description
+
+        .space
+
+        %ul.nav.nav-tabs
+          %li.active
+            <a data-toggle="tab" href="#tab1">Description </a>
+          %li
+            <a data-toggle="tab" href="#tab2">Limitations</a>
+          %li
+            <a data-toggle="tab" href="#tab3">Location</a>        
+        .tab-content
+          #tab1.tab-pane.fade.in.active
+            %h3.tab-title Description
+            %p= @promotion.description 
+          #tab2.tab-pane
+            %h3.tab-title Limitations
+            %p= @promotion.limitations 
+          #tab3.tab-pane
+            %h3.tab-title Location
+            - @vendor = @promotion.vendor
+            .span6
+              %em= @vendor.name
+              %br= @vendor.address_1
+              - if !@vendor.address_2.blank?
+                %br= @vendor.address_2
+              == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
+              %br= @vendor.phone 
+              - if !@vendor.url.blank?
+                %br= @vendor.url
+              - if !@vendor.facebook.blank?
+                %br= @vendor.facebook
+            .span6
+              - if @vendor.mappable?
+                = hidden_field_tag :latitude, @vendor.latitude
+                = hidden_field_tag :longitude, @vendor.longitude
+                = hidden_field_tag :vendor, @vendor.name
+                #map_canvas.vendor_map    
+        - if @show_buy_button
+          .tab-bottom-button
+            = link_to "<i class='icon-plus icon-white'></i> #{I18n.t('click_to_buy')}".html_safe, order_promotion_path(@promotion)   
+        - elsif @promotion.zombie?
+          .tab-bottom-button
+            %p Sold Out
+        %p.limitations
+          %br
+          -#%em= @promotion.limitations 
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget enim non ante consectetur mollis at sit amet est. Donec nec volutpat velit.
+.row-fluid
+  = render :partial => 'merchant/orders/order_form', :locals => { :stripe_customer => @stripe_customer }
 

@@ -1,8 +1,9 @@
 - promotions.each do |promotion|
   .span3.item.promotion-grid.box
     - if promotion.zombie?
-      -#= image_tag(promotion.teaser_image_url(:product_front_page).to_s, :style => "background:url('/assets/sold_out.jpg')")
-      %img.zombie_image{:src => promotion.teaser_image_url(:product_front_page).to_s}
+      .zombie_image
+        %img(src="/assets/sold_out.png")
+      = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion), :style => 'opacity:0.4;' 
     - else
       = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
     .row-fluid
