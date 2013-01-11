@@ -105,7 +105,7 @@ describe "SecureNet Certification script (american express)" do
       end    
     end    
 
-    describe "should pass test 19" do
+    describe "should pass test 36" do
       before {
         @card = ActiveMerchant::Billing::CreditCard.new({:number => @credit_cards[1][:number].gsub!(' ', ''),
                                                          :verification_value => @credit_cards[1][:verification_value]}.merge(common_options))
@@ -358,7 +358,6 @@ describe "SecureNet Certification script (american express)" do
           before do
             @response = gateway.close_batch
             if !@response.success?
-              puts "Test response"
               puts @response.message
               puts @response.inspect
             end

@@ -358,7 +358,6 @@ describe "SecureNet Certification script (discover card)" do
           before do
             @response = gateway.close_batch
             if !@response.success?
-              puts "Test response"
               puts @response.message
               puts @response.inspect
             end
