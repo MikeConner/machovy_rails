@@ -1,4 +1,4 @@
-require 'machovy_securenet_gateway'
+#require 'machovy_securenet_gateway'
 
 class GiftCertificatesController < ApplicationController
   before_filter :authenticate_user!

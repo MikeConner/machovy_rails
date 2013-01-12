@@ -1,4 +1,4 @@
-require 'machovy_securenet_gateway'
+#require 'machovy_securenet_gateway'
 
 describe "SecureNet Certification script (visa)" do
   let(:gateway) { ActiveMerchant::Billing::MachovySecureNetGateway.new(:login => SECURENET_ID, :password => SECURENET_KEY) }

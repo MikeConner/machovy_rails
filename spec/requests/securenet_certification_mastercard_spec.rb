@@ -1,4 +1,4 @@
-require 'machovy_securenet_gateway'
+#require 'machovy_securenet_gateway'
 require 'utilities'
 
 describe "SecureNet Certification script (master card)" do

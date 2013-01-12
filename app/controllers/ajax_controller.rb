@@ -1,5 +1,5 @@
 require 'affiliate_converter_factory'
-require 'machovy_securenet_gateway'
+#require 'machovy_securenet_gateway'
 
 class AjaxController < ApplicationController
   respond_to :js, :json

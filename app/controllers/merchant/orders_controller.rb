@@ -1,4 +1,4 @@
-require 'machovy_securenet_gateway'
+#require 'machovy_securenet_gateway'
 
 class Merchant::OrdersController < Merchant::BaseController
   load_and_authorize_resource
