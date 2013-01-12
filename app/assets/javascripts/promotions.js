@@ -1,17 +1,4 @@
 $(function() {
-  $('#revenue_slider').slider({
-  	// min should match Promotion::MINIMUM_REVENUE_SHARE
-  	min: 5,
-  	max: 80,
-  	// Initialize it (for edit)
-  	value: $('#promotion_revenue_shared').val(),
-  	change: function(event, ui) {
-  		// Set both the hidden field and the slider indicator
-  		$('#slider_value').html(ui.value + '%')
-  		$('#promotion_revenue_shared').val(ui.value)
-  	}
-  });
-  
   $(".rslides").responsiveSlides();
 
   $('#tab1').click(function (e) {
@@ -169,6 +156,8 @@ $(function() {
 function update_amount(source, destination, unit_price, macho_bucks) {
   var amount = Math.max(0, $('#' + source).val() * unit_price - macho_bucks)
   $('#' + destination).val(amount)
+  //$('#total_cost').text(amount)
+  //$('#final_total').val(amount - macho_bucks)
   // Don't show the credit card section if Macho Bucks are sufficient to pay it
   $('#credit_card_section').toggle(amount > 0)
 }

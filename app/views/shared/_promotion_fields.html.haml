@@ -14,7 +14,9 @@
       .span12
         .divider
         %h3 DATES
-        %em Your deal will be available for sale during these dates
+        %em Your deal will be available for sale during these dates.
+        %br/
+        %em (Note: to run a deal through the end of March, set the end date to April 1st)
         .divider
         .span5
           = f.label :start_date
@@ -51,9 +53,8 @@
       = f.text_field :retail_value, :size => 15
       = f.label :price, "Deal Price"
       = f.text_field :price, :size => 15
-      = f.label :revenue_shared
-      #slider_value== #{share_pct}%
-      .slider-input#revenue_slider
+      = f.label :revenue_shared, "Revenue Shared (%)"
+      = f.select :revenue_shared, options_for_select(share_options, [Promotion::DEFAULT_REVENUE_SHARE])
       %br
       = f.hidden_field :revenue_shared, :value => share_pct
       = f.label :quantity, "Voucher Limit (total available for sale)"

@@ -88,6 +88,7 @@ describe "Promotions" do
     promotion.should respond_to(:max_quantity_for_buyer)
     promotion.should respond_to(:suspended)
     promotion.should respond_to(:zombie?)
+    promotion.should respond_to(:revenue_share_options)
     promotion.metro.should be == metro
     promotion.vendor.should be == vendor
     promotion.promotion_type.should be == Promotion::LOCAL_DEAL

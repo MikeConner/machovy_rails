@@ -54,6 +54,7 @@ class Promotion < ActiveRecord::Base
   MAX_TITLE_LEN = 100
   DEFAULT_GRID_WEIGHT = 10
   MINIMUM_REVENUE_SHARE = 10
+  MAXIMUM_REVENUE_SHARE = 80
   DEFAULT_REVENUE_SHARE = 40
   QUANTITY_THRESHOLD_PCT = 0.1
   DEALS_PER_ROW = 4
@@ -304,6 +305,10 @@ class Promotion < ActiveRecord::Base
   def self.per_page
     50
   end
+	
+	def revenue_share_options
+	  MINIMUM_REVENUE_SHARE.step(MAXIMUM_REVENUE_SHARE, 5).to_a
+	end
 	
 private
   def init_defaults
