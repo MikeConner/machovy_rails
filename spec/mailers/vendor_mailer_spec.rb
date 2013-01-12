@@ -215,6 +215,8 @@ describe "VendorMailer" do
         msg.body.encoded.should match("This is in payment for the following vouchers")
         payment.vouchers.each do |voucher|
           msg.body.encoded.should match(voucher.uuid)
+          msg.body.encoded.should match(voucher.order.first_name)
+          msg.body.encoded.should match(voucher.order.last_name)
         end
         ActionMailer::Base.deliveries.count.should == 1
       end

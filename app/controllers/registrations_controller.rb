@@ -10,7 +10,7 @@ class RegistrationsController < Devise::RegistrationsController
   def new
     super
   end
-
+  
   def create
     # Detect merchant so that it displays the right fields in case of errors
     @is_merchant = params[:user][:vendor_attributes]
@@ -28,9 +28,10 @@ class RegistrationsController < Devise::RegistrationsController
           @user.save
         end
         
-        redirect_to new_user_registration_path, :notice => I18n.t('devise.registrations.signed_up_but_unconfirmed') and return
+        redirect_to root_path, :notice => I18n.t('devise.registrations.signed_up_but_unconfirmed') and return
       end
-      redirect_to new_user_session_path, :notice => I18n.t('devise.registrations.signed_up_but_unconfirmed') and return
+      
+      redirect_to root_path, :notice => I18n.t('devise.registrations.signed_up_but_unconfirmed') and return
     else
       if @is_merchant
         # There could be vendor field errors, so we need to copy them from the @user object instead of overwriting
@@ -40,7 +41,7 @@ class RegistrationsController < Devise::RegistrationsController
           flash[:alert] << msg + "\n"
         end
       
-        redirect_to new_user_registration_path
+        render 'new'
       else
         redirect_to new_user_session_path, :alert => I18n.t('devise.failure.invalid')
       end

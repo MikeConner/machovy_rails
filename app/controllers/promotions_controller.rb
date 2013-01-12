@@ -15,6 +15,7 @@ class PromotionsController < ApplicationController
   before_filter :ensure_correct_vendor, :only => [:edit, :show_logs, :accept_edits, :reject_edits]
   before_filter :admin_only, :only => [:manage, :affiliates]
   before_filter :validate_eligible, :only => [:order]
+  before_filter :transform_prices, :only => [:create, :update]
   
   load_and_authorize_resource
 
@@ -232,6 +233,8 @@ class PromotionsController < ApplicationController
       @categories = Category.order(:name)
       
       if Promotion::LOCAL_DEAL == @promotion.promotion_type
+        # Ensure we show a slideshow image on edit
+        @promotion.promotion_images.build
         render 'new', :layout => admin_user? ? 'layouts/admin' : 'layouts/application'
       else
         render 'new_ad', :layout => 'layouts/admin'
@@ -405,4 +408,11 @@ private
       redirect_to root_path, :alert => I18n.t('admins_only')
     end      
   end  
+  
+  def transform_prices
+    if !params[:promotion].nil? 
+      params[:promotion][:retail_value].gsub!('$', '') unless params[:promotion][:retail_value].nil?
+      params[:promotion][:price].gsub!('$', '') unless params[:promotion][:price].nil?
+    end    
+  end
 end

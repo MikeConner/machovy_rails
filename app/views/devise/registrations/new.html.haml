@@ -5,7 +5,6 @@
       %h4= I18n.t('merchant_signup')  
     .sign-in-body
       = render :partial => 'vendor_header'
-
   .span5
     .space.hidden-desktop
     .sign-in-title
@@ -25,7 +24,7 @@
           = v.text_field :state, :size => 2, :maxlength => 2, :placeholder => "State"
           = v.text_field :zip, {:placeholder => 'Zip Code'}
           = v.text_field :url, {:placeholder => 'Your Website (Optional)'}
-          = v.text_field :facebook,{:placeholder => 'Facebook (Optional)'}
+          = v.text_field :facebook,{:placeholder => 'Facebook URL (Optional)'}
           .space
           %p <strong>Sign Up</strong>
           = f.email_field :email, {:placeholder => 'Email'}

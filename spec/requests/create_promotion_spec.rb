@@ -62,8 +62,9 @@ describe "Create promotion spec" do
           fill_in 'promotion_remote_main_image_url', :with => MAIN_URL
           fill_in 'promotion_promotion_images_attributes_0_remote_slideshow_image_url', :with => SLIDESHOW_URL
           #fill_in 'promotion_promotion_images_attributes_0_caption', :with => FactoryGirl.generate(:random_phrase)
-          fill_in 'promotion_retail_value', :with => 200
-          fill_in 'promotion_price', :with => 100
+          # Tolerate $ in prices
+          fill_in 'promotion_retail_value', :with => '$200'
+          fill_in 'promotion_price', :with => '$100'
           # Can't "fill_in" a hidden field
           find(:xpath, "//input[@id='promotion_revenue_shared']").set "10"
           fill_in 'promotion_quantity', :with => 100
