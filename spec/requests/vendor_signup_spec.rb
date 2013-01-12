@@ -19,7 +19,7 @@ describe "Vendor signup" do
       it { should have_selector('div', :id => 'error_explanation') }
       it { should have_content("Password can't be blank") }
       it "should return to the right page" do
-        current_path.should == new_user_registration_path
+        current_path.should == user_registration_path
       end
     end
     
