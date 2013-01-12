@@ -236,7 +236,6 @@ class Merchant::OrdersController < Merchant::BaseController
 
 private
   def charge_card(order, card, address, total_charge)
-    puts "Charging card"
     # Ensure billing address has the email
     address[:email] = current_user.email
     puts address.inspect

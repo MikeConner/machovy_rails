@@ -105,6 +105,12 @@ describe "Users" do
     it { should_not be_valid }
   end
   
+  describe "negative macho bucks" do
+    before { user.total_macho_bucks = -10 }
+    
+    it { should_not be_valid }
+  end
+  
   describe "many macho bucks" do
     before do
       @sum = 0.0

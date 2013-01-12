@@ -79,7 +79,8 @@ class User < ActiveRecord::Base
                     :uniqueness => { case_sensitive: false },
                     :format => { with: EMAIL_REGEX }
   validates_inclusion_of :optin, :in => [true, false]
-  validates_numericality_of :total_macho_bucks
+  validates :total_macho_bucks, :presence => true,
+                                :numericality => { greater_than_or_equal_to: 0.00 }
   
   # Profile fields
   validates :first_name, :length => { maximum: MAX_FIRST_NAME_LEN }, :allow_blank => true
