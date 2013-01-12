@@ -4,6 +4,6 @@ Please be advised that we have sent you a check (#{@payment.check_number}, dated
 
 This is in payment for the following vouchers:
 - @payment.vouchers.each do |voucher|
-  == #{voucher.uuid}, redeemed by #{voucher.user.email} on #{voucher.redemption_date.try(:strftime, '%b %m, %Y')} |
+  == #{voucher.uuid}, redeemed by #{voucher.order.first_name} #{voucher.order.last_name} on #{voucher.redemption_date.try(:strftime, '%b %m, %Y')} |
   in the amount of #{number_to_currency(voucher.order.total_cost)} (merchant share: #{number_to_currency(voucher.order.merchant_share)}) |
   according to the terms of the promotion '#{voucher.order.promotion.title}' |
