@@ -83,23 +83,36 @@ module ActiveMerchant #:nodoc:
       end
       
       def authorize(money, creditcard, options = {})
-        commit(build_sale_params(creditcard, options, :auth_only), money)
+        commit(build_credit_card_sale_params(creditcard, options, :auth_only), money)
       end
 
       def purchase(money, creditcard, options = {})
-        commit(build_sale_params(creditcard, options, :auth_capture), money)
+        commit(build_credit_card_sale_params(creditcard, options, :auth_capture), money)
       end
 
       def capture(money, creditcard, authorization, options = {})
-        commit(build_sale_params_with_authorization(authorization, creditcard, options, :prior_auth_capture), money)
+        commit(build_credit_card_sale_params_with_authorization(authorization, creditcard, options, :prior_auth_capture), money)
       end
 
       def credit(money, creditcard, authorization, options = {})
-        commit(build_sale_params_with_authorization(authorization, creditcard, options, :credit), money)
+        commit(build_credit_card_sale_params_with_authorization(authorization, creditcard, options, :credit), money)
       end
 
       def void(money, creditcard, authorization, options = {})
-        commit(build_sale_params_with_authorization(authorization, creditcard, options, :void), money)
+        commit(build_credit_card_sale_params_with_authorization(authorization, creditcard, options, :void), money)
+      end
+
+      # ECheck transactions
+      def echeck_purchase(money, options = {})
+        commit(build_echeck_sale_params(options, :auth_capture), money)
+      end
+      
+      def echeck_void(money, authorization, options = {})
+        commit(build_echeck_sale_params_with_authorization(authorization, options, :void), money)
+      end
+
+      def echeck_credit(money, authorization, options = {})
+        commit(build_echeck_sale_params_with_authorization(authorization, options, :credit), money)
       end
 
       # Required for settling transactions before issuing credits
@@ -118,7 +131,7 @@ module ActiveMerchant #:nodoc:
                                                 :first_name => params[:first_name],
                                                 :last_name => params[:last_name])     
       end
-      
+
       def parse_address(params)
         address = Hash.new
         
@@ -182,23 +195,49 @@ module ActiveMerchant #:nodoc:
           :avs_result => { :code => response[:avs_result_code] },
           :cvv_result => response[:card_code_response_code]
         )                
+        #puts "XXX: #{r.authorization}"
+        #r
       end
-      
-      def build_sale_params(creditcard, options, action)
-        #puts "Build sale params: #{options.inspect}"
+
+      def build_echeck_sale_params(options, action)
         params = Hash.new
         
-        add_common_fields(params, options, action, creditcard)
-
+        add_common_fields('ECHECK', params, options, action)
+        params[:check] = { :routing_number => options[:routing_number],
+                           :account_number => options[:account_number],
+                           :bank_name => options[:bank_name],
+                           :account_holder => "#{options[:first_name]} #{options[:last_name]}",
+                           :account_type => 'CHECKING',
+                           :sec_code => 'PPD' }
         # Add name, billing address, email
-        add_address(params, creditcard, options)
+        add_address(params, options)
 
-        #puts "After building: #{params.inspect}"
         params
       end
 
-      def build_sale_params_with_authorization(authorization, creditcard, options, action)
-        params = build_sale_params(creditcard, options, action)
+      def build_echeck_sale_params_with_authorization(authorization, options, action)
+        params = build_echeck_sale_params(options, action)
+        
+        params[:ref_transaction_id] = authorization if !authorization.nil?
+
+        params        
+      end
+      
+      def build_credit_card_sale_params(creditcard, options, action)
+        params = Hash.new
+        
+        add_common_fields('CC', params, options, action)
+        # Add Card #, CVV, and Expiration Date
+        add_credit_card(params, creditcard)
+
+        # Add name, billing address, email
+        add_address(params, options, creditcard)
+
+        params
+      end
+
+      def build_credit_card_sale_params_with_authorization(authorization, creditcard, options, action)
+        params = build_credit_card_sale_params(creditcard, options, action)
         
         params[:ref_transaction_id] = authorization if !authorization.nil?
 
@@ -208,7 +247,7 @@ module ActiveMerchant #:nodoc:
       #########################################################################
       # FUNCTIONS RELATED TO BUILDING THE PARAMETERS
       #########################################################################
-      def add_common_fields(params, options, action, creditcard)
+      def add_common_fields(method, params, options, action)
         # Merchant ID and KEY
         add_merchant_key(params)
         
@@ -219,7 +258,7 @@ module ActiveMerchant #:nodoc:
         # No duplicate checking will be done, except for ORDERID
         params[:dci] = NO_DUPLICATE_CHECKING
         # Credit card transaction
-        params[:method] = 'CC' 
+        params[:method] = method
         # Billing info comes from the transaction request (vs. the Vault)
         params[:override_from] = BILLING_INFO_FROM_TRANSACTION
         # Physical vs. Digital goods
@@ -234,8 +273,6 @@ module ActiveMerchant #:nodoc:
           params[:test] = SECURENET_MODE
         end  
               
-        # Add Card #, CVV, and Expiration Date
-        add_credit_card(params, creditcard)
         # Add ip (or customer id if vault)
         add_customer_data(params, options)
       end
@@ -245,7 +282,7 @@ module ActiveMerchant #:nodoc:
                           :card_number => creditcard.number,
                           :expiration_date => expdate(creditcard) }
       end
-
+      
       def expdate(creditcard)
         year  = sprintf("%.4i", creditcard.year)
         month = sprintf("%.2i", creditcard.month)
@@ -263,9 +300,14 @@ module ActiveMerchant #:nodoc:
         end
       end
 
-      def add_address(params, creditcard, options)
-        params[:billing_address] = { :first_name => creditcard.first_name,
-                                     :last_name => creditcard.last_name }
+      def add_address(params, options, creditcard = nil)
+        if creditcard.nil?
+          params[:billing_address] = { :first_name => options[:first_name],
+                                       :last_name => options[:last_name] }
+        else
+          params[:billing_address] = { :first_name => creditcard.first_name,
+                                       :last_name => creditcard.last_name }
+        end
         
         if address = options[:billing_address]          
           params[:billing_address][:email] = address[:email] if address.has_key? :email
@@ -326,10 +368,21 @@ module ActiveMerchant #:nodoc:
           #   make a regular Ruby hash in a sensible order (which allows factoring out common elements, etc.)
           #   Then put the schema knowledge in one place -- here
           # Could actually read the schema, but it's a little too complex to be worth it with all the embedded objects
-          xml.tag!('CARD') do
-            xml.tag! 'CARDCODE', params[:card][:card_code]
-            xml.tag! 'CARDNUMBER', params[:card][:card_number]
-            xml.tag! 'EXPDATE', params[:card][:expiration_date]
+          if params.has_key?(:card)
+            xml.tag!('CARD') do
+              xml.tag! 'CARDCODE', params[:card][:card_code]
+              xml.tag! 'CARDNUMBER', params[:card][:card_number]
+              xml.tag! 'EXPDATE', params[:card][:expiration_date]
+            end
+          elsif params.has_key?(:check)
+            xml.tag!('CHECK') do
+              xml.tag! 'ABACODE', params[:check][:routing_number]
+              xml.tag! 'ACCOUNTNAME', params[:check][:account_holder]
+              xml.tag! 'ACCOUNTNUM', params[:check][:account_number]
+              xml.tag! 'ACCOUNTTYPE', params[:check][:account_type]
+              xml.tag! 'BANKNAME', params[:check][:bank_name]
+              xml.tag! 'SECCODE', params[:check][:sec_code]
+            end
           end
           xml.tag! 'CODE', params[:code]
           xml.tag! 'CUSTOMERID', params[:customer_id] if params.has_key?(:customer_id)
