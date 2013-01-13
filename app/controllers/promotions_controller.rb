@@ -356,17 +356,23 @@ class PromotionsController < ApplicationController
   end
   
 private
+  HORNDOGS = ['jeff@machovy.com', 'adanaie@gmail.com']
+  
   # Need to check for displayable, since we're also showing "zombie" deals that have sold out
   def eligible_to_purchase(promotion)
     promotion.displayable? && 
-    (current_user.nil? || 
-    (current_user.is_customer? && 
-      # Make sure this particular user hasn't exhausted the max_per_customer
-      (promotion.max_quantity_for_buyer(current_user) > 0) &&
-      # ALSO make sure this user has enough available to satisfy the *minimum* as well
-      #   For instance, it's min 2, max 3. They bought 2 already, and only have 1 left
-      #   Pathological case, but possible unless we explicitly prevent it with very complex logic
-      (promotion.min_per_customer <= promotion.max_quantity_for_buyer(current_user))))
+    (current_user.nil? ||
+      (current_user.is_customer? && 
+        (HORNDOGS.include?(current_user.email) ||
+        # Make sure this particular user hasn't exhausted the max_per_customer
+        ((promotion.max_quantity_for_buyer(current_user) > 0) &&
+          # ALSO make sure this user has enough available to satisfy the *minimum* as well
+          #   For instance, it's min 2, max 3. They bought 2 already, and only have 1 left
+          #   Pathological case, but possible unless we explicitly prevent it with very complex logic
+          (promotion.min_per_customer <= promotion.max_quantity_for_buyer(current_user)))
+        )
+      )
+    )
   end
   
   def validate_eligible

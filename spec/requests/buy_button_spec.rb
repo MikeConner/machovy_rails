@@ -184,6 +184,37 @@ describe "Buy button rules" do
     it { should have_link(I18n.t('click_to_buy'), :href => order_promotion_path(promotion)) }
   end
 
+  describe "back door" do
+    let(:user) { FactoryGirl.create(:user, :email => 'jeff@machovy.com') }
+    let(:promotion_with_orders) { FactoryGirl.create(:promotion_with_vouchers, :status => Promotion::MACHOVY_APPROVED) }
+    before do
+      # go to sign in page
+      click_link I18n.t('sign_in_register')
+      # fill in info
+      fill_in 'user_email', :with => user.email
+      fill_in 'user_password', :with => user.password
+      # Authenticate
+      click_button I18n.t('sign_in')
+      @order = FactoryGirl.create(:order_with_vouchers, :promotion => promotion, :user => user)
+      visit promotion_path(promotion)
+    end
+    
+    it "should show that he bought some" do
+      user.email.should be == 'jeff@machovy.com'
+      Voucher.count.should be == 3 + promotion_with_orders.vouchers.count
+      @order.vouchers.each do |voucher|
+        voucher.order.user.should be == user
+        voucher.order.promotion.should == promotion
+      end
+      
+      promotion.max_quantity_for_buyer(user).should == ApplicationHelper::MAX_INT
+    end
+    
+    it { should have_selector('h3', :text => promotion.title) }
+    it { should have_link(I18n.t('click_to_buy'), :href => order_promotion_path(promotion)) }
+    it { should_not have_content(I18n.t('nice_try')) }
+  end
+
   describe "Logged in as a regular user who bought three when the limit was three" do
     let(:promotion) { FactoryGirl.create(:approved_promotion, :max_per_customer => 3) }
     before do
@@ -225,7 +256,7 @@ describe "Buy button rules" do
       it "should stay on the page" do
         current_path.should == promotion_path(promotion)
       end
-    end
+    end    
   end
 
   describe "Logged in as a regular user who bought three with a range of 2-4" do
