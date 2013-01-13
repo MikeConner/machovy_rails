@@ -176,7 +176,7 @@ module ActiveMerchant #:nodoc:
       def post_xml(xml, batch = false)
         #puts "Posting to #{self.test_url}"
         #puts "With #{SECURENET_ID}, #{SECURENET_KEY}"
-        target_url = (test? || 'TRUE' == SECURENET_MODE) ? self.test_url : self.live_url
+        target_url = test? ? self.test_url : self.live_url
         target_url += batch ? "CloseBatch" : "ProcessTransaction"
         #puts target_url
         #puts xml
@@ -270,7 +270,7 @@ module ActiveMerchant #:nodoc:
         if test?
           params[:test] = options.has_key?(:certification_test) ? 'FALSE' : 'TRUE'
         else
-          params[:test] = SECURENET_MODE
+          params[:test] = SECURENET_TEST_MODE
         end  
               
         # Add ip (or customer id if vault)
