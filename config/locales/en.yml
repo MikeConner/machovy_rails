@@ -33,6 +33,7 @@ en:
   create_promotion: 'Create a New Deal'
   macho_bucks: 'Macho Bucks'
   meta_description: "Deals.  No Limits.  Local deals curated for men."
+  password_prompt: "At least six characters that your Mom/Wife/Mistress can't guess. <br>For best results include a capital number, an extinct mammal, and two hieroglyphs."
   payment_processed: 'Payment successfully processed.'
   plenty: "Buy before %{date}"
   profile_updated: 'Profile updated successfully.'
