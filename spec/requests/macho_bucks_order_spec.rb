@@ -34,8 +34,10 @@ describe "Ordering with macho bucks" do
     
     # Should be invisible, but there
     it { should have_content(I18n.t('credit_card_details')) }
+    it { should have_content('Balance Due: $0.00')}
+    it { should have_content('Credit Used: $10.00')}
+    it { should have_content('Credit Balance after purchase: $90.00')}
     it { should have_xpath('//div[@id="credit_card_section"]', :visible => false) }
-    it { should have_xpath('//input[@id="amount_display" and @value="0"]') }
     
     describe "buy it" do
       before do
@@ -87,7 +89,9 @@ describe "Ordering with macho bucks" do
     # Should be invisible, but there
     it { should have_content(I18n.t('credit_card_details')) }
     it { should have_xpath('//div[@id="credit_card_section"]', :visible => false) }
-    it { should have_xpath('//input[@id="amount_display" and @value="0"]') }
+    it { should have_content('Balance Due: $0.00')}
+    it { should have_content('Credit Used: $100.00')}
+    it { should have_content('Credit Balance after purchase: $0.00')}
     
     describe "buy it" do
       before do
@@ -139,7 +143,9 @@ describe "Ordering with macho bucks" do
     # Should be invisible, but there
     it { should have_content(I18n.t('credit_card_details')) }
     it { should have_xpath('//div[@id="credit_card_section"]', :visible => true) }
-    it { should have_xpath('//input[@id="amount_display" and @value="90.0"]') }
+    it { should have_content('Balance Due: $90.00')}
+    it { should have_content('Credit Used: $10.00')}
+    it { should have_content('Credit Balance after purchase: $0.00')}
     
     describe "buy it", :js => true do
       before do

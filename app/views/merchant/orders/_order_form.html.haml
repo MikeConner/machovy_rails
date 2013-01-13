@@ -9,7 +9,6 @@
     = f.hidden_field :email
     = f.hidden_field :description
     = f.hidden_field :fine_print
-    -#= f.hidden_field :quantity
     -# Returns param reflecting the state of the "save card" checkbox
     -#   They will see this if they're not a customer (no saved card), or if they're a customer using a new card
     -#   In both cases, default to not saving (if a customer, it will keep their old card as the active one, unless they check to overwrite)
@@ -17,24 +16,29 @@
     -# If they're a customer, indicate whether they're using a new card or their existing one on file
     = hidden_field_tag :new_card, false
     -# Uncomment to enable quantity editing (and remove hidden field above)
-    
     = f.label :quantity, 'Quantity:', :class => "quantity"
     - if Promotion::UNLIMITED == @order.promotion.max_per_customer
-      = f.number_field :quantity, :min => @order.promotion.min_per_customer, :onchange => "update_amount('order_quantity', 'amount_display', #{@order.amount}, #{@order.user.total_macho_bucks });", :class => "quantity-input"
+      = f.number_field :quantity, :min => @order.promotion.min_per_customer, :onchange => "update_amount('order_quantity', #{@order.amount}, #{@order.user.total_macho_bucks});", :class => "quantity-input"
     - else
-      = f.number_field :quantity, :min => @order.promotion.min_per_customer, :max => @order.promotion.max_quantity_for_buyer(current_user), |
-      :onchange => "update_amount('order_quantity', 'amount_display', #{@order.amount}, #{@order.user.total_macho_bucks});" |
+      = f.number_field :quantity, :min => @order.promotion.min_per_customer, :max => @order.promotion.max_quantity_for_buyer(current_user), :onchange => "update_amount('order_quantity', #{@order.amount}, #{@order.user.total_macho_bucks});"
     %p.total-price 
-      Total: $223
-      - initial_total = [0, @order.amount * @order.quantity - @order.user.total_macho_bucks].max
       - if 0 != @order.user.total_macho_bucks
-        - macho_bucks_credit = [@order.user.total_macho_bucks, @order.total_cost].min
-      %br  
-      Credit Used: $45 (Remaining Balance: $99)
-      %br
-      %strong Balance Due: $0
-      .space
-    #credit_card_section{:style => initial_total > 0 ? "display:block" : "display:none"}
+        - initial_macho_bucks_credit = [@order.user.total_macho_bucks, @order.total_cost].min
+        - initial_macho_balance = @order.user.total_macho_bucks - initial_macho_bucks_credit
+        - initial_balance_due = @order.total_cost - initial_macho_bucks_credit
+        Total:
+        = label_tag 'gross_total', number_to_currency(@order.total_cost), :id => 'gross_total', :class => 'total-price'
+        %br  
+        Credit Used:
+        = label_tag 'credit_used', number_to_currency(initial_macho_bucks_credit), :id => 'credit_used', :class => 'total-price' 
+        (Credit Balance after purchase:
+        == #{label_tag 'macho_balance', number_to_currency(initial_macho_balance), :id => 'macho_balance', :class => 'total-price'})
+        %br
+      - else
+        - initial_balance_due = @order.total_cost
+      %strong Balance Due:
+      = label_tag 'balance_due', number_to_currency(initial_balance_due), :id => 'balance_due', :class => 'total-price'
+    #credit_card_section{:style => initial_balance_due > 0 ? "display:block" : "display:none"}
       - if !stripe_customer.nil?
         .field
           = radio_button_tag 'decision', 'existing', true, :onchange => "hide_card_info()"
@@ -54,8 +58,8 @@
           = text_field_tag :first_name, nil, :maxlength => User::MAX_FIRST_NAME_LEN, :placeholder => 'First Name'
           = text_field_tag :last_name, nil, :maxlength => User::MAX_LAST_NAME_LEN, :placeholder => 'Last Name'
         .field
-          = text_field_tag :last_name, nil, :placeholder => 'Card Number', :class => 'credit'
-          = text_field_tag :card_code, nil, :maxlength => 4, :placeholder => '"Security Code(CVV)"', :class => 'cvv'
+          = text_field_tag :card_number, nil, :placeholder => 'Card Number', :class => 'credit'
+          = text_field_tag :card_code, nil, :maxlength => 4, :placeholder => 'Security (CVV)', :class => 'cvv'
           = label_tag :card_month, "Exp:", :class => 'expiration'
           -# Would do the date selection like this if it were intended for the controller -- but Javascript intercepts and needs it this funky way
           -# JS sets the hidden field if the card gets processed properly
@@ -63,8 +67,7 @@
           = select_month Date.today, { add_month_numbers: true }, { name: "card_month", id: "card_month" }
           = select_year Date.today, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: "card_year", id: "card_year" } 
         %br
-        %p.card-details= I18n.t('credit_card_details')
-                    
+        %p.card-details= I18n.t('credit_card_details')                    
         -#
           %em Billing address (optional, but makes the transaction more secure) 
           .field
@@ -78,17 +81,13 @@
             = text_field_tag :state
           .field
             = label_tag :zipcode
-            = text_field_tag :zipcode
-          
-            Hide for now...
-            .field
-              = check_box_tag 'cb_save_card', '1', false, :onclick => "set_save_card_field()"
-              = label_tag 'cb_save_card', 'Save this card for future orders?'
-
+            = text_field_tag :zipcode          
+          .field
+            = check_box_tag 'cb_save_card', '1', false, :onclick => "set_save_card_field()"
+            = label_tag 'cb_save_card', 'Save this card for future orders?'
       #shipping_info{:style => "display:#{@order.shipping_address_required? ? 'block' : 'none'}"}
         %h4 Shipping Address
-        -#
-          = button_tag 'Copy from billing address', :type => 'button', :onclick => "carry_over_address()"
+        -#= button_tag 'Copy from billing address', :type => 'button', :onclick => "carry_over_address()"
         .field
           = f.text_field :name, :class => 'full', :maxlength => User::MAX_FIRST_NAME_LEN + User::MAX_LAST_NAME_LEN + 1, :placeholder => 'Name'
         .field
@@ -100,4 +99,6 @@
           = f.text_field :state, :class => 'state', :maxlength => ApplicationHelper::STATE_LEN, :placeholder => 'State'
           = f.text_field :zipcode, :class => 'zip', :maxlength => ApplicationHelper::ZIPCODE_LEN, :placeholder => 'Zipcode'
     %br
+    .alert-credit_card#card_error
+      %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
     = f.submit I18n.t('buy_now'), :class => 'btn btn-danger'

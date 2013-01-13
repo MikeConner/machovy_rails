@@ -2,7 +2,7 @@ $(function() {
   $(".rslides").responsiveSlides();
 
   $('#tab1').click(function (e) {
-    e.preventDefault();
+  	// Don't prevent default, or submit buttons don't work!
     $(this).tab('show');
   })
 
@@ -157,14 +157,21 @@ $(function() {
   });
 });
 
-// Appears in views/merchant/order/_order_form; currently commented out
-function update_amount(source, destination, unit_price, macho_bucks) {
-  var amount = Math.max(0, $('#' + source).val() * unit_price - macho_bucks)
-  $('#' + destination).val(amount)
-  //$('#total_cost').text(amount)
-  //$('#final_total').val(amount - macho_bucks)
+// Appears in views/merchant/order/_order_form
+function update_amount(quantity, unit_price, macho_bucks) {
+  var gross_total = $('#' + quantity).val() * unit_price;
+  var net_total = gross_total;
+  $('#gross_total').text("$" + gross_total.toFixed(2));
+  if (macho_bucks > 0) {
+  	  var credit_used = Math.min(macho_bucks, gross_total);
+      $('#credit_used').text("$" + credit_used.toFixed(2));
+      $('#macho_balance').text("$" + (macho_bucks - credit_used).toFixed(2)); 
+      net_total = gross_total - credit_used; 	
+  }
+  $('#balance_due').text("$" + net_total.toFixed(2));
+  
   // Don't show the credit card section if Macho Bucks are sufficient to pay it
-  $('#credit_card_section').toggle(amount > 0)
+  $('#credit_card_section').toggle(net_total > 0);
 }
 
 function munge_affiliate_url(source, destination) {
