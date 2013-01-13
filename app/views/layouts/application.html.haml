@@ -20,13 +20,13 @@
   = favicon_link_tag 
   = javascript_include_tag "application"
   = stylesheet_link_tag "foundation", media: "all", :debug => true
-  = stylesheet_link_tag "app", media: "all", :debug => true
   = stylesheet_link_tag "bootstrap", media: "all", :debug => true
   = stylesheet_link_tag "bootstrap-responsive", media: "all", :debug => true
   = stylesheet_link_tag "application", media: "all", :debug => true
   = stylesheet_link_tag "jquery-ui-1.9.0.custom.css", media: "all", :debug => true
   = stylesheet_link_tag "main", media: "all", :debug => true
   = stylesheet_link_tag "responsive", media: "all", :debug => true
+  = stylesheet_link_tag "app", media: "all", :debug => true
   - if GOOGLE_MAPS_KEY.nil?
     = javascript_include_tag "https://maps.googleapis.com/maps/api/js?sensor=false"
   - else

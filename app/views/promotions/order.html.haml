@@ -39,7 +39,7 @@
         - if !@promotion.subtitle.nil?
           %h4= @promotion.subtitle
     .row-fluid
-      .span12
+      .span12.order-form
         - if @promotion.retail_value > @promotion.price
           %span.price-old= number_to_currency(@promotion.retail_value)
         %span.price-new= number_to_currency(@promotion.price)
@@ -50,33 +50,35 @@
 
         %ul.nav.nav-tabs
           %li.active
-            <a data-toggle="tab" href="#tab1">Description </a>
+            <a data-toggle="tab" href="#tab1">Order Details </a>
           %li
-            <a data-toggle="tab" href="#tab2">Limitations</a>
+            <a data-toggle="tab" href="#tab2">Description </a>
           %li
-            <a data-toggle="tab" href="#tab3">Location</a>        
+            <a data-toggle="tab" href="#tab3">Limitations</a>
+          %li
+            <a data-toggle="tab" href="#tab4">Location</a>        
         .tab-content
           #tab1.tab-pane.fade.in.active
-            %h3.tab-title Description
-            %p= @promotion.description 
+            = render :partial => 'merchant/orders/order_form', :locals => { :stripe_customer => @stripe_customer }
           #tab2.tab-pane
-            %h3.tab-title Limitations
-            %p= @promotion.limitations 
+            %p= @promotion.description 
           #tab3.tab-pane
-            %h3.tab-title Location
+            %p= @promotion.limitations 
+          #tab4.tab-pane
             - @vendor = @promotion.vendor
-            .span6
-              %em= @vendor.name
-              %br= @vendor.address_1
-              - if !@vendor.address_2.blank?
-                %br= @vendor.address_2
-              == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
-              %br= @vendor.phone 
-              - if !@vendor.url.blank?
-                %br= @vendor.url
-              - if !@vendor.facebook.blank?
-                %br= @vendor.facebook
-            .span6
+            -#
+              .span6
+                %em= @vendor.name
+                %br= @vendor.address_1
+                - if !@vendor.address_2.blank?
+                  %br= @vendor.address_2
+                == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
+                %br= @vendor.phone 
+                - if !@vendor.url.blank?
+                  %br= @vendor.url
+                - if !@vendor.facebook.blank?
+                  %br= @vendor.facebook
+            .span12
               - if @vendor.mappable?
                 = hidden_field_tag :latitude, @vendor.latitude
                 = hidden_field_tag :longitude, @vendor.longitude
@@ -88,10 +90,7 @@
         - elsif @promotion.zombie?
           .tab-bottom-button
             %p Sold Out
-        %p.limitations
-          %br
-          -#%em= @promotion.limitations 
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget enim non ante consectetur mollis at sit amet est. Donec nec volutpat velit.
-.row-fluid
-  = render :partial => 'merchant/orders/order_form', :locals => { :stripe_customer => @stripe_customer }
+        .alert-credit_card#card_error
+          %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
+  
 

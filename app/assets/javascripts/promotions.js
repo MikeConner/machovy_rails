@@ -16,6 +16,11 @@ $(function() {
     $(this).tab('show');
   }) 
 
+  $('#tab4').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+  })   
+
   var $container = $('#container');
   $container.imagesLoaded( function(){
     $container.isotope({

@@ -1,0 +1,70 @@
+/* Artfully masterminded by ZURB  */
+
+/* -------------------------------------------------- 
+   Table of Contents
+-----------------------------------------------------
+:: Shared Styles
+:: Page Name 1
+:: Page Name 2
+*/
+
+
+/* -----------------------------------------
+   Shared Styles
+----------------------------------------- */
+.contain-to-grid {position: relative; z-index: 300;}
+.contain-to-grid .top-bar {max-width: 100%;}
+.top-bar {background-color: #222222;}
+.top-bar ul > li.has-dropdown .dropdown {width:150px;}
+.top-bar ul > li.name h1 { line-height: 1; font-size: 20px; padding: 12px 0 0 20px; color: white!important; font-family: Arial; font-weight: bold;}
+
+
+/* -----------------------------------------
+   Order form
+----------------------------------------- */
+.order-form {
+
+  .label {font-size:16px; padding:10px;}
+  .full {width:94%!important;display:block;}
+
+  /* Credit Card Classes */
+  .credit {width:35%!important;}
+  .cvv {width:20%!important;}
+  .expiration, .quantity, .total-price {margin:12px 0px 0px 0px; font-size: 20px; }
+  .card-details {display: block; font-size:12px; }
+
+  /* Shipping Classes */
+  .city {width:52%!important;}
+  .state {width:13%!important;}
+  .zip {width:20%!important;}
+
+  select {font-size: 14px; height:25px;}
+  input[type="text"] {display: inline-block; float:left; width:45%; margin:0px 10px 10px 0px; font-size: 16px; height:14px;}
+  input[type="number"] {width:5%; font-size:16px; padding:10px 12px;}
+
+  /* Responsive */
+  @media (max-width: 1200px) {
+    input[type="text"] {display: inline-block; float:left; width:44%; margin:0px 10px 10px 0px; font-size: 16px; height:14px;}
+    .credit {width:24%!important;}
+    .city {width:50%!important;}
+  }
+
+  @media (max-width: 980px) {
+    input[type="text"] {display:block; width:100%!important; }
+    .card-details {display: block; font-size:12px; margin:20px 0; }
+  }
+  @media (max-width: 970px) {
+    input[type="text"] {display:block; width:94%!important; }
+    .card-details {display: block; font-size:12px; margin:20px 0; }
+  }
+
+}
+
+
+
+
+/* -----------------------------------------
+   Page Name 2
+----------------------------------------- */
+
+

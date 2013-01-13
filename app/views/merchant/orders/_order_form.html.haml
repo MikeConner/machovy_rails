@@ -1,111 +1,103 @@
-= form_for [:merchant, @order] do |f|
-  = render :partial => 'shared/error_messages', :locals => { :errors => @order.errors, :name => 'Order' }
-  .alert-credit_card#card_error
-    %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
-  -# The @order is created by promotions#order, and passed in here. Need to include *all* fields so they get passed back through the form,
-  -#   or the @order object will "lose" those fields and not validate
-  = f.hidden_field :amount
-  = f.hidden_field :user_id
-  = f.hidden_field :promotion_id
-  = f.hidden_field :email
-  = f.hidden_field :description
-  = f.hidden_field :fine_print
-  -#= f.hidden_field :quantity
-  -# Returns param reflecting the state of the "save card" checkbox
-  -#   They will see this if they're not a customer (no saved card), or if they're a customer using a new card
-  -#   In both cases, default to not saving (if a customer, it will keep their old card as the active one, unless they check to overwrite)
-  = hidden_field_tag :save_card, false
-  -# If they're a customer, indicate whether they're using a new card or their existing one on file
-  = hidden_field_tag :new_card, false
-  -# Uncomment to enable quantity editing (and remove hidden field above)
-  .field
-    = f.label :quantity
-    %br/
+.order-form
+  = form_for [:merchant, @order] do |f|
+    = render :partial => 'shared/error_messages', :locals => { :errors => @order.errors, :name => 'Order' }
+    -# The @order is created by promotions#order, and passed in here. Need to include *all* fields so they get passed back through the form,
+    -#   or the @order object will "lose" those fields and not validate
+    = f.hidden_field :amount
+    = f.hidden_field :user_id
+    = f.hidden_field :promotion_id
+    = f.hidden_field :email
+    = f.hidden_field :description
+    = f.hidden_field :fine_print
+    -#= f.hidden_field :quantity
+    -# Returns param reflecting the state of the "save card" checkbox
+    -#   They will see this if they're not a customer (no saved card), or if they're a customer using a new card
+    -#   In both cases, default to not saving (if a customer, it will keep their old card as the active one, unless they check to overwrite)
+    = hidden_field_tag :save_card, false
+    -# If they're a customer, indicate whether they're using a new card or their existing one on file
+    = hidden_field_tag :new_card, false
+    -# Uncomment to enable quantity editing (and remove hidden field above)
+    
+    = f.label :quantity, 'Quantity:', :class => "quantity"
     - if Promotion::UNLIMITED == @order.promotion.max_per_customer
-      = f.number_field :quantity, :min => @order.promotion.min_per_customer, :onchange => "update_amount('order_quantity', 'amount_display', #{@order.amount}, #{@order.user.total_macho_bucks * 3});"
+      = f.number_field :quantity, :min => @order.promotion.min_per_customer, :onchange => "update_amount('order_quantity', 'amount_display', #{@order.amount}, #{@order.user.total_macho_bucks });", :class => "quantity-input"
     - else
       = f.number_field :quantity, :min => @order.promotion.min_per_customer, :max => @order.promotion.max_quantity_for_buyer(current_user), |
       :onchange => "update_amount('order_quantity', 'amount_display', #{@order.amount}, #{@order.user.total_macho_bucks});" |
-  -# This is a computed field so the user can see the total amount, based on the quantity -- read_only
-  .field
-    - if 0 == @order.user.total_macho_bucks
-      = label_tag :amount_display, "Total Amount"
-    - elsif @order.user.total_macho_bucks < 0
-      = label_tag :amount_display, "Total Amount (includes a #{I18n.t('macho_bucks')} charge of #{number_to_currency(-@order.user.total_macho_bucks)})"
-    - else
-      = label_tag :amount_display, "Total Amount (includes a #{I18n.t('macho_bucks')} credit of #{number_to_currency(@order.user.total_macho_bucks)})"
-    %br/
-    - initial_total = [0, @order.amount * @order.quantity - @order.user.total_macho_bucks].max
-    = text_field_tag :amount_display, initial_total, :disabled => true
-  #credit_card_section{:style => initial_total > 0 ? "display:block" : "display:none"}
-    - if !stripe_customer.nil?
-      .field
-        = radio_button_tag 'decision', 'existing', true, :onchange => "hide_card_info()"
-        = label_tag 'decision_existing', "Use card with last 4 digits '#{stripe_customer.active_card.last4}'?"
-        &nbsp;&nbsp;
-        = radio_button_tag 'decision', 'new', false, :onchange => "show_card_info()"
-        = label_tag 'decision_new', "Use another card"
-    -# coffeescript "wrapping" seems to prevent having an event that fires on this specific page load
-    -#   it first on "every" page load (which might be because the stripe code is referenced in the application layout)
-    -# So have to initialize this style right here
-    -#   normally don't want formatting elements outside CSS, but in this case I think it's justified (better encapsulated)
-    #card_info{:style => "display:#{stripe_customer.nil? ? 'block' : 'none'}"}
-      -# first_name and last_name are now Order fields, and could be done as f.label, f.text_field
-      -# However, this causes complexity in the controller; the JS params have to match the Post params, since the card gets parsed
-      -#   twice: once before posting, and once after. So you'd have order_first_name and order[first_name]. So leave it a text_field_tag
-      .field
-        = label_tag :first_name
-        = text_field_tag :first_name, nil, :maxlength => User::MAX_FIRST_NAME_LEN
-      .field
-        = label_tag :last_name
-        = text_field_tag :last_name, nil, :maxlength => User::MAX_LAST_NAME_LEN
-      .field
-        = label_tag :card_number, 'Credit Card Number'
-        = text_field_tag :card_number
-      .field
-        = label_tag :card_code, "Security Code on Card (CVV)"
-        = text_field_tag :card_code, nil, :maxlength => 4
-      .field
-        = label_tag :card_month, "Card Expiration"
-        -# Would do the date selection like this if it were intended for the controller -- but Javascript intercepts and needs it this funky way
-        -# JS sets the hidden field if the card gets processed properly
-        -#= date_select :card_expiration, :card_expiration, { order: [:month, :year], discard_day: true, add_month_numbers: true,  }
-        = select_month Date.today, { add_month_numbers: true }, { name: "card_month", id: "card_month" }
-        = select_year Date.today, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: "card_year", id: "card_year" } 
-      %em Billing address (optional, but makes the transaction more secure) 
-      .field
-        = label_tag :address, "Street address"
-        = text_field_tag :address
-      .field
-        = label_tag :city
-        = text_field_tag :city
-      .field
-        = label_tag :state
-        = text_field_tag :state
-      .field
-        = label_tag :zipcode
-        = text_field_tag :zipcode
-      -#
-        Hide for now...
+    %p.total-price 
+      Total: $223
+      - initial_total = [0, @order.amount * @order.quantity - @order.user.total_macho_bucks].max
+      - if 0 != @order.user.total_macho_bucks
+        - macho_bucks_credit = [@order.user.total_macho_bucks, @order.total_cost].min
+      %br  
+      Credit Used: $45 (Remaining Balance: $99)
+      %br
+      %strong Balance Due: $0
+      .space
+    #credit_card_section{:style => initial_total > 0 ? "display:block" : "display:none"}
+      - if !stripe_customer.nil?
         .field
-          = check_box_tag 'cb_save_card', '1', false, :onclick => "set_save_card_field()"
-          = label_tag 'cb_save_card', 'Save this card for future orders?'
-    %em= I18n.t('credit_card_details')
-    #shipping_info{:style => "display:#{@order.shipping_address_required? ? 'block' : 'none'}"}
-      %h4 Shipping Address
-      = button_tag 'Copy from billing address', :type => 'button', :onclick => "carry_over_address()"
-      .field
-        = f.text_field :name, :maxlength => User::MAX_FIRST_NAME_LEN + User::MAX_LAST_NAME_LEN + 1, :placeholder => 'Name'
-      .field
-        = f.text_field :address_1, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Address 1'
-      .field
-        = f.text_field :address_2, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Address 2'
-      .field
-        = f.text_field :city, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'City'
-      .field
-        = f.text_field :state, :maxlength => ApplicationHelper::STATE_LEN, :placeholder => 'State'
-      .field
-        = f.text_field :zipcode, :maxlength => ApplicationHelper::ZIPCODE_LEN, :placeholder => 'Zipcode'
-  %br
-  %br
-  = f.submit I18n.t('buy_now'), :class => 'btn btn-danger'
+          = radio_button_tag 'decision', 'existing', true, :onchange => "hide_card_info()"
+          = label_tag 'decision_existing', "Use card with last 4 digits '#{stripe_customer.active_card.last4}'?"
+          &nbsp;&nbsp;
+          = radio_button_tag 'decision', 'new', false, :onchange => "show_card_info()"
+          = label_tag 'decision_new', "Use another card"
+      -# coffeescript "wrapping" seems to prevent having an event that fires on this specific page load
+      -#   it first on "every" page load (which might be because the stripe code is referenced in the application layout)
+      -# So have to initialize this style right here
+      -#   normally don't want formatting elements outside CSS, but in this case I think it's justified (better encapsulated)
+      #card_info{:style => "display:#{stripe_customer.nil? ? 'block' : 'none'}"}
+        -# first_name and last_name are now Order fields, and could be done as f.label, f.text_field
+        -# However, this causes complexity in the controller; the JS params have to match the Post params, since the card gets parsed
+        -#   twice: once before posting, and once after. So you'd have order_first_name and order[first_name]. So leave it a text_field_tag
+        .field
+          = text_field_tag :first_name, nil, :maxlength => User::MAX_FIRST_NAME_LEN, :placeholder => 'First Name'
+          = text_field_tag :last_name, nil, :maxlength => User::MAX_LAST_NAME_LEN, :placeholder => 'Last Name'
+        .field
+          = text_field_tag :last_name, nil, :placeholder => 'Card Number', :class => 'credit'
+          = text_field_tag :card_code, nil, :maxlength => 4, :placeholder => '"Security Code(CVV)"', :class => 'cvv'
+          = label_tag :card_month, "Exp:", :class => 'expiration'
+          -# Would do the date selection like this if it were intended for the controller -- but Javascript intercepts and needs it this funky way
+          -# JS sets the hidden field if the card gets processed properly
+          -#= date_select :card_expiration, :card_expiration, { order: [:month, :year], discard_day: true, add_month_numbers: true,  }
+          = select_month Date.today, { add_month_numbers: true }, { name: "card_month", id: "card_month" }
+          = select_year Date.today, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: "card_year", id: "card_year" } 
+        %br
+        %p.card-details= I18n.t('credit_card_details')
+                    
+        -#
+          %em Billing address (optional, but makes the transaction more secure) 
+          .field
+            = label_tag :address, "Street address"
+            = text_field_tag :address
+          .field
+            = label_tag :city
+            = text_field_tag :city
+          .field
+            = label_tag :state
+            = text_field_tag :state
+          .field
+            = label_tag :zipcode
+            = text_field_tag :zipcode
+          
+            Hide for now...
+            .field
+              = check_box_tag 'cb_save_card', '1', false, :onclick => "set_save_card_field()"
+              = label_tag 'cb_save_card', 'Save this card for future orders?'
+
+      #shipping_info{:style => "display:#{@order.shipping_address_required? ? 'block' : 'none'}"}
+        %h4 Shipping Address
+        -#
+          = button_tag 'Copy from billing address', :type => 'button', :onclick => "carry_over_address()"
+        .field
+          = f.text_field :name, :class => 'full', :maxlength => User::MAX_FIRST_NAME_LEN + User::MAX_LAST_NAME_LEN + 1, :placeholder => 'Name'
+        .field
+          = f.text_field :address_1, :class => 'full', :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Address 1'
+        .field
+          = f.text_field :address_2, :class => 'full', :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Address 2'
+        .field
+          = f.text_field :city, :class => 'city', :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'City'
+          = f.text_field :state, :class => 'state', :maxlength => ApplicationHelper::STATE_LEN, :placeholder => 'State'
+          = f.text_field :zipcode, :class => 'zip', :maxlength => ApplicationHelper::ZIPCODE_LEN, :placeholder => 'Zipcode'
+    %br
+    = f.submit I18n.t('buy_now'), :class => 'btn btn-danger'

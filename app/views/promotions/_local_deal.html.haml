@@ -50,11 +50,19 @@
           %h4= @promotion.subtitle
     .row-fluid
       .span12
+
         - if @promotion.retail_value > @promotion.price
           %span.price-old= number_to_currency(@promotion.retail_value)
         %span.price-new= number_to_currency(@promotion.price)
         %br
         %span= @promotion.quantity_description
+        %br.space &nbsp;
+        - if @show_buy_button
+          .btn.btn-danger
+            = link_to "<i class='icon-plus icon-white'></i> #{I18n.t('click_to_buy')}".html_safe, order_promotion_path(@promotion)   
+        - elsif @promotion.zombie?
+          .tab-bottom-button
+            %p= I18n.t('sold_out')
 
         .space
 
@@ -67,13 +75,10 @@
             <a data-toggle="tab" href="#tab3">Location</a>        
         .tab-content
           #tab1.tab-pane.fade.in.active
-            %h3.tab-title Description
             %p= @promotion.description 
           #tab2.tab-pane
-            %h3.tab-title Limitations
             %p= @promotion.limitations 
           #tab3.tab-pane
-            %h3.tab-title Location
             - @vendor = @promotion.vendor
             .span6
               %em= @vendor.name
@@ -92,12 +97,6 @@
                 = hidden_field_tag :longitude, @vendor.longitude
                 = hidden_field_tag :vendor, @vendor.name
                 #map_canvas.vendor_map    
-        - if @show_buy_button
-          .tab-bottom-button
-            = link_to "<i class='icon-plus icon-white'></i> #{I18n.t('click_to_buy')}".html_safe, order_promotion_path(@promotion)   
-        - elsif @promotion.zombie?
-          .tab-bottom-button
-            %p= I18n.t('sold_out')
         %p.limitations
           %br
           -#%em= @promotion.limitations 
