@@ -2,4 +2,4 @@ machovy_rails
 =============
 
 Machovy Web 
-Bruce here
+Team: arash bruce jeff roger
