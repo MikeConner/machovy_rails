@@ -1,4 +1,3 @@
-#require 'machovy_securenet_gateway'
 require 'utilities'
 
 describe "SecureNet Certification script (ECheck)" do
@@ -100,7 +99,7 @@ describe "SecureNet Certification script (ECheck)" do
       end
     end
     
-    describe "credit tests" do
+    describe "credit test 73" do
       before do
         @response = gateway.echeck_purchase(1100,  
                                             {:routing_number => @good[:routing_number], 
@@ -108,6 +107,7 @@ describe "SecureNet Certification script (ECheck)" do
                                              :bank_name => @bank,
                                              :certification_test => true}.merge(common_options))
         @transaction_id = @response.authorization
+        puts "Transaction ID for test refund tests: #{@transaction_id}"
         if @response.success?
           puts @response.message
           puts @response.inspect
@@ -119,15 +119,18 @@ describe "SecureNet Certification script (ECheck)" do
         @response.authorization.should_not be_blank
       end
       
-      describe "should pass test 73" do
+      pending "should pass test 73" do
         before do
+          # Doesn't work immediately, since ACH transaction don't process immediately... 
+          #   have to wait a day until they settle; just report the transaction id here
+          # After they settle, run the delayed_refund_only spec, plugging in the reported transaction ids
           @response = gateway.close_batch
           if @response.success?
             puts @response.message
             puts @response.inspect
           end
             
-          @response = gateway.echeck_credit(600,  
+          @response = gateway.echeck_credit(1100,  
                                             @transaction_id,
                                             {:routing_number => @good[:routing_number], 
                                              :account_number => @good[:account_number],
@@ -144,9 +147,33 @@ describe "SecureNet Certification script (ECheck)" do
           @response.authorization.should_not be_blank
         end        
       end
-
-      describe "should pass test 74" do
+    end
+    
+    describe "credit test 74" do
+      before do
+        @response = gateway.echeck_purchase(1100,  
+                                            {:routing_number => @good[:routing_number], 
+                                             :account_number => @good[:account_number],
+                                             :bank_name => @bank,
+                                             :certification_test => true}.merge(common_options))
+        @transaction_id = @response.authorization
+        puts "Transaction ID for test refund tests: #{@transaction_id}"
+        if @response.success?
+          puts @response.message
+          puts @response.inspect
+        end
+      end
+      
+      it "should return the correct response" do
+        @response.success?.should be_true
+        @response.authorization.should_not be_blank
+      end
+      
+      pending "should pass test 74" do
         before do
+          # Doesn't work immediately, since ACH transaction don't process immediately... 
+          #   have to wait a day until they settle; just report the transaction id here
+          # After they settle, run the delayed_refund_only spec, plugging in the reported transaction ids
           @response = gateway.close_batch
           if @response.success?
             puts @response.message

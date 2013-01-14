@@ -1,5 +1,3 @@
-#require 'machovy_securenet_gateway'
-
 describe "SecureNet" do  
   let(:gateway) { ActiveMerchant::Billing::MachovySecureNetGateway.new(:login => SECURENET_ID, :password => SECURENET_KEY) }
   

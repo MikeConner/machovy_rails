@@ -1,4 +1,3 @@
-#require 'machovy_securenet_gateway'
 require 'utilities'
 
 describe "SecureNet Certification script (discover card)" do

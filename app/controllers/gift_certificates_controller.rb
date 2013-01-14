@@ -1,5 +1,3 @@
-#require 'machovy_securenet_gateway'
-
 class GiftCertificatesController < ApplicationController
   before_filter :authenticate_user!
   before_filter :ensure_admin, :only => [:index]

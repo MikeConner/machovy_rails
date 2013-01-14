@@ -189,13 +189,15 @@ module ActiveMerchant #:nodoc:
         response = parse(data)
         #puts "Raw response: " + response.inspect
         
+        #r = 
         Response.new(success?(response), message_from(response), response,
           :test => test?,
           :authorization => response[:transactionid],
           :avs_result => { :code => response[:avs_result_code] },
           :cvv_result => response[:card_code_response_code]
-        )                
-        #puts "XXX: #{r.authorization}"
+        )
+        # Do this to capture ids for certification              
+        #puts "SecureNet certification transaction ID: #{r.authorization}"
         #r
       end
 
