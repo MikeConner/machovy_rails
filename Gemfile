@@ -26,7 +26,7 @@ gem 'jquery-rails', '2.1.2'
 gem 'thin', '1.4.1'
 
 group :development, :test do
-  gem 'rspec-rails', '2.8.1'
+  gem 'rspec-rails', '2.12.2'
   gem 'faker', '1.0.1'
   gem 'spork', '0.9.2'
 end
@@ -38,10 +38,10 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '1.1.2'
-  gem 'capybara-webkit', '0.13.0'
+  gem 'capybara', '1.1.2' # 1.1.4 latest is 2.0.2
+  gem 'capybara-webkit', '0.13.0' # latest is 0.14.1
   gem 'launchy', '2.1.2'
-  gem 'database_cleaner', '0.8.0'
+  gem 'database_cleaner', '0.9.1' # was 0.8.0
   gem 'factory_girl_rails', '4.1.0'
   gem 'rspec-tag_matchers', '0.1.2'
   gem 'rack-test', '0.6.2'
@@ -69,7 +69,7 @@ gem 'rmagick', '2.13.1'
 gem 'mini_magick'
 
 #for Human Readable URLs -> multiple objects (promo / voucher)
-gem 'friendly_id'
+gem 'friendly_id', '4.0.9'
 
 gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.5'

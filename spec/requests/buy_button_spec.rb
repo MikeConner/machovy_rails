@@ -37,10 +37,7 @@ describe "Buy button rules" do
   end
 
   describe "Not logged in" do
-    before do
-      visit promotion_path(promotion)
-      save_page
-    end
+    before { visit promotion_path(promotion) }
     
     it { should have_selector('h3', :text => promotion.title) }
     it { should have_link(I18n.t('click_to_buy'), :href => order_promotion_path(promotion)) }

@@ -1,4 +1,4 @@
-#require 'rubygems'
+require 'rubygems'
 require 'spork'
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
@@ -22,6 +22,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
   config.include RSpec::TagMatchers
+  config.include Capybara::DSL
   config.include ValidUserRequestHelper, :type => :request
   # I think test TestHelpers only work with controllers/views
   # config.include Devise::TestHelpers

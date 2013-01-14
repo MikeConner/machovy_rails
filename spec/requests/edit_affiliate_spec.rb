@@ -27,9 +27,10 @@ describe "Edit Affiliate deal" do
       fill_in 'promotion_remote_teaser_image_url', :with => 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
       select '2016', :from => 'promotion_end_date_1i'
       click_button 'Create Affiliate'
+      #save_page
+      wait_until { page.evaluate_script('$.active') == 0 }
+#      page.driver.wait_until { page.driver.browser.find_element(:css, "div.product_detail").displayed? == true }
       @promotion = Promotion.first
-      # Seems to be a timing thing. Saving page makes it work.
-      save_page
     end
     
     it "should create promotion" do
@@ -39,18 +40,27 @@ describe "Edit Affiliate deal" do
       @promotion.approved?.should be_true
       current_path.should be == promotion_path(@promotion)
     end
-    
-    describe "Edit the promotion" do
-      before do
-        @promotion = Promotion.first
-        visit edit_promotion_path(@promotion)
-        fill_in 'promotion_subtitle', :with => '... or Melinda'
-        click_button 'Submit'
-      end
+  end
       
-      it "should have the change" do
-        @promotion.reload.subtitle.should == '... or Melinda'
-      end
+  describe "Edit the promotion" do
+    let(:promotion) { FactoryGirl.create(:affiliate) }
+    before do
+      sign_in_as_an_admin_user
+      click_link I18n.t('sign_in_register')
+      # fill in info
+      fill_in 'user_email', :with => @user.email
+      fill_in 'user_password', :with => @user.password
+      # Authenticate
+      click_button I18n.t('sign_in')
+      
+      visit edit_promotion_path(promotion)
+      save_page
+      fill_in 'promotion_subtitle', :with => '... or Melinda'
+      click_button 'Submit'
     end
-  end    
+    
+    it "should have the change" do
+      promotion.reload.subtitle.should == '... or Melinda'
+    end
+  end
 end
