@@ -133,6 +133,18 @@ describe "Orders" do
       it { should_not be_valid }
     end
 
+    describe "invalid state" do
+      before { order.state = "AP" }
+      
+      it { should_not be_valid }
+    end
+
+    describe "lowercase state" do
+      before { order.state = "pa" }
+      
+      it { should be_valid }
+    end
+
     describe "missing zipcode" do
       before { order.zipcode = " " }
       

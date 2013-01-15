@@ -44,6 +44,7 @@ class Order < ActiveRecord::Base
   
   # description isn't unique; override with Guid
   before_validation :create_slug
+  before_validation :upcase_state
   
   include ApplicationHelper
   
@@ -132,5 +133,9 @@ private
   # It's not unique, and having friendly id append "-12" or something shows how many people are ordering
   def create_slug
     self.slug = SecureRandom.uuid if new_record?
+  end
+  
+  def upcase_state
+    self.state = self.state.upcase unless self.state.nil?
   end
 end
