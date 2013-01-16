@@ -24,7 +24,9 @@
         %td== #{p.status} [Suspended]
       - else
         %td= p.status
-      %td= link_to "#{p.title}", edit_promotion_path(p)
+      %td
+        = link_to "#{p.title}", edit_promotion_path(p)
+        = link_to "[Preview]", promotion_path(p)
       %td= p.subtitle
       - if p.end_date.nil?
         %td None

@@ -149,7 +149,7 @@ class Promotion < ActiveRecord::Base
                                :numericality => { only_integer: true, greater_than_or_equal_to: Promotion::UNLIMITED }
   validate :voucher_limit_consistency
   
-  validates_presence_of :teaser_image
+  validates_presence_of :teaser_image, :if => :image_required?
   validates_presence_of :strategy, :if => :deal?
   validates_inclusion_of :suspended, :in => [true, false]
   
@@ -361,5 +361,9 @@ private
       # Should not be zero orders in this case, but don't fail even in pathological case
       0 == orders.count ? false : Time.now - orders.last.created_at <= ZOMBIE_THRESHOLD
     end
+  end
+  
+  def image_required?
+    affiliate? or ad?
   end
 end

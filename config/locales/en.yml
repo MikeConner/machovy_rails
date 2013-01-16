@@ -14,12 +14,14 @@ en:
   credit_card_details: 'Your credit card details are sent directly to our payment processor, and are never stored at Machovy'
   curators: 'Mentors'
   customer_service: 'If you have any questions, email us at info@machovy.com ...'
+  ensure_image: 'Ensure the url is an image, not a web page (e.g., "Copy Image URL")'
   feedback_prompt: 'Tell us what you think!'
   feedback_thanks: "Thank you for your feedback!"
   foreign_promotion: 'This is not one of your promotions.'
   foreign_voucher: 'This is not one of your vouchers.'
   foreign_order: 'This is not one of your orders.'
   idea_success: 'Great idea!'
+  image_error: 'Error on update (probably processing image -- please make sure you entered a valid image url)'
   inconsistent_categories: 'Inconsistent category assignment; exclusive (red) category assignments must be unique'
   invalid_order: 'Not a valid user/order'
   invalid_user: 'You must log in to perform this function'
@@ -29,6 +31,7 @@ en:
   machovy_attention: 'Promotions that need Machovy attention'
   merchant_signup: 'Not the usual deals site'
   nice_try: "Nice try! Unfortunately you're not eligible to purchase additional quantities of this promotion. Thank you for your previous order!"
+  no_image: '[No Image]'
   new_promotion: "Let's make a deal"
   create_promotion: 'Create a New Deal'
   macho_bucks: 'Macho Bucks'

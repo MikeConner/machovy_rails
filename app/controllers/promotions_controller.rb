@@ -189,6 +189,7 @@ class PromotionsController < ApplicationController
     # Don't order metros by name, or Pittsburgh won't be first
     @metros = Metro.all
     @categories = Category.order(:name)
+    @promotion.promotion_images.build unless @promotion.promotion_images.count > 0
     if admin_user?
       render :layout => 'layouts/admin'
     end
@@ -224,7 +225,7 @@ class PromotionsController < ApplicationController
     else
       @promotion.status = Promotion::MACHOVY_APPROVED
     end
-    
+
     if @promotion.save
       redirect_to @promotion, :notice => message
     else
@@ -239,6 +240,22 @@ class PromotionsController < ApplicationController
       else
         render 'new_ad', :layout => 'layouts/admin'
       end
+    end
+ 
+  # Catch carrier wave exception -- this isn't working??? It works on update, but not create
+  rescue
+    # Code from above duplicated, plus error message
+    @metros = Metro.all
+    @vendors = Vendor.order(:name)
+    @categories = Category.order(:name)
+    @promotion.errors.add :base, I18n.t('image_error')
+    
+    if Promotion::LOCAL_DEAL == @promotion.promotion_type
+      # Ensure we show a slideshow image on edit
+      @promotion.promotion_images.build
+      render 'new', :layout => admin_user? ? 'layouts/admin' : 'layouts/application'
+    else
+      render 'new_ad', :layout => 'layouts/admin'
     end
   end
 
@@ -299,6 +316,12 @@ class PromotionsController < ApplicationController
       @categories = Category.order(:name)
       render 'edit', :layout => admin_user? ? 'layouts/admin' : 'layouts/application'  
     end    
+    
+    rescue
+      @promotion.errors.add :base, I18n.t('image_error')
+      @metros = Metro.all
+      @categories = Category.order(:name)
+      render 'edit', :layout => admin_user? ? 'layouts/admin' : 'layouts/application'        
   end
 
   # DELETE /promotions/1

@@ -128,6 +128,30 @@ describe "Promotions" do
       just_expired.zombie?.should be_true
       promotion_with_orders.zombie?.should be_true
     end
+    
+    describe "Promotion without image" do
+      before { promotion.remove_teaser_image! }
+      
+      it "should not fail" do
+        promotion.should be_valid
+      end
+    end
+
+    describe "Ad without image" do
+      before { ad.remove_teaser_image! }
+      
+      it "should fail" do
+        ad.should_not be_valid
+      end
+    end
+
+    describe "Affiliate without image" do
+      before { affiliate.remove_teaser_image!  }
+      
+      it "should fail" do
+        affiliate.should_not be_valid
+      end
+    end
   end
   
   describe "Missing suspended" do

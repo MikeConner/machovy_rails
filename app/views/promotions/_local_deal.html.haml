@@ -1,4 +1,3 @@
-
 - if @show_accept_reject
   Please review the edited promotion below, and accept or reject the changes.
   %br/
@@ -11,16 +10,20 @@
 .row-fluid.product-line
   .span4.product
     %ul.rslides{:id => 'slider2'}
-      - if !@promotion.teaser_image.file.nil?
-        %li
-          = image_tag @promotion.teaser_image_url(:product_front_page).to_s
-      - if !@promotion.main_image.file.nil?
-        %li
-          = image_tag @promotion.main_image_url(:product_front_page).to_s
-      - @promotion.promotion_images.each do |slideshow|
-        - if !slideshow.slideshow_image.file.nil?
+      - no_images = @promotion.teaser_image.file.nil? and @promotion.main_image.file.nil? and 0 == @promotion.promotion_images.count
+      - if no_images
+        .space
+      - else
+        - if !@promotion.teaser_image.file.nil?
           %li
-            = image_tag slideshow.slideshow_image_url(:product_front_page).to_s
+            = image_tag @promotion.teaser_image_url(:product_front_page).to_s
+        - if !@promotion.main_image.file.nil?
+          %li
+            = image_tag @promotion.main_image_url(:product_front_page).to_s
+        - @promotion.promotion_images.each do |slideshow|
+          - if !slideshow.slideshow_image.file.nil?
+            %li
+              = image_tag slideshow.slideshow_image_url(:product_front_page).to_s
     %table.table.table-condensed
       %thead
         %tr

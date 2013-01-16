@@ -17,7 +17,7 @@
 .field
   = f.label :remote_picture_url, "or image URL"
   %br/
-  = f.text_field :remote_picture_url
+  = f.text_field :remote_picture_url, :title => I18n.t('ensure_image')
 .field
   = f.label :bio
   %br/

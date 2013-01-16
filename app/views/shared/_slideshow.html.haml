@@ -1,4 +1,8 @@
+- if f.object.slideshow_image.file.nil?
+  = I18n.t('no_image')
+- else
+  = image_tag(f.object.slideshow_image_url(:product_thumb).to_s)
 = f.label :slideshow_image, "Additional Image"
 = f.file_field :slideshow_image
 = f.label :remote_slideshow_image_url, 'or image url'
-= f.text_field :remote_slideshow_image_url
+= f.text_field :remote_slideshow_image_url, :title => I18n.t('ensure_image')
