@@ -13,7 +13,7 @@ class PromotionsController < ApplicationController
   # Only SuperAdmins (and vendors) can edit local deals
   before_filter :ensure_vendor_or_super_admin, :only => [:edit]
   before_filter :ensure_correct_vendor, :only => [:edit, :show_logs, :accept_edits, :reject_edits]
-  before_filter :admin_only, :only => [:manage, :affiliates, :ads]
+  before_filter :admin_only, :only => [:manage, :review]
   before_filter :validate_eligible, :only => [:order]
   before_filter :transform_prices, :only => [:create, :update]
   
