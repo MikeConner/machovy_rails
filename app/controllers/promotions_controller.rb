@@ -13,7 +13,7 @@ class PromotionsController < ApplicationController
   # Only SuperAdmins (and vendors) can edit local deals
   before_filter :ensure_vendor_or_super_admin, :only => [:edit]
   before_filter :ensure_correct_vendor, :only => [:edit, :show_logs, :accept_edits, :reject_edits]
-  before_filter :admin_only, :only => [:manage, :affiliates]
+  before_filter :admin_only, :only => [:manage, :affiliates, :ads]
   before_filter :validate_eligible, :only => [:order]
   before_filter :transform_prices, :only => [:create, :update]
   
@@ -346,11 +346,21 @@ class PromotionsController < ApplicationController
     render :layout => 'layouts/admin'
   end
   
-  def affiliates
-    @affiliates = Promotion.affiliates.order(:grid_weight).paginate(:page => params[:page])
+  def review
+    case params[:promotion_type]
+    when Promotion::AFFILIATE
+      @promotions = Promotion.affiliates.order(:grid_weight).paginate(:page => params[:page])
+      @title = 'Affiliate Deals'
+    when Promotion::AD
+      @promotions = Promotion.ads.order(:grid_weight).paginate(:page => params[:page])
+      @title = 'Advertisements'
+    else
+      redirect_to root_path, :alert => 'Invalid promotion type'
+    end
+    
     render :layout => 'layouts/admin'
   end
-  
+    
   # Called from front page manager with Ajax
   def update_weight
     @promotion = Promotion.find(params[:id])
