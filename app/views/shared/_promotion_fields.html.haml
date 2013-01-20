@@ -62,9 +62,8 @@
       = f.label :price, "Deal Price"
       = f.text_field :price, :size => 15
       = f.label :revenue_shared, "Revenue Shared (%)"
-      = f.select :revenue_shared, options_for_select(share_options, [Promotion::DEFAULT_REVENUE_SHARE])
+      = f.select :revenue_shared, options_for_select(share_options, share_pct.round)
       %br
-      = f.hidden_field :revenue_shared, :value => share_pct
       = f.label :quantity, "Voucher Limit (total available for sale)"
       = f.number_field :quantity, :min => 1, :value => quantity
       = f.label :max_per_customer, 'Maximum quantity per customer (limit)'
