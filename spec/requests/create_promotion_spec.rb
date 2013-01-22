@@ -66,7 +66,7 @@ describe "Create promotion spec" do
           fill_in 'promotion_retail_value', :with => '$200'
           fill_in 'promotion_price', :with => '$100'
           # Can't "fill_in" a hidden field
-          find(:xpath, "//input[@id='promotion_revenue_shared']").set "10"
+          select '65', :from => 'promotion_revenue_shared'
           fill_in 'promotion_quantity', :with => 100
           
           click_button 'Submit'
@@ -79,8 +79,9 @@ describe "Create promotion spec" do
             current_path.should == promotion_path(@p)
           end
         
-          it "should have pending status" do
-            @p.status.should == Promotion::PROPOSED
+          it "should have pending status and correct commission" do
+            @p.status.should be == Promotion::PROPOSED
+            @p.revenue_shared.should be == 65
           end
           
           it { should have_selector('h3', :text => @p.title) }

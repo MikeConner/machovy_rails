@@ -303,6 +303,22 @@ class PromotionsController < ApplicationController
     end
     
     if @promotion.update_attributes(params[:promotion])
+      # Update the strategy, if changed!
+      # Only deals have strategies; vouchers are not generated for affiliates/ads
+      if @promotion.deal?
+         # Get the promotion strategy from the hidden field (don't want to deal with nested polymorphic attributes; just assign it)
+        if @promotion.strategy.name == params[:promotion_strategy]
+          # It's the same type, just update the strategy object
+          @promotion.strategy.setup(params)
+          @promotion.strategy.save!
+        else
+          # It's a different type, need to create a new strategy object
+          @promotion.strategy = PromotionStrategyFactory.instance.create_promotion_strategy(params[:promotion_strategy], params)
+        end
+        
+        @promotion.save!
+     end
+      
       @promotion.promotion_logs.create(:status => params[:promotion][:status], 
                                        :comment => comment)  
       # Send email only on admin actions on local deals
@@ -316,12 +332,12 @@ class PromotionsController < ApplicationController
       @categories = Category.order(:name)
       render 'edit', :layout => admin_user? ? 'layouts/admin' : 'layouts/application'  
     end    
-    
+  
     rescue
       @promotion.errors.add :base, I18n.t('image_error')
       @metros = Metro.all
       @categories = Category.order(:name)
-      render 'edit', :layout => admin_user? ? 'layouts/admin' : 'layouts/application'        
+      render 'edit', :layout => admin_user? ? 'layouts/admin' : 'layouts/application'     
   end
 
   # DELETE /promotions/1

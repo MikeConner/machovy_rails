@@ -93,6 +93,10 @@ describe "VendorMailer" do
         
         it "should have the right content" do
           msg.body.encoded.should match('Your promotion has been approved')
+          msg.body.encoded.should match(promotion.retail_value.round(2).to_s)
+          msg.body.encoded.should match(promotion.price.round(2).to_s)
+          msg.body.encoded.should match(promotion.revenue_shared.round().to_s)
+          msg.body.encoded.should match(promotion.strategy.description)
           ActionMailer::Base.deliveries.count.should == 1
         end
       end

@@ -43,7 +43,12 @@
     = f.hidden_field :grid_weight
   - if @promotion.deal?
     - @fixed_date = PromotionStrategyFactory::FIXED_STRATEGY == @promotion.strategy_name ? @promotion.strategy.end_date : Time.now.beginning_of_day
+    - default_days = PromotionStrategyFactory::RELATIVE_STRATEGY  == @promotion.strategy_name ? @promotion.strategy.period_days : RelativeExpirationStrategy::DEFAULT_PERIOD
+    - if PromotionStrategyFactory::PRODUCT_STRATEGY == @promotion.strategy_name
+      - shipping_option = @promotion.strategy.delivery? ? ProductStrategy::SHIP_OPTION : ProductStrategy::PICKUP_OPTION 
+    - else
+      - shipping_option = ProductStrategy::SHIP_OPTION 
     = render :partial => 'shared/promotion_fields', 
-             :locals => { :f => f, :metros => @metros, :quantity => @promotion.quantity || 1, :share_pct => @promotion.revenue_shared, :share_options => @promotion.revenue_share_options, :strategy => @promotion.strategy_name, :fixed_date => @fixed_date }
+             :locals => { :f => f, :metros => @metros, :quantity => @promotion.quantity || 1, :share_pct => @promotion.revenue_shared, :share_options => @promotion.revenue_share_options, :strategy => @promotion.strategy_name, :fixed_date => @fixed_date, :default_period => default_days, :default_shipping => shipping_option }
   - else
     = render :partial => 'shared/nondeal_promotion_fields', :locals => { :f => f, :metros => @metros }

@@ -15,7 +15,7 @@
 #   Create from factory in the create method of the controller, given the value of a hidden field with the strategy name
 #
 # NOTES AND WARNINGS
-#   Must define the name, setup, and generate_vouchers methods
+#   Must define the name, description, setup, and generate_vouchers methods
 #
 class FixedExpirationStrategy < ActiveRecord::Base
   attr_accessible :end_date
@@ -29,6 +29,11 @@ class FixedExpirationStrategy < ActiveRecord::Base
   def name
     PromotionStrategyFactory::FIXED_STRATEGY
   end  
+  
+  # Description that appears in the vendor email
+  def description
+    "Vouchers expire on a fixed date: #{self.end_date.try(:strftime, '%b %d, %Y')}."
+  end
   
   # params are the arguments into the create method of the controller
   def setup(params)

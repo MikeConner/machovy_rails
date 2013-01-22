@@ -89,9 +89,9 @@
               == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
               %br= @vendor.phone 
               - if !@vendor.url.blank?
-                %br= @vendor.url
+                %br= link_to 'Web site', @vendor.url, :target => '_blank'
               - if !@vendor.facebook.blank?
-                %br= @vendor.facebook
+                %br= link_to 'Facebook', @vendor.facebook, :target => '_blank'
             .span6
               - if @vendor.mappable?
                 = hidden_field_tag :latitude, @vendor.latitude

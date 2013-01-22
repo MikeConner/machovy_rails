@@ -58,7 +58,7 @@ describe "Create promotion without images" do
           fill_in 'promotion_retail_value', :with => '$200'
           fill_in 'promotion_price', :with => '$100'
           # Can't "fill_in" a hidden field
-          find(:xpath, "//input[@id='promotion_revenue_shared']").set "10"
+          select '10', :from => 'promotion_revenue_shared'
           fill_in 'promotion_quantity', :with => 100
           
           click_button 'Submit'

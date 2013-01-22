@@ -1,4 +1,9 @@
 %h2== Machovy editors have taken action on your '#{link_to @promotion.title, promotion_url(@promotion)}' promotion.
+%p
+  Terms are as follows:
+  = @promotion.inspect
+  == Offering a total of #{@promotion.quantity} at a price of #{number_to_currency(@promotion.price)}, retail value #{number_to_currency(@promotion.retail_value)}.
+  == Customers can buy from #{@promotion.min_per_customer} to #{Promotion::UNLIMITED == @promotion.max_per_customer ? 'unlimited' : @promotion.max_per_customer}. The commission rate is #{@promotion.revenue_shared.round(2)}%. #{@promotion.strategy.description}
 - case @promotion.status
   - when Promotion::EDITED
     %p We have slightly edited your promotion (or terms). If you approve the changes, the promotion will go live immediately.

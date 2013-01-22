@@ -27,6 +27,10 @@
 class ProductStrategy < ActiveRecord::Base
   include ApplicationHelper
   
+  SHIP_OPTION = ['Shipping address required','1']
+  PICKUP_OPTION = ['For pickup','0']
+  SHIPPING_OPTIONS = [SHIP_OPTION, PICKUP_OPTION]
+  
   attr_accessible :delivery, :sku
   
   # restrict would create a circular dependency and prevent any deletions
@@ -38,6 +42,18 @@ class ProductStrategy < ActiveRecord::Base
   def name
     PromotionStrategyFactory::PRODUCT_STRATEGY
   end  
+
+  # Description that appears in the vendor email
+  def description
+    desc = "Vouchers are not issued to customers for product promotions; " 
+    if self.delivery? 
+      desc += "customers require delivery and will provide a shipping address."
+    else
+      desc += "customers will pick up the product."
+    end
+    
+    desc
+  end
   
   # params are the arguments into the create method of the controller
   def setup(params)

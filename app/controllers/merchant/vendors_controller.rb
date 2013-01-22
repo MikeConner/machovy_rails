@@ -40,6 +40,8 @@ class Merchant::VendorsController < Merchant::BaseController
     # Logic goes in the controller -- too much to do in a view
     @payment_data = []
     @vendor.promotions.each do |promotion|
+      # Do not display ads!
+      next if !promotion.deal?
       detail = Hash.new
       @payment_data.push(detail)
       detail[:title] = promotion.title

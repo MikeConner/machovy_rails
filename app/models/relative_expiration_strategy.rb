@@ -20,6 +20,9 @@
 class RelativeExpirationStrategy < ActiveRecord::Base
   attr_accessible :period_days
 
+  AVAILABLE_PERIODS = [30, 60, 90, 180]
+  DEFAULT_PERIOD = 180
+  
   # restrict would create a circular dependency and prevent any deletions
   # nullify invalidates the promotion if you delete a strategy, but allows you to destroy a promotion
   has_one :promotion, :as => :strategy, :dependent => :nullify
@@ -28,8 +31,13 @@ class RelativeExpirationStrategy < ActiveRecord::Base
                           :numericality => { only_integer: true, greater_than: 0 }
                           
   def name
-    'Relative'
+    PromotionStrategyFactory::RELATIVE_STRATEGY
   end  
+
+  # Description that appears in the vendor email
+  def description
+    "Vouchers expire #{self.period_days} days after purchase."
+  end
                           
   def setup(params)
     self.period_days = params[:period]
