@@ -1,7 +1,8 @@
 .row-fluid
   .span12.page-header
     .pull-right
-      = link_to(image_tag('MachoBucks.png', :size => '40x40'), about_macho_bucks_path)
+      -# size => '40x40' doesn't work on IE!
+      = link_to(image_tag('MachoBucks.png', :style => 'width:40px!important;height:40px'), about_macho_bucks_path)
       = number_to_currency(current_user.total_macho_bucks)
       = I18n.t('macho_bucks')
     %h1 Purchased Vouchers
