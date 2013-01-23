@@ -69,6 +69,14 @@ class Vendor < ActiveRecord::Base
   # Can't do this because it interferes with editing (promotions aren't nested attributes -- and shouldn't be)
   #validates_associated :promotions
   
+  def url_display
+    (self.url.blank? or (self.url =~ /^http/i)) ? self.url : "http://#{self.url}"
+  end
+  
+  def facebook_display
+    (self.facebook.blank? or (self.facebook =~ /^http/i)) ? self.facebook : "http://#{self.facebook}"    
+  end
+  
   def map_address
     address = ''
     address += self.address_1 + ', ' unless self.address_1.blank?

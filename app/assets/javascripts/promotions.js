@@ -12,7 +12,7 @@ $(function() {
   })
 
   $('#tab3').click(function (e) {
-    e.preventDefault();
+   	// Don't prevent default, or links don't work!
     $(this).tab('show');
   }) 
 

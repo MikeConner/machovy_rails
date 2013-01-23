@@ -46,6 +46,8 @@ describe "Vendors" do
     vendor.should respond_to(:longitude)
     vendor.should respond_to(:mappable?)
     vendor.should respond_to(:map_address)
+    vendor.should respond_to(:url_display)
+    vendor.should respond_to(:facebook_display)
     vendor.user.should be == user
   end
   
@@ -171,6 +173,38 @@ describe "Vendors" do
     end
   end  
 
+  describe "url display" do
+    before { vendor.url = "microsoft.com" }
+    
+    it "should calculate the display" do
+      vendor.url_display.should == "http://microsoft.com"
+    end
+    
+    context "already prefixed" do
+      before { vendor.url = "http://microsoft.com" }
+      
+      it "shouldn't change" do
+        vendor.url_display.should == vendor.url
+      end
+    end
+  end
+  
+  describe "facebook display" do
+    before { vendor.facebook = "facebook.com/dude" }
+    
+    it "should calculate the display" do
+      vendor.facebook_display.should == "http://facebook.com/dude"
+    end
+    
+    context "already prefixed" do
+      before { vendor.facebook = "http://facebook.com/dude" }
+      
+      it "shouldn't change" do
+        vendor.facebook_display.should == vendor.facebook
+      end
+    end
+  end
+  
   describe "mapping" do
     let(:vendor) { FactoryGirl.create(:vendor_with_map) }
     
