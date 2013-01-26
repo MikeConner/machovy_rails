@@ -1,7 +1,7 @@
 class FrontGridController < ApplicationController
-  MAX_DEALS = 8
-  MAX_BLOGS = 4
-  MAX_ADS = 4
+  MAX_DEALS = 30
+  MAX_BLOGS = 20
+  MAX_ADS = 40
   
   def index
     # Need to have a metro, or filtering will return nothing
@@ -18,8 +18,9 @@ class FrontGridController < ApplicationController
     if session[:deals] == 'true'
       @promotions = filter_deals(@active_category, @active_metro)
     else  
-      @promotions = filter_promotions(@active_category, @active_metro)
-      @ads = filter_ads(@active_category, @active_metro)
+      @promotions = filter_deals(@active_category, @active_metro)
+     # @promotions = filter_promotions(@active_category, @active_metro)
+     # @ads = filter_ads(@active_category, @active_metro)
       metro_id = Metro.find_by_name(@active_metro).id
       # Will get highest-scoring blog posts that either have no assigned promotions (and therefore no metro)
       #   Or if they do have promotions, make sure they're associated with promotions in this metro area
@@ -27,6 +28,7 @@ class FrontGridController < ApplicationController
       if @blog_posts.length > MAX_BLOGS
         @blog_posts = @blog_posts[0, MAX_BLOGS]
       end
+      @videos = Video.all
      end    
   end
     

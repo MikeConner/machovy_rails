@@ -3,10 +3,37 @@
 - if session[:deals] != 'true'  # -------------------------------------------Front PAGE VIEW
   #container-front
     .container
-      - for i in 0..@promotions.count / @deals_per_row do
-        - current_row = @promotions[i * @deals_per_row, @deals_per_row]
-        - if current_row.count > 0
-          = render :partial => 'shared/promotion_row', :locals => { :promotions => current_row }
+      - @promotions.each do |promotion|
+        .span3.item.promotion-grid.box
+          - if promotion.zombie?
+            .zombie_image
+              %img(src="/assets/sold_out.png")
+            = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion), :style => 'opacity:0.4;' 
+          - else
+            = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
+          .row-fluid
+            .item-title= truncate(sanitize(promotion.title), :length => 28)
+            %br
+            .item-sub-title
+              - if !promotion.subtitle.nil?
+                = truncate(sanitize(promotion.subtitle), :length => 24)
+              - else
+                An amazing find
+            - if session[:deals] != 'true'  # -------------------------------------------Front PAGE VIEW
+              %p.description= truncate(promotion.padded_description, :length => 119)
+            -else
+              %p.description= truncate(promotion.padded_description, :length => 130)
+          .row-fluid.item-bottom-bar 
+            - if promotion.deal?
+              .deal-bottom-button
+                = link_to "Only " + number_to_currency(promotion.price).to_s, promotion_path(promotion)
+            - else
+              - if promotion.affiliate?
+                .deal-bottom-button
+                  = link_to "Check it out", promotion_path(promotion)
+              - else
+                .thumbnail
+                  = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion.destination, :target => "_blank"
   .section-divider  
   .space-small
   .row-fluid
@@ -22,11 +49,30 @@
         %p
           = blogpost.truncated_body(:length => 200)
   .section-divider  
-  .space-small
-  .row-fluid
-    %h4 Local Advertisements       
+
+         
   .row-fluid.well
-    = render :partial => 'ad_row', :locals => { :ads => @ads }
+    .span12
+      -@videos.each do |video|
+        .span3
+          .thumbnail
+            = link_to image_tag(video.thumbnail_image_url), video_path(video)
+            %br
+            = video.caption
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
 - else # -------------------------------------------DEAL PAGE VIEW
   #container.clearfix.row-fluid
     - for i in 0..@promotions.count / @deals_per_row do

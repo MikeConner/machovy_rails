@@ -49,7 +49,15 @@ class Video < ActiveRecord::Base
   validates_presence_of :destination_url
   validates :source, :inclusion => { in: EMBEDDING_SOURCES }, 
                      :allow_blank => true
-                     
+  def thumbnail_image_url
+    if self.destination_url =~ /youtube\.com\/embed\/(.*?)\?/
+      "https://img.youtube.com/vi/#{$1}/0.jpg"
+    else
+      "https://img.youtube.com/vi/zV7Vv7IrYhw/0.jpg" #change to tdefault image file
+    end
+#    http://www.youtube.com/embed/zV7Vv7IrYhw?feature=player_detailpage
+#    https://img.youtube.com/vi/zV7Vv7IrYhw/0.jpg
+  end                
 private
   def extract_url_from_source
     if !self.source.nil?
