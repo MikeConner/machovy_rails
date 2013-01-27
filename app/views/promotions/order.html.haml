@@ -55,8 +55,9 @@
             <a data-toggle="tab" href="#tab2">Description </a>
           %li
             <a data-toggle="tab" href="#tab3">Limitations</a>
-          %li
-            <a data-toggle="tab" href="#tab4">Location</a>        
+          - if @promotion.vendor.mappable?
+            %li
+              <a data-toggle="tab" href="#tab4">Location</a>        
         .tab-content
           #tab1.tab-pane.fade.in.active
             = render :partial => 'merchant/orders/order_form', :locals => { :stripe_customer => @stripe_customer }
@@ -64,22 +65,10 @@
             %p= @promotion.description 
           #tab3.tab-pane
             %p= @promotion.limitations 
-          #tab4.tab-pane
-            - @vendor = @promotion.vendor
-            -#
-              .span6
-                %em= @vendor.name
-                %br= @vendor.address_1
-                - if !@vendor.address_2.blank?
-                  %br= @vendor.address_2
-                == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
-                %br= @vendor.phone 
-                - if !@vendor.url.blank?
-                  %br= @vendor.url
-                - if !@vendor.facebook.blank?
-                  %br= @vendor.facebook
-            .span12
-              - if @vendor.mappable?
+          - @vendor = @promotion.vendor
+          - if @vendor.mappable?
+            #tab4.tab-pane
+              .span12
                 = hidden_field_tag :latitude, @vendor.latitude
                 = hidden_field_tag :longitude, @vendor.longitude
                 = hidden_field_tag :vendor, @vendor.name
