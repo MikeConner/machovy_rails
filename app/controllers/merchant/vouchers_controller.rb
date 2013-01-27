@@ -36,7 +36,7 @@ class Merchant::VouchersController < Merchant::BaseController
     @voucher = Voucher.find(params[:id])
 
     respond_to do |format|
-      format.png { render :qrcode => redeem_merchant_voucher_url(@voucher).upcase }
+      format.png { render :qrcode => redeem_merchant_voucher_url(@voucher).upcase, :level => :l, :offset => 50 }
     end
   end
 
@@ -44,7 +44,7 @@ class Merchant::VouchersController < Merchant::BaseController
     @voucher = Voucher.find(params[:id])
     
     respond_to do |format|
-      format.png { render :qrcode => redeem_merchant_voucher_url(@voucher).upcase }
+      format.png { render :qrcode => redeem_merchant_voucher_url(@voucher).upcase, :level => :l, :offset => 50 }
       format.html { render :nothing => true }
     end
   end

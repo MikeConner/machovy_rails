@@ -26,7 +26,7 @@
   .six.columns
   .seven.columns    
     %h4== #{v.order.first_name} #{v.order.last_name}
-    %h3= v.uuid
+    %h3= link_to v.uuid, printable_qrcode_merchant_voucher_url(v)
     %h4
       %strong= v.status
     - promotion = v.order.promotion

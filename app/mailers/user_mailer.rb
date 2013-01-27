@@ -28,12 +28,12 @@ class UserMailer < ActionMailer::Base
     else
       @order.vouchers.each do |voucher|
         url = redeem_merchant_voucher_url(voucher)
-        qrcode = RQRCode::QRCode.new(url, :size => RQRCode.minimum_qr_size_from_string(url))
-        svg = RQRCode::Renderers::SVG::render(qrcode)
+        qrcode = RQRCode::QRCode.new(url.upcase, :size => RQRCode.minimum_qr_size_from_string(url.upcase), :level => :l, :offset => 50)
+        svg = RQRCode::Renderers::SVG::render(qrcode, :offset => 50)
         image = MiniMagick::Image.read(svg)
-        image.format("png")
+        image.format('png')
   
-        attachments[voucher.uuid + ".png"] = image.to_blob
+        attachments[voucher.uuid + '.png'] = image.to_blob
       end
       
       mail(:to => @order.email, :subject => ORDER_MESSAGE) 
