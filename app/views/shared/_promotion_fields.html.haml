@@ -4,7 +4,7 @@
     %fieldset
       .row-fluid.span12
         = f.label :metro_id
-        = f.collection_select :metro_id, metros, :id, :name
+        = f.collection_select :metro_id, metros, :id, :name, {}, :class => 'small-select'
         %hr
         = f.text_field :title, :size => Promotion::MAX_TITLE_LEN, :placeholder => 'Title: "A Night to Remember"'
         = f.text_field :subtitle, :size => Promotion::MAX_TITLE_LEN, :placeholder => 'Sub-title: "Half off Sushi"'
@@ -42,7 +42,7 @@
         .divider
           %h3.tab-title How many are available for sale?
           = f.label :quantity, "Don't worry if it sells out, you can always create a new promotion."
-          = f.number_field :quantity, :min => 1, :value => quantity
+          = f.number_field :quantity, :min => 1, :value => quantity, :class => 'small-select'
           %h3.tab-title Promotion Timeline
           %p
             Your promotion will appear between these dates.  If you are not ready to start promoting your deal, chose a start date in the future. If&nbsp;you need to have it end on a specific date, the end date will be the last day your promotion will appear on machovy.
@@ -66,11 +66,11 @@
         .field
           = f.label :max_per_customer, 'Maximum number sold to customer'
           %em Zero means "Unlimited", but you may want to limit this good deal to one per customer
-          = f.number_field :max_per_customer, :min => 0
+          = f.number_field :max_per_customer, :min => 0, :class => 'small-select'
           = hidden_field_tag :promotion_strategy, strategy
           = f.label :min_per_customer, 'Minimum quantity customers have to purchase'
           %em For complex deals. This is almost always set to 1.
-          = f.number_field :min_per_customer, :min => 1
+          = f.number_field :min_per_customer, :min => 1, :class => 'small-select' 
           %h3.tab-title Expiration
           %p
             If your promotion is for a phyiscal product that you ship or they pick up, Select Product.  Otherwise, the voucher will either expire on a specific day (Fixed) or after some number of days (Relative).
@@ -94,7 +94,7 @@
             #tab2.tab-pane
               %h4.tab-title Vouchers expire a given number of days after purchase
               = label_tag :period
-              = select_tag :period, options_for_select(RelativeExpirationStrategy::AVAILABLE_PERIODS, default_period)
+              = select_tag :period, options_for_select(RelativeExpirationStrategy::AVAILABLE_PERIODS, default_period), :class => 'small-select'
             #tab3.tab-pane
               %h4.tab-title This is a product (e.g., physical gift card); vouchers do not need to be redeemed
               = label_tag :sku, 'SKU/Product ID', :style => "display:inline"
@@ -107,7 +107,7 @@
           %p
             How much will you share with Machovy?  You select how much you want to pay;  The more you share, the more we promote you.  Our fancy algorithms put you at the top of the page or put you in the queue for our curators (Mentors) to write a blog about your promotion if you are very generous.  Remember, that we pay for the credit card processing fees as well as paying our creative team to promote and market your promotion.
           = f.label :revenue_shared, "Revenue Shared (%)"
-          = f.select :revenue_shared, options_for_select(share_options, share_pct.round)
+          = f.select :revenue_shared, options_for_select(share_options, share_pct.round), {}, :class => 'small-select'
 
 .box
   %h4.box-header.round-top= "Deal Images"
