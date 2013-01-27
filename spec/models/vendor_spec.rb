@@ -2,22 +2,23 @@
 #
 # Table name: vendors
 #
-#  id         :integer         not null, primary key
-#  name       :string(255)
-#  url        :string(255)
-#  facebook   :string(255)
-#  phone      :string(255)
-#  address_1  :string(255)
-#  address_2  :string(255)
-#  city       :string(255)
-#  state      :string(255)
-#  zip        :string(255)
-#  created_at :datetime        not null
-#  updated_at :datetime        not null
-#  user_id    :integer
-#  latitude   :decimal(, )
-#  longitude  :decimal(, )
-#  slug       :string(255)
+#  id              :integer         not null, primary key
+#  name            :string(255)
+#  url             :string(255)
+#  facebook        :string(255)
+#  phone           :string(255)
+#  address_1       :string(255)
+#  address_2       :string(255)
+#  city            :string(255)
+#  state           :string(255)
+#  zip             :string(255)
+#  created_at      :datetime        not null
+#  updated_at      :datetime        not null
+#  user_id         :integer
+#  latitude        :decimal(, )
+#  longitude       :decimal(, )
+#  slug            :string(255)
+#  private_address :boolean         default(FALSE)
 #
 
 describe "Vendors" do
