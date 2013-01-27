@@ -1,4 +1,5 @@
 $(function() {
+
   $(".rslides").responsiveSlides();
 
   $('#tab1').click(function (e) {
@@ -15,6 +16,17 @@ $(function() {
    	// Don't prevent default, or links don't work!
     $(this).tab('show');
   }) 
+  $('#tab3').mouseenter(function (e) {
+        google.maps.event.trigger(map, "resize");
+        var latitude = $('#latitude').val();
+        var longitude = $('#longitude').val();
+    
+        if (latitude && longitude) {
+        var address = new google.maps.LatLng(latitude, longitude);
+        map.setCenter(address);
+      }
+
+  })
 
   $('#tab4').click(function (e) {
     e.preventDefault();
@@ -94,7 +106,9 @@ $(function() {
 						                     title: label
 						                     });   	
     }
+
   }
+
   
   // Initialize start and end dates from the date_select, and write them on change
   // This makes the jQuery datepicker transparent to the controller, which just sees the date_select fields
@@ -165,6 +179,7 @@ $(function() {
   		$('#gift_certificate_amount').val($this.attr('value'))
   	});
   });
+
 });
 
 // Appears in views/merchant/order/_order_form
