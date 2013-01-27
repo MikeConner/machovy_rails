@@ -988,17 +988,19 @@ input[type="tel"],
 input[type="color"],
 .uneditable-input {
   display: inline-block;
-  height: 20px;
-  padding: 12px 10px;
+  padding: 8px 10px;
   margin-bottom: 10px;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 20px;
-  color: #555555;
+  color: #333333!important;
+  font-weight: lighter;
   vertical-align: middle;
   -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
 }
+
+
 
 input,
 textarea,

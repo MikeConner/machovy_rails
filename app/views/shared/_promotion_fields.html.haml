@@ -1,108 +1,145 @@
-.row-fluid
-  .span8
-    = f.label :title
-    = f.text_field :title, :size => Promotion::MAX_TITLE_LEN
-    = f.label :subtitle
-    = f.text_field :subtitle, :size => Promotion::MAX_TITLE_LEN
-    = f.label :description
-    = f.text_area :description, :size => "60x12"
-    = f.label :limitations
-    = f.text_area :limitations, :size => "60x12"
-    = f.label :voucher_instructions
-    = f.text_area :voucher_instructions, :size => "60x6"
-    .row-fluid
-      .span12
+.box
+  %h4.box-header.round-top= I18n.t('new_promotion')
+  .box-container-toggle.box-content
+    %fieldset
+      .row-fluid.span12
+        = f.label :metro_id
+        = f.collection_select :metro_id, metros, :id, :name
+        %hr
+        = f.text_field :title, :size => Promotion::MAX_TITLE_LEN, :placeholder => 'Title: "A Night to Remember"'
+        = f.text_field :subtitle, :size => Promotion::MAX_TITLE_LEN, :placeholder => 'Sub-title: "Half off Sushi"'
+        .row-fluid
+          .span5
+            = f.text_field :price, :size => 15, :placeholder => "Offer Price: $100"
+          .span5
+            = f.text_field :retail_value, :size => 15, :placeholder => "Original Price: $200"
+        %hr
+        %ul.nav.nav-tabs
+          %li.active
+            <a data-toggle="tab" href="#tab4">Description </a>
+          %li
+            <a data-toggle="tab" href="#tab5">Limitations</a>
+          %li
+            <a data-toggle="tab" href="#tab6">Instructions</a>        
+        .tab-content
+          #tab4.tab-pane.fade.in.active
+            %h4.tab-title Deal Description
+            = f.text_area :description, :placeholder => "Tell us about your product or service. We love entertaining or funny content, so be creative.  We'll have our creative staff review and revise it before we publish."
+          #tab5.tab-pane
+            %h4.tab-title Deal Limitations
+            = f.text_area :limitations, :placeholder => "What limiations are there on this deal? Is this deal only on Tuesdays?"
+          #tab6.tab-pane
+            %h4.tab-title Voucher Instructions
+            = f.text_area :voucher_instructions, :placeholder => "How will our customers use their voucher?  Will they need to call and schedule a date or time with you?  Do they present it at the front desk?  Will they have to print it or just show it on their phone?  "
+
+          
+        
+.box
+  %h4.box-header.round-top= "Duration & Quantity"
+  .box-container-toggle.box-content
+    %fieldset
+      .row-fluid.span12
         .divider
-        %h3 DATES
-        %em Your deal will be available for sale during these dates.
-        %br/
-        %em (Note: to run a deal through the end of March, set the end date to April 1st)
-        .divider
-        .span5
-          = f.label :start_date
-          -# Need the date_select elements for the nested attributes to be processed correctly by the controller
-            Just don't show them; create jQuery datepickers instead
-          = f.date_select :start_date, { :order => [:month, :day, :year] }, { :style => 'display:none' }
-          #jq_start_date
-        .span5
-          = f.label :end_date
-          = f.date_select :end_date, { :order => [:month, :day, :year] }, { :style => 'display:none' }
-          #jq_end_date
-    .row-fluid
+          %h3.tab-title How many are available for sale?
+          = f.label :quantity, "Don't worry if it sells out, you can always create a new promotion."
+          = f.number_field :quantity, :min => 1, :value => quantity
+          %h3.tab-title Promotion Timeline
+          %p
+            Your promotion will appear between these dates.  If you are not ready to start promoting your deal, chose a start date in the future. If&nbsp;you need to have it end on a specific date, the end date will be the last day your promotion will appear on machovy.
+          .row-fluid
+            .span5
+              = f.label :start_date
+              -# Need the date_select elements for the nested attributes to be processed correctly by the controller
+                Just don't show them; create jQuery datepickers instead
+              = f.date_select :start_date, { :order => [:month, :day, :year] }, { :style => 'display:none' }
+              #jq_start_date
+            .span5
+              = f.label :end_date
+              = f.date_select :end_date, { :order => [:month, :day, :year] }, { :style => 'display:none' }
+              #jq_end_date
+.box
+  %h4.box-header.round-top= "Voucher Details"
+  .box-container-toggle.box-content
+    %fieldset
+      .row-fluid.span12
+        %h3.tab-title Quantity Restrictions
+        .field
+          = f.label :max_per_customer, 'Maximum number sold to customer'
+          %em Zero means "Unlimited", but you may want to limit this good deal to one per customer
+          = f.number_field :max_per_customer, :min => 0
+          = hidden_field_tag :promotion_strategy, strategy
+          = f.label :min_per_customer, 'Minimum quantity customers have to purchase'
+          %em For complex deals. This is almost always set to 1.
+          = f.number_field :min_per_customer, :min => 1
+          %h3.tab-title Expiration
+          %p
+            If your promotion is for a phyiscal product that you ship or they pick up, Select Product.  Otherwise, the voucher will either expire on a specific day (Fixed) or after some number of days (Relative).
+          %br
+          %ul.nav.nav-tabs#promotionStrategyTab
+            %li.tab
+              %a{:id => PromotionStrategyFactory::FIXED_STRATEGY, :href => '#tab1'}
+                = PromotionStrategyFactory::FIXED_STRATEGY
+            %li.tab
+              %a{:id => PromotionStrategyFactory::RELATIVE_STRATEGY, :href => '#tab2'}
+                = PromotionStrategyFactory::RELATIVE_STRATEGY
+            %li.tab
+              %a{:id => PromotionStrategyFactory::PRODUCT_STRATEGY, :href => '#tab3'}
+                = PromotionStrategyFactory::PRODUCT_STRATEGY
+          .tab-content
+            #tab1.tab-pane
+              %h4.tab-title Vouchers expire on a fixed date (typically some time after the display period ends)
+              = label_tag :fixed_end_date
+              = date_select 'fixed', 'end_date', { :order => [:month, :day, :year], :default => { :year => fixed_date.year, :month => fixed_date.month, :day => fixed_date.day} }, { :style => 'display:none' }
+              #jq_fixed_end_date
+            #tab2.tab-pane
+              %h4.tab-title Vouchers expire a given number of days after purchase
+              = label_tag :period
+              = select_tag :period, options_for_select(RelativeExpirationStrategy::AVAILABLE_PERIODS, default_period)
+            #tab3.tab-pane
+              %h4.tab-title This is a product (e.g., physical gift card); vouchers do not need to be redeemed
+              = label_tag :sku, 'SKU/Product ID', :style => "display:inline"
+              %em (Optional)
+              = text_field_tag :sku
+              -# Check box and radio tags don't work inside tabs, apparently!!!
+              = label_tag :delivery, 'Delivery options'
+              = select_tag :delivery, options_for_select(ProductStrategy::SHIPPING_OPTIONS, default_shipping)
+          %h3.tab-title Commission
+          %p
+            How much will you share with Machovy?  You select how much you want to pay;  The more you share, the more we promote you.  Our fancy algorithms put you at the top of the page or put you in the queue for our curators (Mentors) to write a blog about your promotion if you are very generous.  Remember, that we pay for the credit card processing fees as well as paying our creative team to promote and market your promotion.
+          = f.label :revenue_shared, "Revenue Shared (%)"
+          = f.select :revenue_shared, options_for_select(share_options, share_pct.round)
+
+.box
+  %h4.box-header.round-top= "Deal Images"
+  .box-container-toggle.box-content
+    %fieldset
+      .row-fluid.span12
       .divider
-    .row-fluid 
-      .span4 
-        - if f.object.teaser_image.file.nil?
-          = I18n.t('no_image')
-        - else 
-          = image_tag(f.object.teaser_image_url(:product_thumb).to_s)
-        = f.label :teaser_image
-        = f.file_field :teaser_image
-        = f.label :remote_teaser_image_url, "or image URL"
-        = f.text_field :remote_teaser_image_url, :title => I18n.t('ensure_image')
-      .span4
-        - if f.object.main_image.file.nil?
-          = I18n.t('no_image')
-        - else
-          = image_tag(f.object.main_image_url(:product_thumb).to_s)
-        = f.label :main_image, "Additional Image"
-        = f.file_field :main_image
-        = f.label :remote_main_image_url, "or image URL"
-        = f.text_field :remote_main_image_url, :title => I18n.t('ensure_image')
-      .span4
-        .slideshow
-          = f.fields_for :promotion_images do |slideshow_image_form|
-            = render :partial => 'shared/slideshow', :locals => { :f => slideshow_image_form }
-  .span4
-    .field
-      = f.label :metro_id
-      = f.collection_select :metro_id, metros, :id, :name 
-      = f.label :retail_value
-      = f.text_field :retail_value, :size => 15
-      = f.label :price, "Deal Price"
-      = f.text_field :price, :size => 15
-      = f.label :revenue_shared, "Revenue Shared (%)"
-      = f.select :revenue_shared, options_for_select(share_options, share_pct.round)
-      %br
-      = f.label :quantity, "Voucher Limit (total available for sale)"
-      = f.number_field :quantity, :min => 1, :value => quantity
-      = f.label :max_per_customer, 'Maximum quantity per customer (limit)'
-      %em Zero means "Unlimited"
-      = f.number_field :max_per_customer, :min => 0
-      = hidden_field_tag :promotion_strategy, strategy
-      %br/
-      %ul.nav.nav-tabs#promotionStrategyTab
-        %li.tab
-          %a{:id => PromotionStrategyFactory::FIXED_STRATEGY, :href => '#tab1'}
-            = PromotionStrategyFactory::FIXED_STRATEGY
-        %li.tab
-          %a{:id => PromotionStrategyFactory::RELATIVE_STRATEGY, :href => '#tab2'}
-            = PromotionStrategyFactory::RELATIVE_STRATEGY
-        %li.tab
-          %a{:id => PromotionStrategyFactory::PRODUCT_STRATEGY, :href => '#tab3'}
-            = PromotionStrategyFactory::PRODUCT_STRATEGY
-      .tab-content
-        #tab1.tab-pane
-          %h4.tab-title Vouchers expire on a fixed date (typically some time after the display period ends)
-          = label_tag :fixed_end_date
-          = date_select 'fixed', 'end_date', { :order => [:month, :day, :year], :default => { :year => fixed_date.year, :month => fixed_date.month, :day => fixed_date.day} }, { :style => 'display:none' }
-          #jq_fixed_end_date
-        #tab2.tab-pane
-          %h4.tab-title Vouchers expire a given number of days after purchase
-          = label_tag :period
-          = select_tag :period, options_for_select(RelativeExpirationStrategy::AVAILABLE_PERIODS, default_period)
-        #tab3.tab-pane
-          %h4.tab-title This is a product (e.g., physical gift card); vouchers do not need to be redeemed
-          = label_tag :sku, 'SKU/Product ID', :style => "display:inline"
-          %em (Optional)
-          = text_field_tag :sku
-          -# Check box and radio tags don't work inside tabs, apparently!!!
-          = label_tag :delivery, 'Delivery options'
-          = select_tag :delivery, options_for_select(ProductStrategy::SHIPPING_OPTIONS, default_shipping)
-      %h3 ADVANCED AREA
-      = f.label :min_per_customer, 'Minimum quantity customers can purchase'
-      %em Typically 1, but could be higher (e.g., 2-for-1 deals where the customer must buy 2 in order to get the price)
-      = f.number_field :min_per_customer, :min => 1
+      %h4
+        Upload images from your computer OR give us a URL for the image.  
+      .row-fluid 
+        .span4 
+          - if f.object.teaser_image.file.nil?
+            = I18n.t('no_image') unless f.object.new_record?
+          - else 
+            = image_tag(f.object.teaser_image_url(:product_thumb).to_s)
+          = f.label "Front Page (teaser)"
+          = f.file_field :teaser_image,  :accept => "image/*;capture=camera"
+          = f.label :remote_teaser_image_url, "or image URL"
+          = f.text_field :remote_teaser_image_url, :title => I18n.t('ensure_image')
+        .span4
+          - if f.object.main_image.file.nil?
+            = I18n.t('no_image') unless f.object.new_record?
+          - else
+            = image_tag(f.object.main_image_url(:product_thumb).to_s)
+          = f.label :main_image, "Promotion Page Image"
+          = f.file_field :main_image,  :accept => "image/*;capture=camera"
+          = f.label :remote_main_image_url, "or image URL"
+          = f.text_field :remote_main_image_url, :title => I18n.t('ensure_image')
+        .span4
+          .slideshow
+            = f.fields_for :promotion_images do |slideshow_image_form|
+              = render :partial => 'shared/slideshow', :locals => { :f => slideshow_image_form }
 .row-fluid
   .span12
     .space

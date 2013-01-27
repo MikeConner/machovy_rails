@@ -389,6 +389,8 @@ Promotions
     font-size: 1.5em;
   }
 
+  .tab-content {padding:5px 22px;}
+
   .field {
     margin:0 0 10px 0;
   }
@@ -399,7 +401,7 @@ Promotions
 
   textarea, input, select {
     display:block;
-    width:95%;
+    width:85%;
     margin:0 0 20px 0;
   }
 
@@ -625,7 +627,7 @@ Tabs
   overflow: auto;
   position: relative;
   bottom: 21px;
-  padding: 10px 22px 5px 22px;
+  padding: 30px 22px;
   border-right: 1px solid #ddd;
   border-left: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
@@ -1118,7 +1120,6 @@ article h2 a {
 aside{float:right;}
 article {
   float: left;
-  border-bottom: 1px solid #EEE;
   border-right: 1px dotted #666;
   padding: 0px 40px 0px 15px;
 }
@@ -1185,6 +1186,10 @@ article {
     width: auto;
     display: inline-block;
     margin: 0 0 25px 0;
+  }
+
+  p {
+    padding:0px 50px 0px 0px;
   }
 
   .blog-sub-headline {
@@ -1575,6 +1580,18 @@ img.dashboard-member-activity-avatar {
 
 
 /* Bootstrap Data Tables Styles */
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #c9c9c9!important;
+}
+input:-moz-placeholder, textarea:-moz-placeholder {
+  color: #c9c9c9!important;
+}
+
+input::-ms-placeholder {
+  color:#c9c9c9!important;
+}
+
 div.dataTables_length label {
   float: left;
   text-align: left;
@@ -1664,7 +1681,7 @@ tr:hover .post-toolbar {
   list-style: none;
   cursor:move;
   font-family: helvetica;
-  font-weight: 400;
+  font-weight: 900;
   text-transform: none;
 }
 
@@ -2063,7 +2080,6 @@ Local Deals Page
 article{
   margin-bottom: 40px;
   padding: 0px 0px 40px;
-  border-bottom: 1px solid #DDD;
 }
 
 @media (max-width: 767px) {

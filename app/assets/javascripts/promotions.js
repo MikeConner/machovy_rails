@@ -19,7 +19,17 @@ $(function() {
   $('#tab4').click(function (e) {
     e.preventDefault();
     $(this).tab('show');
-  })   
+  }) 
+
+  $('#tab5').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+  }) 
+
+  $('#tab6').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+  }) 
 
   var $container = $('#container');
   $container.imagesLoaded( function(){

@@ -133,6 +133,14 @@
     box-sizing: border-box;
   }
 
+article {
+  float: none;
+  border-right: none;
+  padding: 0px;
+
+  p {padding:0px;}
+}
+
 .sub-headline {
   float:left;
   font-size:85%;
