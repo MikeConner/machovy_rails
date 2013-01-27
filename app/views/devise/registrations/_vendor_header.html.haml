@@ -31,3 +31,7 @@
 to advertise on our site.
 %br
 %br
+-#
+  %iframe{:src => MachovyRails::Application.assets.find_asset(VendorMailer::LEGAL_AGREEMENT_HTML).to_s, :style => "width:650px; height:350px;", :frameborder => "0"}
+  - contract_url = merchant_contract_url(:host => ApplicationHelper::WEB_ADDRESS, :port => nil)
+  %iframe{:src => "http://docs.google.com/gview?url=#{contract_url}&embedded=true", :style => "width:650px; height:350px;", :frameborder => "0"}

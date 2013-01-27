@@ -18,6 +18,9 @@
             %p <strong>Business Information</strong>
           = v.text_field :name, {:placeholder => 'Business Name'}
           = v.text_field :phone, :placeholder => "Phone (###) 555-1212", :maxlength => 14
+          %br/
+          = v.check_box :private_address
+          = v.label :private_address, 'Hide address from customers (e.g., home-based business)'
           = v.text_field :address_1, {:placeholder => 'Address Line 1'}
           = v.text_field :address_2, {:placeholder => 'Address Line 2 (Optional)'}
           = v.text_field :city, {:placeholder => 'City'}
@@ -30,6 +33,11 @@
           = f.email_field :email, {:placeholder => 'Email'}
           = f.password_field :password, {:placeholder => 'Password'}
           = f.password_field :password_confirmation, {:placeholder => 'Password Confirmation'}  
+          %br/
+          By clicking "Sign up" I agree that:
+          %ul
+            %li== I have read and accepted the #{link_to 'Merchant Agreement', '#', :onclick => "window.showModalDialog(\"#{merchant_contract_html_url}\", 'Privacy Policy', \"dialogWidth:700px;dialogHeight:600px\");"} and #{link_to 'Privacy Policy', '#', :onclick => "window.showModalDialog(\"#{ApplicationHelper::PRIVACY_POLICY_LINK}\", 'Privacy Policy', \"dialogWidth:700px;dialogHeight:600px\");"}.
+            %li I may receive email from Machovy. I am able to change what is sent to my email address.          
         .sign-in-footer
           = f.submit "Sign up", :class => "btn btn-danger"
 .push

@@ -48,11 +48,18 @@ describe "Vendors" do
     vendor.should respond_to(:map_address)
     vendor.should respond_to(:url_display)
     vendor.should respond_to(:facebook_display)
+    vendor.should respond_to(:private_address)
     vendor.user.should be == user
   end
   
   it { should be_valid }
 
+  describe "invalid private address" do
+    before { vendor.private_address = nil }
+    
+    it { should_not be_valid }
+  end
+  
   describe "name" do
     before { vendor.name = " " }
     
@@ -212,6 +219,14 @@ describe "Vendors" do
     
     it "should have mapping fields" do
       vendor.mappable?.should be_true
+    end
+    
+    describe "No map if private" do
+      before { vendor.private_address = true }
+      
+      it "should not show the map" do
+        vendor.mappable?.should be_false
+      end
     end
     
     describe "invalid lat/long" do

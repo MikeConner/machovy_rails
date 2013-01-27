@@ -73,7 +73,7 @@
           %li
             <a data-toggle="tab" href="#tab2">Limitations</a>
           %li
-            <a data-toggle="tab" href="#tab3">Location</a>        
+            <a data-toggle="tab" href="#tab3">Merchant Details</a>        
         .tab-content
           #tab1.tab-pane.fade.in.active
             %p= @promotion.description 
@@ -83,10 +83,11 @@
             - @vendor = @promotion.vendor
             .span6
               %em= @vendor.name
-              %br= @vendor.address_1
-              - if !@vendor.address_2.blank?
-                %br= @vendor.address_2
-              == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
+              - if !@vendor.private_address?
+                %br= @vendor.address_1
+                - if !@vendor.address_2.blank?
+                  %br= @vendor.address_2
+                == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
               %br= @vendor.phone 
               - if !@vendor.url.blank?
                 %br= link_to 'Web site', @vendor.url_display, :target => '_blank'
@@ -104,11 +105,11 @@
         - elsif @promotion.zombie?
           .tab-bottom-button
             %p= I18n.t('sold_out')
-        
-.section-divider  
-.space-small
-.row-fluid
-  %h4 Associated Mentors
-.row-fluid.well
-  - @curators.each do |curator|
-    = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }
+- if !@curators.empty?        
+  .section-divider  
+  .space-small
+  .row-fluid
+    %h4 Associated Mentors
+  .row-fluid.well
+    - @curators.each do |curator|
+      = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }

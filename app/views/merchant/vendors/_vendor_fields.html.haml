@@ -11,6 +11,9 @@
   = f.label :phone
   = f.text_field :phone, :maxlength => User::PHONE_LEN, :placeholder => '(412) 555-1212'
 .field
+  = f.label :private_address
+  = f.check_box :private_address
+.field
   = f.label :address_1
   = f.text_field :address_1, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN
 .field

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130105161011) do
+ActiveRecord::Schema.define(:version => 20130126222527) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -372,12 +372,13 @@ ActiveRecord::Schema.define(:version => 20130105161011) do
     t.string   "city"
     t.string   "state"
     t.string   "zip"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
     t.integer  "user_id"
     t.decimal  "latitude"
     t.decimal  "longitude"
     t.string   "slug"
+    t.boolean  "private_address", :default => false
   end
 
   create_table "videos", :force => true do |t|

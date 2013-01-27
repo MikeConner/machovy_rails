@@ -2,6 +2,7 @@ class VendorMailer < ActionMailer::Base
   PROMOTION_STATUS_MESSAGE = 'Action on your Machovy promotion'
   SIGNUP_MESSAGE = 'Welcome to Machovy!'
   LEGAL_AGREEMENT_FILENAME = 'MachovyAgreement1b.pdf'
+  LEGAL_AGREEMENT_HTML = 'MerchantAgreement.htm'
   PAYMENT_MESSAGE = "Your check from Machovy is in the mail"
   
   default from: ApplicationHelper::MAILER_FROM_ADDRESS

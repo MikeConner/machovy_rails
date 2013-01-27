@@ -57,10 +57,18 @@ class StaticPagesController < ApplicationController
     end
   end
   
+  # For download on clicking the link
   def merchant_contract
     send_data MachovyRails::Application.assets.find_asset(VendorMailer::LEGAL_AGREEMENT_FILENAME).to_s, 
               :type => "application/pdf", 
               :filename => 'VendorAgreement.pdf'
+  end
+
+  # For display in a modal dialog on signup
+  def merchant_contract_html
+    send_data MachovyRails::Application.assets.find_asset(VendorMailer::LEGAL_AGREEMENT_HTML).to_s, 
+              :type => "text/html", 
+              :disposition => 'inline'    
   end
   
   def default_gravatar

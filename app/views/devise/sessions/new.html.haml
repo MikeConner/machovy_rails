@@ -31,4 +31,5 @@
         = f.password_field :password_confirmation, {:placeholder => 'Password Confirmation'}
         .sign-in-footer
           = f.submit I18n.t('create_account'), {:class => 'btn btn-danger'}
+          = link_to 'Merchant? Create an account here', new_user_registration_path, :class => 'btn btn-info pull-right'
 .push.hidden-phone

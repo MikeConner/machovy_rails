@@ -37,7 +37,7 @@ class Vendor < ActiveRecord::Base
   
   include ApplicationHelper
   
-  attr_accessible :address_1, :address_2, :city, :facebook, :name, :phone, :state, :url, :zip, :latitude, :longitude,
+  attr_accessible :address_1, :address_2, :city, :facebook, :name, :phone, :state, :url, :zip, :latitude, :longitude, :private_address,
                   :user_id
                   
   belongs_to :user
@@ -59,6 +59,7 @@ class Vendor < ActiveRecord::Base
   
   validates_numericality_of :latitude, :allow_nil => true
   validates_numericality_of :longitude, :allow_nil => true
+  validates_inclusion_of :private_address, :in => [true, false]
   
   # Devise creates the vendor first, then the user (when nested), so this validation breaks it
   #  Not really satisfactory to not validate it, but defer this until I understand devise better
@@ -89,7 +90,7 @@ class Vendor < ActiveRecord::Base
   end
   
   def mappable?
-    !self.latitude.nil? && !self.longitude.nil?
+    !self.latitude.nil? && !self.longitude.nil? && !self.private_address?
   end
   
   def total_paid
