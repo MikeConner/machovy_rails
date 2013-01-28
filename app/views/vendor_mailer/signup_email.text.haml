@@ -2,8 +2,6 @@ Welcome to Machovy!
 
 You may now create promotions for #{@vendor.name} with your merchant account immediately. By signing up, you've agreed to the terms of our merchant agreement displayed on the signup page.
 
-If you want to print a copy of the merchant agreement, you can download a copy here: #{link_to "https://www.machovy.com/merchant_contract", "https://www.machovy.com/merchant_contract"}
+If you want to print a copy of the merchant agreement, you can download it here: #{link_to "https://www.machovy.com/merchant_contract", "https://www.machovy.com/merchant_contract"}
 
-Please sign and fax the agreement to #{ApplicationHelper::LEGAL_FAX}.
-
-If you have any questions, please contact our legal department at #{ApplicationHelper::LEGAL_PHONE}.
+If you have any questions, please contact us at #{mail_to ApplicationHelper::MACHOVY_SALES_ADMIN}.
