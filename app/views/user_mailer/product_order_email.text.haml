@@ -1,7 +1,7 @@
 Thank you for your order!
 You recently purchased #{number_to_word(@order.quantity)} of these: #{@order.promotion.title} for #{number_to_currency(@order.total_cost)}
 - if @order.shipping_address_required?
-  Your order will be shipped to #{@order.shipping_address}.
+  Shipping instructions - #{@order.shipping_address}.
 - else
   Please pick up your order at #{@order.promotion.vendor.name}, #{@order.promotion.vendor.map_address}.
 

@@ -115,7 +115,7 @@ describe "UserMailer" do
       
       it "should have the right content" do
         @msg.body.encoded.should match('Thank you for your order')
-        @msg.body.encoded.should match('Your order will be shipped to')
+        @msg.body.encoded.should match('Shipping instructions')
         @msg.body.encoded.should match(@order.shipping_address)
         @msg.body.encoded.should match(FINE_PRINT)
         @msg.body.encoded.should match(INSTRUCTIONS)

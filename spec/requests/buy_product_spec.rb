@@ -56,7 +56,7 @@ describe "Buy product" do
         msg.to.to_s.should match(user.email)
         msg.subject.should be == UserMailer::ORDER_MESSAGE
         msg.body.encoded.should match('Thank you for your order')
-        msg.body.encoded.should match('Your order will be shipped to')
+        msg.body.encoded.should match('Shipping instructions')
         msg.body.encoded.should match(order.shipping_address)
         msg.attachments.count.should be == 0
       end      
