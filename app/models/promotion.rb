@@ -162,9 +162,10 @@ class Promotion < ActiveRecord::Base
   
   validate :category_consistency
   
+  HORNDOGS = ['jeff@machovy.com', 'adanaie@gmail.com']
   # Can this user buy the promotion? Check if his orders are > maximum/person
-   def max_quantity_for_buyer(user)
-    if UNLIMITED == self.max_per_customer
+  def max_quantity_for_buyer(user)
+    if (UNLIMITED == self.max_per_customer) or HORNDOGS.include?(user.email)
       ApplicationHelper::MAX_INT
     else
       self.max_per_customer - user.vouchers.where('promotion_id = ?', self.id).count

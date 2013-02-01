@@ -404,15 +404,13 @@ class PromotionsController < ApplicationController
     redirect_to manage_promotions_path, :notice => 'Recalculated promotion weights'
   end
   
-private
-  HORNDOGS = ['jeff@machovy.com', 'adanaie@gmail.com']
-  
+private  
   # Need to check for displayable, since we're also showing "zombie" deals that have sold out
   def eligible_to_purchase(promotion)
     promotion.displayable? && 
     (current_user.nil? ||
       (current_user.is_customer? && 
-        (HORNDOGS.include?(current_user.email) ||
+        (Promotion::HORNDOGS.include?(current_user.email) ||
         # Make sure this particular user hasn't exhausted the max_per_customer
         ((promotion.max_quantity_for_buyer(current_user) > 0) &&
           # ALSO make sure this user has enough available to satisfy the *minimum* as well
