@@ -1,0 +1,9 @@
+- if !blogpost.nil?
+  .span2.item.promotion-grid.box.tallbox
+    %h5
+      = link_to truncate(blogpost.title, :length => 25), blog_post_path(blogpost)
+    .borderLine
+      .borderLine-left &nbsp;
+      .borderLine-right &nbsp;
+    %p
+      = blogpost.truncated_body(:length => 200)

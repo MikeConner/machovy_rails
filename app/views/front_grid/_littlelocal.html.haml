@@ -1,0 +1,22 @@
+.span2.item.promotion-grid.box.tallbox
+  - if promotion.zombie?
+    .zombie_image
+      %img(src="/assets/sold_out.png")
+    = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion), :style => 'opacity:0.4;' 
+  - else
+    = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
+  .row-fluid
+    .item-title= truncate(sanitize(promotion.title), :length => 28)
+    %br
+    .item-sub-title
+      - if !promotion.subtitle.nil?
+        = truncate(sanitize(promotion.subtitle), :length => 24)
+      - else
+        An amazing find
+    - if session[:deals] != 'true'  # -------------------------------------------Front PAGE VIEW
+      %p.description= truncate(promotion.padded_description, :length => 200)
+      %br
+    -else
+      %p.description= truncate(promotion.padded_description, :length => 200)
+      %br
+    = link_to "Only " + number_to_currency(promotion.price).to_s, promotion_path(promotion)

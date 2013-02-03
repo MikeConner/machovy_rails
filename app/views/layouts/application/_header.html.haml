@@ -14,8 +14,6 @@
             %li <label> Nearest Location </label>
             - Metro.all.each do |metro|
               %li= link_to metro.name, metro_filter_path(:metro => metro.name)
-        %li.divider      
-        %li= link_to 'Deals & Interests', deals_path(:deals => true)
         %li.divider
         %li= link_to 'Lifestyle', curators_path
         %li.divider

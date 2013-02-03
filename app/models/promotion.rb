@@ -127,7 +127,7 @@ class Promotion < ActiveRecord::Base
   scope :deals, where("promotion_type = ?", LOCAL_DEAL)
   scope :ads, where("promotion_type = ?", AD)
   scope :affiliates, where("promotion_type = ?", AFFILIATE)
-  
+  scope :littleblocks, where("promotion_type = ? or promotion_type = ?", AFFILIATE, AD)
   validates_presence_of :metro_id
   validates_presence_of :vendor_id
   

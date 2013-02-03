@@ -1,0 +1,25 @@
+- if !promotion1.nil?
+  .span2.item.promotion-grid.box.tallbox
+    - if promotion1.ad?
+      = link_to image_tag(promotion1.teaser_image_url(:product_front_page).to_s), promotion1.destination 
+    - else
+      = link_to image_tag(promotion1.teaser_image_url(:product_front_page).to_s), promotion_path(promotion1)
+      .item-title= truncate(sanitize(promotion1.title), :length => 28)
+      %br
+      .item-sub-title
+        - if !promotion1.subtitle.nil?
+          = truncate(sanitize(promotion1.subtitle), :length => 24)
+        - else
+          An amazing find
+    - if !promotion2.nil?
+      - if promotion2.ad?
+        = link_to image_tag(promotion2.teaser_image_url(:product_front_page).to_s), promotion2.destination 
+      - else
+        = link_to image_tag(promotion2.teaser_image_url(:product_front_page).to_s), promotion_path(promotion2)
+        .item-title= truncate(sanitize(promotion2.title), :length => 28)
+        %br
+        .item-sub-title
+          - if !promotion2.subtitle.nil?
+            = truncate(sanitize(promotion2.subtitle), :length => 24)
+          - else
+            An amazing find
