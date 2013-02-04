@@ -16,7 +16,7 @@
 //= require admin/excanvas.min
 //= require admin/fullcalendar.min
 //= require admin/unicorn
-//= require admin/jquery.datatables.min
+//= require admin/jquery.dataTables.min
 //= require jquery.isotope.min
 //= require responsiveslides.min.js
 //= require foundation.min.js
