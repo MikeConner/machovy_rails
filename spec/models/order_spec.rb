@@ -22,6 +22,7 @@
 #  transaction_id :string(15)
 #  first_name     :string(24)
 #  last_name      :string(48)
+#  pickup_notes   :string(255)
 #
 
 describe "Orders" do
@@ -56,13 +57,22 @@ describe "Orders" do
     order.should respond_to(:zipcode)
     order.should respond_to(:shipping_address)
     order.should respond_to(:shipping_address_required?)
+    order.should respond_to(:product_order?)
+    order.should respond_to(:pickup_order?)
     order.should respond_to(:transaction_id)
+    order.should respond_to(:pickup_notes)
     order.user.should be == user
     order.promotion.should be == promotion
     order.vendor.should be == promotion.vendor
   end
   
   it { should be_valid }
+  
+  it "should not be a product order" do
+    order.product_order?.should be_false
+    order.pickup_order?.should be_false
+    order.shipping_address_required?.should be_false
+  end
   
   describe "First name too long" do
     before { order.first_name = "a"*(User::MAX_FIRST_NAME_LEN + 1) }
@@ -106,12 +116,38 @@ describe "Orders" do
     it { should be_valid }
   end
 
-  describe "product orders" do
+  describe "pickup orders" do
+    let(:promotion) { FactoryGirl.create(:product_pickup_promotion) }
+    let(:order) { FactoryGirl.create(:order_with_name, :user => user, :promotion => promotion) }    
+
+    it "should not have a shipping address" do
+      order.shipping_address_required?.should be_false
+      order.pickup_order?.should be_true
+      order.product_order?.should be_true
+      order.shipping_address.should match("^For pickup")
+    end
+    
+    describe "Missing name" do
+      before { order.name = ' ' }
+      
+      it { should_not be_valid }      
+    end
+    
+    describe "Missing notes" do
+      before { order.pickup_notes = ' ' }
+      
+      it { should be_valid }
+    end
+  end
+  
+  describe "delivery orders" do
     let(:promotion) { FactoryGirl.create(:product_promotion) }
     let(:order) { FactoryGirl.create(:order_with_address, :user => user, :promotion => promotion) }
     
     it "should have a shipping address" do
       order.shipping_address_required?.should be_true
+      order.pickup_order?.should be_false
+      order.product_order?.should be_true
       order.shipping_address.should match("^Ship to")
     end
     
@@ -123,6 +159,12 @@ describe "Orders" do
 
     describe "missing city" do
       before { order.city = " " }
+      
+      it { should_not be_valid }
+    end
+
+    describe "missing name" do
+      before { order.name = " " }
       
       it { should_not be_valid }
     end

@@ -22,6 +22,7 @@
 #  transaction_id :string(15)
 #  first_name     :string(24)
 #  last_name      :string(48)
+#  pickup_notes   :string(255)
 #
 
 # CHARTER
@@ -49,7 +50,7 @@ class Order < ActiveRecord::Base
   include ApplicationHelper
   
   attr_accessible :quantity, :amount, :description, :email, :fine_print, :first_name, :last_name,
-                  :name, :address_1, :address_2, :city, :state, :zipcode,
+                  :name, :address_1, :address_2, :city, :state, :zipcode, :pickup_notes,
                   :user_id, :promotion_id
   
   # foreign keys
@@ -78,7 +79,7 @@ class Order < ActiveRecord::Base
   validates :first_name, :length => { maximum: User::MAX_FIRST_NAME_LEN }, :allow_blank => true
   validates :last_name, :length => { maximum: User::MAX_LAST_NAME_LEN }, :allow_blank => true
   
-  validates :name, :length => { maximum: User::MAX_FIRST_NAME_LEN + User::MAX_LAST_NAME_LEN + 1 }, :presence => { :if => :shipping_address_required? }
+  validates :name, :length => { maximum: User::MAX_FIRST_NAME_LEN + User::MAX_LAST_NAME_LEN + 1 }, :presence => { :if => :product_order? }
   validates :address_1, :length => { maximum: MAX_ADDRESS_LEN }, :presence => { :if => :shipping_address_required? }
   validates :address_2, :length => { maximum: MAX_ADDRESS_LEN }, :allow_blank => true
   validates :city, :length => { maximum: MAX_ADDRESS_LEN }, :presence => { :if => :shipping_address_required? }
@@ -86,7 +87,6 @@ class Order < ActiveRecord::Base
                                                      :allow_blank => { :unless => :shipping_address_required? }
   validates :zipcode, :format => { with: US_ZIP_REGEX }, :presence => { :if => :shipping_address_required? }, 
                                                          :allow_blank => { :unless => :shipping_address_required? }
- 
   validates_associated :vouchers
        
   def total_cost(in_pennies = false)
@@ -109,9 +109,17 @@ class Order < ActiveRecord::Base
     total_cost * promotion.revenue_shared / 100.0
   end  
   
+  def product_order?
+    ProductStrategy === self.promotion.strategy
+  end
+  
+  def pickup_order?
+    product_order? and !self.promotion.strategy.delivery?
+  end
+  
   def shipping_address_required?
     # Is this a product order?
-    (ProductStrategy === promotion.strategy) and promotion.strategy.delivery? 
+    product_order? and self.promotion.strategy.delivery?
   end
   
   def shipping_address

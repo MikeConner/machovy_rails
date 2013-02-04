@@ -13,13 +13,13 @@ class ApplicationController < ActionController::Base
       session[:user_return_to].nil? ? root_path : session[:user_return_to]
     end
   end 
-    
+
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => I18n.t('admins_only')
   end  
   
 private
   def trying_to_redeem_voucher
-    !session[:user_return_to].nil? && session[:user_return_to] =~ /merchant\/vouchers\/.*?\/redeem$/
+    !session[:user_return_to].nil? && session[:user_return_to] =~ /merchant\/vouchers\/.*?\/redeem$/i
   end
 end

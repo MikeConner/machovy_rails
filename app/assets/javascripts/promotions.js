@@ -16,16 +16,14 @@ $(function() {
    	// Don't prevent default, or links don't work!
     $(this).tab('show');
   }) 
+  
+  // For regular promotions
   $('#tab3').mouseenter(function (e) {
-        google.maps.event.trigger(map, "resize");
-        var latitude = $('#latitude').val();
-        var longitude = $('#longitude').val();
-    
-        if (latitude && longitude) {
-        var address = new google.maps.LatLng(latitude, longitude);
-        map.setCenter(address);
-      }
-
+    fix_map(map);
+  })
+  // For product promotions
+  $('#tab4').mouseenter(function (e) {
+  	fix_map(map);
   })
 
   $('#tab4').click(function (e) {
@@ -181,6 +179,17 @@ $(function() {
   });
 
 });
+
+function fix_map(map) {
+  google.maps.event.trigger(map, "resize");
+  var latitude = $('#latitude').val();
+  var longitude = $('#longitude').val();
+
+  if (latitude && longitude) {
+    var address = new google.maps.LatLng(latitude, longitude);
+    map.setCenter(address);
+  }	
+}
 
 // Appears in views/merchant/order/_order_form
 function update_amount(quantity, unit_price, macho_bucks) {
