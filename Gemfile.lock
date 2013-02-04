@@ -239,7 +239,6 @@ GEM
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rmagick (2.13.1)
-    route_downcaser (0.1.2)
     rqrcode (0.4.2)
     rqrcode-rails3 (0.1.5)
       rqrcode (>= 0.4.2)
@@ -338,7 +337,6 @@ DEPENDENCIES
   rails (= 3.2.11)
   rails_admin
   rmagick (= 2.13.1)
-  route_downcaser (= 0.1.2)
   rqrcode-rails3 (= 0.1.5)
   rspec-rails (= 2.12.2)
   rspec-tag_matchers (= 0.1.2)
