@@ -273,8 +273,8 @@ class PromotionsController < ApplicationController
     
     changes = Utilities::type_insensitive_diff(params[:promotion], @promotion.attributes)
     
-    change_description = changes.empty? ? 'No changes' : changes.to_s    
-    comment = "Edited by #{current_user.email}\n#{change_description}"
+    # The full diff is TMI for now; very hard to do a generic diff that looks good and only picks out real changes
+    comment = "Edited by #{current_user.email}\n"
     vendor_action = current_user.has_role?(Role::MERCHANT)
     
     if vendor_action

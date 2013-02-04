@@ -245,6 +245,11 @@ FactoryGirl.define do
       zipcode { generate(:random_zip) }
     end
     
+    factory :order_with_name do
+      name { generate(:random_name) }
+      pickup_notes { generate(:random_phrase) }
+    end
+    
     factory :order_with_address_and_voucher do
       name { generate(:random_name) }
       address_1 { generate(:random_street) }
