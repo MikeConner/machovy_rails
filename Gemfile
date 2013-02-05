@@ -35,6 +35,8 @@ group :development do
   gem 'annotate', '~> 2.4.1.beta'
   gem 'heroku', '2.31.5'
   gem 'haml-rails', '0.3.5'
+  gem "better_errors"
+  gem "binding_of_caller"
 end
 
 group :test do
