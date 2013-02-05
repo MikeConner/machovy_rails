@@ -184,7 +184,7 @@ h6 {
   background-color: #fff;
   color: #333;
   box-sizing: border-box;
-  border: 4px solid #FBFBFB;
+  border: 4px solid #000;
   position: relative;
 }
 
@@ -1944,12 +1944,12 @@ Deals Front Page
 
 .item {
   background-color: #fff;
-  margin: 0px 5px 0px 5px;
+  margin: 1px 1px 1px 1px;
   cursor: pointer;
   background-color: #fff;
   color: #333;
   box-sizing: border-box;
-  border: 4px solid #FBFBFB;
+  border: 4px solid #000;
   position: relative;
 }
 body {
@@ -1970,14 +1970,35 @@ body {
 .skinnybox{
   width: 228px;
   position: relative;
+  overflow:hidden;
+  background-color: #000;
+}
+.littlebottom{
+  background-color: #fff;
+  height: 100%;
+}
+.blogitem
+{
+  background-color: #fff;
+  height:100%;
 }
 .fatbox {
-  width: 660px;
+  width: 460px;
   position: relative;
 }
 .imgcrop {
   height: 270px;
   overflow: hidden;
+}
+.imgcropblog {
+  height: 170px;
+  overflow: hidden;
+}
+.imgcroplittle{
+  height: 190px;
+  overflow: hidden;  
+  background-color: #000;
+  margin: 0px 0px 8px 0px;
 }
 
 

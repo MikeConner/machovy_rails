@@ -46,10 +46,11 @@ $(function() {
     $container.isotope({
       itemSelector : '.box',
         masonry : {
-          resizable: false, // disable normal resizing
+          resizable: true, // disable normal resizing
            // set columnWidth to a percentage of container width
           columnWidth: $container.width() / 100,
           gutterWidth: 2
+
         }
     });
 

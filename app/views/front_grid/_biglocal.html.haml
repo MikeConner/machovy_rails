@@ -12,5 +12,5 @@
       -# %h5= truncate(sanitize(promotion.subtitle), :length => 24)
     - else
       -# %h5 An amazing find
-    %p.bigdesc= truncate(promotion.padded_description, :length => 200)
+    %p.bigdesc= truncate(promotion.padded_description, :length => 140)
     = link_to "Only " + number_to_currency(promotion.price).to_s, promotion_path(promotion)
