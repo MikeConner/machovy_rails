@@ -1,5 +1,5 @@
 - if !blogpost.nil?
-  .span2.item.promotion-grid.box.tallbox
+  .skinnybox.box.tallbox.isotope-item.item
     %h5
       = link_to truncate(blogpost.title, :length => 25), blog_post_path(blogpost)
     .borderLine

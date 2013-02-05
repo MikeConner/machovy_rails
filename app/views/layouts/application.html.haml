@@ -36,9 +36,10 @@
 %body
   = render 'layouts/application/header'
   #main
-    .container
-      = yield
-      %br/
-      %br/
-      %br/  
-    = render 'layouts/application/footer'
+    .container.mainbox.isotope.clearfix
+      .row-fluid
+        = yield
+        %br/
+        %br/
+        %br/  
+        = render 'layouts/application/footer'

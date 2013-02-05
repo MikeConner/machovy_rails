@@ -1952,11 +1952,33 @@ Deals Front Page
   border: 4px solid #FBFBFB;
   position: relative;
 }
-.tallbox {
-  height: 400px
+body {
+  background-color:#111;
 }
+.space {
+  background-color:#333;
+}
+.mainbox {
+  max-width: 1200px;
+  background-color:#000;
 
-
+}
+.tallbox {
+  height: 400px;
+  position: relative;
+}
+.skinnybox{
+  width: 228px;
+  position: relative;
+}
+.fatbox {
+  width: 660px;
+  position: relative;
+}
+.imgcrop {
+  height: 270px;
+  overflow: hidden;
+}
 
 
 
