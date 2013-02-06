@@ -51,7 +51,7 @@ describe "ProductStrategy" do
       promotion.strategy.should be_valid
       promotion.strategy.delivery?.should be_false
       order.shipping_address_required?.should be_false
-      order.shipping_address.should be == "For pickup"
+      order.shipping_address.should =~ /^For pickup/
     end
   end
   

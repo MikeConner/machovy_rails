@@ -102,6 +102,7 @@ describe "UserMailer" do
       # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
       it "should be sent to the right user" do
         @msg.to.to_s.should match(@order.email)
+        @msg.cc.to_s.should match(@order.promotion.vendor.user.email)
         @msg.bcc.to_s.should match(ApplicationHelper::MACHOVY_SALES_ADMIN)
       end
       
@@ -117,6 +118,7 @@ describe "UserMailer" do
         @msg.body.encoded.should match('Thank you for your order')
         @msg.body.encoded.should match('Shipping instructions')
         @msg.body.encoded.should match(@order.shipping_address)
+        @msg.body.encoded.should match(@order.name)
         @msg.body.encoded.should match(FINE_PRINT)
         @msg.body.encoded.should match(INSTRUCTIONS)
         order.vouchers.each do |voucher|
@@ -157,6 +159,7 @@ describe "UserMailer" do
       # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
       it "should be sent to the right user" do
         @msg.to.to_s.should match(@order.email)
+        @msg.cc.to_s.should match(@order.promotion.vendor.user.email)
         @msg.bcc.to_s.should be_blank
       end
       
@@ -172,6 +175,7 @@ describe "UserMailer" do
         @msg.body.encoded.should match('Thank you for your order')
         @msg.body.encoded.should match('Please pick up your order at')
         @msg.body.encoded.should match(delivery.vendor.map_address)
+        @msg.body.encoded.should match(@order.name)
         @msg.body.encoded.should match(FINE_PRINT)
         @msg.body.encoded.should match(INSTRUCTIONS)
         order.vouchers.each do |voucher|

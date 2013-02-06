@@ -124,7 +124,7 @@ class Order < ActiveRecord::Base
   
   def shipping_address
     if shipping_address_required?
-      address = 'Ship to: '
+      address = 'Ship to: ' + self.name + '. '
       address += self.address_1 + ', ' unless self.address_1.blank?
       address += self.address_2 + ' ,' unless self.address_2.blank?
       address += self.city + ', ' unless self.city.blank?
@@ -133,7 +133,7 @@ class Order < ActiveRecord::Base
    
       address
     else
-      'For pickup'
+      "For pickup by #{self.name}"
     end    
   end
 private

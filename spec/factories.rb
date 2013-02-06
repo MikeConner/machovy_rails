@@ -370,7 +370,7 @@ FactoryGirl.define do
       
       factory :product_pickup_promotion_with_order do
         after(:create) do |promotion|
-          FactoryGirl.create(:order, :amount => promotion.price, :promotion => promotion)
+          FactoryGirl.create(:order_with_name, :amount => promotion.price, :promotion => promotion)
         end
       end
     end
