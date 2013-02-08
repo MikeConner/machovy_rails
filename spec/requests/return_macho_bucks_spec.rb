@@ -36,7 +36,6 @@ describe "Return macho bucks" do
       
       it { should have_xpath("//form[@action='#{redeem_admin_merchant_voucher_path(@voucher)}']") }
       it { should have_content(@voucher.uuid) }
-      it { should have_content(dude.email) }
       it { should have_content(Voucher::AVAILABLE) }
       
       describe "Return the voucher" do
@@ -62,7 +61,6 @@ describe "Return macho bucks" do
         
           it { should_not have_xpath("//form[@action='#{redeem_admin_merchant_voucher_path(@voucher)}']") }
           it { should have_content(@voucher.uuid) }
-          it { should have_content(dude.email) }
           it { should have_content(Voucher::RETURNED) }
         end
         

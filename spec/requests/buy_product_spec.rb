@@ -72,6 +72,7 @@ describe "Buy product" do
         fill_in 'card_code', :with => '444'
         fill_in 'first_name', :with => 'Jeffrey'
         fill_in 'last_name', :with => 'Bennett'
+        fill_in 'name', :with => 'Jeff Bennett'
         click_button I18n.t('buy_now')
         save_page
       end
