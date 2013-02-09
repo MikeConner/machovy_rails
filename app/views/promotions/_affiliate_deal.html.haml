@@ -18,7 +18,7 @@
         .tab-content
           #tab1.tab-pane.fade.in.active
             %h3.tab-title Product Description
-            %p= @promotion.description
+            %pre= @promotion.description
         - if @show_buy_button
           .tab-bottom-button
             = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank"

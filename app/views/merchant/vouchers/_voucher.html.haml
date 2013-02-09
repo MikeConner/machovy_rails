@@ -36,6 +36,6 @@
     %span.price-new= number_to_currency(promotion.price)
     %p
       %strong= promotion.limitations    
-    %p= promotion.description
+    %pre= promotion.description
     - if v.order.pickup_order?
       %h4= v.order.pickup_notes

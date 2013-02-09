@@ -6,11 +6,11 @@ You recently purchased #{number_to_word(@order.quantity)} of these: #{@order.pro
   Please pick up your order at #{@order.promotion.vendor.name}, #{@order.promotion.vendor.map_address}. The name associated with the order is #{@order.name}.
 
 - @order.vouchers.each do |voucher|
-  %p== Voucher #{voucher.uuid}
+  Voucher #{voucher.uuid}
 - if !@order.promotion.voucher_instructions.blank?
   Voucher instructions
   @order.promotion.voucher_instructions
 - if !@order.promotion.limitations.blank?
   Fine Print
   @order.promotion.limitations
-.page
+

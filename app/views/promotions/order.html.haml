@@ -62,9 +62,9 @@
           #tab1.tab-pane.fade.in.active
             = render :partial => 'merchant/orders/order_form', :locals => { :stripe_customer => @stripe_customer }
           #tab2.tab-pane
-            %p= @promotion.description 
+            %pre= @promotion.description 
           #tab3.tab-pane
-            %p= @promotion.limitations 
+            %pre= @promotion.limitations 
           - @vendor = @promotion.vendor
           - if @vendor.mappable?
             #tab4.tab-pane

@@ -76,9 +76,9 @@
             <a data-toggle="tab" href="#tab3">Merchant Details</a>        
         .tab-content
           #tab1.tab-pane.fade.in.active
-            %p= @promotion.description 
+            %pre= @promotion.description
           #tab2.tab-pane
-            %p= @promotion.limitations 
+            %pre= @promotion.limitations
           #tab3.tab-pane
             - @vendor = @promotion.vendor
             .span6

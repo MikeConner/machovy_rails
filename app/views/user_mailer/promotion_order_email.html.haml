@@ -7,8 +7,8 @@
   %p== Voucher #{link_to voucher.uuid, printable_qrcode_merchant_voucher_url(voucher)}
 - if !@order.promotion.voucher_instructions.blank?
   %h4 Voucher instructions
-  %p= @order.promotion.voucher_instructions
+  %pre= @order.promotion.voucher_instructions
 - if !@order.promotion.limitations.blank?
   %h4 Fine Print
-  %p= @order.promotion.limitations
+  %pre= @order.promotion.limitations
 .page
