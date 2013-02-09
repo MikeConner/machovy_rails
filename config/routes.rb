@@ -113,6 +113,8 @@ MachovyRails::Application.routes.draw do
   # MailChimp integration test
   match "/mailing" => "static_pages#mailing"
  
+  # Midnight Guru View
+  match "/midnightguru" => "front_grid#midnightguru" 
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

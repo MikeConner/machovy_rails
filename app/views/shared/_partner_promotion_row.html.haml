@@ -1,0 +1,20 @@
+- promotions.each do |promotion|
+  .span3.item.promotion-grid.box
+    - if promotion.zombie?
+      .zombie_image
+        %img(src="/assets/sold_out.png")
+      = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion), :style => 'opacity:0.4;', :target => "_blank"
+    - else
+      = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion),  :target => "_blank"
+    .row-fluid
+      .item-title= truncate(sanitize(promotion.title), :length => 28)
+      %br
+      .item-sub-title
+        - if !promotion.subtitle.nil?
+          = truncate(sanitize(promotion.subtitle), :length => 24)
+        - else
+          An amazing find
+      %p.description= truncate(promotion.padded_description, :length => 130)
+    .row-fluid.item-bottom-bar 
+      .deal-bottom-button
+        = link_to "Only " + number_to_currency(promotion.price).to_s + " @ Machovy", promotion_path(promotion),  :target => "_blank"
