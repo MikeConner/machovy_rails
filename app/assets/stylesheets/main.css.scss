@@ -45,6 +45,7 @@ h4 {
 }
 
 p,
+pre,
 li,
 a,
 label,
@@ -167,6 +168,7 @@ pre {
   white-space: pre-wrap; /* Chrome; W3C standard */
   word-wrap: break-word; /* IE */
   word-break: normal !important;
+  font-size:14px;
 }
 
 /*
