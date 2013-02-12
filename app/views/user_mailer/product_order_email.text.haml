@@ -3,7 +3,7 @@ You recently purchased #{number_to_word(@order.quantity)} of these: #{@order.pro
 - if @order.shipping_address_required?
   Shipping instructions - #{@order.shipping_address}.
 - else
-  Please pick up your order at #{@order.promotion.vendor.name}, #{@order.promotion.vendor.map_address}. The name associated with the order is #{@order.name}.
+  Please pick up your order at #{@order.promotion.vendor.name}. The name associated with the order is #{@order.name}.
 
 - @order.vouchers.each do |voucher|
   Voucher #{voucher.uuid}

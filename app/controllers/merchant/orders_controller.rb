@@ -24,7 +24,7 @@ class Merchant::OrdersController < Merchant::BaseController
     @order.transaction_id = '0'
     charge_success = false
     
-    if @order.valid?
+    if @order.valid? and validate_quantity?(@order)
       total_charge = @order.total_cost - @order.user.total_macho_bucks
       if total_charge > 0
         # We need to generate the card again anyway, so let's validate that as well, even though Ajax already did it
@@ -244,6 +244,25 @@ private
                                                                         :shipping_required => order.shipping_address_required?, 
                                                                         :billing_address => address,
                                                                         :customer_ip => current_user.current_sign_in_ip)
+  end
+  
+  def validate_quantity?(order)
+    min_quantity = order.promotion.min_per_customer
+
+    if order.promotion.unlimited?(current_user)
+      if order.quantity < min_quantity
+        order.errors.add :base, "Quantity (#{order.quantity}) must be at least #{min_quantity}"
+        return false
+      end
+    else
+      max_quantity = order.promotion.max_quantity_for_buyer(current_user)
+      if order.quantity < min_quantity or order.quantity > max_quantity
+        order.errors.add :base, "Quantity (#{order.quantity}) must be between #{min_quantity} and #{max_quantity}"
+        return false
+      end
+    end
+    
+    true
   end
   #TODO remove old stripe code when Vault ready
 =begin
