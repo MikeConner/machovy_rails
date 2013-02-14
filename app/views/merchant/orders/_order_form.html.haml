@@ -88,7 +88,7 @@
     - if @order.product_order?
       .field
         = f.text_field :name, :class => 'full', :maxlength => User::MAX_FIRST_NAME_LEN + User::MAX_LAST_NAME_LEN + 1, :placeholder => 'Name on the order'
-      - if @order.pickup_order?
+      - if @order.promotion.pickup_order?
         .field
           = f.text_field :pickup_notes, :class => 'full', :maxlength => User::MAX_FIRST_NAME_LEN + User::MAX_LAST_NAME_LEN + 1, :placeholder => 'Notes for the merchant (optional)'
     #shipping_info{:style => "display:#{@order.shipping_address_required? ? 'block' : 'none'}"}

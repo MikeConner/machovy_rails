@@ -17,3 +17,14 @@
                   = form_for user, :method => :put, :url => promote_user_path(user) do |f|
                     = f.collection_select(:role_ids, Role.all, :id, :name, {:selected => user.role_ids, :include_blank => ''})
                     = f.submit 'Update Role'
+        %legend
+          %h3 Unconfirmed Users
+          .row-fluid
+            .span12
+              %ol
+                - User.order(:email).each do |user|
+                  - if !user.confirmation_token.nil?
+                    - if user.unconfirmed_email.nil?
+                      %li== #{user.email} (#{user.confirmation_token})
+                    - else
+                      %li== #{user.email} (#{user.confirmation_token}) new email: #{user.unconfirmed_email}
