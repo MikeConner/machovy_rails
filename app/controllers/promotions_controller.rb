@@ -12,7 +12,7 @@ class PromotionsController < ApplicationController
   before_filter :ensure_vendor, :only => [:index, :new, :create]
   # Only SuperAdmins (and vendors) can edit local deals
   before_filter :ensure_vendor_or_super_admin, :only => [:edit]
-  before_filter :ensure_correct_vendor, :only => [:edit, :show_logs, :accept_edits, :reject_edits]
+  before_filter :ensure_correct_vendor, :only => [:edit, :show_logs, :accept_edits, :reject_edits, :product_view]
   before_filter :admin_only, :only => [:manage, :review]
   before_filter :validate_eligible, :only => [:order]
   before_filter :transform_prices, :only => [:create, :update]
@@ -402,6 +402,12 @@ class PromotionsController < ApplicationController
     Promotion.all.each { |promotion| logger.info(promotion_weights.save(promotion)) }    
     
     redirect_to manage_promotions_path, :notice => 'Recalculated promotion weights'
+  end
+  
+  def product_view
+    if !@promotion.product_order?
+      redirect_to root_path, :alert => I18n.t('non_product')
+    end
   end
   
 private  

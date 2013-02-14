@@ -89,6 +89,9 @@ describe "Promotions" do
     promotion.should respond_to(:suspended)
     promotion.should respond_to(:zombie?)
     promotion.should respond_to(:revenue_share_options)
+    promotion.should respond_to(:product_order?)
+    promotion.should respond_to(:pickup_order?)
+    promotion.should respond_to(:shipping_address_required?)
     promotion.metro.should be == metro
     promotion.vendor.should be == vendor
     promotion.promotion_type.should be == Promotion::LOCAL_DEAL
@@ -100,6 +103,26 @@ describe "Promotions" do
   it "should default to correct settings" do
     promotion.displayable?.should be_false
     promotion.zombie?.should be_false
+  end
+  
+  describe "product promotion (delivery)" do
+    let(:promotion) { FactoryGirl.create(:product_promotion) }
+    
+    it "should be a product" do
+      promotion.product_order?.should be_true
+      promotion.shipping_address_required?.should be_true
+      promotion.pickup_order?.should be_false
+    end
+  end
+  
+  describe "product promotion (pickup)" do
+    let(:promotion) { FactoryGirl.create(:product_pickup_promotion) }
+    
+    it "should be a product" do
+      promotion.product_order?.should be_true
+      promotion.shipping_address_required?.should be_false
+      promotion.pickup_order?.should be_true
+    end
   end
   
   describe "Zombie cases" do

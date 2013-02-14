@@ -41,6 +41,7 @@ MachovyRails::Application.routes.draw do
     member do
       get 'order'
       get 'show_logs'
+      get 'product_view' # show details of shipping/pickup orders
       put 'accept_edits'
       put 'reject_edits'
       put 'update_weight'

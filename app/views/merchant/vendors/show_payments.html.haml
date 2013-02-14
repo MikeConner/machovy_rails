@@ -11,6 +11,7 @@
     %th Total $
     %th Machovy Share
     %th Merchant Share
+    %th Pickup/Delivery
   - @payment_data.each do |promotion_data|
     %tr
       %td= promotion_data[:title]
@@ -20,6 +21,11 @@
       %td= number_to_currency(promotion_data[:total])
       %td= number_to_currency(promotion_data[:total] - promotion_data[:merchant_share])
       %td= number_to_currency(promotion_data[:merchant_share])
+      - if promotion_data[:is_product]
+        %td= link_to 'Show Orders', product_view_promotion_path(:id => promotion_data[:id])
+      - else
+        %td N/A
+        
 %br/
 %br/
 %h4 Payment Summary

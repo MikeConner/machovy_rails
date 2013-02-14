@@ -311,6 +311,18 @@ class Promotion < ActiveRecord::Base
 	  MINIMUM_REVENUE_SHARE.step(MAXIMUM_REVENUE_SHARE, 5).to_a
 	end
 	
+  def product_order?
+    ProductStrategy === self.strategy
+  end
+  
+  def pickup_order?
+    product_order? and !self.strategy.delivery?
+  end
+  
+  def shipping_address_required?
+    product_order? and self.strategy.delivery?
+  end
+	
 private
   def init_defaults
     self.grid_weight = DEFAULT_GRID_WEIGHT if new_record?

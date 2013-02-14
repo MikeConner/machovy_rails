@@ -1,0 +1,22 @@
+%h1= @promotion.title
+- if @promotion.orders.empty?
+  %h3 No orders
+- else
+  %table.table.zebra-striped
+    %tr
+      %th ID
+      %th Date
+      %th Cardholder
+      %th Quantity
+      %th Price
+      %th Instructions
+      %th Notes
+    - @promotion.orders.order('updated_at desc').each do |order|
+      %tr
+        %td= order.id
+        %td= order.created_at.try(:strftime, '%b %d, %Y')
+        %td== #{order.first_name} #{order.last_name}
+        %td= order.quantity
+        %td= order.amount
+        %td= order.shipping_address
+        %td= order.pickup_notes

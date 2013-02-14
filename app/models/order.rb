@@ -109,21 +109,8 @@ class Order < ActiveRecord::Base
     total_cost * promotion.revenue_shared / 100.0
   end  
   
-  def product_order?
-    ProductStrategy === self.promotion.strategy
-  end
-  
-  def pickup_order?
-    product_order? and !self.promotion.strategy.delivery?
-  end
-  
-  def shipping_address_required?
-    # Is this a product order?
-    product_order? and self.promotion.strategy.delivery?
-  end
-  
   def shipping_address
-    if shipping_address_required?
+    if promotion.shipping_address_required?
       address = 'Ship to: ' + self.name + '. '
       address += self.address_1 + ', ' unless self.address_1.blank?
       address += self.address_2 + ' ,' unless self.address_2.blank?
@@ -145,5 +132,15 @@ private
   
   def upcase_state
     self.state = self.state.upcase unless self.state.nil?
+  end
+
+  # Need to "duplicate" (it's also in Promotion) because it's in the validation
+  def product_order?
+    self.promotion.product_order?
+  end
+  
+  # Need to "duplicate" (it's also in Promotion) because it's in the validation
+  def shipping_address_required?
+    product_order? and self.promotion.strategy.delivery?
   end
 end

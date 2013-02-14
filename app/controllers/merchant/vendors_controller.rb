@@ -44,12 +44,14 @@ class Merchant::VendorsController < Merchant::BaseController
       next if !promotion.deal?
       detail = Hash.new
       @payment_data.push(detail)
+      detail[:id] = promotion.id
       detail[:title] = promotion.title
       detail[:sold] = promotion.vouchers.count
       detail[:returned] = 0
       detail[:redeemed] = 0
       detail[:total] = 0
       detail[:merchant_share] = 0
+      detail[:is_product] = promotion.product_order?
       promotion.vouchers.each do |voucher|
         if voucher.status == Voucher::RETURNED
           detail[:returned] += 1
