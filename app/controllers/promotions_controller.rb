@@ -47,7 +47,7 @@ class PromotionsController < ApplicationController
       vendor = current_user.vendor
       # filters should ensure this isn't nil, but don't want to throw an exception here
       if !vendor.nil?
-        vendor.promotions.deals.each do |promotion|
+        vendor.promotions.deals.order('updated_at desc').each do |promotion|
           if promotion.approved?
             if promotion.displayable?
               @live.push(promotion)
@@ -68,7 +68,7 @@ class PromotionsController < ApplicationController
       end
     elsif !current_user.is_customer? # Assume any other status is Machovy -- Super Admin/Content Admin
       # Nothing to do for ads or affiliates, so don't include them
-      Promotion.deals.each do |promotion|
+      Promotion.deals.order('updated_at desc').each do |promotion|
         if promotion.approved?
           if promotion.displayable?
             @live.push(promotion)
