@@ -58,6 +58,8 @@ describe "Orders" do
     order.should respond_to(:shipping_address)
     order.should respond_to(:transaction_id)
     order.should respond_to(:pickup_notes)
+    order.should respond_to(:product_order?)
+    order.should respond_to(:shipping_address_required?)
     order.user.should be == user
     order.promotion.should be == promotion
     order.vendor.should be == promotion.vendor
@@ -112,6 +114,8 @@ describe "Orders" do
     let(:order) { FactoryGirl.create(:order_with_name, :user => user, :promotion => promotion) }    
 
     it "should not have a shipping address" do
+      order.shipping_address_required?.should be_false
+      order.product_order?.should be_true
       order.shipping_address.should match("^For pickup")
     end
     
@@ -133,6 +137,8 @@ describe "Orders" do
     let(:order) { FactoryGirl.create(:order_with_address, :user => user, :promotion => promotion) }
     
     it "should have a shipping address" do
+      order.shipping_address_required?.should be_true
+      order.product_order?.should be_true
       order.shipping_address.should match("^Ship to")
     end
     

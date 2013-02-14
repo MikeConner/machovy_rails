@@ -123,6 +123,17 @@ class Order < ActiveRecord::Base
       "For pickup by #{self.name}"
     end    
   end
+  
+  # Need to "duplicate" (it's also in Promotion) because it's in the validation
+  def product_order?
+    self.promotion.product_order?
+  end
+  
+  # Need to "duplicate" (it's also in Promotion) because it's in the validation
+  def shipping_address_required?
+    product_order? and self.promotion.strategy.delivery?
+  end
+    
 private
   # The description is just the name of the promotion and a date
   # It's not unique, and having friendly id append "-12" or something shows how many people are ordering
@@ -132,15 +143,5 @@ private
   
   def upcase_state
     self.state = self.state.upcase unless self.state.nil?
-  end
-
-  # Need to "duplicate" (it's also in Promotion) because it's in the validation
-  def product_order?
-    self.promotion.product_order?
-  end
-  
-  # Need to "duplicate" (it's also in Promotion) because it's in the validation
-  def shipping_address_required?
-    product_order? and self.promotion.strategy.delivery?
   end
 end
