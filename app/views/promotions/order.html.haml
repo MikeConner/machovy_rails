@@ -55,7 +55,7 @@
             <a data-toggle="tab" href="#tab2">Description </a>
           %li
             <a data-toggle="tab" href="#tab3">Limitations</a>
-          - if @promotion.vendor.mappable?
+          - if !@promotion.venue_location.nil? or @promotion.vendor.mappable?
             %li
               <a data-toggle="tab" href="#tab4">Location</a>        
         .tab-content
@@ -66,7 +66,14 @@
           #tab3.tab-pane
             %pre= @promotion.limitations 
           - @vendor = @promotion.vendor
-          - if @vendor.mappable?
+          - if @promotion.mappable?
+            #tab4.tab-pane
+              .span12
+                = hidden_field_tag :latitude, @promotion.latitude
+                = hidden_field_tag :longitude, @promotion.longitude
+                = hidden_field_tag :vendor, @promotion.venue_location
+                #map_canvas.vendor_map    
+          - elsif @vendor.mappable?
             #tab4.tab-pane
               .span12
                 = hidden_field_tag :latitude, @vendor.latitude

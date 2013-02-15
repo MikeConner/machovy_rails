@@ -68,6 +68,7 @@ describe "Users" do
     user.should respond_to(:update_total_macho_bucks)
     user.should respond_to(:gift_certificates)
     user.should respond_to(:customer_id)
+    user.should respond_to(:can_be_deleted?)
   end
       
   it { should be_valid }
@@ -76,6 +77,10 @@ describe "Users" do
     before { user.customer_id = "X"*(User::CUSTOMER_ID_LEN + 1) }
     
     it { should_not be_valid }
+  end
+  
+  it "should be deleteable" do
+    user.can_be_deleted?.should be_true
   end
   
   describe "Gift certificates" do
@@ -87,6 +92,7 @@ describe "Users" do
     end
     
     it "should not be able to delete" do
+      user.can_be_deleted?.should be_false
       expect { user.destroy }.to raise_exception(ActiveRecord::DeleteRestrictionError)
     end
     
@@ -94,6 +100,7 @@ describe "Users" do
       before { GiftCertificate.destroy_all }
       
       it "should allow it now" do
+        user.reload.can_be_deleted?.should be_true
         expect { user.reload.destroy }.to_not raise_exception(ActiveRecord::DeleteRestrictionError)
       end
     end
@@ -390,6 +397,7 @@ describe "Users" do
     it { should be_valid }
     
     it "should have orders" do
+      user.can_be_deleted?.should be_false
       user.orders.count.should be == 3
       user.orders.each do |order|
         order.user.should == user
@@ -531,6 +539,7 @@ describe "Users" do
     let(:user) { FactoryGirl.create(:user_with_feedback) }
     
     it "should not allow deletion" do
+      user.can_be_deleted?.should be_false
       expect { user.destroy }.to raise_exception(ActiveRecord::DeleteRestrictionError)
     end
     
@@ -546,7 +555,8 @@ describe "Users" do
         before { user.feedbacks.destroy_all }
        
         it "should allow it now" do
-          Feedback.count.should == 0
+          Feedback.count.should be == 0
+          user.can_be_deleted?.should be_true
         end
           
         describe "Final delete" do

@@ -378,6 +378,18 @@ FactoryGirl.define do
     factory :promotion_with_subtitle do
       subtitle { generate(:random_phrase) }
     end
+    
+    factory :promotion_with_venue_address do
+      venue_address { generate(:random_street) }
+      venue_city { generate(:random_city) }
+      venue_state { generate(:random_state) }
+      venue_zipcode { generate(:random_zip) }
+      
+      factory :promotion_with_map do
+        latitude 40.552285
+        longitude { -80.029079 }
+      end
+    end
         
     factory :promotion_with_orders do
       ignore do

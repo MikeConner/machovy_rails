@@ -11,7 +11,7 @@ MachovyRails::Application.routes.draw do
                                        :confirmations => 'confirmations' }
   
   # Add a user admin action (not part of devise)
-  resources :users, :only => [:manage] do    
+  resources :users, :only => [:manage, :destroy] do    
     member do
       get 'survey'
       put 'feedback'

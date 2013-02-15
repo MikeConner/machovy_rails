@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130203223515) do
+ActiveRecord::Schema.define(:version => 20130214155932) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -280,6 +280,12 @@ ActiveRecord::Schema.define(:version => 20130203223515) do
     t.integer  "min_per_customer",                   :default => 1,          :null => false
     t.integer  "max_per_customer",                   :default => 0,          :null => false
     t.boolean  "suspended",                          :default => false,      :null => false
+    t.string   "venue_address",        :limit => 50
+    t.string   "venue_city",           :limit => 50
+    t.string   "venue_state",          :limit => 2
+    t.string   "venue_zipcode",        :limit => 10
+    t.decimal  "latitude"
+    t.decimal  "longitude"
   end
 
   add_index "promotions", ["slug"], :name => "index_promotions_on_slug"

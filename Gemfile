@@ -57,6 +57,7 @@ gem 'rqrcode-rails3', '0.1.5'
 
 # For Authentication
 gem 'devise', '2.1.2'
+gem 'devise-async', '0.5.1'
 gem 'cancan', '1.6.8'
 gem 'omniauth-facebook', '1.4.1'
 

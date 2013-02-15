@@ -56,20 +56,21 @@
         -#= date_select :card_expiration, :card_expiration, { order: [:month, :year], discard_day: true, add_month_numbers: true,  }
         = select_month Date.today, { add_month_numbers: true }, { name: "card_month", id: "card_month" }
         = select_year Date.today, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: "card_year", id: "card_year" }  
-      %em Billing address (optional, but makes the transaction more secure) 
-      .field
-        = label_tag :address, "Street address"
-        = text_field_tag :address
-      .field
-        = label_tag :city
-        = text_field_tag :city
-      .field
-        = label_tag :state
-        = text_field_tag :state
-      .field
-        = label_tag :zipcode
-        = text_field_tag :zipcode
-    %em= I18n.t('credit_card_details')
+      -#
+        %em Billing address (optional, but makes the transaction more secure) 
+        .field
+          = label_tag :address, "Street address"
+          = text_field_tag :address
+        .field
+          = label_tag :city
+          = text_field_tag :city
+        .field
+          = label_tag :state
+          = text_field_tag :state
+        .field
+          = label_tag :zipcode
+          = text_field_tag :zipcode
+      %p.card-details= I18n.t('credit_card_details')
   .actions
     -# Must be called #new_order for common order/gift JS to work
     = f.submit I18n.t('buy_gift_certificate'), :class => "btn btn-large btn-success"

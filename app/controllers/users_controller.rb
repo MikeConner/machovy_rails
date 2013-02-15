@@ -54,6 +54,13 @@ class UsersController < ApplicationController
       render 'edit_profile'  
     end
   end
+
+  def destroy
+    user = User.find(params[:id])
+    user.destroy
+
+    redirect_to manage_users_path, :notice => 'User deleted successfully'    
+  end
   
 private
   def correct_user
