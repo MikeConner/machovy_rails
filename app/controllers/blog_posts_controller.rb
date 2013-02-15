@@ -31,7 +31,7 @@ class BlogPostsController < ApplicationController
     end
     
     # Get associated promotions
-    current_metro = Metro.find_by_name(session[:metro].empty? ? Metro::DEFAULT_METRO : session[:metro])
+    current_metro = Metro.find_by_name(session[:metro].blank? ? Metro::DEFAULT_METRO : session[:metro])
     
     @promotions = @blog_post.promotions.select { |p| p.displayable? and (p.metro.id == current_metro.id) }.sort
     if @promotions.count > 5
