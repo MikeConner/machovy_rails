@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130216025655) do
+ActiveRecord::Schema.define(:version => 20130216224433) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -388,6 +388,7 @@ ActiveRecord::Schema.define(:version => 20130216025655) do
     t.decimal  "longitude"
     t.string   "slug"
     t.boolean  "private_address", :default => false
+    t.string   "source"
   end
 
   create_table "videos", :force => true do |t|

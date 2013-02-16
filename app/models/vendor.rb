@@ -19,6 +19,7 @@
 #  longitude       :decimal(, )
 #  slug            :string(255)
 #  private_address :boolean         default(FALSE)
+#  source          :string(255)
 #
 
 # CHARTER
@@ -38,7 +39,7 @@ class Vendor < ActiveRecord::Base
   
   include ApplicationHelper
   
-  attr_accessible :address_1, :address_2, :city, :facebook, :name, :phone, :state, :url, :zip, :latitude, :longitude, :private_address,
+  attr_accessible :address_1, :address_2, :city, :facebook, :name, :phone, :state, :url, :zip, :latitude, :longitude, :private_address, :source,
                   :user_id
                   
   belongs_to :user

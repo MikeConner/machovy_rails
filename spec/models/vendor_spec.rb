@@ -19,6 +19,7 @@
 #  longitude       :decimal(, )
 #  slug            :string(255)
 #  private_address :boolean         default(FALSE)
+#  source          :string(255)
 #
 
 describe "Vendors" do
@@ -50,6 +51,7 @@ describe "Vendors" do
     vendor.should respond_to(:url_display)
     vendor.should respond_to(:facebook_display)
     vendor.should respond_to(:private_address)
+    vendor.should respond_to(:source)
     vendor.user.should be == user
   end
   

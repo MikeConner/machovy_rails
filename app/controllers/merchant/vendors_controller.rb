@@ -104,6 +104,11 @@ class Merchant::VendorsController < Merchant::BaseController
   def update
     @vendor = Vendor.find(params[:id])
     if @vendor.update_attributes(params[:vendor])
+      activity = current_user.activities.build
+      activity.init_activity(@vendor)
+      activity.description = 'Updated source of vendor'
+      activity.save!
+      
       redirect_to merchant_vendors_path, notice: 'Vendor was successfully updated.'
     else
       render 'edit', :layout => 'layouts/admin'
