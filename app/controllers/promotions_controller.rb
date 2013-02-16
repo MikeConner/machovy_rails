@@ -227,6 +227,15 @@ class PromotionsController < ApplicationController
     end
 
     if @promotion.save
+      if !@promotion.venue_location.nil?
+        location = geocode_address(@promotion.venue_location)
+        if !location.nil?
+          @promotion.latitude = location['lat']
+          @promotion.longitude = location['lng']
+          @promotion.save
+        end
+      end
+      
       redirect_to @promotion, :notice => message
     else
       @metros = Metro.all
@@ -325,6 +334,22 @@ class PromotionsController < ApplicationController
       if !vendor_action and @promotion.deal?
         VendorMailer.delay.promotion_status_email(@promotion)
       end 
+      
+      if @promotion.venue_location.nil?
+        # If it has lat/long with no address, we're deleting a previously saved venue
+        if @promotion.mappable?
+          @promotion.latitude = nil
+          @promotion.longitude = nil
+          @promotion.save
+        end
+      else
+        location = geocode_address(@promotion.venue_location)
+        if !location.nil?
+          @promotion.latitude = location['lat']
+          @promotion.longitude = location['lng']
+          @promotion.save
+        end
+      end
       
       redirect_to promotions_path, notice: I18n.t('promotion_updated')
     else

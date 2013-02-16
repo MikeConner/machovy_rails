@@ -345,7 +345,7 @@ class Promotion < ActiveRecord::Base
 	  if self.venue_address.blank?
 	    nil
 	  else
-      address = 'Venue: '
+      address = ''
       address += self.venue_address + ', ' unless self.venue_address.blank?
       address += self.venue_city + ', ' unless self.venue_city.blank?
       address += self.venue_state + ', ' unless self.venue_state.blank?

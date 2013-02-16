@@ -91,7 +91,7 @@
                     %br= @vendor.address_2
                   == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
               - else
-                = @promotion.venue_location
+                %br= @promotion.venue_location
               %br= @vendor.phone 
               - if !@vendor.url.blank?
                 %br= link_to 'Web site', @vendor.url_display, :target => '_blank'

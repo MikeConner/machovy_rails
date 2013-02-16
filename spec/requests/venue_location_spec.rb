@@ -1,10 +1,11 @@
-describe "Create promotion spec" do
+describe "Create promotion with venue location" do
   TEASER_URL = 'http://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Georgia_Aquarium_-_Giant_Grouper_edit.jpg/220px-Georgia_Aquarium_-_Giant_Grouper_edit.jpg'
   MAIN_URL = 'http://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Pterois_volitans_Manado-e_edit.jpg/220px-Pterois_volitans_Manado-e_edit.jpg'
   SLIDESHOW_URL = 'http://upload.wikimedia.org/wikipedia/commons/4/48/DunkleosteusSannoble.JPG'
   
   before do
     Role.create!(:name => Role::MERCHANT)
+    Role.create!(:name => Role::SUPER_ADMIN)
     Metro.create!(:name => 'Pittsburgh')
     ActionMailer::Base.deliveries = []
     visit root_path
@@ -14,7 +15,6 @@ describe "Create promotion spec" do
   
   describe "Sign in" do
     before do
-      #sign_in_as_a_valid_user
       sign_in_as_a_vendor
       # go to sign in page
       click_link I18n.t('sign_in_register')
@@ -61,13 +61,16 @@ describe "Create promotion spec" do
           fill_in 'promotion_remote_teaser_image_url', :with => TEASER_URL
           fill_in 'promotion_remote_main_image_url', :with => MAIN_URL
           fill_in 'promotion_promotion_images_attributes_0_remote_slideshow_image_url', :with => SLIDESHOW_URL
-          #fill_in 'promotion_promotion_images_attributes_0_caption', :with => FactoryGirl.generate(:random_phrase)
           # Tolerate $ in prices
           fill_in 'promotion_retail_value', :with => '$200'
           fill_in 'promotion_price', :with => '$100'
           # Can't "fill_in" a hidden field
           select '65', :from => 'promotion_revenue_shared'
           fill_in 'promotion_quantity', :with => 100
+          fill_in 'promotion_venue_address', :with => '135 Drood Ln'
+          fill_in 'promotion_venue_city', :with => 'Pittsburgh'
+          fill_in 'promotion_venue_state', :with => 'PA'
+          fill_in 'promotion_venue_zipcode', :with => '15237'
           
           click_button 'Submit'
         end
@@ -82,32 +85,43 @@ describe "Create promotion spec" do
           it "should have pending status and correct commission" do
             @p.status.should be == Promotion::PROPOSED
             @p.revenue_shared.should be == 65
-            @p.mappable?.should be_false
+          end
+          
+          it "should have latitude/longitude" do
+            @p.latitude.should_not be_nil
+            @p.longitude.should_not be_nil
+            @p.mappable?.should be_true
           end
           
           it { should have_selector('h3', :text => @p.title) }
           it { should have_xpath("//ul[@class='rslides']") }
           # Matching the whole description doesn't work because of truncation; just match part of it
           it { should have_content(@p.description[0, 24]) }
-        end  
+        
+          describe "Switch to admin" do
+            before do
+              click_link 'Log out'
+              @admin = FactoryGirl.create(:user)
+              @admin.roles << Role.find_by_name(Role::SUPER_ADMIN)
+              click_link I18n.t('sign_in_register')
+              
+              fill_in 'user_email', :with => @admin.email
+              fill_in 'user_password', :with => @admin.password
+              # Authenticate
+              click_button I18n.t('sign_in')
+              visit promotions_path
+              click_link @p.title
+              fill_in 'promotion_venue_address', :with => ''
+              
+              click_button 'Submit'
+            end
+            
+            it "should not be mappable" do
+              @p.reload.mappable?.should be_false
+            end
+          end
+        end
       end
     end
-    
-    describe "add live and inactive, should show sections" do
-      before do
-        FactoryGirl.create(:promotion, :vendor => @user.vendor, :status => Promotion::MACHOVY_APPROVED)
-        FactoryGirl.create(:promotion, :vendor => @user.vendor, :status => Promotion::MACHOVY_APPROVED, :start_date => 3.weeks.ago, :end_date => 2.weeks.ago)
-        visit promotions_path
-      end
-      
-      it "should have two promotions" do
-        Promotion.count.should == 2
-      end
-      
-      it { should have_selector('h4', :text => I18n.t('promotions.live')) }
-      it { should have_selector('h4', :text => I18n.t('promotions.attention')) }
-      it { should have_selector('h4', :text => I18n.t('promotions.pending')) }
-      it { should have_selector('h4', :text => I18n.t('promotions.inactive')) }
-    end    
-  end
+  end    
 end

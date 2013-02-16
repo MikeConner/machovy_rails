@@ -21,6 +21,8 @@
             <a data-toggle="tab" href="#tab5">Limitations</a>
           %li
             <a data-toggle="tab" href="#tab6">Instructions</a>        
+          %li
+            <a data-toggle="tab" href="#tab7">Location</a>        
         .tab-content
           #tab4.tab-pane.fade.in.active
             %h4.tab-title Deal Description
@@ -31,8 +33,17 @@
           #tab6.tab-pane
             %h4.tab-title Voucher Instructions
             = f.text_area :voucher_instructions, :placeholder => "How will our customers use their voucher?  Will they need to call and schedule a date or time with you?  Do they present it at the front desk?  Will they have to print it or just show it on their phone?  "
-
-          
+          #tab7.tab-pane
+            %h4.tab-title Venue Location
+            %em Do you want to display a map and address to users? If so, and it's different from your vendor address, enter it here
+            = f.label :venue_address
+            = f.text_field :venue_address, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN
+            = f.label :venue_city
+            = f.text_field :venue_city, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN
+            = f.label :venue_state
+            = f.text_field :venue_state, :maxlength => ApplicationHelper::STATE_LEN, :placeholder => 'PA'
+            = f.label :venue_zipcode
+            = f.text_field :venue_zipcode, :maxlength => ApplicationHelper::ZIP_PLUS4_LEN
         
 .box
   %h4.box-header.round-top= "Duration & Quantity"
