@@ -9,6 +9,9 @@ See attachments for your #{"voucher".pluralize(@order.quantity)}. In case your v
 - if !@order.promotion.voucher_instructions.blank?
   Voucher instructions
   = @order.promotion.voucher_instructions
-- if !@order.promotion.limitations.blank?
+- voucher_delay = @order.vouchers.first.delay_hours ||= 0
+- if !@order.promotion.limitations.blank? or voucher_delay > 0
   Fine Print
   = @order.promotion.limitations
+  - if voucher_delay > 0
+    Cannot redeem for #{voucher_delay} hours after purchase

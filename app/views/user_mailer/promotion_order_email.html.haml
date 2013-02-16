@@ -8,7 +8,10 @@
 - if !@order.promotion.voucher_instructions.blank?
   %h4 Voucher instructions
   %pre= @order.promotion.voucher_instructions
-- if !@order.promotion.limitations.blank?
+- voucher_delay = @order.vouchers.first.delay_hours ||= 0
+- if !@order.promotion.limitations.blank? or voucher_delay > 0
   %h4 Fine Print
   %pre= @order.promotion.limitations
+  - if voucher_delay > 0
+    %p== Cannot redeem for #{voucher_delay} hours after purchase
 .page
