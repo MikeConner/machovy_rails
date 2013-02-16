@@ -25,7 +25,7 @@
         = submit_tag 'Return', :class => 'btn.btn-success.btn-large', :onclick => "return confirm('Returning a voucher voids it so that no one can use it, and credits Macho Bucks. No further action is possible. Are you sure?')"
   .six.columns
   .seven.columns    
-    %h4== #{v.order.first_name} #{v.order.last_name}
+    %h4== Purchased by #{v.order.first_name} #{v.order.last_name}, #{time_ago_in_words(v.created_at)} ago
     %h3= link_to v.uuid, printable_qrcode_merchant_voucher_url(v)
     %h4
       %strong= v.status
@@ -36,6 +36,6 @@
     %span.price-new= number_to_currency(promotion.price)
     %p
       %strong= promotion.limitations    
-    %p= promotion.description
-    - if v.order.pickup_order?
+    %pre= promotion.description
+    - if promotion.pickup_order?
       %h4= v.order.pickup_notes

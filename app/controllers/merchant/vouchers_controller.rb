@@ -10,13 +10,13 @@ class Merchant::VouchersController < Merchant::BaseController
   def index
     if current_user.is_customer?
       # It's a user asking for their own vouchers
-      @vouchers = current_user.vouchers      
-    elsif current_user.has_role?(Role::MERCHANT) or current_user.has_role?(Role::SUPER_ADMIN)
+      @vouchers = current_user.vouchers.order('created_at desc')      
+    else
       # If a voucher_id or a user_id is given, it's coming from a search request
       if params[:voucher_id]
         @vouchers = [Voucher.find(params[:voucher_id])]
       elsif params[:user_id]
-        @vouchers = User.find(params[:user_id]).vouchers
+        @vouchers = User.find(params[:user_id]).vouchers.order('created_at desc')
       else
         @vouchers = []
       end

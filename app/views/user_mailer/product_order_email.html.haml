@@ -3,14 +3,14 @@
 - if @order.shipping_address_required?
   %p== Shipping instructions - #{@order.shipping_address}.
 - else
-  %p== Please pick up your order at #{@order.promotion.vendor.name}, #{@order.promotion.vendor.map_address}.
+  %p== Please pick up your order at #{@order.promotion.vendor.name}. The name associated with the order is #{@order.name}.
 %br/
 - @order.vouchers.each do |voucher|
   %p== Voucher #{voucher.uuid}
 - if !@order.promotion.voucher_instructions.blank?
   %h4 Voucher instructions
-  %p= @order.promotion.voucher_instructions
+  %pre= @order.promotion.voucher_instructions
 - if !@order.promotion.limitations.blank?
   %h4 Fine Print
-  %p= @order.promotion.limitations
+  %pre= @order.promotion.limitations
 .page

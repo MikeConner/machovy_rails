@@ -72,6 +72,7 @@ describe "Buy product" do
         fill_in 'card_code', :with => '444'
         fill_in 'first_name', :with => 'Jeffrey'
         fill_in 'last_name', :with => 'Bennett'
+        fill_in 'order_name', :with => 'Jeff Bennett'
         click_button I18n.t('buy_now')
         save_page
       end
@@ -88,7 +89,8 @@ describe "Buy product" do
         msg.subject.should be == UserMailer::ORDER_MESSAGE
         msg.body.encoded.should match('Thank you for your order')
         msg.body.encoded.should match('Please pick up your order at')
-        msg.body.encoded.should match(promotion.vendor.map_address)
+        msg.body.encoded.should match(promotion.vendor.name)
+        #msg.body.encoded.should match(promotion.vendor.map_address)
         msg.attachments.count.should be == 0
       end      
     end

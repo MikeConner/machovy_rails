@@ -30,6 +30,12 @@
 #  min_per_customer     :integer         default(1), not null
 #  max_per_customer     :integer         default(0), not null
 #  suspended            :boolean         default(FALSE), not null
+#  venue_address        :string(50)
+#  venue_city           :string(50)
+#  venue_state          :string(2)
+#  venue_zipcode        :string(10)
+#  latitude             :decimal(, )
+#  longitude            :decimal(, )
 #
 
 require 'promotion_strategy_factory'
@@ -92,6 +98,7 @@ class Promotion < ActiveRecord::Base
   attr_accessible :description, :destination, :grid_weight, :limitations, :price, :quantity, :retail_value, :revenue_shared,
                   :start_date, :end_date, :teaser_image, :remote_teaser_image_url, :main_image, :remote_main_image_url, :suspended,
                   :status, :promotion_type, :title, :voucher_instructions, :subtitle, :min_per_customer, :max_per_customer,
+                  :venue_address, :venue_city, :venue_state, :venue_zipcode, :latitude, :longitude,
                   :metro_id, :vendor_id, :category_ids, :blog_post_ids, :promotion_image_ids, :promotion_images_attributes, 
 									:teaser_image_cache, :main_image_cache
 
@@ -161,6 +168,13 @@ class Promotion < ActiveRecord::Base
             :if => :deal?
   
   validate :category_consistency
+  
+  # Venue address
+  validates :venue_address, :length => { maximum: MAX_ADDRESS_LEN }
+  validates :venue_state, :inclusion => { in: US_STATES }, :allow_blank => true
+  validates :venue_zipcode, :format => { with: US_ZIP_REGEX }, :allow_blank => true
+  validates_numericality_of :latitude, :allow_nil => true
+  validates_numericality_of :longitude, :allow_nil => true
   
   HORNDOGS = ['jeff@machovy.com', 'adanaie@gmail.com']
   # Can this user buy the promotion? Check if his orders are > maximum/person
@@ -311,6 +325,35 @@ class Promotion < ActiveRecord::Base
 	  MINIMUM_REVENUE_SHARE.step(MAXIMUM_REVENUE_SHARE, 5).to_a
 	end
 	
+  def product_order?
+    ProductStrategy === self.strategy
+  end
+  
+  def pickup_order?
+    product_order? and !self.strategy.delivery?
+  end
+  
+  def shipping_address_required?
+    product_order? and self.strategy.delivery?
+  end
+
+  def mappable?
+    !self.latitude.nil? && !self.longitude.nil?
+  end
+	
+	def venue_location
+	  if self.venue_address.blank?
+	    nil
+	  else
+      address = 'Venue: '
+      address += self.venue_address + ', ' unless self.venue_address.blank?
+      address += self.venue_city + ', ' unless self.venue_city.blank?
+      address += self.venue_state + ', ' unless self.venue_state.blank?
+      address += self.venue_zipcode unless self.venue_zipcode.blank?
+   
+      address
+	  end
+	end
 private
   def init_defaults
     self.grid_weight = DEFAULT_GRID_WEIGHT if new_record?

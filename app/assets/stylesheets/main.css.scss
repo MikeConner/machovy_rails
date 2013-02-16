@@ -45,6 +45,7 @@ h4 {
 }
 
 p,
+pre,
 li,
 a,
 label,
@@ -63,6 +64,7 @@ select {
 }
 
 p,
+pre,
 li,
 label {
   color: #666;
@@ -160,6 +162,17 @@ input, textarea, .uneditable-input {
 #promotion-form select {min-height:50px;}
 
 
+pre {
+  white-space: -moz-pre-wrap; /* Firefox */
+  white-space: -pre-wrap; /* ancient Opera */
+  white-space: -o-pre-wrap; /* newer Opera */
+  white-space: pre-wrap; /* Chrome; W3C standard */
+  word-wrap: break-word; /* IE */
+  word-break: normal !important;
+  font-size: 15px;
+  background-color: #fff;
+  border: 0px;
+}
 
 /*
 ---------------------------------------------
@@ -2455,6 +2468,7 @@ Rating Stars
   background-image: 
     url(/assets/sold_out.jpg);
 }*/
+
 
 
 

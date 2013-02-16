@@ -39,7 +39,7 @@ describe "Voucher Search" do
       end
       
       it { should have_link('Redeem', :href => redeem_admin_merchant_voucher_path(@voucher, :status => Voucher::REDEEMED)) }
-      it { should have_content(@voucher.order.user.email) }
+      it { should have_content(@voucher.order.promotion.description) }
     end
 
     describe "search by voucher (inexact)", :js => true do
@@ -50,7 +50,7 @@ describe "Voucher Search" do
       end
       
       it { should have_link('Redeem', :href => redeem_admin_merchant_voucher_path(@voucher, :status => Voucher::REDEEMED)) }
-      it { should have_content(@voucher.order.user.email) }
+      it { should have_content(@voucher.order.promotion.description) }
     end
     
     describe "search invalid voucher", :js => true do

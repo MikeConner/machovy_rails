@@ -9,11 +9,24 @@
           .span12
             - User.order(:email).each do |user|
               .row-fluid
-                = user.email
                 -# Cannot edit a SuperAdmin
                 - if user.has_role?(Role::SUPER_ADMIN)
-                  %em Super Admin
+                  %em== #{user.email} is a Super Admin
                 -else
                   = form_for user, :method => :put, :url => promote_user_path(user) do |f|
+                    - if user.can_be_deleted?
+                      = link_to 'Delete', user, :method => :delete, :data => { confirm: 'Are you sure?' }
+                    = user.email
                     = f.collection_select(:role_ids, Role.all, :id, :name, {:selected => user.role_ids, :include_blank => ''})
                     = f.submit 'Update Role'
+        %legend
+          %h3 Unconfirmed Users
+          .row-fluid
+            .span12
+              %ol
+                - User.order(:email).each do |user|
+                  - if !user.confirmation_token.nil?
+                    - if user.unconfirmed_email.nil?
+                      %li== #{user.email} #{link_to 'Confirm', user_confirmation_path(:confirmation_token => user.confirmation_token)} #{link_to 'Delete', user, :method => :delete, :data => { confirm: 'Are you sure?' }}
+                    - else
+                      %li== #{user.email} new email: #{user.unconfirmed_email}

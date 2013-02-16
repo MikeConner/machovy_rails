@@ -30,6 +30,12 @@
 #  min_per_customer     :integer         default(1), not null
 #  max_per_customer     :integer         default(0), not null
 #  suspended            :boolean         default(FALSE), not null
+#  venue_address        :string(50)
+#  venue_city           :string(50)
+#  venue_state          :string(2)
+#  venue_zipcode        :string(10)
+#  latitude             :decimal(, )
+#  longitude            :decimal(, )
 #
 
 describe "Promotions" do
@@ -89,6 +95,17 @@ describe "Promotions" do
     promotion.should respond_to(:suspended)
     promotion.should respond_to(:zombie?)
     promotion.should respond_to(:revenue_share_options)
+    promotion.should respond_to(:product_order?)
+    promotion.should respond_to(:pickup_order?)
+    promotion.should respond_to(:shipping_address_required?)
+    promotion.should respond_to(:venue_address)
+    promotion.should respond_to(:venue_city)
+    promotion.should respond_to(:venue_state)
+    promotion.should respond_to(:venue_zipcode)
+    promotion.should respond_to(:latitude)
+    promotion.should respond_to(:longitude)
+    promotion.should respond_to(:mappable?)
+    promotion.should respond_to(:venue_location)
     promotion.metro.should be == metro
     promotion.vendor.should be == vendor
     promotion.promotion_type.should be == Promotion::LOCAL_DEAL
@@ -100,6 +117,150 @@ describe "Promotions" do
   it "should default to correct settings" do
     promotion.displayable?.should be_false
     promotion.zombie?.should be_false
+  end
+  
+  describe "mapping" do
+    let(:promotion) { FactoryGirl.create(:promotion_with_map) }
+    
+    it { should be_valid }
+    
+    it "should have the address" do
+      promotion.venue_location.should_not be_blank
+    end
+    
+    it "should have mapping fields" do
+      promotion.mappable?.should be_true
+    end
+
+    describe "invalid lat/long" do
+      before { promotion.latitude = 'abc' }
+      
+      it { should_not be_valid }
+    end
+  
+    describe "invalid latitude" do
+      before { promotion.latitude = 'abc' }
+      
+      it { should_not be_valid }
+    end
+  
+    describe "invalid longitude" do
+      before { promotion.longitude = 'abc' }
+      
+      it { should_not be_valid }
+    end
+  
+    describe "needs both for mappable" do
+      before { promotion.latitude = nil }
+      
+      it { should be_valid }
+      it "should not be mappable" do
+        promotion.mappable?.should be_false
+      end
+    end
+  
+    describe "needs both for mappable" do
+      before { promotion.longitude = nil }
+      
+      it { should be_valid }
+      it "should not be mappable" do
+        promotion.mappable?.should be_false
+      end
+    end
+  end
+  
+  describe "address" do
+    before { promotion.venue_address = " " }
+    
+    it { should be_valid }
+  end
+  
+  describe "address too long" do
+    before { promotion.venue_address = "a"*(ApplicationHelper::MAX_ADDRESS_LEN + 1) }
+    
+    it { should_not be_valid }
+  end
+  
+  describe "city" do
+    before { promotion.venue_city = "  "}
+    
+    it { should be_valid }
+  end
+  
+  describe "state" do 
+    before { promotion.venue_state = " " }
+    
+    it { should be_valid }
+    
+    describe "validate against list" do
+      ApplicationHelper::US_STATES.each do |state|
+        before { promotion.venue_state = state }
+        
+        it { should be_valid }
+      end
+      
+      describe "invalid state" do
+        before { promotion.venue_state = "Not a state" }
+        
+        it { should_not be_valid }
+      end
+    end
+  end
+
+  describe "no zip code" do
+    before { promotion.venue_zipcode = nil }
+    
+    it { should be_valid }
+  end
+  
+  describe "zip code (valid)" do
+    ["13416", "15237", "15237-2339"].each do |code|
+      before { promotion.venue_zipcode = code }
+      
+      it { should be_valid }
+    end
+  end
+
+  describe "zip code (invalid)" do  
+    ["xyz", "1343", "1343k", "134163423", "13432-", "13432-232", "13432-232x", "34234-32432", "32432_3423"].each do |code|
+      before { promotion.venue_zipcode = code }
+     
+      it { should_not be_valid }
+    end
+  end  
+  
+  describe "venue address" do
+    let(:promotion) { FactoryGirl.create(:promotion_with_venue_address) }
+    
+    it { should be_valid }
+    
+    it "should have an address" do
+      promotion.venue_address.should_not be_blank
+      promotion.venue_city.should_not be_blank
+      promotion.venue_state.should_not be_blank
+      promotion.venue_zipcode.should_not be_blank
+      promotion.venue_location.should_not be_blank
+    end
+  end
+  
+  describe "product promotion (delivery)" do
+    let(:promotion) { FactoryGirl.create(:product_promotion) }
+    
+    it "should be a product" do
+      promotion.product_order?.should be_true
+      promotion.shipping_address_required?.should be_true
+      promotion.pickup_order?.should be_false
+    end
+  end
+  
+  describe "product promotion (pickup)" do
+    let(:promotion) { FactoryGirl.create(:product_pickup_promotion) }
+    
+    it "should be a product" do
+      promotion.product_order?.should be_true
+      promotion.shipping_address_required?.should be_false
+      promotion.pickup_order?.should be_true
+    end
   end
   
   describe "Zombie cases" do

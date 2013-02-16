@@ -109,22 +109,9 @@ class Order < ActiveRecord::Base
     total_cost * promotion.revenue_shared / 100.0
   end  
   
-  def product_order?
-    ProductStrategy === self.promotion.strategy
-  end
-  
-  def pickup_order?
-    product_order? and !self.promotion.strategy.delivery?
-  end
-  
-  def shipping_address_required?
-    # Is this a product order?
-    product_order? and self.promotion.strategy.delivery?
-  end
-  
   def shipping_address
-    if shipping_address_required?
-      address = 'Ship to: '
+    if promotion.shipping_address_required?
+      address = 'Ship to: ' + self.name + '. '
       address += self.address_1 + ', ' unless self.address_1.blank?
       address += self.address_2 + ' ,' unless self.address_2.blank?
       address += self.city + ', ' unless self.city.blank?
@@ -133,9 +120,20 @@ class Order < ActiveRecord::Base
    
       address
     else
-      'For pickup'
+      "For pickup by #{self.name}"
     end    
   end
+  
+  # Need to "duplicate" (it's also in Promotion) because it's in the validation
+  def product_order?
+    self.promotion.product_order?
+  end
+  
+  # Need to "duplicate" (it's also in Promotion) because it's in the validation
+  def shipping_address_required?
+    product_order? and self.promotion.strategy.delivery?
+  end
+    
 private
   # The description is just the name of the promotion and a date
   # It's not unique, and having friendly id append "-12" or something shows how many people are ordering

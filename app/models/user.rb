@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :async
 
   attr_accessible :email, :password, :password_confirmation, :remember_me,
                   :first_name, :last_name, :address_1, :address_2, :phone, :city, :state, :zipcode, :optin,
@@ -95,6 +95,10 @@ class User < ActiveRecord::Base
   
   # Causes issues with feedback
   #validates_associated :orders
+  
+  def can_be_deleted?
+    orders.empty? and feedbacks.empty? and gift_certificates.empty?
+  end
   
   def has_role?(role)
       return !!self.roles.find_by_name(role)

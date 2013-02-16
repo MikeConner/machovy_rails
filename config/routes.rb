@@ -11,7 +11,7 @@ MachovyRails::Application.routes.draw do
                                        :confirmations => 'confirmations' }
   
   # Add a user admin action (not part of devise)
-  resources :users, :only => [:manage] do    
+  resources :users, :only => [:manage, :destroy] do    
     member do
       get 'survey'
       put 'feedback'
@@ -41,6 +41,7 @@ MachovyRails::Application.routes.draw do
     member do
       get 'order'
       get 'show_logs'
+      get 'product_view' # show details of shipping/pickup orders
       put 'accept_edits'
       put 'reject_edits'
       put 'update_weight'
@@ -113,6 +114,8 @@ MachovyRails::Application.routes.draw do
   # MailChimp integration test
   match "/mailing" => "static_pages#mailing"
  
+  # Midnight Guru View
+  match "/midnightguru" => "front_grid#midnightguru" 
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

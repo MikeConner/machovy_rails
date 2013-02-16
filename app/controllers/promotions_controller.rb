@@ -12,7 +12,7 @@ class PromotionsController < ApplicationController
   before_filter :ensure_vendor, :only => [:index, :new, :create]
   # Only SuperAdmins (and vendors) can edit local deals
   before_filter :ensure_vendor_or_super_admin, :only => [:edit]
-  before_filter :ensure_correct_vendor, :only => [:edit, :show_logs, :accept_edits, :reject_edits]
+  before_filter :ensure_correct_vendor, :only => [:edit, :show_logs, :accept_edits, :reject_edits, :product_view]
   before_filter :admin_only, :only => [:manage, :review]
   before_filter :validate_eligible, :only => [:order]
   before_filter :transform_prices, :only => [:create, :update]
@@ -47,7 +47,7 @@ class PromotionsController < ApplicationController
       vendor = current_user.vendor
       # filters should ensure this isn't nil, but don't want to throw an exception here
       if !vendor.nil?
-        vendor.promotions.deals.each do |promotion|
+        vendor.promotions.deals.order('updated_at desc').each do |promotion|
           if promotion.approved?
             if promotion.displayable?
               @live.push(promotion)
@@ -68,7 +68,7 @@ class PromotionsController < ApplicationController
       end
     elsif !current_user.is_customer? # Assume any other status is Machovy -- Super Admin/Content Admin
       # Nothing to do for ads or affiliates, so don't include them
-      Promotion.deals.each do |promotion|
+      Promotion.deals.order('updated_at desc').each do |promotion|
         if promotion.approved?
           if promotion.displayable?
             @live.push(promotion)
@@ -402,6 +402,12 @@ class PromotionsController < ApplicationController
     Promotion.all.each { |promotion| logger.info(promotion_weights.save(promotion)) }    
     
     redirect_to manage_promotions_path, :notice => 'Recalculated promotion weights'
+  end
+  
+  def product_view
+    if !@promotion.product_order?
+      redirect_to root_path, :alert => I18n.t('non_product')
+    end
   end
   
 private  
