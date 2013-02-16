@@ -14,6 +14,7 @@
 #  updated_at      :datetime        not null
 #  slug            :string(255)
 #  payment_id      :integer
+#  delay_hours     :integer
 #
 
 describe "Vouchers" do
@@ -44,12 +45,45 @@ describe "Vouchers" do
     voucher.should respond_to(:payment_owed?)
     voucher.should respond_to(:payment)
     voucher.should respond_to(:macho_buck)
+    voucher.should respond_to(:delay_hours)
+    voucher.should respond_to(:earliest_redemption_time)
+    voucher.should respond_to(:delay_passed?)
     voucher.order.should be == order
     voucher.user.should be == user
     voucher.promotion.should be == promotion
   end
 
   it { should be_valid }
+  
+  it "default to no delay" do
+    voucher.delay_passed?.should be_true
+    voucher.earliest_redemption_time.should be == voucher.created_at
+    voucher.delay_hours.should be_nil   
+  end
+  
+  describe "delay" do
+    let(:voucher) { FactoryGirl.create(:voucher, :order => order, :delay_hours => 6) }
+    
+    it "should have a delay" do
+      voucher.delay_hours.should be == 6
+      voucher.delay_passed?.should be_false
+      voucher.earliest_redemption_time.should_not be_nil
+    end
+    
+    describe "zero is ok" do
+      before { voucher.delay_hours = 0 }
+      
+      it { should be_valid }
+    end
+    
+    describe "Invalid delay" do
+      [-2, 1.5, 'abc'].each do |delay|
+        before { voucher.delay_hours = delay }
+        
+        it { should_not be_valid }
+      end
+    end
+  end
   
   describe "Product vouchers" do
     before do

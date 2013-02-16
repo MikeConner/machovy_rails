@@ -48,7 +48,8 @@
       - shipping_option = @promotion.strategy.delivery? ? ProductStrategy::SHIP_OPTION : ProductStrategy::PICKUP_OPTION 
     - else
       - shipping_option = ProductStrategy::SHIP_OPTION 
+    - delay = @promotion.strategy.has_attribute?(:delay_hours) ? @promotion.strategy.delay_hours : Promotion::DEFAULT_DELAY
     = render :partial => 'shared/promotion_fields', 
-             :locals => { :f => f, :metros => @metros, :quantity => @promotion.quantity || 1, :share_pct => @promotion.revenue_shared, :share_options => @promotion.revenue_share_options, :strategy => @promotion.strategy_name, :fixed_date => @fixed_date, :default_period => default_days, :default_shipping => shipping_option }
+             :locals => { :f => f, :metros => @metros, :quantity => @promotion.quantity || 1, :share_pct => @promotion.revenue_shared, :share_options => @promotion.revenue_share_options, :strategy => @promotion.strategy_name, :fixed_date => @fixed_date, :default_period => default_days, :default_shipping => shipping_option, :delay_hours => delay }
   - else
     = render :partial => 'shared/nondeal_promotion_fields', :locals => { :f => f, :metros => @metros }

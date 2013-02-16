@@ -6,6 +6,7 @@
 #  period_days :integer         not null
 #  created_at  :datetime        not null
 #  updated_at  :datetime        not null
+#  delay_hours :integer         default(0), not null
 #
 
 require 'promotion_strategy_factory'
@@ -25,10 +26,36 @@ describe "RelativeExpirationStrategy" do
   
   it { should be_valid }
   
+  describe "delay" do
+    let(:strategy) { FactoryGirl.create(:fixed_expiration_strategy_with_delay) }
+    
+    it "should have a delay" do
+      strategy.delay_hours.should be == 6
+    end
+    
+    describe "zero is ok" do
+      before { strategy.delay_hours = 0 }
+      
+      it { should be_valid }
+    end
+    
+    describe "Invalid delay" do
+      [-2, 1.5, 'abc'].each do |delay|
+        before { strategy.delay_hours = delay }
+        
+        it { should_not be_valid }
+      end
+    end
+  end
+    
   it "should have the right name" do
     strategy.name.should == PromotionStrategyFactory::RELATIVE_STRATEGY
   end
-  
+
+  it "should not have a delay" do
+    strategy.delay_hours.should be == 0
+  end
+    
   it "should have a promotion" do
     strategy.promotion.should_not be_nil
     strategy.promotion.strategy.should == strategy

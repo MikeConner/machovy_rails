@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130214155932) do
+ActiveRecord::Schema.define(:version => 20130216025655) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -128,9 +128,10 @@ ActiveRecord::Schema.define(:version => 20130214155932) do
   add_index "feedbacks", ["user_id", "order_id"], :name => "index_feedbacks_on_user_id_and_order_id", :unique => true
 
   create_table "fixed_expiration_strategies", :force => true do |t|
-    t.datetime "end_date",   :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "end_date",                   :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+    t.integer  "delay_hours", :default => 0, :null => false
   end
 
   create_table "friendly_id_slugs", :force => true do |t|
@@ -315,9 +316,10 @@ ActiveRecord::Schema.define(:version => 20130214155932) do
   add_index "ratings", ["idea_id", "user_id"], :name => "index_ratings_on_idea_id_and_user_id", :unique => true
 
   create_table "relative_expiration_strategies", :force => true do |t|
-    t.integer  "period_days", :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "period_days",                :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+    t.integer  "delay_hours", :default => 0, :null => false
   end
 
   create_table "roles", :force => true do |t|
@@ -411,6 +413,7 @@ ActiveRecord::Schema.define(:version => 20130214155932) do
     t.datetime "updated_at",                                             :null => false
     t.string   "slug"
     t.integer  "payment_id"
+    t.integer  "delay_hours"
   end
 
   add_index "vouchers", ["slug"], :name => "index_vouchers_on_slug"

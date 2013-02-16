@@ -102,10 +102,15 @@
               = label_tag :fixed_end_date
               = date_select 'fixed', 'end_date', { :order => [:month, :day, :year], :default => { :year => fixed_date.year, :month => fixed_date.month, :day => fixed_date.day} }, { :style => 'display:none' }
               #jq_fixed_end_date
+              %br/
+              = label_tag :fixed_delay, I18n.t('voucher_delay')
+              = number_field_tag :fixed_delay, delay_hours, :min => 0, :class => 'small-select', :title => I18n.t('delay_limitations')
             #tab2.tab-pane
               %h4.tab-title Vouchers expire a given number of days after purchase
               = label_tag :period
               = select_tag :period, options_for_select(RelativeExpirationStrategy::AVAILABLE_PERIODS, default_period), :class => 'small-select'
+              = label_tag :relative_delay, I18n.t('voucher_delay')
+              = number_field_tag :relative_delay, delay_hours, :min => 0, :class => 'small-select', :title => I18n.t('delay_limitations')
             #tab3.tab-pane
               %h4.tab-title This is a product (e.g., physical gift card); vouchers do not need to be redeemed
               = label_tag :sku, 'SKU/Product ID', :style => "display:inline"

@@ -6,6 +6,7 @@
 #  period_days :integer         not null
 #  created_at  :datetime        not null
 #  updated_at  :datetime        not null
+#  delay_hours :integer         default(0), not null
 #
 
 # CHARTER
@@ -18,7 +19,7 @@
 #   Must define the name, setup, and generate_vouchers methods
 #
 class RelativeExpirationStrategy < ActiveRecord::Base
-  attr_accessible :period_days
+  attr_accessible :period_days, :delay_hours
 
   AVAILABLE_PERIODS = [30, 60, 90, 180]
   DEFAULT_PERIOD = 180
@@ -29,7 +30,8 @@ class RelativeExpirationStrategy < ActiveRecord::Base
   
   validates :period_days, :presence => true, 
                           :numericality => { only_integer: true, greater_than: 0 }
-                          
+  validates :delay_hours, :numericality => { only_integer: true, greater_than_or_equal_to: 0 }
+                         
   def name
     PromotionStrategyFactory::RELATIVE_STRATEGY
   end  
@@ -41,6 +43,7 @@ class RelativeExpirationStrategy < ActiveRecord::Base
                           
   def setup(params)
     self.period_days = params[:period]
+    self.delay_hours = params[:relative_delay]
   end
   
   # generate vouchers (and save)
@@ -52,7 +55,7 @@ class RelativeExpirationStrategy < ActiveRecord::Base
       order.quantity.times do
         voucher = order.vouchers.build(:valid_date => DateTime.now.beginning_of_day, 
                                        :expiration_date => self.period_days.days.from_now.beginning_of_day,
-                                       :notes => order.fine_print) 
+                                       :notes => order.fine_print, :delay_hours => self.delay_hours) 
         if !voucher.save
           success = false
         end  

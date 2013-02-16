@@ -14,6 +14,7 @@ en:
   credit_card_details: 'Your credit card details are sent directly to our payment processor, and are never stored at Machovy'
   curators: 'Mentors'
   customer_service: 'If you have any questions, email us at info@machovy.com ...'
+  delay_limitations: 'If you put a delay here, be sure to mention it in the limitations!'
   ensure_image: 'Ensure the url is an image, not a web page (e.g., "Copy Image URL")'
   feedback_prompt: 'Tell us what you think!'
   feedback_thanks: "Thank you for your feedback!"
@@ -59,6 +60,7 @@ en:
   vendor_created: "Vendor was successfully created."
   vendors_only: 'This function only available to Vendors.'
   voucher_already_redeemed: 'This voucher has already been redeemed.'
+  voucher_delay: 'Delay (in hours) before voucher can be redeemed after purchase'
   voucher_expired: 'This voucher has expired. You may still choose to redeem it.'
   voucher_failure: "Error updating voucher status."
   voucher_returned: 'This voucher has been returned and is now void.'

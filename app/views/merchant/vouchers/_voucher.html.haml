@@ -8,6 +8,8 @@
       -# It is unredeemable if its status is redeemed, but it hasn't yet been paid (same conditions as payment_owed)
       -# TODO: make this in to elsif
       -#.btn.btn-danger.btn-large
+    - elsif !v.delay_passed?
+      %em== Cannot redeem until #{I18n.l v.earliest_redemption_time, :format => :long}
     - if v.unredeemable?
       .btn.btn-danger.btn-large
         = link_to "Unredeem", redeem_admin_merchant_voucher_path(v, :status => Voucher::AVAILABLE), :method => :put, :confirm => 'You will make the voucher available again. Payment will be made after redemption. Are you sure?'

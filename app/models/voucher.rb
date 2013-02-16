@@ -14,6 +14,7 @@
 #  updated_at      :datetime        not null
 #  slug            :string(255)
 #  payment_id      :integer
+#  delay_hours     :integer
 #
 
 # CHARTER
@@ -46,7 +47,7 @@ class Voucher < ActiveRecord::Base
   before_validation :create_uuid
   
   # For security, don't put payment_id in accessible fields
-  attr_accessible :valid_date, :expiration_date, :notes, :redemption_date, :status, :uuid,
+  attr_accessible :valid_date, :expiration_date, :notes, :redemption_date, :status, :uuid, :delay_hours,
                   :order_id
   
   # foreign keys
@@ -68,6 +69,7 @@ class Voucher < ActiveRecord::Base
   validates :uuid, :presence => true,
                    :uniqueness => true,
                    :length => { is: UUID_LEN }
+  validates :delay_hours, :numericality => { only_integer: true, greater_than_or_equal_to: 0 }, :allow_nil => true
   
   # Make sure time periods are consistent
   validate :time_periods
@@ -97,7 +99,19 @@ class Voucher < ActiveRecord::Base
   # Intent is to use these switches to display buttons (or not)
   # Vendor can choose if expired (but currently not before the valid date)
   def redeemable?
-    [AVAILABLE, EXPIRED].include?(status) and started?
+    [AVAILABLE, EXPIRED].include?(status) and started? and delay_passed?
+  end
+  
+  def earliest_redemption_time
+    if self.delay_hours.nil? or 0 == self.delay_hours
+      self.created_at
+    else
+      self.created_at + self.delay_hours.hours
+    end    
+  end
+  
+  def delay_passed?
+    Time.now > earliest_redemption_time
   end
   
   # Cannot unredeem a product (e.g., gift certificate) - these vouchers are created already redeemed

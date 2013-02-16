@@ -272,6 +272,16 @@ FactoryGirl.define do
         FactoryGirl.create_list(:voucher, evaluator.num_vouchers, :order => order, :user => order.user, :promotion => order.promotion)
       end
     end    
+    
+    factory :order_with_delayed_vouchers do
+      ignore do
+        num_vouchers 3
+      end
+      
+      after(:create) do |order, evaluator|
+        FactoryGirl.create_list(:voucher, evaluator.num_vouchers, :order => order, :user => order.user, :promotion => order.promotion, :delay_hours => 6)
+      end
+    end    
   end
   
   factory :payment do
@@ -341,6 +351,20 @@ FactoryGirl.define do
     factory :approved_promotion do
       status Promotion::MACHOVY_APPROVED
       quantity 100
+      
+      factory :approved_promotion_with_delay do
+        strategy { FactoryGirl.create(:strategy, :delay_hours => 6) }     
+        
+        factory :promotion_with_delay_and_vouchers do   
+          ignore do
+            num_orders 5
+          end
+          
+          after(:create) do |promotion, evaluator|
+            FactoryGirl.create_list(:order_with_delayed_vouchers, evaluator.num_orders, :amount => promotion.price, :promotion => promotion)
+          end
+        end
+      end
     end
     
     factory :product_promotion do
@@ -682,6 +706,10 @@ FactoryGirl.define do
   factory :fixed_expiration_strategy do
     end_date 1.month.from_now
     
+    factory :fixed_expiration_strategy_with_delay do
+      delay_hours 6
+    end
+    
     after(:create) do |strategy|
       FactoryGirl.create(:promotion, :strategy => strategy)
     end
@@ -689,6 +717,10 @@ FactoryGirl.define do
   
   factory :relative_expiration_strategy do
     period_days 30
+    
+    factory :relative_expiration_strategy_with_delay do
+      delay_hours 6
+    end
     
     after(:create) do |strategy|
       FactoryGirl.create(:promotion, :strategy => strategy)

@@ -67,6 +67,7 @@ class Promotion < ActiveRecord::Base
   MIN_DESCRIPTION_LEN = 95
   DEFAULT_QUANTITY = 200
   DEFAULT_STRATEGY = PromotionStrategyFactory::RELATIVE_STRATEGY
+  DEFAULT_DELAY = 0
   # Special value of max_per_customer that means unlimited. Note constraint in numericality validation; you can't change this value arbitrarily!
   UNLIMITED = 0
   # Amount of time to display sold old deal after it expires or sells out
