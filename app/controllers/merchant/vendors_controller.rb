@@ -54,12 +54,26 @@ class Merchant::VendorsController < Merchant::BaseController
       detail[:is_product] = promotion.product_order?
       promotion.vouchers.each do |voucher|
         if voucher.status == Voucher::RETURNED
-          detail[:returned] += 1
+          detail[:returned] += voucher.order.quantity
         elsif voucher.status == Voucher::REDEEMED
-          detail[:redeemed] += 1
+          detail[:redeemed] += voucher.order.quantity
           detail[:total] += voucher.order.total_cost
           detail[:merchant_share] += voucher.order.merchant_share
         end
+      end
+    end
+    
+    @recent_vouchers = []
+    @vendor.vouchers.where('redemption_date > ?', Vendor::RECENT_DAYS.days.ago).order('redemption_date desc').each do |voucher|
+      if Voucher::REDEEMED == voucher.status
+        @recent_vouchers.push(voucher)
+      end
+    end
+    
+    @available_vouchers = []
+    @vendor.vouchers.order('created_at desc').each do |voucher|
+      if Voucher::AVAILABLE == voucher.status
+        @available_vouchers.push(voucher)
       end
     end
     

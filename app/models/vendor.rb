@@ -39,6 +39,8 @@ class Vendor < ActiveRecord::Base
   
   include ApplicationHelper
   
+  RECENT_DAYS = 3
+  
   attr_accessible :address_1, :address_2, :city, :facebook, :name, :phone, :state, :url, :zip, :latitude, :longitude, :private_address, :source,
                   :user_id
                   
@@ -48,6 +50,7 @@ class Vendor < ActiveRecord::Base
   has_many :metros, :through => :promotions, :uniq => true
   has_many :orders, :through => :promotions
   has_many :payments, :dependent => :restrict
+  has_many :vouchers, :through => :promotions
   
   validates_presence_of :name
   validates_presence_of :address_1
