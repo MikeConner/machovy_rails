@@ -112,6 +112,7 @@ MachovyRails::Application.routes.draw do
   match "/default_gravatar" => "static_pages#default_gravatar"
   match "/activity_report" => "static_pages#activity_report"
   match "/feedback_report" => "static_pages#feedback_report"
+  match "/order_report" => "static_pages#order_report"
   
   # MailChimp integration test
   match "/mailing" => "static_pages#mailing"

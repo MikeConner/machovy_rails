@@ -1,9 +1,9 @@
 class StaticPagesController < ApplicationController
   include ApplicationHelper
   
-  before_filter :authenticate_user!, :only => [:admin_index, :merchant_contract, :mailing, :feedback_report, :activity_report]
+  before_filter :authenticate_user!, :only => [:admin_index, :merchant_contract, :mailing, :feedback_report, :activity_report, :order_report]
   before_filter :ensure_merchant, :only => [:merchant_contract]
-  before_filter :ensure_admin, :only => [:mailing, :feedback_report, :activity_report]
+  before_filter :ensure_admin, :only => [:mailing, :feedback_report, :activity_report, :order_report]
   
   def about
   end
@@ -144,6 +144,8 @@ class StaticPagesController < ApplicationController
     clicks.sort.each do |name, data|
       @top_clicks[name] = data.sort {|a,b| b[1] <=> a[1]}[0, n] 
     end
+    
+    render :layout => 'layouts/admin'
   end
   
   def feedback_report
@@ -173,6 +175,12 @@ class StaticPagesController < ApplicationController
       @promotion_data[title][:rec] = (@promotion_data[title][:rec].to_f / @promotion_data[title][:cnt].to_f * 100.0).round(1)
       @promotion_data[title][:stars] = (@promotion_data[title][:stars].to_f / @promotion_data[title][:cnt].to_f).round(1)
     end
+    
+    render :layout => 'layouts/admin'
+  end
+  
+  def order_report
+    @orders = Order.where('created_at > ?', 3.days.ago).order('created_at desc')
     
     render :layout => 'layouts/admin'
   end
