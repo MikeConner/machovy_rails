@@ -47,8 +47,13 @@ FactoryGirl.define do
     user
     
     activity_id { Random.rand(100) + 1 }
+    # Do not include Curator, or you'll break the display_name test
     activity_name { ['BlogPost', 'Order', 'Promotion', 'Video', 'Voucher'].sample }
     description { generate(:random_phrase) }
+    
+    factory :curator_activity do
+      activity_name 'Curator'
+    end
   end
   
   factory :blog_post do

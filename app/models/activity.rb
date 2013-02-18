@@ -13,6 +13,8 @@
 
 class Activity < ActiveRecord::Base
   MAX_NAME = 32
+  # What we're watching for the reports; translate these into titles in activity_title
+  MONITORED_ACTIVITIES = ['BlogPost', 'Curator', 'Promotion']
   
   attr_accessible :activity_id, :activity_name, :description,
                   :user_id
@@ -44,5 +46,30 @@ class Activity < ActiveRecord::Base
   #   time spent/degree of interest in the post.             
   def duration
     self.updated_at - self.created_at
+  end
+  
+  # Curator -> Mentor
+  def display_name
+    'Curator' == self.activity_name ? 'Mentor' : self.activity_name
+  end
+  
+  def activity_title
+    if MONITORED_ACTIVITIES.include?(self.activity_name)
+      case self.activity_name
+      when 'BlogPost'
+        BlogPost.find(self.activity_id).title
+      when 'Curator'
+        Curator.find(self.activity_id).name
+      when 'Promotion'
+        Promotion.find(self.activity_id).title
+      else
+        nil
+      end
+    else
+      nil  
+    end
+    
+    rescue
+      'Not found'
   end
 end

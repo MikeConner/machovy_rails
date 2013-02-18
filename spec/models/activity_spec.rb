@@ -24,10 +24,63 @@ describe "Activity" do
     activity.should respond_to(:description)
     activity.should respond_to(:init_activity)
     activity.should respond_to(:duration)
+    activity.should respond_to(:display_name)
+    activity.should respond_to(:activity_title)
     activity.user.should == user
   end
   
   it { should be_valid }
+  
+  # This relies on the factory *never* generating a Curator activity (it's not in the sample list)
+  it "should have a matching display name" do
+    activity.display_name.should be == activity.activity_name
+  end
+  
+  describe "display name" do
+    let(:activity) { FactoryGirl.create(:curator_activity, :user => user) }
+    
+    it "should say mentor" do
+      activity.display_name.should be == 'Mentor'
+    end
+  end
+  
+  describe "activity title" do
+    describe "should recognize blog posts" do
+      before do
+        @post = FactoryGirl.create(:blog_post)
+        activity.init_activity(@post)
+      end
+      
+      it "should have the title" do
+        activity.activity_title.should be == @post.title
+        activity.display_name.should be == @post.class.name
+      end
+    end
+
+    describe "should recognize curators" do
+      before do
+        @curator = FactoryGirl.create(:curator)
+        activity.init_activity(@curator)
+      end
+      
+      it "should have the title" do
+        activity.activity_title.should be == @curator.name
+        activity.display_name.should be == 'Mentor'
+      end
+    end
+    
+    describe "should recognize promotions" do
+      before do
+        @promotion = FactoryGirl.create(:promotion)
+        activity.init_activity(@promotion)
+      end
+      
+      it "should have the title" do
+        activity.activity_title.should be == @promotion.title
+        activity.display_name.should be == @promotion.class.name
+      end
+    end
+  end
   
   describe "No user" do
     before { activity.user_id = nil }

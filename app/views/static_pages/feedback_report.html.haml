@@ -1,0 +1,20 @@
+%h1 Feedback Summary
+%table.table.zebra-striped
+  %tr
+    %th Promotion
+    %th # Reports
+    %th Avg Rating
+    %th % Recommend
+  - @promotion_data.each do |title, data|
+    %tr
+      %td= title
+      %td= data[:cnt]
+      %td= data[:stars]
+      %td= data[:rec]
+%br/
+%h2 Comments
+- @promotion_data.each do |title, data|
+  - if !data[:comments].empty?
+    %h4= title
+    - data[:comments].each do |c|
+      %em= c

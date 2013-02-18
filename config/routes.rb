@@ -110,7 +110,9 @@ MachovyRails::Application.routes.draw do
   match "/merchant_contract" => "static_pages#merchant_contract"
   match "/merchant_contract_html" => "static_pages#merchant_contract_html"
   match "/default_gravatar" => "static_pages#default_gravatar"
-
+  match "/activity_report" => "static_pages#activity_report"
+  match "/feedback_report" => "static_pages#feedback_report"
+  
   # MailChimp integration test
   match "/mailing" => "static_pages#mailing"
  

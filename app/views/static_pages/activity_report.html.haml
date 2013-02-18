@@ -1,0 +1,42 @@
+%h1 Activity Summary
+%h3 Top Sellers
+%table.table.zebra-striped
+  %tr
+    %th Promotion
+    %th Gross Revenue
+  - @ranked_sales.each do |title, revenue|
+    %tr
+      %td= title
+      %td= number_to_currency(revenue)
+%h3 Top Buyers
+%table.table.zebra-striped
+  %tr
+    %th Promotion
+    %th Gross Revenue
+  - @ranked_buyers.each do |email, revenue|
+    %tr
+      %td= email
+      %td= number_to_currency(revenue)
+%h3 Most Active Users
+%table.table.zebra-striped
+  %tr
+    %th User
+    - @columns.each do |c|
+      %th= c
+  - @user_activity.each do |email, data|
+    %tr
+      %td= email
+      - @columns.each do |c|
+        %th= data[c].nil? ? 0 : data[c]
+%h3 Most Clicks
+- @top_clicks.each do |category, data|
+  %h4= category
+  %table.table.zebra-striped
+    %tr
+      %th Name
+      %th Clicks
+    - data.each do |name, clicks|
+      %tr
+        %td= name
+        %td= clicks
+
