@@ -1,4 +1,5 @@
 .skinnybox.tallbox.isotope-item.item.box
+  - promotion = Promotion.find(content)
   - if promotion.zombie?
     .zombie_image
       %img(src="/assets/sold_out.png")

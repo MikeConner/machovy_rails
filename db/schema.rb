@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130203223515) do
+ActiveRecord::Schema.define(:version => 20130220050010) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -128,9 +128,10 @@ ActiveRecord::Schema.define(:version => 20130203223515) do
   add_index "feedbacks", ["user_id", "order_id"], :name => "index_feedbacks_on_user_id_and_order_id", :unique => true
 
   create_table "fixed_expiration_strategies", :force => true do |t|
-    t.datetime "end_date",   :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "end_date",                   :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+    t.integer  "delay_hours", :default => 0, :null => false
   end
 
   create_table "friendly_id_slugs", :force => true do |t|
@@ -280,6 +281,12 @@ ActiveRecord::Schema.define(:version => 20130203223515) do
     t.integer  "min_per_customer",                   :default => 1,          :null => false
     t.integer  "max_per_customer",                   :default => 0,          :null => false
     t.boolean  "suspended",                          :default => false,      :null => false
+    t.string   "venue_address",        :limit => 50
+    t.string   "venue_city",           :limit => 50
+    t.string   "venue_state",          :limit => 2
+    t.string   "venue_zipcode",        :limit => 10
+    t.decimal  "latitude"
+    t.decimal  "longitude"
   end
 
   add_index "promotions", ["slug"], :name => "index_promotions_on_slug"
@@ -309,9 +316,10 @@ ActiveRecord::Schema.define(:version => 20130203223515) do
   add_index "ratings", ["idea_id", "user_id"], :name => "index_ratings_on_idea_id_and_user_id", :unique => true
 
   create_table "relative_expiration_strategies", :force => true do |t|
-    t.integer  "period_days", :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "period_days",                :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+    t.integer  "delay_hours", :default => 0, :null => false
   end
 
   create_table "roles", :force => true do |t|
@@ -328,6 +336,16 @@ ActiveRecord::Schema.define(:version => 20130203223515) do
   end
 
   add_index "roles_users", ["role_id", "user_id"], :name => "index_roles_users_on_role_id_and_user_id", :unique => true
+
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.text     "data"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "users", :force => true do |t|
     t.string   "email",                                :default => "",    :null => false
@@ -380,6 +398,7 @@ ActiveRecord::Schema.define(:version => 20130203223515) do
     t.decimal  "longitude"
     t.string   "slug"
     t.boolean  "private_address", :default => false
+    t.string   "source"
   end
 
   create_table "videos", :force => true do |t|
@@ -405,6 +424,7 @@ ActiveRecord::Schema.define(:version => 20130203223515) do
     t.datetime "updated_at",                                             :null => false
     t.string   "slug"
     t.integer  "payment_id"
+    t.integer  "delay_hours"
   end
 
   add_index "vouchers", ["slug"], :name => "index_vouchers_on_slug"
