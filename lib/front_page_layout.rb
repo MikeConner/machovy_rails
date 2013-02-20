@@ -9,7 +9,7 @@
 #   Since the layout is pushed in after_transition, need an initial "start" state so that we get the first one
 #
 class FrontPageLayout
-  attr_accessor :layout, :state
+  attr_accessor :layout, :state, :dice
   
   BIG_DEAL_PARTIAL = 'front_grid/biglocal'
   SMALL_DEAL_PARTIAL = 'front_grid/littlelocal'
@@ -17,9 +17,7 @@ class FrontPageLayout
   NON_DEAL_PARTIAL = 'front_grid/littleblocks'
   
   state_machine :state, :initial => :start do
-    before_transition do
-      @dice = Random.rand(100) + 1
-    end
+    before_transition any => any, :do => :roll_dice
     
     after_transition any => any do |layout, transition|
       layout.display
@@ -71,8 +69,8 @@ class FrontPageLayout
     # We're looping through deals externally, so there are always deals available; we *could* run out of blog posts or non_deals, though
     event :next do
       transition :start => :big_deal
-      transition :big_deal => :small_deal, :if => lambda { @dice <= 40 } # 40%
-      transition :big_deal => :blog_post, :if => lambda { @dice <= 80 } # 40%
+      transition :big_deal => :small_deal, :if => lambda { |layout| layout.dice <= 40 } # 40%
+      transition :big_deal => :blog_post, :if => lambda { |layout| layout.dice <= 80 } # 40%
       transition :big_deal => :non_deal, :if => :deals_available?
       # Fall through and terminate if we're in big_deal state and there are no more deals
       # So, must guarantee we can always get to big_deal, so that it will always terminate
@@ -80,17 +78,17 @@ class FrontPageLayout
       #   so as long as every state has a way to get to blog_post, it will terminate
       transition :big_deal => :finished
       
-      transition :small_deal => :big_deal, :if => lambda { @dice <= 25 } # 25%
-      transition :small_deal => same, :if => lambda { @dice <= 50 } # 25%
-      transition :small_deal => :blog_post, :if => lambda { @dice <= 75 } # 25%
+      transition :small_deal => :big_deal, :if => lambda { |layout| layout.dice <= 25 } # 25%
+      transition :small_deal => same, :if => lambda { |layout| layout.dice <= 50 } # 25%
+      transition :small_deal => :blog_post, :if => lambda { |layout| layout.dice <= 75 } # 25%
       transition :small_deal => :non_deal
       
-      transition :blog_post => :small_deal, :if => lambda { @dice <= 40 } # 40%
-      transition :blog_post => :non_deal, :if => lambda { @dice <= 80 } # 40%
+      transition :blog_post => :small_deal, :if => lambda { |layout| layout.dice <= 40 } # 40%
+      transition :blog_post => :non_deal, :if => lambda { |layout| layout.dice <= 80 } # 40%
       transition :blog_post => :big_deal
       
-      transition :non_deal => :big_deal, :if => lambda { @dice <= 40 } # 40%
-      transition :non_deal => :small_deal, :if => lambda { @dice <= 80 } # 40%
+      transition :non_deal => :big_deal, :if => lambda { |layout| layout.dice <= 40 } # 40%
+      transition :non_deal => :small_deal, :if => lambda { |layout| layout.dice <= 80 } # 40%
       transition :non_deal => :blog_post
     end   
   end
@@ -107,6 +105,7 @@ class FrontPageLayout
     @non_deal_idx = 0
     @blog_post_idx = 0
     @layout = []
+    @dice = 0
     super()
   end
   
@@ -121,5 +120,10 @@ class FrontPageLayout
   # Blocks of two, so we need to have two available
   def non_deals_available?
     @non_deal_idx < @non_deals.length - 1
+  end
+
+private
+  def roll_dice
+    @dice = Random.rand(100) + 1
   end
 end
