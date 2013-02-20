@@ -84,6 +84,7 @@ class Merchant::VendorsController < Merchant::BaseController
 
   # GET /vendors
   def index
+    @vendors = Vendor.find(:all, :order => "LOWER(name)")
     render :layout => 'layouts/admin'
   end
 

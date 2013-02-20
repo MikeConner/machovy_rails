@@ -8,6 +8,7 @@
           .span12
             %table
               %tr
+                %th ID
                 %th Name
                 %th User
                 %th Source
@@ -24,7 +25,8 @@
                 %th
               - @vendors.each do |vendor|
                 %tr
-                  %td= link_to vendor.name, merchant_vendor_path(vendor)
+                  %td= vendor.id
+                  %td= link_to vendor.name, edit_merchant_vendor_path(vendor)
                   %td= vendor.user.nil? ? 'None' : vendor.user.email
                   %td= vendor.source
                   %td= vendor.promotions.count
