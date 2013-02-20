@@ -1,9 +1,8 @@
-class FrontGridController < ApplicationController
-  MAX_DEALS = 8
-  MAX_BLOGS = 4
-  MAX_ADS = 4
-  MAX_PARTNER_VIEW_DEALS = 16
+require 'front_page_layout'
 
+class FrontGridController < ApplicationController
+  MAX_PARTNER_VIEW_DEALS = 16
+  
   def index
     # Need to have a metro, or filtering will return nothing
     if session[:metro].nil?
@@ -13,83 +12,53 @@ class FrontGridController < ApplicationController
     @active_category = session[:category]
     @active_metro = session[:metro]
     
-    @deals_per_row = Promotion::DEALS_PER_ROW
     @categories = Category.roots
 
-    if session[:deals] == 'true'
-      @promotions = filter_deals(@active_category, @active_metro)
-    else  
-      @promotions = filter_promotions(@active_category, @active_metro)
-      @ads = filter_ads(@active_category, @active_metro)
-      metro_id = Metro.find_by_name(@active_metro).id
-      # Will get highest-scoring blog posts that either have no assigned promotions (and therefore no metro)
-      #   Or if they do have promotions, make sure they're associated with promotions in this metro area
-      @blog_posts = BlogPost.select { |p| p.displayable? and (p.metros.empty? or p.metro_ids.include?(metro_id)) }.sort
-      if @blog_posts.length > MAX_BLOGS
-        @blog_posts = @blog_posts[0, MAX_BLOGS]
-      end
-     end    
-  end
+    metro_id = Metro.find_by_name(@active_metro).id
 
-  def midnightguru
+    # If they request the home page (no page argument), generate a random layout and store it in the session.
+    # Pagination can then move forwards and backwards through it. If you didn't store it, it would generate a new random layout each time --
+    #   probably with a different number of pages, so the pagination wouldn't work. Reloading by hitting the logo again loads a new layout.
+    if params[:page].nil? or session[:layout].nil?
+      layout_state = FrontPageLayout.new(filter(Promotion.deals, @active_category, @active_metro), 
+                                         filter(Promotion.nondeals, @active_category, @active_metro), 
+                                         BlogPost.select { |p| p.displayable? and (p.metros.empty? or p.metro_ids.include?(metro_id)) }.sort)
+      # Generate the layout
+      until layout_state.done? do
+        layout_state.next
+      end
+      
+      session[:layout] = layout_state.layout
+    end
     
+    @layout = session[:layout].paginate(:page => params[:page])
+  end    
+  
+  def midnightguru    
     @deals_per_row = Promotion::DEALS_PER_ROW
     non_exclusive = Category.non_exclusive.map { |c| c.id }
     @promotions = Promotion.front_page.select { |p| (p.displayable? or p.zombie?) and (p.metro.name == 'Pittsburgh') and !(p.category_ids & non_exclusive).empty? }.sort
     if @promotions.length > MAX_PARTNER_VIEW_DEALS
       @promotions = @promotions[0, MAX_PARTNER_VIEW_DEALS]
     end
-
-    render :layout => 'layouts/affiliate'
-
-  end
     
+    render :layout => 'layouts/affiliate'
+  end
+  
 private
-  def filter_promotions(category, metro)   
+  def filter(promotions, category, metro)   
     selected_category = find_selection(category)
     # nil here means no category is defined, or it's "All Items"
     # All means all non_exclusive, so get the list of non-exclusive ids
     # If it's defined, use the empty set so that the non_exclusive array intersection test always fails, so that it's only triggered by the direct comparison
     if selected_category.nil?
       non_exclusive = Category.non_exclusive.map { |c| c.id }
-      @promotions = Promotion.front_page.select { |p| (p.displayable? or p.zombie?) and (p.metro.name == metro) and !(p.category_ids & non_exclusive).empty? }.sort
+      @promotions = promotions.select { |p| (p.displayable? or p.zombie?) and (p.metro.name == metro) and !(p.category_ids & non_exclusive).empty? }.sort
     else
-      @promotions = Promotion.front_page.select { |p| (p.displayable? or p.zombie?) and (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
+      @promotions = promotions.select { |p| (p.displayable? or p.zombie?) and (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
     end
-    
-    if @promotions.length > MAX_DEALS
-      @promotions = @promotions[0, MAX_DEALS]
-    end      
     
     @promotions
-  end
-  
-  def filter_deals(category, metro)   
-    selected_category = find_selection(category)
-    
-    if selected_category.nil?
-      non_exclusive = Category.non_exclusive.map { |c| c.id }
-      Promotion.front_page.select { |p| (p.displayable? or p.zombie?) and (p.metro.name == metro) and !(p.category_ids & non_exclusive).empty? }.sort
-    else
-      Promotion.front_page.select { |p| (p.displayable? or p.zombie?) and (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
-    end
-  end
-  
-  def filter_ads(category, metro)
-    selected_category = find_selection(category)
-    
-    if selected_category.nil?
-      non_exclusive = Category.non_exclusive.map { |c| c.id }
-      @ads = Promotion.ads.select { |p| p.displayable? and (p.metro.name == metro) and !(p.category_ids & non_exclusive).empty? }.sort
-    else
-      @ads = Promotion.ads.select { |p| p.displayable? and (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
-    end
-    
-    if @ads.length > MAX_ADS
-      @ads = @ads[0, MAX_ADS]
-    end      
-    
-    @ads
   end
 
   def find_selection(category)

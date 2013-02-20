@@ -23,4 +23,7 @@
 //= require app.js
 //= require jquery.foundation.topbar
 //= require jquery.foundation.navigation.js
+//= require jquery-1.9.1.min
+//= require modernizr.custom
+//= require prefixfree.min
 //= require_tree .
