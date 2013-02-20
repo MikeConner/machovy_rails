@@ -22,13 +22,16 @@ end
 gem 'haml', '3.1.7'
 
 gem 'jquery-rails', '2.1.2'
-#for heroku-> have to use thin
-gem 'thin', '1.4.1'
 
 group :development, :test do
   gem 'rspec-rails', '2.12.2'
   gem 'faker', '1.0.1'
   gem 'spork', '0.9.2'
+  gem 'thin', '1.4.1'
+end
+
+group :production do
+  gem 'unicorn', '4.6.2'
 end
 
 group :development do
@@ -81,6 +84,9 @@ gem 'gibbon', '0.3.5'
 
 gem 'delayed_job_active_record', '0.3.3'
 gem 'newrelic_rpm', '3.5.7.59'
+gem "state_machine", "~> 1.1.2"
+# Not available in Mountain Lion
+#gem 'ruby-graphviz', :require => 'graphviz' # Optional: only required for graphing
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'

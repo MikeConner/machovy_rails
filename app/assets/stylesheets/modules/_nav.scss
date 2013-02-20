@@ -1,0 +1,168 @@
+#menu {
+  img {height: 25px; margin-top:-2px;}
+	width: 100%;
+	border-top: 5px solid black;
+  border-bottom:1px solid #555555;
+	background: #333437; /* Old browsers */
+  // needs latest Compass, add '@import "compass"' to your scss 222325
+  background-color: #393a3d; // Old browsers
+  @include filter-gradient(#393a3d, #393a3d, vertical); // IE6-8
+  // IE9 SVG, needs conditional override of 'filter' to 'none'
+  $experimental-support-for-svg: true;
+  @include background-image(linear-gradient(top,  #393a3d 0%,#222325 100%));
+	box-shadow: 0 2px 0px black;
+  position:relative;
+  z-index: 40;
+  zoom:1;
+    &:before, &:after {
+      content: "";
+      display: table;
+    }
+    &:after {
+      clear: both;
+    }
+    > li > a { 
+      padding: 16px 34px 8px !important; 
+      height:25px;
+                border-left:1px solid #1d1e1f;
+
+        &:hover {
+          background: #333437; /* Old browsers */
+          // needs latest Compass, add '@import "compass"' to your scss
+          background-color: #47484c; // Old browsers
+          @include filter-gradient(#47484c, #222325, vertical); // IE6-8
+          // IE9 SVG, needs conditional override of 'filter' to 'none'
+          $experimental-support-for-svg: true;
+          @include background-image(linear-gradient(top,  #47484c 0%,#222325 100%));
+          box-shadow: 1px 0 0 #464749;
+          border-left:1px solid #1d1e1f;
+        }
+    }
+    li {
+      float: left;
+      border-right: 1px solid #464749;
+      box-shadow: 1px 0 0 #1d1e1f;
+      position: relative;
+        &:hover {
+          > a {color: #fafafa;}
+          > ul {opacity: 1; visibility: visible; margin: 0; border:1px solid #999}
+        } 
+    }
+
+    a {
+      float: left;
+      padding: 12px 30px;
+      color: #999;
+      font: bold 12px "HelveticaNeue", sans-serif;
+      text-decoration: none;
+      text-shadow: 0 1px 0 #000;
+      font-size: 1em;
+      [class^="icon-"],
+      [class*=" icon-"] {
+        margin-right:5px;
+      }
+    }
+
+    ul {
+      margin: 20px 0 0 0;
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      top: 45px;
+      left: 0;
+      z-index: 1;    
+      background:rgba(0,0,0,.9); 
+      border-radius: 3px;
+      transition: all .3s ease-in-out;
+      -webkit-transition:all .3s ease-in-out;
+        li {
+          float: none;
+          display: block;
+          border: 0;
+          box-shadow: 0 1px 0 #111, 0 2px 0 #666;
+            &:last-child {   
+              box-shadow: none;    
+            }
+            li:last-child > a {
+              border-radius: 0 0 3px 3px;
+            }
+            &:first-child > a {
+              border-radius: 3px 3px 0 0;
+                &:after {
+                  content: '';
+                  position: absolute;
+                  left: 40px;
+                  top: -6px;
+                  border-left: 6px solid transparent;
+                  border-right: 6px solid transparent;
+                  border-bottom: 6px solid $medium_gray;
+                }
+            }
+            &:first-child a:hover:after {
+              border-bottom-color:$medium_gray; 
+            }
+        } 
+
+        a {    
+          padding: 10px;
+          width: 130px;
+          display: block;
+          white-space: nowrap;
+          float: none;
+          text-transform: none;
+            &:hover {
+              background-color: $red;
+              /*color:darken($red, 30%);*/
+              color:white;
+              text-shadow: 0 0px 0 #000;
+            }
+        }
+
+        ul {
+          top: 0;
+          left: 150px;
+          margin: 0 0 0 20px;
+          box-shadow: -1px 0 0 rgba(255,255,255,.3); 
+            li:first-child {
+              a {
+                &:after {
+                  left: -6px;
+                  top: 50%;
+                  margin-top: -6px;
+                  border-left: 0; 
+                  border-bottom: 6px solid transparent;
+                  border-top: 6px solid transparent;
+                  border-right: 6px solid #3b3b3b;
+                }
+                &:hover {
+                  &:after { border-right-color: $red; border-bottom-color: transparent;}
+                }
+              }
+            }  
+        }
+    }
+}	
+
+
+
+#catagories {
+  border-top:#111112;
+  border-bottom:2px solid #ccc;
+  height:35px;
+  background-color:white;
+  width:100%;
+  zoom:1;
+  > li {
+      &:first-child {padding-left:30px;}
+  }
+    a {
+      float: left;
+      padding: 7px 12px;
+      color:#333333;
+      font-family:"HelveticaNeue", sans-serif;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 0.9em;
+    }
+} 
+
