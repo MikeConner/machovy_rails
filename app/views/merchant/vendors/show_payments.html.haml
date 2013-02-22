@@ -6,6 +6,7 @@
   %tr
     %th Promotion
     %th # Sold
+    %th # Expired
     %th # Returned
     %th # Redeemed
     %th Total $
@@ -16,6 +17,7 @@
     %tr
       %td= promotion_data[:title]
       %td= promotion_data[:sold]
+      %td= promotion_data[:expired]
       %td= promotion_data[:returned]
       %td= promotion_data[:redeemed]
       %td= number_to_currency(promotion_data[:total])
