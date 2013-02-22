@@ -39,7 +39,7 @@
       %th Notes
     - @available_vouchers.each do |voucher|
       %tr
-        %td= I18n.l voucher.created_at, :format => :long
+        %td= voucher.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)
         %td= link_to voucher.order.promotion.title, promotion_path(voucher.order.promotion)
         %td= number_to_currency(voucher.order.total_cost)
         %td= voucher.uuid
@@ -56,7 +56,7 @@
       %th Customer
     - @recent_vouchers.each do |voucher|
       %tr
-        %td= I18n.l voucher.redemption_date, :format => :long
+        %td= voucher.redemption_date.try(:strftime, ApplicationHelper::DATETIME_FORMAT)
         %td= link_to voucher.order.promotion.title, promotion_path(voucher.order.promotion)
         %td= number_to_currency(voucher.order.total_cost)
         %td= voucher.uuid
@@ -73,7 +73,7 @@
     - @vendor.payments.each do |payment|
       %tr
         %th= payment.check_number
-        %th= payment.check_date.try(:strftime, '%b %m, %Y')
+        %th= payment.check_date.try(:strftime, ApplicationHelper::DATE_FORMAT)
         %th= number_to_currency(payment.amount)
 %p== Total Paid #{number_to_currency(@vendor.total_paid)}
 %p== Amount Owed #{number_to_currency(@vendor.amount_owed)}

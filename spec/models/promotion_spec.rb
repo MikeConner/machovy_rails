@@ -894,7 +894,7 @@ describe "Promotions" do
     end
     
     it "should not meet display threshold" do
-      promotion.quantity_description.should be == I18n.t('plenty', :date => promotion.end_date.try(:strftime, '%b %d, %Y'))
+      promotion.quantity_description.should be == I18n.t('plenty', :date => promotion.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT))
       promotion.under_quantity_threshold?.should be_false
     end
     

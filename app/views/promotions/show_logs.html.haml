@@ -1,11 +1,11 @@
 %h1== Comments on #{@promotion.title}
 %br/
-%ul== Proposed #{@promotion.created_at.try(:strftime, '%b %d, %Y')}
+%ul== Proposed #{@promotion.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)}
 %br/
 - @logs.each do |log|
   %li
     %em= log.status 
-    = log.created_at.try(:strftime, '%b %d, %Y')
+    = log.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)
     &nbsp;&nbsp;
     %br/
     = log.comment

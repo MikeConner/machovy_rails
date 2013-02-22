@@ -82,8 +82,8 @@ describe "ProductStrategy" do
       order.vouchers.first.should be == @voucher
       @voucher.notes.should match(order.fine_print)
       @voucher.notes.should match(order.shipping_address)
-      @voucher.valid_date.should be == DateTime.now.beginning_of_day
-      @voucher.redemption_date.should be == DateTime.now.beginning_of_day
+      @voucher.valid_date.should be == Time.zone.now.beginning_of_day
+      @voucher.redemption_date.should be == Time.zone.now.beginning_of_day
       @voucher.status.should be == Voucher::REDEEMED
       @voucher.expiration_date.should be == 1.year.from_now.beginning_of_day
       @voucher.order.should be == order

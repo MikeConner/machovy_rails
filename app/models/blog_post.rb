@@ -77,7 +77,7 @@ class BlogPost < ActiveRecord::Base
   end
 
   def displayable?
-    self.activation_date.nil? or Time.now >= self.activation_date
+    self.activation_date.nil? or Time.zone.now >= self.activation_date
   end
 
   # Intelligently truncate the HTML body text
@@ -95,6 +95,6 @@ class BlogPost < ActiveRecord::Base
 private
   def init_weight
     self.weight = DEFAULT_BLOG_WEIGHT if new_record?
-    self.activation_date = Time.now if new_record?
+    self.activation_date = Time.zone.now if new_record?
   end
 end

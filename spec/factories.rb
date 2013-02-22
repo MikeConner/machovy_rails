@@ -294,7 +294,7 @@ FactoryGirl.define do
     
     amount { Random.rand * 100.0 }
     check_number { Random.rand(9000) + 100 }
-    check_date Time.now.beginning_of_day
+    check_date Time.zone.now.beginning_of_day
 
     factory :payment_with_notes do
       notes { generate(:random_paragraphs) }
@@ -310,7 +310,7 @@ FactoryGirl.define do
     title { generate(:random_phrase) }
     grid_weight { Random.rand(100) + 1 }
     destination { generate(:random_url) }
-    start_date Time.now
+    start_date Time.zone.now
     end_date 2.weeks.from_now
     remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
     min_per_customer 1
@@ -326,7 +326,7 @@ FactoryGirl.define do
     title { generate(:random_phrase) }
     grid_weight { Random.rand(100) + 1 }
     destination { generate(:random_url) }
-    start_date Time.now
+    start_date Time.zone.now
     end_date 2.weeks.from_now
     remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
     min_per_customer 1
@@ -346,7 +346,7 @@ FactoryGirl.define do
     revenue_shared { Random.rand }
     quantity { Random.rand(10) + 1 }
     description { generate(:random_sentences) }
-    start_date Time.now.beginning_of_day
+    start_date Time.zone.now.beginning_of_day
     end_date 2.weeks.from_now.beginning_of_day
     remote_teaser_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
     min_per_customer 1

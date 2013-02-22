@@ -95,7 +95,7 @@ describe "RelativeExpirationStrategy" do
       order.vouchers.count.should be == 1
       order.vouchers.first.should be == @voucher
       @voucher.notes.should be == order.fine_print
-      @voucher.valid_date.should be == DateTime.now.beginning_of_day
+      @voucher.valid_date.should be == Time.zone.now.beginning_of_day
       @voucher.status.should be == Voucher::AVAILABLE
       @voucher.expiration_date.should be == strategy.period_days.days.from_now.beginning_of_day
       @voucher.order.should be == order
@@ -119,7 +119,7 @@ describe "RelativeExpirationStrategy" do
       @vouchers.each do |voucher|
         order.vouchers.include?(voucher).should be_true
         voucher.notes.should be == order.fine_print
-        voucher.valid_date.should be == DateTime.now.beginning_of_day
+        voucher.valid_date.should be == Time.zone.now.beginning_of_day
         voucher.status.should be == Voucher::AVAILABLE
         voucher.expiration_date.should be == strategy.period_days.days.from_now.beginning_of_day
         voucher.order.should be == order

@@ -31,7 +31,7 @@ class AbstractWeightData
     
     @data[obj.id] = Hash.new
     # time in days
-    @data[obj.id][RECENCY] = ((Time.now - obj.created_at)/3600/24).round
+    @data[obj.id][RECENCY] = ((Time.zone.now - obj.created_at)/3600/24).round
   end
 
   def save(obj)

@@ -85,11 +85,11 @@ class Voucher < ActiveRecord::Base
   end
   
   def started?
-    Time.now >= self.valid_date
+    Time.zone.now >= self.valid_date
   end
   
   def expired?
-    Time.now > self.expiration_date
+    Time.zone.now > self.expiration_date
   end  
   
   def in_redemption_period?
@@ -111,7 +111,7 @@ class Voucher < ActiveRecord::Base
   end
   
   def delay_passed?
-    Time.now > earliest_redemption_time
+    Time.zone.now > earliest_redemption_time
   end
   
   # Cannot unredeem a product (e.g., gift certificate) - these vouchers are created already redeemed

@@ -1,7 +1,7 @@
 Thank you for your order!
 
 You recently purchased #{number_to_word(@order.quantity)} of these: #{@order.promotion.title} for #{number_to_currency(@order.total_cost)}
-Be sure to use your #{"voucher".pluralize(@order.quantity)} before #{@order.promotion.end_date.try(:strftime, '%b %d, %Y')}. Just show the #{"qrcode".pluralize(@order.quantity)} to #{@order.promotion.vendor.name} to redeem.
+Be sure to use your #{"voucher".pluralize(@order.quantity)} before #{@order.promotion.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT)}. Just show the #{"qrcode".pluralize(@order.quantity)} to #{@order.promotion.vendor.name} to redeem.
 See attachments for your #{"voucher".pluralize(@order.quantity)}. In case your voucher is not attached, you can also click on the links below:
 
 - @order.vouchers.each do |voucher|

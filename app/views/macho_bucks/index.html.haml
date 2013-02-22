@@ -24,7 +24,7 @@
     %tbody
       - @user.macho_bucks.each do |bucks|
         %tr
-          %td= bucks.created_at.try(:strftime, '%b %d, %Y')
+          %td= bucks.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)
           - if bucks.voucher.nil?
             %td
           - else

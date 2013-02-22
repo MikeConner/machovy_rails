@@ -121,6 +121,6 @@ module Utilities
   end
   
   def self.generate_order
-    (Time.now.to_f * 1000).to_i
+    (Time.zone.now.to_f * 1000).to_i
   end
 end

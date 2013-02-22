@@ -20,8 +20,8 @@
     %tr
       %td= link_to promotion_data[:promotion].title, promotion_path(promotion_data[:promotion])
       %td= link_to promotion_data[:promotion].status, show_logs_promotion_path(promotion_data[:promotion])
-      %td= promotion_data[:promotion].updated_at.try(:strftime, '%b %d, %Y')
-      %td= promotion_data[:promotion].end_date.try(:strftime, '%b %d, %Y')
+      %td= promotion_data[:promotion].updated_at.try(:strftime, ApplicationHelper::DATE_FORMAT)
+      %td= promotion_data[:promotion].end_date.try(:strftime, ApplicationHelper::DATE_FORMAT)
       %td= promotion_data[:promotion].orders.count
       -# For consistency, display all statuses (not just those associated with this promotion)
       - Voucher::VOUCHER_STATUS.each do |status|

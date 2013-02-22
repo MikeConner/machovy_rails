@@ -142,7 +142,7 @@ class PromotionsController < ApplicationController
                 
     @order = @promotion.orders.build(:user_id => current_user.id, :email => current_user.email, :fine_print => fine_print,
                                      :quantity => @promotion.min_per_customer, :amount => @promotion.price, 
-                                     :description => "#{@promotion.vendor.name} promo #{@promotion.title} #{Date.today.to_s}")
+                                     :description => "#{@promotion.vendor.name} promo #{@promotion.title} #{Date.today.to_time_in_current_zone.to_s}")
                                      
     # Pass in stripe Customer object if there is one
     #TODO Handle with Vault

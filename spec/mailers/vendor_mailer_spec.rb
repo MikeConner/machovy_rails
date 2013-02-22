@@ -214,7 +214,7 @@ describe "VendorMailer" do
       it "should have the right content" do
         msg.body.encoded.should match("Please be advised that we have sent you a check")
         msg.body.encoded.should match(payment.check_number.to_s)
-        msg.body.encoded.should match(payment.check_date.try(:strftime, '%b %m, %Y'))
+        msg.body.encoded.should match(payment.check_date.try(:strftime, ApplicationHelper::DATE_FORMAT))
         msg.body.encoded.should match(payment.amount.round(2).to_s)
         msg.body.encoded.should match("This is in payment for the following vouchers")
         payment.vouchers.each do |voucher|

@@ -17,5 +17,5 @@
       - if p.end_date.nil?
         %td None
       - else
-        %td= p.end_date.try(:strftime, '%b %d, %Y')
+        %td= p.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT)
       %td= p.destination  

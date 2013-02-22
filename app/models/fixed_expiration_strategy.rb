@@ -34,7 +34,7 @@ class FixedExpirationStrategy < ActiveRecord::Base
   
   # Description that appears in the vendor email
   def description
-    "Vouchers expire on a fixed date: #{self.end_date.try(:strftime, '%b %d, %Y')}."
+    "Vouchers expire on a fixed date: #{self.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT)}."
   end
   
   # params are the arguments into the create method of the controller
@@ -52,7 +52,7 @@ class FixedExpirationStrategy < ActiveRecord::Base
     
     Voucher.transaction do
       order.quantity.times do
-        voucher = order.vouchers.build(:valid_date => DateTime.now.beginning_of_day, 
+        voucher = order.vouchers.build(:valid_date => Time.zone.now.beginning_of_day, 
                                        :expiration_date => self.end_date,
                                        :notes => order.fine_print, :delay_hours => self.delay_hours) 
         if !voucher.save

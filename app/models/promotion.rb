@@ -226,11 +226,11 @@ class Promotion < ActiveRecord::Base
   
   # today is deprecated; need to set end_date such that this works (i.e., isn't confused by partial days)
   def expired?
-    !self.end_date.nil? and Time.now > self.end_date
+    !self.end_date.nil? and Time.zone.now > self.end_date
   end
   
   def started?
-    self.start_date.nil? or Time.now >= self.start_date
+    self.start_date.nil? or Time.zone.now >= self.start_date
   end
   
   def any_left?
@@ -303,9 +303,9 @@ class Promotion < ActiveRecord::Base
   # Apply threshold and create text to display for user
   def quantity_description
     if quantity_value.nil?
-      I18n.t('plenty', :date => self.end_date.try(:strftime, '%b %d, %Y'))
+      I18n.t('plenty', :date => self.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT))
     else
-      under_quantity_threshold? ? I18n.t('only_n_left', :n => self.remaining_quantity) : I18n.t('plenty', :date => self.end_date.try(:strftime, '%b %d, %Y'))
+      under_quantity_threshold? ? I18n.t('only_n_left', :n => self.remaining_quantity) : I18n.t('plenty', :date => self.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT))
     end
   end
   
@@ -386,7 +386,7 @@ private
       # Find out which is *first*, and make sure we're within the threshold of that, preventing it from coming back twice
       # Only have that problem if they're both true
       if exp and sold
-        Time.now - [self.end_date, orders.last.created_at].min <= ZOMBIE_THRESHOLD
+        Time.zone.now - [self.end_date, orders.last.created_at].min <= ZOMBIE_THRESHOLD
       else
         true
       end
@@ -396,7 +396,7 @@ private
   end
   
   def recently_expired?
-    expired? and (Time.now - self.end_date <= ZOMBIE_THRESHOLD)
+    expired? and (Time.zone.now - self.end_date <= ZOMBIE_THRESHOLD)
   end
   
   def recently_sold_out?
@@ -404,7 +404,7 @@ private
       false
     else
       # Should not be zero orders in this case, but don't fail even in pathological case
-      0 == orders.count ? false : Time.now - orders.last.created_at <= ZOMBIE_THRESHOLD
+      0 == orders.count ? false : Time.zone.now - orders.last.created_at <= ZOMBIE_THRESHOLD
     end
   end
   
