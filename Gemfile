@@ -40,10 +40,10 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '1.1.2' # 1.1.4 latest is 2.0.2
-  gem 'capybara-webkit', '0.13.0' # latest is 0.14.1
+  gem 'capybara', '2.0.2'
+  gem 'capybara-webkit', '0.14.1'
   gem 'launchy', '2.1.2'
-  gem 'database_cleaner', '0.9.1' # was 0.8.0
+  gem 'database_cleaner', '0.9.1'
   gem 'factory_girl_rails', '4.1.0'
   gem 'rspec-tag_matchers', '0.1.2'
   gem 'rack-test', '0.6.2'

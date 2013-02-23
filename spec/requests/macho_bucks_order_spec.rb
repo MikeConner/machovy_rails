@@ -23,17 +23,17 @@ describe "Ordering with macho bucks" do
   describe "Balance: 100, cost 10  (should charge 0 -- no credit card, ending balance 90)" do
     before do
       # go to sign in page
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => bucks100.user.email
-      fill_in 'user_password', :with => bucks100.user.password
+      save_page # for timing
+      all('#user_email')[0].set(bucks100.user.email)
+      all('#user_password')[0].set(bucks100.user.password)
       # Authenticate
       click_button I18n.t('sign_in')
       visit order_promotion_path(promotion10)    
     end
     
     # Should be invisible, but there
-    it { should have_content(I18n.t('credit_card_details')) }
     it { should have_content('Balance Due: $0.00')}
     it { should have_content('Credit Used: $10.00')}
     it { should have_content('Credit Balance after purchase: $90.00')}
@@ -77,17 +77,16 @@ describe "Ordering with macho bucks" do
   describe "Balance: 100, cost 100 (should charge 0, ending balance 0)" do
     before do
       # go to sign in page
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => bucks100.user.email
-      fill_in 'user_password', :with => bucks100.user.password
+      save_page # for timing
+      all('#user_email')[0].set(bucks100.user.email)
+      all('#user_password')[0].set(bucks100.user.password)
       # Authenticate
       click_button I18n.t('sign_in')
       visit order_promotion_path(promotion100)    
     end
     
-    # Should be invisible, but there
-    it { should have_content(I18n.t('credit_card_details')) }
     it { should have_xpath('//div[@id="credit_card_section"]', :visible => false) }
     it { should have_content('Balance Due: $0.00')}
     it { should have_content('Credit Used: $100.00')}
@@ -131,17 +130,16 @@ describe "Ordering with macho bucks" do
   describe "Balance: 10, cost 100  (should charge 90, ending balance 0)" do
     before do
       # go to sign in page
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => bucks10.user.email
-      fill_in 'user_password', :with => bucks10.user.password
+      save_page # for timing
+      all('#user_email')[0].set(bucks10.user.email)
+      all('#user_password')[0].set(bucks10.user.password)
       # Authenticate
       click_button I18n.t('sign_in')
       visit order_promotion_path(promotion100)    
     end
     
-    # Should be invisible, but there
-    it { should have_content(I18n.t('credit_card_details')) }
     it { should have_xpath('//div[@id="credit_card_section"]', :visible => true) }
     it { should have_content('Balance Due: $90.00')}
     it { should have_content('Credit Used: $10.00')}

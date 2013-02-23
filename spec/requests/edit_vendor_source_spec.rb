@@ -13,10 +13,10 @@ describe "Edit vendor source" do
     before do
       promotion
       sign_in_as_an_admin_user
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => @user.email
-      fill_in 'user_password', :with => @user.password
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
       # Authenticate
       click_button I18n.t('sign_in')
       visit merchant_vendors_path

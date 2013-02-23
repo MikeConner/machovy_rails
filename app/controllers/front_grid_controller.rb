@@ -35,7 +35,7 @@ class FrontGridController < ApplicationController
     
     @deals_per_row = Promotion::DEALS_PER_ROW
     non_exclusive = Category.non_exclusive.map { |c| c.id }
-    @promotions = Promotion.front_page.select { |p| (p.displayable? or p.zombie?) and (p.metro.name == 'Pittsburgh') and !(p.category_ids & non_exclusive).empty? }.sort
+    @promotions = Promotion.front_page.select { |p| (p.displayable? or p.zombie? or p.coming_soon?) and (p.metro.name == 'Pittsburgh') and !(p.category_ids & non_exclusive).empty? }.sort
     if @promotions.length > MAX_PARTNER_VIEW_DEALS
       @promotions = @promotions[0, MAX_PARTNER_VIEW_DEALS]
     end
@@ -52,9 +52,9 @@ private
     # If it's defined, use the empty set so that the non_exclusive array intersection test always fails, so that it's only triggered by the direct comparison
     if selected_category.nil?
       non_exclusive = Category.non_exclusive.map { |c| c.id }
-      @promotions = Promotion.front_page.select { |p| (p.displayable? or p.zombie?) and (p.metro.name == metro) and !(p.category_ids & non_exclusive).empty? }.sort
+      @promotions = Promotion.front_page.select { |p| (p.displayable? or p.zombie? or p.coming_soon?) and (p.metro.name == metro) and !(p.category_ids & non_exclusive).empty? }.sort
     else
-      @promotions = Promotion.front_page.select { |p| (p.displayable? or p.zombie?) and (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
+      @promotions = Promotion.front_page.select { |p| (p.displayable? or p.zombie? or p.coming_soon?) and (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
     end
     
     if @promotions.length > MAX_DEALS
@@ -69,9 +69,9 @@ private
     
     if selected_category.nil?
       non_exclusive = Category.non_exclusive.map { |c| c.id }
-      Promotion.front_page.select { |p| (p.displayable? or p.zombie?) and (p.metro.name == metro) and !(p.category_ids & non_exclusive).empty? }.sort
+      Promotion.front_page.select { |p| (p.displayable? or p.zombie? or p.coming_soon?) and (p.metro.name == metro) and !(p.category_ids & non_exclusive).empty? }.sort
     else
-      Promotion.front_page.select { |p| (p.displayable? or p.zombie?) and (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
+      Promotion.front_page.select { |p| (p.displayable? or p.zombie? or p.coming_soon?) and (p.metro.name == metro) and p.category_ids.include?(selected_category.id) }.sort
     end
   end
   

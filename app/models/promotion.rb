@@ -36,6 +36,7 @@
 #  venue_zipcode        :string(10)
 #  latitude             :decimal(, )
 #  longitude            :decimal(, )
+#  pending              :boolean         default(FALSE), not null
 #
 
 require 'promotion_strategy_factory'
@@ -99,7 +100,7 @@ class Promotion < ActiveRecord::Base
   attr_accessible :description, :destination, :grid_weight, :limitations, :price, :quantity, :retail_value, :revenue_shared,
                   :start_date, :end_date, :teaser_image, :remote_teaser_image_url, :main_image, :remote_main_image_url, :suspended,
                   :status, :promotion_type, :title, :voucher_instructions, :subtitle, :min_per_customer, :max_per_customer,
-                  :venue_address, :venue_city, :venue_state, :venue_zipcode, :latitude, :longitude,
+                  :venue_address, :venue_city, :venue_state, :venue_zipcode, :latitude, :longitude, :pending,
                   :metro_id, :vendor_id, :category_ids, :blog_post_ids, :promotion_image_ids, :promotion_images_attributes, 
 									:teaser_image_cache, :main_image_cache
 
@@ -160,6 +161,7 @@ class Promotion < ActiveRecord::Base
   validates_presence_of :teaser_image, :if => :image_required?
   validates_presence_of :strategy, :if => :deal?
   validates_inclusion_of :suspended, :in => [true, false]
+  validates_inclusion_of :pending, :in => [true, false]
   
   # "Deal" fields
   validates :retail_value, :price, :revenue_shared, 
@@ -237,8 +239,9 @@ class Promotion < ActiveRecord::Base
     !self.deal? or (quantity_value > self.vouchers.count)
   end
   
+  # Displayable controls buy buttons; zombies and pendings should not be "displayable" (though they might be rendered using zombie/pending logic)
   def displayable?
-    !self.suspended? and approved? and started? and any_left? and (!expired? or open_vouchers?)
+    !self.suspended? and !self.pending? and approved? and started? and any_left? and (!expired? or open_vouchers?)
   end
   
   # A zombie is a recently expired or sold out local deal
@@ -246,6 +249,11 @@ class Promotion < ActiveRecord::Base
   # An expired deal with open vouchers could otherwise lead to both being true!
   def zombie?
     deal? and !displayable? and !self.suspended? and approved? and sold_out_or_expired?
+  end
+  
+  # Display as "coming soon". 
+  def coming_soon?
+    deal? and !self.suspended? and approved? and self.pending?
   end
   
   def open_vouchers?

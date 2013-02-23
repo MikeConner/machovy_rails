@@ -13,7 +13,6 @@ describe "User signup" do
     describe "with invalid information" do
       before { click_button I18n.t('create_account') }
       
-      it { should have_selector('div', :id => 'error_explanation') }
       it { should have_content(I18n.t('devise.failure.invalid')) }
       it "should not redirect to the merchant page" do
         current_path.should == new_user_session_path

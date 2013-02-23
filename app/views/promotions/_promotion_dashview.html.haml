@@ -13,6 +13,8 @@
           %li.title
             - if p.suspended?
               == #{p.title} [Suspended] 
+            - elsif p.coming_soon?
+              == #{p.title} [Coming Soon] 
             - else
               = p.title
           - if p.end_date.nil?

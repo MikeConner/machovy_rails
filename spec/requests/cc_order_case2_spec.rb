@@ -16,10 +16,11 @@ describe "Case 2 - Not customer, not saving card" do
   describe "Sign in" do
     before do
       # go to sign in page
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => user.email
-      fill_in 'user_password', :with => user.password
+      save_page # for timing
+      all('#user_email')[0].set(user.email)
+      all('#user_password')[0].set(user.password)
       # Authenticate
       click_button I18n.t('sign_in')    
     end

@@ -1,4 +1,4 @@
-describe "Product promotion for pickup approved" do
+describe "Coming soon promotion" do
   before do
     # Need this for visit root_path to work
     Metro.create(:name => 'Pittsburgh')
@@ -28,8 +28,6 @@ describe "Product promotion for pickup approved" do
       fill_in 'promotion_retail_value', :with => 1000
       fill_in 'promotion_price', :with => 500
       select '2016', :from => 'promotion_end_date_1i'
-      find(:xpath, "//input[@id='promotion_strategy']").set "Product"
-      select 'For pickup', :from => 'delivery'
       click_button 'Submit'
       @promotion = Promotion.first
     end
@@ -38,8 +36,7 @@ describe "Product promotion for pickup approved" do
       Promotion.count.should be == 1
       @promotion.status.should be == Promotion::PROPOSED
       @promotion.awaiting_machovy_action?.should be_true
-      (ProductStrategy === @promotion.strategy).should be_true
-      @promotion.strategy.delivery?.should be_false
+      @promotion.approved?.should be_false
       current_path.should be == promotion_path(@promotion)
      end
     
@@ -52,12 +49,14 @@ describe "Product promotion for pickup approved" do
         # fill in info
         all('#user_email')[0].set(@admin.email)
         all('#user_password')[0].set(@admin.password)
-        
+
         # Authenticate
         click_button I18n.t('sign_in')
         visit promotions_path
         click_link @promotion.title
         choose 'decision_accept'
+        check 'promotion_pending'
+        
         click_button 'Submit'
       end
       
@@ -65,20 +64,38 @@ describe "Product promotion for pickup approved" do
         @admin.has_role?(Role::SUPER_ADMIN).should be_true
       end
       
-      describe "should have gone live" do
+      describe "should not have gone live" do
         let(:msg) { ActionMailer::Base.deliveries[0] }
-        before { @promotion = Promotion.first }
-        
-        it "should be live" do
-          @promotion.displayable?.should be_true
+        before do
+          @promotion = Promotion.first 
+          visit promotions_path
         end
         
-        it "should have sent email" do
-          ActionMailer::Base.deliveries.should_not be_empty
-          ActionMailer::Base.deliveries.count.should be == 1
-          msg.to.to_s.should match(@user.email)
-          msg.subject.should be == VendorMailer::PROMOTION_STATUS_MESSAGE
-          msg.body.encoded.should match('Your promotion has been approved')          
+        it "should not be live" do
+          @promotion.displayable?.should be_false
+          @promotion.expired?.should be_false
+          @promotion.approved?.should be_true
+          @promotion.suspended?.should be_false
+          @promotion.coming_soon?.should be_true
+          @promotion.status.should == Promotion::MACHOVY_APPROVED
+        end
+                
+        it { should have_content("#{@promotion.status} [Coming Soon]")}
+        
+        describe "Vendor also sees that it's coming soon" do
+          before do
+            visit root_path
+            click_link 'Log out'
+            all('a', :text => I18n.t('sign_in_register')).first.click
+            # fill in info
+            all('#user_email')[0].set(@user.email)
+            all('#user_password')[0].set(@user.password)
+            # Authenticate
+            click_button I18n.t('sign_in')
+            visit promotions_path
+          end
+          
+          it { should have_content("#{@promotion.title} [Coming Soon]")}
         end
       end
     end

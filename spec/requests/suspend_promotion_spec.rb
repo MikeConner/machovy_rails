@@ -14,10 +14,10 @@ describe "Suspend promotion" do
     before do
       sign_in_as_a_vendor
       # go to sign in page
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => @user.email
-      fill_in 'user_password', :with => @user.password
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
       # Authenticate
       click_button I18n.t('sign_in')
       visit new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)
@@ -45,10 +45,10 @@ describe "Suspend promotion" do
         click_link 'Log out'
         @admin = FactoryGirl.create(:user)
         @admin.roles << Role.find_by_name(Role::SUPER_ADMIN)
-        click_link I18n.t('sign_in_register')
-        
-        fill_in 'user_email', :with => @admin.email
-        fill_in 'user_password', :with => @admin.password
+        all('a', :text => I18n.t('sign_in_register')).first.click
+        # fill in info
+        all('#user_email')[0].set(@admin.email)
+        all('#user_password')[0].set(@admin.password)
         # Authenticate
         click_button I18n.t('sign_in')
         visit promotions_path
@@ -75,6 +75,7 @@ describe "Suspend promotion" do
           @promotion.expired?.should be_false
           @promotion.approved?.should be_true
           @promotion.suspended?.should be_true
+          @promotion.coming_soon?.should be_false
           @promotion.status.should == Promotion::MACHOVY_APPROVED
         end
                 
@@ -84,10 +85,10 @@ describe "Suspend promotion" do
           before do
             visit root_path
             click_link 'Log out'
-            click_link I18n.t('sign_in_register')
+            all('a', :text => I18n.t('sign_in_register')).first.click
             # fill in info
-            fill_in 'user_email', :with => @user.email
-            fill_in 'user_password', :with => @user.password
+            all('#user_email')[0].set(@user.email)
+            all('#user_password')[0].set(@user.password)
             # Authenticate
             click_button I18n.t('sign_in')
             visit promotions_path
