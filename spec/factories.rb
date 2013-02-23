@@ -92,6 +92,15 @@ FactoryGirl.define do
     end
   end
   
+  factory :coupon do
+    vendor
+    
+    title { generate(:random_phrase) }
+    value { Random.rand(100) + 1 }
+    description { generate(:random_paragraphs) }
+    remote_coupon_image_url 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
+  end
+  
   factory :feedback do
     user
     order
@@ -668,6 +677,16 @@ FactoryGirl.define do
     factory :vendor_with_map do
       latitude 40.552285
       longitude { -80.029079 }
+    end
+    
+    factory :vendor_with_coupons do
+      ignore do
+        num_coupons 2
+      end
+      
+      after(:create) do |vendor, evaluator|
+        FactoryGirl.create_list(:coupon, evaluator.num_coupons, :vendor => vendor)
+      end
     end
   end
     

@@ -20,12 +20,12 @@ class Ability
       can :manage, [Vendor, Promotion, PromotionLog, PromotionImage, Voucher, Idea, Rating]
       can :redeem, [Voucher]
     elsif user.has_role?(Role::SALES_ADMIN)
-      can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position]
-      can :manage, [Promotion, PromotionLog, PromotionImage]
+      can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position, Coupon]
+      can :manage, [Promotion, PromotionLog, PromotionImage, Coupon]
       cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro, Curator, Idea]
     else
       # manage Promotion necessary to create an order; manage Voucher to generate qrcode
-      can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position, MachoBuck]
+      can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position, MachoBuck, Coupon]
       can :create, [Order, Voucher, GiftCertificate]
       # manage Promotion necessary to create an order; manage Voucher to generate qrcode
       can :manage, [Promotion, Voucher, PromotionLog, User, Idea, Rating, GiftCertificate] 

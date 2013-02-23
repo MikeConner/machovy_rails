@@ -9,6 +9,7 @@
         - if current_user.has_role?(Role::SALES_ADMIN)        
           %li= link_to 'New Advertising Deal', new_promotion_path(:promotion_type => Promotion::AD)
           %li= link_to 'New Local Deal', new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)
+          %li= link_to 'New Coupon', new_coupon_path
         - else
           %li= link_to 'Front Page Manager', manage_promotions_path
           %li= link_to 'New Affiliate Deal', new_promotion_path(:promotion_type => Promotion::AFFILIATE)
@@ -25,6 +26,7 @@
             %li= link_to 'Return Vouchers', merchant_vouchers_path
             %li= link_to 'Review Affiliate Promotions', review_promotions_path(:promotion_type => Promotion::AFFILIATE)
             %li= link_to 'Review Advertisements', review_promotions_path(:promotion_type => Promotion::AD)
+            %li= link_to 'Review Coupons', coupons_path
             %li= link_to 'Manage Curators', curators_path 
             %li= link_to 'Manage Metro Areas', metros_path
             %li= link_to 'Manage Users', manage_users_path

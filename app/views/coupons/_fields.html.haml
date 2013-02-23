@@ -1,0 +1,25 @@
+.field
+  = f.label :vendor_id
+  %br/
+  = f.collection_select :vendor_id, @vendors, :id, :name 
+  = link_to 'New Vendor', new_merchant_vendor_path
+.field
+  = f.label :title
+  %br/
+  = f.text_field :title, :size => Coupon::MAX_TITLE_LEN
+.field
+  = f.label :value
+  %br/
+  = f.text_field :value
+.field
+  = f.label :description
+  %br/
+  = f.text_area :description, :size => "60x12"
+.field
+  = f.label :coupon_image
+  %br/
+  = f.file_field :coupon_image
+.field
+  = f.label :remote_coupon_image_url, "or image URL"
+  %br/
+  = f.text_field :remote_coupon_image_url, :title => I18n.t('ensure_image')

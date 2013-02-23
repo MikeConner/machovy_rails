@@ -54,6 +54,6 @@ class VideosController < ApplicationController
     @video = Video.find(params[:id])
     @video.destroy
 
-    redirect_to videos_path
+    redirect_to videos_path, :notice => 'Video successfully deleted'
   end
 end

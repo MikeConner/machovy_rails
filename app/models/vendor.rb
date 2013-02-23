@@ -51,6 +51,7 @@ class Vendor < ActiveRecord::Base
   has_many :orders, :through => :promotions
   has_many :payments, :dependent => :restrict
   has_many :vouchers, :through => :promotions
+  has_many :coupons, :dependent => :destroy
   
   validates_presence_of :name
   validates_presence_of :address_1
