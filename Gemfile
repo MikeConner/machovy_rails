@@ -80,6 +80,7 @@ gem 'bootstrap-will_paginate', '0.0.5'
 gem 'gibbon', '0.3.5'
 
 gem 'delayed_job_active_record', '0.3.3'
+gem 'newrelic_rpm', '3.5.7.59'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
