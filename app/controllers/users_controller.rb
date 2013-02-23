@@ -9,6 +9,14 @@ class UsersController < ApplicationController
   load_and_authorize_resource
 
   def manage
+    @new_users = User.where('created_at > ?', 1.week.ago).order('created_at desc')
+    @unconfirmed_users = []
+    User.order(:email).each do |user|
+      if !user.confirmation_token.nil?
+        @unconfirmed_users.push(user)
+      end
+    end
+    
     render :layout => 'layouts/admin'
   end
   

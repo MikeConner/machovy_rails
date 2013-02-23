@@ -94,6 +94,7 @@ class Merchant::VendorsController < Merchant::BaseController
   # GET /vendors
   def index
     @vendors = Vendor.find(:all, :order => "LOWER(name)")
+    @new_vendors = Vendor.where('created_at > ?', 1.week.ago).order('LOWER(name)')
     render :layout => 'layouts/admin'
   end
 
