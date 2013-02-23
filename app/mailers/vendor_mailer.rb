@@ -11,7 +11,12 @@ class VendorMailer < ActionMailer::Base
     @promotion = promotion
     
     if [Promotion::EDITED, Promotion::MACHOVY_APPROVED, Promotion::MACHOVY_REJECTED].include?(@promotion.status)
-      mail(:to => promotion.vendor.user.email, :subject => PROMOTION_STATUS_MESSAGE) 
+      # For things like coupons and ads, there may not be a user
+      if promotion.vendor.user.nil?
+        mail(:to => ApplicationHelper::MACHOVY_SALES_ADMIN, :subject => PROMOTION_STATUS_MESSAGE)        
+      else
+        mail(:to => promotion.vendor.user.email, :subject => PROMOTION_STATUS_MESSAGE)
+      end
     else
       # Should never happen
       raise "Invalid status for email"
