@@ -1,5 +1,7 @@
 %h1= @coupon.title
 %h3== Another valuable coupon from #{@coupon.vendor.name}
+%em== Downloaded #{Date.today.try(:strftime, ApplicationHelper::DATE_FORMAT)}
+%br/
 - if !@coupon.value.nil?
   %em= number_to_currency(@coupon.value)
 - if !@coupon.description.nil?
