@@ -26,7 +26,7 @@ class PromotionWeightData < AbstractWeightData
     end
     # Urgency is days before expiration, lower numbers are "better"
     if !obj.end_date.nil? and !obj.expired?
-      @data[obj.id][URGENCY] = ((obj.end_date - Time.now)/3600/24).round
+      @data[obj.id][URGENCY] = ((obj.end_date - Time.zone.now)/3600/24).round
     end
     
     # Value of blog posts can be measured by the associated promotions

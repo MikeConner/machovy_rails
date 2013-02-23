@@ -10,6 +10,6 @@
     %tr
       %td= certificate.email
       %td= number_to_currency(certificate.amount)
-      %td= certificate.created_at.try(:strftime, '%b %d, %Y')
+      %td= certificate.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)
       - if certificate.pending?
         %td= link_to 'Change email', edit_gift_certificate_path(certificate)

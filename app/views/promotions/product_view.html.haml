@@ -14,7 +14,7 @@
     - @promotion.orders.order('updated_at desc').each do |order|
       %tr
         %td= order.id
-        %td= order.created_at.try(:strftime, '%b %d, %Y')
+        %td= order.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)
         %td== #{order.first_name} #{order.last_name}
         %td= order.quantity
         %td= order.amount

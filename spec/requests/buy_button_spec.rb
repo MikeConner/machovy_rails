@@ -1,6 +1,7 @@
 describe "Buy button rules" do
   let(:promotion) { FactoryGirl.create(:approved_promotion) }
   let(:promotion_with_orders) { FactoryGirl.create(:promotion_with_vouchers, :status => Promotion::MACHOVY_APPROVED) }
+  let(:pending_promotion) { FactoryGirl.create(:approved_promotion, :pending => true) }
   before do
     # Need this for visit root_path to work
     Metro.create(:name => 'Pittsburgh')
@@ -22,10 +23,10 @@ describe "Buy button rules" do
     before do
       sign_in_as_a_valid_user
       # go to sign in page
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => @user.email
-      fill_in 'user_password', :with => @user.password
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
       # Authenticate
       click_button I18n.t('sign_in')
       visit promotion_path(promotion_with_orders)
@@ -33,6 +34,24 @@ describe "Buy button rules" do
         
     it { should have_selector('h3', :text => promotion_with_orders.title) }
     it { should have_selector('p', :text => I18n.t('sold_out')) }
+    it { should_not have_link(I18n.t('click_to_buy')) }
+  end
+
+  describe "Trying to buy coming soon" do
+    before do
+      sign_in_as_a_valid_user
+      # go to sign in page
+      all('a', :text => I18n.t('sign_in_register')).first.click
+      # fill in info
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
+      # Authenticate
+      click_button I18n.t('sign_in')
+      visit promotion_path(pending_promotion)
+    end
+        
+    it { should have_selector('h3', :text => pending_promotion.title) }
+    it { should have_selector('p', :text => I18n.t('coming_soon')) }
     it { should_not have_link(I18n.t('click_to_buy')) }
   end
 
@@ -47,10 +66,10 @@ describe "Buy button rules" do
   describe "Logged in as an admin" do
     before do
       sign_in_as_an_admin_user
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => @user.email
-      fill_in 'user_password', :with => @user.password
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
       # Authenticate
       click_button I18n.t('sign_in')
       visit promotion_path(promotion)
@@ -77,10 +96,10 @@ describe "Buy button rules" do
     before do
       sign_in_as_a_vendor
       # go to sign in page
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => @user.email
-      fill_in 'user_password', :with => @user.password
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
       # Authenticate
       click_button I18n.t('sign_in')
       visit promotion_path(promotion)
@@ -104,10 +123,10 @@ describe "Buy button rules" do
     before do
       sign_in_as_a_valid_user
       # go to sign in page
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => @user.email
-      fill_in 'user_password', :with => @user.password
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
       # Authenticate
       click_button I18n.t('sign_in')
       visit promotion_path(promotion)
@@ -121,10 +140,10 @@ describe "Buy button rules" do
     before do
       sign_in_as_a_valid_user
       # go to sign in page
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => @user.email
-      fill_in 'user_password', :with => @user.password
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
       # Authenticate
       click_button I18n.t('sign_in')
       promotion.quantity = 100
@@ -152,10 +171,10 @@ describe "Buy button rules" do
     before do
       sign_in_as_a_valid_user
       # go to sign in page
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => @user.email
-      fill_in 'user_password', :with => @user.password
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
       # Authenticate
       click_button I18n.t('sign_in')
       @order = FactoryGirl.create(:order_with_vouchers, :promotion => promotion, :user => @user)
@@ -186,10 +205,10 @@ describe "Buy button rules" do
     let(:promotion_with_orders) { FactoryGirl.create(:promotion_with_vouchers, :status => Promotion::MACHOVY_APPROVED) }
     before do
       # go to sign in page
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => user.email
-      fill_in 'user_password', :with => user.password
+      all('#user_email')[0].set(user.email)
+      all('#user_password')[0].set(user.password)
       # Authenticate
       click_button I18n.t('sign_in')
       @order = FactoryGirl.create(:order_with_vouchers, :promotion => promotion, :user => user)
@@ -217,10 +236,10 @@ describe "Buy button rules" do
     before do
       sign_in_as_a_valid_user
       # go to sign in page
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => @user.email
-      fill_in 'user_password', :with => @user.password
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
       # Authenticate
       click_button I18n.t('sign_in')
       @order = FactoryGirl.create(:order_with_vouchers, :promotion => promotion, :user => @user)
@@ -261,10 +280,10 @@ describe "Buy button rules" do
     before do
       sign_in_as_a_valid_user
       # go to sign in page
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => @user.email
-      fill_in 'user_password', :with => @user.password
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
       # Authenticate
       click_button I18n.t('sign_in')
       @order = FactoryGirl.create(:order_with_vouchers, :promotion => promotion, :user => @user)

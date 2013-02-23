@@ -1,4 +1,4 @@
-%h3== Thanks again for your order from #{@order.vendor.name} (#{@order.promotion.title}, on #{@order.created_at.try(:strftime, '%b %d, %Y')})
+%h3== Thanks again for your order from #{@order.vendor.name} (#{@order.promotion.title}, on #{@order.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)})
 = form_for @user, :method => :put, :url => feedback_user_path(@user, :order_id => @order) do |f|
   = render :partial => 'shared/error_messages', :locals => { :errors => @user.errors, :name => 'Feedback' }
   = f.fields_for :feedbacks do |feedback|

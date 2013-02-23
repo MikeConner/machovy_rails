@@ -20,11 +20,11 @@
   %tr
     %td
       %b Start date:
-      = promotion.start_date.try(:strftime, '%b %d, %Y')
+      = promotion.start_date.try(:strftime, ApplicationHelper::DATE_FORMAT)
   %tr
     %td
       %b Expiration date:
-      = promotion.end_date.try(:strftime, '%b %d, %Y')
+      = promotion.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT)
   %tr
     %td{:colspan => 2}
       FINE PRINT:

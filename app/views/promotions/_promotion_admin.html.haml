@@ -22,6 +22,8 @@
       %td= link_to "#{p.vendor.name}", merchant_vendor_path(p.vendor)
       - if p.suspended?
         %td== #{p.status} [Suspended]
+      - elsif p.coming_soon?
+        %td== #{p.status} [Coming Soon]
       - else
         %td= p.status
       %td
@@ -31,7 +33,7 @@
       - if p.end_date.nil?
         %td None
       - else
-        %td= p.end_date.try(:strftime, '%b %d, %Y')
+        %td= p.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT)
       %td= number_to_currency(p.price)
       %td= p.quantity
       - if 0 == p.promotion_logs.count

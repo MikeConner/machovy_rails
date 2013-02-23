@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130216224433) do
+ActiveRecord::Schema.define(:version => 20130223023327) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -83,6 +83,17 @@ ActiveRecord::Schema.define(:version => 20130216224433) do
 
   add_index "ckeditor_assets", ["assetable_type", "assetable_id"], :name => "idx_ckeditor_assetable"
   add_index "ckeditor_assets", ["assetable_type", "type", "assetable_id"], :name => "idx_ckeditor_assetable_type"
+
+  create_table "coupons", :force => true do |t|
+    t.string   "title",        :limit => 64
+    t.integer  "value"
+    t.text     "description"
+    t.string   "slug"
+    t.string   "coupon_image"
+    t.integer  "vendor_id"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+  end
 
   create_table "curators", :force => true do |t|
     t.string   "name"
@@ -287,6 +298,7 @@ ActiveRecord::Schema.define(:version => 20130216224433) do
     t.string   "venue_zipcode",        :limit => 10
     t.decimal  "latitude"
     t.decimal  "longitude"
+    t.boolean  "pending",                            :default => false,      :null => false
   end
 
   add_index "promotions", ["slug"], :name => "index_promotions_on_slug"
@@ -336,6 +348,16 @@ ActiveRecord::Schema.define(:version => 20130216224433) do
   end
 
   add_index "roles_users", ["role_id", "user_id"], :name => "index_roles_users_on_role_id_and_user_id", :unique => true
+
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.text     "data"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "users", :force => true do |t|
     t.string   "email",                                :default => "",    :null => false

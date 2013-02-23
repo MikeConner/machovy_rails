@@ -36,6 +36,7 @@
 #  venue_zipcode        :string(10)
 #  latitude             :decimal(, )
 #  longitude            :decimal(, )
+#  pending              :boolean         default(FALSE), not null
 #
 
 require 'promotion_strategy_factory'
@@ -99,7 +100,7 @@ class Promotion < ActiveRecord::Base
   attr_accessible :description, :destination, :grid_weight, :limitations, :price, :quantity, :retail_value, :revenue_shared,
                   :start_date, :end_date, :teaser_image, :remote_teaser_image_url, :main_image, :remote_main_image_url, :suspended,
                   :status, :promotion_type, :title, :voucher_instructions, :subtitle, :min_per_customer, :max_per_customer,
-                  :venue_address, :venue_city, :venue_state, :venue_zipcode, :latitude, :longitude,
+                  :venue_address, :venue_city, :venue_state, :venue_zipcode, :latitude, :longitude, :pending,
                   :metro_id, :vendor_id, :category_ids, :blog_post_ids, :promotion_image_ids, :promotion_images_attributes, 
 									:teaser_image_cache, :main_image_cache
 
@@ -161,6 +162,7 @@ class Promotion < ActiveRecord::Base
   validates_presence_of :teaser_image, :if => :image_required?
   validates_presence_of :strategy, :if => :deal?
   validates_inclusion_of :suspended, :in => [true, false]
+  validates_inclusion_of :pending, :in => [true, false]
   
   # "Deal" fields
   validates :retail_value, :price, :revenue_shared, 
@@ -227,19 +229,20 @@ class Promotion < ActiveRecord::Base
   
   # today is deprecated; need to set end_date such that this works (i.e., isn't confused by partial days)
   def expired?
-    !self.end_date.nil? and Time.now > self.end_date
+    !self.end_date.nil? and Time.zone.now > self.end_date
   end
   
   def started?
-    self.start_date.nil? or Time.now >= self.start_date
+    self.start_date.nil? or Time.zone.now >= self.start_date
   end
   
   def any_left?
     !self.deal? or (quantity_value > self.vouchers.count)
   end
   
+  # Displayable controls buy buttons; zombies and pendings should not be "displayable" (though they might be rendered using zombie/pending logic)
   def displayable?
-    !self.suspended? and approved? and started? and any_left? and (!expired? or open_vouchers?)
+    !self.suspended? and !self.pending? and approved? and started? and any_left? and (!expired? or open_vouchers?)
   end
   
   # A zombie is a recently expired or sold out local deal
@@ -247,6 +250,11 @@ class Promotion < ActiveRecord::Base
   # An expired deal with open vouchers could otherwise lead to both being true!
   def zombie?
     deal? and !displayable? and !self.suspended? and approved? and sold_out_or_expired?
+  end
+  
+  # Display as "coming soon". 
+  def coming_soon?
+    deal? and !self.suspended? and approved? and self.pending?
   end
   
   def open_vouchers?
@@ -304,9 +312,9 @@ class Promotion < ActiveRecord::Base
   # Apply threshold and create text to display for user
   def quantity_description
     if quantity_value.nil?
-      I18n.t('plenty', :date => self.end_date.try(:strftime, '%b %d, %Y'))
+      I18n.t('plenty', :date => self.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT))
     else
-      under_quantity_threshold? ? I18n.t('only_n_left', :n => self.remaining_quantity) : I18n.t('plenty', :date => self.end_date.try(:strftime, '%b %d, %Y'))
+      under_quantity_threshold? ? I18n.t('only_n_left', :n => self.remaining_quantity) : I18n.t('plenty', :date => self.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT))
     end
   end
   
@@ -387,7 +395,7 @@ private
       # Find out which is *first*, and make sure we're within the threshold of that, preventing it from coming back twice
       # Only have that problem if they're both true
       if exp and sold
-        Time.now - [self.end_date, orders.last.created_at].min <= ZOMBIE_THRESHOLD
+        Time.zone.now - [self.end_date, orders.last.created_at].min <= ZOMBIE_THRESHOLD
       else
         true
       end
@@ -397,7 +405,7 @@ private
   end
   
   def recently_expired?
-    expired? and (Time.now - self.end_date <= ZOMBIE_THRESHOLD)
+    expired? and (Time.zone.now - self.end_date <= ZOMBIE_THRESHOLD)
   end
   
   def recently_sold_out?
@@ -405,7 +413,7 @@ private
       false
     else
       # Should not be zero orders in this case, but don't fail even in pathological case
-      0 == orders.count ? false : Time.now - orders.last.created_at <= ZOMBIE_THRESHOLD
+      0 == orders.count ? false : Time.zone.now - orders.last.created_at <= ZOMBIE_THRESHOLD
     end
   end
   

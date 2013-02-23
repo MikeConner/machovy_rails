@@ -13,12 +13,14 @@
           %li.title
             - if p.suspended?
               == #{p.title} [Suspended] 
+            - elsif p.coming_soon?
+              == #{p.title} [Coming Soon] 
             - else
               = p.title
           - if p.end_date.nil?
             %li Exp: None
           - else
-            %li= 'Exp: ' + p.end_date.try(:strftime, '%b %d, %Y').to_s
+            %li= 'Exp: ' + p.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT).to_s
           %li= 'Price: ' + number_to_currency(p.price.round(2)).to_s
           - if @display_vouchers
             - if 0 == p.vouchers.count

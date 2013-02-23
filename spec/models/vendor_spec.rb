@@ -52,11 +52,31 @@ describe "Vendors" do
     vendor.should respond_to(:facebook_display)
     vendor.should respond_to(:private_address)
     vendor.should respond_to(:source)
+    vendor.should respond_to(:coupons)
     vendor.user.should be == user
   end
   
   it { should be_valid }
 
+  describe "coupons" do
+    let(:vendor) { FactoryGirl.create(:vendor_with_coupons) }
+    
+    it "should have coupons" do
+      vendor.coupons.count.should be == 2
+      vendor.coupons.each do |coupon|
+        coupon.vendor.should be == vendor
+      end
+    end
+    
+    describe "should be able to delete" do
+      before { vendor.destroy }
+      
+      it "should delete the coupons" do
+        Coupon.count.should be == 0
+      end
+    end
+  end
+  
   describe "invalid private address" do
     before { vendor.private_address = nil }
     

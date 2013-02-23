@@ -2,7 +2,7 @@
 = @voucher.uuid + " : " + @voucher.order.email
 %h3= @voucher.promotion.title
 %h4= "$" + @voucher.order.total_cost.to_s
-%p= @voucher.redemption_date.try(:strftime, '%b %d, %Y')
+%p= @voucher.redemption_date.try(:strftime, ApplicationHelper::DATE_FORMAT)
 - if !@voucher.order.fine_print.nil?
   %p= "Limitations: " + @voucher.order.fine_print
 = image_tag generate_qrcode_merchant_voucher_url(@voucher, :format => :png), :size => '350x350'

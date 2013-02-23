@@ -17,10 +17,10 @@ describe "Create promotion with venue location" do
     before do
       sign_in_as_a_vendor
       # go to sign in page
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => @user.email
-      fill_in 'user_password', :with => @user.password
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
       # Authenticate
       click_button I18n.t('sign_in')    
     end
@@ -48,9 +48,11 @@ describe "Create promotion with venue location" do
       before { click_link 'Create Promotion' }
       
       it { should have_selector('h4', :text => I18n.t('new_promotion')) }
-      it { should have_selector('input', :id => 'promotion_revenue_shared', :value => Promotion::DEFAULT_REVENUE_SHARE) }
-      it { should have_selector('input', :id => 'promotion_quantity', :value => Promotion::DEFAULT_QUANTITY) }
-      it { should have_selector('input', :id => 'promotion_strategy', :value => Promotion::DEFAULT_STRATEGY) }
+      it { should have_selector('#promotion_revenue_shared') }
+      it { should have_selector('#promotion_quantity') }
+      it { should have_selector('#promotion_strategy') }
+      it { should have_content(Promotion::DEFAULT_REVENUE_SHARE) }
+      it { should have_content(Promotion::DEFAULT_STRATEGY) }
       
       describe "create" do
         before do
@@ -103,10 +105,10 @@ describe "Create promotion with venue location" do
               click_link 'Log out'
               @admin = FactoryGirl.create(:user)
               @admin.roles << Role.find_by_name(Role::SUPER_ADMIN)
-              click_link I18n.t('sign_in_register')
-              
-              fill_in 'user_email', :with => @admin.email
-              fill_in 'user_password', :with => @admin.password
+              all('a', :text => I18n.t('sign_in_register')).first.click
+              # fill in info
+              all('#user_email')[0].set(@admin.email)
+              all('#user_password')[0].set(@admin.password)
               # Authenticate
               click_button I18n.t('sign_in')
               visit promotions_path

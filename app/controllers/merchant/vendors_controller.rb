@@ -46,19 +46,28 @@ class Merchant::VendorsController < Merchant::BaseController
       @payment_data.push(detail)
       detail[:id] = promotion.id
       detail[:title] = promotion.title
-      detail[:sold] = promotion.vouchers.count
       detail[:returned] = 0
       detail[:redeemed] = 0
+      detail[:expired] = 0
       detail[:total] = 0
+      detail[:sold] = 0
       detail[:merchant_share] = 0
       detail[:is_product] = promotion.product_order?
-      promotion.vouchers.each do |voucher|
-        if voucher.status == Voucher::RETURNED
-          detail[:returned] += voucher.order.quantity
-        elsif voucher.status == Voucher::REDEEMED
-          detail[:redeemed] += voucher.order.quantity
-          detail[:total] += voucher.order.total_cost
-          detail[:merchant_share] += voucher.order.merchant_share
+      promotion.orders.each do |order|
+        detail[:sold] += order.quantity
+        detail[:total] += order.total_cost
+        detail[:merchant_share] += order.merchant_share
+        
+        order.vouchers.each do |voucher|
+          if (voucher.status == Voucher::AVAILABLE) and voucher.expired?
+            detail[:expired] += 1
+          end
+          
+          if voucher.status == Voucher::RETURNED
+            detail[:returned] += 1
+          elsif voucher.status == Voucher::REDEEMED
+            detail[:redeemed] += 1
+          end
         end
       end
     end

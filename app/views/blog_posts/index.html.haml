@@ -28,7 +28,7 @@
             - if post.displayable?
               %td== #{time_ago_in_words(post.activation_date)} ago
             - else
-              %td== on #{post.activation_date.try(:strftime, '%b %m, %Y')}
+              %td== on #{post.activation_date.try(:strftime, ApplicationHelper::DATE_FORMAT)}
             - if admin_user?
               %td= link_to post.title, edit_blog_post_path(post)
             - else

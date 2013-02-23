@@ -54,7 +54,7 @@ class PromotionsController < ApplicationController
             else
               @inactive.push(promotion)
             end
-          elsif promotion.suspended? or promotion.awaiting_machovy_action?
+          elsif promotion.suspended? or promotion.coming_soon? or promotion.awaiting_machovy_action?
             @pending.push(promotion)
           elsif promotion.awaiting_vendor_action?
             @attention.push(promotion)
@@ -98,7 +98,7 @@ class PromotionsController < ApplicationController
     # When assigning booleans, need to use ||, not OR operator. If you change to and/or it will break!
     @show_buy_button = eligible_to_purchase(@promotion)
     @show_terms = !current_user.nil? && !current_user.is_customer?
-    @show_accept_reject = !current_user.nil? && current_user.has_role?(Role::MERCHANT) && @promotion.status == Promotion::EDITED && !@promotion.suspended?
+    @show_accept_reject = !current_user.nil? && current_user.has_role?(Role::MERCHANT) && @promotion.status == Promotion::EDITED && !@promotion.suspended? && !@promotion.coming_soon?
     @curators = @promotion.curators
     if @curators.length > 4
       @curators = @curators[0, 4]
@@ -142,7 +142,7 @@ class PromotionsController < ApplicationController
                 
     @order = @promotion.orders.build(:user_id => current_user.id, :email => current_user.email, :fine_print => fine_print,
                                      :quantity => @promotion.min_per_customer, :amount => @promotion.price, 
-                                     :description => "#{@promotion.vendor.name} promo #{@promotion.title} #{Date.today.to_s}")
+                                     :description => "#{@promotion.vendor.name} promo #{@promotion.title} #{Date.today.to_time_in_current_zone.to_s}")
                                      
     # Pass in stripe Customer object if there is one
     #TODO Handle with Vault
@@ -436,7 +436,8 @@ class PromotionsController < ApplicationController
   end
   
 private  
-  # Need to check for displayable, since we're also showing "zombie" deals that have sold out
+  # Need to check for displayable, since we're also showing "zombie" deals that have sold out, or "coming soon" deals that are pending
+  #   Displayable will be false in either case
   def eligible_to_purchase(promotion)
     promotion.displayable? && 
     (current_user.nil? ||

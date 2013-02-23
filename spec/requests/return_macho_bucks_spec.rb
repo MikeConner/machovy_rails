@@ -14,10 +14,11 @@ describe "Return macho bucks" do
     before do
       sign_in_as_an_admin_user
       # go to sign in page
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => @user.email
-      fill_in 'user_password', :with => @user.password
+      save_page # for timing
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
       # Authenticate
       click_button I18n.t('sign_in')
       @voucher = order.reload.vouchers.first
@@ -73,7 +74,7 @@ describe "Return macho bucks" do
           
           it { should have_selector('h4', :text => "#{I18n.t('macho_bucks')} total: $#{dude.reload.total_macho_bucks.round(2)}") }
           it { should have_xpath("//form[@action='#{macho_bucks_path}']") }
-          it { should have_selector('input', :value => "Adjust Macho Bucks") }
+          it { should have_button("Adjust Macho Bucks") }
           it { should have_content(@voucher.uuid) }
         end
       end

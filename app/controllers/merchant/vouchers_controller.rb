@@ -106,10 +106,10 @@ class Merchant::VouchersController < Merchant::BaseController
     # @voucher set from the filter
     @voucher.status = params[:status]
     if Voucher::REDEEMED == params[:status]
-      @voucher.redemption_date = Time.now
+      @voucher.redemption_date = Time.zone.now
     else
       # Unusual if another status, so record
-      @voucher.notes += "\nStatus changed to #{params[:status]} on #{Time.now.try(:strftime, '%b %d, %Y')}"
+      @voucher.notes += "\nStatus changed to #{params[:status]} on #{Time.zone.now.try(:strftime, ApplicationHelper::DATE_FORMAT)}"
     end
     
     if @voucher.save

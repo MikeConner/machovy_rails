@@ -36,6 +36,7 @@
 #  venue_zipcode        :string(10)
 #  latitude             :decimal(, )
 #  longitude            :decimal(, )
+#  pending              :boolean         default(FALSE), not null
 #
 
 describe "Promotions" do
@@ -94,6 +95,7 @@ describe "Promotions" do
     promotion.should respond_to(:max_quantity_for_buyer)
     promotion.should respond_to(:suspended)
     promotion.should respond_to(:zombie?)
+    promotion.should respond_to(:coming_soon?)
     promotion.should respond_to(:revenue_share_options)
     promotion.should respond_to(:product_order?)
     promotion.should respond_to(:pickup_order?)
@@ -117,6 +119,7 @@ describe "Promotions" do
   it "should default to correct settings" do
     promotion.displayable?.should be_false
     promotion.zombie?.should be_false
+    promotion.coming_soon?.should be_false
   end
   
   describe "mapping" do
@@ -263,6 +266,18 @@ describe "Promotions" do
     end
   end
   
+  describe "Coming soon cases" do
+    let(:proposed_promotion) { FactoryGirl.create(:promotion, :pending => true) }
+    let(:promotion) { FactoryGirl.create(:promotion, :status => Promotion::MACHOVY_APPROVED, :pending => true) }
+    let(:suspended_promotion) { FactoryGirl.create(:promotion, :status => Promotion::MACHOVY_APPROVED, :pending => true, :suspended => true) }
+    
+    it "should say coming soon" do
+      promotion.coming_soon?.should be_true
+      suspended_promotion.coming_soon?.should be_false
+      proposed_promotion.coming_soon?.should be_false
+    end
+  end
+  
   describe "Zombie cases" do
     let(:ad) { FactoryGirl.create(:ad) }
     let(:expired_ad) { FactoryGirl.create(:ad, :end_date => 3.days.ago) }
@@ -273,6 +288,8 @@ describe "Promotions" do
     let(:promotion_with_orders) { FactoryGirl.create(:promotion_with_vouchers, :status => Promotion::MACHOVY_APPROVED) }
     
     it "should have correct settings" do
+      ad.coming_soon?.should be_false
+      affiliate.coming_soon?.should be_false
       ad.displayable?.should be_true
       expired_ad.displayable?.should be_false
       affiliate.displayable?.should be_true
@@ -317,6 +334,12 @@ describe "Promotions" do
   
   describe "Missing suspended" do
     before { promotion.suspended = nil }
+    
+    it { should_not be_valid }
+  end
+  
+  describe "Missing pending" do
+    before { promotion.pending = nil }
     
     it { should_not be_valid }
   end
@@ -894,7 +917,7 @@ describe "Promotions" do
     end
     
     it "should not meet display threshold" do
-      promotion.quantity_description.should be == I18n.t('plenty', :date => promotion.end_date.try(:strftime, '%b %d, %Y'))
+      promotion.quantity_description.should be == I18n.t('plenty', :date => promotion.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT))
       promotion.under_quantity_threshold?.should be_false
     end
     

@@ -5,7 +5,7 @@ class Merchant::PaymentsController < Merchant::BaseController
   def new
     init_vouchers(params[:vendor_id])
     
-    @payment = @vendor.payments.build(:amount => @vendor.amount_owed, :check_date => Time.now.beginning_of_day)
+    @payment = @vendor.payments.build(:amount => @vendor.amount_owed, :check_date => Time.zone.now.beginning_of_day)
     render :layout => 'layouts/admin'
   end
   

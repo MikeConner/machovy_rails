@@ -53,7 +53,7 @@ class RelativeExpirationStrategy < ActiveRecord::Base
     
     Voucher.transaction do
       order.quantity.times do
-        voucher = order.vouchers.build(:valid_date => DateTime.now.beginning_of_day, 
+        voucher = order.vouchers.build(:valid_date => Time.zone.now.beginning_of_day, 
                                        :expiration_date => self.period_days.days.from_now.beginning_of_day,
                                        :notes => order.fine_print, :delay_hours => self.delay_hours) 
         if !voucher.save

@@ -16,7 +16,6 @@ describe "Vendor signup" do
     describe "with invalid information" do
       before { click_button "Sign up" }
       
-      it { should have_selector('div', :id => 'error_explanation') }
       it { should have_content("Password can't be blank") }
       it "should return to the right page" do
         current_path.should == user_registration_path

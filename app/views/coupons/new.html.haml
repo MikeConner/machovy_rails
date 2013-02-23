@@ -1,0 +1,19 @@
+#content-header
+  %h1 New Coupon
+#breadcrumb
+  <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Home</a>
+  <a href="#" class="current">Coupon Manager</a>
+.container-fluid
+  .row-fluid
+    .span12
+      .widget-box
+        .widget-title
+          %h5 Coupon Manager
+        .widget-content.nopadding
+          .form-horizontal
+            %fieldset
+              = form_for @coupon, :html => { multipart: true } do |f|
+                = render :partial => 'shared/error_messages', :locals => { :errors => @coupon.errors, :name => 'Coupon' }
+                = render :partial => 'fields', :locals => { :f => f }
+                .actions
+                  = f.submit 'Create Coupon'

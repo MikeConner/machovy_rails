@@ -34,6 +34,9 @@
     .field
       = f.check_box :suspended
       = f.label :suspended, :style => "display:inline"
+    .field
+      = f.check_box :pending
+      = f.label :pending, 'Coming Soon', :style => "display:inline"
     %br/
     .field
       = f.label :categories
@@ -42,7 +45,7 @@
   - else
     = f.hidden_field :grid_weight
   - if @promotion.deal?
-    - @fixed_date = PromotionStrategyFactory::FIXED_STRATEGY == @promotion.strategy_name ? @promotion.strategy.end_date : Time.now.beginning_of_day
+    - @fixed_date = PromotionStrategyFactory::FIXED_STRATEGY == @promotion.strategy_name ? @promotion.strategy.end_date : Time.zone.now.beginning_of_day
     - default_days = PromotionStrategyFactory::RELATIVE_STRATEGY  == @promotion.strategy_name ? @promotion.strategy.period_days : RelativeExpirationStrategy::DEFAULT_PERIOD
     - if PromotionStrategyFactory::PRODUCT_STRATEGY == @promotion.strategy_name
       - shipping_option = @promotion.strategy.delivery? ? ProductStrategy::SHIP_OPTION : ProductStrategy::PICKUP_OPTION 

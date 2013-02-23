@@ -15,10 +15,10 @@ describe "Product promotion order view" do
   describe "Correct vendor" do
     before do
       sign_in_as_a_vendor
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => @user.email
-      fill_in 'user_password', :with => @user.password
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
       @delivery = FactoryGirl.create(:product_promotion_with_order, :vendor => @vendor)
       @pickup = FactoryGirl.create(:product_pickup_promotion_with_order, :vendor => @vendor)
       # Authenticate
@@ -46,10 +46,10 @@ describe "Product promotion order view" do
 
   describe "Wrong vendor" do
     before do
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => vendor.user.email
-      fill_in 'user_password', :with => vendor.user.password
+      all('#user_email')[0].set(vendor.user.email)
+      all('#user_password')[0].set(vendor.user.password)
       @delivery = FactoryGirl.create(:product_promotion_with_order, :vendor => foreign_vendor)
       # Authenticate
       click_button I18n.t('sign_in')

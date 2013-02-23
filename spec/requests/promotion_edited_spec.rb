@@ -14,10 +14,10 @@ describe "Promotion edited and approved" do
     before do
       sign_in_as_a_vendor
       # go to sign in page
-      click_link I18n.t('sign_in_register')
+      all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
-      fill_in 'user_email', :with => @user.email
-      fill_in 'user_password', :with => @user.password
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
       # Authenticate
       click_button I18n.t('sign_in')
       visit new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL)
@@ -45,10 +45,10 @@ describe "Promotion edited and approved" do
         click_link 'Log out'
         @admin = FactoryGirl.create(:user)
         @admin.roles << Role.find_by_name(Role::SUPER_ADMIN)
-        click_link I18n.t('sign_in_register')
-        
-        fill_in 'user_email', :with => @admin.email
-        fill_in 'user_password', :with => @admin.password
+        all('a', :text => I18n.t('sign_in_register')).first.click
+        # fill in info
+        all('#user_email')[0].set(@admin.email)
+        all('#user_password')[0].set(@admin.password)
         # Authenticate
         click_button I18n.t('sign_in')
         visit promotions_path
@@ -86,10 +86,10 @@ describe "Promotion edited and approved" do
           before do
             visit root_path
             click_link 'Log out'
-            click_link I18n.t('sign_in_register')
+            all('a', :text => I18n.t('sign_in_register')).first.click
             # fill in info
-            fill_in 'user_email', :with => @user.email
-            fill_in 'user_password', :with => @user.password
+            all('#user_email')[0].set(@user.email)
+            all('#user_password')[0].set(@user.password)
             # Authenticate
             click_button I18n.t('sign_in')
             visit promotions_path
@@ -99,7 +99,7 @@ describe "Promotion edited and approved" do
           
           it "should be accepted" do
             current_path.should be == promotions_path
-            page.should have_css('div', :id => 'error_explanation', :text => I18n.t('promotion_accept_edits'))
+            page.should have_content(I18n.t('promotion_accept_edits'))
             @promotion.reload.expired?.should be_false
             @promotion.reload.approved?.should be_true
             @promotion.reload.displayable?.should be_true
@@ -111,10 +111,10 @@ describe "Promotion edited and approved" do
           before do
             visit root_path
             click_link 'Log out'
-            click_link I18n.t('sign_in_register')
+            all('a', :text => I18n.t('sign_in_register')).first.click
             # fill in info
-            fill_in 'user_email', :with => @user.email
-            fill_in 'user_password', :with => @user.password
+            all('#user_email')[0].set(@user.email)
+            all('#user_password')[0].set(@user.password)
             # Authenticate
             click_button I18n.t('sign_in')
             visit promotions_path
@@ -126,7 +126,7 @@ describe "Promotion edited and approved" do
           
           it "should be rejected" do
             current_path.should be == promotions_path
-            page.should have_css('div', :id => 'error_explanation', :text => I18n.t('promotion_reject_edits'))
+            page.should have_content(I18n.t('promotion_reject_edits'))
             @promotion.displayable?.should be_false
             @promotion.expired?.should be_false
             @promotion.approved?.should be_false
