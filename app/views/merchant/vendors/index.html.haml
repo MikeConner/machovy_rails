@@ -42,3 +42,17 @@
                   %td= link_to 'Payments', show_payments_merchant_vendor_path(vendor)
             %br/
             = link_to 'New Vendor', new_merchant_vendor_path
+        .row-fluid
+          .span12
+            %h3 New Vendors this week
+            - if @new_vendors.empty?
+              None
+            - else
+              %ol
+                - @new_vendors.each do |vendor|
+                  %li
+                    = vendor.created_at.try(:strftime, ApplicationHelper::DATETIME_FORMAT)
+                    = vendor.name
+                    - if !vendor.user.nil?
+                      = vendor.user.email
+                    = vendor.map_address
