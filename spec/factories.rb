@@ -418,6 +418,7 @@ FactoryGirl.define do
     end
     
     factory :promotion_with_venue_address do
+      venue_name "Alpine Club"
       venue_address { generate(:random_street) }
       venue_city { generate(:random_city) }
       venue_state { generate(:random_state) }

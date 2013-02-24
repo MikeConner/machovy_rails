@@ -7,6 +7,10 @@
   %br/
   = f.text_field :title, :size => Curator::MAX_TITLE_LEN
 .field
+  = f.label :weight
+  %br/
+  = f.number_field :weight, :minimum => 1
+.field
   = f.label :twitter, 'Twitter tag (include leading @)'
   %br/
   = f.text_field :twitter, :size => Curator::MAX_TWITTER_LEN

@@ -37,6 +37,7 @@
 #  latitude             :decimal(, )
 #  longitude            :decimal(, )
 #  pending              :boolean         default(FALSE), not null
+#  venue_name           :string(50)
 #
 
 require 'promotion_strategy_factory'
@@ -100,7 +101,7 @@ class Promotion < ActiveRecord::Base
   attr_accessible :description, :destination, :grid_weight, :limitations, :price, :quantity, :retail_value, :revenue_shared,
                   :start_date, :end_date, :teaser_image, :remote_teaser_image_url, :main_image, :remote_main_image_url, :suspended,
                   :status, :promotion_type, :title, :voucher_instructions, :subtitle, :min_per_customer, :max_per_customer,
-                  :venue_address, :venue_city, :venue_state, :venue_zipcode, :latitude, :longitude, :pending,
+                  :venue_name, :venue_address, :venue_city, :venue_state, :venue_zipcode, :latitude, :longitude, :pending,
                   :metro_id, :vendor_id, :category_ids, :blog_post_ids, :promotion_image_ids, :promotion_images_attributes, 
 									:teaser_image_cache, :main_image_cache
 
@@ -350,19 +351,36 @@ class Promotion < ActiveRecord::Base
     !self.latitude.nil? && !self.longitude.nil?
   end
 	
+	# Returns HTML; render in views as html_safe
 	def venue_location
 	  if self.venue_address.blank?
 	    nil
 	  else
       address = ''
-      address += self.venue_address + ', ' unless self.venue_address.blank?
+      address += self.venue_name + '<br>' unless self.venue_name.blank?
+      address += self.venue_address + '<br>' unless self.venue_address.blank?
       address += self.venue_city + ', ' unless self.venue_city.blank?
-      address += self.venue_state + ', ' unless self.venue_state.blank?
-      address += self.venue_zipcode unless self.venue_zipcode.blank?
+      address += self.venue_state + '  ' unless self.venue_state.blank?
+      address += self.venue_zipcode + '<br>' unless self.venue_zipcode.blank?
    
       address
 	  end
 	end
+
+  # Used for geocoding; no HTML, no venue name
+  def venue_geocode_location
+    if self.venue_address.blank?
+      nil
+    else
+      address = ''
+      address += self.venue_address + ', ' unless self.venue_address.blank?
+      address += self.venue_city + ', ' unless self.venue_city.blank?
+      address += self.venue_state + ' ' unless self.venue_state.blank?
+      address += self.venue_zipcode unless self.venue_zipcode.blank?
+   
+      address
+    end
+  end
 private
   def init_defaults
     self.grid_weight = DEFAULT_GRID_WEIGHT if new_record?

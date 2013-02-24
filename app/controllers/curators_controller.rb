@@ -6,7 +6,8 @@ class CuratorsController < ApplicationController
   
   # GET /curators
   def index
-    @curators = Curator.all
+    @curators = Curator.order(:weight)
+    
     if admin_user?
       render :layout => 'layouts/admin'
     end
