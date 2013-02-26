@@ -37,6 +37,7 @@
 #  latitude             :decimal(, )
 #  longitude            :decimal(, )
 #  pending              :boolean         default(FALSE), not null
+#  venue_name           :string(50)
 #
 
 describe "Promotions" do
@@ -100,6 +101,7 @@ describe "Promotions" do
     promotion.should respond_to(:product_order?)
     promotion.should respond_to(:pickup_order?)
     promotion.should respond_to(:shipping_address_required?)
+    promotion.should respond_to(:venue_name)
     promotion.should respond_to(:venue_address)
     promotion.should respond_to(:venue_city)
     promotion.should respond_to(:venue_state)
@@ -108,6 +110,7 @@ describe "Promotions" do
     promotion.should respond_to(:longitude)
     promotion.should respond_to(:mappable?)
     promotion.should respond_to(:venue_location)
+    promotion.should respond_to(:venue_geocode_location)
     promotion.metro.should be == metro
     promotion.vendor.should be == vendor
     promotion.promotion_type.should be == Promotion::LOCAL_DEAL
@@ -129,6 +132,7 @@ describe "Promotions" do
     
     it "should have the address" do
       promotion.venue_location.should_not be_blank
+      promotion.venue_geocode_location.should_not be_blank
     end
     
     it "should have mapping fields" do
@@ -238,11 +242,20 @@ describe "Promotions" do
     it { should be_valid }
     
     it "should have an address" do
+      promotion.venue_name.should_not be_blank
       promotion.venue_address.should_not be_blank
       promotion.venue_city.should_not be_blank
       promotion.venue_state.should_not be_blank
       promotion.venue_zipcode.should_not be_blank
       promotion.venue_location.should_not be_blank
+      promotion.venue_geocode_location.should_not be_blank
+    end
+    
+    it "should include/hide name" do
+      promotion.venue_location.should match(promotion.venue_name)
+      promotion.venue_location.should match(promotion.venue_address)
+      promotion.venue_geocode_location.should_not match(promotion.venue_name)
+      promotion.venue_geocode_location.should match(promotion.venue_address)
     end
   end
   

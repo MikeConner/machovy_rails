@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130223023327) do
+ActiveRecord::Schema.define(:version => 20130224223159) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(:version => 20130223023327) do
     t.datetime "updated_at",               :null => false
     t.string   "slug"
     t.string   "title",      :limit => 48
+    t.integer  "weight"
   end
 
   add_index "curators", ["name"], :name => "index_curators_on_name", :unique => true
@@ -299,6 +300,7 @@ ActiveRecord::Schema.define(:version => 20130223023327) do
     t.decimal  "latitude"
     t.decimal  "longitude"
     t.boolean  "pending",                            :default => false,      :null => false
+    t.string   "venue_name",           :limit => 50
   end
 
   add_index "promotions", ["slug"], :name => "index_promotions_on_slug"

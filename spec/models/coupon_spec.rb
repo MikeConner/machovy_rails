@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: coupons
+#
+#  id           :integer         not null, primary key
+#  title        :string(64)
+#  value        :integer
+#  description  :text
+#  slug         :string(255)
+#  coupon_image :string(255)
+#  vendor_id    :integer
+#  created_at   :datetime        not null
+#  updated_at   :datetime        not null
+#
+
 describe "Coupon" do
   let(:vendor) { FactoryGirl.create(:vendor) }
   let(:coupon) { FactoryGirl.create(:coupon, :vendor => vendor) }

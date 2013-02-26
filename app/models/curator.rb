@@ -11,6 +11,7 @@
 #  updated_at :datetime        not null
 #  slug       :string(255)
 #  title      :string(48)
+#  weight     :integer
 #
 
 # CHARTER
@@ -28,15 +29,18 @@
 class Curator < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
-  
+
   # Could move to ApplicationHelpers with other such things if it's used anywhere else
   TWITTER_REGEX = /^@[A-Za-z0-9_]+$/
   MAX_TWITTER_LEN = 16 # 15 + @-character
   MAX_TITLE_LEN = 48
   MAX_POSTS = 4
+  DEFAULT_MENTOR_WEIGHT = 10
+  
+  after_initialize :init_weight
   
   # Title means the curator's "specialty" (e.g., Style Contributor)
-  attr_accessible :bio, :name, :picture, :remote_picture_url, :twitter, :title
+  attr_accessible :bio, :name, :picture, :remote_picture_url, :twitter, :title, :weight
 
   # Curators own blog_posts, but not promotions
   has_many :blog_posts, :dependent => :nullify
@@ -55,6 +59,7 @@ class Curator < ActiveRecord::Base
                       :length => { maximum: MAX_TWITTER_LEN },
                       :uniqueness => { case_sensitive: false }
   validates_presence_of :bio
+  validates_numericality_of :weight, { :only_integer => true, :greater_than => 0 }
   
   validates_associated :blog_posts
 
@@ -75,5 +80,10 @@ class Curator < ActiveRecord::Base
   
   def blog_posts_for(promotion)
     blog_posts.select { |post| post.promotion_ids.include?(promotion.id) }
+  end
+  
+private
+  def init_weight
+    self.weight = DEFAULT_MENTOR_WEIGHT if new_record?
   end
 end

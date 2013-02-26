@@ -69,6 +69,7 @@ describe "Create promotion with venue location" do
           # Can't "fill_in" a hidden field
           select '65', :from => 'promotion_revenue_shared'
           fill_in 'promotion_quantity', :with => 100
+          fill_in 'promotion_venue_name', :with => 'Alpine Club'
           fill_in 'promotion_venue_address', :with => '135 Drood Ln'
           fill_in 'promotion_venue_city', :with => 'Pittsburgh'
           fill_in 'promotion_venue_state', :with => 'PA'
@@ -87,6 +88,11 @@ describe "Create promotion with venue location" do
           it "should have pending status and correct commission" do
             @p.status.should be == Promotion::PROPOSED
             @p.revenue_shared.should be == 65
+          end
+          
+          it "should compute address correctly" do
+            @p.venue_location.should be == 'Alpine Club<br>135 Drood Ln<br>Pittsburgh, PA  15237<br>'
+            @p.venue_geocode_location.should be == '135 Drood Ln, Pittsburgh, PA 15237'
           end
           
           it "should have latitude/longitude" do

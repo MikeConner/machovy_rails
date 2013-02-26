@@ -36,6 +36,8 @@
           #tab7.tab-pane
             %h4.tab-title Venue Location
             %em Do you want to display a map and address to users? If so, and it's different from your vendor address, enter it here
+            = f.label :venue_name
+            = f.text_field :venue_name, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN
             = f.label :venue_address
             = f.text_field :venue_address, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN
             = f.label :venue_city

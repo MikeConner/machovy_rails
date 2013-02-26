@@ -11,6 +11,7 @@
 #  updated_at :datetime        not null
 #  slug       :string(255)
 #  title      :string(48)
+#  weight     :integer
 #
 
 describe "Curators" do
@@ -30,10 +31,37 @@ describe "Curators" do
     curator.should respond_to(:blog_posts_for)
     curator.should respond_to(:twitter_path)
     curator.should respond_to(:videos)
+    curator.should respond_to(:weight)
   end
   
   it { should be_valid }
   
+  describe "initialization" do
+    before { @curator = Curator.new }
+    
+    it "should have a default weight" do
+      @curator.weight.should == Curator::DEFAULT_MENTOR_WEIGHT
+    end
+  end
+
+  describe "weight validation" do
+    before { curator.weight = 0 }
+    
+    it { should_not be_valid }
+    
+    describe "fractional weight" do
+      before { curator.weight = 0.5 }
+      
+      it { should_not be_valid }
+      
+      describe "negative weight" do
+        before { curator.weight = -5 }
+        
+        it { should_not be_valid }
+      end
+    end
+  end
+    
   describe "name validation" do
     before { curator.name = "  "}
     

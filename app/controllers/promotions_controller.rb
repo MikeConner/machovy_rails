@@ -227,8 +227,8 @@ class PromotionsController < ApplicationController
     end
 
     if @promotion.save
-      if !@promotion.venue_location.nil?
-        location = geocode_address(@promotion.venue_location)
+      if !@promotion.venue_geocode_location.nil?
+        location = geocode_address(@promotion.venue_geocode_location)
         if !location.nil?
           @promotion.latitude = location['lat']
           @promotion.longitude = location['lng']
@@ -335,7 +335,7 @@ class PromotionsController < ApplicationController
         VendorMailer.delay.promotion_status_email(@promotion)
       end 
       
-      if @promotion.venue_location.nil?
+      if @promotion.venue_geocode_location.nil?
         # If it has lat/long with no address, we're deleting a previously saved venue
         if @promotion.mappable?
           @promotion.latitude = nil
@@ -343,7 +343,7 @@ class PromotionsController < ApplicationController
           @promotion.save
         end
       else
-        location = geocode_address(@promotion.venue_location)
+        location = geocode_address(@promotion.venue_geocode_location)
         if !location.nil?
           @promotion.latitude = location['lat']
           @promotion.longitude = location['lng']
