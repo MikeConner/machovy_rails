@@ -1,79 +1,67 @@
-.contain-to-grid
-  %nav.top-bar.container
-    %ul
-      %li.name
-        %h1.visible-phone-nav Navigation
-      %li.toggle-topbar
-        %a{:href => '#'} 
-    %section
-      %ul.left
-        %li.divider
+%nav.top-bar
+  %ul
+    %li.name
+      %h1= link_to(image_tag("machovy-logo.png", :class => "brand", :alt => "logo"), deals_path(:deals => false))
+    %li.toggle-topbar
+      %a
+  %section
+    %ul#menu.left
+      %li.divider
+      %li.has-dropdown
+        %a
+          %i.icon-map-marker 
+          Metro
+        %ul.dropdown
+          %li
+            %label Select Nearest City
+          %li
+          - Metro.all.each do |metro|
+            %li= link_to metro.name, metro_filter_path(:metro => metro.name)
+      %li.divider
+      %li
+        = link_to curators_path do
+          %i.icon-plus-sign-alt 
+          Lifestyle
+      %li.divider
+    %ul#menu.right
+      - if current_user.nil?
+        %li.divider.hide-for-small
+        %li
+          = link_to new_user_session_path do
+            %i.icon-lock 
+            Sign In/Up
+      - else
+        %li.divider.hide-for-small
         %li.has-dropdown
-          %a Metro
-          %ul.dropdown
-            %li <label> Nearest Location </label>
-            - Metro.all.each do |metro|
-              %li= link_to metro.name, metro_filter_path(:metro => metro.name)
-        %li.divider      
-        %li= link_to 'Deals & Interests', deals_path(:deals => true)
-        %li.divider
-        %li= link_to 'Lifestyle', curators_path
-        %li.divider
-      %ul.right
-        - if current_user.nil?
-          %li.divider.hidden-phone
-          %li= link_to 'Sign in / Register', new_user_session_path
-          %li.divider
-        - else
-          %li.divider.hidden-phone
-          %li.has-dropdown
-            %a Account
-            - if current_user.has_role?(Role::MERCHANT)
-              %ul.dropdown
-                %li <label> Merchant </label>
-                %li= link_to 'My Deals', promotions_path
-                %li= link_to I18n.t('my_orders'), merchant_vouchers_path
-                -#%li= link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
-                %li= link_to 'Payments', show_payments_merchant_vendor_path(current_user.vendor)
-                %li <label>Profile</label>
-                %li= link_to 'Change password', edit_user_registration_path
-                %li= link_to 'Log out', destroy_user_session_path, :method => :delete
-            - elsif admin_user?
-              %ul.dropdown
-                %li <label> Admin </label>
-                %li= link_to I18n.t('my_orders'), merchant_vouchers_path
-                %li= link_to 'Site Admin', site_admin_path
-                - if current_user.has_role?(Role::SUPER_ADMIN)
-                  %li= link_to 'Rails Admin', rails_admin_path
-                %li <label> Profile </label>
-                %li= link_to 'Edit profile', edit_profile_user_path(current_user)
-                %li= link_to 'Change password', edit_user_registration_path
-                %li= link_to 'Log out', destroy_user_session_path, :method => :delete
-            - else
-              %ul.dropdown
-                %li <label> User </label>
-                %li= link_to I18n.t('my_orders'), merchant_vouchers_path
-                %li <label> Profile </label>
-                %li= link_to 'Edit profile', edit_profile_user_path(current_user)
-                %li= link_to 'Change password', edit_user_registration_path
-                %li= link_to 'Log out', destroy_user_session_path, :method => :delete
-          %li.divider
-          %li.user-email.hidden-phone{:style => 'width:40px'}
-            == #{gravatar_for current_user, :size => 30, :title => 'Edit this image in your profile'}      
-%section.header-fixed-top
-  .container
-    %header
-      .row-fluid
-        .span3.logo 
-          %h1= link_to(image_tag("logo.png", :class => "brand", :alt => "logo"), deals_path(:deals => false))
-        .span9
-          %span.sub-headline If you think it's <span class="highlight">awesome</span>  chances are we've already found it 
-          .pull-right.visible-desktop
-            = link_to I18n.t('feedback_prompt'), feedback_path, :class => 'btn btn-feedback'
-          - if current_user.nil?  
-            %div.visible-phone-nav
-              = link_to 'Sign in / Register', new_user_session_path, :class => ' btn btn-danger btn-register'
-            -#%form.navbar-search.pull-right
-            -#%input.search-query{:type => 'text', :placeholder => 'Search'}
-.space
-
+          %a
+            %i.icon-user
+            Account
+          - if current_user.has_role?(Role::MERCHANT)
+            %ul.dropdown
+              %li <label> Merchant </label>
+              %li= link_to 'My Deals', promotions_path
+              %li= link_to I18n.t('my_orders'), merchant_vouchers_path
+              -#%li= link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
+              %li= link_to 'Payments', show_payments_merchant_vendor_path(current_user.vendor)
+              %li <label>Profile</label>
+              %li= link_to 'Change password', edit_user_registration_path
+              %li= link_to 'Log out', destroy_user_session_path, :method => :delete
+          - elsif admin_user?
+            %ul.dropdown
+              %li <label> Admin </label>
+              %li= link_to I18n.t('my_orders'), merchant_vouchers_path
+              %li= link_to 'Site Admin', site_admin_path
+              - if current_user.has_role?(Role::SUPER_ADMIN)
+                %li= link_to 'Rails Admin', rails_admin_path
+              %li <label> Profile </label>
+              %li= link_to 'Edit profile', edit_profile_user_path(current_user)
+              %li= link_to 'Change password', edit_user_registration_path
+              %li= link_to 'Log out', destroy_user_session_path, :method => :delete
+          - else
+            %ul.dropdown
+              %li <label> User </label>
+              %li= link_to I18n.t('my_orders'), merchant_vouchers_path
+              %li <label> Profile </label>
+              %li= link_to 'Edit profile', edit_profile_user_path(current_user)
+              %li= link_to 'Change password', edit_user_registration_path
+              %li= link_to 'Log out', destroy_user_session_path, :method => :delete 
