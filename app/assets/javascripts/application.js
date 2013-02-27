@@ -12,6 +12,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require libs/jquery-ui-1.10.1.custom.min
+//= require plugins/jquery.stickyFooter.js
 //= require admin/excanvas.min
 //= require admin/fullcalendar.min
 //= require admin/unicorn
@@ -20,6 +21,5 @@
 //= require libs/responsiveslides.min
 //= require libs/jquery-1.9.1.min
 //= require plugins/foundation/app
-//= require plugins/jquery.toolbar.min
 //= require plugins/prefixfree.min
 //= require_tree .

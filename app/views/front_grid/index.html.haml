@@ -21,5 +21,6 @@
   #container
     - @layout.each do |layout|
       = render :partial => layout[:partial], :locals => { :content => layout[:content] }
-  .row.pagination-centered
-    %ul.pagination= will_paginate @layout
+    .row.pagination-centered
+      %ul.pagination= will_paginate @layout
+    #layout_footer

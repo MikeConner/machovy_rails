@@ -43,6 +43,7 @@
               %li= link_to I18n.t('my_orders'), merchant_vouchers_path
               -#%li= link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
               %li= link_to 'Payments', show_payments_merchant_vendor_path(current_user.vendor)
+              %li.divider
               %li <label>Profile</label>
               %li= link_to 'Change password', edit_user_registration_path
               %li= link_to 'Log out', destroy_user_session_path, :method => :delete
@@ -53,6 +54,7 @@
               %li= link_to 'Site Admin', site_admin_path
               - if current_user.has_role?(Role::SUPER_ADMIN)
                 %li= link_to 'Rails Admin', rails_admin_path
+              %li.divider
               %li <label> Profile </label>
               %li= link_to 'Edit profile', edit_profile_user_path(current_user)
               %li= link_to 'Change password', edit_user_registration_path
@@ -61,7 +63,11 @@
             %ul.dropdown
               %li <label> User </label>
               %li= link_to I18n.t('my_orders'), merchant_vouchers_path
+              %li.divider
               %li <label> Profile </label>
               %li= link_to 'Edit profile', edit_profile_user_path(current_user)
               %li= link_to 'Change password', edit_user_registration_path
-              %li= link_to 'Log out', destroy_user_session_path, :method => :delete 
+              %li= link_to 'Log out', destroy_user_session_path, :method => :delete
+
+
+               
