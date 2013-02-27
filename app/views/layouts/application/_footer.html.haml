@@ -1,44 +1,41 @@
-%footer
-  #footer.stripe-color
-    .container
-      .row
-        .span3
-          %h4 Machovy
-          %ul
-            %li= link_to 'Company Info', about_path
-            %li= link_to 'FAQ', faq_path
-            %li= link_to I18n.t('feedback_prompt'), feedback_path 
-        .span3
-          %h4 Social
-          %ul
-            %li= link_to 'Twitter', 'http://twitter.com/machovy'
-            %li= link_to 'Facebook', 'http://www.facebook.com/Machovy'
-        .span3
-          %h4 Details
-          %ul
-            %li= link_to "Privacy Policy", '#', :onclick => "window.showModalDialog(\"#{ApplicationHelper::PRIVACY_POLICY_LINK}\", 'Privacy Policy', \"dialogWidth:700px;dialogHeight:600px\");"
-            %li= link_to 'Terms', terms_path 
-        .span3
-          %h4 Merchants
-          %ul
-            %li= link_to 'How does it work?', get_featured_path
-            %li= link_to 'Create a merchant account', new_user_registration_path
-            - if !current_user.nil? and current_user.has_role?(Role::MERCHANT)
-              %li= link_to 'Download the merchant contract', merchant_contract_path
-      .divider
-      .row.last
-        .span12
-          %p.sub.pull-left &copy; M A C H O V Y 2012 
-          %span#siteseal.pull-right
-            %script{:type => 'text/javascript', :src => 'https://seal.godaddy.com/getSeal?sealID=kq161toAQ8Dv3mDQGeD3U6Tmkll8kf5hHwiZ9kdDp0O5d2323Icjrnqs50QX'}
-    - if Rails.env.production?
-      :javascript
-        var _gaq = _gaq || []; 
-        _gaq.push(['_setAccount', "#{GOOGLE_TA}"]);
-        _gaq.push(['_trackPageview']);
-        (function() {
-          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })(); 
-  
+%footer.stripe-color
+  .row
+    .three.columns
+      %h4 Machovy
+      %ul
+        %li= link_to 'Company Info', about_path
+        %li= link_to 'FAQ', faq_path
+        %li= link_to I18n.t('feedback_prompt'), feedback_path 
+    .three.columns
+      %h4 Social
+      %ul
+        %li= link_to 'Twitter', 'http://twitter.com/machovy'
+        %li= link_to 'Facebook', 'http://www.facebook.com/Machovy'
+    .three.columns
+      %h4 Details
+      %ul
+        %li= link_to "Privacy Policy", '#', :onclick => "window.showModalDialog(\"#{ApplicationHelper::PRIVACY_POLICY_LINK}\", 'Privacy Policy', \"dialogWidth:700px;dialogHeight:600px\");"
+        %li= link_to 'Terms', terms_path 
+    .three.columns
+      %h4 Merchants
+      %ul
+        %li= link_to 'How does it work?', get_featured_path
+        %li= link_to 'Create a merchant account', new_user_registration_path
+        - if !current_user.nil? and current_user.has_role?(Role::MERCHANT)
+          %li= link_to 'Download the merchant contract', merchant_contract_path
+  .divider
+  .row.last
+    %p.sub.pull-left &copy; M A C H O V Y 2012 
+    %span#siteseal.pull-right
+      %script{:type => 'text/javascript', :src => 'https://seal.godaddy.com/getSeal?sealID=kq161toAQ8Dv3mDQGeD3U6Tmkll8kf5hHwiZ9kdDp0O5d2323Icjrnqs50QX'}
+- if Rails.env.production?
+  :javascript
+    var _gaq = _gaq || []; 
+    _gaq.push(['_setAccount', "#{GOOGLE_TA}"]);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })(); 
+
