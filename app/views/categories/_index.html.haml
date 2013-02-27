@@ -1,17 +1,16 @@
-.row.categories-margin
-  .span12.nav-menus
-    %ul.nav.nav-pills.categories
-      - if active_category.nil? or active_category == Category::ALL_ITEMS_ID
+%div#catagories
+  %ul.desktop-menu
+    - if active_category.nil? or active_category == Category::ALL_ITEMS_ID
+      %li.active
+        = link_to Category::ALL_ITEMS_LABEL, root_path, :id => Category::ALL_ITEMS_ID
+    - else
+      %li
+        = link_to Category::ALL_ITEMS_LABEL, root_path, :id => Category::ALL_ITEMS_ID
+    -# The link is necessary for the jQuery to work, but the actual navigation is Ajax, so the destinations don't matter
+    - @categories.each do |category|
+      - if active_category == category.name
         %li.active
-          = link_to Category::ALL_ITEMS_LABEL, root_path, :id => Category::ALL_ITEMS_ID
+          = link_to category.name, root_path, :id => "#{category.name}"
       - else
         %li
-          = link_to Category::ALL_ITEMS_LABEL, root_path, :id => Category::ALL_ITEMS_ID
-      -# The link is necessary for the jQuery to work, but the actual navigation is Ajax, so the destinations don't matter
-      - @categories.each do |category|
-        - if active_category == category.name
-          %li.active
-            = link_to category.name, root_path, :id => "#{category.name}"
-        - else
-          %li
-            = link_to category.name, root_path, :id => "#{category.name}"
+          = link_to category.name, root_path, :id => "#{category.name}"

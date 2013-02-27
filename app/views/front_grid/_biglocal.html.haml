@@ -1,17 +1,27 @@
-.fatbox.box.tallbox.isotope-item.item
+.local.large
   - promotion = Promotion.find(content)
-  .imgcrop
+  .image
     - if promotion.zombie?
-      .zombie_image
-        %img(src="/assets/sold_out.png")
-      = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion), :style => 'opacity:0.4;' 
+    .zombie_image
+      %img(src="/assets/sold_out.png")
+    = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion), :style => 'opacity:0.4;' 
     - else
       = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s, :style => 'width:100%;'), promotion_path(promotion)
-  .row-fluid
-    %h4= truncate(sanitize(promotion.title), :length => 42)
-    - if !promotion.subtitle.nil?
-      -# %h5= truncate(sanitize(promotion.subtitle), :length => 24)
-    - else
-      -# %h5 An amazing find
-    %p.bigdesc= truncate(promotion.padded_description, :length => 140)
-    = link_to "Only " + number_to_currency(promotion.price).to_s, promotion_path(promotion)
+  .content
+    .desc
+      %h3= truncate(sanitize(promotion.title), :length => 42)
+      %p.bigdesc= truncate(promotion.padded_description, :length => 140)
+    %p.merchant Provided by: New Home Construction
+  .menu.cf
+    .currency
+      .old-price
+        %p 100.00
+      .price= number_to_currency(promotion.price)
+    .promotion-icons
+      %ul
+        %li
+          %a
+            %i.icon-file-alt.icon-2x
+        %li
+          %a
+            %i.icon-share-alt.icon-2x
