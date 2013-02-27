@@ -89,8 +89,6 @@ MachovyRails::Application.routes.draw do
     end
   end
   
-  # Filtering
-  match "/deals" => "ajax#deals"
   # Can't call this /metro because I already have a :metro resource, and it would conflict with show
   match "/metro_filter" => "ajax#metro"
   match "/category" => "ajax#category"

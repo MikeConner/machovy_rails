@@ -17,17 +17,6 @@ class AjaxController < ApplicationController
     render :text => ""
   end
   
-  # Deals/Metro/Category actions are for filtering. Set the session variables, and redirect with JS
-  # Some of these get called from jQuery
-  def deals
-    session[:deals] = params[:deals]
-
-    respond_to do |format|
-      format.html { redirect_to root_path }
-      format.js { render :js => "window.location.href = \"#{root_path}\"" }
-    end
-  end
-  
   def metro
     session[:metro] = params[:metro]
 

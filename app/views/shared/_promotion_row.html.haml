@@ -18,10 +18,7 @@
           = truncate(sanitize(promotion.subtitle), :length => 24)
         - else
           An amazing find
-      - if session[:deals] != 'true'  # -------------------------------------------Front PAGE VIEW
-        %p.description= truncate(promotion.padded_description, :length => 119)
-      -else
-        %p.description= truncate(promotion.padded_description, :length => 130)
+      %p.description= truncate(promotion.padded_description, :length => 130)
     .row-fluid.item-bottom-bar 
       - if promotion.deal?
         .deal-bottom-button

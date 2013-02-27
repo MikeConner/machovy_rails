@@ -8,7 +8,7 @@
       %th Date
       %th Cardholder
       %th Quantity
-      %th Price
+      %th Total
       %th Instructions
       %th Notes
     - @promotion.orders.order('updated_at desc').each do |order|
@@ -17,6 +17,6 @@
         %td= order.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)
         %td== #{order.first_name} #{order.last_name}
         %td= order.quantity
-        %td= order.amount
+        %td= number_to_currency(order.total_cost)
         %td= order.shipping_address
         %td= order.pickup_notes
