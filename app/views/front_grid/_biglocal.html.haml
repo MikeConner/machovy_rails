@@ -1,10 +1,14 @@
 .local.large
   - promotion = Promotion.find(content)
   .image
-    - if promotion.zombie?
-    .zombie_image
-      %img(src="/assets/sold_out.png")
-    = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion), :style => 'opacity:0.4;' 
+    - if promotion.coming_soon?
+      .zombie_image
+        %img(src="/assets/coming_soon.png")
+      = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion), :style => 'opacity:0.4;'
+    - elsif promotion.zombie?
+      .zombie_image
+        %img(src="/assets/sold_out.png")
+      = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion), :style => 'opacity:0.4;' 
     - else
       = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s, :style => 'width:100%;'), promotion_path(promotion)
   .content
