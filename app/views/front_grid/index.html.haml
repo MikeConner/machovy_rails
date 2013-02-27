@@ -1,7 +1,25 @@
 = render :partial => 'categories/index', :locals => { :active_category => @active_category }
 = render :partial => 'shared/flash_messages'
 
-#container.clearfix.row-fluid
-  - @layout.each do |layout|
-    = render :partial => layout[:partial], :locals => { :content => layout[:content] }
-%center= will_paginate @layout
+%header.row.home-page.center
+  .six.columns.divide-right
+    .two.columns.symbol
+      %i.icon-group
+    .ten.columns
+      %h2 Collect Merchandise, Build&nbsp;Your&nbsp;
+      %p 
+        Machovy is a social shopping experience for men. We are working on building relationships with local businesses to provide premium services in the surrounding Pittsburgh Area.
+  .six.columns.divide-left
+    .six.columns.offset-by-one
+      %h3 Are you a Merchant?<br/> Submit your deal today.
+    .five.columns
+      %a
+        Learn More
+        %i.icon-angle-right
+
+.main-wrap
+  #container
+    - @layout.each do |layout|
+      = render :partial => layout[:partial], :locals => { :content => layout[:content] }
+  .row.pagination-centered
+    %ul.pagination= will_paginate @layout
