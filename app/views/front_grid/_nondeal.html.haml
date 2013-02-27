@@ -1,6 +1,17 @@
-.imgcroplittle
+.affiliate
   - if promotion.ad?
     = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion.destination 
   - else
     = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
     .item-title= truncate(sanitize(promotion.title), :length => 28)
+  .menu.cf
+    .logo
+      %a
+    .promotion-icons
+      %ul
+        %li
+          %a
+            %i.icon-file-alt.icon-2x
+        %li
+          %a
+            %i.icon-share-alt.icon-2x
