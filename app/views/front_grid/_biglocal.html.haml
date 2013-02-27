@@ -9,8 +9,8 @@
       = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s, :style => 'width:100%;'), promotion_path(promotion)
   .content
     .desc
-      %h3= truncate(sanitize(promotion.title), :length => 42)
-      %p.bigdesc= truncate(promotion.padded_description, :length => 140)
+      %h3= sanitize(promotion.title)
+      %p.bigdesc= promotion.padded_description
     %p.merchant Provided by: New Home Construction
   .menu.cf
     .currency
