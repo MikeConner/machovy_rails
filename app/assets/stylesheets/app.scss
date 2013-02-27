@@ -10,6 +10,9 @@
  @import "compass/css3";
  @import "foundation/settings";
  @import "foundation/functions/all";
+ @import "compass/reset.scss";
+ @import "compass/layout.scss";
+ @import "compass/layout/sticky-footer";
 
 // Control which mixins you have access too
  @import "foundation/mixins/clearfix";
@@ -43,15 +46,11 @@
  @import "foundation/components/modules/clearing";
  @import "foundation/components/modules/joyride";
 
-// Media Queries Overrides
- @import "foundation/components/modules/mqueries";
-
 // Calls Main Styling / Misc (Deals etc...)
 @import "modules/styles";
 
 // MODULE STYLES
 @import url(http://meyerweb.com/eric/tools/css/reset/reset.css);
-@import "modules/reset";
 @import "modules/nav";
 @import "modules/footer";
 @import "modules/font-awesome";
@@ -59,6 +58,7 @@
 @import "modules/dropdown";
 @import "modules/isotope";
 @import "modules/topbar";
-@import "modules/mqueries";
 
+// Media Queries Overrides
+@import "modules/mqueries";
 

@@ -32,10 +32,5 @@
   = render 'layouts/application/shim'
 %body
   = render 'layouts/application/header'
-  #main
-    .container
-      = yield
-      %br/
-      %br/
-      %br/  
-    = render 'layouts/application/footer'
+  = yield 
+  = render 'layouts/application/footer'
