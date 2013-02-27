@@ -11,19 +11,15 @@
 // GO AFTER THE REQUIRES BELOW.
 //= require jquery
 //= require jquery_ujs
-//= require jquery-ui-1.9.0.custom
-//= require bootstrap
+//= require libs/jquery-ui-1.10.1.custom.min
 //= require admin/excanvas.min
 //= require admin/fullcalendar.min
 //= require admin/unicorn
 //= require admin/jquery.datatables.min
-//= require jquery.isotope.min
-//= require responsiveslides.min.js
-//= require foundation.min.js
-//= require app.js
-//= require jquery.foundation.topbar
-//= require jquery.foundation.navigation.js
-//= require jquery-1.9.1.min
-//= require modernizr.custom
-//= require prefixfree.min
+//= require libs/jquery.isotope.min
+//= require libs/responsiveslides.min
+//= require libs/jquery-1.9.1.min
+//= require plugins/foundation/app
+//= require plugins/jquery.toolbar.min
+//= require plugins/prefixfree.min
 //= require_tree .
