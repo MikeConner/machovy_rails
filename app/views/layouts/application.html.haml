@@ -1,8 +1,7 @@
 !!!
 %head
   %meta{:content => 'text/html', :charset => 'UTF-8', 'http-equiv' => 'Content-Type'}
-  %meta{:name => 'viewport', :content => "initial-scale=1, maximum-scale=1" }
-  %meta{:name => 'viewport', :content => "width=device-width" }
+  %meta{:name => 'viewport', :content => "width=device-width, initial-scale=1.0, maximum-scale=1.0" }
   %meta{:name => 'description', :content => I18n.t('meta_description') }
   %meta{ :property => "fb:app_id", :content => "274942492605472"}
   %meta{ :property => "fb:admins", :content => "bastille"}
@@ -19,18 +18,17 @@
   %title M A C H O V Y
   = favicon_link_tag 
   = javascript_include_tag "application"
-  = stylesheet_link_tag "jquery-ui-1.9.0.custom.css", media: "all", :debug => true
-  = stylesheet_link_tag "main", media: "all", :debug => true
-  = stylesheet_link_tag "responsive", media: "all", :debug => true
-  = stylesheet_link_tag "isotope", media: "all", :debug => true
-  = stylesheet_link_tag "styles", media: "all", :debug => true
+  = javascript_include_tag "plugins/foundation/prefixfree.min.js"
+  = javascript_include_tag "libs/jquery-1.9.1.min.js"
+  = javascript_include_tag "libs/jquery.isotope.min.js"
+  = javascript_include_tag "libs/modernizr.custom.js"
+  = javascript_include_tag "plugins/jquery.toolbar.min.js"
   = stylesheet_link_tag "app", media: "all", :debug => true
   - if GOOGLE_MAPS_KEY.nil?
     = javascript_include_tag "https://maps.googleapis.com/maps/api/js?sensor=false"
   - else
     = javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{GOOGLE_MAPS_KEY}&sensor=false".html_safe
   = csrf_meta_tags
-  = stylesheet_link_tag "https://fonts.googleapis.com/css?family=Raleway:500,900,200"
   = render 'layouts/application/shim'
 %body
   = render 'layouts/application/header'
