@@ -173,6 +173,8 @@ img {display:block;}
     .content {
       padding:0px 15px;
       background-color:white;
+      position:absolute;
+      z-index: 2;
         h3 {font-size: 1.3em; line-height:1.1em; margin:10px 0px 5px;}
         .merchant {margin-top:15px; font-size:0.8em;}
         .desc {
@@ -189,6 +191,7 @@ img {display:block;}
       border-right:1px solid $light_gray;
       position:absolute;
       background-color:white;
+      z-index: 3;
       bottom:0;
       .currency {
         div {float:left;}
@@ -242,7 +245,8 @@ img {display:block;}
   width: 235px;
   height: 380px;
   background-color:white;
-    img {width:235px; height:215px;}
+    // img {width:235px; height:215px;}
+    .image {position:relative; z-index:0; overflow:hidden; height:215px; }
     a {overflow:hidden;}
     @include deal;
 }
@@ -252,7 +256,8 @@ img {display:block;}
   height: 187px;
   margin:0px 0px 5px 0px!important;
     .logo { img { width:auto; height:20px; display:block; position:absolute; bottom:0; padding:0px 0px 4px 5px;}}
-    img {width:235px; height:158px;}
+    // img {width:235px; height:158px;}
+    .image {position:relative; z-index:0; overflow:hidden; height:158px; }
     @include deal;
 }
 
@@ -261,12 +266,13 @@ img {display:block;}
   height: 380px;
   background-color: white;
   @include deal;
-    > img { 
-      width:235px; 
-      height:302.5px;
-      position:relative;
-      z-index: -1;
-    }
+    .image {position:relative; z-index:0; overflow:hidden; height:302.5px; }
+    // > img { 
+    //   width:235px; 
+    //   height:302.5px;
+    //   position:relative;
+    //   z-index: -1;
+    // }
     h3 {
       font-size: 1.3em; 
       line-height:1.1em; 
@@ -322,10 +328,10 @@ img {display:block;}
       height:100px;
       overflow: hidden;
     }
-    img {
-      width: 475px; 
-      height:215px;
-    }
+    // img {
+    //   width: 475px; 
+    //   height:215px;
+    // }
 }
 
 #options {
