@@ -111,10 +111,15 @@ class Vendor < ActiveRecord::Base
   def total_commission
     total = 0
     orders.each do |order|
+      all_owed = true
       order.vouchers.each do |voucher|
-        if voucher.payment_owed?
-          total += order.machovy_share
-        end
+        if !voucher.payment_owed?
+          all_owed = false
+        end        
+      end
+      
+      if all_owed
+        total += order.machovy_share
       end
     end
     
@@ -124,10 +129,16 @@ class Vendor < ActiveRecord::Base
   def amount_owed
     total = 0
     orders.each do |order|
+      all_owed = true
+      # Pay the order when all associated vouchers redeemed
       order.vouchers.each do |voucher|
-        if voucher.payment_owed?
-          total += order.merchant_share
-        end
+        if !voucher.payment_owed?
+          all_owed = false
+        end        
+      end
+      
+      if all_owed
+        total += order.merchant_share
       end
     end
     
