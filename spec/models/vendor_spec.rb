@@ -488,6 +488,26 @@ describe "Vendors" do
       vendor.total_commission.should == 0
     end
     
+    describe "partial redemption, multiple quantities, etc" do
+      let(:vendor) { FactoryGirl.create(:vendor) }
+      let(:promotion) { FactoryGirl.create(:promotion, :vendor => vendor) }
+      let(:order_multiple_unredeemed) { FactoryGirl.create(:order, :promotion => promotion, :quantity => 2) }
+      let(:order_multiple_one_redeemed) { FactoryGirl.create(:order, :promotion => promotion, :quantity => 2) }
+      let(:order_multiple_both_redeemed) { FactoryGirl.create(:order, :promotion => promotion, :quantity => 2) }
+      before do
+        order_multiple_unredeemed.vouchers.create!(:valid_date => 3.days.ago, :expiration_date => 1.week.from_now)
+        order_multiple_unredeemed.vouchers.create!(:valid_date => 3.days.ago, :expiration_date => 1.week.from_now)
+        order_multiple_one_redeemed.vouchers.create!(:valid_date => 3.days.ago, :expiration_date => 1.week.from_now, :status => Voucher::REDEEMED)
+        order_multiple_one_redeemed.vouchers.create!(:valid_date => 3.days.ago, :expiration_date => 1.week.from_now)
+        order_multiple_both_redeemed.vouchers.create!(:valid_date => 3.days.ago, :expiration_date => 1.week.from_now, :status => Voucher::REDEEMED)
+        order_multiple_both_redeemed.vouchers.create!(:valid_date => 3.days.ago, :expiration_date => 1.week.from_now, :status => Voucher::REDEEMED)
+      end
+      
+      it "should have correct payments owed" do
+        vendor.amount_owed.round(2).should be == order_multiple_both_redeemed.merchant_share.round(2)
+      end
+    end
+    
     describe "redeem vouchers" do
       before do
         Voucher.update_all(:status => Voucher::REDEEMED)
@@ -501,8 +521,8 @@ describe "Vendors" do
       
       it "should show amounts paid and owed" do
         vendor.total_paid.should be == payment.amount
-        vendor.amount_owed.round(4).should be == (@total * 3).round(4) # because the order has 3 vouchers
-        vendor.total_commission.round(4).should == (@commission * 3).round(4)
+        vendor.amount_owed.round(4).should be == @total.round(4) # because the order has 3 vouchers
+        vendor.total_commission.round(4).should == @commission.round(4)
       end 
       
       describe "mark paid" do
