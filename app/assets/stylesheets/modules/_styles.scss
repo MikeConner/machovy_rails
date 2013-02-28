@@ -42,7 +42,6 @@ img {display:block;}
 .center {margin:0px auto;}
 
 #filter {margin:0px auto; max-width: 1200px;}
-
 .main-wrap {
   background-color:black;
   padding-top:20px;
@@ -53,7 +52,23 @@ img {display:block;}
     text-align: center;
     font-weight: thin;
   }
+  .pagination-centered {float:left; margin:20px 0;}
 
+}
+
+.main-wrap {
+    display: inline-block;
+}
+.main-wrap:after {
+    content: " ";
+    display: block;
+    height: 0;
+    clear: both;
+    overflow: hidden;
+    visibility: hidden;
+}
+.main-wrap {
+    display: block;
 }
 
 .home-page {
