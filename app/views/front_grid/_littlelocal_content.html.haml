@@ -9,7 +9,7 @@
     = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
 .content
   .desc
-    %h3= sanitize(promotion.title)
+    %h3= link_to sanitize(promotion.title), promotion_path(promotion)
     %p.bigdesc= promotion.padded_description
   %p.merchant Provided by: New Home Construction
 .menu.cf
@@ -20,7 +20,7 @@
   .promotion-icons
     %ul
       %li
-        %a
+        = link_to promotion_path(promotion) do
           %i.icon-file-alt.icon-2x
       %li
         %a
