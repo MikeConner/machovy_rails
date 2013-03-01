@@ -18,6 +18,15 @@ body {
   width: 100%;
 }
 
+
+@-moz-document url-prefix() {
+    body, h1, h2, h3, #super-list, .element, .tagline, #index-list, 
+    .super-list .link {
+      font-family: "HelveticaNeue-Light", "Helvetica Neue Light", sans-serif;
+      font-weight: 100!important;
+    }
+  }
+
 body, h1, h2, h3, #super-list, .element, .tagline, #index-list, 
 .super-list .link {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", sans-serif;
@@ -36,10 +45,24 @@ a, a code, a img {
   border:none;
 }
 
-img {display:block;}
+img {display:block; position:relative; z-index:1;}
 .right {float:right;}
 .left {float:left;}
 .center {margin:0px auto;}
+
+.red-bg {
+  position:absolute;
+  z-index: 4;
+  bottom:0;
+  opacity: 0.5;
+  background-color:$red;
+  width:100%;
+  height:100%;
+    &:hover {
+      opacity: 0.6;
+      background-color:darken($red, 15%);
+    }
+}
 
 #filter {margin:0px auto; max-width: 1200px;}
 .main-wrap {
@@ -174,6 +197,7 @@ img {display:block;}
   position: relative;
   color: #222;
   display: block;
+  img {width:100%;}
     a {
       color:black;
       &:hover {color:black;}
@@ -254,8 +278,16 @@ img {display:block;}
   background-color:white;
     // img {width:235px; height:215px;}
     .image {position:relative; z-index:0; overflow:hidden; height:215px; }
-    a {overflow:hidden;}
+    a {overflow:hidden; width:100%; height:100%;}
     @include deal;
+    .zombie_image {
+      position:absolute;
+      top:0;
+      z-index: 2;
+      opacity:1;
+      width:100%;
+      margin:-7px auto;
+    }
 }
 
 .affiliate { 
@@ -331,6 +363,17 @@ img {display:block;}
 .large {
   width: 475px; 
   height:380px;
+  a {overflow:hidden; width:100%; height:100%;}
+  .zombie_image {
+    position:absolute;
+    top:0;
+    z-index: 2;
+    opacity:1;
+    width:215px;
+    margin:0px auto;
+    left:25%;
+    right:25%;
+  }
     .desc {
       height:100px;
       overflow: hidden;
