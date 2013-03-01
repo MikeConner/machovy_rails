@@ -3,7 +3,7 @@
   - if promotion.zombie?
     = link_to promotion_path(promotion) do
       .red-bg
-        = render :partial => 'big_local_content', :locals => { :promotion => promotion }
+      = render :partial => 'big_local_content', :locals => { :promotion => promotion }
   - elsif promotion.zombie?
     .green-bg
     = render :partial => 'big_local_content', :locals => { :promotion => promotion }
