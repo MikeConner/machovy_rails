@@ -6,9 +6,10 @@
       = link_to image_tag(post.curator.picture_url(:product_front_page).to_s), blog_post_path(post)
       .left
         %h4 
-          %a Author Title
+          = link_to post.curator.name, curator_path(post.curator)
         %p 
           %a View Posts
-      %a.right
-        %i.icon-file-alt.icon-2x
+      .right
+        = link_to blog_post_path(post) do
+          %i.icon-file-alt.icon-2x
     %h3= link_to post.title, blog_post_path(post)
