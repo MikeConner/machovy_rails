@@ -1,5 +1,8 @@
 .container
   .row-fluid
+    %center
+      = will_paginate @vendors
+      = page_entries_info @vendors
     .form-horizontal
       %fieldset
         %legend
@@ -42,6 +45,7 @@
                   %td= link_to 'Payments', show_payments_merchant_vendor_path(vendor)
             %br/
             = link_to 'New Vendor', new_merchant_vendor_path
+        %center= will_paginate @vendors
         .row-fluid
           .span12
             %h3 New Vendors this week

@@ -99,3 +99,8 @@ en:
         one:   Blog Post
         few:   Blog Posts
         other: Blog Posts   
+      user:
+        zero:  Users
+        one:   User
+        few:   Users
+        other: Users

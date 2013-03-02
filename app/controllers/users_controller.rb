@@ -11,7 +11,8 @@ class UsersController < ApplicationController
   def manage
     @new_users = User.where('created_at > ?', 1.week.ago).order('created_at desc')
     @unconfirmed_users = []
-    User.order(:email).each do |user|
+    @users = User.order(:email).paginate(:page => params[:page])
+    @users.each do |user|
       if !user.confirmation_token.nil?
         @unconfirmed_users.push(user)
       end

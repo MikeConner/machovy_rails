@@ -1,3 +1,6 @@
+%center
+  = will_paginate p_list, :param_name => param_name
+  = page_entries_info p_list, :param_name => param_name
 %table
   %col{:width => "75"}/
   %col{:width => "75"}/
@@ -44,3 +47,4 @@
         %td= button_to "Delete", p, :class => "button round", :method => :delete, :data => { confirm: 'Are you sure?' }
       - else
         %td
+%center= will_paginate p_list, :param_name => param_name

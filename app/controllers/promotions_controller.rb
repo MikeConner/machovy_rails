@@ -85,6 +85,11 @@ class PromotionsController < ApplicationController
         end
       end
       
+      @attention = @attention.paginate(:page => params[:attn_page], :per_page => 10)
+      @pending = @pending.paginate(:page => params[:pending_page], :per_page => 10)
+      @live = @live.paginate(:page => params[:live_page], :per_page => 10)
+      @inactive = @inactive.paginate(:page => params[:inactive_page], :per_page => 10)
+      
       render 'index_admin', :layout => 'layouts/admin' and return
     else
       redirect_to root_path, :alert => 'admins_only'
