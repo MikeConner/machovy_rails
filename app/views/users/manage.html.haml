@@ -5,9 +5,12 @@
       %fieldset
         %legend
           %h3 Manage Users
+        %center
+          = will_paginate @users
+          = page_entries_info @users
         .row-fluid
           .span12
-            - User.order(:email).each do |user|
+            - @users.each do |user|
               .row-fluid
                 -# Cannot edit a SuperAdmin
                 - if user.has_role?(Role::SUPER_ADMIN)
@@ -19,6 +22,7 @@
                     = user.email
                     = f.collection_select(:role_ids, Role.all, :id, :name, {:selected => user.role_ids, :include_blank => ''})
                     = f.submit 'Update Role'
+        %center= will_paginate @users
         %legend
           %h3 New Users this week
           .row-fluid

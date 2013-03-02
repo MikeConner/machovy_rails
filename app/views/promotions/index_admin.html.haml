@@ -11,19 +11,19 @@
               - if 0 == @attention.count
                 None
               - else
-                = render :partial => 'promotion_admin', :locals => { :p_list => @attention }
+                = render :partial => 'promotion_admin', :locals => { :p_list => @attention, :param_name => :attn_page }
               %h3 Pending Promotions
               - if 0 == @pending.count
                 None
               - else
-                = render :partial => 'promotion_admin', :locals => { :p_list => @pending }
+                = render :partial => 'promotion_admin', :locals => { :p_list => @pending, :param_name => :pending_page }
               %h3 Live Promotions
               - if 0 == @live.count
                 None
               - else
-                = render :partial => 'promotion_admin', :locals => { :p_list => @live }
+                = render :partial => 'promotion_admin', :locals => { :p_list => @live, :param_name => :live_page }
               %h3 Inactive Promotions
               - if 0 == @inactive.count
                 None
               - else
-                = render :partial => 'promotion_admin', :locals => { :p_list => @inactive }
+                = render :partial => 'promotion_admin', :locals => { :p_list => @inactive, :param_name => :inactive_page }

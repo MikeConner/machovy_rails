@@ -73,7 +73,7 @@ class Promotion < ActiveRecord::Base
   # Special value of max_per_customer that means unlimited. Note constraint in numericality validation; you can't change this value arbitrarily!
   UNLIMITED = 0
   # Amount of time to display sold old deal after it expires or sells out
-  ZOMBIE_THRESHOLD = 1.month
+  ZOMBIE_THRESHOLD = 1.week
   
   # Types
   LOCAL_DEAL = 'Deal'
