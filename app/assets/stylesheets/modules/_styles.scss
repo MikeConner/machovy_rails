@@ -152,7 +152,7 @@ img {display:block; position:relative; z-index:1;}
     background:black;
     color: white;
     font-size: 1.2em;
-    padding: 5px 18px;
+    padding: 4px 20px;
     margin-top: 5px;
     display: inline-block;
     text-decoration: none;
@@ -273,15 +273,10 @@ img {display:block; position:relative; z-index:1;}
     }
 }
 
-
-
-
-
 .local { 
   width: 235px;
   height: 380px;
   background-color:white;
-  display: inline-table!important;
     // img {width:235px; height:215px;}
     .image {position:relative; z-index:0; overflow:hidden; height:215px; }
     a {overflow:hidden; width:100%; height:100%;}
@@ -293,6 +288,13 @@ img {display:block; position:relative; z-index:1;}
       opacity:1;
       width:100%;
       margin:-7px auto;
+    }
+    @media only screen and (max-width: 480px) {
+      width:100%;
+      height:170px;
+      .image { width:35%; float:left; height:100%;}
+      .content {width:65%; float:right;}
+      .zombie_image {margin:2px auto; left:5%;}
     }
 }
 
@@ -322,6 +324,11 @@ img {display:block; position:relative; z-index:1;}
       font-size: 1.3em; 
       line-height:1.1em; 
       margin:10px;
+    }
+
+    @media only screen and (max-width: 480px) {
+      width:100%!important;
+      height:250px;
     }
 
     .details {
@@ -358,14 +365,15 @@ img {display:block; position:relative; z-index:1;}
     }
 }
 
-@media only screen and (max-width: 480px) {
-  .local {width:100%; img {width:100%;}}
-  .large {width:100%!important;}
-  .bg-clear {width:45%; display:inline-block; float:left; position:relative; img {width:100%;}}
-  .blogpost {width:45%; display:inline-block; float:left; position:relative; img {width:100%;}}
+.bg-clear {
+  background:none!important;
+  @media only screen and (max-width: 480px) {
+      width:100%;
+      height:185px;
+      .affiliate {width:48.5%; margin:0px 2.5px!important;}
+    }
 }
 
-.bg-clear {background:none!important;}
 .large {
   width: 475px; 
   height:380px;
@@ -384,10 +392,14 @@ img {display:block; position:relative; z-index:1;}
       height:100px;
       overflow: hidden;
     }
-    // img {
-    //   width: 475px; 
-    //   height:215px;
-    // }
+
+    @media only screen and (max-width: 480px) {
+      width:100%;
+      height:170px;
+      .image { width:35%; float:left; height:100%;}
+      .content {width:65%; float:right;}
+      .zombie_image {margin:2px auto; left:5%;}
+    }
 }
 
 #options {
