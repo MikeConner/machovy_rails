@@ -8,7 +8,7 @@
     %br= text_area_tag 'comment', nil, :rows => 5, :class => "slider-input"
     = submit_tag 'Reject Machovy Changes', :class => "button big round"
 .row-fluid.product-line
-  .span4.product
+  .four.columns.product
     %ul.rslides{:id => 'slider2'}
       - no_images = @promotion.teaser_image.file.nil? and @promotion.main_image.file.nil? and 0 == @promotion.promotion_images.count
       - if no_images

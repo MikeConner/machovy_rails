@@ -329,6 +329,9 @@ img {display:block; position:relative; z-index:1;}
     @media only screen and (max-width: 480px) {
       width:100%!important;
       height:250px;
+        img {
+          height: 100%;
+        }
     }
 
     .details {
@@ -337,6 +340,7 @@ img {display:block; position:relative; z-index:1;}
       z-index: 1;
       bottom:0;
       width:100%;
+      background-color:white;
       .author {
         padding:0px;
         background-color:white;
