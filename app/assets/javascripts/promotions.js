@@ -1,7 +1,5 @@
 $(function() {
-
-  $(".rslides").responsiveSlides();
-
+  
   $('#tab1').click(function (e) {
   	// Don't prevent default, or submit buttons don't work!
     $(this).tab('show');
