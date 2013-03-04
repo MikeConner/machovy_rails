@@ -1,17 +1,17 @@
-.row-fluid
-  .span12.page-header
+.row
+  .large-12.page-header
     %h1== #{I18n.t('curators')} <small>Lifestyle guidance</small>
-.row-fluid
-  .span12
+.row
+  .large-12
     %h4 Welcome to the Machovy Feedback Forum
     %p Now, we know you're a genius... but it's just possible someone else had the same idea. And maybe some people even though they obviously know the best place for men's interest shopping -- might not be full-on geniuses in other areas. If so, feel free to (be)rate them. You can see the highest-rated ideas on the right. Will yours make the cut?
-.row-fluid
-  .span12
+.row
+  .large-12
     - @curators.each do |curator|
-      .row-fluid.curator-block
-        .span2
+      .row.curator-block
+        .large-2
           = link_to(image_tag(curator.picture_url(:product_front_page).to_s), curator_path(curator))
-        .span7
+        .large-7
           - if admin_user?        
             = button_to 'Delete', curator, method: :delete, data: { confirm: 'Are you sure?' }
             = link_to curator.name, edit_curator_path(curator)
@@ -20,7 +20,7 @@
             %p= curator.bio
             -#= curator.twitter
             -#= link_to curator_path(curator)
-        .span3
+        .large-3
           %h4 Latest Blog Posts
           .borderLine
             .borderLine-left &nbsp;

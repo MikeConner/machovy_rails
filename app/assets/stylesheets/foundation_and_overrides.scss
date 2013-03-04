@@ -28,7 +28,7 @@ $font-smoothing: antialiased;
 $text-direction: ltr;
 
 // We use these as default colors throughout
-$primary-color: #2ba6cb;
+$primary-color:rgb(237,28,36);
 $secondary-color: #e9e9e9;
 $alert-color: #c60f13;
 $success-color: #5da423;
@@ -1004,7 +1004,7 @@ $topBarNavToggleColor: #fff;
 
 // Transitions and breakpoint styles
  $topbar-transition-speed: 300ms;
- $topbar-breakpoint: emCalc(780px); // Change to 9999px for always mobile layout
+ $topbar-breakpoint: emCalc(580px); // Change to 9999px for always mobile layout
  // $topbar-media-query: "only screen and (min-width "#{$topbar-breakpoint}")";
 
  // Custom Styles
