@@ -1,8 +1,8 @@
-require 'front_page_layout'
+require 'fixed_front_page_layout'
 
 class FrontGridController < ApplicationController
   MAX_PARTNER_VIEW_DEALS = 16
-  
+
   def index
     # Need to have a metro, or filtering will return nothing
     if session[:metro].nil?
@@ -19,19 +19,21 @@ class FrontGridController < ApplicationController
     # If they request the home page (no page argument), generate a random layout and store it in the session.
     # Pagination can then move forwards and backwards through it. If you didn't store it, it would generate a new random layout each time --
     #   probably with a different number of pages, so the pagination wouldn't work. Reloading by hitting the logo again loads a new layout.
-    if params[:page].nil? or session[:layout].nil?
-      layout_state = FrontPageLayout.new(filter(Promotion.deals, @active_category, @active_metro), 
-                                         filter(Promotion.nondeals, @active_category, @active_metro), 
-                                         BlogPost.select { |p| p.displayable? and (p.metros.empty? or p.metro_ids.include?(metro_id)) }.sort)
-      # Generate the layout
-      until layout_state.done? do
-        layout_state.next
-      end
-      
-      session[:layout] = layout_state.layout
+    if params[:page].nil? or session[:layout].nil? and !session[:width].nil?
+      session[:layout] = FixedFrontPageLayout.new(filter(Promotion.deals, @active_category, @active_metro), 
+                                                  filter(Promotion.nondeals, @active_category, @active_metro), 
+                                                  BlogPost.select { |p| p.displayable? and (p.metros.empty? or p.metro_ids.include?(metro_id)) }.sort,
+                                                  session[:width]).layout
     end
     
-    @layout = session[:layout].paginate(:page => params[:page])
+    if session[:width].nil?
+      @layout = nil
+      puts "No layout"
+    else
+      @layout = nil
+      puts "Layout!"
+      #@layout = session[:layout].paginate(:page => params[:page])
+    end
   end    
   
   def midnightguru    
