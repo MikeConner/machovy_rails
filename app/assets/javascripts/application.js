@@ -12,13 +12,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require libs/jquery-ui-1.10.1.custom.min
-//= require libs/jquery-1.9.1.min
 //= require libs/jquery.isotope.min
 //= require plugins/jquery.stickyFooter.js
 //= require admin/jquery.datatables.min
 //= require plugins/prefixfree.min
 //= require foundation
-$(document).foundation();
 //= require_tree .
-
 
