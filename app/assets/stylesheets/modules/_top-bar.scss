@@ -88,7 +88,7 @@ $topbar-media-query: "only screen and (min-width:"#{$topbar-breakpoint}")" !defa
     height: $topbar-height;
     margin: 0;
     font-size: $em-base;
-    width:250px;
+    width:500px;
     padding-top: 17px;
     h1 {
       line-height: $topbar-height;
@@ -320,6 +320,7 @@ $topbar-media-query: "only screen and (min-width:"#{$topbar-breakpoint}")" !defa
     .toggle-topbar { display: none; }
 
     .title-area { float: left; }
+    .name {width:250px;}
     .name h1 a { width: auto; }
 
     input,

@@ -1,4 +1,6 @@
 $(function() {
+
+  $(document).foundation();
   
   $('#tab1').click(function (e) {
   	// Don't prevent default, or submit buttons don't work!
