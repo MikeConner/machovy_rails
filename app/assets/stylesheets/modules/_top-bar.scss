@@ -430,9 +430,9 @@
     & > ul > .divider {
       border-bottom: none;
       border-top: none;
-      border-right: solid 1px lighten($topbar-bg, 10%);
-      border-left: solid 1px darken($topbar-bg, 10%);
-      @include box-shadow(1px 0 0 rgba(255,255,255,0.10));
+      border-right: solid 1px lighten($topbar-bg, 20%);
+      border-left: solid 1px darken($topbar-bg, 20%);
+      //@include box-shadow(1px 0 0 rgba(255,255,255,0.10));
       clear: none;
       height: $topbar-height;
       width: 0px;
