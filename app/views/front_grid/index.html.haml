@@ -1,40 +1,39 @@
 = render :partial => 'categories/index', :locals => { :active_category => @active_category }
 = render :partial => 'shared/flash_messages'
-
-%header.row.home-page.center
-  .large-6.columns.divide-right
-    .large-2.columns.symbol
-      %i.icon-group
-    .large-10.columns
-      %h2 Collect Merchandise, Build&nbsp;Your&nbsp;
-      %p 
-        Machovy is a social shopping experience for men. We are working on building relationships with local businesses to provide premium services in the surrounding Pittsburgh Area.
-  .large-6.columns.divide-left
-    .large-6.columns.offset-by-one
-      %h3 Are you a Merchant?<br/> Submit your deal today.
-    .large-6.columns
-      %a
-        Learn More
-        %i.icon-angle-right
-.main-wrap
+- if @display_banner
+  %header#machovy_banner.home-page.center
+    .row
+      .large-6.columns.divide-right
+        .large-12.columns
+          %h2 Collect Merchandise, Build&nbsp;Your&nbsp;Lifestyle
+          %p 
+            Machovy is a social shopping experience for men. We are working on building relationships with local businesses to provide premium services in the surrounding Pittsburgh Area.
+      .large-6.columns.divide-left
+        .large-6.columns.offset-by-one
+          %h3 Are you a Merchant?<br/> Submit your deal today.
+        .large-6.columns
+          %a{:href => get_featured_path, :class => 'learn-more'}
+            Learn More
+            %i.icon-angle-right
+    .toggle
+      %span{:onclick => "hide_machovy_banner();", :class => 'btn-toggle toggle'}
+        %i.icon-angle-up
+        Alright, Got it!
+        %i.icon-angle-up
+.main-wrap.display_front_page
   #container
-    - if !@layout.nil?
+    - if @empty_layout
+      #deal_content
+    - elsif !@layout.nil?
+      #deal_content
       - @layout.each do |layout|
         = render :partial => layout[:partial], :locals => { :content => layout[:content] }
       .row.pagination-centered
-        %ul.pagination= will_paginate @layout
-
-.row
-  .large-12.columns
-    %br
-    .darkred-btn
-      button
-    .darkblue-btn
-      button
-    .blue-btn
-      button
-    .darkgreen-btn
-      button
-    .mediumgray-btn
-      button
-    
+        %ul.pagination= will_paginate @paged_layout
+      #user-options.toolbar-icons{:style => 'display:none;'}
+        %a{:href => '#'}
+          %i.icon-facebook
+        %a{:href => '#'}
+          %i.icon-twitter
+        %a{:href => '#'}
+          %i.icon-envelope

@@ -1,55 +1,153 @@
 class FixedFrontPageLayout
-  attr_accessor :layout
+  attr_accessor :layout, :page_start, :page_end, :num_columns
   
-  BIG_DEAL_PARTIAL = 'front_grid/biglocal'
-  SMALL_DEAL_PARTIAL = 'front_grid/littlelocal'
-  BLOG_POST_PARTIAL = 'front_grid/blogpost'
-  NON_DEAL_PARTIAL = 'front_grid/littleblocks'
+  BIG_DEAL = 'front_grid/biglocal'
+  SMALL_DEAL = 'front_grid/littlelocal'
+  BLOG_POST = 'front_grid/blogpost'
+  NON_DEAL = 'front_grid/littleblocks'
   
   # Minimum pixels for each column layout
   FIVE_COLUMN = 1200
   FOUR_COLUMN = 960
   THREE_COLUMN = 720
+  TWO_COLUMN = 470
+  DESIRED_ROWS = 7
   
-  PATTERNS = { 5 => [[BIG_DEAL_PARTIAL, SMALL_DEAL_PARTIAL, BLOG_POST_PARTIAL, NON_DEAL_PARTIAL], 
-                     [BIG_DEAL_PARTIAL, BLOG_POST_PARTIAL, SMALL_DEAL_PARTIAL, SMALL_DEAL_PARTIAL]],
-               4 => [],
-               3 => [],
-               2 => [[], [], []] }
+  PATTERNS = { 5 => [[BIG_DEAL,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,BLOG_POST,BIG_DEAL,SMALL_DEAL],
+                     #[SMALL_DEAL,NON_DEAL,BLOG_POST,NON_DEAL,SMALL_DEAL],
+                     #[BIG_DEAL,BLOG_POST,SMALL_DEAL,NON_DEAL],
+                     [BIG_DEAL,BLOG_POST,SMALL_DEAL,BLOG_POST],
+                     [SMALL_DEAL,NON_DEAL,BLOG_POST,SMALL_DEAL,SMALL_DEAL],
+                     #[NON_DEAL,SMALL_DEAL,SMALL_DEAL,NON_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,BLOG_POST,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,SMALL_DEAL,NON_DEAL,SMALL_DEAL,SMALL_DEAL],
+                     [BIG_DEAL,BLOG_POST,SMALL_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,SMALL_DEAL,BIG_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,BIG_DEAL,SMALL_DEAL,BLOG_POST],
+                     #[SMALL_DEAL,BIG_DEAL,SMALL_DEAL,NON_DEAL],
+                     #[SMALL_DEAL,BIG_DEAL,NON_DEAL,BLOG_POST],
+                     [NON_DEAL,BIG_DEAL,SMALL_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,BIG_DEAL],
+                     [SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,BLOG_POST,NON_DEAL],
+                     [SMALL_DEAL,BLOG_POST,SMALL_DEAL,BLOG_POST,SMALL_DEAL],
+                     #[SMALL_DEAL,BLOG_POST,SMALL_DEAL,NON_DEAL,SMALL_DEAL],
+                     #[NON_DEAL,SMALL_DEAL,SMALL_DEAL,NON_DEAL,SMALL_DEAL],
+                     #[BLOG_POST,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,NON_DEAL]],
+                     [BLOG_POST,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,BLOG_POST]],
+               4 => [[BIG_DEAL, SMALL_DEAL, SMALL_DEAL],
+                     [SMALL_DEAL, BLOG_POST, BIG_DEAL],
+                     #[SMALL_DEAL, NON_DEAL, BLOG_POST, NON_DEAL],
+                     [BIG_DEAL, BLOG_POST, SMALL_DEAL],
+                     #[SMALL_DEAL, NON_DEAL, NON_DEAL, SMALL_DEAL],
+                     #[NON_DEAL, SMALL_DEAL, SMALL_DEAL, NON_DEAL],
+                     [SMALL_DEAL, BLOG_POST, SMALL_DEAL, SMALL_DEAL],
+                     #[SMALL_DEAL, NON_DEAL, SMALL_DEAL, SMALL_DEAL],
+                     [BIG_DEAL, BIG_DEAL],
+                     [SMALL_DEAL, SMALL_DEAL, SMALL_DEAL, SMALL_DEAL],
+                     [SMALL_DEAL, SMALL_DEAL, BIG_DEAL],
+                     [SMALL_DEAL, BIG_DEAL, SMALL_DEAL],
+                     [SMALL_DEAL, BIG_DEAL, NON_DEAL],
+                     [NON_DEAL, BIG_DEAL, SMALL_DEAL]],
+               3 => [[BIG_DEAL, SMALL_DEAL], 
+                     [BIG_DEAL, BLOG_POST],
+                     #[BIG_DEAL, NON_DEAL],
+                     [SMALL_DEAL, BIG_DEAL],
+                     [SMALL_DEAL, SMALL_DEAL, SMALL_DEAL],
+                     [SMALL_DEAL, SMALL_DEAL, BLOG_POST],
+                     #[SMALL_DEAL, SMALL_DEAL, NON_DEAL],
+                     [SMALL_DEAL, BLOG_POST, SMALL_DEAL],
+                     [SMALL_DEAL, BLOG_POST, NON_DEAL],
+                     [SMALL_DEAL, NON_DEAL, SMALL_DEAL],
+                     #[SMALL_DEAL, NON_DEAL, BLOG_POST],
+                     [BLOG_POST, BIG_DEAL],
+                     [BLOG_POST, SMALL_DEAL, SMALL_DEAL],
+                     [BLOG_POST, SMALL_DEAL, BLOG_POST],
+                     #[BLOG_POST, SMALL_DEAL, NON_DEAL],
+                     #[BLOG_POST, NON_DEAL, SMALL_DEAL],
+                     [NON_DEAL, BIG_DEAL],
+                     #[NON_DEAL, SMALL_DEAL, SMALL_DEAL],
+                     #[NON_DEAL, SMALL_DEAL, BLOG_POST],
+                     #[NON_DEAL, SMALL_DEAL, NON_DEAL],
+                     [NON_DEAL, BLOG_POST, SMALL_DEAL]],
+                     #[NON_DEAL, BLOG_POST, NON_DEAL],
+                     #[NON_DEAL, NON_DEAL, SMALL_DEAL],
+                     #[NON_DEAL, NON_DEAL, BLOG_POST]],
+               2 => [[BIG_DEAL], 
+                     [SMALL_DEAL, BLOG_POST], 
+                     [SMALL_DEAL, NON_DEAL],
+                     [SMALL_DEAL, SMALL_DEAL],
+                     [NON_DEAL, BLOG_POST],
+                     #[NON_DEAL, NON_DEAL],
+                     #[BLOG_POST, NON_DEAL],
+                     #[NON_DEAL, SMALL_DEAL],
+                     [BLOG_POST, SMALL_DEAL]],
+               1 => [[BIG_DEAL], [SMALL_DEAL], [SMALL_DEAL], [SMALL_DEAL], [BLOG_POST], [BLOG_POST], [NON_DEAL]] }
 
   def initialize(deals, non_deals, blog_posts, width)
     @deals = deals
     @non_deals = non_deals
     @blog_posts = blog_posts
+    @layout = []
+
+    # Cannot render anything if we have literally no deals
+    return if @deals.empty? or @blog_posts.empty? or @non_deals.empty?
+
     @deal_idx = 0
     @non_deal_idx = 0
     @blog_post_idx = 0
-    @layout = []
     @num_columns = compute_num_columns(width)
+    @page_start = { 1 => 0 }
+    @page_end = Hash.new
     @deals_remaining = true
     @last_pattern = -1
     
-    while @deals_remaining do
+    page_length = 0
+    row_cnt = DESIRED_ROWS
+    page_idx = 1
+    loop do
       # Get a randomly selected pattern array of the appropriate column configuration
-      p = PATTERNS[@num_columns][next_pattern]
+      np = next_pattern
+      p = PATTERNS[@num_columns][np]
+      page_length += @num_columns
+      p.each do |partial|
+        if BIG_DEAL == partial
+          page_length -= 1
+        end
+      end
+      
+      row_cnt -= 1
       
       p.each do |partial|
         case partial
-          when BIG_DEAL_PARTIAL
+          when BIG_DEAL
             layout.push({:partial => partial, :content => @deals[next_deal].id})
-          when SMALL_DEAL_PARTIAL
+          when SMALL_DEAL
             layout.push({:partial => partial, :content => @deals[next_deal].id})
-          when BLOG_POST_PARTIAL
+          when BLOG_POST
             layout.push({:partial => partial, :content => @blog_posts[next_blog_post].id})
-          when NON_DEAL_PARTIAL
+          when NON_DEAL
             layout.push({:partial => partial, :content => [@non_deals[next_non_deal].id, @non_deals[next_non_deal].id]})
           else
             raise 'Unknown partial'
           end
       end
       
-      # Terminate if we're exactly at the end
-      $deals_remaining = false if @deals.length == @deal_idx
+      # Terminate if we're exactly at the end      
+      @deals_remaining = false if @deals.length == @deal_idx
+      
+      if 0 == row_cnt
+        @page_end[page_idx] = page_length - 1
+        
+        page_idx += 1
+        if @deals_remaining
+          @page_start[page_idx] = page_length
+          row_cnt = DESIRED_ROWS
+        else
+          break
+        end
+      end
     end
   end
   
@@ -112,8 +210,10 @@ private
       4
     elsif width.to_i >= THREE_COLUMN
       3
-    else
+    elsif width.to_i >= TWO_COLUMN
       2
+    else
+      1
     end
   end
 end

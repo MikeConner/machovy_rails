@@ -19,7 +19,6 @@ class FrontGridController < ApplicationController
     # If they request the home page (no page argument), generate a random layout and store it in the session.
     # Pagination can then move forwards and backwards through it. If you didn't store it, it would generate a new random layout each time --
     #   probably with a different number of pages, so the pagination wouldn't work. Reloading by hitting the logo again loads a new layout.
-<<<<<<< HEAD
     if (params[:page].nil? or session[:layout].nil?) and !session[:width].nil?
       fp_layout = FixedFrontPageLayout.new(filter(Promotion.deals, @active_category, @active_metro), 
                                            filter(Promotion.nondeals, @active_category, @active_metro), 
@@ -47,24 +46,7 @@ class FrontGridController < ApplicationController
     end
     
     @display_banner = session[:banner_viewed].nil? || ('false' == session[:banner_viewed])
-=======
-    if params[:page].nil? or session[:layout].nil? and !session[:width].nil?
-      session[:layout] = FixedFrontPageLayout.new(filter(Promotion.deals, @active_category, @active_metro), 
-                                                  filter(Promotion.nondeals, @active_category, @active_metro), 
-                                                  BlogPost.select { |p| p.displayable? and (p.metros.empty? or p.metro_ids.include?(metro_id)) }.sort,
-                                                  session[:width]).layout
-    end
-    
-    if session[:width].nil?
-      @layout = nil
-      puts "No layout"
-    else
-      @layout = nil
-      puts "Layout!"
-      #@layout = session[:layout].paginate(:page => params[:page])
-    end
->>>>>>> New front page layout
-  end    
+  end
   
   # External feed to midnightguru
   def midnightguru
