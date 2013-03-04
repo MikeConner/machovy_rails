@@ -19,6 +19,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
   gem 'compass-rails', '1.0.3'
   gem 'zurb-foundation', '4.0.3'
+  gem 'sassy-buttons', '0.1.4'
 end
 
 gem 'haml', '3.1.7'

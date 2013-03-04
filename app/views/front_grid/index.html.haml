@@ -16,7 +16,6 @@
       %a
         Learn More
         %i.icon-angle-right
-
 .main-wrap
   #container
     - if !@layout.nil?
@@ -24,4 +23,18 @@
         = render :partial => layout[:partial], :locals => { :content => layout[:content] }
       .row.pagination-centered
         %ul.pagination= will_paginate @layout
+
+.row
+  .large-12.columns
+    %br
+    .darkred-btn
+      button
+    .darkblue-btn
+      button
+    .blue-btn
+      button
+    .darkgreen-btn
+      button
+    .mediumgray-btn
+      button
     
