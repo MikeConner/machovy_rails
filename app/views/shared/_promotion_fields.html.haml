@@ -136,7 +136,7 @@
       %h4
         Upload images from your computer OR give us a URL for the image.  
       .row-fluid 
-        .span4 
+        .four.columns 
           - if f.object.teaser_image.file.nil?
             = I18n.t('no_image') unless f.object.new_record?
           - else 
@@ -145,7 +145,7 @@
           = f.file_field :teaser_image,  :accept => "image/*;capture=camera"
           = f.label :remote_teaser_image_url, "or image URL"
           = f.text_field :remote_teaser_image_url, :title => I18n.t('ensure_image')
-        .span4
+        .four.columns
           - if f.object.main_image.file.nil?
             = I18n.t('no_image') unless f.object.new_record?
           - else
@@ -154,7 +154,7 @@
           = f.file_field :main_image,  :accept => "image/*;capture=camera"
           = f.label :remote_main_image_url, "or image URL"
           = f.text_field :remote_main_image_url, :title => I18n.t('ensure_image')
-        .span4
+        .four.columns
           .slideshow
             = f.fields_for :promotion_images do |slideshow_image_form|
               = render :partial => 'shared/slideshow', :locals => { :f => slideshow_image_form }

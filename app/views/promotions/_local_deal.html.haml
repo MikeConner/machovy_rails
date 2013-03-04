@@ -7,7 +7,7 @@
     If you're rejecting the changes, please tell us why below
     %br= text_area_tag 'comment', nil, :rows => 5, :class => "slider-input"
     = submit_tag 'Reject Machovy Changes', :class => "button big round"
-.row-fluid.product-line
+.row.product-line
   .four.columns.product
     %ul.rslides{:id => 'slider2'}
       - no_images = @promotion.teaser_image.file.nil? and @promotion.main_image.file.nil? and 0 == @promotion.promotion_images.count
@@ -45,14 +45,14 @@
         %script{:src => "https://connect.facebook.net/en_US/all.js#xfbml=1"}
         %fb:like{:layout => "button_count", :show_faces => "false", :width => "450"}
       .space
-  .span8.product-detail
-    .row-fluid
-      .span12
+  .eight.columns.product-detail
+    .row
+      .twelve.columns
         %h3= @promotion.title
         - if !@promotion.subtitle.nil?
           %h4= @promotion.subtitle
-    .row-fluid
-      .span12
+    .row
+      .twelve.columns
 
         - if @promotion.retail_value > @promotion.price
           %span.price-old= number_to_currency(@promotion.retail_value)
@@ -80,7 +80,7 @@
             %pre= @promotion.limitations
           #tab3.tab-pane
             - @vendor = @promotion.vendor
-            .span6
+            .six.columns
               %em= @vendor.name
               -# Show venue address first, otherwise default to vendor address (unless private)
               - if @promotion.venue_location.nil?
@@ -96,7 +96,7 @@
                 %br= link_to 'Web site', @vendor.url_display, :target => '_blank'
               - if !@vendor.facebook.blank?
                 %br= link_to 'Facebook', @vendor.facebook_display, :target => '_blank'
-            .span6
+            .six.columns
               -# If we have a mappable venue address, show that; otherwise all back on the vendor address
               - if @promotion.mappable?
                 = hidden_field_tag :latitude, @promotion.latitude
@@ -120,8 +120,8 @@
 - if !@curators.empty?        
   .section-divider  
   .space-small
-  .row-fluid
+  .row
     %h4 Associated Mentors
-  .row-fluid.well
+  .row.well
     - @curators.each do |curator|
       = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }

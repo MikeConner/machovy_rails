@@ -1,10 +1,10 @@
 .row-fluid
-  .span12.page-header
+  .twelve.columns.page-header
     %h1 Blog Posts <small>the latest & greatest</small>
 .container-fluid
   = render :partial => 'shared/flash_messages'
   .row-fluid
-    .span12
+    .twelve.columns
       %button.btn.btn-small.pull-right 
         = link_to 'Rebalance Weights', rebalance_blog_posts_path, :method => :put
       %center
@@ -18,7 +18,7 @@
             %th.span2 Curator
             %th.span5 Body 
             - if admin_user?
-              %th.span4
+              %th.four.columns
             - else
               %th.span1 Weight
         %tbody

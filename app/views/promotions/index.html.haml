@@ -9,7 +9,7 @@
 .divider
 - if (@pending.count + @attention.count + @live.count) > 0
   .row-fluid
-    .span4
+    .four.columns
       .row-fluid
         .span5
           %h4= I18n.t('promotions.pending')
@@ -18,13 +18,13 @@
       - else
         = render :partial => 'promotion_dashview', :locals => { :p_list => @pending }
       %br
-    .span4
+    .four.columns
       %h4= I18n.t('promotions.attention') 
       - if 0 == @attention.count
         None
       - else
         = render :partial => 'promotion_dashview', :locals => { :p_list => @attention }  
-    .span4
+    .four.columns
       %h4= I18n.t('promotions.live')
       - if 0 == @live.count
         None

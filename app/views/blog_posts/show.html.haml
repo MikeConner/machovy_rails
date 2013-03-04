@@ -1,32 +1,32 @@
-.row-fluid
-  .span9
+.row
+  .nine.columns
     %article
-      .row-fluid
-        .span12
+      .row
+        .twelve.columns
           %h1= @blog_post.title
           %p.blog-sub-headline November 12, 2012
           .borderLine
             .borderLine-left &nbsp;
             .borderLine-right &nbsp;
           = @blog_post.body.html_safe
-      .row-fluid
-        .span3
+      .row
+        .three.columns
           - @videos.each do |video|
             = video.title
             %iframe{:width => "480", :height => "295", :frameborder => "0", :allowfullscreen => "true", |
                     :src => video.destination_url} |   
             = video.caption
-  .span3
+  .three.columns
     %aside
       - if !@blog_post.associated_image.file.nil?
         = image_tag @blog_post.associated_image_url(:blog_content_photo).to_s
-      .row-fluid.curator-row
+      .row.curator-row
         .span2.curator-block-post
           = link_to(image_tag(@blog_post.curator.picture_url(:contributor_photo).to_s), curator_path(@blog_post.curator))
         .span5.curator-name
           == #{link_to @blog_post.curator.name, curator_path(@blog_post.curator)} <span class="recommend"> Recommends </span>
-      .row-fluid.curator-post-row
-        -#.span12.curator-post-title= @blog_post.curator.title
+      .row.curator-post-row
+        -#.twelve.columns.curator-post-title= @blog_post.curator.title
       -#%p= link_to 'Follow on Twitter', @blog_post.curator.twitter_path, :target => "_blank"
       %br
       - @promotions.each do |promotion|
