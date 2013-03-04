@@ -112,6 +112,7 @@ MachovyRails::Application.routes.draw do
   match "/activity_report" => "static_pages#activity_report"
   match "/feedback_report" => "static_pages#feedback_report"
   match "/order_report" => "static_pages#order_report"
+  match "/width" => "ajax#set_width", :via => :put
   
   # MailChimp integration test
   match "/mailing" => "static_pages#mailing"
