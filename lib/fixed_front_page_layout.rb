@@ -13,7 +13,7 @@ class FixedFrontPageLayout
   
   PATTERNS = { 5 => [[BIG_DEAL_PARTIAL, SMALL_DEAL_PARTIAL, BLOG_POST_PARTIAL, NON_DEAL_PARTIAL], 
                      [BIG_DEAL_PARTIAL, BLOG_POST_PARTIAL, SMALL_DEAL_PARTIAL, SMALL_DEAL_PARTIAL]],
-               4 => [],
+               4 => [[BIG_DEAL_PARTIAL, SMALL_DEAL_PARTIAL, BLOG_POST_PARTIAL, NON_DEAL_PARTIAL]],
                3 => [],
                2 => [[], [], []] }
 

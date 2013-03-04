@@ -34,30 +34,11 @@ class AjaxController < ApplicationController
     end
   end
   
-  # If 0, it's a resize, so "forget" about the width and recalculate next time
   def set_width
-    if session[:width].nil?
-      puts "NIL session width"
-    end
-    old_width = session[:width]
-    puts "Old width = #{old_width}"
-    session[:width] = '0' == params[:width] ? nil : params[:width]
-    puts "Session width = #{session[:width]} #{session[:width].class.name}"
-    
+    session[:width] = params[:width]
     respond_to do |format|
       format.js do
-        if session[:width].nil? or (session[:width] == old_width)
-          if session[:width].nil?
-            puts "Rendering nothing because width nil"
-          else
-            puts "Rendering nothing because width didn't change"
-           end
-          render :nothing => true
-        else
-          puts "Rendering view with new width #{session[:width]}"
-          #render :js => "window.location.href = \"#{root_path}\""
-          render :nothing => true
-        end
+        render :js => "window.location.href = \"#{root_path}\""
       end
     end
   end
