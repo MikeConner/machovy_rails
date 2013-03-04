@@ -51,7 +51,7 @@ $(function() {
           columnWidth: $container.width() / 100,
           gutterWidth: 2
         }
-    });
+    });                     
 
   $(window).smartresize(function(){
     $container.isotope({
@@ -60,6 +60,11 @@ $(function() {
     });
   });
   });
+
+  // Send width if we're on the main page AND there's no deal content yet
+  if (($('.main-wrap').length > 0) && (0 == $('#deal_content').length)) {
+  	update_width($(window).width());
+  }
 
   // filter items when filter link is clicked
   $('#filters a').click(function(){
@@ -238,4 +243,15 @@ function update_grid_weight(id, amount) {
 	             error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
 	               { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
 	             async: false}); 	    		
+}
+
+function update_width(width) {
+  jQuery.ajax({url:"/width",
+               data: "width=" + width,
+	           type: "PUT",
+	           // Don't need to do anything on success
+               error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
+                 { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
+               async: false
+  });	
 }
