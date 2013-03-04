@@ -1,17 +1,17 @@
-.row-fluid.product-line
-  .span4.product
+.row.product-line
+  .four.columns.product
     = image_tag @promotion.teaser_image_url(:product_front_page).to_s  
-  .span8.product-detail
-    .row-fluid
-      .span10
+  .eight.columns.product-detail
+    .row
+      .ten.columns
         %h2.affiliate-headline= @promotion.title
         - if !@promotion.subtitle.nil?
           %h4= @promotion.subtitle
         .space
         -# if @show_buy_button
           = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank", :class => 'btn btn-danger'
-    .row-fluid
-      .span12.product-detail
+    .row
+      .twelve.columns.product-detail
         %ul.nav.nav-tabs
           %li.active
             <a data-toggle="tab" href="#tab1">Description </a>
@@ -23,7 +23,7 @@
           .tab-bottom-button
             = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank"
 .space-medium
-.row-fluid.well
+.row.well
   - @curators.each do |curator|
     = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }
     

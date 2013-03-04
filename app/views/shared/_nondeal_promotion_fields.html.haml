@@ -9,7 +9,7 @@
     = f.label :destination
     = f.text_field :destination
     .row-fluid 
-      .span4 
+      .four.columns 
         - if f.object.teaser_image.file.nil?
           = I18n.t('no_image')
         - else 
@@ -18,7 +18,7 @@
         = f.file_field :teaser_image
         = f.label :remote_teaser_image_url, "or image URL"
         = f.text_field :remote_teaser_image_url, :title => I18n.t('ensure_image')
-      .span4
+      .four.columns
         - if f.object.main_image.file.nil?
           = I18n.t('no_image')
         - else
@@ -27,11 +27,11 @@
         = f.file_field :main_image
         = f.label :remote_main_image_url, "or image URL"
         = f.text_field :remote_main_image_url, :title => I18n.t('ensure_image')
-      .span4
+      .four.columns
         .slideshow
           = f.fields_for :promotion_images do |slideshow_image_form|
             = render :partial => 'shared/slideshow', :locals => { :f => slideshow_image_form }
-  .span4
+  .four.columns
     .field
       = f.label :metro_id
       = f.collection_select :metro_id, metros, :id, :name 
