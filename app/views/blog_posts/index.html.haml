@@ -1,10 +1,10 @@
-.row-fluid
-  .twelve.columns.page-header
+.row
+  .large-12.columns.page-header
     %h1 Blog Posts <small>the latest & greatest</small>
-.container-fluid
+.container
   = render :partial => 'shared/flash_messages'
-  .row-fluid
-    .twelve.columns
+  .row
+    .large-12.columns
       %button.btn.btn-small.pull-right 
         = link_to 'Rebalance Weights', rebalance_blog_posts_path, :method => :put
       %center

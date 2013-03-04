@@ -1,8 +1,8 @@
 .row
-  .nine.columns
+  .large-9.columns
     %article
       .row
-        .twelve.columns
+        .large-12.columns
           %h1= @blog_post.title
           %p.blog-sub-headline November 12, 2012
           .borderLine
@@ -10,20 +10,20 @@
             .borderLine-right &nbsp;
           = @blog_post.body.html_safe
       .row
-        .three.columns
+        .large-3.columns
           - @videos.each do |video|
             = video.title
             %iframe{:width => "480", :height => "295", :frameborder => "0", :allowfullscreen => "true", |
                     :src => video.destination_url} |   
             = video.caption
-  .three.columns
+  .large-3.columns
     %aside
       - if !@blog_post.associated_image.file.nil?
         = image_tag @blog_post.associated_image_url(:blog_content_photo).to_s
       .row.curator-row
-        .span2.curator-block-post
+        .large-2.curator-block-post
           = link_to(image_tag(@blog_post.curator.picture_url(:contributor_photo).to_s), curator_path(@blog_post.curator))
-        .span5.curator-name
+        .large-2.curator-name
           == #{link_to @blog_post.curator.name, curator_path(@blog_post.curator)} <span class="recommend"> Recommends </span>
       .row.curator-post-row
         -#.twelve.columns.curator-post-title= @blog_post.curator.title

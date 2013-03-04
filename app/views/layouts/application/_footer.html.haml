@@ -28,6 +28,21 @@
     %p.sub.pull-left &copy; M A C H O V Y 2012 
     %span#siteseal.pull-right
       %script{:type => 'text/javascript', :src => 'https://seal.godaddy.com/getSeal?sealID=kq161toAQ8Dv3mDQGeD3U6Tmkll8kf5hHwiZ9kdDp0O5d2323Icjrnqs50QX'}
+.newsletter
+  .row.input
+    .large-8.columns
+      %h4 Stay on top of what's happening with Machovy.
+      %p Sign up to receive monthly Responsive Reading highlights. Read Last Month's Edition »
+    .large-4.columns
+      .row.collapse
+        %form{:method => 'post'}
+          .small-9.columns
+            %input{:type => 'text', :placeholder => 'signup@example.com'}
+          .small-3.columns 
+            %a.button.prefix
+              Submit
+
+
 - if Rails.env.production?
   :javascript
     var _gaq = _gaq || []; 
