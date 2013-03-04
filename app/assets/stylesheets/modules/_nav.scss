@@ -1,143 +1,181 @@
-#menu {
-      >li {
-        /* Must be 5px less than topBarHeight */ 
-        height: 55px;
-      }
-      li {
-      float: left;
-        &:hover {
-          > a {color: #fafafa;}
-          > ul {opacity: 1; visibility: visible; margin: 0; border:1px solid #999;}
-        } 
-    }
+// #menu {
+//       >li {
+//         /* Must be 5px less than topBarHeight */ 
+//         height: 55px;
+//       }
+//       li {
+//       float: left;
+//         &:hover {
+//           > a {color: #fafafa;}
+//           > ul {opacity: 1; visibility: visible; margin: 0; border:1px solid #999;}
+//         } 
+//     }
 
-    ul {
-      margin: 20px 0 0 0;
-      opacity: 0;
-      visibility: hidden;
-      top: 50px;
-      left: 1;
-      z-index: 90;    
-      background:rgba(0,0,0,.9); 
-      border-radius: 3px;
-      transition: all .3s ease-in-out;
-      -webkit-transition:all .3s ease-in-out;   
-      width:150px;
+//     ul {
+//       margin: 20px 0 0 0;
+//       opacity: 0;
+//       visibility: hidden;
+//       top: 50px;
+//       left: 1;
+//       z-index: 90;    
+//       background:rgba(0,0,0,.9); 
+//       border-radius: 3px;
+//       transition: all .3s ease-in-out;
+//       -webkit-transition:all .3s ease-in-out;   
+//       width:150px;
       
-        li {
-          a {
-            border-top:1px solid #333;
-            border-left:5px solid #444;
-          }
-        }
-        // Problem Code breaking navigation / pusing whole body from the right
-        a {    
-          padding: 10px;
-          // width: 130px;
-          display: block;
-          white-space: nowrap;
-          float: none;
-          text-transform: none;
-            &:hover {
-              background-color: $red;
-              /*color:darken($red, 30%);*/
-              border-left:5px solid darken($red, 20%);
-              color:white;
-              text-shadow: 0 0px 0 #000;
-            }
-        }
-    }
-  @media only screen and (max-width: $topbar-breakpoint) {
-    >li {
-        height: 55px;
-        width:100%;
-      }
-      li {
-      float: left;
-        a {
-          &:hover {background-color:black!important; border:none!important;}
-        }
-        &:active {
-          position:static;
-          > a {color: #fafafa;}
-          > ul {opacity: 1; visibility: hidden; margin: 0; border:none; top:0;}
-        } 
-    }
+//         li {
+//           a {
+//             border-top:1px solid #333;
+//             border-left:5px solid #444;
+//           }
+//         }
+//         // Problem Code breaking navigation / pusing whole body from the right
+//         a {    
+//           padding: 10px;
+//           // width: 130px;
+//           display: block;
+//           white-space: nowrap;
+//           float: none;
+//           text-transform: none;
+//             &:hover {
+//               background-color: $red;
+//               /*color:darken($red, 30%);*/
+//               border-left:5px solid darken($red, 20%);
+//               color:white;
+//               text-shadow: 0 0px 0 #000;
+//             }
+//         }
+//     }
+//   @media only screen and (max-width: $topbar-breakpoint) {
+//     >li {
+//         height: 55px;
+//         width:100%;
+//       }
+//       li {
+//       float: left;
+//         a {
+//           &:hover {background-color:black!important; border:none!important;}
+//         }
+//         &:active {
+//           position:static;
+//           > a {color: #fafafa;}
+//           > ul {opacity: 1; visibility: hidden; margin: 0; border:none; top:0;}
+//         } 
+//     }
 
-    ul {
-      margin: 0px 0 0 0;
-      opacity: 1;
-      visibility: hidden;
-      top: 0px;
-      left: 0;
-      z-index: 90;    
-      background:rgba(0,0,0,.9); 
-      border-radius: 0px;
-      transition: all .3s ease-in-out;
-      -webkit-transition:all .3s ease-in-out; 
-      border:none!important;    
-        li {
-          a {
-            border-top:none;
-            border-left:none;
-          }
-        }
-        a {    
-          padding: 10px;
-          width: 100%;
-          display: block;
-          white-space: nowrap;
-          float: none;
-          text-transform: none;
-            &:hover {
-              background-color: $red;
-              /*color:darken($red, 30%);*/
-              border-left:5px solid darken($red, 20%);
-              color:white;
-              text-shadow: 0 0px 0 #000;
-            }
-        }
-    }
-  }
-} 
+//     ul {
+//       margin: 0px 0 0 0;
+//       opacity: 1;
+//       visibility: hidden;
+//       top: 0px;
+//       left: 0;
+//       z-index: 90;    
+//       background:rgba(0,0,0,.9); 
+//       border-radius: 0px;
+//       transition: all .3s ease-in-out;
+//       -webkit-transition:all .3s ease-in-out; 
+//       border:none!important;    
+//         li {
+//           a {
+//             border-top:none;
+//             border-left:none;
+//           }
+//         }
+//         a {    
+//           padding: 10px;
+//           width: 100%;
+//           display: block;
+//           white-space: nowrap;
+//           float: none;
+//           text-transform: none;
+//             &:hover {
+//               background-color: $red;
+//               /*color:darken($red, 30%);*/
+//               border-left:5px solid darken($red, 20%);
+//               color:white;
+//               text-shadow: 0 0px 0 #000;
+//             }
+//         }
+//     }
+//   }
+// } 
+
 
 
 
 #categories {
-  border-top:#111112;
-  border-bottom:2px solid #ccc;
-  height:35px;
-  background-color:white;
-  padding-left: 25px;
-  margin-top:-19px;
-  zoom:1;
-  > li {
-      &:first-child {padding-left:13px;}
-  }
-    a {
-      float: left;
-      padding: 5px 12px;
-      color:#333333;
-      font-family:"HelveticaNeue", sans-serif;
-      font-weight: bold;
-      text-decoration: none;
-      font-size: 0.9em;
+    border-top:#111112;
+    border-bottom:2px solid #ccc;
+    height:35px;
+    background-color:white;
+    padding-left: 25px;
+    margin-top:0px;
+    zoom:1;
+    > li {
+        &:first-child {padding-left:13px;}
     }
-
-    .desktop-menu {
-    @media only screen and (max-width: $topbar-breakpoint) {
-        display: none!important;
+      a {
+        float: left;
+        padding: 5px 12px;
+        color:#333333;
+        font-family:"HelveticaNeue", sans-serif;
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 0.9em;
       }
-    }
 
-  .mobile-menu {
-    display: none;
-
+      .desktop-menu {
       @media only screen and (max-width: $topbar-breakpoint) {
-        display: inline-block!important;
+          display: none!important;
+        }
       }
-  }
-} 
+
+    .mobile-menu {
+      display: none;
+
+        @media only screen and (max-width: $topbar-breakpoint) {
+          display: inline-block!important;
+        }
+    }
+  } 
+@media #{$topbar-media-query} {
+  #categories {
+    border-top:#111112;
+    border-bottom:2px solid #ccc;
+    height:35px;
+    background-color:white;
+    padding-left: 25px;
+    margin-top:-19px;
+    zoom:1;
+    > li {
+        &:first-child {padding-left:13px;}
+    }
+      a {
+        float: left;
+        padding: 5px 12px;
+        color:#333333;
+        font-family:"HelveticaNeue", sans-serif;
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 0.9em;
+      }
+
+      .desktop-menu {
+      @media only screen and (max-width: $topbar-breakpoint) {
+          display: none!important;
+        }
+      }
+
+    .mobile-menu {
+      display: none;
+
+        @media only screen and (max-width: $topbar-breakpoint) {
+          display: inline-block!important;
+        }
+    }
+  } 
+}
 
 select {
     background-color: $light-gray;
