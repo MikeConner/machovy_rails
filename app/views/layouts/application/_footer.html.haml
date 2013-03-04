@@ -1,22 +1,22 @@
 %footer
   .row
-    .three.columns
+    .large-3.columns
       %h4 Machovy
       %ul
         %li= link_to 'Company Info', about_path
         %li= link_to 'FAQ', faq_path
         %li= link_to I18n.t('feedback_prompt'), feedback_path 
-    .three.columns
+    .large-3.columns
       %h4 Social
       %ul
         %li= link_to 'Twitter', 'http://twitter.com/machovy'
         %li= link_to 'Facebook', 'http://www.facebook.com/Machovy'
-    .three.columns
+    .large-3.columns
       %h4 Details
       %ul
         %li= link_to "Privacy Policy", '#', :onclick => "window.showModalDialog(\"#{ApplicationHelper::PRIVACY_POLICY_LINK}\", 'Privacy Policy', \"dialogWidth:700px;dialogHeight:600px\");"
         %li= link_to 'Terms', terms_path 
-    .three.columns
+    .large-3.columns
       %h4 Merchants
       %ul
         %li= link_to 'How does it work?', get_featured_path
