@@ -19,8 +19,9 @@
 
 .main-wrap
   #container
-    - @layout.each do |layout|
-      = render :partial => layout[:partial], :locals => { :content => layout[:content] }
-    .row.pagination-centered
-      %ul.pagination= will_paginate @layout
+    - if !@layout.nil?
+      - @layout.each do |layout|
+        = render :partial => layout[:partial], :locals => { :content => layout[:content] }
+      .row.pagination-centered
+        %ul.pagination= will_paginate @layout
     
