@@ -47,8 +47,8 @@ a, a code, a img {
 }
 
 img {display:block; position:relative; z-index:1;}
-.right {float:right;}
-.left {float:left;}
+.right {float:right; height:100%; }
+.left {float:left; height:100%;}
 .center {margin:0px auto;}
 
 .red-bg {
@@ -79,6 +79,7 @@ img {display:block; position:relative; z-index:1;}
   .pagination-centered {float:left; margin:20px 0;}
 
 }
+
 
 .main-wrap {
     display: inline-block;
@@ -274,6 +275,8 @@ img {display:block; position:relative; z-index:1;}
 }
 
 
+
+
 .local { 
   width: 235px;
   height: 380px;
@@ -347,13 +350,15 @@ img {display:block; position:relative; z-index:1;}
         background-color:white;
         background-color:black;
         height: 50px;
-        margin-bottom: 0px;
+        margin-bottom: 0px!important;
           .icon-2x {font-size:2em; margin-top:10px;}
           a {color:white; margin:2px 15px 0px 0px;}
           h4 {
             color:white;
             font-weight: bold;
+            font-size: 1em!important;
             padding-top: 5px;
+            margin-bottom: 0px!important;
           }
           p {
             color:white;
