@@ -13,7 +13,7 @@
         %iframe{:width => "480", :height => "295", :frameborder => "0", :allowfullscreen => "true", |
                 :src => video.destination_url} |   
         = video.caption
-  .large-3.columns{"data-blogpost" => "sidebar"}
+  .large-3.columns.author-recommend
     .row.author
       = link_to(image_tag(@blog_post.curator.picture_url(:contributor_photo).to_s), curator_path(@blog_post.curator))
       .large-7.columns
