@@ -1,8 +1,4 @@
 = render :partial => 'shared/flash_messages'
 %h1= @title
 .row-fluid
-  %center
-    = will_paginate @promotions
-    = page_entries_info @promotions
-  = render :partial => 'promotion_admin', :locals => { :p_list => @promotions }
-  %center= will_paginate @promotions
+  = render :partial => 'promotion_admin', :locals => { :p_list => @promotions, :param_name => :page }
