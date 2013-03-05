@@ -58,12 +58,13 @@ $(function() {
       // update columnWidth to a percentage of container width
       masonry: { columnWidth: $container.width() / 100 }
     });
+  	update_width($(window).width(), true);
   });
   });
 
   // Send width if we're on the main page AND there's no deal content yet
   if (($('.main-wrap').length > 0) && (0 == $('#deal_content').length)) {
-  	update_width($(window).width());
+  	update_width($(window).width(), false);
   }
 
   // filter items when filter link is clicked
@@ -245,9 +246,11 @@ function update_grid_weight(id, amount) {
 	             async: false}); 	    		
 }
 
-function update_width(width) {
+function update_width(width, resize) {
+  data_obj = {"width": width, "resize": resize}
+  
   jQuery.ajax({url:"/width",
-               data: "width=" + width,
+               data: data_obj,
 	           type: "PUT",
 	           // Don't need to do anything on success
                error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },

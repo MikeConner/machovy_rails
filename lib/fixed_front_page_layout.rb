@@ -14,8 +14,8 @@ class FixedFrontPageLayout
   PATTERNS = { 5 => [[BIG_DEAL_PARTIAL, SMALL_DEAL_PARTIAL, BLOG_POST_PARTIAL, NON_DEAL_PARTIAL], 
                      [BIG_DEAL_PARTIAL, BLOG_POST_PARTIAL, SMALL_DEAL_PARTIAL, SMALL_DEAL_PARTIAL]],
                4 => [[BIG_DEAL_PARTIAL, SMALL_DEAL_PARTIAL, BLOG_POST_PARTIAL, NON_DEAL_PARTIAL]],
-               3 => [],
-               2 => [[], [], []] }
+               3 => [[BIG_DEAL_PARTIAL, SMALL_DEAL_PARTIAL, BLOG_POST_PARTIAL], [SMALL_DEAL_PARTIAL, BLOG_POST_PARTIAL, NON_DEAL_PARTIAL]],
+               2 => [[BIG_DEAL_PARTIAL, SMALL_DEAL_PARTIAL], [BLOG_POST_PARTIAL, NON_DEAL_PARTIAL], [SMALL_DEAL_PARTIAL, BLOG_POST_PARTIAL]] }
 
   def initialize(deals, non_deals, blog_posts, width)
     @deals = deals

@@ -38,7 +38,11 @@ class AjaxController < ApplicationController
     session[:width] = params[:width]
     respond_to do |format|
       format.js do
-        render :js => "window.location.href = \"#{root_path}\""
+        if 'true' == params[:resize]
+          render :nothing => true
+        else
+          render :js => "window.location.href = \"#{root_path}\""
+        end
       end
     end
   end
