@@ -1,6 +1,6 @@
 .affiliate
   - if promotion.ad?
-    = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion.destination 
+    = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion.destination, :target => '_blank' 
   - else
     = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
     .item-title= truncate(sanitize(promotion.title), :length => 28)
