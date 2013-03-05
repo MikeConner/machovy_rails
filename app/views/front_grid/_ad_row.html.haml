@@ -2,5 +2,5 @@
   - ads.each do |ad|
     .span3
       .thumbnail
-        = link_to image_tag(ad.teaser_image_url(:product_front_page).to_s), ad.destination 
+        = link_to image_tag(ad.teaser_image_url(:product_front_page).to_s), ad.destination, :target => '_blank' 
     
