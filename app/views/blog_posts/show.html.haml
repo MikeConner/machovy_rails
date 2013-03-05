@@ -1,33 +1,29 @@
-.row
-  .large-9.columns
-    %article
-      .row
-        .large-12.columns
-          %h1= @blog_post.title
-          %p.blog-sub-headline November 12, 2012
-          .borderLine
-            .borderLine-left &nbsp;
-            .borderLine-right &nbsp;
-          = @blog_post.body.html_safe
-      .row
-        .large-3.columns
-          - @videos.each do |video|
-            = video.title
-            %iframe{:width => "480", :height => "295", :frameborder => "0", :allowfullscreen => "true", |
-                    :src => video.destination_url} |   
-            = video.caption
-  .large-3.columns
-    %aside
-      - if !@blog_post.associated_image.file.nil?
-        = image_tag @blog_post.associated_image_url(:blog_content_photo).to_s
-      .row.curator-row
-        .large-2.curator-block-post
-          = link_to(image_tag(@blog_post.curator.picture_url(:contributor_photo).to_s), curator_path(@blog_post.curator))
-        .large-2.curator-name
-          == #{link_to @blog_post.curator.name, curator_path(@blog_post.curator)} <span class="recommend"> Recommends </span>
-      .row.curator-post-row
-        -#.twelve.columns.curator-post-title= @blog_post.curator.title
-      -#%p= link_to 'Follow on Twitter', @blog_post.curator.twitter_path, :target => "_blank"
-      %br
-      - @promotions.each do |promotion|
-        = render :partial => 'shared/promotion_column', :locals => { :promotion => promotion }
+.row{"data-blogpost" => "page"}
+  .large-8.columns
+    - if !@blog_post.associated_image.file.nil?
+      = image_tag @blog_post.associated_image_url(:blog_content_photo).to_s
+    .hr
+    %h4= @blog_post.title
+    %p By The Cocktail Chef | On Feb21, 2013 | 0 Comments
+    .hr
+    = @blog_post.body.html_safe
+    .large-3.columns
+      - @videos.each do |video|
+        = video.title
+        %iframe{:width => "480", :height => "295", :frameborder => "0", :allowfullscreen => "true", |
+                :src => video.destination_url} |   
+        = video.caption
+  .large-3.columns{"data-blogpost" => "sidebar"}
+    .row.author
+      = link_to(image_tag(@blog_post.curator.picture_url(:contributor_photo).to_s), curator_path(@blog_post.curator))
+      .large-7.columns
+        %h4== #{link_to @blog_post.curator.name, curator_path(@blog_post.curator)} 
+        %p Recommends
+      .large-2.columns
+        %i.icon-angle-down.icon-2x.right
+    .row.curator-post-row
+      -#.twelve.columns.curator-post-title= @blog_post.curator.title
+    -#%p= link_to 'Follow on Twitter', @blog_post.curator.twitter_path, :target => "_blank"
+    %br
+    - @promotions.each do |promotion|
+      = render :partial => 'shared/promotion_column', :locals => { :promotion => promotion }

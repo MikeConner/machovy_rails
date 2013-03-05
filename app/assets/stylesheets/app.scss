@@ -12,13 +12,14 @@
 
 // MODULE STYLES
 @import url(http://meyerweb.com/eric/tools/css/reset/reset.css);
+@import "modules/sassybuttons";
 @import "modules/nav";
 @import "modules/footer";
 @import "modules/font-awesome";
 //@import "modules/toolbar";
 @import "modules/isotope";
 @import "modules/top-bar";
-@import "modules/sassybuttons";
+@import "modules/blogpost";
 
 
 
