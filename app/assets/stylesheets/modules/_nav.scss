@@ -1,8 +1,8 @@
 @media #{$topbar-media-query} {
   #menu {
         >li {
-          /* Must be 5px less than topBarHeight */ 
-          height: 55px;
+          height: $topbar-height;
+          border-bottom:1px solid #555555;
         }
         li {
         float: left;

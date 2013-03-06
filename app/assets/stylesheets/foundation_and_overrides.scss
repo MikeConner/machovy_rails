@@ -949,7 +949,7 @@ $label-padding: emCalc(6px) emCalc(10px) emCalc(6px);
  $topbar-bg: #111;
 
 // Height and margin
- $topbar-height: 60px;
+ $topbar-height: 50px;
  $topbar-margin-bottom: emCalc(30px);
 
 // Control Input height for top bar
@@ -984,8 +984,8 @@ $label-padding: emCalc(6px) emCalc(10px) emCalc(6px);
 $topBarBgColor: #393a3d;
 $topBarBgGradientTop:#393a3d;
 $topBarBgGradientBottom:#222325;
-$topBarHeight: 60px;
-$topBarHeightMobile: 60px;
+// $topBarHeight: 60px;
+// $topBarHeightMobile: 60px;
 $topBarBtmMargin: 0px;
 $topBarTitleWeight: bold;
 $topBarTitleSize: 17px;

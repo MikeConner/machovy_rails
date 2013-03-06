@@ -49,7 +49,7 @@
     margin: 0;
     font-size: $em-base;
     width:500px;
-    padding-top: 20px;
+    padding-top: $topbar-height / 4;
     h1 {
       line-height: $topbar-height;
       font-size: $topbar-title-font-size;
@@ -357,7 +357,8 @@
     li {
       a:not(.button) {
         padding: 0 $topbar-height / 3;
-        line-height: $topbar-height;
+        line-height: $topbar-height - 1px;
+        padding-bottom:1px solid #555;
         @include filter-gradient($topBarBgGradientTop, $topBarBgGradientTop, vertical); // IE6-8
         $experimental-support-for-svg: true;
         @include background-image(linear-gradient(top,  $topBarBgGradientTop 0%,$topBarBgGradientBottom 100%));
