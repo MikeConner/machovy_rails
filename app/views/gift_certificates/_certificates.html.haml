@@ -4,7 +4,7 @@
       %th Purchaser
       %th Recipient
       %th Amount
-      %th Charge ID
+      %th Transaction ID
       %th Date
   %tbody
     - certificates.each do |certificate|
@@ -12,5 +12,5 @@
         %td= certificate.user.email
         %td= certificate.email
         %td= number_to_currency(certificate.amount)
-        %td= certificate.charge_id
+        %td= certificate.transaction_id
         %td= certificate.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)
