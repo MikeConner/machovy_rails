@@ -3,7 +3,8 @@ class FrontGridController < ApplicationController
   MAX_BLOGS = 4
   MAX_ADS = 4
   MAX_PARTNER_VIEW_DEALS = 16
-
+  EROTICA_VENDOR_ID = 14
+  
   def index
     # Need to have a metro, or filtering will return nothing
     if session[:metro].nil?
@@ -32,7 +33,6 @@ class FrontGridController < ApplicationController
   end
 
   def midnightguru
-    
     @deals_per_row = Promotion::DEALS_PER_ROW
     non_exclusive = Category.non_exclusive.map { |c| c.id }
     @promotions = Promotion.front_page.select { |p| (p.displayable? or p.zombie? or p.coming_soon?) and (p.metro.name == 'Pittsburgh') and !(p.category_ids & non_exclusive).empty? }.sort
@@ -42,6 +42,17 @@ class FrontGridController < ApplicationController
 
     render :layout => 'layouts/affiliate'
 
+  end
+    
+  def erotica
+    @deals_per_row = Promotion::DEALS_PER_ROW
+    non_exclusive = Category.non_exclusive.map { |c| c.id }
+    @promotions = Promotion.front_page.select { |p| (p.displayable? or p.zombie? or p.coming_soon?) and (p.metro.name == 'Pittsburgh') and (p.vendor.id == EROTICA_VENDOR_ID) and !(p.category_ids & non_exclusive).empty? }.sort
+    if @promotions.length > MAX_PARTNER_VIEW_DEALS
+      @promotions = @promotions[0, MAX_PARTNER_VIEW_DEALS]
+    end
+
+    render 'midnightguru', :layout => 'layouts/affiliate'
   end
     
 private
