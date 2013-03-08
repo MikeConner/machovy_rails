@@ -71,13 +71,14 @@ class GiftCertificatesController < ApplicationController
           # A valid user -- apply the macho bucks
           ActiveRecord::Base.transaction do
             @certificate_user.macho_bucks.create!(:amount => @certificate.amount, :notes => "Gift certificate bought by #{@certificate.user.email}")
+            @certificate.pending = false
+            # Need to save the certificate first, or we get serialization errors if the DJ is fast enough
+            @certificate.save!
             
             # Receipt for macho bucks given to a current user who's been immediately credited
             UserMailer.delay.gift_given_user_email(@certificate)
             # Mail to recipient saying they received macho bucks and can login to redeem them
             UserMailer.delay.gift_credited_email(@certificate)
-            @certificate.pending = false
-            @certificate.save!
           end
              
           redirect_to about_macho_bucks_path, :notice => "Thank you for buying a gift certificate! #{@certificate.email}'s account has been credited." and return

@@ -119,6 +119,7 @@ MachovyRails::Application.routes.draw do
  
   # Midnight Guru View
   match "/midnightguru" => "front_grid#midnightguru" 
+  match "/erotica" => "front_grid#erotica" 
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

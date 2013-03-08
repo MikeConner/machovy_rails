@@ -32,7 +32,7 @@
           - if bucks.order.nil?
             %td
           - else
-            %td= bucks.order.charge_id
+            %td= bucks.order.transaction_id
           %td= number_to_currency(bucks.amount)
           %td= bucks.notes
           - if bucks.admin.nil?
