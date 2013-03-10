@@ -2,7 +2,6 @@ class Merchant::OrdersController < Merchant::BaseController
   load_and_authorize_resource
 
   before_filter :authenticate_user!
-  before_filter :sanitize_shipping_info, :only => [:create]
   
   # GET /orders/1
   def show
@@ -25,6 +24,14 @@ class Merchant::OrdersController < Merchant::BaseController
     @order.transaction_id = '0'
     charge_success = false
     
+    # On some browsers, I suspect it's pre-filling in City/State/Zipcode to non-visible shipping address fields, or it's sending non-blank values
+    # The result is they get a "state/zipcode invalid" error on ordering, even though the shipping address is not required. Avoid this by deleting
+    # the shipping address keys if the shipping address is not required
+    if !@order.shipping_address_required?
+      @order.state = nil
+      @order.zipcode = nil
+    end
+        
     if @order.valid? and validate_quantity?(@order)
       total_charge = @order.total_cost - @order.user.total_macho_bucks
       if total_charge > 0
@@ -234,13 +241,6 @@ class Merchant::OrdersController < Merchant::BaseController
   end
 
 private
-  # On some browsers, I suspect it's pre-filling in City/State/Zipcode to non-visible shipping address fields, or it's sending non-blank values
-  # The result is they get a "state/zipcode invalid" error on ordering, even though the shipping address is not required. Avoid this by deleting
-  # the shipping address keys if the shipping address is not required
-  def sanitize_shipping_info
-    params[:order].except!(:city, :state, :zipcode) if !@order.shipping_address_required?
-  end
-  
   def charge_card(order, card, address, total_charge)
     # Ensure billing address has the email
     address[:email] = current_user.email
