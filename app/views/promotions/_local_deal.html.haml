@@ -45,7 +45,9 @@
       .fshare{:style => 'padding-left: 0px; margin-left: 10px;'}
         %script{:src => "https://connect.facebook.net/en_US/all.js#xfbml=1"}
         %fb:like{:layout => "button_count", :show_faces => "false", :width => "450"}
+      %fb:comments{:numposts => "4", :title => "Comments", :simple => "1", :width => "400", :href => "https://#{request.host+request.fullpath}".to_s}
       .space
+
   .large-8.columns.product-detail
     .row
       .large-12.columns
