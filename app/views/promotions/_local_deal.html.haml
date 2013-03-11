@@ -63,20 +63,17 @@
             .section-container.tabs{:data => {:section => ''}}
               %section.section
                 %p.title
-                  %a
-                    Description
+                  %a Description
                 .content
                   %p= @promotion.description
               %section.section
                 %p.title
-                  %a
-                    Limitations
+                  %a Limitations
                 .content
                   %p= @promotion.limitations
               %section.section
                 %p.title
-                  %a
-                    Details
+                  %a Details
                 .content
                   - @vendor = @promotion.vendor
                   %em= @vendor.name
@@ -108,8 +105,7 @@
                     #map_canvas.vendor_map 
               %section.section
                 %p.title 
-                  %a
-                    Comments
+                  %a Comments
                 .content
                   .spread
                     .twshare

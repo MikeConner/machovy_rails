@@ -8,10 +8,11 @@
     .darkred-btn {@include sassy-button("matte", 10px, 15px, $darkred);font-weight: bold;}
     .hr {border-bottom:1px solid $lightgray; margin:10px 0px;}
     .orbit-bullets {display:none;}
-    table {z-index:99; position:absolute; bottom:-20px; width:100%;}
+    table {z-index:99; position:absolute; bottom:-20px; width:100.25%;}
     .fb_iframe_widget,
     .fb_iframe_widget span,
     .fb_iframe_widget iframe[style]  {width: 100% !important;}
+    input[type="submit"] {padding:5px 15px!important;}
 }
     .twshare {width:80px!important; float:left!important; margin-bottom:15px;}
     .fshare {width:100px!important; float:left!important; margin-left:10px;}
