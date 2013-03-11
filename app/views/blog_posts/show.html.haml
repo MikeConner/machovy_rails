@@ -1,4 +1,4 @@
-.row{"data-blogpost" => "page"}
+.row{:data => {:page => 'blogpost'}}
   .large-8.columns
     - if !@blog_post.associated_image.file.nil?
       = image_tag @blog_post.associated_image_url(:blog_content_photo).to_s
