@@ -57,7 +57,6 @@
         .field
           = text_field_tag :first_name, nil, :maxlength => User::MAX_FIRST_NAME_LEN, :placeholder => 'First Name of cardholder'
           = text_field_tag :last_name, nil, :maxlength => User::MAX_LAST_NAME_LEN, :placeholder => 'Last Name of cardholder'
-        .field
           = text_field_tag :card_number, nil, :placeholder => 'Card Number', :class => 'credit'
           = text_field_tag :card_code, nil, :maxlength => 4, :placeholder => 'Security (CVV)', :class => 'cvv'
           = label_tag :card_month, "Exp:", :class => 'expiration'
@@ -105,4 +104,4 @@
     %br
     .alert-credit_card#card_error
       %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
-    = f.submit I18n.t('buy_now'), :class => 'btn btn-danger'
+    = f.submit I18n.t('buy_now'), :class => 'darkred-btn'
