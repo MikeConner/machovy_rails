@@ -16,6 +16,8 @@
 //= require plugins/jquery.stickyFooter.js
 //= require admin/jquery.datatables.min
 //= require plugins/prefixfree.min
+//= require libs/zepto.js
+//= require libs/foundation.min
 //= require foundation
 //= require_tree .
 

@@ -41,6 +41,9 @@ $lightgray:#ECF0F1;
 $darkblue:#2C3E50;
 $blue:#2980B9;
 
+[class*="btn"] {
+	a {color:white;}
+}
 
 // Red
 .darkred-btn {@include sassy-button("matte", 10px, 19px, $darkred);font-weight: bold;}
