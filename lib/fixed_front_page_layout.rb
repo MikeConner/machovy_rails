@@ -1,5 +1,5 @@
 class FixedFrontPageLayout
-  attr_accessor :layout
+  attr_accessor :layout, :page_start, :page_end
   
   BIG_DEAL = 'front_grid/biglocal'
   SMALL_DEAL = 'front_grid/littlelocal'
@@ -10,6 +10,7 @@ class FixedFrontPageLayout
   FIVE_COLUMN = 1200
   FOUR_COLUMN = 960
   THREE_COLUMN = 720
+  DESIRED_ROWS = 7
   
   PATTERNS = { 5 => [[BIG_DEAL,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL],
                      [SMALL_DEAL,BLOG_POST,BIG_DEAL,SMALL_DEAL],
@@ -87,12 +88,26 @@ class FixedFrontPageLayout
     @blog_post_idx = 0
     @layout = []
     @num_columns = compute_num_columns(width)
+    @page_start = { 1 => 0 }
+    @page_end = Hash.new
     @deals_remaining = true
     @last_pattern = -1
     
-    while @deals_remaining do
+    page_length = 0
+    row_cnt = DESIRED_ROWS
+    page_idx = 1
+    loop do
       # Get a randomly selected pattern array of the appropriate column configuration
-      p = PATTERNS[@num_columns][next_pattern]
+      np = next_pattern
+      p = PATTERNS[@num_columns][np]
+      page_length += @num_columns
+      p.each do |partial|
+        if BIG_DEAL == partial
+          page_length -= 1
+        end
+      end
+      
+      row_cnt -= 1
       
       p.each do |partial|
         case partial
@@ -109,8 +124,20 @@ class FixedFrontPageLayout
           end
       end
       
-      # Terminate if we're exactly at the end
-      $deals_remaining = false if @deals.length == @deal_idx
+      # Terminate if we're exactly at the end      
+      @deals_remaining = false if @deals.length == @deal_idx
+      
+      if 0 == row_cnt
+        @page_end[page_idx] = page_length - 1
+        
+        page_idx += 1
+        if @deals_remaining
+          @page_start[page_idx] = page_length
+          row_cnt = DESIRED_ROWS
+        else
+          break
+        end
+      end
     end
   end
   

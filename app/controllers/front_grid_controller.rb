@@ -21,13 +21,27 @@ class FrontGridController < ApplicationController
     # Pagination can then move forwards and backwards through it. If you didn't store it, it would generate a new random layout each time --
     #   probably with a different number of pages, so the pagination wouldn't work. Reloading by hitting the logo again loads a new layout.
     if (params[:page].nil? or session[:layout].nil?) and !session[:width].nil?
-      session[:layout] = FixedFrontPageLayout.new(filter(Promotion.deals, @active_category, @active_metro), 
-                                                  filter(Promotion.nondeals, @active_category, @active_metro), 
-                                                  BlogPost.select { |p| p.displayable? and (p.metros.empty? or p.metro_ids.include?(metro_id)) }.sort,
-                                                  session[:width]).layout
+      fp_layout = FixedFrontPageLayout.new(filter(Promotion.deals, @active_category, @active_metro), 
+                                           filter(Promotion.nondeals, @active_category, @active_metro), 
+                                           BlogPost.select { |p| p.displayable? and (p.metros.empty? or p.metro_ids.include?(metro_id)) }.sort,
+                                           session[:width])
+      session[:layout] = fp_layout.layout
+      session[:page_start] = fp_layout.page_start
+      session[:page_end] = fp_layout.page_end
     end
     
-    @layout = session[:layout].nil? ? nil : session[:layout].paginate(:page => params[:page])
+    p = params[:page].nil? ? 1 : params[:page].to_i
+    @layout = session[:layout].nil? ? nil : session[:layout][session[:page_start][p]..session[:page_end][p]]
+    if !@layout.nil?
+      # Pages are unequal length, so I can't use the default paginate()
+      # Replace the content in the collection with the current set
+      # In order to keep the page count consistent, set the "total pages" to the current page length x # pages
+      #   So the "total" will be different each time, but it's never displayed as such so who cares?
+      cnt = session[:page_end][p] - session[:page_start][p] + 1
+      @paged_layout = WillPaginate::Collection.create(p, cnt, cnt * session[:page_start].length) do |pager|
+        pager.replace(@layout)
+      end
+    end
   end    
   
   def midnightguru    
