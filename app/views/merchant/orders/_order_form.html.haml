@@ -72,16 +72,12 @@
           .field
             = label_tag :address, "Street address"
             = text_field_tag :address
-          .field
             = label_tag :city
             = text_field_tag :city
-          .field
             = label_tag :state
             = text_field_tag :state
-          .field
             = label_tag :zipcode
             = text_field_tag :zipcode          
-          .field
             = check_box_tag 'cb_save_card', '1', false, :onclick => "set_save_card_field()"
             = label_tag 'cb_save_card', 'Save this card for future orders?'
     - if @order.product_order?
@@ -91,13 +87,12 @@
         .field
           = f.text_field :pickup_notes, :class => 'full', :maxlength => User::MAX_FIRST_NAME_LEN + User::MAX_LAST_NAME_LEN + 1, :placeholder => 'Notes for the merchant (optional)'
     #shipping_info{:style => "display:#{@order.shipping_address_required? ? 'block' : 'none'}"}
+      %br
       %h4 Shipping Address
       -#= button_tag 'Copy from billing address', :type => 'button', :onclick => "carry_over_address()"
       .field
         = f.text_field :address_1, :class => 'full', :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Address 1'
-      .field
         = f.text_field :address_2, :class => 'full', :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Address 2'
-      .field
         = f.text_field :city, :class => 'city', :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'City'
         = f.text_field :state, :class => 'state', :maxlength => ApplicationHelper::STATE_LEN, :placeholder => 'State'
         = f.text_field :zipcode, :class => 'zip', :maxlength => ApplicationHelper::ZIPCODE_LEN, :placeholder => 'Zipcode'
