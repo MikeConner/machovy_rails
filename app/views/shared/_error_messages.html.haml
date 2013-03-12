@@ -1,6 +1,6 @@
 - if errors.any?
   #error_explanation
-    .alert.alert-error
+    .success.label
       == #{pluralize(errors.count, "error")} prohibited this #{name} from being saved:
       %ul
         - errors.full_messages.each do |msg|
