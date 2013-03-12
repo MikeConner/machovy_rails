@@ -1,6 +1,4 @@
 [data-page="blogpost"] {
-    background-color: white!important;
-    padding: 20px;
     h4 {margin-bottom:0px;}
     img {margin-bottom:10px;}
     .mediumgray-btn { @include sassy-button("matte", 12px, 10px, $mediumgray); font-weight: thin;}

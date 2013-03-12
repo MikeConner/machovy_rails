@@ -1,23 +1,21 @@
-.space.hidden-phone
 = render :partial => 'shared/flash_messages'
-.row-fluid
-  .span6
+.row
+  .large-6.columns
+    %br
     .sign-in-title
       %h4 Already a member? Sign in:
     .sign-in-body
       = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
         = f.email_field :email, {:placeholder => 'Email'}
-        %br
         = f.password_field :password, {:placeholder => 'Password'}
         - if devise_mapping.rememberable?
-          %br
           = f.check_box :remember_me 
           = f.label :remember_me
         .sign-in-footer
-          = f.submit "Sign in", {:class => 'btn btn-danger', :style => 'margin-bottom:10px;'}
+          = f.submit "Sign in", {:class => 'darkred-btn', :style => 'margin-bottom:10px;'}
           = render :partial => "devise/shared/sign_in_links"
-  .span6
-    %br.space.hidden-desktop
+  .large-6.columns
+    %br
     .sign-in-title
       %h4= I18n.t('create_account_action')
     .sign-in-body.sign-up-block
@@ -30,6 +28,5 @@
         = f.password_field :password, {:placeholder => 'Password'}
         = f.password_field :password_confirmation, {:placeholder => 'Password Confirmation'}
         .sign-in-footer
-          = f.submit I18n.t('create_account'), {:class => 'btn btn-danger'}
+          = f.submit I18n.t('create_account'), {:class => 'darkred-btn'}
           = link_to 'Merchant? Create an account here', new_user_registration_path, :class => 'btn btn-info pull-right'
-.push.hidden-phone
