@@ -1,12 +1,12 @@
 = render :partial => 'shared/flash_messages'
 .container
-  .row-fluid
+  .row
     .form-horizontal
       %fieldset
         %legend
           %h3= I18n.t('machovy_attention')
-        .row-fluid
-          .span12
+        .row
+          .large-12.columns
             .portfolio-container
               - if 0 == @attention.count
                 None

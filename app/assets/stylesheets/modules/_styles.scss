@@ -484,3 +484,9 @@ article {
   @include alert-style($success-color);
   .close { @include alert-close; }
 }
+
+.alert-alert {
+  @include alert-base;
+  @include alert-style($alert-color);
+  .close { @include alert-close; }
+}
