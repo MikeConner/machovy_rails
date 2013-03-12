@@ -15,7 +15,7 @@
         %li
           = link_to category.name, root_path, :id => category.name
 %form.custom.mobile-menu
-  %select#customDropdown{:id => 'mobile_select', :onchange => "select_mobile_category($('#mobile_select').val());"}
+  %select#customDropdown{:class => 'mobile_select', :onchange => "select_mobile_category($('.mobile_select').val());"}
     - if active_category.nil? or active_category == Category::ALL_ITEMS_ID
       %option{:id => Category::ALL_ITEMS_ID, :selected => true}
         = Category::ALL_ITEMS_LABEL
