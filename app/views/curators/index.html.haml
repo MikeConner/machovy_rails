@@ -1,17 +1,17 @@
 .row
-  .large-12.page-header
+  .large-12.columns
     %h1== #{I18n.t('curators')} <small>Lifestyle guidance</small>
 .row
-  .large-12
+  .large-12.columns
     %h4 Welcome to the Machovy Feedback Forum
     %p Now, we know you're a genius... but it's just possible someone else had the same idea. And maybe some people even though they obviously know the best place for men's interest shopping -- might not be full-on geniuses in other areas. If so, feel free to (be)rate them. You can see the highest-rated ideas on the right. Will yours make the cut?
 .row
-  .large-12
+  .large-12.columns
     - @curators.each do |curator|
       .row.curator-block
-        .large-2
+        .large-2.columns
           = link_to(image_tag(curator.picture_url(:product_front_page).to_s), curator_path(curator))
-        .large-7
+        .large-7.columns
           - if admin_user?        
             = button_to 'Delete', curator, method: :delete, data: { confirm: 'Are you sure?' }
             = link_to curator.name, edit_curator_path(curator)
@@ -20,7 +20,7 @@
             %p= curator.bio
             -#= curator.twitter
             -#= link_to curator_path(curator)
-        .large-3
+        .large-3.columns
           %h4 Latest Blog Posts
           .borderLine
             .borderLine-left &nbsp;

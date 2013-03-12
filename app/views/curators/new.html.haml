@@ -1,13 +1,9 @@
 #content-header
   %h1 New Curator
-.container-fluid
-  .row-fluid
-    .span12
-      .widget-box
-        .widget-content.nopadding
-          .form-horizontal
-            = form_for @curator do |f|
-              = render :partial => 'shared/error_messages', :locals => { :errors => @curator.errors, :name => 'Curator' }
-              = render :partial => 'curator_fields', :locals => { :f => f }
-              .actions
-                = f.submit 'Create Curator'
+.row
+  .large-12.columns
+    = form_for @curator do |f|
+      = render :partial => 'shared/error_messages', :locals => { :errors => @curator.errors, :name => 'Curator' }
+      = render :partial => 'curator_fields', :locals => { :f => f }
+      .actions
+        = f.submit 'Create Curator'
