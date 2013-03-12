@@ -83,10 +83,14 @@ class FixedFrontPageLayout
     @deals = deals
     @non_deals = non_deals
     @blog_posts = blog_posts
+    @layout = []
+
+    # Cannot render anything if we have literally no deals
+    return if @deals.empty? or @blog_posts.empty? or @non_deals.empty?
+
     @deal_idx = 0
     @non_deal_idx = 0
     @blog_post_idx = 0
-    @layout = []
     @num_columns = compute_num_columns(width)
     @page_start = { 1 => 0 }
     @page_end = Hash.new

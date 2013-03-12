@@ -18,7 +18,9 @@
         %i.icon-angle-right
 .main-wrap
   #container
-    - if !@layout.nil?
+    - if @empty_layout
+      #deal_content
+    - elsif !@layout.nil?
       #deal_content
       - @layout.each do |layout|
         = render :partial => layout[:partial], :locals => { :content => layout[:content] }
