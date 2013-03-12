@@ -1,5 +1,5 @@
 %div#categories.desktop-menu
-  %ul
+  %ul.categories
     - if active_category.nil? or active_category == Category::ALL_ITEMS_ID
       %li.active
         = link_to Category::ALL_ITEMS_LABEL, root_path, :id => Category::ALL_ITEMS_ID
