@@ -1,29 +1,39 @@
-.row.product-line
-  .four.columns.product
+.promotion.row  
+  .large-5.columns.product
     = image_tag @promotion.teaser_image_url(:product_front_page).to_s  
-  .eight.columns.product-detail
+  .large-7.columns.product-detail
     .row
-      .ten.columns
-        %h2.affiliate-headline= @promotion.title
+      .large-12.columns
+        %h3= @promotion.title
         - if !@promotion.subtitle.nil?
           %h4= @promotion.subtitle
-        .space
-        -# if @show_buy_button
-          = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank", :class => 'btn btn-danger'
-    .row
-      .twelve.columns.product-detail
-        %ul.nav.nav-tabs
-          %li.active
-            <a data-toggle="tab" href="#tab1">Description </a>
-        .tab-content
-          #tab1.tab-pane.fade.in.active
-            %h3.tab-title Product Description
-            %pre= @promotion.description
+        %br
         - if @show_buy_button
-          .tab-bottom-button
-            = link_to 'BUY IT from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank"
-.space-medium
-.row.well
-  - @curators.each do |curator|
-    = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }
+          = link_to 'Buy it from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank", :class => 'darkred-btn'
+        %br
+        .row
+          %br
+          .large-12.columns
+            .section-container.tabs{:data => {:section => ''}}
+              %section.section
+                %p.title
+                  %a Description
+                .content
+                  %p= @promotion.description
+              %section.section
+                %p.title 
+                  %a Comments
+                .content
+                  .spread
+                    .twshare
+                      %a.twitter-share-button.left{"data-count" => "horizontal", "data-via" => "fuonrails", :href => "https://twitter.com/share"} Tweet
+                      %script{:src => "https://platform.twitter.com/widgets.js", :type => "text/javascript"}
+                    .fshare
+                      %script{:src => "https://connect.facebook.net/en_US/all.js#xfbml=1"}
+                      %fb:like{:layout => "button_count", :show_faces => "false"}
+                    %fb:comments{:numposts => "4", :title => "Comments", :simple => "1", :href => "https://#{request.host+request.fullpath}".to_s}
+/ .space-medium
+/ .row.well
+/   - @curators.each do |curator|
+/     = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }
     

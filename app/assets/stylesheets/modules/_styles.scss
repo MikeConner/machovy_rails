@@ -477,3 +477,10 @@ article {
     }
   }
 }
+
+
+.alert-notice {
+  @include alert-base;
+  @include alert-style($success-color);
+  .close { @include alert-close; }
+}

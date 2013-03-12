@@ -1,13 +1,12 @@
-.four.columns
-  .row-fluid.curator-row
-    .four.columns
+.large-4.columns
+  .row.curator-row
+    .large-4.columns
       = link_to(image_tag(curator.picture_url(:contributor_photo).to_s), curator_path(curator))
-    .span8.curator-name
+    .large-8.columns.curator-name
       %h5= link_to curator.name, curator_path(curator)
-  .row-fluid.curator-post-row
-    .span12.curator-post-title
+  .row.curator-post-row
+    .large-12.columns.curator-post-title
       - curator.blog_posts_for(promotion).each do |post|
         .icon-circle-arrow-right
         = link_to truncate(post.title, :length => 32), blog_post_path(post)
         %br/
-  .space.hidden-desktop
