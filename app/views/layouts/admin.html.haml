@@ -2,9 +2,10 @@
 %head
   %meta{:content => 'text/html', :charset => 'UTF-8', 'http-equiv' => 'Content-Type'}
   %meta{:name => 'viewport', :content => "width=device-width, initial-scale=1.0, maximum-scale=1.0" }
-  %title M A C H O V Y
+  %title Machovy
   = favicon_link_tag 
   = javascript_include_tag "application"
+  = javascript_include_tag "custom.modernizr.js"
   = stylesheet_link_tag "app", media: "all", :debug => true
   - if GOOGLE_MAPS_KEY.nil?
     = javascript_include_tag "https://maps.googleapis.com/maps/api/js?sensor=false"
@@ -14,6 +15,12 @@
 
   = render 'layouts/application/shim'
 %body
+  = render 'layouts/application/header'
   = render :partial => 'shared/admin_navigation'
-#content
-  = yield
+  = yield 
+  = render 'layouts/application/footer'
+
+/ %body
+/   = render :partial => 'shared/admin_navigation'
+/ #content
+/   = yield
