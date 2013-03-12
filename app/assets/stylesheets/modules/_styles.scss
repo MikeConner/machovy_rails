@@ -284,7 +284,7 @@ img {display:block; position:relative; z-index:1;}
   height: 380px;
   background-color:white;
     // img {width:235px; height:215px;}
-    .image {position:relative; z-index:0; overflow:hidden; height:215px; }
+    .image {position:relative; z-index:0; overflow:hidden; height:215px; width:100.5%; }
     a {overflow:hidden; width:100%; height:100%;}
     @include deal;
     .zombie_image {

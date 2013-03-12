@@ -163,22 +163,22 @@
         text-decoration: none;
         font-size: 0.9em;
       }
-
-      .desktop-menu {
-      @media only screen and (max-width: $topbar-breakpoint) {
-          display: none!important;
-        }
-      }
-
-    .mobile-menu {
-      display: none;
-
-        @media only screen and (max-width: $topbar-breakpoint) {
-          display: inline-block!important;
-        }
-    }
+    
   } 
 }
+
+
+@media only screen and (max-width: $topbar-breakpoint) {
+    .desktop-menu {display: none!important;}
+  }
+
+.mobile-menu {
+display: none;
+  @media only screen and (max-width: $topbar-breakpoint) {
+    display: block!important;
+  }
+}
+
 
 select {
     background-color: $light-gray;
