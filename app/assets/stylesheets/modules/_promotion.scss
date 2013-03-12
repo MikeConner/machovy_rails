@@ -1,4 +1,4 @@
-[data-page="promotion"] {
+.promotion {
     background-color: white!important;
     padding: 20px 40px 20px 20px;
     margin:40px auto;
@@ -16,37 +16,4 @@
 }
     .twshare {width:80px!important; float:left!important; margin-bottom:15px;}
     .fshare {width:100px!important; float:left!important; margin-left:10px;}
-
-.author-recommend {
-  .author {
-    padding:0px;
-    background-color:white;
-    background-color:black;
-    height: 50px;
-    margin-bottom: 0px!important;
-      .icon-2x {font-size:2em; margin-top:12px; font-weight:thin;  color:white;}
-      .columns {padding:0px 10px 0px 2px;}
-      a {color:white; margin:2px 15px 0px 0px;}
-      h4 {
-        color:white;
-        font-weight: bold;
-        font-size: 1em!important;
-        padding-top: 5px;
-        margin-bottom: 0px!important;
-      }
-      p {
-        color:white;
-        font-size:0.85em;
-      }
-      img {
-        height:50px; 
-        width:50px; 
-        display:block; 
-        background-color:white;   
-        float: left;      
-        margin-right:10px;  
-      }
-    }
-}
-
 

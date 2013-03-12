@@ -1,125 +1,127 @@
-.row{:data => {:page => 'promotion'}}
-  - if @show_accept_reject
-    Please review the edited promotion below, and accept or reject the changes.
-    %br/
-    = link_to 'Review comment log', show_logs_promotion_path(@promotion)
-    = button_to 'Accept Machovy Changes', accept_edits_promotion_path(@promotion), :method => :put, :class => "button big round"
-    = form_tag(reject_edits_promotion_path(@promotion), :method => :put) do
-      If you're rejecting the changes, please tell us why below
-      %br= text_area_tag 'comment', nil, :rows => 5, :class => "slider-input"
-      = submit_tag 'Reject Machovy Changes', :class => "button big round"
-  .row.product-line
-    .large-5.columns.product
-      %ul{:data => {:orbit => 'promotion-image'}}
-        - no_images = @promotion.teaser_image.file.nil? and @promotion.main_image.file.nil? and 0 == @promotion.promotion_images.count
-        - if no_images
-          .space
-        - else
-          - if !@promotion.teaser_image.file.nil?
-            %li
-              = image_tag @promotion.teaser_image_url(:product_front_page).to_s
-          - if !@promotion.main_image.file.nil?
-            %li
-              = image_tag @promotion.main_image_url(:product_front_page).to_s
-            - @promotion.promotion_images.each do |slideshow|
-              - if !slideshow.slideshow_image.file.nil?
-                %li
-                  = image_tag slideshow.slideshow_image_url(:product_front_page).to_s        
-
-      %table.table.table-condensed
-        %thead
-          %tr
-            %th Value
-            - if @promotion.discount > 0
-              %th Discount
-              %th Save
-        %tbody
-          %tr
-            %td= number_to_currency(@promotion.retail_value)
-            - if @promotion.discount > 0
-              %td= number_to_percentage(@promotion.discount_pct, :precision => 0)
-              %td= number_to_currency(@promotion.discount)
-    .large-7.columns.product-detail
-      .row
-        .large-12.columns
-          %h3= @promotion.title
-          - if !@promotion.subtitle.nil?
-            %h4= @promotion.subtitle
-      .row
-        .large-12.columns
-
-          - if @promotion.retail_value > @promotion.price
-            %span.price-old= number_to_currency(@promotion.retail_value)
-          %span.price-new= number_to_currency(@promotion.price)
-          %br
-          %span= @promotion.quantity_description
-          %br &nbsp;
-          - if @show_buy_button
-            .darkred-btn
-              = link_to " #{I18n.t('click_to_buy')} <i class='icon-shopping-cart'></i>".html_safe, order_promotion_path(@promotion)  
-              //= link_to "<i class='icon-plus icon-white'></i> #{I18n.t('click_to_buy')}".html_safe, order_promotion_path(@promotion) 
-          %br &nbsp;  
-          .row
-            .section-container.tabs{:data => {:section => ''}}
-              %section.section
-                %p.title
-                  %a Description
-                .content
-                  %p= @promotion.description
-              %section.section
-                %p.title
-                  %a Limitations
-                .content
-                  %p= @promotion.limitations
-              %section.section
-                %p.title
-                  %a Details
-                .content
-                  - @vendor = @promotion.vendor
-                  %em= @vendor.name
-                  -# Show venue address first, otherwise default to vendor address (unless private)
-                  - if @promotion.venue_location.nil?
-                    - if !@vendor.private_address?
-                      %br= @vendor.address_1
-                      - if !@vendor.address_2.blank?
-                        %br= @vendor.address_2
-                      == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
-                  - else
-                    %br= @promotion.venue_location.html_safe
-                  %br= @vendor.phone 
-                  - if !@vendor.url.blank?
-                    %br= link_to 'Web site', @vendor.url_display, :target => '_blank'
-                  - if !@vendor.facebook.blank?
-                    %br= link_to 'Facebook', @vendor.facebook_display, :target => '_blank'
-                .large-6.columns
-                  -# If we have a mappable venue address, show that; otherwise all back on the vendor address
-                  - if @promotion.mappable?
-                    = hidden_field_tag :latitude, @promotion.latitude
-                    = hidden_field_tag :longitude, @promotion.longitude
-                    = hidden_field_tag :vendor, @promotion.venue_location
-                    #map_canvas.vendor_map 
-                  - elsif @vendor.mappable?
-                    = hidden_field_tag :latitude, @vendor.latitude
-                    = hidden_field_tag :longitude, @vendor.longitude
-                    = hidden_field_tag :vendor, @vendor.name
-                    #map_canvas.vendor_map 
-              %section.section
-                %p.title 
-                  %a Comments
-                .content
-                  .spread
-                    .twshare
-                      %a.twitter-share-button.left{"data-count" => "horizontal", "data-via" => "fuonrails", :href => "https://twitter.com/share"} Tweet
-                      %script{:src => "https://platform.twitter.com/widgets.js", :type => "text/javascript"}
-                    .fshare
-                      %script{:src => "https://connect.facebook.net/en_US/all.js#xfbml=1"}
-                      %fb:like{:layout => "button_count", :show_faces => "false"}
-                    %fb:comments{:numposts => "4", :title => "Comments", :simple => "1", :href => "https://#{request.host+request.fullpath}".to_s}
-  - if !@curators.empty?        
-    .section-divider  
-    .space-small
+.bg-test  
+  .promotion.row  
     .row
-      %h4 Associated Mentors
-    .row.well
-      - @curators.each do |curator|
-        = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }
+      - if @show_accept_reject
+        Please review the edited promotion below, and accept or reject the changes.
+        %br/
+        = link_to 'Review comment log', show_logs_promotion_path(@promotion)
+        = button_to 'Accept Machovy Changes', accept_edits_promotion_path(@promotion), :method => :put, :class => "button big round"
+        = form_tag(reject_edits_promotion_path(@promotion), :method => :put) do
+          If you're rejecting the changes, please tell us why below
+          %br= text_area_tag 'comment', nil, :rows => 5, :class => "slider-input"
+          = submit_tag 'Reject Machovy Changes', :class => "button big round"
+    .row.product-line
+      .large-5.columns.product
+        %ul{:data => {:orbit => 'promotion-image'}}
+          - no_images = @promotion.teaser_image.file.nil? and @promotion.main_image.file.nil? and 0 == @promotion.promotion_images.count
+          - if no_images
+            .space
+          - else
+            - if !@promotion.teaser_image.file.nil?
+              %li
+                = image_tag @promotion.teaser_image_url(:product_front_page).to_s
+            - if !@promotion.main_image.file.nil?
+              %li
+                = image_tag @promotion.main_image_url(:product_front_page).to_s
+              - @promotion.promotion_images.each do |slideshow|
+                - if !slideshow.slideshow_image.file.nil?
+                  %li
+                    = image_tag slideshow.slideshow_image_url(:product_front_page).to_s        
+
+        %table.table.table-condensed
+          %thead
+            %tr
+              %th Value
+              - if @promotion.discount > 0
+                %th Discount
+                %th Save
+          %tbody
+            %tr
+              %td= number_to_currency(@promotion.retail_value)
+              - if @promotion.discount > 0
+                %td= number_to_percentage(@promotion.discount_pct, :precision => 0)
+                %td= number_to_currency(@promotion.discount)
+      .large-7.columns.product-detail
+        .row
+          .large-12.columns
+            %h3= @promotion.title
+            - if !@promotion.subtitle.nil?
+              %h4= @promotion.subtitle
+        .row
+          .large-12.columns
+
+            - if @promotion.retail_value > @promotion.price
+              %span.price-old= number_to_currency(@promotion.retail_value)
+            %span.price-new= number_to_currency(@promotion.price)
+            %br
+            %span= @promotion.quantity_description
+            %br &nbsp;
+            - if @show_buy_button
+              .darkred-btn
+                = link_to " #{I18n.t('click_to_buy')} <i class='icon-shopping-cart'></i>".html_safe, order_promotion_path(@promotion)  
+                //= link_to "<i class='icon-plus icon-white'></i> #{I18n.t('click_to_buy')}".html_safe, order_promotion_path(@promotion) 
+            %br &nbsp;  
+            .row
+              .section-container.tabs{:data => {:section => ''}}
+                %section.section
+                  %p.title
+                    %a Description
+                  .content
+                    %p= @promotion.description
+                %section.section
+                  %p.title
+                    %a Limitations
+                  .content
+                    %p= @promotion.limitations
+                %section.section
+                  %p.title
+                    %a Details
+                  .content
+                    - @vendor = @promotion.vendor
+                    %em= @vendor.name
+                    -# Show venue address first, otherwise default to vendor address (unless private)
+                    - if @promotion.venue_location.nil?
+                      - if !@vendor.private_address?
+                        %br= @vendor.address_1
+                        - if !@vendor.address_2.blank?
+                          %br= @vendor.address_2
+                        == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
+                    - else
+                      %br= @promotion.venue_location.html_safe
+                    %br= @vendor.phone 
+                    - if !@vendor.url.blank?
+                      %br= link_to 'Web site', @vendor.url_display, :target => '_blank'
+                    - if !@vendor.facebook.blank?
+                      %br= link_to 'Facebook', @vendor.facebook_display, :target => '_blank'
+                  .large-6.columns
+                    -# If we have a mappable venue address, show that; otherwise all back on the vendor address
+                    - if @promotion.mappable?
+                      = hidden_field_tag :latitude, @promotion.latitude
+                      = hidden_field_tag :longitude, @promotion.longitude
+                      = hidden_field_tag :vendor, @promotion.venue_location
+                      #map_canvas.vendor_map 
+                    - elsif @vendor.mappable?
+                      = hidden_field_tag :latitude, @vendor.latitude
+                      = hidden_field_tag :longitude, @vendor.longitude
+                      = hidden_field_tag :vendor, @vendor.name
+                      #map_canvas.vendor_map 
+                %section.section
+                  %p.title 
+                    %a Comments
+                  .content
+                    .spread
+                      .twshare
+                        %a.twitter-share-button.left{"data-count" => "horizontal", "data-via" => "fuonrails", :href => "https://twitter.com/share"} Tweet
+                        %script{:src => "https://platform.twitter.com/widgets.js", :type => "text/javascript"}
+                      .fshare
+                        %script{:src => "https://connect.facebook.net/en_US/all.js#xfbml=1"}
+                        %fb:like{:layout => "button_count", :show_faces => "false"}
+                      %fb:comments{:numposts => "4", :title => "Comments", :simple => "1", :href => "https://#{request.host+request.fullpath}".to_s}
+    - if !@curators.empty?        
+      .section-divider  
+      .space-small
+      .row
+        %h4 Associated Mentors
+      .row.well
+        - @curators.each do |curator|
+          = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }

@@ -23,8 +23,8 @@
   @include filter-gradient($topBarBgGradientTop, $topBarBgGradientTop, vertical); // IE6-8
   $experimental-support-for-svg: true;
   @include background-image(linear-gradient(top,  $topBarBgGradientTop 0%,$topBarBgGradientBottom 100%));
-  @include box-shadow(0px 2px 0 rgba(255,255,255,0.10));
-  border-bottom:1px solid #555555;
+  // @include box-shadow(0px 2px 0 rgba(255,255,255,0.10));
+  border-bottom:1px solid black;
 
   // Topbar Global list Styles
   ul {
@@ -298,8 +298,8 @@
     @include filter-gradient($topBarBgGradientTop, $topBarBgGradientTop, vertical); // IE6-8
     $experimental-support-for-svg: true;
     @include background-image(linear-gradient(top,  $topBarBgGradientTop 0%,$topBarBgGradientBottom 100%));
-    @include box-shadow(0px 2px 0 rgba(255,255,255,0.10));
-    border-bottom:1px solid #555555;
+    // @include box-shadow(0px 2px 0 rgba(255,255,255,0.10));
+    border-bottom:1px solid black;
 
     /* Ul Top Arrow */
     ul li {position:relative;}
@@ -308,7 +308,7 @@
        position: absolute;
        top:0;
        left: 35%;
-       border-bottom: 8px solid #999;
+       border-bottom: 8px solid black;
        border-top-color: white; 
        border-left: 8px solid transparent;
        border-right: 8px solid transparent; 
@@ -358,7 +358,7 @@
       a:not(.button) {
         padding: 0 $topbar-height / 3;
         line-height: $topbar-height - 1px;
-        padding-bottom:1px solid #555;
+        padding-bottom:1px solid black;
         @include filter-gradient($topBarBgGradientTop, $topBarBgGradientTop, vertical); // IE6-8
         $experimental-support-for-svg: true;
         @include background-image(linear-gradient(top,  $topBarBgGradientTop 0%,$topBarBgGradientBottom 100%));
