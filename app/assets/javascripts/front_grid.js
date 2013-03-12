@@ -1,5 +1,5 @@
 $(function() {
-    $('ul.nav-pills > li').click(function (e) {
+    $('ul.desktop-menu > li').click(function (e) {
         e.preventDefault();
         // If we weren't redirecting, this is all you need to handle the selection
         // This gets lost on the redirect, though, so has to be done in the views instead
@@ -17,3 +17,16 @@ $(function() {
 		});
 	});  	
 });
+
+function select_mobile_category(category) {
+	jQuery.ajax({url:"/category",
+	             data: "category=" + category,
+		         type: "GET",
+		         // Don't need to do anything on success
+	             error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
+	               { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
+	             async: false
+	});
+	
+	preventDefault();
+}

@@ -14,20 +14,19 @@
       - else
         %li
           = link_to category.name, root_path, :id => category.name
-  %select.mobile-menu
+  %select.mobile-menu{:id => 'mobile_select', :onchange => "select_mobile_category($('#mobile_select').val());"}
     - if active_category.nil? or active_category == Category::ALL_ITEMS_ID
-      %option
-        = link_to Category::ALL_ITEMS_LABEL, root_path, :id => Category::ALL_ITEMS_ID
+      %option{:id => Category::ALL_ITEMS_ID, :selected => true}
+        = Category::ALL_ITEMS_LABEL
     - else
-      %option
-        = link_to Category::ALL_ITEMS_LABEL, root_path, :id => Category::ALL_ITEMS_ID
+      %option{:id => Category::ALL_ITEMS_ID}
+        = Category::ALL_ITEMS_LABEL
     -# The link is necessary for the jQuery to work, but the actual navigation is Ajax, so the destinations don't matter
     - @categories.each do |category|
       - if active_category == category.name
-        %option.active{:value => root_path, :id => category.name}
+        %option{:id => category.name, :selected => true}
           = category.name
-          -#= link_to category.name, root_path, :id => category.name
       - else
-        %option{:value => root_path, :id => category.name}
+        %option{:id => category.name}
           = category.name
-          -#= link_to category.name, root_path, :id => category.name
+
