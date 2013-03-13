@@ -7,7 +7,7 @@
         li {
         float: left;
           &:hover {
-            > a {color: #fafafa;}
+            > a {color: #fafafa; background: darken($topbar-dropdown-bg, 30%);}
             > ul {opacity: 1; visibility: visible; margin: 0; border:1px solid #999;}
           } 
       }

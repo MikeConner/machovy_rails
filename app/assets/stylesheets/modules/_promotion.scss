@@ -5,7 +5,7 @@
     h4 {margin-bottom:0px;}
     img {margin-bottom:10px;}
     .mediumgray-btn { @include sassy-button("matte", 12px, 10px, $mediumgray); font-weight: thin;}
-    .darkred-btn {@include sassy-button("matte", 10px, 15px, $darkred);font-weight: bold;}
+    .darkred-btn {@include sassy-button("matte", 8px, 15px, $darkred);font-weight: bold;}
     .hr {border-bottom:1px solid $lightgray; margin:10px 0px;}
     .orbit-bullets {display:none;}
     table {z-index:99; position:absolute; bottom:-20px; width:100.25%;}
