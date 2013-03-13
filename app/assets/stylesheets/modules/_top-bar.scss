@@ -367,7 +367,9 @@
       }
     }
 
+    
     .has-dropdown {
+
       & > a {
         padding-#{$default-opposite}: $topbar-dropdown-toggle-size * 7 !important;
 

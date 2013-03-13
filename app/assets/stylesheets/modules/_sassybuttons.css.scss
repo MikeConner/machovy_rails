@@ -45,8 +45,6 @@ $blue:#2980B9;
 	a {color:white;}
 }
 
-// Red
-.darkred-btn {@include sassy-button("matte", 10px, 14px, $darkred);}
 
 // Green
 .darkblue-btn { @include sassy-button("matte", 10px, 14px, $darkblue); }
