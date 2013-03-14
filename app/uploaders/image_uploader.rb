@@ -55,6 +55,11 @@ class ImageUploader < CarrierWave::Uploader::Base
     process :resize_to_fill => [282, 186]
   end
     
+  # Image associated with a blog post on front page
+  version :blog_frontpage_photo do
+    process :resize_to_fill => [235, 300]
+  end
+    
   # Curator photos
   version :contributor_photo do
     process :resize_to_fill => [100, 100]
