@@ -11,7 +11,7 @@
   .desc
     %h3= link_to sanitize(promotion.title), promotion_path(promotion)
     %p.bigdesc= promotion.padded_description
-  %p.merchant Provided by: New Home Construction
+  %p.merchant== Provided by: #{promotion.vendor.name}
 .menu.cf
   .currency
     .old-price

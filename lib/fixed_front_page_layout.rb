@@ -1,5 +1,5 @@
 class FixedFrontPageLayout
-  attr_accessor :layout, :page_start, :page_end
+  attr_accessor :layout, :page_start, :page_end, :num_columns
   
   BIG_DEAL = 'front_grid/biglocal'
   SMALL_DEAL = 'front_grid/littlelocal'

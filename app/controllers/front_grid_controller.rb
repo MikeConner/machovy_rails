@@ -28,11 +28,13 @@ class FrontGridController < ApplicationController
       session[:layout] = fp_layout.layout
       session[:page_start] = fp_layout.page_start
       session[:page_end] = fp_layout.page_end
+      session[:num_columns] = fp_layout.num_columns
     end
     
     p = params[:page].nil? ? 1 : params[:page].to_i
     @layout = (session[:layout].nil? or session[:layout].empty?) ? nil : session[:layout][session[:page_start][p]..session[:page_end][p]]
     @empty_layout = !session[:layout].nil? && session[:layout].empty?
+    @mobile = 2 == session[:num_columns]
     if !@layout.nil?
       # Pages are unequal length, so I can't use the default paginate()
       # Replace the content in the collection with the current set
