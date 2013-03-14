@@ -4,6 +4,10 @@
   background: $topbar-bg;
 }
 
+
+form.custom .custom.dropdown ul li {padding-left:0.99154em;}
+.current {padding-left:5px;}
+
 // Wrapped around .top-bar to make it fixed at the top
 .fixed {
   width: 100%;
