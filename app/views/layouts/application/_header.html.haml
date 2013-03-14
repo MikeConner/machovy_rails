@@ -1,72 +1,73 @@
-%nav.top-bar
-  %ul.title-area
-    %li.name
-      %h1= link_to(image_tag("machovy-logo.png", :class => "brand", :alt => "logo"), root_path)
-    %li.toggle-topbar
-      %a{:href => "#"} Menu
-  %section.top-bar-section
-    %ul#menu.left
-      %li.divider
-      %li.has-dropdown
-        %a
-          %i.icon-map-marker 
-          Metro
-        %ul.dropdown
-          %li <label> Select Nearest City </label>
-          %li
-          - Metro.all.each do |metro|
-            %li= link_to metro.name, metro_filter_path(:metro => metro.name)
+.contain-to-grid
+  %nav.top-bar
+    %ul.title-area
+      %li.name
+        %h1= link_to(image_tag("machovy-logo.png", :class => "brand", :alt => "logo"), root_path)
+      %li.toggle-topbar
+        %a{:href => "#"} Menu
+    %section.top-bar-section
+      %ul#menu.left
         %li.divider
-        %li
-          = link_to curators_path do
-            %i.icon-plus-sign-alt 
-            Lifestyle
-        %li.divider
-    %ul#menu.right
-      - if current_user.nil?
-        %li.divider.hide-for-small
-        %li
-          = link_to new_user_session_path do
-            %i.icon-lock 
-            Sign In/Up
-      - else
-        %li.divider.hide-for-small
         %li.has-dropdown
           %a
-            %i.icon-user
-            Account
-          - if current_user.has_role?(Role::MERCHANT)
-            %ul.dropdown
-              %li <label> Merchant </label>
-              %li= link_to 'My Deals', promotions_path
-              %li= link_to I18n.t('my_orders'), merchant_vouchers_path
-              -#%li= link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
-              %li= link_to 'Payments', show_payments_merchant_vendor_path(current_user.vendor)
-              %li.divider
-              %li <label>Profile</label>
-              %li= link_to 'Change password', edit_user_registration_path
-              %li= link_to 'Log out', destroy_user_session_path, :method => :delete
-          - elsif admin_user?
-            %ul.dropdown
-              %li <label> Admin </label>
-              %li= link_to I18n.t('my_orders'), merchant_vouchers_path
-              %li= link_to 'Site Admin', site_admin_path
-              - if current_user.has_role?(Role::SUPER_ADMIN)
-                %li= link_to 'Rails Admin', rails_admin_path
-              %li.divider
-              %li <label> Profile </label>
-              %li= link_to 'Edit profile', edit_profile_user_path(current_user)
-              %li= link_to 'Change password', edit_user_registration_path
-              %li= link_to 'Log out', destroy_user_session_path, :method => :delete
-          - else
-            %ul.dropdown
-              %li <label> User </label>
-              %li= link_to I18n.t('my_orders'), merchant_vouchers_path
-              %li.divider
-              %li <label> Profile </label>
-              %li= link_to 'Edit profile', edit_profile_user_path(current_user)
-              %li= link_to 'Change password', edit_user_registration_path
-              %li= link_to 'Log out', destroy_user_session_path, :method => :delete
+            %i.icon-map-marker 
+            Metro
+          %ul.dropdown
+            %li <label> Select Nearest City </label>
+            %li
+            - Metro.all.each do |metro|
+              %li= link_to metro.name, metro_filter_path(:metro => metro.name)
+          %li.divider
+          %li
+            = link_to curators_path do
+              %i.icon-plus-sign-alt 
+              Lifestyle
+          %li.divider
+      %ul#menu.right
+        - if current_user.nil?
+          %li.divider.hide-for-small
+          %li
+            = link_to new_user_session_path do
+              %i.icon-lock 
+              Sign In/Up
+        - else
+          %li.divider.hide-for-small
+          %li.has-dropdown
+            %a
+              %i.icon-user
+              Account
+            - if current_user.has_role?(Role::MERCHANT)
+              %ul.dropdown
+                %li <label> Merchant </label>
+                %li= link_to 'My Deals', promotions_path
+                %li= link_to I18n.t('my_orders'), merchant_vouchers_path
+                -#%li= link_to 'Reports', reports_merchant_vendor_path(current_user.vendor)
+                %li= link_to 'Payments', show_payments_merchant_vendor_path(current_user.vendor)
+                %li.divider
+                %li <label>Profile</label>
+                %li= link_to 'Change password', edit_user_registration_path
+                %li= link_to 'Log out', destroy_user_session_path, :method => :delete
+            - elsif admin_user?
+              %ul.dropdown
+                %li <label> Admin </label>
+                %li= link_to I18n.t('my_orders'), merchant_vouchers_path
+                %li= link_to 'Site Admin', site_admin_path
+                - if current_user.has_role?(Role::SUPER_ADMIN)
+                  %li= link_to 'Rails Admin', rails_admin_path
+                %li.divider
+                %li <label> Profile </label>
+                %li= link_to 'Edit profile', edit_profile_user_path(current_user)
+                %li= link_to 'Change password', edit_user_registration_path
+                %li= link_to 'Log out', destroy_user_session_path, :method => :delete
+            - else
+              %ul.dropdown
+                %li <label> User </label>
+                %li= link_to I18n.t('my_orders'), merchant_vouchers_path
+                %li.divider
+                %li <label> Profile </label>
+                %li= link_to 'Edit profile', edit_profile_user_path(current_user)
+                %li= link_to 'Change password', edit_user_registration_path
+                %li= link_to 'Log out', destroy_user_session_path, :method => :delete
 
 
-               
+                 
