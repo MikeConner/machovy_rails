@@ -1,33 +1,35 @@
-%div#categories.desktop-menu
-  %ul.categories
-    - if active_category.nil? or active_category == Category::ALL_ITEMS_ID
-      %li.active
-        = link_to Category::ALL_ITEMS_LABEL, root_path, :id => Category::ALL_ITEMS_ID
-    - else
-      %li
-        = link_to Category::ALL_ITEMS_LABEL, root_path, :id => Category::ALL_ITEMS_ID
-    -# The link is necessary for the jQuery to work, but the actual navigation is Ajax, so the destinations don't matter
-    - @categories.each do |category|
-      - if active_category == category.name
-        %li.active
-          = link_to category.name, root_path, :id => category.name
-      - else
-        %li
-          = link_to category.name, root_path, :id => category.name
-%form.custom.mobile-menu
-  %select#customDropdown{:class => 'mobile_select', :onchange => "select_mobile_category($('.mobile_select').val());"}
-    - if active_category.nil? or active_category == Category::ALL_ITEMS_ID
-      %option{:id => Category::ALL_ITEMS_ID, :selected => true}
-        = Category::ALL_ITEMS_LABEL
-    - else
-      %option{:id => Category::ALL_ITEMS_ID}
-        = Category::ALL_ITEMS_LABEL
-    -# The link is necessary for the jQuery to work, but the actual navigation is Ajax, so the destinations don't matter
-    - @categories.each do |category|
-      - if active_category == category.name
-        %option{:id => category.name, :selected => true}
-          = category.name
-      - else
-        %option{:id => category.name}
-          = category.name
+.whiteFull
+  .row
+    %div#categories.desktop-menu
+      %ul.categories
+        - if active_category.nil? or active_category == Category::ALL_ITEMS_ID
+          %li.active
+            = link_to Category::ALL_ITEMS_LABEL, root_path, :id => Category::ALL_ITEMS_ID
+        - else
+          %li
+            = link_to Category::ALL_ITEMS_LABEL, root_path, :id => Category::ALL_ITEMS_ID
+        -# The link is necessary for the jQuery to work, but the actual navigation is Ajax, so the destinations don't matter
+        - @categories.each do |category|
+          - if active_category == category.name
+            %li.active
+              = link_to category.name, root_path, :id => category.name
+          - else
+            %li
+              = link_to category.name, root_path, :id => category.name
+    %form.custom.mobile-menu
+      %select#customDropdown{:class => 'mobile_select', :onchange => "select_mobile_category($('.mobile_select').val());"}
+        - if active_category.nil? or active_category == Category::ALL_ITEMS_ID
+          %option{:id => Category::ALL_ITEMS_ID, :selected => true}
+            = Category::ALL_ITEMS_LABEL
+        - else
+          %option{:id => Category::ALL_ITEMS_ID}
+            = Category::ALL_ITEMS_LABEL
+        -# The link is necessary for the jQuery to work, but the actual navigation is Ajax, so the destinations don't matter
+        - @categories.each do |category|
+          - if active_category == category.name
+            %option{:id => category.name, :selected => true}
+              = category.name
+          - else
+            %option{:id => category.name}
+              = category.name
 
