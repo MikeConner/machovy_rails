@@ -20,7 +20,6 @@
   = javascript_include_tag "application"
   = javascript_include_tag "custom.modernizr.js"
   = stylesheet_link_tag "app", media: "all", :debug => true
-
   - if GOOGLE_MAPS_KEY.nil?
     = javascript_include_tag "https://maps.googleapis.com/maps/api/js?sensor=false"
   - else
