@@ -1,19 +1,5 @@
 = render :partial => 'categories/index', :locals => { :active_category => @active_category }
 = render :partial => 'shared/flash_messages'
-
-/ %header.row.home-page.center
-/   .large-6.columns.divide-right
-/     .large-10.columns
-/       %h2 Collect Merchandise, Build&nbsp;Your&nbsp;Lifestyle
-/       %p 
-/         Machovy is a social shopping experience for men. We are working on building relationships with local businesses to provide premium services in the surrounding Pittsburgh Area.
-/   .large-6.columns.divide-left
-/     .large-6.columns.offset-by-one
-/       %h3 Are you a Merchant?<br/> Submit your deal today.
-/     .large-6.columns
-/       %a{:href => about_path}
-/         Learn More
-/         %i.icon-angle-right
 - if @display_banner
   %header#machovy_banner.row.home-page.center
     .pull-right
