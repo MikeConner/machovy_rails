@@ -1,11 +1,22 @@
+.blogpost-page-container {
+  h1 {color:white;}
+  padding-top:20px;
+  padding-bottom: 100px;
+  background: url(/assets/background-img.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 .blogpost-page {
     h4 {margin-bottom:0px;}
     img {margin-bottom:10px;}
     .mediumgray-btn { @include sassy-button("matte", 12px, 10px, $mediumgray); font-weight: thin;}
     .darkred-btn {@include sassy-button("matte", 12px, 10px, $darkred);font-weight: bold;}
     .hr {border-bottom:1px solid $lightgray; margin:10px 0px;}
-    background-color:white;
-    padding: 20px 10px;
+    background-color: white!important;
+    padding: 20px 40px 20px 20px;
 }
 
 .author-recommend {

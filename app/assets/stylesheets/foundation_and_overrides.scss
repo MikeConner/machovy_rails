@@ -65,6 +65,9 @@ $block-grid-default-spacing: 10px;
 // Enables media queries for block-grid classes. Set to false if writing semantic HTML.
 $block-grid-media-queries: true;
 
+// Main breakpoint for responsive
+$break-point:795px;
+
 //
 // Typography Variables
 //
@@ -327,10 +330,10 @@ $anchor-font-color-hover: darken($primary-color, 5%);
 //
 
 // We use this to control alert padding.
-// $alert-padding-top: emCalc(11px);
-// $alert-padding-left: $alert-padding-top;
-// $alert-padding-right: $alert-padding-top + emCalc(10px);
-// $alert-padding-bottom: $alert-padding-top + emCalc(1px);
+$alert-padding-top: emCalc(11px);
+$alert-padding-left: $alert-padding-top + emCalc(115px);
+$alert-padding-right: $alert-padding-top + emCalc(10px);
+$alert-padding-bottom: $alert-padding-top + emCalc(1px);
 
 // We use these to control text style.
 // $alert-font-weight: bold;
@@ -348,12 +351,12 @@ $anchor-font-color-hover: darken($primary-color, 5%);
 // $alert-bottom-margin: emCalc(20px);
 
 // We use these to style the close buttons
-// $alert-close-color: #333;
-// $alert-close-position: emCalc(5px);
-// $alert-close-font-size: emCalc(22px);
-// $alert-close-opacity: 0.3;
-// $alert-close-opacity-hover: 0.5;
-// $alert-close-padding: 5px 4px 4px;
+$alert-close-color: #333;
+$alert-close-position: emCalc(5px);
+$alert-close-font-size: emCalc(22px);
+$alert-close-opacity: 0.3;
+$alert-close-opacity-hover: 0.5;
+$alert-close-padding: 5px 115px 4px 5px;
 
 // We use this to control border radius
 // $alert-radius: $global-radius;
