@@ -111,6 +111,9 @@ $paragraph-aside-font-size: emCalc(14px);
 $paragraph-aside-line-height: 1.35;
 $paragraph-aside-font-style: italic;
 
+// Custome paragraph styles
+$large-paragraph-font-size: emCalc(14px);
+
 // We use these to style <code> tags
 $code-color: darken($alert-color, 15%);
 $code-font-family: Consolas, 'Liberation Mono', Courier, monospace;
