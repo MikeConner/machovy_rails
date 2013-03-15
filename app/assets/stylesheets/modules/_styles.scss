@@ -193,9 +193,7 @@ img {display:block; position:relative; z-index:1;}
     h3 {
       margin-bottom: 0.4em;
     }
-    p {
-      font-size: 1em;
-    }
+    
   }
 }
 
@@ -206,6 +204,9 @@ img {display:block; position:relative; z-index:1;}
   position: relative;
   color: #222;
   display: block;
+  p {
+      font-size: 0.9em;
+    }
   img {width:100%;}
     a {
       color:black;
