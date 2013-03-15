@@ -1,14 +1,30 @@
+.local-deal-container {
+  padding-top:100px;
+  padding-bottom: 100px;
+  background: url(/assets/background-img.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 .promotion {
     background-color: white!important;
     padding: 20px 40px 20px 20px;
-    margin:40px auto;
-    h4 {margin-bottom:0px;}
+    h3 {margin-bottom:0px;}
+    h4 {margin-bottom:1.4em; font-size:12px; font-weight:bold; color:black; text-transform:uppercase;}
+    p {font-size:$paragraph-font-size;}
     img {margin-bottom:10px;}
-    .mediumgray-btn { @include sassy-button("matte", 12px, 10px, $mediumgray); font-weight: thin;}
-    .darkred-btn {@include sassy-button("matte", 8px, 15px, $darkred);font-weight: bold;}
+    .mediumgray-btn { @include sassy-button("matte", 8px, 10px, $mediumgray); font-weight: bold; text-transform:uppercase;}
+    .darkred-btn {@include sassy-button("matte", 8px, 10px, $darkred);font-weight: bold; text-transform:uppercase;}
     .hr {border-bottom:1px solid $lightgray; margin:10px 0px;}
     .orbit-bullets {display:none;}
-    table {z-index:99; position:absolute; bottom:-20px; width:100.25%;}
+    table {
+      width:100.25%; 
+      margin:20px 0;
+      text-align: center;
+        th {font-size:0.8em; text-align:center; text-transform:uppercase;}
+    }
     .fb_iframe_widget,
     .fb_iframe_widget span,
     .fb_iframe_widget iframe[style]  {width: 100% !important;}
@@ -16,6 +32,156 @@
     .price-new {color:$darkred; font-size:20px; font-weight:bold; margin-left:5px;}
     input[type="submit"] {padding:5px 15px!important;}
 }
-    .twshare {width:80px!important; float:left!important; margin-bottom:15px;}
-    .fshare {width:100px!important; float:left!important; margin-left:10px;}
+
+.twshare {width:80px!important; float:left!important; margin-bottom:15px;}
+.fshare {width:100px!important; float:left!important; margin-left:10px;}
+
+
+.curator-page-container{
+  h1 {color:white;}
+  padding-top:20px;
+  padding-bottom: 100px;
+  background: url(/assets/background-img.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  .curator-page {
+    background-color: white;
+    padding: 20px 40px 20px 20px;
+  }
+}
+
+.about-page-container{
+  h1 {color:white;}
+  padding-top:20px;
+  padding-bottom: 100px;
+  background: url(/assets/background-img.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+  .about-page {
+    background-color: white;
+    padding: 20px 40px 20px 20px;
+  }
+}
+
+.faq-page-container{
+  h1 {color:white;}
+  padding-top:20px;
+  padding-bottom: 100px;
+  background: url(/assets/background-img.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+  .faq-page {
+    background-color: white;
+    padding: 20px 40px 20px 20px;
+    h1,h2,h3,h4,h5,h6 {margin-bottom:0px;}
+  }
+}
+
+.feedback-page-container{
+  h1 {color:white;}
+  padding-top:20px;
+  padding-bottom: 100px;
+  background: url(/assets/background-img.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+  .feedback-page {
+    background-color: white;
+    padding: 20px 40px 20px 20px;
+    h5 {font-weight:bold;}
+  }
+}
+
+.terms-page-container{
+  h1 {color:white;}
+  padding-top:20px;
+  padding-bottom: 100px;
+  background: url(/assets/background-img.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+  .terms-page {
+    background-color: white;
+    padding: 20px 40px 20px 20px;
+    h5 {font-weight:bold;}
+  }
+}
+
+.how-page-container{
+  h1 {color:white;}
+  padding-top:20px;
+  padding-bottom: 100px;
+  background: url(/assets/background-img.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+  .how-page {
+    background-color: white;
+    padding: 20px 40px 20px 20px;
+    h5 {font-weight:bold;}
+  }
+}
+
+.merchant-register-page-container {
+  h1 {color:white;}
+  padding-top:20px;
+  padding-bottom: 100px;
+  background: url(/assets/background-img.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+  .merchant-register-page {
+    background-color: white;
+    padding: 20px 40px 20px 20px;
+    h5 {font-weight:bold;}
+    input[type="submit"]{
+      @include sassy-button("matte", 8px, 10px, $darkred); padding:1.4em 2.5em!important; font-weight: bold; text-transform:uppercase;
+    }
+  }
+}
+
+.user-register-page-container {
+  h1 {color:white;}
+  padding-top:20px;
+  padding-bottom: 100px;
+  background: url(/assets/background-img.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+  .user-register-page {
+    background-color: white;
+    padding: 20px 40px 20px 20px;
+    h5 {font-weight:bold;}
+    input[type="submit"]{
+      @include sassy-button("matte", 8px, 10px, $darkred); padding:1.4em 2.5em!important; font-weight: bold; text-transform:uppercase;}
+    }
+    .mediumgray-btn { @include sassy-button("matte", 8px, 12px, $mediumgray); font-weight: bold; text-transform:uppercase;}
+
+}
+
+
+
+
+
+
+
+
 

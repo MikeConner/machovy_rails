@@ -1,39 +1,23 @@
-%h4 You're in charge
-.borderLine
-  .borderLine-left &nbsp;
-  .borderLine-right &nbsp;
+%h5 You're in charge
 %p You determine the commission Machovy gets for each sale.  You write the deal description, provide the pictures and set the price.  Our staff goes through validates the information and if it's a good deal for our customers and if it makes sense for us, we'll market your promotion.  
-%br
-%h4 No Tipping Points, No One Day Sales
-.borderLine
-  .borderLine-left &nbsp;
-  .borderLine-right &nbsp;
+
+%h5 No Tipping Points, No One Day Sales
 %p You don't get 24 hours. You're selling 24/7 until you've sold out all the vouchers.
-%br
-%h4 We're actually local
-.borderLine
-  .borderLine-left &nbsp;
-  .borderLine-right &nbsp;
+
+%h5 We're actually local
 %p We love local and small businesses.  We provide tools that make discovering local businesses fun.
-%br
-%h4 Try Something New
-.borderLine
-  .borderLine-left &nbsp;
-  .borderLine-right &nbsp;
+
+%h5 Try Something New
 %p Sell a service you have never tried before.  Our audience likes cutting edge unique experiences, products or services.
-%br 
-%h4 Advertising
-.borderLine
-  .borderLine-left &nbsp;
-  .borderLine-right &nbsp;
-%br
+
+%h5 Advertising
 %em= mail_to   "sales@machovy.com", "Contact Us"
 to advertise on our site.
-%br
-%br
+
 -# 480/295
-%iframe{:width => "650", :height => "350", :frameborder => "0", :allowfullscreen => "true", |
-        :src => 'https://www.youtube.com/embed/ISljpBR0iz4?feature=player_detailpage'} |   
+.flex-video
+  %iframe{:width => "650", :height => "350", :frameborder => "0", :allowfullscreen => "true", |
+          :src => 'https://www.youtube.com/embed/ISljpBR0iz4?feature=player_detailpage'} |   
 -#
   %iframe{:src => MachovyRails::Application.assets.find_asset(VendorMailer::LEGAL_AGREEMENT_HTML).to_s, :style => "width:650px; height:350px;", :frameborder => "0"}
   - contract_url = merchant_contract_url(:host => ApplicationHelper::WEB_ADDRESS, :port => nil)

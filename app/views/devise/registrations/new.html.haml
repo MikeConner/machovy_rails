@@ -1,41 +1,43 @@
-.row{:data => {:page => 'merchant-register'}}
-  .large-7.columns
-    .sign-in-title
-      %h4= I18n.t('merchant_signup')  
-    .sign-in-body
-      = render :partial => 'vendor_header'
-  .large-5.columns
-    .sign-in-title
-      %h4 Merchant Signup
-    .sign-in-body
-      = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
-        = render :partial => 'shared/flash_messages'
-        - resource.build_vendor unless resource.vendor
-        = f.fields_for :vendor do |v|
-          %div
-            %p <strong>Business Information</strong>
-          = v.text_field :name, {:placeholder => 'Business Name'}
-          = v.text_field :phone, :placeholder => "Phone (###) 555-1212", :maxlength => 14
-          %br
-          = v.check_box :private_address
-          = v.label :private_address, 'Hide address from customers (e.g., home-based business)'
-          = v.text_field :address_1, {:placeholder => 'Address Line 1'}
-          = v.text_field :address_2, {:placeholder => 'Address Line 2 (Optional)'}
-          = v.text_field :city, {:placeholder => 'City'}
-          = v.text_field :state, :size => 2, :maxlength => 2, :placeholder => "State"
-          = v.text_field :zip, {:placeholder => 'Zip Code'}
-          = v.text_field :url, {:placeholder => 'Your Website (Optional)'}
-          = v.text_field :facebook,{:placeholder => 'Facebook URL (Optional)'}
-          %br
-          %p <strong>Sign Up</strong>
-          = f.email_field :email, {:placeholder => 'Email'}
-          = f.password_field :password, {:placeholder => 'Password'}
-          = f.password_field :password_confirmation, {:placeholder => 'Password Confirmation'}  
-          %br
-          By clicking "Sign up" I agree that:
-          %ul
-            %li== I have read and accepted the #{link_to 'Merchant Agreement', '#', :onclick => "window.showModalDialog(\"#{merchant_contract_html_url}\", 'Privacy Policy', \"dialogWidth:700px;dialogHeight:600px\");"} and #{link_to 'Privacy Policy', '#', :onclick => "window.showModalDialog(\"#{ApplicationHelper::PRIVACY_POLICY_LINK}\", 'Privacy Policy', \"dialogWidth:700px;dialogHeight:600px\");"}.
-            %li I may receive email from Machovy. I am able to change what is sent to my email address.          
-        .sign-in-footer
-          = f.submit "Sign up", :class => "darkred-btn"
+.merchant-register-page-container
+  .row
+    .large-12.columns
+      %h1= I18n.t('merchant_signup')
+  .row.merchant-register-page
+    .large-7.columns
+      .sign-in-body
+        = render :partial => 'vendor_header'
+    .large-5.columns
+      .sign-in-title
+        %h4 Merchant Signup
+      .sign-in-body
+        = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
+          = render :partial => 'shared/flash_messages'
+          - resource.build_vendor unless resource.vendor
+          = f.fields_for :vendor do |v|
+            %div
+              %p <strong>Business Information</strong>
+            = v.text_field :name, {:placeholder => 'Business Name'}
+            = v.text_field :phone, :placeholder => "Phone (###) 555-1212", :maxlength => 14
+            %br
+            = v.check_box :private_address
+            = v.label :private_address, 'Hide address from customers (e.g., home-based business)'
+            = v.text_field :address_1, {:placeholder => 'Address Line 1'}
+            = v.text_field :address_2, {:placeholder => 'Address Line 2 (Optional)'}
+            = v.text_field :city, {:placeholder => 'City'}
+            = v.text_field :state, :size => 2, :maxlength => 2, :placeholder => "State"
+            = v.text_field :zip, {:placeholder => 'Zip Code'}
+            = v.text_field :url, {:placeholder => 'Your Website (Optional)'}
+            = v.text_field :facebook,{:placeholder => 'Facebook URL (Optional)'}
+            %br
+            %p <strong>Sign Up</strong>
+            = f.email_field :email, {:placeholder => 'Email'}
+            = f.password_field :password, {:placeholder => 'Password'}
+            = f.password_field :password_confirmation, {:placeholder => 'Password Confirmation'}  
+            %br
+            By clicking "Sign up" I agree that:
+            %ul
+              %li== I have read and accepted the #{link_to 'Merchant Agreement', '#', :onclick => "window.showModalDialog(\"#{merchant_contract_html_url}\", 'Privacy Policy', \"dialogWidth:700px;dialogHeight:600px\");"} and #{link_to 'Privacy Policy', '#', :onclick => "window.showModalDialog(\"#{ApplicationHelper::PRIVACY_POLICY_LINK}\", 'Privacy Policy', \"dialogWidth:700px;dialogHeight:600px\");"}.
+              %li I may receive email from Machovy. I am able to change what is sent to my email address.          
+          .sign-in-footer
+            = f.submit "Sign up", :class => "darkred-btn"
 

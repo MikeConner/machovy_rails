@@ -1,60 +1,62 @@
-.row-fluid
-  .span12.page-header
-    %h1 Feedback Forum <small>Your opinion matters to us</small>
 = render :partial => 'shared/flash_messages'
-.row-fluid
-  .span9
-    .row-fluid
-      .span12
-        %h4 Welcome to the Machovy Feedback Forum
+.feedback-page-container
+  .row
+    .large-12.columns
+      %h1 Feedback Forum <small>Your opinion matters to us</small>
+  .row.feedback-page
+    .row
+      .large-9.columns
+        %h5 Welcome to the Machovy Feedback Forum
         %p Now, we know you're a genius... but it's just possible someone else had the same idea. And maybe some people even though they obviously know the best place for men's interest shopping -- might not be full-on geniuses in other areas. If so, feel free to (be)rate them. You can see the highest-rated ideas on the right. Will yours make the cut?
         %ul
           %li If you have suggestions on how to make Machovy even better, you can submit an <b>Idea</b>. (You must sign in to submit an idea.)     
           %li If you have a customer service issue, question or general comment for Machovy staff, you can send us a direct message and we'll do our best to get back to you.
-        %br/
-    .row-fluid
-      .span6
-        %h4 I need customer service.
-        .sub-desc I may also have a general question/comment
-        %br
-        = form_tag make_comment_path, :method => :put do
-          - if @anonymous
-            = hidden_field_tag 'user', 'Anonymous'
-          - else
-            = hidden_field_tag 'user', current_user.email
-          - label_tag 'category'
-          = select_tag 'category', options_for_select(@categories)
-          - label_tag 'name'
-          = text_field_tag 'name', nil, :maxlength => 16, :placeholder => 'Name'
+        .row
+          .large-6.columns
+            %h5 I need customer service.
+            .sub-desc I may also have a general question/comment
+            %br
+            = form_tag make_comment_path, :method => :put do
+              - if @anonymous
+                = hidden_field_tag 'user', 'Anonymous'
+              - else
+                = hidden_field_tag 'user', current_user.email
+              - label_tag 'category'
+              = select_tag 'category', options_for_select(@categories)
+              - label_tag 'name'
+              = text_field_tag 'name', nil, :maxlength => 16, :placeholder => 'Name'
+              %br/
+              - label_tag 'comment'
+              = text_area_tag 'comment', nil, :size => '60x4'    
+              %br/
+              = submit_tag 'Listen up!', :class => 'darkred-btn'
+          .large-6.columns
+            - if !@anonymous
+              %h5 Alert the patent office! I have an <em>Idea</em>.
+              .sub-desc (whatever you want displayed; we will not show your email)
+              %br
+              - @idea = current_user.ideas.build unless @idea
+              = form_for @idea do |f|
+                = render :partial => 'shared/error_messages', :locals => { :errors => @idea.errors, :name => 'Idea' }
+                = f.hidden_field :user_id, :value => current_user.id
+                = f.text_field :name, :placeholder => 'Name', :maxlength => 16
+                = f.text_field :title, :maxlength => 40, :placeholder => 'Subject'
+                %br/
+                = f.text_area :content, :size => '60x4', :placeholder => 'Your idea in all its glory'
+                %br/
+                = f.submit 'Submit idea', :class => 'darkred-btn'    
+      .large-3.columns
+        %h5 Top rated ideas
+        .borderLine
+          .borderLine-left &nbsp;
+          .borderLine-right &nbsp;
+        - if 0 == @ideas.count
+          %p We need some great ideas!
+        - else
+          = link_to 'Show All Ideas', ideas_path
           %br/
-          - label_tag 'comment'
-          = text_area_tag 'comment', nil, :size => '60x4'    
-          %br/
-          = submit_tag 'Listen up!', :class => 'btn btn-danger'
-      .span6        
-        - if !@anonymous
-          %h4 Alert the patent office! I have an <em>Idea</em>.
-          .sub-desc (whatever you want displayed; we will not show your email)
-          %br
-          - @idea = current_user.ideas.build unless @idea
-          = form_for @idea do |f|
-            = render :partial => 'shared/error_messages', :locals => { :errors => @idea.errors, :name => 'Idea' }
-            = f.hidden_field :user_id, :value => current_user.id
-            = f.text_field :name, :placeholder => 'Name', :maxlength => 16
-            = f.text_field :title, :maxlength => 40, :placeholder => 'Subject'
-            %br/
-            = f.text_area :content, :size => '60x4', :placeholder => 'Your idea in all its glory'
-            %br/
-            = f.submit 'Submit idea', :class => 'btn btn-small btn-danger'
-  .span3
-    %h4 Top rated ideas
-    .borderLine
-      .borderLine-left &nbsp;
-      .borderLine-right &nbsp;
-    - if 0 == @ideas.count
-      %p We need some great ideas!
-    - else
-      = link_to 'Show All Ideas', ideas_path
-      %br/
-      - @ideas.each do |idea|
-        = render :partial => 'shared/idea', :locals => { :idea => idea, :user => current_user }
+          - @ideas.each do |idea|
+            = render :partial => 'shared/idea', :locals => { :idea => idea, :user => current_user }
+ 
+        
+      
