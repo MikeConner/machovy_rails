@@ -23,7 +23,10 @@ body {
   width: 100%;
 }
 
-
+p {
+  font-size:$large-paragraph-font-size;
+  font-color:;
+}
 
 @-moz-document url-prefix() {
     body, h1, h2, h3, #super-list, .element, .tagline, #index-list, 
