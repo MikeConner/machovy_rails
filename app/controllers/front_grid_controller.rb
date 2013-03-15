@@ -14,7 +14,7 @@ class FrontGridController < ApplicationController
     @active_metro = session[:metro]
     
     @categories = Category.roots
-
+    
     metro_id = Metro.find_by_name(@active_metro).id
     
     # If they request the home page (no page argument), generate a random layout and store it in the session.
@@ -45,6 +45,8 @@ class FrontGridController < ApplicationController
         pager.replace(@layout)
       end
     end
+    
+    @display_banner = session[:banner_viewed].nil? || ('false' == session[:banner_viewed])
   end    
   
   def midnightguru    
