@@ -91,4 +91,14 @@ class AjaxController < ApplicationController
       end
     end
   end
+  
+  def hide_banner
+    respond_to do |format|
+      format.js do
+        session[:banner_viewed] = params[:hidden]
+        
+        render :nothing => true
+      end
+    end
+  end
 end
