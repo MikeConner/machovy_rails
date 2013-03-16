@@ -1,6 +1,6 @@
 .blogpost
   - post = BlogPost.find(content)
-  - post_image_url = @mobile ? post.associated_image_url(:blog_content_photo).to_s : post.associated_image_url(:blog_frontpage_photo).to_s
+  - post_image_url = @mobile ? post.associated_image_url(:blog_mobile_photo).to_s : post.associated_image_url(:blog_frontpage_photo).to_s
   = link_to image_tag(post_image_url), blog_post_path(post)
   .details
     .author
