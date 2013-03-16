@@ -5,7 +5,11 @@
   .row.blogpost-page
     .row
       .large-12.columns
-        %p Posted by: <strong>The Cocktail Chef</strong> Date: Feb21, 2013
+        %p 
+          Posted by: 
+          %strong
+            = @blog_post.curator.name
+          = @blog_post.updated_at.try(:strftime, ApplicationHelper::DATE_FORMAT)
     .row
       .large-9.columns
         .row
