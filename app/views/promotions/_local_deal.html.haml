@@ -118,10 +118,10 @@
                       %script{:src => "https://connect.facebook.net/en_US/all.js#xfbml=1"}
                       %fb:like{:layout => "button_count", :show_faces => "false"}
                     %fb:comments{:numposts => "4", :title => "Comments", :simple => "1", :href => "https://#{request.host+request.fullpath}".to_s}
-    - if !@curators.empty?        
-      .section-divider  
-      .row
-        %h4 Associated Mentors
-      .row.well
-        - @curators.each do |curator|
-          = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }
+    / - if !@curators.empty?        
+    /   .section-divider  
+    /   .row
+    /     %h4 Associated Mentors
+    /   .row.well
+    /     - @curators.each do |curator|
+    /       = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }
