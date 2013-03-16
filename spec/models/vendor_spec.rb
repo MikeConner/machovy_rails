@@ -20,6 +20,7 @@
 #  slug            :string(255)
 #  private_address :boolean         default(FALSE)
 #  source          :string(255)
+#  logo_image      :string(255)
 #
 
 describe "Vendors" do
@@ -53,6 +54,7 @@ describe "Vendors" do
     vendor.should respond_to(:private_address)
     vendor.should respond_to(:source)
     vendor.should respond_to(:coupons)
+    vendor.should respond_to(:logo_image)
     vendor.user.should be == user
   end
   

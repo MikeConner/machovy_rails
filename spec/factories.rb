@@ -63,6 +63,7 @@ FactoryGirl.define do
     body { generate(:random_paragraphs) }
     weight { Random.rand(100) + 1 }
     activation_date 2.days.from_now
+    remote_associated_image_url 'http://www.louisgray.com/live/uploaded_images/Twitter-_-Nick-O_Neill_-New-blog-post_-RockYou-Mak-...-786396.png'
     
     factory :blog_post_with_promotions do
       ignore do

@@ -20,6 +20,7 @@
 #  slug            :string(255)
 #  private_address :boolean         default(FALSE)
 #  source          :string(255)
+#  logo_image      :string(255)
 #
 
 # CHARTER
@@ -41,10 +42,13 @@ class Vendor < ActiveRecord::Base
   
   RECENT_DAYS = 3
   
-  attr_accessible :address_1, :address_2, :city, :facebook, :name, :phone, :state, :url, :zip, :latitude, :longitude, :private_address, :source,
+  attr_accessible :address_1, :address_2, :city, :facebook, :name, :phone, :state, :url, :zip, :latitude, :longitude, :private_address, 
+                  :source, :logo_image, :remote_logo_image_url,
                   :user_id
                   
   belongs_to :user
+
+  mount_uploader :logo_image, ImageUploader  
   
   has_many :promotions, :dependent => :restrict
   has_many :metros, :through => :promotions, :uniq => true

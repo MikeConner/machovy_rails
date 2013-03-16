@@ -69,6 +69,7 @@ class BlogPost < ActiveRecord::Base
     
   validates_presence_of :title
   validates_presence_of :body
+  validates_presence_of :associated_image
   validates_numericality_of :weight, { :only_integer => true, :greater_than => 0 }
   
   # DB scope can get lost when we're filtering and otherwise processing these as arrays
