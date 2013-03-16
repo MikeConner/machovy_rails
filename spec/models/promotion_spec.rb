@@ -111,6 +111,7 @@ describe "Promotions" do
     promotion.should respond_to(:mappable?)
     promotion.should respond_to(:venue_location)
     promotion.should respond_to(:venue_geocode_location)
+    promotion.should respond_to(:affiliate_logo)
     promotion.metro.should be == metro
     promotion.vendor.should be == vendor
     promotion.promotion_type.should be == Promotion::LOCAL_DEAL
@@ -123,6 +124,16 @@ describe "Promotions" do
     promotion.displayable?.should be_false
     promotion.zombie?.should be_false
     promotion.coming_soon?.should be_false
+    promotion.affiliate_logo.should be_nil
+  end
+  
+  describe "affiliate logo" do
+    let(:amazon) { FactoryGirl.create(:vendor, :name => 'Amazon', :remote_logo_image_url => 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRy1YEzNThhEgyJtqiNlDTWynu3ZV8kclh_M2kdKg6gweS9tJT6Eg') }
+    let(:affiliate) { FactoryGirl.create(:affiliate, :vendor => amazon) }
+    
+    it "should have a logo" do
+      affiliate.affiliate_logo.should_not be_nil
+    end
   end
   
   describe "mapping" do
@@ -310,6 +321,8 @@ describe "Promotions" do
       long_expired.displayable?.should be_false
       just_expired.displayable?.should be_false
       promotion_with_orders.displayable?.should be_false
+      ad.affiliate_logo.should be_nil
+      affiliate.affiliate_logo.should be_nil
       
       ad.zombie?.should be_false
       expired_ad.zombie?.should be_false

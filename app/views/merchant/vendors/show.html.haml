@@ -1,4 +1,7 @@
-%h1= @vendor.name
+%h1
+  - if @vendor.logo_image.present?
+    = image_tag @vendor.logo_image_url
+  = @vendor.name
 - if !@vendor.source.blank?
   %em== Source: #{@vendor.source}
 %p

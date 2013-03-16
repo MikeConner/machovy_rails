@@ -39,5 +39,13 @@
 .field
   = f.label :source
   = f.text_field :source
+.field
+  = f.label :logo_image
+  %br/
+  = f.file_field :logo_image
+.field
+  = f.label :remote_logo_image_url, "or image URL"
+  %br/
+  = f.text_field :remote_logo_image_url, :title => I18n.t('ensure_image')  
 .actions
   = f.submit

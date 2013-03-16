@@ -37,6 +37,12 @@ describe "Blog posts" do
   it { should be_valid }
   it { should_not be_displayable }
   
+  describe "no image" do
+    before { post.remove_associated_image! }
+    
+    it { should_not be_valid }
+  end
+  
   describe "initialization" do
     before { @post = BlogPost.new }
     

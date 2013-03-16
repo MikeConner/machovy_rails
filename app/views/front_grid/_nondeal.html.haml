@@ -2,11 +2,12 @@
   - if promotion.ad?
     = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion.destination, :target => '_blank' 
   - else
-    = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
+    = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion), :target => '_blank' 
     .item-title= truncate(sanitize(promotion.title), :length => 28)
   .menu.cf
     .logo
-      %a
+      - if promotion.affiliate? and !promotion.affiliate_logo.nil?
+        = image_tag promotion.affiliate_logo
     .promotion-icons
       %ul
         %li

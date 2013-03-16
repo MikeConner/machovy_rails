@@ -382,6 +382,16 @@ class Promotion < ActiveRecord::Base
       address
     end
   end
+  
+  def affiliate_logo
+    if affiliate?
+      if self.vendor.logo_image.present?
+        return self.vendor.logo_image_url
+      end
+    end
+    
+    nil
+  end
 private
   def init_defaults
     self.grid_weight = DEFAULT_GRID_WEIGHT if new_record?
