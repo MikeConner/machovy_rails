@@ -20,7 +20,7 @@
     - if @order.promotion.unlimited?(current_user)
       = f.number_field :quantity, :min => @order.promotion.min_per_customer, :onchange => "update_amount('order_quantity', #{@order.amount}, #{@order.user.total_macho_bucks});", :class => "quantity-input"
     - else
-      = f.select :quantity, (@order.promotion.min_per_customer..@order.promotion.max_quantity_for_buyer(current_user)), :onchange => "update_amount('order_quantity', #{@order.amount}, #{@order.user.total_macho_bucks});"
+      = f.select :quantity, (@order.promotion.min_per_customer..@order.promotion.max_quantity_for_buyer(current_user)), {}, :onchange => "update_amount('order_quantity', #{@order.amount}, #{@order.user.total_macho_bucks});"
     %p.total-price 
       - if 0 != @order.user.total_macho_bucks
         - initial_macho_bucks_credit = [@order.user.total_macho_bucks, @order.total_cost].min
