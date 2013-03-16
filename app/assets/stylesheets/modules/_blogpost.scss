@@ -11,40 +11,44 @@
 
 .blogpost-page {
     background-color: white!important;
-    padding: 10px 20px 20px 20px;
+    padding: 10px 30px 20px 20px;
     h4 {margin-bottom:0px;}
     img {margin-bottom:10px;}
     .mediumgray-btn { @include sassy-button("matte", 12px, 10px, $mediumgray); font-weight: thin;}
     .darkred-btn {@include sassy-button("matte", 12px, 10px, $darkred);font-weight: bold;}
     .hr {border-bottom:1px solid $lightgray; margin:10px 0px;}
     .post {
-      img {width:100%; height:300px;} // Dimensions are: 810px x 300px
+      img {width:100%;} // Dimensions are: 810px x 300px
     }
+    .bold {font-weight:bold;}
     .content {
       background-color:white;
       z-index: 1;
       position:relative;
-      top:-75px;
-      margin:0px 40px;
+      margin:-75px 40px 0px;
       padding:20px;
     }
     .author {
-      .image{img {width:100%; height:150px;}}  // Dimensions are: 310px x 150px 
+      height: auto;
+      .image{img {width:100%;}}  // Dimensions are: 310px x 150px 
       .name {
         z-index: 1;
         background-color:white;
-        top:-30px;  
-        margin:0px 15px;
+        margin:-30px 15px 10px;
+        padding-top:2px;
         width:85%;
         h4 {line-height:1em;}
         a {color:black; font-size:0.9em;}
         p {font-size:0.6em; color:black; text-transform:uppercase;}
-        %i {font-size:1.5em; padding-top:10px;}
+        i {font-size:1.5em; padding-top:10px;}
         .columns {padding-left:0px!important;}
-      }
-      
+      }  
     }
-    
+    .recommended-products {
+      h6 {font-weight:bold; margin-bottom:0px; color:#555555;}
+      p {font-size:0.8em!important;}
+      .product {border-right:5px solid #efefef; margin-bottom:10px;}
+    } 
 }
 
 // .author-recommend {
