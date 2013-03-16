@@ -2,12 +2,8 @@
 = render :partial => 'shared/flash_messages'
 - if @display_banner
   %header#machovy_banner.row.home-page.center
-    .pull-right
-      = link_to 'X', '#', :onclick => "hide_machovy_banner();"
     .large-6.columns.divide-right
-      .large-2.columns.symbol
-        %i.icon-group
-      .large-10.columns
+      .large-12.columns
         %h2 Collect Merchandise, Build&nbsp;Your&nbsp;Lifestyle
         %p 
           Machovy is a social shopping experience for men. We are working on building relationships with local businesses to provide premium services in the surrounding Pittsburgh Area.
@@ -15,9 +11,11 @@
       .large-6.columns.offset-by-one
         %h3 Are you a Merchant?<br/> Submit your deal today.
       .large-6.columns
-        %a{:href => about_path}
+        %a{:href => about_path, :class => 'learn-more'}
           Learn More
           %i.icon-angle-right
+        .pull-right
+          = link_to 'X', '#', :onclick => "hide_machovy_banner();", :class => 'darkgray-btn'
 .main-wrap
   #container
     - if @empty_layout
