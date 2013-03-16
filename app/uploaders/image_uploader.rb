@@ -50,14 +50,24 @@ class ImageUploader < CarrierWave::Uploader::Base
     process :resize_to_fill => [60, 60]
   end
   
-  # Image associated with a blog post
-  version :blog_content_photo do
+  # Image associated with a blog post (front page, on a phone)
+  version :blog_mobile_photo do
     process :resize_to_fill => [282, 186]
   end
     
-  # Image associated with a blog post on front page
+  # Image associated with a blog post on front page (non-mobile)
   version :blog_frontpage_photo do
     process :resize_to_fill => [235, 300]
+  end
+    
+  # Image associated with a blog post on front page (non-mobile)
+  version :blog_content_photo do
+    process :resize_to_fill => [810, 300]
+  end
+    
+  # Image associated with a blog post on front page (non-mobile)
+  version :blog_contributor_photo do
+    process :resize_to_fill => [310, 150]
   end
     
   # Curator photos
