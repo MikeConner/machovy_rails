@@ -8,12 +8,15 @@
       .sign-in-title
         %h5 Already a member? Sign in:
       .sign-in-body
-        = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+        = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => 'new_user custom'}) do |f|
           = f.email_field :email, {:placeholder => 'Email'}
           = f.password_field :password, {:placeholder => 'Password'}
           - if devise_mapping.rememberable?
-            = f.check_box :remember_me 
-            = f.label :remember_me
+            -#= f.label :remember_me
+            %label{:for => "#{resource_name}_remember_me"}
+              = f.check_box :remember_me, :style => 'display:none'
+              %span.custom.checkbox
+              Remember me
           .sign-in-footer
             = f.submit "Sign in", {:class => 'darkred-btn', :style => 'margin-bottom:10px;'}
             = render :partial => "devise/shared/sign_in_links"
@@ -32,3 +35,10 @@
           .sign-in-footer
             = f.submit I18n.t('create_account'), {:class => 'darkred-btn'}
             = link_to 'Merchant? Create an account here', new_user_registration_path, :class => 'mediumgray-btn'
+-#
+  <form class="custom">
+  <label for="checkbox1">
+  <input type="checkbox" id="checkbox1" style="display: none;">
+  <span class="custom checkbox"></span> Label for Checkbox
+  </label>
+  </form>
