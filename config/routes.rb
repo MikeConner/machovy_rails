@@ -8,7 +8,8 @@ MachovyRails::Application.routes.draw do
   # Third party authentication
   # Use custom controllers to support different kinds of users
   devise_for :users, :controllers => { :registrations => 'registrations', 
-                                       :confirmations => 'confirmations' }
+                                       :confirmations => 'confirmations',
+                                       :sessions => 'sessions' }
   
   # Add a user admin action (not part of devise)
   resources :users, :only => [:manage, :destroy] do    
