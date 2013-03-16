@@ -1,11 +1,6 @@
-.row-fluid
-  .row-fluid.side-block
-    .span3.side-thumb
-      = link_to image_tag(promotion.teaser_image_url(:product_thumb).to_s), promotion_path(promotion) 
-    .span8.side-title
-      =truncate(sanitize(promotion.title), :length => 20)
-    .borderLine
-      .borderLine-left &nbsp;
-      .borderLine-right &nbsp;
-  .row-fluid
-    .side-description= truncate(promotion.description, :length => 124)
+.row.product
+  .large-3.columns.x-padding
+    = link_to image_tag(promotion.teaser_image_url(:product_thumb).to_s), promotion_path(promotion) 
+  .large-9.columns
+    %h6= truncate(sanitize(promotion.title), :length => 24)
+    %p= truncate(promotion.description, :length => 110)
