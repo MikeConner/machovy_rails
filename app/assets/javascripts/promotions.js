@@ -2,6 +2,8 @@ $(function() {
 
   $(document).foundation();
   
+  $.backstretch(["/assets/background-img.png"])
+
   $('#tab1').click(function (e) {
   	// Don't prevent default, or submit buttons don't work!
     $(this).tab('show');

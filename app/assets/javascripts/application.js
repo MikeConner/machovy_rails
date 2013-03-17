@@ -11,11 +11,13 @@
 // GO AFTER THE REQUIRES BELOW.
 //= require jquery
 //= require jquery_ujs
-//= require libs/jquery-ui-1.10.1.custom.min
-//= require libs/jquery.isotope.min
+//= require libs/jquery-ui-1.10.1.custom.min.js
+//= require libs/jquery.isotope.min.js
+//= require plugins/jquery.imageloader.js
 //= require plugins/jquery.stickyFooter.js
-//= require admin/jquery.datatables.min
-//= require plugins/prefixfree.min
+//= require admin/jquery.datatables.min.js
+//= require plugins/prefixfree.min.js
+//= require plugins/jquery.backstretch.min.js
 //= require libs/selectivizr-min.js
 //= require libs/zepto.js
 //= require libs/foundation.min
