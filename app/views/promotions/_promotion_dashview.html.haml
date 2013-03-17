@@ -3,14 +3,14 @@
 -#   So don't require passing it in. Set the display link flag if it's passed in and true; leave it false otherwise
 - if defined?(show_vouchers)
   - @display_vouchers = show_vouchers
-#promotion-review
-  - p_list.each do |p|
-    .span.promo-well
-      .large-6.columns
+- p_list.each do |p|
+  .large-12.columns.panel
+    .row
+      .large-5.columns
         = image_tag p.teaser_image_url(:product_front_page)
-      .large-6.columns
+      .large-7.columns{:style => 'padding:0px;'}
         %ul
-          %li.title
+          %li{:style => 'font-weight:bold;'}
             - if p.suspended?
               == #{p.title} [Suspended] 
             - elsif p.coming_soon?
@@ -22,6 +22,7 @@
           - else
             %li= 'Exp: ' + p.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT).to_s
           %li= 'Price: ' + number_to_currency(p.price.round(2)).to_s
+          %li &nbsp;
           - if @display_vouchers
             - if 0 == p.vouchers.count
               %li 0 sold
@@ -29,10 +30,10 @@
               -# If a product promotion, there won't be any available (instantly redeemed); show the total number sold
               %li= (ProductStrategy === p.strategy) ? p.vouchers.count : p.num_open_vouchers
           - if Promotion::MACHOVY_REJECTED == p.status
-            = link_to 'Edit', edit_promotion_path(p), :class => 'btn btn-small'
+            = link_to 'Edit', edit_promotion_path(p), :class => 'darkred-btn'
           - else
-            = link_to 'View', promotion_path(p), :class => 'btn btn-small'
+            = link_to 'View', promotion_path(p), :class => 'darkred-btn', :style => 'padding: 2px 20px;'
           - if 0 == p.promotion_logs.count
             'No Activity'
           - else
-            = link_to "Show (#{p.promotion_logs.count})", show_logs_promotion_path(p), :method => :get, :class => 'btn btn-small'
+            = link_to "Show (#{p.promotion_logs.count})", show_logs_promotion_path(p), :method => :get, :class => 'darkred-btn'

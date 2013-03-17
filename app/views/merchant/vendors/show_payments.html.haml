@@ -6,16 +6,17 @@
     .large-12.columns
       %h3= I18n.t('customer_service')
       %table
-        %tr
-          %th Promotion
-          %th Sold
-          %th Expired
-          %th Returned
-          %th Redeemed
-          %th Total $
-          %th Machovy Share
-          %th Merchant Share
-          %th Pickup/Delivery
+        %thead
+          %tr
+            %th{:width => '350'} Promotion
+            %th Sold
+            %th Expired
+            %th Returned
+            %th Redeemed
+            %th{:width => '100'} Total $
+            %th{:width => '200'} Machovy Share
+            %th{:width => '200'} Merchant Share
+            %th Pickup/Delivery
         - @payment_data.each do |promotion_data|
           %tr
             %td= promotion_data[:title]
