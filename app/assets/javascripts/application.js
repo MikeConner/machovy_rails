@@ -15,6 +15,7 @@
 //= require libs/jquery.isotope.min.js
 //= require plugins/jquery.imageloader.js
 //= require plugins/jquery.stickyFooter.js
+//= require plugins/jquery.toolbar.min.js
 //= require admin/jquery.datatables.min.js
 //= require plugins/prefixfree.min.js
 //= require plugins/jquery.backstretch.min.js
