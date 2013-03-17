@@ -1,25 +1,29 @@
-%h1= @curator.name
-.row
-  .large-3.columns
-    = image_tag(@curator.picture_url(:product_front_page).to_s)
-  .large-3.columns
-    = @curator.bio
-    = link_to @curator.twitter, @curator.twitter_path, :target => "_blank"
-  .large-6.columns
-    - @curator.blog_posts.each do |post|
-      %h4= link_to post.title, blog_post_path(post)
-      %p= post.truncated_body
-.row
-  %h4== #{@curator.name} Recommends
-- for i in 0..@promotions.count / @deals_per_row do
-  - current_row = @promotions[i * @deals_per_row, @deals_per_row]
-  - if current_row.count > 0
-    = render :partial => 'shared/promotion_row', :locals => { :promotions => current_row }  
-.row
-  .large-6.columns
-    - @videos.each do |video|
-      %iframe{:width => "480", :height => "295", :frameborder => "0", :allowfullscreen => "true", |
-              :src => video.destination_url} |   
-      %br= video.title
-      %br= video.caption
+.mentor-detail-page-container
+  .row
+    .large-12.columns
+      %h1= @curator.name
+  .row.mentor-detail-page
+    .row
+      .large-3.columns
+        = image_tag(@curator.picture_url(:product_front_page).to_s)
+      .large-3.columns
+        = @curator.bio
+        = link_to @curator.twitter, @curator.twitter_path, :target => "_blank"
+      .large-6.columns
+        - @curator.blog_posts.each do |post|
+          %h4= link_to post.title, blog_post_path(post)
+          %p= post.truncated_body
+    / .row
+    /   %h4== #{@curator.name} Recommends
+    / - for i in 0..@promotions.count / @deals_per_row do
+    /   - current_row = @promotions[i * @deals_per_row, @deals_per_row]
+    /   - if current_row.count > 0
+    /     = render :partial => 'shared/promotion_row', :locals => { :promotions => current_row }  
+    / .row
+    /   .large-6.columns
+    /     - @videos.each do |video|
+    /       %iframe{:width => "480", :height => "295", :frameborder => "0", :allowfullscreen => "true", |
+    /               :src => video.destination_url} |   
+    /       %br= video.title
+    /       %br= video.caption
 

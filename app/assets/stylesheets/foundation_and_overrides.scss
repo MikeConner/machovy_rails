@@ -179,21 +179,21 @@ $anchor-font-color-hover: darken(white, 75%);
 // $form-spacing: emCalc(16px);
 
 // We use these to style the labels in different ways
-// $label-pointer: pointer;
-// $label-font-size: emCalc(14px);
-// $label-font-weight: 500;
-// $label-font-color: lighten(#000, 30%);
-// $label-bottom-margin: emCalc(3px);
-// $input-font-color: rgba(0,0,0,0.75);
-// $input-font-size: emCalc(14px);
-// $input-bg-color #fff;
-// $input-focus-bg-color: darken(#fff, 2%);
-// $input-border-color: darken(#fff, 20%);
-// $input-focus-border-color: darken(#fff, 40%);
-// $input-border-style: solid;
-// $input-border-width: 1px;
-// $input-disabled-bg: #ddd;
-// $input-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+$label-pointer: pointer;
+$label-font-size: emCalc(14px);
+$label-font-weight: bold;
+$label-font-color: lighten(#000, 30%);
+$label-bottom-margin: emCalc(3px);
+$input-font-color: rgba(0,0,0,0.75);
+$input-font-size: emCalc(14px);
+$input-bg-color: #fff;
+$input-focus-bg-color: darken(#fff, 2%);
+$input-border-color: darken(#fff, 20%);
+$input-focus-border-color: darken(#fff, 40%);
+$input-border-style: solid;
+$input-border-width: 1px;
+$input-disabled-bg: #ddd;
+$input-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
 
 // We use these to style the fieldset border and spacing.
 // $fieldset-border-style: solid;

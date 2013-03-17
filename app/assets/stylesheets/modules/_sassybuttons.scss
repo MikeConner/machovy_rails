@@ -46,20 +46,20 @@ $blue:#2980B9;
 }
 
 // Red  
-.darkred-btn {@include sassy-button("matte", 8px, 10px, $darkred);}
+.darkred-btn {@include sassy-button("matte", 8px, 1em, $darkred);}
 
 // Green
-.darkblue-btn { @include sassy-button("matte", 8px, 10px, $darkblue); }
-.blue-btn { @include sassy-button("matte", 8px, 10px, $blue); }
+.darkblue-btn { @include sassy-button("matte", 8px, 1em, $darkblue); }
+.blue-btn { @include sassy-button("matte", 8px, 1em, $blue); }
 
 // Green
-.darkgreen-btn { @include sassy-button("matte", 8px, 10px, $darkgreen); }
+.darkgreen-btn { @include sassy-button("matte", 8px, 1em, $darkgreen); }
 
 // Gray
-.darkgray-btn { @include sassy-button("matte", 8px, 10px, $darkgray); }
-.mediumgray-btn { @include sassy-button("matte", 8px, 10px, $mediumgray); }
-.gray-btn { @include sassy-button("matte", 8px, 10px, $gray); }
-.lightgray-btn {@include sassy-button("matte", 8px, 10px, $lightgray);}
+.darkgray-btn { @include sassy-button("matte", 8px, 1em, $darkgray); font-weight: bold;}
+.mediumgray-btn { @include sassy-button("matte", 8px, 1em, $mediumgray); }
+.gray-btn { @include sassy-button("matte", 8px, 1em, $gray); }
+.lightgray-btn {@include sassy-button("matte", 8px, 1em, $lightgray);}
 
 
 

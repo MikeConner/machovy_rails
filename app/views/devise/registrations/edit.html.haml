@@ -1,31 +1,26 @@
-%h2 Change Password
-= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
-  = devise_error_messages!
-  %div
-    = f.label :email
-    %br/
-    = f.email_field :email
-  %div
-    = f.label :password, "New password"
-    -#
-      %em
-        (leave blank if you don't want to change it)
-    %br/
-    = f.password_field :password, :autocomplete => "off"
-  %div
-    = f.label :password_confirmation
-    %br/
-    = f.password_field :password_confirmation
-  %div
-    = f.label :current_password
-    %em
-      (we need your current password to confirm your changes)
-    %br/
-    = f.password_field :current_password
-  %div
-    = f.submit "Update"
-%br/
-%br/
-= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete
-%br/
-= link_to "Back", :back
+.change-password-page-container
+  .row
+    .large-12.columns
+      %h1 Change Password <small>make sure your significant other wont be able to guess this</small>
+  .row.change-password-page
+    .large-8.columns
+      = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
+        = devise_error_messages!
+        %div
+          = f.label :email
+          = f.email_field :email
+          = f.label :password, "New password"
+          -#
+            %em
+              (leave blank if you don't want to change it)
+          = f.password_field :password, :autocomplete => "off"
+          = f.label :password_confirmation
+          = f.password_field :password_confirmation
+          = f.label :current_password
+          %em
+            (we need your current password to confirm your changes)
+          = f.password_field :current_password
+          = f.submit "Update", :class => 'darkred-btn'
+          = link_to "Cancel my account", registration_path(resource_name), :class => 'darkgray-btn', :data => { :confirm => "Are you sure?" }, :method => :delete
+      %br/
+      /= link_to "Back", :back
