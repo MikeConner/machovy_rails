@@ -11,7 +11,7 @@
           %br= text_area_tag 'comment', nil, :rows => 5, :class => "slider-input"
           = submit_tag 'Reject Machovy Changes', :class => "button big round"
     .row.product-line
-      .large-5.columns.product
+      .large-4.columns.product
         %ul{:data => {:orbit => 'promotion-image'}}
           - no_images = @promotion.teaser_image.file.nil? and @promotion.main_image.file.nil? and 0 == @promotion.promotion_images.count
           - if no_images
@@ -27,7 +27,7 @@
                 - if !slideshow.slideshow_image.file.nil?
                   %li
                     = image_tag slideshow.slideshow_image_url(:product_front_page).to_s        
-      .large-7.columns.product-detail
+      .large-8.columns.product-detail
         .row
           .large-12.columns
             %h3= @promotion.title

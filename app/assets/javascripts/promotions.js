@@ -4,6 +4,13 @@ $(function() {
   
   $.backstretch(["/assets/background-img.png"])
 
+  // Define any icon actions before calling the toolbar 
+      $('.toolbar-icons a').on('click', function( event ) {
+        event.preventDefault(); 
+      });
+
+      $('.share-tools').toolbar({content: '#user-options', position: 'top'});
+
   $('#tab1').click(function (e) {
   	// Don't prevent default, or submit buttons don't work!
     $(this).tab('show');
