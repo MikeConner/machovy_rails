@@ -66,6 +66,7 @@
   .about-page {
     background-color: white;
     padding: 20px 40px 20px 20px;
+    h5 {font-weight:bold;}
   }
 }
 
@@ -151,9 +152,9 @@
   .merchant-register-page {
     background-color: white;
     padding: 20px 40px 20px 20px;
-    h6 {font-weight:bold;}
+    h5 {font-weight:bold;}
     input[type="submit"]{
-      @include sassy-button("matte", 8px, 10px, $darkred); padding:1.4em 2.5em!important; font-weight: bold; text-transform:uppercase;
+      @include sassy-button("matte", 8px, 0.85em, $darkred); padding:1.4em 2.5em!important; font-weight: bold; 
     }
   }
 }
@@ -173,12 +174,90 @@
     padding: 20px 40px 20px 20px;
     h5 {font-weight:bold;}
     input[type="submit"]{
-      @include sassy-button("matte", 8px, 10px, $darkred); padding:1.4em 2.5em!important; font-weight: bold; text-transform:uppercase;}
+      @include sassy-button("matte", 8px, 0.85em, $darkred); padding:1.4em 2.5em!important; font-weight: bold; }
     }
     .mediumgray-btn { @include sassy-button("matte", 8px, 12px, $mediumgray); font-weight: bold; text-transform:uppercase;}
-
 }
 
+.mentor-detail-page-container {
+  h1 {color:white;}
+  padding-top:20px;
+  padding-bottom: 100px;
+  background: url(/assets/background-img.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+  .mentor-detail-page {
+    background-color: white;
+    padding: 20px 40px 20px 20px;
+    h5 {font-weight:bold;}
+    input[type="submit"]{
+      @include sassy-button("matte", 8px, 0.85em, $darkred); padding:1.4em 2.5em!important; font-weight: bold; 
+    }
+  }
+}
+
+.edit-profile-page-container {
+  h1 {color:white;}
+  padding-top:20px;
+  padding-bottom: 100px;
+  background: url(/assets/background-img.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+  .edit-profile-page {
+    background-color: white;
+    padding: 20px 40px 20px 20px;
+    h5 {font-weight:bold;}
+    input[type="submit"]{
+      @include sassy-button("matte", 8px, 0.85em, $darkred); padding:1.4em 2.5em!important; font-weight: bold; 
+    }
+  }
+}
+
+.change-password-page-container {
+  h1 {color:white;}
+  padding-top:20px;
+  padding-bottom: 100px;
+  background: url(/assets/background-img.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+  .change-password-page {
+    background-color: white;
+    padding: 20px 40px 20px 20px;
+    h5 {font-weight:bold;}
+    input[type="submit"]{
+      @include sassy-button("matte", 8px, 0.85em, $darkred); padding:1.4em 2.5em!important; font-weight: bold; 
+    }
+  }
+}
+
+.create-promotion-page-container {
+  h1 {color:white;}
+  padding-top:20px;
+  padding-bottom: 100px;
+  background: url(/assets/background-img.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+  .create-promotion-page {
+    background-color: white;
+    padding: 20px 40px 20px 20px;
+    h5 {font-weight:bold;}
+    input[type="submit"]{
+      @include sassy-button("matte", 8px, 10px, $darkred); padding:1.4em 2.5em!important; font-weight: bold; text-transform:uppercase;
+    }
+  }
+}
 
 
 

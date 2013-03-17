@@ -1,50 +1,46 @@
-.row-fluid
-  .span12.page-header
-    %h1 Edit Profile <small>don't be modest</small>
-.space
-.row
-  = form_for @user, :method => :put, :url => update_profile_user_path(@user) do |f|
-    = render :partial => 'shared/error_messages', :locals => { :errors => @user.errors, :name => 'User' }
-    .two.columns.offset-by-three
-      .field
-        = gravatar_for @user, :size => 200
-        .space
-        = link_to 'Update image', "http://gravatar.com/emails", {:class => 'btn btn-danger', :style => 'margin-bottom:10px;'}
-    .columns.five
-      %p <strong>User Information</strong>
-      = f.text_field :first_name, :maxlength => User::MAX_FIRST_NAME_LEN, :placeholder => 'First Name'
-      .field
-        = f.text_field :last_name, :maxlength => User::MAX_LAST_NAME_LEN, :placeholder => 'Last Name'
-      .field
-        = f.text_field :email, :placeholder => 'Email Address'
-        .help-block (Note that changes must be reconfirmed; until then you can still log in under the old email)
-      %p <strong>Contact Details</strong>
-      .field
-        = f.text_field :phone, :maxlength => User::PHONE_LEN, :placeholder => 'Phone Number'
-      .field
-        = f.text_field :address_1, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Address 1'
-      .field
-        = f.text_field :address_2, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Address 2'
-      .field
-        = f.text_field :city, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'City'
-      .field
-        = f.text_field :state, :maxlength => ApplicationHelper::STATE_LEN, :placeholder => 'State'
-      .field
-        = f.text_field :zipcode, :maxlength => ApplicationHelper::ZIPCODE_LEN, :placeholder => 'Zipcode'
-      .field
-        = f.check_box :optin
-        = f.label :optin, '<em>Check here to opt in to occasional emails from Machovy about new deals</em>'.html_safe
-      .field
-        = f.label :categories, 'To help us target your emails, please let us know what categories you find most interesting'
-        %br/
-        = render :partial => 'shared/category_selection', :locals => { :categories => Category.all, :num_per_column => 4, :name => 'user', :object => @user }
-      .field
-        = f.submit 'Update Profile', {:class => 'btn btn-danger', :style => 'margin-bottom:10px;'}
-      .actions
-      .divider
-      .space
-    .columns.four
+.edit-profile-page-container
+  .row
+    .large-12.columns
+      %h1 Edit Profile <small>don't be modest</small>
+  .row.edit-profile-page
+    .large-8.columns.large-offset-2
+      = form_for @user, :method => :put, :url => update_profile_user_path(@user) do |f|
+        = render :partial => 'shared/error_messages', :locals => { :errors => @user.errors, :name => 'User' }
+        .large-4.columns
+          .field
+            = gravatar_for @user, :size => 200
+            = link_to 'Update image', "http://gravatar.com/emails", {:class => 'btn btn-danger', :style => 'margin-bottom:10px;'}
+        .large-8.columns
+          %p <strong>User Information</strong>
+          = f.text_field :first_name, :maxlength => User::MAX_FIRST_NAME_LEN, :placeholder => 'First Name'
+          .field
+            = f.text_field :last_name, :maxlength => User::MAX_LAST_NAME_LEN, :placeholder => 'Last Name'
+          .field
+            = f.text_field :email, :placeholder => 'Email Address'
+            .help-block (Note that changes must be reconfirmed; until then you can still log in under the old email)
+          %p <strong>Contact Details</strong>
+          .field
+            = f.text_field :phone, :maxlength => User::PHONE_LEN, :placeholder => 'Phone Number'
+          .field
+            = f.text_field :address_1, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Address 1'
+          .field
+            = f.text_field :address_2, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Address 2'
+          .field
+            = f.text_field :city, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'City'
+          .field
+            = f.text_field :state, :maxlength => ApplicationHelper::STATE_LEN, :placeholder => 'State'
+          .field
+            = f.text_field :zipcode, :maxlength => ApplicationHelper::ZIPCODE_LEN, :placeholder => 'Zipcode'
+          .field
+            = f.check_box :optin
+            = f.label :optin, '<em>Check here to opt in to occasional emails from Machovy about new deals</em>'.html_safe
+          .field
+            = f.label :categories, 'To help us target your emails, please let us know what categories you find most interesting'
+            %br/
+            = render :partial => 'shared/category_selection', :locals => { :categories => Category.all, :num_per_column => 4, :name => 'user', :object => @user }
+          .field
+            = f.submit 'Update Profile', {:class => 'btn btn-danger', :style => 'margin-bottom:10px;'}
+          .actions
 
 
-
-      
+          
