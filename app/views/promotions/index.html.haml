@@ -1,25 +1,20 @@
+= render :partial => 'shared/flash_messages'
 .create-promotion-page-container
   .row
     .large-12.columns
       %h1== #{I18n.t('promotions.index_heading')} <small>Make yours count</small>
   .row.create-promotion-page
     -# Need this to display confirmation notice on vendor signup
-    = render :partial => 'shared/flash_messages'
-    .row
-      .large-12.columns{:style => 'padding:15px 0px 15px 30px;'}
-        = link_to "<i class='icon-plus'></i> Create Promotion".html_safe, new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL),{:class => 'darkred-btn'}  
-    .divider
+    = link_to "<i class='icon-plus'></i> Create Promotion".html_safe, new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL),{:class => 'darkred-btn'}  
+    %hr
     - if (@pending.count + @attention.count + @live.count) > 0
       .row
         .large-4.columns
-          .row
-            .large-5.columna
-              %h4= I18n.t('promotions.pending')
+          %h4= I18n.t('promotions.pending')
           - if 0 == @pending.count
             None
           - else
             = render :partial => 'promotion_dashview', :locals => { :p_list => @pending }
-          %br
         .large-4.columns
           %h4= I18n.t('promotions.attention') 
           - if 0 == @attention.count
@@ -32,8 +27,7 @@
             None
           - else
             = render :partial => 'promotion_dashview', :locals => { :p_list => @live, :show_vouchers => true }
-      %br
-      .divider
+      %hr
     - if @inactive.count >0 
       .row
         %h4= I18n.t('promotions.inactive')
