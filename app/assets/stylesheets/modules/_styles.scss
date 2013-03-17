@@ -76,6 +76,9 @@ img {display:block; position:relative; z-index:1;}
 #filter {margin:0px auto; max-width: 1200px;}
 .main-wrap {
   background-color:black;
+  background: url(/assets/dark_leather_@2X.png) top left repeat;
+  background-position: top left;
+  background-size:400px;
   padding-top:20px;
   h2 {
     color:white;
@@ -106,6 +109,7 @@ img {display:block; position:relative; z-index:1;}
 
 .home-page {
   // margin: 30px auto 20px;
+  background-color:#dddddd;
   h2 {
     font-size:1.2em;
     font-weight:bold;
