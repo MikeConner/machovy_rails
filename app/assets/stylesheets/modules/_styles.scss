@@ -1,5 +1,4 @@
 
-html, body {height:100%;}
 
 .x-margin {margin:0px!important;}
 .x-padding {padding:0px!important;}
@@ -127,7 +126,7 @@ img {display:block; position:relative; z-index:1;}
 
   .divide-right {
     border-right:1px solid #bcbcbc;
-    padding: 38px 5px 25px;
+    padding: 30px 5px 25px;
     p {padding-right:10px;}
     @media only screen and (max-width: $topbar-breakpoint) {
         padding: 20px 15px 20px;
@@ -139,7 +138,7 @@ img {display:block; position:relative; z-index:1;}
 
   .divide-left {
     border-left:1px solid #efefef;
-    padding: 48px 0px 0px 20px;
+    padding: 35px 0px 0px 20px;
     @media only screen and (max-width: $topbar-breakpoint) {
         padding: 20px 15px 30px;
     }
@@ -489,12 +488,14 @@ article {
 .alert-notice {
   @include alert-base;
   @include alert-style($success-color);
+  margin-bottom: 0;
   .close { @include alert-close; }
 }
 
 .alert-alert {
   @include alert-base;
   @include alert-style($alert-color);
+  margin-bottom: 0;
   .close { @include alert-close; }
 }
 
