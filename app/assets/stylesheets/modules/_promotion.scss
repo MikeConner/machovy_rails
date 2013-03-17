@@ -259,6 +259,46 @@
   }
 }
 
+.my-orders-page-container {
+  h1 {color:white;}
+  padding-top:20px;
+  padding-bottom: 100px;
+  background: url(/assets/background-img.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+  .my-orders-page {
+    background-color: white;
+    padding: 20px 40px 20px 20px;
+    h5 {font-weight:bold;}
+    input[type="submit"]{
+      @include sassy-button("matte", 8px, 10px, $darkred); padding:1.4em 2.5em!important; font-weight: bold; text-transform:uppercase;
+    }
+  }
+}
+
+.payments-page-container {
+  h1 {color:white;}
+  padding-top:20px;
+  padding-bottom: 100px;
+  background: url(/assets/background-img.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+  .payments-page {
+    background-color: white;
+    padding: 20px 40px 20px 20px;
+    h5 {font-weight:bold;}
+    input[type="submit"]{
+      @include sassy-button("matte", 8px, 10px, $darkred); padding:1.4em 2.5em!important; font-weight: bold; text-transform:uppercase;
+    }
+  }
+}
+
 
 
 

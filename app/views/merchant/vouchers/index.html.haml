@@ -1,38 +1,29 @@
-.row-fluid
-  .span12.page-header
-    .pull-right
-      -# size => '40x40' doesn't work on IE!
-      = link_to(image_tag('MachoBucks.png', :style => 'width:40px!important;height:40px'), about_macho_bucks_path)
-      = number_to_currency(current_user.total_macho_bucks)
-      = I18n.t('macho_bucks')
-    %h1 Purchased Vouchers
 = render 'shared/flash_messages'
-- if !current_user.is_customer?
-  %br/
-  %h4 Search
-  = text_field_tag 'voucher_search', nil, { :placeholder => "Enter an email or voucher", :onchange => "find_voucher('voucher_search');" }
-.row-fluid
-  - @vouchers.each do |voucher|
-    = render :partial => 'voucher', :locals => { :v => voucher }
-  .push
-    %br
-  .space
-    %br
-- if !@pending_gifts.empty?
-  .row-fluid
-    %h1 Pending Gift Certificates
-    - @pending_gifts.each do |certificate|
-      = render :partial => 'certificate', :locals => { :certificate => certificate }
-    .push
-      %br
-    .space
-      %br
-- if !@redeemed_gifts.empty?
-  .row-fluid
-    %h1 Redeemed Gift Certificates
-    - @redeemed_gifts.each do |certificate|
-      = render :partial => 'certificate', :locals => { :certificate => certificate }
-    .push
-      %br
-    .space
-      %br
+.my-orders-page-container
+  .row
+    .large-12.columns
+      %h1 Purchased Vouchers
+  .row.my-orders-page
+    .large-10.columns
+      - if !current_user.is_customer?
+        %h3 Search
+        = text_field_tag 'voucher_search', nil, { :placeholder => "Enter an email or voucher", :onchange => "find_voucher('voucher_search');" }
+      .row
+        - @vouchers.each do |voucher|
+          = render :partial => 'voucher', :locals => { :v => voucher }
+      - if !@pending_gifts.empty?
+        .row
+          %h3 Pending Gift Certificates
+          - @pending_gifts.each do |certificate|
+            = render :partial => 'certificate', :locals => { :certificate => certificate }
+      - if !@redeemed_gifts.empty?
+        .row
+          %h3 Redeemed Gift Certificates
+          - @redeemed_gifts.each do |certificate|
+            = render :partial => 'certificate', :locals => { :certificate => certificate }
+    .large-2.columns
+      .right
+        -# size => '40x40' doesn't work on IE!
+        = link_to(image_tag('MachoBucks.png', :style => 'width:40px!important;height:40px'), about_macho_bucks_path)
+        = number_to_currency(current_user.total_macho_bucks)
+        = I18n.t('macho_bucks')
