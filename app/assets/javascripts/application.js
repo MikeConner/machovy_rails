@@ -9,18 +9,14 @@
 //
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
-//= require jquery
+//= require libs/jquery
 //= require jquery_ujs
-//= require libs/jquery-ui-1.10.1.custom.min.js
-//= require libs/jquery.isotope.min.js
-//= require plugins/jquery.stickyFooter.js
-//= require plugins/jquery.toolbar.min.js
 //= require admin/jquery.datatables.min.js
-//= require plugins/prefixfree.min.js
-//= require plugins/jquery.backstretch.min.js
+//= require libs/jquery-ui-1.10.1.custom.min.js
 //= require libs/selectivizr-min.js
 //= require libs/zepto.js
 //= require libs/foundation.min
+//= require libs/custom.modernizr.js
 //= require foundation
 //= require_tree .
 
