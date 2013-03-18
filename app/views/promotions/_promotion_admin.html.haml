@@ -2,49 +2,44 @@
   = will_paginate p_list, :param_name => param_name
   = page_entries_info p_list, :param_name => param_name
 %table
-  %col{:width => "75"}/
-  %col{:width => "75"}/
-  %col{:width => "150"}/
-  %col{:width => "100"}/
-  %col{:width => "75"}/
-  %col{:width => "75"}/
-  %col{:width => "50"}/
-  %col{:width => "75"}/
-  %tr
-    %th Vendor
-    %th Status
-    %th Title
-    %th Subtitle
-    %th Expiration
-    %th Price
-    %th Quantity
-    %th Log
-    %th Delete
-  - p_list.each do |p|
+  %thead
     %tr
-      %td= link_to "#{p.vendor.name}", merchant_vendor_path(p.vendor)
-      - if p.suspended?
-        %td== #{p.status} [Suspended]
-      - elsif p.coming_soon?
-        %td== #{p.status} [Coming Soon]
-      - else
-        %td= p.status
-      %td
-        = link_to "#{p.title}", edit_promotion_path(p)
-        = link_to "[Preview]", promotion_path(p)
-      %td= p.subtitle
-      - if p.end_date.nil?
-        %td None
-      - else
-        %td= p.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT)
-      %td= number_to_currency(p.price)
-      %td= p.quantity
-      - if 0 == p.promotion_logs.count
-        %td None
-      - else
-        %td= button_to "Show (#{p.promotion_logs.count})", show_logs_promotion_path(p), :class => "button round", :method => :get
-      - if 0 == p.orders.count
-        %td= button_to "Delete", p, :class => "button round", :method => :delete, :data => { confirm: 'Are you sure?' }
-      - else
+      %th Vendor
+      %th Status
+      %th Title
+      %th Subtitle
+      %th Expiration
+      %th Price
+      %th Quantity
+      %th Log
+      %th Delete
+  %tbody
+    - p_list.each do |p|
+      %tr
+        %td= link_to "#{p.vendor.name}", merchant_vendor_path(p.vendor)
+        - if p.suspended?
+          %td== #{p.status} [Suspended]
+        - elsif p.coming_soon?
+          %td== #{p.status} [Coming Soon]
+        - else
+          %td= p.status
         %td
-%center= will_paginate p_list, :param_name => param_name
+          = link_to "#{p.title}", edit_promotion_path(p)
+          = link_to "[Preview]", promotion_path(p)
+        %td= p.subtitle
+        - if p.end_date.nil?
+          %td None
+        - else
+          %td= p.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT)
+        %td= number_to_currency(p.price)
+        %td= p.quantity
+        - if 0 == p.promotion_logs.count
+          %td None
+        - else
+          %td= button_to "Show (#{p.promotion_logs.count})", show_logs_promotion_path(p), :class => "btn tiny", :method => :get
+        - if 0 == p.orders.count
+          %td= button_to "Delete", p, :class => "btn tiny", :method => :delete, :data => { confirm: 'Are you sure?' }
+        - else
+          %td
+%center
+  = will_paginate p_list, :param_name => param_name

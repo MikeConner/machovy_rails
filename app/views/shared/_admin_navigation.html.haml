@@ -1,7 +1,7 @@
-#sidebar
-  %ul{:style => 'display:block;'}
-    %li.submenu
-      = link_to 'Dashboard'
+.section-container.accordion{:data => {:options => 'deep_linking', :section => ''}}
+  %section.section
+    %p.title= link_to 'Dashboard'
+    .content
       %ul
         - if current_user.has_role?(Role::SALES_ADMIN)        
           %li= link_to 'New Advertising Deal', new_promotion_path(:promotion_type => Promotion::AD)
@@ -14,22 +14,22 @@
           %li= link_to 'New Blog Post', new_blog_post_path
           %li= link_to 'New Video', new_video_path
           %li= link_to 'Manage Blog Posts', blog_posts_path
-          %li= link_to 'Manage Videos', videos_path                  
-      - if current_user.has_role?(Role::SUPER_ADMIN)
-        %li.submenu
-          = link_to 'Admin Area'
-          %ul
-            %li= link_to 'Review Vendor Promotions', promotions_path
-            %li= link_to 'Return Vouchers', merchant_vouchers_path
-            %li= link_to 'Review Affiliate Promotions', review_promotions_path(:promotion_type => Promotion::AFFILIATE)
-            %li= link_to 'Review Advertisements', review_promotions_path(:promotion_type => Promotion::AD)
-            %li= link_to 'Review Coupons', coupons_path
-            %li= link_to 'Manage Mentors', curators_path 
-            %li= link_to 'Manage Metro Areas', metros_path
-            %li= link_to 'Manage Users', manage_users_path
-            %li= link_to 'Manage Merchants', merchant_vendors_path
-            %li= link_to 'Manage Macho Bucks', macho_bucks_path
-            %li= link_to 'Review Gift Certificates', gift_certificates_path
-            %li= link_to 'User Feedback Report', feedback_report_path
-            %li= link_to 'Activity Report', activity_report_path
-            %li= link_to 'Recent Orders', order_report_path
+          %li= link_to 'Manage Videos', videos_path
+  %section.section
+    %p.title= link_to 'Admin Area'
+    .content
+      %ul
+        %li= link_to 'Review Vendor Promotions', promotions_path
+        %li= link_to 'Return Vouchers', merchant_vouchers_path
+        %li= link_to 'Review Affiliate Promotions', review_promotions_path(:promotion_type => Promotion::AFFILIATE)
+        %li= link_to 'Review Advertisements', review_promotions_path(:promotion_type => Promotion::AD)
+        %li= link_to 'Review Coupons', coupons_path
+        %li= link_to 'Manage Mentors', curators_path 
+        %li= link_to 'Manage Metro Areas', metros_path
+        %li= link_to 'Manage Users', manage_users_path
+        %li= link_to 'Manage Merchants', merchant_vendors_path
+        %li= link_to 'Manage Macho Bucks', macho_bucks_path
+        %li= link_to 'Review Gift Certificates', gift_certificates_path
+        %li= link_to 'User Feedback Report', feedback_report_path
+        %li= link_to 'Activity Report', activity_report_path
+        %li= link_to 'Recent Orders', order_report_path

@@ -5,7 +5,7 @@
       %h1== #{I18n.t('promotions.index_heading')} <small>Make yours count</small>
   .row.create-promotion-page
     -# Need this to display confirmation notice on vendor signup
-    = link_to "<i class='icon-plus'></i> Create Promotion".html_safe, new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL),{:class => 'darkred-btn'}  
+    = link_to "<i class='icon-plus'></i> Create Promotion".html_safe, new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL),{:class => 'btn success', :style => 'margin-bottom:0px;'}  
     %hr
     - if (@pending.count + @attention.count + @live.count) > 0
       .row

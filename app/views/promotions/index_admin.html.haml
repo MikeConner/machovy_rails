@@ -1,29 +1,28 @@
 = render :partial => 'shared/flash_messages'
-.container
+.admin-page-container
   .row
-    .form-horizontal
-      %fieldset
-        %legend
-          %h3= I18n.t('machovy_attention')
-        .row
-          .large-12.columns
-            .portfolio-container
-              - if 0 == @attention.count
-                None
-              - else
-                = render :partial => 'promotion_admin', :locals => { :p_list => @attention, :param_name => :attn_page }
-              %h3 Pending Promotions
-              - if 0 == @pending.count
-                None
-              - else
-                = render :partial => 'promotion_admin', :locals => { :p_list => @pending, :param_name => :pending_page }
-              %h3 Live Promotions
-              - if 0 == @live.count
-                None
-              - else
-                = render :partial => 'promotion_admin', :locals => { :p_list => @live, :param_name => :live_page }
-              %h3 Inactive Promotions
-              - if 0 == @inactive.count
-                None
-              - else
-                = render :partial => 'promotion_admin', :locals => { :p_list => @inactive, :param_name => :inactive_page }
+    .large-12.columns
+      %h1= I18n.t('machovy_attention')
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      - if 0 == @attention.count
+        None
+      - else
+        = render :partial => 'promotion_admin', :locals => { :p_list => @attention, :param_name => :attn_page }
+      %h3 Pending Promotions
+      - if 0 == @pending.count
+        None
+      - else
+        = render :partial => 'promotion_admin', :locals => { :p_list => @pending, :param_name => :pending_page }
+      %h3 Live Promotions
+      - if 0 == @live.count
+        None
+      - else
+        = render :partial => 'promotion_admin', :locals => { :p_list => @live, :param_name => :live_page }
+      %h3 Inactive Promotions
+      - if 0 == @inactive.count
+        None
+      - else
+        = render :partial => 'promotion_admin', :locals => { :p_list => @inactive, :param_name => :inactive_page }
