@@ -2,12 +2,11 @@
 .admin-page-container
   .row
     .large-12.columns
-      %h1 Review Vendor Promotions
+      %h1= I18n.t('machovy_attention')
   .row.admin-page
     .large-3.columns
       = render :partial => 'shared/admin_navigation'
     .large-9.columns
-      %h3= I18n.t('machovy_attention')
       - if 0 == @attention.count
         None
       - else
