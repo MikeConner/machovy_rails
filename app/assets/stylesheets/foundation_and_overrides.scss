@@ -1,3 +1,4 @@
+
 // Required global settings and mixins for Foundation
 @import "foundation/foundation-global";
 
@@ -12,7 +13,7 @@
 //
 
 // This is the default html and body font-size for the base em value.
-$em-base: 13px;
+$em-base: 13.2px;
 
 // We use these to control various global styles
 $body-bg: #fff;
@@ -28,7 +29,7 @@ $font-smoothing: antialiased;
 $text-direction: ltr;
 
 // We use these as default colors throughout
-$primary-color:rgb(237,28,36);
+$primary-color:rgb(185,10,15);
 $secondary-color: #7F8C8D;
 $alert-color: #c60f13;
 $success-color: #5da423;
