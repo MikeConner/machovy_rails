@@ -5,10 +5,6 @@ $(function() {
 
   $(document).foundation();
 
-  $('.toggle').click(function () {
-    $("#machovy_banner").hide();
-  });
-
   $.backstretch(["/assets/background-img.png"])
 
   var $container = $('#container');
