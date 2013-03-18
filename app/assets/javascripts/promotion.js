@@ -5,11 +5,11 @@ $(function() {
 
   $(document).foundation();
 
-  $('#toggle-header').toggler({
-    type: 'smooth',
-    speed: 1000,
-    noJerky: true
-  });
+  // $('#toggle-header').toggler({
+  //   type: 'smooth',
+  //   speed: 1000,
+  //   noJerky: true
+  // });
 
   $.backstretch(["/assets/background-img.png"])
 

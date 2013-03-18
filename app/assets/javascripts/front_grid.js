@@ -35,12 +35,6 @@ function select_mobile_category(category) {
 }
 
 function hide_machovy_banner() {
-	$('#toggle-header').toggler({
-    type: 'smooth',
-    speed: 1000,
-    noJerky: true
-  });
-
 	jQuery.ajax({url:"/banner",
 	             data: "hidden=true",
 		         type: "PUT",
