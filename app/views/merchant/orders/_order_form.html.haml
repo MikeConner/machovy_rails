@@ -96,7 +96,7 @@
         = f.text_field :city, :class => 'city', :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'City'
         = f.text_field :state, :class => 'state', :maxlength => ApplicationHelper::STATE_LEN, :placeholder => 'State'
         = f.text_field :zipcode, :class => 'zip', :maxlength => ApplicationHelper::ZIPCODE_LEN, :placeholder => 'Zipcode'
+    = f.submit I18n.t('buy_now'), :class => 'btn'
     %br
-    .alert-credit_card#card_error
+    .alert.label#card_error
       %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
-    = f.submit I18n.t('buy_now'), :class => 'darkred-btn'
