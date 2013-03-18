@@ -3,8 +3,7 @@
 - if @display_banner
   %header.home-page.center
     .toggle
-      .btn-toggle
-        = link_to 'x', :onclick => "hide_machovy_banner();"
+      = link_to 'X', '#', :onclick => "hide_machovy_banner();", :class => 'btn-toggle toggle'
     .row#machovy_banner
       .large-6.columns.divide-right
         .large-12.columns

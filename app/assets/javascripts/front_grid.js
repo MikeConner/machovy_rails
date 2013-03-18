@@ -43,4 +43,8 @@ function hide_machovy_banner() {
 	               { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
 	             async: false
 	});
+
+	$('.toggle').click(function () {
+    	$("#machovy_banner").hide();
+  	});
 }
