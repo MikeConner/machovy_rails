@@ -1,13 +1,12 @@
 .blogpost-page-container {
   h1 {color:white;}
-  padding-top:20px;
-  padding-bottom: 100px;
   background: url(/assets/background-img.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
+
 
 .blogpost-page {
     background-color: white!important;
@@ -25,8 +24,9 @@
       background-color:white;
       z-index: 1;
       position:relative;
-      margin:-75px 40px 0px;
+      margin:-75px 0px 0px;
       padding:20px;
+      @media #{$small} { margin:-75px 40px 0px!important;}
     }
     .author {
       height: auto;

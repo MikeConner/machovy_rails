@@ -83,10 +83,11 @@ img {display:block; position:relative; z-index:1;}
 #filter {margin:0px auto; max-width: 1200px;}
 .main-wrap {
   background-color:black;
-  background: url(/assets/dark_leather_@2X.png) top left repeat;
-  background-position: top left;
-  background-size:400px;
-  padding-top:20px;
+  // background: url(/assets/dark_leather_@2X.png) top left repeat;
+  // background-position: top left;
+  // background-size:400px;
+  @media #{$small} {padding-top:20px;}
+  padding-top:3px;
   h2 {
     color:white;
     font-size:2em;
