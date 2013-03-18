@@ -1,3 +1,158 @@
+// Vouchers
+//-----------------------------------------
+
+function update_vendor_mapping() {
+  data_obj = {"address_1": $('#vendor_address_1').val(), "address_2": $('#vendor_address_2').val(), 
+                      "city": $('#vendor_city').val(), "state": $('#vendor_state').val(), "zip": $('#vendor_zip').val() }
+                      
+  jQuery.ajax({url:"/geocode.json",
+               data: data_obj,
+               type: "GET",
+               success: function(data) { 
+               	 if (data.latitude) {
+	                 $('#vendor_latitude').val(data.latitude);
+	                 $('#vendor_longitude').val(data.longitude);
+	                 alert('Geocode updated')
+	             }
+	             else {
+	             	alert('Could not update geocode; please enter a valid address (or enter latitude/longitude manually)')
+	             }
+               },
+               error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
+                 { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
+               async: false});
+}
+
+
+
+// Vendors
+//-----------------------------------------
+
+function find_voucher(search_element) {
+    var name = $('#' + search_element).val();
+	jQuery.ajax({url:"/merchant/vouchers/search",
+	             data: "key=" + name,
+		         type: "PUT",
+	             success: function(data) { 
+	               $('#' + search_element).val("")
+	               if (data == '"none"') {
+	                 alert('Voucher not found');
+	               }
+	             },
+	             error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
+	               { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
+	             async: false}); 	    	
+}
+
+
+
+// Payments
+//-----------------------------------------
+
+function adjust_amount(amount_element, cb_element, amount) {
+	var adjustment = $('#' + cb_element).is(':checked') ? -amount : amount;
+	var new_value = parseInt($('#' + amount_element).val(), 10) + adjustment
+	$('#' + amount_element).val(new_value);
+	
+	if (0 == new_value) {
+	  $("#create_payment").attr("disabled", "disabled");		
+	}
+	else {
+	  $("#create_payment").removeAttr("disabled");				
+	}
+}
+
+function set_excluded(cb_elements, excluded_list) {
+	var checkboxes = document.getElementsByName(cb_elements)
+	var excluded = []
+	
+	if (checkboxes) {
+		cnt = checkboxes.length;
+		for(var i = 0; i < cnt; i++) {
+			if (checkboxes[i].checked == 1) {
+				excluded.push(checkboxes[i].id)
+			}
+		}
+	}
+	
+	$('#' + excluded_list).val(JSON.stringify(excluded));
+}
+
+
+
+// Front Grid
+//-----------------------------------------
+
+$(function() {
+    $('ul.categories > li').click(function (e) {
+        e.preventDefault();
+        // If we weren't redirecting, this is all you need to handle the selection
+        // This gets lost on the redirect, though, so has to be done in the views instead
+//        $('ul.nav-pills > li').removeClass('active');
+//        $(this).addClass('active');          
+
+        // Filter the results              
+		jQuery.ajax({url:"/category",
+		             data: "category=" + $(this).children().first().attr('id'),
+			         type: "GET",
+			         // Don't need to do anything on success
+		             error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
+		               { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
+		             async: false
+		});
+	});  	
+});
+
+function select_mobile_category(category) {
+	jQuery.ajax({url:"/category",
+	             data: "category=" + category,
+		         type: "GET",
+		         // Don't need to do anything on success
+	             error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
+	               { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
+	             async: false
+	});
+	
+	preventDefault();
+}
+
+function hide_machovy_banner() {
+	$('#machovy_banner').hide();
+
+	jQuery.ajax({url:"/banner",
+	             data: "hidden=true",
+		         type: "PUT",
+		         // Don't need to do anything on success
+	             error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
+	               { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
+	             async: false
+	});
+}
+
+
+
+// Blog Posts
+//-----------------------------------------
+
+function update_blog_weight(id, amount) {
+	var new_value = Math.max(1, parseInt($('#blog_weight_' + id).val()) + amount);
+	$('#blog_weight_' + id).val(new_value)
+	// Include this to update immediately on button press
+	// Alternatively, index.html.haml can have a submit button, and this just updates the local field
+	jQuery.ajax({url:"/blog_posts/" + id + "/update_weight",
+	             data: "blog_post[weight]=" + new_value,
+		         type: "PUT",
+	             error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
+	               { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
+	             async: false}); 	    		
+}
+
+
+
+
+// Promotion
+//-----------------------------------------
+
 $(function() {
 
   $(document).foundation();
@@ -267,3 +422,4 @@ function update_width(width, resize) {
                async: false
   });	
 }
+
