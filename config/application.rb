@@ -4,14 +4,16 @@ require 'rails/all'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(:assets => %w(development test)))
+#  Bundler.require(*Rails.groups(:assets => %w(development test)))
+  Bundler.require(:default, :assets, Rails.env)
+  
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
 end
 
 module MachovyRails
   class Application < Rails::Application
-		config.force_ssl = true if Rails.env.production?
+#		config.force_ssl = true if Rails.env.production?
     config.assets.initialize_on_precompile = false
 
     # Make sure Rails still finds the regular devise views, though I'm overriding the registrations controller
@@ -66,5 +68,6 @@ module MachovyRails
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
   end
 end

@@ -8,9 +8,8 @@ gem 'rails', '3.2.11'
 gem 'pg'
 gem 'taps'
 gem "ckeditor", "3.7.3"
-gem 'sass-rails',   '3.2.5'
+
 gem 'activemerchant', '1.29.3'
-gem 'zurb-foundation', '4.0.5'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -18,9 +17,10 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'jquery-ui-rails', '1.1.1'
   gem 'uglifier', '>= 1.0.3'
-  gem 'compass-rails', '1.0.3'
-
+  gem 'zurb-foundation', '4.0.5'
   gem 'sassy-buttons', '0.1.4'
+  gem 'compass-rails', '1.0.3'
+  gem 'sass-rails',   '3.2.5'
 end
 
 gem 'haml', '3.1.7'
