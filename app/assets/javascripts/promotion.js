@@ -7,14 +7,6 @@ $(function() {
   
   $.backstretch(["/assets/background-img.png"])
 
-  // Define any icon actions before calling the toolbar 
-      $('.toolbar-icons a').on('click', function( event ) {
-        event.preventDefault(); 
-      });
-
-      $('.share-tools').toolbar({content: '#user-options', position: 'top'});
-
-  
   var $container = $('#container');
   $container.imagesLoaded( function(){
     $container.isotope({
