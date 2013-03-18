@@ -1,6 +1,7 @@
 .local-deal-container {
-  padding-top:100px;
-  padding-bottom: 100px;
+  @media #{$small} { padding-top:60px; padding-bottom:60px;}
+  padding-top:0px;
+  padding-bottom: 0px;
   background: url(/assets/background-img.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -10,8 +11,9 @@
 
 .promotion {
     background-color: white!important;
-    padding: 20px 40px 20px 20px;
-    h3 {margin-bottom:0px;}
+    padding: 20px 20px 20px 20px;
+   
+    h3 {margin-bottom:0px; margin-top:20px;  @media #{$small} {margin-top:0px;}}
     h4 {margin-bottom:1.4em; font-size:12px; font-weight:bold; color:black; text-transform:uppercase;}
     p {font-size:$paragraph-font-size;}
     img {margin-bottom:10px;}
@@ -39,8 +41,6 @@
 
 .curator-page-container{
   h1 {color:white;}
-  padding-top:20px;
-  padding-bottom: 100px;
   background: url(/assets/background-img.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -54,9 +54,6 @@
 
 .about-page-container{
   h1 {color:white;}
-  height: auto;
-  padding-top:20px;
-  padding-bottom: 100px;
   // background: url(/assets/background-img.png) no-repeat center center fixed; 
   //   -webkit-background-size: cover;
   //   -moz-background-size: cover;
@@ -72,8 +69,6 @@
 
 .faq-page-container{
   h1 {color:white;}
-  padding-top:20px;
-  padding-bottom: 100px;
   background: url(/assets/background-img.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -90,8 +85,6 @@
 
 .feedback-page-container{
   h1 {color:white;}
-  padding-top:20px;
-  padding-bottom: 100px;
   background: url(/assets/background-img.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -107,8 +100,6 @@
 
 .terms-page-container{
   h1 {color:white;}
-  padding-top:20px;
-  padding-bottom: 100px;
   background: url(/assets/background-img.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -124,8 +115,6 @@
 
 .how-page-container{
   h1 {color:white;}
-  padding-top:20px;
-  padding-bottom: 100px;
   background: url(/assets/background-img.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -141,8 +130,6 @@
 
 .merchant-register-page-container {
   h1 {color:white;}
-  padding-top:20px;
-  padding-bottom: 100px;
   background: url(/assets/background-img.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -158,8 +145,6 @@
 
 .user-register-page-container {
   h1 {color:white;}
-  padding-top:20px;
-  padding-bottom: 100px;
   background: url(/assets/background-img.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -175,8 +160,6 @@
 
 .mentor-detail-page-container {
   h1 {color:white;}
-  padding-top:20px;
-  padding-bottom: 100px;
   background: url(/assets/background-img.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -192,8 +175,6 @@
 
 .edit-profile-page-container {
   h1 {color:white;}
-  padding-top:20px;
-  padding-bottom: 100px;
   background: url(/assets/background-img.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -209,8 +190,6 @@
 
 .change-password-page-container {
   h1 {color:white;}
-  padding-top:20px;
-  padding-bottom: 100px;
   background: url(/assets/background-img.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -226,8 +205,6 @@
 
 .create-promotion-page-container {
   h1 {color:white;}
-  padding-top:20px;
-  padding-bottom: 100px;
   background: url(/assets/background-img.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -243,8 +220,6 @@
 
 .my-orders-page-container {
   h1 {color:white;}
-  padding-top:20px;
-  padding-bottom: 100px;
   background: url(/assets/background-img.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -260,8 +235,6 @@
 
 .payments-page-container {
   h1 {color:white;}
-  padding-top:20px;
-  padding-bottom: 100px;
   background: url(/assets/background-img.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -278,8 +251,6 @@
 
 .admin-page-container {
   h1 {color:white;}
-  padding-top:20px;
-  padding-bottom: 100px;
   background: url(/assets/background-img.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;

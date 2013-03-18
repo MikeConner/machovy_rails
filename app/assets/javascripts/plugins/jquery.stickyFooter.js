@@ -10,6 +10,7 @@
  * Date: Thu Jan 22 2013 13:34:00 GMT-0630 (Eastern Daylight Time)
  */
 
+/*
 $(window).load(function() {
 	stickyFooter();
 });
@@ -36,7 +37,7 @@ function stickyFooter() {
 
 /*
 
-If you want to delay the window resize event
+If you want to delay the window resize event */
 
 $(window).load(function() {
 	stickyFooter();
@@ -67,5 +68,3 @@ function stickyFooter() {
 		}
 	}
 }
-
-*/

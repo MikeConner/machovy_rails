@@ -1,6 +1,6 @@
 .row.product
-  .large-3.columns.x-padding
+  .large-3.small-2.columns.x-padding
     = link_to image_tag(promotion.teaser_image_url(:product_thumb).to_s), promotion_path(promotion) 
-  .large-9.columns
+  .large-9.small-10.columns
     %h6= truncate(sanitize(promotion.title), :length => 24)
-    %p= truncate(promotion.description, :length => 110)
+    %p= truncate(promotion.description, :length => 100)

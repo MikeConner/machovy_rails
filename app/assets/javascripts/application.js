@@ -13,7 +13,6 @@
 //= require jquery_ujs
 //= require libs/jquery-ui-1.10.1.custom.min.js
 //= require libs/jquery.isotope.min.js
-//= require plugins/jquery.imageloader.js
 //= require plugins/jquery.stickyFooter.js
 //= require plugins/jquery.toolbar.min.js
 //= require admin/jquery.datatables.min.js
