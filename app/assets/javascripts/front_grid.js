@@ -23,19 +23,23 @@ $(function() {
 
 function select_mobile_category(category) {
 	jQuery.ajax({url:"/category",
-	             data: "category=" + category,
-		         type: "GET",
-		         // Don't need to do anything on success
-	             error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
-	               { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
-	             async: false
+     data: "category=" + category,
+   type: "GET",
+   // Don't need to do anything on success
+     error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
+       { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
+     async: false
 	});
 	
 	preventDefault();
 }
 
 function hide_machovy_banner() {
-	$('#machovy_banner').hide();
+	$('#toggle-header').toggler({
+    type: 'smooth',
+    speed: 1000,
+    noJerky: true
+  });
 
 	jQuery.ajax({url:"/banner",
 	             data: "hidden=true",
