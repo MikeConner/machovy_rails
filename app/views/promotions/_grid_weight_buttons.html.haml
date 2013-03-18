@@ -1,8 +1,8 @@
-%button.darkred-btn
+.btn.tiny
   = link_to '<<', '#', :onclick => "update_grid_weight(#{id}, -#{page}); return false"
-%button.darkred-btn
+.btn.tiny
   = link_to '<', '#', :onclick => "update_grid_weight(#{id}, -#{step}); return false"
-%button.darkred-btn
+.btn.tiny
   = link_to '>', '#', :onclick => "update_grid_weight(#{id}, #{step}); return false"
-%button.darkred-btn
+.btn.tiny
   = link_to '>>', '#', :onclick => "update_grid_weight(#{id}, #{page}); return false"

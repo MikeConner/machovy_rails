@@ -40,5 +40,5 @@
               %li== I have read and accepted the #{link_to 'Merchant Agreement', '#', :onclick => "window.showModalDialog(\"#{merchant_contract_html_url}\", 'Privacy Policy', \"dialogWidth:700px;dialogHeight:600px\");"} and #{link_to 'Privacy Policy', '#', :onclick => "window.showModalDialog(\"#{ApplicationHelper::PRIVACY_POLICY_LINK}\", 'Privacy Policy', \"dialogWidth:700px;dialogHeight:600px\");"}.
               %li I may receive email from Machovy. I am able to change what is sent to my email address.          
           .sign-in-footer
-            = f.submit "Sign up", :class => "darkred-btn"
+            = f.submit "Sign up", :class => "btn small"
 

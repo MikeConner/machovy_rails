@@ -9,7 +9,7 @@
       .large-5.columns
         = image_tag p.teaser_image_url(:product_front_page)
       .large-7.columns{:style => 'padding:0px;'}
-        %ul
+        %ul{:style => 'margin-bottom:0px;'}
           %li{:style => 'font-weight:bold;'}
             - if p.suspended?
               == #{p.title} [Suspended] 
@@ -30,10 +30,10 @@
               -# If a product promotion, there won't be any available (instantly redeemed); show the total number sold
               %li= (ProductStrategy === p.strategy) ? p.vouchers.count : p.num_open_vouchers
           - if Promotion::MACHOVY_REJECTED == p.status
-            = link_to 'Edit', edit_promotion_path(p), :class => 'darkred-btn'
+            = link_to 'Edit', edit_promotion_path(p), :class => 'btn small'
           - else
-            = link_to 'View', promotion_path(p), :class => 'darkred-btn', :style => 'padding: 2px 20px;'
+            = link_to 'View', promotion_path(p), :class => 'btn small'
           - if 0 == p.promotion_logs.count
             'No Activity'
           - else
-            = link_to "Show (#{p.promotion_logs.count})", show_logs_promotion_path(p), :method => :get, :class => 'darkred-btn'
+            = link_to "Show (#{p.promotion_logs.count})", show_logs_promotion_path(p), :method => :get, :class => 'btn'

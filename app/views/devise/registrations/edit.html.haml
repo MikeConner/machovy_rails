@@ -17,10 +17,8 @@
           = f.label :password_confirmation
           = f.password_field :password_confirmation
           = f.label :current_password
-          %em
-            (we need your current password to confirm your changes)
+          %em (we need your current password to confirm your changes)
           = f.password_field :current_password
-          = f.submit "Update", :class => 'darkred-btn'
-          = link_to "Cancel my account", registration_path(resource_name), :class => 'darkgray-btn', :data => { :confirm => "Are you sure?" }, :method => :delete
-      %br/
+          = f.submit "Update", :class => 'btn small'
+          = link_to "Cancel my account", registration_path(resource_name), :class => 'btn small secondary', :data => { :confirm => "Are you sure?" }, :method => :delete
       /= link_to "Back", :back

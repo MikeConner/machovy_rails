@@ -1,27 +1,27 @@
-#content-header
-  %h1 Front Page Manager
-#breadcrumb
-  <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Home</a>
-  <a href="#" class="current">Front Page Manager</a>
 = render :partial => 'shared/flash_messages'
-.row
-  .large-12.columns
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1 Front Page Manager
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
       %h5
-        = will_paginate
-        = page_entries_info
-        .pull-right 
-      %table.table.table-bordered
+        //= will_paginate
+        = page_entries_info 
+      %table
         %thead
           %tr
-            %th.span2 Thumbnail
-            %th.span9 Title
-            %th.span1 Status
+            %th{:width => '150'} Thumbnail
+            %th{:width => '600'}  Title
+            %th Status
         %tbody
         - idx = (@promotions.current_page - 1) * Promotion.per_page + 1  
         - @promotions.each do |promotion|
           %tr
             %td 
-              = image_tag promotion.teaser_image_url(:product_front_page).to_s 
+              //= image_tag promotion.teaser_image_url(:product_front_page).to_s
             %td
               - if promotion.awaiting_machovy_action?
                 == #{idx}. #{link_to promotion.title, edit_promotion_path(promotion)} -- #{promotion.subtitle}
@@ -29,13 +29,10 @@
                 == #{idx}. #{link_to promotion.title, promotion_path(promotion)} -- #{promotion.subtitle}
               - idx += 1
               = form_for promotion, :remote => true, :method => :put, :url => update_weight_promotion_path(promotion) do |f|
-                .field
-                  = f.label :grid_weight
-                  = f.number_field :grid_weight, :min => 1, :id => "grid_weight_#{promotion.id}"
-                  = render :partial => 'grid_weight_buttons', :locals => { :id => promotion.id, :step => @step_value, :page => @page_value }
-                  -#
-                    .actions
-                      = f.submit 'Update weight' 
+                = f.label :grid_weight
+                = f.number_field :grid_weight, :min => 1, :id => "grid_weight_#{promotion.id}"
+                = render :partial => 'grid_weight_buttons', :locals => { :id => promotion.id, :step => @step_value, :page => @page_value }
+                = f.submit 'Update weight', :class => 'btn tiny success' 
             %td
               - if promotion.displayable?
                 %p Live
