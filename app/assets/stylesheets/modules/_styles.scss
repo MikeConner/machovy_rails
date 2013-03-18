@@ -33,13 +33,17 @@ a {
   color:$primary-color;
 }
 
-form.custom .custom.dropdown ul li {line-height:2.5em;}
+form.custom .custom.dropdown {
+  height:2.5em;
+  ul li {line-height:2.5em; }
+}
+
 
 @-moz-document url-prefix() {
     body, h1, h2, h3, #super-list, .element, .tagline, #index-list, 
     .super-list .link {
       font-family: "HelveticaNeue-Light", "Helvetica Neue Light", sans-serif;
-      font-weight: 100!important;
+      font-weight: 100;
     }
   }
 
@@ -200,7 +204,7 @@ img {display:block; position:relative; z-index:1;}
   .home-page {
     h2 {
       font-size:2em;
-      font-weight:bold;
+      font-weight:900!important;
       line-height: 1em;
       margin-bottom: 0.4em;
     }
@@ -609,6 +613,25 @@ p {
 //
 // Button Classes
 //
+
+
+
+  .toggle {
+    background-color:#666;
+    padding:10px 0px;
+    text-align: center;
+  }
+  .btn-toggle {
+    @include button-base;
+    @include button-size;
+    @include button-style($bg:#333, $radius:true);
+    margin:0 0 0!important;
+    [class^="icon-"],
+    [class*=" icon-"] {
+      font-size: 1em;
+      margin-left: 5px;
+    }
+  }
 
   // Default styles applied outside of media query
   button, .btn {

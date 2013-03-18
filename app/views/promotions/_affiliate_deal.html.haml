@@ -6,11 +6,18 @@
       .large-9.columns.product-detail
         .row
           .large-12.columns
-            %h3= @promotion.title
-            - if !@promotion.subtitle.nil?
-              %h4= @promotion.subtitle
-            - if @show_buy_button
-              = link_to 'Buy it from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank", :class => 'darkred-btn'
+            .row
+              .large-12.columns
+                %h3= @promotion.title
+                - if !@promotion.subtitle.nil?
+                  %h4= @promotion.subtitle
+            .row
+              .large-6.columns
+                - if @show_buy_button
+                  = link_to 'Buy it from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank", :class => 'darkred-btn'
+              .large-6.columns
+                - if promotion.affiliate? and !promotion.affiliate_logo.nil?
+                  = image_tag promotion.affiliate_logo
             %br
             .row
               %br
