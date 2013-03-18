@@ -1,2 +1,9 @@
-%h2 Machovy System Administration
-%em Please select from the menu on the left
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1 Machovy System Administration
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      %p Please select from the menu on the left
