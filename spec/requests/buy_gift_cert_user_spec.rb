@@ -25,7 +25,7 @@ describe "Buy Gift Certificate for existing user" do
       let(:gift_given_msg) { ActionMailer::Base.deliveries[0] }
       let(:gift_credited_msg) { ActionMailer::Base.deliveries[1] }
       before do
-        fill_in :gift_certificate_email, :with => recipient_user.email
+        fill_in 'gift_certificate_email', :with => recipient_user.email
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
         fill_in 'first_name', :with => 'Jeffrey'

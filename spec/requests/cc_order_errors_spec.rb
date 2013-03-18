@@ -11,14 +11,15 @@ describe "Credit Card Errors" do
     # Need this for visit root_path to work
     Metro.create(:name => 'Pittsburgh')
     ActionMailer::Base.deliveries = []
-    visit root_path
-  end
+   end
 
   subject { page }
 
   describe "Sign in", :js => true do
     before do
       # go to sign in page
+      visit root_path
+      sign_in_as_a_valid_user
       all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
       save_page # for timing
@@ -94,6 +95,7 @@ describe "Credit Card Errors" do
         fill_in 'first_name', :with => 'Jeffrey'
         fill_in 'last_name', :with => 'Bennett'
         click_button I18n.t('buy_now')
+        save_page # timing
       end
          
       it { should have_content("number is not a valid credit card number") }

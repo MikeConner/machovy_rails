@@ -24,7 +24,7 @@ describe "Buy Gift Certificate (non-standard and error conditions)" do
 
     describe "Buy a gift certificate for a non-default amount", :js => true do
       before do
-        fill_in :gift_certificate_email, :with => target_email
+        fill_in 'gift_certificate_email', :with => target_email
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
         fill_in 'first_name', :with => 'Jeffrey'
@@ -32,11 +32,13 @@ describe "Buy Gift Certificate (non-standard and error conditions)" do
         choose "predetermined_250"
         click_button I18n.t('buy_gift_certificate')
         save_page
+        sleep 1 # shameful
+        @certificate = GiftCertificate.first
       end
       
       it "should succeed" do
         #GiftCertificate.count.should be == 1
-        GiftCertificate.first.amount.should be == 250
+        @certificate.amount.should be == 250
       end
     end            
     
@@ -54,7 +56,7 @@ describe "Buy Gift Certificate (non-standard and error conditions)" do
 
     describe "Buy a gift certificate with no amount", :js => true do
       before do
-        fill_in :gift_certificate_email, :with => target_email
+        fill_in 'gift_certificate_email', :with => target_email
         find(:xpath, "//input[@id='gift_certificate_amount']").set " "
 
         fill_in 'card_number', :with => VISA

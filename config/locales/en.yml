@@ -55,7 +55,7 @@ en:
   rating_success: "Thanks for contributing to our idea ratings; hope you weren't too harsh!"
   self_gift: "Sorry; you cannot buy gift certificates for yourself"
   gift_admin: "Sorry; you can only buy gift certificates for regular customers (not vendors or admins)"
-  sign_in_register: "Sign in / Register"
+  sign_in_register: "Sign In/Up"
   sign_in: "Sign in"
   sold_out: 'Sold Out'
   vendor_created: "Vendor was successfully created."

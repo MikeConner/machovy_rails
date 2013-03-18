@@ -11,7 +11,7 @@ describe "Vendor signup" do
     before { visit new_user_registration_path }
     
     # Should have the vendor header
-    it { should have_selector('h4', :text => I18n.t('merchant_signup')) }
+    it { should have_selector('h1', :text => I18n.t('merchant_signup')) }
     
     describe "with invalid information" do
       before { click_button "Sign up" }
