@@ -1,13 +1,11 @@
 = render :partial => 'categories/index', :locals => { :active_category => @active_category }
 = render :partial => 'shared/flash_messages'
 - if @display_banner
-  %header#machovy_banner.home-page.center
+  %header.home-page.center
     .toggle
-      .row{:data => {:rel => 'toggle-header'}}
-        .btn-toggle
-          = link_to 'Interested in Machovy?', :onclick => "hide_machovy_banner();", :class => 'btn'
-          %i.icon-plus-sign
-    .row{:id => 'toggle-header', :style => 'display:none;'}
+      .btn-toggle
+        = link_to 'x', :onclick => "hide_machovy_banner();"
+    .row#machovy_banner
       .large-6.columns.divide-right
         .large-12.columns
           %h2 Collect Merchandise, Build&nbsp;Your&nbsp;Lifestyle

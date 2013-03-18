@@ -626,6 +626,8 @@ p {
     @include button-size;
     @include button-style($bg:#333, $radius:true);
     margin:0 0 0!important;
+    font-size:1em;
+    padding:2px 10px 6px;
     [class^="icon-"],
     [class*=" icon-"] {
       font-size: 1em;
