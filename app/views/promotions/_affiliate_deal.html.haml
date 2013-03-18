@@ -12,12 +12,9 @@
                 - if !@promotion.subtitle.nil?
                   %h4= @promotion.subtitle
             .row
-              .large-6.columns
+              .large-6
                 - if @show_buy_button
                   = link_to 'Buy it from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank", :class => 'darkred-btn'
-              .large-6.columns
-                - if promotion.affiliate? and !promotion.affiliate_logo.nil?
-                  = image_tag promotion.affiliate_logo
             %br
             .row
               %br
