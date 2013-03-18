@@ -65,6 +65,7 @@ describe "Buy Gift Certificate for pending signup; recipient changes email to ta
         let(:gift_credited_msg) { ActionMailer::Base.deliveries[4] }
         let(:distractor_user) { FactoryGirl.create(:user) }
         before do
+          save_page #timing
           @certificate = GiftCertificate.first
           @certificate.user_id = distractor_user.id
           @certificate.save!

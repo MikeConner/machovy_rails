@@ -43,7 +43,7 @@ describe "Create promotion without images" do
     describe "new promotion" do
       before { click_link 'Create Promotion' }
       
-      it { should have_selector('h4', :text => I18n.t('new_promotion')) }
+      it { should have_selector('h1', :text => I18n.t('new_promotion')) }
       it { should have_selector('#promotion_revenue_shared') }
       it { should have_selector('#promotion_quantity') }
       it { should have_selector('#promotion_strategy') }
@@ -78,7 +78,7 @@ describe "Create promotion without images" do
           end
           
           it { should have_selector('h3', :text => @p.title) }
-          it { should have_xpath("//ul[@class='rslides']") }
+          it { should have_xpath("//ul[@data-orbit='promotion-image']") }
           # Matching the whole description doesn't work because of truncation; just match part of it
           it { should have_content(@p.description[0, 24]) }
         end  

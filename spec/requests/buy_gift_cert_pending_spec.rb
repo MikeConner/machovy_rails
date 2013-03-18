@@ -33,7 +33,7 @@ describe "Buy Gift Certificate for pending signup" do
     
     describe "Buy a gift certificate", :js => true do
       before do
-        fill_in :gift_certificate_email, :with => recipient_email
+        fill_in 'gift_certificate_email', :with => recipient_email
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
         fill_in 'first_name', :with => 'Jeffrey'

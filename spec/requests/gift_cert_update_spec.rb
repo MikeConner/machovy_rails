@@ -35,7 +35,7 @@ describe "Buy Gift Certificate for pending signup, then change" do
       let(:gift_given_msg) { ActionMailer::Base.deliveries[0] }
       let(:gift_received_msg) { ActionMailer::Base.deliveries[1] }
       before do
-        fill_in :gift_certificate_email, :with => target_email
+        fill_in 'gift_certificate_email', :with => target_email
         fill_in 'card_number', :with => VISA
         fill_in 'card_code', :with => '444'
         fill_in 'first_name', :with => 'Jeffrey'
@@ -43,7 +43,7 @@ describe "Buy Gift Certificate for pending signup, then change" do
         click_button I18n.t('buy_gift_certificate')
         # Go to dashboard; should show gift certificates
         visit merchant_vouchers_path
-        #save_page # Seem to need this for timing!
+        save_page # Seem to need this for timing!
         @certificate = GiftCertificate.first
       end
             
@@ -58,7 +58,7 @@ describe "Buy Gift Certificate for pending signup, then change" do
         @certificate.transaction_id.should_not be_nil
         @certificate.pending.should be_true 
         # Show show the pending gift certificate
-        page.should have_selector('h1', :text => 'Pending Gift Certificates')
+        page.should have_selector('h3', :text => 'Pending Gift Certificates')
         page.should have_link('Change email')
         ActionMailer::Base.deliveries.count.should be == 2
         gift_given_msg.subject.should be == UserMailer::GIFT_GIVEN_MESSAGE

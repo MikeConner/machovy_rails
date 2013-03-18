@@ -6,14 +6,15 @@ describe "Buy product" do
     # Need this for visit root_path to work
     Metro.create(:name => 'Pittsburgh')
     ActionMailer::Base.deliveries = []
-    visit root_path
   end
 
   subject { page }
 
-  describe "Sign in", :js => true do
+  describe "Sign in" do
     before do
       # go to sign in page
+      visit root_path
+      sign_in_as_a_valid_user
       all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
       save_page # for timing
@@ -27,7 +28,7 @@ describe "Buy product" do
       user.customer_id.should be_nil
     end
     
-    describe "Order a product for delivery" do
+    describe "Order a product for delivery", :js => true do
       let(:promotion) { FactoryGirl.create(:product_promotion_with_order) }
       let(:order) { Order.last }  
       let(:msg) { ActionMailer::Base.deliveries[0] }
