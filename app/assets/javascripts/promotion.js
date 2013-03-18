@@ -5,11 +5,9 @@ $(function() {
 
   $(document).foundation();
 
-  // $('#toggle-header').toggler({
-  //   type: 'smooth',
-  //   speed: 1000,
-  //   noJerky: true
-  // });
+  $('.toggle').click(function () {
+    $("#machovy_banner").hide();
+  });
 
   $.backstretch(["/assets/background-img.png"])
 
