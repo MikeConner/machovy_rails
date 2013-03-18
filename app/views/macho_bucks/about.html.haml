@@ -1,24 +1,28 @@
-.row-fluid
-  = render :partial => 'shared/flash_messages'
-  .four.columns
-    %h1= I18n.t('macho_bucks')
-    = image_tag 'MachoBucks.png'
-  .span8
-    %h2== How the #{I18n.t('macho_bucks')} program works...
-    %p== #{I18n.t('macho_bucks')} are real dollars you can use just about anywhere on Machovy.com.
-    %ul
-      %li Buy Machovy gift certificates for your friends (even if they don't have an account yet)
-      %li Refer a friend -- or merchant -- to the site; we'll reward you with #{I18n.t('macho_bucks')} on their first purchase
-      %li== If you need to return a voucher... receive credit #{I18n.t('macho_bucks')}
-    %p When you purchase a local deal through Machovy, we'll use your #{I18n.t('macho_bucks')} balance first, then charge your card for any remainder.
-    %em Affiliate deals (e.g., Amazon) send you directly to the merchant; that's the only time you can't use #{I18n.t('macho_bucks')}
-    %br/
-    %br/
-    - if current_user.nil?
-      = label_tag 'Buy a gift certificate', nil, :class => "btn btn-danger"
-      %em Must be logged in to buy a gift certificate
-    - else
-      = link_to 'Buy a gift certificate', new_gift_certificate_path, :class => "btn btn-danger"
-    %br/
-    %h4 Coming soon...
-    = label_tag 'Refer a friend or merchant', nil, :class => "btn btn-danger"
+= render :partial => 'shared/flash_messages'
+.about-page-container
+  .row
+    .large-12.columns
+      %h1= I18n.t('macho_bucks')
+  .row.about-page
+    .large-12.columns
+      .large-4.columns
+        = image_tag 'MachoBucks.png'
+      .large-8.columns
+        %h2== How the #{I18n.t('macho_bucks')} program works...
+        %p== #{I18n.t('macho_bucks')} are real dollars you can use just about anywhere on Machovy.com.
+        %ul
+          %li Buy Machovy gift certificates for your friends (even if they don't have an account yet)
+          %li Refer a friend -- or merchant -- to the site; we'll reward you with #{I18n.t('macho_bucks')} on their first purchase
+          %li== If you need to return a voucher... receive credit #{I18n.t('macho_bucks')}
+        %p When you purchase a local deal through Machovy, we'll use your #{I18n.t('macho_bucks')} balance first, then charge your card for any remainder.
+        %em Affiliate deals (e.g., Amazon) send you directly to the merchant; that's the only time you can't use #{I18n.t('macho_bucks')}
+        %br/
+        %br/
+        - if current_user.nil?
+          = label_tag 'Buy a gift certificate', nil, :class => "btn btn-danger"
+          %em Must be logged in to buy a gift certificate
+        - else
+          = link_to 'Buy a gift certificate', new_gift_certificate_path, :class => "btn btn-danger"
+        %br/
+        %h4 Coming soon...
+        = label_tag 'Refer a friend or merchant', nil, :class => "btn btn-danger"

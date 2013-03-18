@@ -1,8 +1,11 @@
-%h1 Gift Certificates
-.row-fluid
-  .span6
-    %h4 Pending
-    = render :partial => 'certificates', :locals => { :certificates => @pending }
-  .span6
-    %h4 Redeemed
-    = render :partial => 'certificates', :locals => { :certificates => @redeemed }
+.about-page-container
+  .row
+    .large-12.columns
+      %h1 Gift Certificates
+  .row.about-page
+    .large-6.columns
+      %h4 Pending
+      = render :partial => 'certificates', :locals => { :certificates => @pending }
+    .large-6.columns
+      %h4 Redeemed
+      = render :partial => 'certificates', :locals => { :certificates => @redeemed }
