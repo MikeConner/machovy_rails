@@ -111,6 +111,8 @@
     height:30px;
     background-color:white;
     margin-top:0px;
+    margin-bottom: 0px;
+    > ul {margin-bottom: 0px;}
     zoom:1;
     > li {
     }
@@ -121,6 +123,7 @@
         font-weight: bold;
         text-decoration: none;
         font-size: 0.9em;
+        padding: 5px 12px;
       }
 
       .desktop-menu {
@@ -144,6 +147,7 @@
     height:30px;
     background-color:white;
     margin-top:-19px;
+    > ul {margin-bottom: 1.51515em;}
     zoom:1;
       a {
         float: left;
