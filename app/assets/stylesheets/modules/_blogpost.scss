@@ -13,6 +13,7 @@
     padding: 10px 30px 20px 20px;
     h4 {margin-bottom:0px;}
     img {margin-bottom:10px;}
+    p {margin-bottom:0.7em;}
     .mediumgray-btn { @include sassy-button("matte", 12px, 10px, $mediumgray); font-weight: thin;}
     .darkred-btn {@include sassy-button("matte", 12px, 10px, $darkred);font-weight: bold;}
     .hr {border-bottom:1px solid $lightgray; margin:10px 0px;}
