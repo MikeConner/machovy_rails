@@ -26,7 +26,14 @@
               - @promotion.promotion_images.each do |slideshow|
                 - if !slideshow.slideshow_image.file.nil?
                   %li
-                    = image_tag slideshow.slideshow_image_url(:product_front_page).to_s        
+                    = image_tag slideshow.slideshow_image_url(:product_front_page).to_s
+        %br
+          .twshare
+            %a.twitter-share-button.left{"data-count" => "horizontal", "data-via" => "fuonrails", :href => "https://twitter.com/share"} Tweet
+            %script{:src => "https://platform.twitter.com/widgets.js", :type => "text/javascript"}
+          .fshare
+            %script{:src => "https://connect.facebook.net/en_US/all.js#xfbml=1"}
+            %fb:like{:layout => "button_count", :show_faces => "false"}       
       .large-7.columns.product-detail
         .row
           .large-12.columns
@@ -111,17 +118,12 @@
                   %a Comments
                 .content
                   .spread
-                    .twshare
-                      %a.twitter-share-button.left{"data-count" => "horizontal", "data-via" => "fuonrails", :href => "https://twitter.com/share"} Tweet
-                      %script{:src => "https://platform.twitter.com/widgets.js", :type => "text/javascript"}
-                    .fshare
-                      %script{:src => "https://connect.facebook.net/en_US/all.js#xfbml=1"}
-                      %fb:like{:layout => "button_count", :show_faces => "false"}
                     %fb:comments{:numposts => "4", :title => "Comments", :simple => "1", :href => "https://#{request.host+request.fullpath}".to_s}
-    / - if !@curators.empty?        
-    /   .section-divider  
-    /   .row
-    /     %h4 Associated Mentors
-    /   .row.well
-    /     - @curators.each do |curator|
-    /       = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }
+    .row.curator
+      - if !@curators.empty?        
+        .section-divider.large-10.large-offset-1
+          .row
+            %h4 Mentors talking about similar deals
+          .row.well
+            - @curators.each do |curator|
+              = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }
