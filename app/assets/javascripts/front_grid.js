@@ -45,7 +45,7 @@ function hide_machovy_banner() {
 	});
 
 	$('.toggle').click(function () {
-    	$("#machovy_banner").hide();
+    	$("#machovy_banner").slideUp(400);
   	});
 }
 

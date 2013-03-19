@@ -621,19 +621,22 @@ p {
     padding:6px 0px;
     text-align: center;
     bottom:0;
-  }
-  .btn-toggle {
-    @include button-base;
-    @include button-size;
-    @include button-style($bg:#333, $radius:true);
-    margin:0 0 0!important;
-    font-size:0.9em;
-    padding:4px 10px;
+    color:white;
     [class^="icon-"],
     [class*=" icon-"] {
       font-size: 1em;
       margin-left: 5px;
+      margin-right:5px;
     }
+  }
+  .btn-toggle {
+    @include button-base;
+    @include button-size;
+    border:none;
+    margin:0 0 0!important;
+    font-size:0.9em;
+    padding:4px 10px;
+    
   }
 
   // Default styles applied outside of media query
