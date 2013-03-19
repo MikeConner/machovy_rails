@@ -618,15 +618,16 @@ p {
 
   .toggle {
     background-color:#666;
-    padding:10px 0px;
+    padding:6px 0px;
     text-align: center;
+    bottom:0;
   }
   .btn-toggle {
     @include button-base;
     @include button-size;
     @include button-style($bg:#333, $radius:true);
     margin:0 0 0!important;
-    font-size:1em;
+    font-size:0.9em;
     padding:4px 10px;
     [class^="icon-"],
     [class*=" icon-"] {
