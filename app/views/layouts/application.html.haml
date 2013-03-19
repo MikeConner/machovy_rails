@@ -19,7 +19,6 @@
   = favicon_link_tag 
   = javascript_include_tag "application"
   // = javascript_include_tag "plugins/toggler.js"
-  = stylesheet_link_tag "app", media: "all", :debug => true
   - if GOOGLE_MAPS_KEY.nil?
     = javascript_include_tag "https://maps.googleapis.com/maps/api/js?sensor=false"
   - else
@@ -30,6 +29,7 @@
   = render 'layouts/application/header'
   = yield 
   = render 'layouts/application/footer'
+  = stylesheet_link_tag "app", media: "all", :debug => true
   :javascript
     document.write('<script src=' +
     ('__proto__' in {} ? '/assets/libs/zepto' : 'jquery') +
