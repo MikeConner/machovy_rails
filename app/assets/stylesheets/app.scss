@@ -1,3 +1,4 @@
+@import "modules/reset";
 @import "foundation";
 @import "compass/css3";
 @import "sassy-buttons";
@@ -12,7 +13,7 @@
 @import "modules/styles";
 
 // MODULE STYLES
-@import url(http://meyerweb.com/eric/tools/css/reset/reset.css);
+// @import url(http://meyerweb.com/eric/tools/css/reset/reset.css);
 @import "modules/sassybuttons";
 @import "modules/nav";
 @import "modules/footer";
