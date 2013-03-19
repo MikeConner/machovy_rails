@@ -2,8 +2,6 @@
 = render :partial => 'shared/flash_messages'
 - if @display_banner
   %header#machovy_banner.home-page.center
-    .toggle
-      = link_to 'X', '#', :onclick => "hide_machovy_banner();", :class => 'btn-toggle toggle'
     .row
       .large-6.columns.divide-right
         .large-12.columns
@@ -17,6 +15,10 @@
           %a{:href => get_featured_path, :class => 'learn-more'}
             Learn More
             %i.icon-angle-right
+    .toggle
+      = link_to '#', :onclick => "hide_machovy_banner();", :class => 'btn-toggle toggle' do
+        %i.icon-remove
+        Close Merchant Information
 .main-wrap
   #container
     - if @empty_layout

@@ -48,3 +48,21 @@ function hide_machovy_banner() {
     	$("#machovy_banner").hide();
   	});
 }
+
+// $(function(){
+//     $('.btn-toggle').click(function() {
+//       $('.showhide').toggle();
+//       $('#machovy_banner').slideToggle();
+//     });
+// })
+
+// function hide_machovy_banner() {
+//   jQuery.ajax({url:"/banner",
+//          //data: "toggle=true",
+//          type: "PUT",
+//          // Don't need to do anything on success
+//            error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
+//              { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
+//            async: false
+//   });
+// }
