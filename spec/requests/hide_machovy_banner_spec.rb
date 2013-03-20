@@ -9,7 +9,7 @@ describe "Hide machovy banner" do
   it { should have_selector('#machovy_banner', :visible => true) }
   
   describe "Hide it", :js => true do
-    before { click_link 'X' }
+    before { find('span.btn-toggle').click }
     
     it { should have_selector('#machovy_banner', :visible => false) }
   end
