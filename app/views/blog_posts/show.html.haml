@@ -18,7 +18,18 @@
               = image_tag @blog_post.associated_image_url(:blog_content_photo).to_s
             .content
               = @blog_post.body.html_safe
-              - if !@videos.empty?
+              .row
+                .large-12.columns
+                  %fb:comments{:numposts => "4", :title => "Comments", :simple => "1", :href => "https://#{request.host+request.fullpath}".to_s}
+                  .twshare
+                    %a.twitter-share-button.left{"data-count" => "horizontal", "data-via" => "fuonrails", :href => "https://twitter.com/share"} Tweet
+                    %script{:src => "https://platform.twitter.com/widgets.js", :type => "text/javascript"}
+                  .fshare
+                    %script{:src => "https://connect.facebook.net/en_US/all.js#xfbml=1"}
+                    %fb:like{:layout => "button_count", :show_faces => "false"}
+
+              -# Removed Video from Blog Post
+              - if false and !@videos.empty?
                 .flex-video
                   - @videos.each do |video|
                     = video.title
