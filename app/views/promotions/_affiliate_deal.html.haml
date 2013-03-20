@@ -19,7 +19,7 @@
                 - if !@promotion.subtitle.nil?
                   %h4= @promotion.subtitle
             .row
-              .large-6
+              .large-6.columns
                 - if @show_buy_button
                   = link_to 'Buy it from ' + @promotion.vendor.name, @promotion.destination, :target => "_blank", :class => 'darkred-btn'
             %br
@@ -38,11 +38,10 @@
                     .content
                       .spread
                         %fb:comments{:numposts => "4", :title => "Comments", :simple => "1", :href => "https://#{request.host+request.fullpath}".to_s}
-    .row.curator
-      - if !@curators.empty?        
-        .section-divider.large-10.large-offset-1
-          .row
-            %h4 Mentors talking about similar deals
-          .row.well
-            - @curators.each do |curator|
-              = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }
+  .row.related-curator
+    - if !@curators.empty?        
+      .large-12.columns
+        .row
+          %h4 Mentors talking about similar deals
+          - @curators.each do |curator|
+            = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }
