@@ -3,6 +3,12 @@
 
 $(function() {
 
+
+ $('#mapclick').mouseout(function (e) {
+    fix_map(map);
+  })
+  // For product promotions
+  
   $(document).foundation();
 
   $.backstretch(["/assets/background-img.png"])
