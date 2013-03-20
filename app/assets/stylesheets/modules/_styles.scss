@@ -340,6 +340,14 @@ img {display:block; position:relative; z-index:1;}
     @include deal;
 }
 
+.affiliate .logo img {
+  width: auto;
+  height: 20px;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  padding: 0px 0px 4px 5px;
+}
 .blogpost { 
   width: 235px;
   height: 380px;
