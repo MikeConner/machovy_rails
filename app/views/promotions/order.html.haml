@@ -82,34 +82,36 @@
                 %p.title
                   %a Details
                 .content
-                  - @vendor = @promotion.vendor
-                  %em= @vendor.name
-                  -# Show venue address first, otherwise default to vendor address (unless private)
-                  - if @promotion.venue_location.nil?
-                    - if !@vendor.private_address?
-                      %br= @vendor.address_1
-                      - if !@vendor.address_2.blank?
-                        %br= @vendor.address_2
-                      == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
-                  - else
-                    %br= @promotion.venue_location.html_safe
-                  %br= @vendor.phone 
-                  - if !@vendor.url.blank?
-                    %br= link_to 'Web site', @vendor.url_display, :target => '_blank'
-                  - if !@vendor.facebook.blank?
-                    %br= link_to 'Facebook', @vendor.facebook_display, :target => '_blank'
-                .large-6.columns
-                  -# If we have a mappable venue address, show that; otherwise all back on the vendor address
-                  - if @promotion.mappable?
-                    = hidden_field_tag :latitude, @promotion.latitude
-                    = hidden_field_tag :longitude, @promotion.longitude
-                    = hidden_field_tag :vendor, @promotion.venue_location
-                    #map_canvas.vendor_map 
-                  - elsif @vendor.mappable?
-                    = hidden_field_tag :latitude, @vendor.latitude
-                    = hidden_field_tag :longitude, @vendor.longitude
-                    = hidden_field_tag :vendor, @vendor.name
-                    #map_canvas.vendor_map 
+                  .row
+                    .large-6.columns
+                      - @vendor = @promotion.vendor
+                      %em= @vendor.name
+                      -# Show venue address first, otherwise default to vendor address (unless private)
+                      - if @promotion.venue_location.nil?
+                        - if !@vendor.private_address?
+                          %br= @vendor.address_1
+                          - if !@vendor.address_2.blank?
+                            %br= @vendor.address_2
+                          == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
+                      - else
+                        %br= @promotion.venue_location.html_safe
+                      %br= @vendor.phone 
+                      - if !@vendor.url.blank?
+                        %br= link_to 'Web site', @vendor.url_display, :target => '_blank'
+                      - if !@vendor.facebook.blank?
+                        %br= link_to 'Facebook', @vendor.facebook_display, :target => '_blank'
+                    .large-6.columns
+                      -# If we have a mappable venue address, show that; otherwise all back on the vendor address
+                      - if @promotion.mappable?
+                        = hidden_field_tag :latitude, @promotion.latitude
+                        = hidden_field_tag :longitude, @promotion.longitude
+                        = hidden_field_tag :vendor, @promotion.venue_location
+                        #map_canvas.vendor_map 
+                      - elsif @vendor.mappable?
+                        = hidden_field_tag :latitude, @vendor.latitude
+                        = hidden_field_tag :longitude, @vendor.longitude
+                        = hidden_field_tag :vendor, @vendor.name
+                        #map_canvas.vendor_map 
               %section.section
                 %p.title 
                   %a Comments
