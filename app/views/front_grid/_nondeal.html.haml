@@ -4,15 +4,12 @@
   - else
     = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
     .item-title= truncate(sanitize(promotion.title), :length => 28)
-  .menu.cf
-    .logo
-      - if promotion.affiliate? and !promotion.affiliate_logo.nil?
-        = image_tag promotion.affiliate_logo
-    .promotion-icons
-      %ul
-        %li
-          = link_to promotion_path(promotion) do
-            %i.icon-file-alt.icon-2x
-        %li.share-tools
-          %a{:href => '#'}
-            %i.icon-share-alt.icon-2x
+    .menu.cf
+      .logo
+        - if promotion.affiliate? and !promotion.affiliate_logo.nil?
+          = image_tag promotion.affiliate_logo
+      .promotion-icons
+        %ul
+          %li
+            = link_to promotion_path(promotion) do
+              %i.icon-file-alt.icon-2x
