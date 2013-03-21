@@ -27,8 +27,6 @@ form.custom .custom.dropdown ul li {padding-left:0.99154em;}
     border-bottom:1px solid black;
   }
 }
-
-@media only screen and (max-width: 580px) {
 .top-bar {
   overflow: hidden;
   height: $topbar-height;
@@ -289,15 +287,15 @@ form.custom .custom.dropdown ul li {padding-left:0.99154em;}
 }
 .js-generated { display: block; }
 
-}
+
 // Top Bar styles intended for screen sizes above the breakpoint.
-@media only screen and (min-width: 580px){
+@media #{$topbar-media-query} {
   .top-bar { background: $topbar-bg; @include clearfix; overflow: visible!important;
     .toggle-topbar { display: none; }
 
     .title-area { float: left; }
     .name {width:215px;}
-    .name h1 a { width: auto; padding:14px 15px 0px 10px!important; }
+    .name h1 a { width: auto; padding:0 15px 0px 10px!important; }
 
     input,
     .button {
