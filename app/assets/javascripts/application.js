@@ -14,7 +14,6 @@
 //= require admin/jquery.datatables.min.js
 //= require libs/jquery-ui-1.10.1.custom.min.js
 //= require libs/selectivizr-min.js
-//= require libs/zepto.js
 //= require libs/foundation.min
 //= require libs/custom.modernizr.js
 //= require foundation
