@@ -7,7 +7,6 @@
   %meta{ :property => "fb:admins", :content => "bastille"}
   %meta{ :property => "og:url", :content => "https://#{request.host+request.fullpath}".to_s }
   %meta{ :property => 'og:type', :content => "website"}
-  %meta{'http-equiv' => "X-UA-Compatible", :content => "IE=8;FF=3;OtherUA=4"}
   - if !@promotion.nil?
     %meta{ :property => 'og:image', :content => @promotion.teaser_image_url(:product_front_page).to_s}
     %meta{ :property => 'og:title', :content => @promotion.title}
