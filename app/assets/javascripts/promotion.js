@@ -2,7 +2,10 @@
 //-----------------------------------------
 
 $(function() {
-
+  // Send width if we're on the main page AND there's no deal content yet
+  if (($('.main-wrap').length > 0) && (0 == $('#deal_content').length)) {
+    update_width($(window).width(), false);
+  }
 
  $('#mapclick').mouseout(function (e) {
     fix_map(map);
@@ -30,15 +33,14 @@ $(function() {
       // update columnWidth to a percentage of container width
       masonry: { columnWidth: $container.width() / 100 }
     });
+    //update_width($(window).width(), true);
+  });
+  });
+
+  $(window).on("debouncedresize", function( event ) {
     update_width($(window).width(), true);
   });
-  });
-
-  // Send width if we're on the main page AND there's no deal content yet
-  if (($('.main-wrap').length > 0) && (0 == $('#deal_content').length)) {
-    update_width($(window).width(), false);
-  }
-
+  
   // filter items when filter link is clicked
   $('#filters a').click(function(){
     var selector = $(this).attr('data-filter');
