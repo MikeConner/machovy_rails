@@ -7,6 +7,7 @@
   %meta{ :property => "fb:admins", :content => "bastille"}
   %meta{ :property => "og:url", :content => "https://#{request.host+request.fullpath}".to_s }
   %meta{ :property => 'og:type', :content => "website"}
+  %meta{'http-equiv' => "X-UA-Compatible", :content => "IE=8;FF=3;OtherUA=4"}
   - if !@promotion.nil?
     %meta{ :property => 'og:image', :content => @promotion.teaser_image_url(:product_front_page).to_s}
     %meta{ :property => 'og:title', :content => @promotion.title}
@@ -23,17 +24,13 @@
     = javascript_include_tag "https://maps.googleapis.com/maps/api/js?sensor=false"
   - else
     = javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{GOOGLE_MAPS_KEY}&sensor=false".html_safe
+  = stylesheet_link_tag "app", media: "all", :debug => true
   = csrf_meta_tags
   = render 'layouts/application/shim'
 %body
   = render 'layouts/application/header'
   = yield 
   = render 'layouts/application/footer'
-  = stylesheet_link_tag "app", media: "all", :debug => true
-  :javascript
-    document.write('<script src=' +
-    ('__proto__' in {} ? '/assets/libs/zepto' : 'jquery') +
-    '.js><\/script>')
   = javascript_include_tag "plugins/jquery.backstretch.min.js"
   = javascript_include_tag "plugins/prefixfree.min.js"
   = javascript_include_tag "plugins/jquery.toolbar.min.js"
