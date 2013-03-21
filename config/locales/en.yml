@@ -33,7 +33,7 @@ en:
   order_successful: 'Thank you for your order. Check your email for the details and voucher(s).'
   machovy_attention: 'Promotions that need Machovy attention'
   merchant_signup: 'Not the usual deals site'
-  nice_try: "Nice try! Unfortunately you're not eligible to purchase additional quantities of this promotion. Thank you for your previous order!"
+  nice_try: "Unfortunately you're not eligible to purchase additional quantities of this promotion. Thank you for your previous order!"
   no_image: '[No Image]'
   new_promotion: "Let's make a deal"
   non_product: 'Not a product promotion'
