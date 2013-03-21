@@ -49,7 +49,7 @@ class FrontGridController < ApplicationController
     @display_banner = session[:banner_viewed].nil? || ('false' == session[:banner_viewed])
   end    
   
-  def midnightguru    
+  def midnightguru
     @deals_per_row = Promotion::DEALS_PER_ROW
     non_exclusive = Category.non_exclusive.map { |c| c.id }
     @promotions = Promotion.front_page.select { |p| (p.displayable? or p.zombie? or p.coming_soon?) and (p.metro.name == 'Pittsburgh') and !(p.category_ids & non_exclusive).empty? }.sort
