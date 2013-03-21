@@ -1,7 +1,7 @@
 class StaticPagesController < ApplicationController
   include ApplicationHelper
   
-  before_filter :authenticate_user!, :only => [:admin_index, :merchant_contract, :mailing, :feedback_report, :activity_report, :order_report]
+  before_filter :authenticate_user!, :only => [:admin_index, :merchant_contract, :mailing, :feedback_report, :activity_report, :order_report, :harlem_shake]
   before_filter :ensure_merchant, :only => [:merchant_contract]
   before_filter :ensure_admin, :only => [:mailing, :feedback_report, :activity_report, :order_report]
   
@@ -183,6 +183,10 @@ class StaticPagesController < ApplicationController
     @orders = Order.where('created_at > ?', 3.days.ago).order('created_at desc')
     
     render :layout => 'layouts/admin'
+  end
+  
+  def harlem_shake
+    redirect_to "http://www.youtube.com/watch?v=cKwtuA82UIw&feature=youtu.be"
   end
   
 private

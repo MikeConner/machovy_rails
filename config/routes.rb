@@ -117,7 +117,8 @@ MachovyRails::Application.routes.draw do
   
   # MailChimp integration test
   match "/mailing" => "static_pages#mailing"
- 
+  match "/harlem_shake" => "static_pages#harlem_shake"
+  
   # Midnight Guru View
   match "/midnightguru" => "front_grid#midnightguru" 
   match "/erotica" => "front_grid#erotica" 
