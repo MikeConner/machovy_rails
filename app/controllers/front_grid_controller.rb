@@ -52,7 +52,7 @@ class FrontGridController < ApplicationController
       @promotions = @promotions[0, MAX_PARTNER_VIEW_DEALS]
     end
 
-    render 'midnightguru', :layout => 'layouts/affiliate'
+    render 'midnightguru', :layout => 'true' == params[:local] ? 'layouts/application' : 'layouts/affiliate'
   end
     
 private

@@ -186,7 +186,6 @@ class StaticPagesController < ApplicationController
   end
   
   def harlem_shake
-    redirect_to "http://www.youtube.com/watch?v=cKwtuA82UIw&feature=youtu.be"
   end
   
 private
