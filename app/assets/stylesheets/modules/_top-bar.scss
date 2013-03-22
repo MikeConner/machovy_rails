@@ -33,6 +33,7 @@ form.custom .custom.dropdown ul li {padding-left:0.99154em;}
   line-height: $topbar-height;
   position: relative;
   background: $topbar-bg;
+  margin-bottom: 0px;
 
   @include filter-gradient($topBarBgGradientTop, $topBarBgGradientTop, vertical); // IE6-8
   $experimental-support-for-svg: true;
