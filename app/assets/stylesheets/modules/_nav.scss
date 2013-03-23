@@ -115,6 +115,9 @@
     > ul {margin-bottom: 0px;}
     zoom:1;
     > li {
+      &:hover {
+        background-color:$darkred;
+      }
     }
       a {
         float: left;
@@ -144,11 +147,13 @@
 @media #{$topbar-media-query} {
   #categories {
     border-top:#111112;
-    height:30px;
+    height:33px;
     background-color:white;
-    margin-top:-19px;
-    > ul {margin-bottom: 1.51515em;}
+    > ul {height:35px;}
     zoom:1;
+    .active {
+      a {background-color:$darkred; color:white;}
+    }
       a {
         float: left;
         padding: 5px 12px;
@@ -157,9 +162,10 @@
         font-weight: bold;
         text-decoration: none;
         font-size: 0.9em;
+        height:33px;
         &:first-child {padding-left:14px!important;}
+        &:hover {background-color:$darkred; color:white;}
       }
-    
   } 
 }
 
