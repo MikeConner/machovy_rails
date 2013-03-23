@@ -48,8 +48,8 @@ $topbar-media-query: "only screen and (min-width:"#{$topbar-breakpoint}")" !defa
 .contain-to-grid {
   width: 100%;
   background: $topbar-bg;
-  @include filter-gradient(#393a3d, #393a3d, vertical); // IE6-8
   @include background-image(linear-gradient(top,  #393a3d 0%,#222325 100%));
+  border-bottom:1px solid black;
 }
 
 // Wrapped around .top-bar to make it fixed at the top
@@ -67,6 +67,8 @@ $topbar-media-query: "only screen and (min-width:"#{$topbar-breakpoint}")" !defa
   line-height: $topbar-height;
   position: relative;
   background: $topbar-bg;
+  margin-bottom:0px;
+  @include background-image(linear-gradient(top,  #393a3d 0%,#222325 100%));  
 
   // Topbar Global list Styles
   ul {
@@ -101,6 +103,12 @@ $topbar-media-query: "only screen and (min-width:"#{$topbar-breakpoint}")" !defa
         width: 50%;
         display: block;
         padding: 0 $topbar-height / 3;
+
+        img {
+          width:200px;
+          padding-top: $topbar-height / 4;
+        }
+
       }
     }
   }
@@ -476,7 +484,7 @@ $topbar-media-query: "only screen and (min-width:"#{$topbar-breakpoint}")" !defa
     & > ul > .divider {
       border-bottom: none;
       border-top: none;
-      border-#{$default-opposite}: solid 1px lighten($topbar-bg, 10%);
+      border-#{$default-opposite}: solid 1px lighten($topbar-bg, 20%);
       border-#{$default-float}: solid 1px darken($topbar-bg, 10%);
       clear: none;
       height: $topbar-height;
