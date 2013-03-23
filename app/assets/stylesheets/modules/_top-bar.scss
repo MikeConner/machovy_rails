@@ -347,6 +347,39 @@ $topbar-media-query: "only screen and (min-width:"#{$topbar-breakpoint}")" !defa
     }
 
     &.expanded { background: $topbar-bg; }
+
+    /* Ul Top Arrow */
+    ul li {position:relative;}
+    ul li ul:after {
+       content: "";
+       position: absolute;
+       top:0;
+       left: 35%;
+       border-bottom: 8px solid #ccc;
+       border-top-color: white; 
+       border-left: 8px solid transparent;
+       border-right: 8px solid transparent; 
+       /* Margin top must be same as border value */
+       margin-top: -8px;
+    }
+
+    @media only screen and (max-width: $topbar-breakpoint) {
+    /* Ul Top Arrow */
+      ul li {position:relative;}
+      ul li ul:after {
+         content: "";
+         position: relative;
+         top:0;
+         left:0;
+         border-bottom: none!important;
+         border-top-color: white; 
+         border-left: none!important;
+         border-right: none!important; 
+         /* Margin top must be same as border value */
+         margin-top: 0;
+      }
+    }
+    
   }
 
   .contain-to-grid .top-bar { max-width: $row-width; margin: 0 auto; }
