@@ -1,190 +1,190 @@
-// @media #{$topbar-media-query} {
-//   #menu {
-//         >li {
-//           height: $topbar-height;
-//           border-bottom:2px solid black;
-//         }
-//         li {
-//         float: left;
-//           &:hover {
-//             > a {color: #fafafa; background: darken($topbar-dropdown-bg, 30%);}
-//             > ul {opacity: 1; visibility: visible; margin: 0; border:1px solid #999;}
-//           } 
-//       }
+@media #{$topbar-media-query} {
+  #menu {
+        >li {
+          height: $topbar-height;
+          border-bottom:2px solid black;
+        }
+        li {
+        float: left;
+          &:hover {
+            > a {color: #fafafa; background: darken($topbar-dropdown-bg, 30%);}
+            > ul {opacity: 1; visibility: visible; margin: 0; border:1px solid #999;}
+          } 
+      }
 
-//       ul {
-//         margin: 20px 0 0 0;
-//         opacity: 0;
-//         visibility: hidden;
-//         top: 50px;
-//         left: 1;
-//         z-index: 90;    
-//         background:rgba(0,0,0,.9); 
-//         border-radius: 0px;
-//         transition: all .3s ease-in-out;
-//         -webkit-transition:all .3s ease-in-out;   
-//         width:150px;
+      ul {
+        margin: 20px 0 0 0;
+        opacity: 0;
+        visibility: hidden;
+        top: 50px;
+        left: 1;
+        z-index: 90;    
+        background:rgba(0,0,0,.9); 
+        border-radius: 0px;
+        transition: all .3s ease-in-out;
+        -webkit-transition:all .3s ease-in-out;   
+        width:150px;
         
-//           li {
-//             a {
-//               border-top:1px solid #333;
-//               border-left:5px solid #444;
-//             }
-//           }
-//           // Problem Code breaking navigation / pusing whole body from the right
-//           a {    
-//             padding: 10px;
-//             // width: 130px;
-//             display: block;
-//             white-space: nowrap;
-//             float: none;
-//             text-transform: none;
-//               &:hover {
-//                 background-color: $red;
-//                 /*color:darken($red, 30%);*/
-//                 border-left:5px solid darken($red, 20%);
-//                 color:white;
-//                 text-shadow: 0 0px 0 #000;
-//               }
-//           }
-//       }
-//     @media only screen and (max-width: $topbar-breakpoint) {
-//       >li {
-//           height: 55px;
-//           width:100%;
-//         }
-//         li {
-//         float: left;
-//           a {
-//             &:hover {background-color:black!important; border:none!important;}
-//           }
-//           &:active {
-//             position:static;
-//             > a {color: #fafafa;}
-//             > ul {opacity: 1; visibility: hidden; margin: 0; border:none; top:0;}
-//           } 
-//       }
+          li {
+            a {
+              border-top:1px solid #333;
+              border-left:5px solid #444;
+            }
+          }
+          // Problem Code breaking navigation / pusing whole body from the right
+          a {    
+            padding: 10px;
+            // width: 130px;
+            display: block;
+            white-space: nowrap;
+            float: none;
+            text-transform: none;
+              &:hover {
+                background-color: $red;
+                /*color:darken($red, 30%);*/
+                border-left:5px solid darken($red, 20%);
+                color:white;
+                text-shadow: 0 0px 0 #000;
+              }
+          }
+      }
+    @media only screen and (max-width: $topbar-breakpoint) {
+      >li {
+          height: 55px;
+          width:100%;
+        }
+        li {
+        float: left;
+          a {
+            &:hover {background-color:black!important; border:none!important;}
+          }
+          &:active {
+            position:static;
+            > a {color: #fafafa;}
+            > ul {opacity: 1; visibility: hidden; margin: 0; border:none; top:0;}
+          } 
+      }
 
-//       ul {
-//         margin: 0px 0 0 0;
-//         opacity: 1;
-//         visibility: hidden;
-//         top: 0px;
-//         left: 0;
-//         z-index: 90;    
-//         background:rgba(0,0,0,.9); 
-//         border-radius: 0px;
-//         transition: all .3s ease-in-out;
-//         -webkit-transition:all .3s ease-in-out; 
-//         border:none!important;    
-//           li {
-//             a {
-//               border-top:none;
-//               border-left:none;
-//             }
-//           }
-//           a {    
-//             padding: 10px;
-//             width: 100%;
-//             display: block;
-//             white-space: nowrap;
-//             float: none;
-//             text-transform: none;
-//               &:hover {
-//                 background-color: $red;
-//                 /*color:darken($red, 30%);*/
-//                 border-left:5px solid darken($red, 20%);
-//                 color:white;
-//                 text-shadow: 0 0px 0 #000;
-//               }
-//           }
-//       }
-//     }
-//   } 
-// }
+      ul {
+        margin: 0px 0 0 0;
+        opacity: 1;
+        visibility: hidden;
+        top: 0px;
+        left: 0;
+        z-index: 90;    
+        background:rgba(0,0,0,.9); 
+        border-radius: 0px;
+        transition: all .3s ease-in-out;
+        -webkit-transition:all .3s ease-in-out; 
+        border:none!important;    
+          li {
+            a {
+              border-top:none;
+              border-left:none;
+            }
+          }
+          a {    
+            padding: 10px;
+            width: 100%;
+            display: block;
+            white-space: nowrap;
+            float: none;
+            text-transform: none;
+              &:hover {
+                background-color: $red;
+                /*color:darken($red, 30%);*/
+                border-left:5px solid darken($red, 20%);
+                color:white;
+                text-shadow: 0 0px 0 #000;
+              }
+          }
+      }
+    }
+  } 
+}
 
 
-// .whiteFull {width:100%!important; height:35px; background-color:white!important; border-bottom:2px solid #ccc;}
+.whiteFull {width:100%!important; height:35px; background-color:white!important; border-bottom:2px solid #ccc;}
 
-// #categories {
-//     border-top:#111112;
-//     height:30px;
-//     background-color:white;
-//     margin-top:0px;
-//     margin-bottom: 0px;
-//     > ul {margin-bottom: 0px;}
-//     zoom:1;
-//     > li {
-//     }
-//       a {
-//         float: left;
-//         color:#333333;
-//         font-family:"HelveticaNeue", sans-serif;
-//         font-weight: bold;
-//         text-decoration: none;
-//         font-size: 0.9em;
-//         padding: 5px 12px;
-//       }
+#categories {
+    border-top:#111112;
+    height:30px;
+    background-color:white;
+    margin-top:0px;
+    margin-bottom: 0px;
+    > ul {margin-bottom: 0px;}
+    zoom:1;
+    > li {
+    }
+      a {
+        float: left;
+        color:#333333;
+        font-family:"HelveticaNeue", sans-serif;
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 0.9em;
+        padding: 5px 12px;
+      }
 
-//       .desktop-menu {
-//       @media only screen and (max-width: $topbar-breakpoint) {
-//           display: none!important;
-//         }
-//       }
+      .desktop-menu {
+      @media only screen and (max-width: $topbar-breakpoint) {
+          display: none!important;
+        }
+      }
 
-//     .mobile-menu {
-//       display: none;
+    .mobile-menu {
+      display: none;
 
-//         @media only screen and (max-width: $topbar-breakpoint) {
-//           display: inline-block!important;
-//         }
-//     }
-//   } 
+        @media only screen and (max-width: $topbar-breakpoint) {
+          display: inline-block!important;
+        }
+    }
+  } 
 
-// @media #{$topbar-media-query} {
-//   #categories {
-//     border-top:#111112;
-//     height:30px;
-//     background-color:white;
-//     margin-top:-19px;
-//     > ul {margin-bottom: 1.51515em;}
-//     zoom:1;
-//       a {
-//         float: left;
-//         padding: 5px 12px;
-//         color:#333333;
-//         font-family:"HelveticaNeue", sans-serif;
-//         font-weight: bold;
-//         text-decoration: none;
-//         font-size: 0.9em;
-//         &:first-child {padding-left:14px!important;}
-//       }
+@media #{$topbar-media-query} {
+  #categories {
+    border-top:#111112;
+    height:30px;
+    background-color:white;
+    margin-top:-19px;
+    > ul {margin-bottom: 1.51515em;}
+    zoom:1;
+      a {
+        float: left;
+        padding: 5px 12px;
+        color:#333333;
+        font-family:"HelveticaNeue", sans-serif;
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 0.9em;
+        &:first-child {padding-left:14px!important;}
+      }
     
-//   } 
-// }
+  } 
+}
 
 
-// @media only screen and (max-width: $topbar-breakpoint) {
-//     .desktop-menu {display: none!important;}
-//   }
+@media only screen and (max-width: $topbar-breakpoint) {
+    .desktop-menu {display: none!important;}
+  }
 
-// .mobile-menu {
-// display: none;
-//   @media only screen and (max-width: $topbar-breakpoint) {
-//     display: block!important;
-//   }
-// }
+.mobile-menu {
+display: none;
+  @media only screen and (max-width: $topbar-breakpoint) {
+    display: block!important;
+  }
+}
 
 
-// select {
-//     background-color: $light-gray;
-//     webkit-appearance: none;
-//     margin-top:5px;
-//     border: 1px solid #ccc;
-//     color: $dark-gray; 
-//     width: 94%;
-//     height: 22px;      
-// }
+select {
+    background-color: $light-gray;
+    webkit-appearance: none;
+    margin-top:5px;
+    border: 1px solid #ccc;
+    color: $dark-gray; 
+    width: 94%;
+    height: 22px;      
+}
 
 
 
