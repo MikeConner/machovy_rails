@@ -21,7 +21,7 @@
         - @promotions.each do |promotion|
           %tr
             %td 
-              //= image_tag promotion.teaser_image_url(:product_front_page).to_s
+              = image_tag promotion.teaser_image_url(:product_front_page).to_s
             %td
               - if promotion.awaiting_machovy_action?
                 == #{idx}. #{link_to promotion.title, edit_promotion_path(promotion)} -- #{promotion.subtitle}

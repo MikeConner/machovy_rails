@@ -116,7 +116,7 @@
     zoom:1;
     > li {
       &:hover {
-        background-color:$darkred;
+        background-color:$red;
       }
     }
       a {
@@ -152,7 +152,7 @@
     > ul {height:35px;}
     zoom:1;
     .active {
-      a {background-color:$darkred; color:white;}
+      a {background-color:$red; color:white;}
     }
       a {
         float: left;
@@ -163,8 +163,7 @@
         text-decoration: none;
         font-size: 0.9em;
         height:33px;
-        &:first-child {padding-left:14px!important;}
-        &:hover {background-color:$darkred; color:white;}
+        &:hover {background-color:$red; color:white;}
       }
   } 
 }

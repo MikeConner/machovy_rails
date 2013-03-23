@@ -1,6 +1,14 @@
-%h1 Edit Metro
-= form_for @metro do |f|
-  = render :partial => 'shared/error_messages', :locals => { :errors => @metro.errors, :name => 'Metro' }
-  = render :partial => 'metro_fields', :locals => { :f => f }
-  .actions
-    = f.submit 'Update Metro'
+= render :partial => 'shared/flash_messages'
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1 Edit Metro
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      = form_for @metro do |f|
+        = render :partial => 'shared/error_messages', :locals => { :errors => @metro.errors, :name => 'Metro' }
+        = render :partial => 'metro_fields', :locals => { :f => f }
+        .actions
+          = f.submit 'Update Metro'

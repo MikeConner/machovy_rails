@@ -313,7 +313,7 @@ $topbar-media-query: "only screen and (min-width:"#{$topbar-breakpoint}")" !defa
     }
 
     label {
-      padding: 8px $topbar-height / 3 2px;
+      padding: 8px $topbar-height / 4;
       margin-bottom: 0;
       text-transform: uppercase;
       color: $dropdown-label-color;
@@ -336,11 +336,10 @@ $topbar-media-query: "only screen and (min-width:"#{$topbar-breakpoint}")" !defa
   .top-bar { background: $topbar-bg; @include clearfix; overflow: visible;
     @include filter-gradient(#393a3d, #393a3d, vertical); // IE6-8
     @include background-image(linear-gradient(top,  #393a3d 0%,#222325 100%));
-    border-bottom:1px solid black;
     .toggle-topbar { display: none; }
 
     .title-area { float: $default-float; }
-    .name h1 a { width: auto; padding:0px 10px; 
+    .name h1 a { width: auto; padding:0px 0px; 
       img {
         width:200px;
         padding-top: $topbar-height / 4;
@@ -470,7 +469,7 @@ $topbar-media-query: "only screen and (min-width:"#{$topbar-breakpoint}")" !defa
 
         label {
           white-space: nowrap;
-          background: lighten($topbar-bg, 5%);
+          background: darken($topbar-bg, 50%);
         }
 
         // Second Level Dropdowns

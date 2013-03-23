@@ -1,15 +1,18 @@
-.container
-  .row-fluid
-    .form-horizontal
-      %fieldset
-        %legend
-          %h3 Listing Metros
-        .row-fluid
-          .span12
-            - @metros.each do |metro|
-              .row-fluid
-                = link_to 'Delete', metro, method: :delete, data: { confirm: 'Are you sure?' }
-                %em= link_to metro.name, metro_path(metro)
-                = link_to 'Edit', edit_metro_path(metro)
-            %br/
-            = link_to 'New Metro', new_metro_path
+= render :partial => 'shared/flash_messages'
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1 Listing Metros
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      .row
+        .large-12.columns
+          - @metros.each do |metro|
+            .row-fluid
+              = link_to 'Delete', metro, method: :delete, data: { confirm: 'Are you sure?' }
+              %em= link_to metro.name, metro_path(metro)
+              = link_to 'Edit', edit_metro_path(metro)
+          %br/
+          = link_to 'New Metro', new_metro_path

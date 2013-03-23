@@ -1,53 +1,55 @@
-.container
-  .row-fluid
-    %center
-      = will_paginate @vendors
-      = page_entries_info @vendors
-    .form-horizontal
-      %fieldset
-        %legend
-          %h3 Listing vendors
-        .row-fluid
-          .span12
-            %table
-              %tr
-                %th ID
-                %th Name
-                %th User
-                %th Source
-                %th # Promos
-                %th Url
-                %th Phone
-                %th Address
-                %th City
-                %th State
-                %th Zip
-                %th Total Paid
-                %th Machovy Share
-                %th Merchant Share
-                %th
-              - @vendors.each do |vendor|
-                %tr
-                  %td= vendor.id
-                  %td= link_to vendor.name, edit_merchant_vendor_path(vendor)
-                  %td= vendor.user.nil? ? 'None' : vendor.user.email
-                  %td= vendor.source
-                  %td= vendor.promotions.count
-                  %td= vendor.url
-                  %td= vendor.phone
-                  %td= vendor.address_1
-                  %td= vendor.city
-                  %td= vendor.state
-                  %td= vendor.zip
-                  %td= number_to_currency(vendor.total_paid)
-                  %td= number_to_currency(vendor.total_commission)
-                  %td= number_to_currency(vendor.amount_owed)
-                  %td= link_to 'Payments', show_payments_merchant_vendor_path(vendor)
-            %br/
-            = link_to 'New Vendor', new_merchant_vendor_path
+= render :partial => 'shared/flash_messages'
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1 Manage Users
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      %h5
+        //= will_paginate
+        = page_entries_info 
+      %table
+        %tbody
+          %tr
+            %th ID
+            %th Name
+            %th User
+            %th Source
+            %th # Promos
+            /%th Url
+            %th Phone
+            /%th Address
+            /%th City
+            /%th State
+            /%th Zip
+            %th Total Paid
+            %th Machovy Share
+            %th Merchant Share
+            %th
+          - @vendors.each do |vendor|
+            %tr
+              %td= vendor.id
+              %td= link_to vendor.name, edit_merchant_vendor_path(vendor)
+              %td= vendor.user.nil? ? 'None' : vendor.user.email
+              %td= vendor.source
+              %td= vendor.promotions.count
+              /%td= vendor.url
+              %td= vendor.phone
+              /%td= vendor.address_1
+              /%td= vendor.city
+              /%td= vendor.state
+              /%td= vendor.zip
+              %td= number_to_currency(vendor.total_paid)
+              %td= number_to_currency(vendor.total_commission)
+              %td= number_to_currency(vendor.amount_owed)
+              %td= link_to 'Payments', show_payments_merchant_vendor_path(vendor)
+        %br/
+        = link_to 'New Vendor', new_merchant_vendor_path
         %center= will_paginate @vendors
-        .row-fluid
-          .span12
+        .row
+          .large-12.columns
             %h3 New Vendors this week
             - if @new_vendors.empty?
               None
