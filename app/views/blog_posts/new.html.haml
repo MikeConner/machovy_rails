@@ -1,14 +1,14 @@
-#content-header
-  %h1 New Blog Post
-#breadcrumb
-  <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Home</a>
-  <a href="#" class="current">Front Page Manager</a>
-.row
-  .large-12.columns
-    %h5 Front Page Manager
-    = javascript_include_tag "ckeditor/init"
-    = form_for @blog_post do |f|
-      = render :partial => 'shared/error_messages', :locals => { :errors => @blog_post.errors, :name => 'Blog Post' }
-      = render :partial => 'blog_fields', :locals => { :f => f }
-      .actions
-        = f.submit 'Create Blog Post'
+.about-page-container
+  .row
+    .large-12.columns
+      %h1== New Blog Post
+  .row.about-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      = javascript_include_tag "ckeditor/init"
+      = form_for @blog_post do |f|
+        = render :partial => 'shared/error_messages', :locals => { :errors => @blog_post.errors, :name => 'Blog Post' }
+        = render :partial => 'blog_fields', :locals => { :f => f }
+        .actions
+          = f.submit 'Create Blog Post'
