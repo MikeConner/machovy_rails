@@ -48,6 +48,8 @@ $topbar-media-query: "only screen and (min-width:"#{$topbar-breakpoint}")" !defa
 .contain-to-grid {
   width: 100%;
   background: $topbar-bg;
+  @include filter-gradient(#393a3d, #393a3d, vertical); // IE6-8
+  @include background-image(linear-gradient(top,  #393a3d 0%,#222325 100%));
 }
 
 // Wrapped around .top-bar to make it fixed at the top
@@ -320,10 +322,8 @@ $topbar-media-query: "only screen and (min-width:"#{$topbar-breakpoint}")" !defa
 // Top Bar styles intended for screen sizes above the breakpoint.
 @media #{$topbar-media-query} {
   .top-bar { background: $topbar-bg; @include clearfix; overflow: visible;
-    @include filter-gradient($topBarBgGradientTop, $topBarBgGradientTop, vertical); // IE6-8
-    $experimental-support-for-svg: true;
-    @include background-image(linear-gradient(top,  $topBarBgGradientTop 0%,$topBarBgGradientBottom 100%));
-    // @include box-shadow(0px 2px 0 rgba(255,255,255,0.10));
+    @include filter-gradient(#393a3d, #393a3d, vertical); // IE6-8
+    @include background-image(linear-gradient(top,  #393a3d 0%,#222325 100%));
     border-bottom:1px solid black;
     .toggle-topbar { display: none; }
 
@@ -379,7 +379,7 @@ $topbar-media-query: "only screen and (min-width:"#{$topbar-breakpoint}")" !defa
          margin-top: 0;
       }
     }
-    
+
   }
 
   .contain-to-grid .top-bar { max-width: $row-width; margin: 0 auto; }
