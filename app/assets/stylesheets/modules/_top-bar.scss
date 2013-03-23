@@ -216,6 +216,10 @@ $topbar-media-query: "only screen and (min-width:"#{$topbar-breakpoint}")" !defa
       font-size: $topbar-link-font-size;
       font-weight: $topbar-link-weight;
       background: $topbar-dropdown-bg;
+      [class^="icon-"],
+      [class*=" icon-"] {
+        margin-right:4px;
+      }
 
       &:hover { background: darken($topbar-dropdown-bg, 3%); }
 
@@ -404,6 +408,7 @@ $topbar-media-query: "only screen and (min-width:"#{$topbar-breakpoint}")" !defa
         padding: 0 $topbar-height / 3;
         line-height: $topbar-height;
         background: $topbar-bg;
+        @include background-image(linear-gradient(top, #393a3d 0%,#222325 100%));
         &:hover { background: darken($topbar-dropdown-bg, 30%); }
       }
     }
