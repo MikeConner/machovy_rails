@@ -1,20 +1,27 @@
-%h1 Feedback Summary
-%table.table.zebra-striped
-  %tr
-    %th Promotion
-    %th # Reports
-    %th Avg Rating
-    %th % Recommend
-  - @promotion_data.each do |title, data|
-    %tr
-      %td= title
-      %td= data[:cnt]
-      %td= data[:stars]
-      %td= data[:rec]
-%br/
-%h2 Comments
-- @promotion_data.each do |title, data|
-  - if !data[:comments].empty?
-    %h4= title
-    - data[:comments].each do |c|
-      %em= c
+.about-page-container
+  .row
+    .large-12.columns
+      %h1 User Feedback Report <small>how much do they love us?</small>
+  .row.about-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      %table.table.zebra-striped
+        %tr
+          %th Promotion
+          %th # Reports
+          %th Avg Rating
+          %th % Recommend
+        - @promotion_data.each do |title, data|
+          %tr
+            %td= title
+            %td= data[:cnt]
+            %td= data[:stars]
+            %td= data[:rec]
+      %br/
+      %h2 Comments
+      - @promotion_data.each do |title, data|
+        - if !data[:comments].empty?
+          %h4= title
+          - data[:comments].each do |c|
+            %em= c
