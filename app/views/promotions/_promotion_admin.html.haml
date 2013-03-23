@@ -9,8 +9,9 @@
       %th Title
       %th Subtitle
       %th Expiration
-      %th Price
-      %th Quantity
+      - if !p_list.empty? and p_list.first.deal?
+        %th Price
+        %th Quantity
       %th Log
       %th Delete
   %tbody
@@ -31,8 +32,9 @@
           %td None
         - else
           %td= p.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT)
-        %td= number_to_currency(p.price)
-        %td= p.quantity
+        - if p.deal?
+          %td= number_to_currency(p.price)
+          %td= p.quantity
         - if 0 == p.promotion_logs.count
           %td None
         - else
