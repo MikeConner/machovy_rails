@@ -3,9 +3,10 @@
     .large-12.columns
       %h1 Gift Certificates
   .row.about-page
-    .large-6.columns
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
       %h4 Pending
       = render :partial => 'certificates', :locals => { :certificates => @pending }
-    .large-6.columns
       %h4 Redeemed
       = render :partial => 'certificates', :locals => { :certificates => @redeemed }

@@ -1,15 +1,25 @@
-%h1 Recent Orders
-%table.table.zebra-striped
-  %tr
-    %th Date
-    %th User
-    %th Promotion
-    %th Quantity
-    %th Total
-  - @orders.each do |order|
-    %tr
-      %th= I18n.l order.created_at, :format => :long
-      %th= order.user.email
-      %th= order.promotion.title
-      %th= order.quantity
-      %th= number_to_currency(order.total_cost)
+.about-page-container
+  .row
+    .large-12.columns
+      %h1 Recent Orders
+  .row.about-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      - if @orders.empty?
+        %h3 No Recent Orders
+      - else
+        %table.table.zebra-striped
+          %tr
+            %th Date
+            %th User
+            %th Promotion
+            %th Quantity
+            %th Total
+          - @orders.each do |order|
+            %tr
+              %th= I18n.l order.created_at, :format => :long
+              %th= order.user.email
+              %th= order.promotion.title
+              %th= order.quantity
+              %th= number_to_currency(order.total_cost)
