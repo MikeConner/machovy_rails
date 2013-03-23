@@ -1,9 +1,16 @@
-#content-header
-  %h1 New Curator
-.row
-  .large-12.columns
-    = form_for @curator do |f|
-      = render :partial => 'shared/error_messages', :locals => { :errors => @curator.errors, :name => 'Curator' }
-      = render :partial => 'curator_fields', :locals => { :f => f }
-      .actions
-        = f.submit 'Create Curator'
+= render :partial => 'shared/flash_messages'
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1 New Curator
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      .row
+        .large-12.columns
+          = form_for @curator do |f|
+            = render :partial => 'shared/error_messages', :locals => { :errors => @curator.errors, :name => 'Curator' }
+            = render :partial => 'curator_fields', :locals => { :f => f }
+            .actions
+              = f.submit 'Create Curator'

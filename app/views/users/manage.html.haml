@@ -1,47 +1,30 @@
 = render :partial => 'shared/flash_messages'
-.container
-  .row-fluid
-    .form-horizontal
-      %fieldset
-        %legend
-          %h3 Manage Users
-        %center
-          = will_paginate @users
-          = page_entries_info @users
-        .row-fluid
-          .span12
-            - @users.each do |user|
-              .row-fluid
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1 Manage Users
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      %h5
+        //= will_paginate
+        = page_entries_info 
+      %table
+        %tbody
+          - @users.each do |user|
+            %tr
+              %td
                 -# Cannot edit a SuperAdmin
                 - if user.has_role?(Role::SUPER_ADMIN)
                   %em== #{user.email} is a Super Admin
                 -else
                   = form_for user, :method => :put, :url => promote_user_path(user) do |f|
-                    - if user.can_be_deleted?
-                      = link_to 'Delete', user, :method => :delete, :data => { confirm: 'Are you sure?' }
                     = user.email
                     = f.collection_select(:role_ids, Role.all, :id, :name, {:selected => user.role_ids, :include_blank => ''})
-                    = f.submit 'Update Role'
-        %center= will_paginate @users
-        %legend
-          %h3 New Users this week
-          .row-fluid
-            .span12
-              - if @new_users.empty?
-                None
-              - else
-                %ol
-                  - @new_users.each do |user|
-                    %li== #{user.email} (#{user.created_at.try(:strftime, ApplicationHelper::DATETIME_FORMAT)})
-          %h3 Unconfirmed Users
-          .row-fluid
-            .span12
-              - if @unconfirmed_users.empty?
-                None
-              - else
-                %ol
-                  - @unconfirmed_users.each do |user|
-                    - if user.unconfirmed_email.nil?
-                      %li== #{user.email} (#{user.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)}) #{link_to 'Confirm', user_confirmation_path(:confirmation_token => user.confirmation_token)} #{link_to 'Delete', user, :method => :delete, :data => { confirm: 'Are you sure?' }}
-                    - else
-                      %li== #{user.email} (#{user.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)}) new email: #{user.unconfirmed_email}
+                    %td
+                      %br
+                      = f.submit 'Update Role', :class => 'btn tiny success'
+                      - if user.can_be_deleted?
+                        = link_to 'Delete', user, :method => :delete, :class => 'btn tiny', :data => { confirm: 'Are you sure?' }
+      

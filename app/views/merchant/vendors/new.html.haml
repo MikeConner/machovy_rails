@@ -1,4 +1,12 @@
-%h1 New vendor
-= form_for [:merchant, @vendor] do |f|
-  = render :partial => 'shared/error_messages', :locals => { :errors => @vendor.errors, :name => 'Vendor' }
-  = render :partial => 'vendor_fields', :locals => { :f => f }
+= render :partial => 'shared/flash_messages'
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1 New Vendor
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      = form_for [:merchant, @vendor] do |f|
+        = render :partial => 'shared/error_messages', :locals => { :errors => @vendor.errors, :name => 'Vendor' }
+        = render :partial => 'vendor_fields', :locals => { :f => f }
