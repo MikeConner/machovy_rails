@@ -2,7 +2,7 @@
 .about-page-container
   .row
     .large-12.columns
-      %h1== Do the Harlem Shake with Club Erotica <small>Uncensored version!</small>
+      %h1== Do the Harlem Shake with #{@vendor_name} <small>Uncensored version!</small>
   .row.about-page
     .large-12.columns
 
@@ -11,4 +11,4 @@
 
     .panel
       %h3
-        = link_to "Click here for all <span style='color:red'>Club Erotica</span> special deals!".html_safe, erotica_path(:local => true)
+        = link_to "Click here for all <span style='color:red'>#{@vendor_name}</span> special deals!".html_safe, machovy_feed_path(:vendor => @vendor_name)

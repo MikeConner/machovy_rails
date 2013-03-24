@@ -186,6 +186,7 @@ class StaticPagesController < ApplicationController
   end
   
   def harlem_shake
+    @vendor_name = 'Club Erotica'
   end
   
 private
