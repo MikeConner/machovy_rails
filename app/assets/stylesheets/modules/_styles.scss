@@ -325,8 +325,8 @@ img {display:block; position:relative; z-index:1;}
     @media only screen and (max-width: 480px) {
       width:100%;
       height:170px;
-      .image { width:42%; float:left; height:100%;}
-      .content {width:58%; float:right;}
+      .image { width:45%; float:left; height:100%;}
+      .content {width:55%; float:right; padding:0px 12px;}
       .zombie_image {margin:2px auto; left:5%;}
     }
 }
