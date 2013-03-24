@@ -17,6 +17,10 @@
 .field
   = f.label :weight
   = f.number_field :weight, :min => 1
+- if f.object.associated_image.file.nil?
+  = I18n.t('no_image') unless f.object.new_record?
+- else
+  = image_tag f.object.associated_image_url(:product_thumb).to_s
 .field
   = f.label :associated_image
   %br/
@@ -29,4 +33,6 @@
   = f.label :promotions
   %br/
   -# Order alphabetically so users can search easier
-  = f.collection_select(:promotion_ids, Promotion.order(:title), :id, :title, { :selected => @blog_post.promotion_ids }, { :multiple => true, :size => 16 })
+  = f.collection_select(:promotion_ids, Promotion.order(:title), :id, :title, { :selected => @blog_post.promotion_ids }, { :multiple => true, :size => 16, :style => 'height:200px;'})
+  %br
+  %br

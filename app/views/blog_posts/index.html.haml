@@ -1,52 +1,53 @@
 = render :partial => 'shared/flash_messages'
-
-.large-12.columns.page-header
-  %h1 Blog Posts <small>the latest & greatest</small>
-.row
-  .large-12.columns
-    %button.btn.btn-small.pull-right 
-      = link_to 'Rebalance Weights', rebalance_blog_posts_path, :method => :put
-    %center
-      = will_paginate
-      = page_entries_info
-    %table.table.table-bordered
-      %thead
-        %tr
-          %th.span2 Active
-          %th.span3 Title
-          %th.span2 Curator
-          %th.span5 Body 
-          - if admin_user?
-            %th.four.columns
-          - else
-            %th.span1 Weight
-      %tbody
-      - idx = (@blog_posts.current_page - 1) * BlogPost.per_page + 1  
-      - @blog_posts.each do |post|
-        %tr
-          - if post.displayable?
-            %td== #{time_ago_in_words(post.activation_date)} ago
-          - else
-            %td== on #{post.activation_date.try(:strftime, ApplicationHelper::DATE_FORMAT)}
-          - if admin_user?
-            %td= link_to post.title, edit_blog_post_path(post)
-          - else
-            %td= link_to post.title, blog_post_path(post)
-          %td= post.curator.nil? ? 'None' : post.curator.name
-          %td= post.truncated_body(:length => 100)
-          - if admin_user?
-            %td
-              = form_for post, :remote => true, :method => :put, :url => update_weight_blog_post_path(post) do |f|
-                .field
-                  = f.label :weight
-                  = f.number_field :weight, :min => 1, :id => "blog_weight_#{post.id}"
-                  %br/
-                  = render :partial => 'weight_buttons', :locals => { :id => post.id, :step => @step_value, :page => @page_value }
-                  -# 
-                    .actions
-                      = f.submit 'Update weight' 
-            %td= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }
-          - else
-            %td= post.weight
-            %td
-    %center= will_paginate
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1 Blog Posts <small>the latest & greatest</small>
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      %h5
+        //= will_paginate
+        = page_entries_info 
+      = link_to 'Rebalance Weights', rebalance_blog_posts_path, :method => :put, :class => 'btn tiny'
+      %table.table.table-bordered
+        %thead
+          %tr
+            %th Active
+            %th Title
+            %th Curator
+            %th Body 
+            - if admin_user?
+              %th{:width => '350px'}  Weight  
+              %th Delete           
+        %tbody
+        - idx = (@blog_posts.current_page - 1) * BlogPost.per_page + 1  
+        - @blog_posts.each do |post|
+          %tr
+            - if post.displayable?
+              %td== #{time_ago_in_words(post.activation_date)} ago
+            - else
+              %td== on #{post.activation_date.try(:strftime, ApplicationHelper::DATE_FORMAT)}
+            - if admin_user?
+              %td= link_to post.title, edit_blog_post_path(post)
+            - else
+              %td= link_to post.title, blog_post_path(post)
+            %td= post.curator.nil? ? 'None' : post.curator.name
+            %td= post.truncated_body(:length => 100)
+            - if admin_user?
+              %td
+                = form_for post, :remote => true, :method => :put, :url => update_weight_blog_post_path(post) do |f|
+                  .field
+                    = f.label :weight
+                    = f.number_field :weight, :min => 1, :id => "blog_weight_#{post.id}"
+                    %br/
+                    = render :partial => 'weight_buttons', :locals => { :id => post.id, :step => @step_value, :page => @page_value }
+                    -# 
+                      .actions
+                        = f.submit 'Update weight' 
+              %td= link_to 'Delete', post, method: :delete, :class => 'btn tiny', data: { confirm: 'Are you sure?' }
+            - else
+              %td= post.weight
+              %td
+      %center= will_paginate
