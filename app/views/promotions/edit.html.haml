@@ -1,58 +1,66 @@
-%h1== Editing #{@promotion.title}
-= form_for @promotion, :html => { multipart: true } do |f|
-  = render :partial => 'shared/error_messages', :locals => { :errors => @promotion.errors, :name => 'Promotion' }
-  -# Grid weight is validated, so it has to be in the form, but customers can't see it
-  - if current_user.has_role?(Role::SUPER_ADMIN)
-    -# If we are editing affiliates, can't change status
-    - if @promotion.deal?
-      -# Admins who are editing can approve or reject with comments
-      %p== Please review this promotion, proposed by #{@promotion.vendor.name}.
-      You can accept the promotion as-is, reject it, or make minor edits for the vendor to review.
-      Indicate your choice below; any comments you wish to make will be recorded along with your decision.
-      %br/
-      Keep in mind that:
-      %uldotted-list
-        %li Your comments are visible to the vendor
-        %li Accepting the promotion means it will immediately go live
-        %li You can make edits even when accepting or rejecting, though the suggested process is to write comments and let vendors make updates
-      %br/
-      = radio_button_tag 'decision', 'accept', true
-      = label_tag 'decision_accept', 'Accept', :style => "display:inline"
-      &nbsp;&nbsp;
-      = radio_button_tag 'decision', 'reject'
-      = label_tag 'decision_reject', 'Reject', :style => "display:inline"
-      &nbsp;&nbsp;
-      = radio_button_tag 'decision', 'edit'
-      = label_tag 'decision_edit', 'Edit', :style => "display:inline"
-      %br/
-      %br/
-      Description of edits, general comments, or reason for rejection:
-      %br= text_area_tag 'comment', nil, :rows => 5, :class => "slider-input"
-    .field
-      = f.label :grid_weight
-      = f.number_field :grid_weight, :min => 1
-    .field
-      = f.check_box :suspended
-      = f.label :suspended, :style => "display:inline"
-    .field
-      = f.check_box :pending
-      = f.label :pending, 'Coming Soon', :style => "display:inline"
-    %br/
-    .field
-      = f.label :categories
-      %br/
-      = render :partial => 'shared/category_selection', :locals => { :categories => Category.all, :num_per_column => 4, :name => 'promotion', :object => @promotion }
-  - else
-    = f.hidden_field :grid_weight
-  - if @promotion.deal?
-    - @fixed_date = PromotionStrategyFactory::FIXED_STRATEGY == @promotion.strategy_name ? @promotion.strategy.end_date : Time.zone.now.beginning_of_day
-    - default_days = PromotionStrategyFactory::RELATIVE_STRATEGY  == @promotion.strategy_name ? @promotion.strategy.period_days : RelativeExpirationStrategy::DEFAULT_PERIOD
-    - if PromotionStrategyFactory::PRODUCT_STRATEGY == @promotion.strategy_name
-      - shipping_option = @promotion.strategy.delivery? ? ProductStrategy::SHIP_OPTION : ProductStrategy::PICKUP_OPTION 
-    - else
-      - shipping_option = ProductStrategy::SHIP_OPTION 
-    - delay = @promotion.strategy.has_attribute?(:delay_hours) ? @promotion.strategy.delay_hours : Promotion::DEFAULT_DELAY
-    = render :partial => 'shared/promotion_fields', 
-             :locals => { :f => f, :metros => @metros, :quantity => @promotion.quantity || 1, :share_pct => @promotion.revenue_shared, :share_options => @promotion.revenue_share_options, :strategy => @promotion.strategy_name, :fixed_date => @fixed_date, :default_period => default_days, :default_shipping => shipping_option, :delay_hours => delay }
-  - else
-    = render :partial => 'shared/nondeal_promotion_fields', :locals => { :f => f, :metros => @metros }
+= render :partial => 'shared/flash_messages'
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1== Editing #{@promotion.title}
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      = form_for @promotion, :html => { multipart: true } do |f|
+        = render :partial => 'shared/error_messages', :locals => { :errors => @promotion.errors, :name => 'Promotion' }
+        -# Grid weight is validated, so it has to be in the form, but customers can't see it
+        - if current_user.has_role?(Role::SUPER_ADMIN)
+          -# If we are editing affiliates, can't change status
+          - if @promotion.deal?
+            -# Admins who are editing can approve or reject with comments
+            %p== Please review this promotion, proposed by #{@promotion.vendor.name}.
+            You can accept the promotion as-is, reject it, or make minor edits for the vendor to review.
+            Indicate your choice below; any comments you wish to make will be recorded along with your decision.
+            %br/
+            Keep in mind that:
+            %uldotted-list
+              %li Your comments are visible to the vendor
+              %li Accepting the promotion means it will immediately go live
+              %li You can make edits even when accepting or rejecting, though the suggested process is to write comments and let vendors make updates
+            %br/
+            = radio_button_tag 'decision', 'accept', true
+            = label_tag 'decision_accept', 'Accept', :style => "display:inline"
+            &nbsp;&nbsp;
+            = radio_button_tag 'decision', 'reject'
+            = label_tag 'decision_reject', 'Reject', :style => "display:inline"
+            &nbsp;&nbsp;
+            = radio_button_tag 'decision', 'edit'
+            = label_tag 'decision_edit', 'Edit', :style => "display:inline"
+            %br/
+            %br/
+            Description of edits, general comments, or reason for rejection:
+            %br= text_area_tag 'comment', nil, :rows => 5, :class => "slider-input"
+          .field
+            = f.label :grid_weight
+            = f.number_field :grid_weight, :min => 1
+          .field
+            = f.check_box :suspended
+            = f.label :suspended, :style => "display:inline"
+          .field
+            = f.check_box :pending
+            = f.label :pending, 'Coming Soon', :style => "display:inline"
+          %br/
+          .field
+            = f.label :categories
+            %br/
+            = render :partial => 'shared/category_selection', :locals => { :categories => Category.all, :num_per_column => 4, :name => 'promotion', :object => @promotion }
+        - else
+          = f.hidden_field :grid_weight
+        - if @promotion.deal?
+          - @fixed_date = PromotionStrategyFactory::FIXED_STRATEGY == @promotion.strategy_name ? @promotion.strategy.end_date : Time.zone.now.beginning_of_day
+          - default_days = PromotionStrategyFactory::RELATIVE_STRATEGY  == @promotion.strategy_name ? @promotion.strategy.period_days : RelativeExpirationStrategy::DEFAULT_PERIOD
+          - if PromotionStrategyFactory::PRODUCT_STRATEGY == @promotion.strategy_name
+            - shipping_option = @promotion.strategy.delivery? ? ProductStrategy::SHIP_OPTION : ProductStrategy::PICKUP_OPTION 
+          - else
+            - shipping_option = ProductStrategy::SHIP_OPTION 
+          - delay = @promotion.strategy.has_attribute?(:delay_hours) ? @promotion.strategy.delay_hours : Promotion::DEFAULT_DELAY
+          = render :partial => 'shared/promotion_fields', 
+                   :locals => { :f => f, :metros => @metros, :quantity => @promotion.quantity || 1, :share_pct => @promotion.revenue_shared, :share_options => @promotion.revenue_share_options, :strategy => @promotion.strategy_name, :fixed_date => @fixed_date, :default_period => default_days, :default_shipping => shipping_option, :delay_hours => delay }
+        - else
+          = render :partial => 'shared/nondeal_promotion_fields', :locals => { :f => f, :metros => @metros }
