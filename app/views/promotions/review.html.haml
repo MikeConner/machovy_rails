@@ -1,4 +1,10 @@
 = render :partial => 'shared/flash_messages'
-%h1= @title
-.row
-  = render :partial => 'promotion_admin', :locals => { :p_list => @promotions, :param_name => :page }
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1= @title
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      = render :partial => 'promotion_admin', :locals => { :p_list => @promotions, :param_name => :page }

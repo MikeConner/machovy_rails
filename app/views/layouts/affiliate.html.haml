@@ -41,8 +41,8 @@
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })(); 
-%body
-  #main
-    .container
-      = yield
-    
+%body{:style => 'background-image:none!important;'}
+  .container{:style => 'background-color:white!important;'}
+    #affiliate_layout
+    = yield
+  
