@@ -343,6 +343,7 @@ $topbar-media-query: "only screen and (min-width:"#{$topbar-breakpoint}")" !defa
       img {
         width:200px;
         padding-top: $topbar-height / 4;
+        padding-right: $topbar-height / 4;
       }
 
     }
