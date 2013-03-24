@@ -1,6 +1,12 @@
-.container
-  .row-fluid
-    .span12
+= render :partial => 'shared/flash_messages'
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1 Edit Video
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
       = form_for @video do |f|
         = render :partial => 'video_fields', :locals => { :f => f }
         .actions
