@@ -1,13 +1,20 @@
-%h1= @coupon.title
-%h3== Another valuable coupon from #{@coupon.vendor.name}
-%em== Downloaded #{Date.today.try(:strftime, ApplicationHelper::DATE_FORMAT)}
-%br/
-- if !@coupon.value.nil?
-  %em= number_to_currency(@coupon.value)
-- if !@coupon.description.nil?
-  %p= @coupon.description
-%br/
-%br/
-= image_tag @coupon.coupon_image_url(:product_front_page) , :size => '470x470'
-- if admin_user?
-  == External link: #{coupon_url(@coupon)}
+= render :partial => 'shared/flash_messages'
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1= @coupon.title
+  .row.admin-page
+    .large-12.columns
+      %h3== Another valuable coupon from #{@coupon.vendor.name}
+      %em== Downloaded #{Date.today.try(:strftime, ApplicationHelper::DATE_FORMAT)}
+      %br/
+      - if !@coupon.value.nil?
+        %em= number_to_currency(@coupon.value)
+      - if !@coupon.description.nil?
+        %p= @coupon.description
+      %br/
+      %br/
+      = image_tag @coupon.coupon_image_url(:product_front_page) , :size => '470x470'
+      %br
+      - if admin_user?
+        == External link: #{coupon_url(@coupon)}

@@ -14,8 +14,10 @@ $(function() {
   
   $(document).foundation();
 
-  $.backstretch(["/assets/background-img.png"])
-
+  if (0 == $('#affiliate_layout').length) {
+    $.backstretch(["/assets/background-img.png"])
+  }
+  
   var $container = $('#container');
   $container.imagesLoaded( function(){
     $container.isotope({

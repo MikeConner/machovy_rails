@@ -1,21 +1,28 @@
 = render :partial => 'shared/flash_messages'
-%h1 Coupons
-%table.table.zebra-striped
-  %tr
-    %th Vendor
-    %th Title
-    %th Value
-    %th Description
-    %th Image
-    %th Link
-    %th
-  - @coupons.each do |coupon|
-    %tr
-      %td= link_to coupon.vendor.name, merchant_vendor_path(coupon.vendor)
-      %td= link_to coupon.title, edit_coupon_path(coupon)
-      %td= coupon.value
-      %td= coupon.description
-      %td
-        = image_tag coupon.coupon_image_url(:product_thumb)
-      %td= coupon.slug
-      %td= link_to 'Delete', coupon, :method => :delete, :data => { confirm: 'Are you sure?' }
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1 Coupons
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      %table.table.zebra-striped
+        %tr
+          %th Vendor
+          %th Title
+          %th Value
+          %th Description
+          %th Image
+          %th Link
+          %th
+        - @coupons.each do |coupon|
+          %tr
+            %td= link_to coupon.vendor.name, merchant_vendor_path(coupon.vendor)
+            %td= link_to coupon.title, edit_coupon_path(coupon)
+            %td= coupon.value
+            %td= coupon.description
+            %td
+              = image_tag coupon.coupon_image_url(:product_thumb)
+            %td= coupon.slug
+            %td= link_to 'Delete', coupon, :method => :delete, :data => { confirm: 'Are you sure?' }

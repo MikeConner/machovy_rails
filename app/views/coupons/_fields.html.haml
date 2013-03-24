@@ -1,8 +1,10 @@
 .field
   = f.label :vendor_id
-  %br/
+  %br
   = f.collection_select :vendor_id, @vendors, :id, :name 
-  = link_to 'New Vendor', new_merchant_vendor_path
+  %br
+  %br
+  = link_to 'New Vendor', new_merchant_vendor_path, :class => 'btn tiny success'
 .field
   = f.label :title
   %br/
@@ -15,6 +17,10 @@
   = f.label :description
   %br/
   = f.text_area :description, :size => "60x12"
+- if f.object.coupon_image.file.nil?
+  = I18n.t('no_image') unless f.object.new_record?
+- else
+  = image_tag f.object.coupon_image_url(:product_thumb).to_s
 .field
   = f.label :coupon_image
   %br/
