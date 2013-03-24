@@ -19,8 +19,8 @@
   %title M A C H O V Y
   = javascript_include_tag "application"
   = stylesheet_link_tag "foundation", media: "all", :debug => true
-  = stylesheet_link_tag "bootstrap", media: "all", :debug => true
-  = stylesheet_link_tag "bootstrap-responsive", media: "all", :debug => true
+  / = stylesheet_link_tag "bootstrap", media: "all", :debug => true
+  / = stylesheet_link_tag "bootstrap-responsive", media: "all", :debug => true
   = stylesheet_link_tag "jquery-ui-1.9.0.custom.css", media: "all", :debug => true
   = stylesheet_link_tag "main", media: "all", :debug => true
   = stylesheet_link_tag "responsive", media: "all", :debug => true
@@ -42,7 +42,7 @@
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })(); 
 %body{:style => 'background-image:none!important;'}
-  .container{:style => 'background-color:white!important;'}
+  #container
     #affiliate_layout
     = yield
   

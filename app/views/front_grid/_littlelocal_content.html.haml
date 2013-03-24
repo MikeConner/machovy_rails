@@ -15,7 +15,7 @@
 .menu.cf
   .currency
     .old-price
-      %p 100.00
+      %p= number_to_currency(promotion.retail_value)
     .price= number_to_currency(promotion.price)
   .promotion-icons
     %ul
