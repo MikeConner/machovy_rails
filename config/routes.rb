@@ -120,9 +120,12 @@ MachovyRails::Application.routes.draw do
   match "/mailing" => "static_pages#mailing"
   match "/harlem_shake" => "static_pages#harlem_shake"
   
-  # Midnight Guru View
+  # Midnight Guru and Erotica external feeds
   match "/midnightguru" => "front_grid#midnightguru" 
   match "/erotica" => "front_grid#erotica" 
+  # Internal feeds, parameterized by vendor name
+  match "/machovy_feed" => "front_grid#machovy_feed" 
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
