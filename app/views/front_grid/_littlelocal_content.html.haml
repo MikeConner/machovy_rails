@@ -11,7 +11,9 @@
   .desc
     %h3= link_to sanitize(promotion.title), promotion_path(promotion)
     %p.bigdesc= promotion.padded_description
-  %p.merchant== Provided by: #{promotion.vendor.name}
+  %p.merchant
+    Provided by:&nbsp;
+    = link_to promotion.vendor.name, machovy_feed_path(:vendor => promotion.vendor.name)
 .menu.cf
   .currency
     .old-price
