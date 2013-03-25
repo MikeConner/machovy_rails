@@ -1,4 +1,4 @@
-.main-wrap
+.main-wrap.remove-bg
   #container
     - for i in 0..@promotions.count / @deals_per_row do
       - current_row = @promotions[i * @deals_per_row, @deals_per_row]
