@@ -3,7 +3,7 @@
 
 $(function() {
   // Send width if we're on the main page AND there's no deal content yet
-  if (($('.main-wrap').length > 0) && (0 == $('#deal_content').length)) {
+  if (($('.display_front_page').length > 0) && (0 == $('#deal_content').length)) {
     update_width($(window).width(), false);
   }
 
