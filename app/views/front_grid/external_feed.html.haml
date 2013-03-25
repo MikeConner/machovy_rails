@@ -3,4 +3,4 @@
     - for i in 0..@promotions.count / @deals_per_row do
       - current_row = @promotions[i * @deals_per_row, @deals_per_row]
       - if current_row.count > 0
-        = render :partial => 'shared/partner_promotion_row', :locals => { :promotions => current_row }
+        = render :partial => 'shared/partner_promotion_row', :locals => { :promotions => current_row, :target => @target }
