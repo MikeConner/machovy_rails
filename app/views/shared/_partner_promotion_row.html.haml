@@ -3,15 +3,15 @@
     .image
       - if promotion.coming_soon?
         %img.zombie_image(src="/assets/coming_soon.png")
-        = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion), :style => 'opacity:0.4;'
+        = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion), :style => 'opacity:0.4;', :target => target
       - elsif promotion.zombie?
         %img.zombie_image(src="/assets/sold_out.png")
-        = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
+        = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion), :target => target
       - else
-        = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
+        = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion), :target => target
     .content
       .desc
-        %h3= link_to sanitize(promotion.title), promotion_path(promotion)
+        %h3= link_to sanitize(promotion.title), promotion_path(promotion), :target => target
         %p.bigdesc= promotion.padded_description
       %p.merchant== Provided by: #{promotion.vendor.name}
     .menu.cf
@@ -22,8 +22,8 @@
       .promotion-icons
         %ul
           %li
-            = link_to promotion_path(promotion) do
+            = link_to promotion_path(promotion), :target => target do
               %i.icon-file-alt.icon-2x
           %li
-            = link_to order_promotion_path(promotion) do
+            = link_to order_promotion_path(promotion), :target => target do
               %i.icon-share-alt.icon-2x

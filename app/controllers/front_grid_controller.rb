@@ -55,6 +55,7 @@ class FrontGridController < ApplicationController
     if @promotions.length > MAX_PARTNER_VIEW_DEALS
       @promotions = @promotions[0, MAX_PARTNER_VIEW_DEALS]
     end
+    @target = "_blank"
     
     render 'external_feed', :layout => 'layouts/affiliate'
   end
@@ -64,6 +65,7 @@ class FrontGridController < ApplicationController
     @deals_per_row = Promotion::DEALS_PER_ROW
     vendor = Vendor.find_by_name('Club Erotica')
     @promotions = Promotion.front_page.select { |p| (p.displayable? or p.zombie? or p.coming_soon?) and (p.vendor.id == vendor.id) }.sort
+    @target = "_blank"
 
     render 'external_feed', :layout => 'layouts/affiliate'
   end
@@ -74,7 +76,8 @@ class FrontGridController < ApplicationController
     non_exclusive = Category.non_exclusive.map { |c| c.id }
     vendor = Vendor.find_by_name(params[:vendor])
     @promotions = vendor.nil? ? [] : Promotion.front_page.select { |p| (p.displayable? or p.zombie? or p.coming_soon?) and (p.vendor.id == vendor.id) and !(p.category_ids & non_exclusive).empty? }.sort    
-
+    @target = nil
+    
     render 'external_feed', :layout => 'layouts/machovy_feed'
   end
   
