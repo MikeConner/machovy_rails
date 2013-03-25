@@ -16,7 +16,7 @@
     %meta{ :property => 'og:image', :content => request.protocol + request.host_with_port + path_to_image("logo.png")}
     %meta{ :property => 'og:title', :content => "Machovy.com"}
     %meta{ :property => 'og:description', :content => "Deals.  No Limits."}
-  %title Machovy
+  %title M A C H O V Y
   = javascript_include_tag "application"
   = stylesheet_link_tag "foundation", media: "all", :debug => true
   / = stylesheet_link_tag "bootstrap", media: "all", :debug => true
@@ -45,6 +45,3 @@
   = render 'layouts/application/header'
   = yield 
   = render 'layouts/application/footer'
-  = javascript_include_tag "plugins/prefixfree.min.js"
-  = javascript_include_tag "plugins/jquery.toolbar.min.js"
-  = javascript_include_tag "plugins/jquery.stickyFooter.js"
