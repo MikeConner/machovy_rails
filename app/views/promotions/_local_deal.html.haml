@@ -42,13 +42,13 @@
               %h4= @promotion.subtitle
         .row
           .large-12.columns
-            .large-3.small-6.columns.x-padding
+            .large-4.small-6.columns.x-padding
               - if @promotion.retail_value > @promotion.price
                 %span.price-old= number_to_currency(@promotion.retail_value)
               %span.price-new= number_to_currency(@promotion.price)
               %br
               %span= @promotion.quantity_description
-            .large-9.small-6.columns.x-padding
+            .large-8.small-6.columns.x-padding
               - if @show_buy_button
                 .darkred-btn
                   = link_to " #{I18n.t('click_to_buy')} ".html_safe, order_promotion_path(@promotion)  
