@@ -10,6 +10,7 @@ class FixedFrontPageLayout
   FIVE_COLUMN = 1200
   FOUR_COLUMN = 960
   THREE_COLUMN = 720
+  TWO_COLUMN = 470
   DESIRED_ROWS = 7
   
   PATTERNS = { 5 => [[BIG_DEAL,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL],
@@ -81,7 +82,8 @@ class FixedFrontPageLayout
                      #[NON_DEAL, NON_DEAL],
                      #[BLOG_POST, NON_DEAL],
                      #[NON_DEAL, SMALL_DEAL],
-                     [BLOG_POST, SMALL_DEAL]] }
+                     [BLOG_POST, SMALL_DEAL]],
+               1 => [[BIG_DEAL], [SMALL_DEAL], [SMALL_DEAL], [SMALL_DEAL], [BLOG_POST], [BLOG_POST], [NON_DEAL]] }
 
   def initialize(deals, non_deals, blog_posts, width)
     @deals = deals
@@ -208,8 +210,10 @@ private
       4
     elsif width.to_i >= THREE_COLUMN
       3
-    else
+    elsif width.to_i >= TWO_COLUMN
       2
+    else
+      1
     end
   end
 end
