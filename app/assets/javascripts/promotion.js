@@ -25,7 +25,7 @@ $(function() {
 
 	if(!$.support.placeholder) { 
 		var active = document.activeElement;
-		$(':input').focus(function () {
+		$(':input:not(:password)').focus(function () {
 			if ($(this).attr('placeholder') != '' && $(this).val() == $(this).attr('placeholder')) {
 				$(this).val('').removeClass('hasPlaceholder');
 			}
@@ -34,7 +34,7 @@ $(function() {
 				$(this).val($(this).attr('placeholder')).addClass('hasPlaceholder');
 			}
 		});
-		$(':input').blur();
+		$(':input:not(:password)').blur();
 		$(active).focus();
 		$('form').submit(function () {
 			$(this).find('.hasPlaceholder').each(function() { $(this).val(''); });

@@ -22,7 +22,7 @@ describe "Edit vendor source" do
       visit merchant_vendors_path
     end
     
-    it { should have_selector('h3', :text => 'Listing vendors') }
+    it { should have_selector('h1', :text => 'Manage Vendors') }
     it { should have_link(promotion.vendor.name) }
     
     describe "Edit" do
