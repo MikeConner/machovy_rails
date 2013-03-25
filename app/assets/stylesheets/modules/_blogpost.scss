@@ -58,6 +58,18 @@
     } 
 }
 
+
+
+
+.mentor-block  { @include pricing-table-container;
+  .mentor-title  { @include pricing-table-title; padding:0px; img {width:100%;}}
+  .mentor-subtitle  { @include pricing-table-price; padding:1.13636em 0.5em; font-size:1.2em; background-color:$darkred; a {color:white;}}
+  .mentor-desc   { @include pricing-table-description; }
+  .mentor-bullet { @include pricing-table-bullet; font-size:0.9em; padding:1.13636em 4em; }
+  .mentor-cta   { @include pricing-table-cta; }
+}
+
+
 // .author-recommend {
 //   .author {
 //     padding:0px;

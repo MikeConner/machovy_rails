@@ -50,7 +50,7 @@
               %span= @promotion.quantity_description
             .large-8.small-6.columns.x-padding
               - if @show_buy_button
-                .darkred-btn
+                .btn
                   = link_to " #{I18n.t('click_to_buy')} ".html_safe, order_promotion_path(@promotion)  
                   //= link_to "<i class='icon-plus icon-white'></i> #{I18n.t('click_to_buy')}".html_safe, order_promotion_path(@promotion) 
         .row
@@ -86,7 +86,7 @@
                   %a Details
                 .content
                   .row
-                    .large-6.columns
+                    .large-4.columns
                       - @vendor = @promotion.vendor
                       %em= @vendor.name
                       -# Show venue address first, otherwise default to vendor address (unless private)
@@ -103,7 +103,7 @@
                         %br= link_to 'Web site', @vendor.url_display, :target => '_blank'
                       - if !@vendor.facebook.blank?
                         %br= link_to 'Facebook', @vendor.facebook_display, :target => '_blank'
-                    .large-6.columns
+                    .large-8.columns
                       -# If we have a mappable venue address, show that; otherwise all back on the vendor address
                       - if @promotion.mappable?
                         = hidden_field_tag :latitude, @promotion.latitude

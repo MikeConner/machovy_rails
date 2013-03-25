@@ -663,6 +663,7 @@ p {
     @include button-base;
     @include button-size;
     @include button-style($bg:$primary-color, $radius:true);
+    @include background-image(linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.25) 100%));
 
     &.secondary { @include button-style($bg:$secondary-color); }
     &.success   { @include button-style($bg:$success-color); }

@@ -5,31 +5,25 @@
   .row.curator-page
     .row
       .large-12.columns
-        %h4 Welcome to the Machovy Feedback Forum
+        %h3 Welcome to the Machovy Feedback Forum
         %p Now, we know you're a genius... but it's just possible someone else had the same idea. And maybe some people even though they obviously know the best place for men's interest shopping -- might not be full-on geniuses in other areas. If so, feel free to (be)rate them. You can see the highest-rated ideas on the right. Will yours make the cut?
     .row
-      .large-12.columns
-        - @curators.each do |curator|
-          .row.curator-block
-            .large-2.columns
-              = link_to(image_tag(curator.picture_url(:product_front_page).to_s), curator_path(curator))
-            .large-7.columns
-              - if admin_user?        
-                = button_to 'Delete', curator, method: :delete, data: { confirm: 'Are you sure?' }
+      - @curators.each do |curator|
+        .large-4.columns
+          %ul.mentor-block
+            %li.mentor-title= link_to(image_tag(curator.picture_url(:product_front_page).to_s), curator_path(curator))
+            - if admin_user?
+              %li.mentor-subtitle
                 = link_to curator.name, edit_curator_path(curator)
-              - else
-                %h4= link_to curator.name, curator_path(curator)
-                %p= curator.bio
-                -#= curator.twitter
-                -#= link_to curator_path(curator)
-            .large-3.columns
-              %h4 Latest Blog Posts
-              .borderLine
-                .borderLine-left &nbsp;
-                .borderLine-right &nbsp;
-              - curator.recent_posts.each do |post|
-                %p= link_to post.title, blog_post_path(post)
-                -#%p= post.truncated_body
-        - if admin_user?        
-          %br/
-          = link_to 'New Curator', new_curator_path
+                = button_to 'Delete', curator, method: :delete, data: { confirm: 'Are you sure?' }
+            -else
+              %li.mentor-subtitle
+                = link_to curator.name, curator_path(curator)
+            %li.mentor-desc= curator.bio
+            - curator.recent_posts.each do |post|
+              %li.mentor-bullet
+                = link_to post.title, blog_post_path(post)
+
+      - if admin_user?        
+        %br/
+        = link_to 'New Curator', new_curator_path
