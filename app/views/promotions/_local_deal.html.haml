@@ -75,12 +75,12 @@
                 %p.title
                   %a Description
                 .content
-                  %p= @promotion.description
+                  %p= seo_transform(@promotion.description)
               %section.section
                 %p.title
                   %a Limitations
                 .content
-                  %p= @promotion.limitations
+                  %p= seo_transform(@promotion.limitations)
               %section.section#mapclick
                 %p.title
                   %a Details

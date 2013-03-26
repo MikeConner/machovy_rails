@@ -77,4 +77,8 @@ module ApplicationHelper
   rescue
     puts "Could not convert #{address}"
   end
+  
+  def seo_transform(text)
+    text.gsub("\r\n\r\n","<p>").gsub("\n\n", "<p>").html_safe
+  end
 end
