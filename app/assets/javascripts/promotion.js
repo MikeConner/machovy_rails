@@ -160,18 +160,16 @@ $(function() {
   var active_strategy_element = $('#' + $('#promotion_strategy').val())
   if (active_strategy_element) {
     // Make tab label active
-    active_strategy_element.parent().addClass("active")
-    // Make tab content active
-    $(active_strategy_element.attr('href')).addClass("fade in active")
+    active_strategy_element.click();
   }
   
   // Set the promotion_strategy when the user clicks on a tab
-  $('#promotionStrategyTab .tab a').each(function() {
+  $('#promotionStrategyTab .title a').each(function() {
     var $this = $(this);
     $this.click(function (e) {
         e.preventDefault();
-        $this.tab('show');
         $('#promotion_strategy').val($this.attr('id'));
+        $this.tab('show');
     });
   });  
   
