@@ -53,6 +53,8 @@ describe "UserMailer" do
         msg.body.encoded.should match('Cannot redeem for 6 hours after purchase')
         msg.body.encoded.should match(FINE_PRINT)
         msg.body.encoded.should match(INSTRUCTIONS)
+        msg.body.encoded.should_not match(order.promotion.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT))
+        msg.body.encoded.should match(order.vouchers.first.expiration_date.try(:strftime, ApplicationHelper::DATE_FORMAT))
         order.vouchers.each do |voucher|
           msg.body.encoded.should match(voucher.uuid + ".png")
         end
