@@ -7,13 +7,8 @@
     = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
   - else
     %a{:href => promotion_path(promotion)}
-      .front-hover
-        %img{:src => promotion.teaser_image_url(:product_front_page).to_s}
-        .mask
-          %p 
-            %i.icon-plus-sign 
-            %br
-            Deals. No Limits.
+      %img{:src => promotion.teaser_image_url(:product_front_page).to_s}
+        %p 
 .content
   .desc
     %h3= link_to sanitize(promotion.title), promotion_path(promotion)
