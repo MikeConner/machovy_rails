@@ -26,6 +26,8 @@ class UserMailer < ActionMailer::Base
         mail(:to => @order.email, :cc => @order.promotion.vendor.user.email, :subject => ORDER_MESSAGE, :template_name => 'product_order_email') 
       end
     else
+      # Override with voucher expiration date; just default to this as a fail-safe
+      @expiration_date = @order.promotion.end_date
       @order.vouchers.each do |voucher|
         url = redeem_merchant_voucher_url(voucher)
         qrcode = RQRCode::QRCode.new(url.upcase, :size => RQRCode.minimum_qr_size_from_string(url.upcase), :level => :l, :offset => 50)
@@ -34,6 +36,7 @@ class UserMailer < ActionMailer::Base
         image.format('png')
   
         attachments[voucher.uuid + '.png'] = image.to_blob
+        @expiration_date = voucher.expiration_date
       end
       
       mail(:to => @order.email, :subject => ORDER_MESSAGE) 
