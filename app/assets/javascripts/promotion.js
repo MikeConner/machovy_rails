@@ -15,7 +15,7 @@ $(function() {
   $(document).foundation();
 
   if (0 == $('#affiliate_layout').length) {
-    $.backstretch(["/assets/background-img.png"])
+    $.backstretch(["/assets/background-img.jpg"])
   }
   
   jQuery(function() {
