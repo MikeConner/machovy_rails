@@ -16,7 +16,8 @@ class Merchant::VouchersController < Merchant::BaseController
       if params[:voucher_id]
         @vouchers = [Voucher.find(params[:voucher_id])]
       elsif params[:user_id]
-        @vouchers = User.find(params[:user_id]).vouchers.order('created_at desc')
+        # Filter to only show vouchers from the logged in vendor
+        @vouchers = User.find(params[:user_id]).vouchers.order('created_at desc').select { |v| v.promotion.vendor.user.id == current_user.id }
       else
         @vouchers = []
       end
