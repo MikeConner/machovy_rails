@@ -127,6 +127,15 @@ describe "Promotions" do
     promotion.affiliate_logo.should be_nil
   end
   
+  describe "Voucher consistency" do
+    let(:strategy) { FactoryGirl.create(:strategy) }
+    
+    it "should not let me extend the date" do
+      # end date > fixed promotion end date
+      expect { FactoryGirl.create(:promotion, :strategy => strategy, :end_date => 2.years.from_now) }.to raise_exception(ActiveRecord::RecordInvalid)
+    end
+  end
+  
   describe "affiliate logo" do
     let(:amazon) { FactoryGirl.create(:vendor, :name => 'Amazon', :remote_logo_image_url => 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRy1YEzNThhEgyJtqiNlDTWynu3ZV8kclh_M2kdKg6gweS9tJT6Eg') }
     let(:affiliate) { FactoryGirl.create(:affiliate, :vendor => amazon) }
