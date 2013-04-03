@@ -7,10 +7,13 @@
   .row.user-register-page
     .large-6.columns
       .sign-in-title
-        %h5 Already a member? Sign in:
+        %h3 Welcome back! <strong>Log in below.</strong>
+        %p.sub-title Deals. No Limits. Build your lifestyle here.
       .sign-in-body
         = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => 'new_user custom'}) do |f|
+          = f.label :email
           = f.email_field :email, {:placeholder => 'Email'}
+          = f.label :password
           = f.password_field :password, {:placeholder => 'Password'}
           - if devise_mapping.rememberable?
             -#= f.label :remember_me
@@ -23,23 +26,22 @@
             = render :partial => "devise/shared/sign_in_links"
     .large-6.columns
       .sign-in-title
-        %h5= I18n.t('create_account_action')
+        // %h3= I18n.t('create_account_action')
+        %h3 Sign up with a <strong>free Machovy account!</strong>
+        %p.sub-title How can we improve your lifestyle today? Let's find out!
       .sign-in-body.sign-up-block
         = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
+          = f.label :email
           %p.help-block 
             Type carefully. You will be sent a confirmation email.
           = f.email_field :email, {:placeholder => 'Email'}
+          = f.label :password
           %p.help-block
             = I18n.t('password_prompt').html_safe
           = f.password_field :password, {:placeholder => 'Password'}
+          = f.label :password_confirmation
           = f.password_field :password_confirmation, {:placeholder => 'Password Confirmation'}
           .sign-in-footer
             = f.submit I18n.t('create_account'), {:class => 'btn small'}
             = link_to 'Merchant? Create an account here', new_user_registration_path, :class => 'btn secondary small'
--#
-  <form class="custom">
-  <label for="checkbox1">
-  <input type="checkbox" id="checkbox1" style="display: none;">
-  <span class="custom checkbox"></span> Label for Checkbox
-  </label>
-  </form>
+

@@ -1,8 +1,9 @@
-= render :partial => 'shared/flash_messages'
 .admin-page-container
   .row
     .large-12.columns
       %h1= @coupon.title
+  .row
+    = render :partial => 'shared/flash_messages'
   .row.admin-page
     .large-12.columns
       %h3== Another valuable coupon from #{@coupon.vendor.name}

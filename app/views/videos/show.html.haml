@@ -1,9 +1,10 @@
-= render :partial => 'shared/flash_messages'
 .admin-page-container
   .row
     .large-12.columns
       %h1= @video.title
       %em= @video.curator.name
+  .row
+    = render :partial => 'shared/flash_messages'
   .row.admin-page
     .large-3.columns
       = render :partial => 'shared/admin_navigation'

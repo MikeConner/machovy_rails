@@ -1,7 +1,8 @@
 = render :partial => 'categories/index', :locals => { :active_category => @active_category }
-= render :partial => 'shared/flash_messages'
 - if @display_banner
   %header#machovy_banner.home-page.center
+    .row
+      = render :partial => 'shared/flash_messages'
     .row
       .large-6.columns.divide-right
         .large-12.columns

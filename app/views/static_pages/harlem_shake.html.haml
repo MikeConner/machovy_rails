@@ -1,8 +1,9 @@
-= render :partial => 'shared/flash_messages'
 .about-page-container
   .row
     .large-12.columns
       %h1== Do the Harlem Shake with #{@vendor_name} <small>Uncensored version!</small>
+  .row
+    = render :partial => 'shared/flash_messages'
   .row.about-page
     .large-12.columns
 

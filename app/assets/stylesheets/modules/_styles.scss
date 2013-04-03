@@ -86,12 +86,40 @@ img {display:block; position:relative; z-index:1;}
   opacity: 0.5;
   background-color:$red;
   width:100.5%;
-  height:100%;
+  height:100.5%;
     &:hover {
       opacity: 0.6;
       background-color:darken($red, 15%);
     }
 }
+
+.gray-bg {
+  position:absolute;
+  z-index: 4;
+  bottom:0;
+  opacity: 0.5;
+  background-color:$light_gray;
+  width:100.5%;
+  height:100.5%;
+    &:hover {
+      opacity: 0.6;
+      background-color:darken($light_gray, 15%);
+    }
+}
+
+
+
+// Sign in
+
+.help-block {
+  color:#999999;
+  font-size:0.8em;
+}
+.sign-in-title{
+  h3 {margin-bottom:0em;}
+  .sub-title {}
+}
+
 
 #filter {margin:0px auto; max-width: 1200px;}
 .main-wrap {
@@ -524,14 +552,15 @@ article {
   @include alert-base;
   @include alert-style($success-color);
   margin-bottom: 0;
-  .close { @include alert-close; }
+  .close { @include alert-close; float:right; width:auto; }
 }
 
 .alert-alert {
   @include alert-base;
   @include alert-style($alert-color);
   margin-bottom: 0;
-  .close { @include alert-close; }
+
+  .close { @include alert-close; float:right; width:auto; }
 }
 
 

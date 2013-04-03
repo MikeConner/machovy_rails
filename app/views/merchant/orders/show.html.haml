@@ -1,5 +1,6 @@
-= render :partial => 'shared/flash_messages'
 .row.blogpost-page
+  .row
+      = render :partial => 'shared/flash_messages'
   %p
     %b Purchased:
     = @order.description
