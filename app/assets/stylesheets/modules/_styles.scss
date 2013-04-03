@@ -394,8 +394,8 @@ img {display:block; position:relative; z-index:1;}
         background-color:black;
         height: 50px;
         margin-bottom: 0px!important;
-          .icon-2x {font-size:2em; margin-top:10px;}
-          a {color:white; margin:2px 15px 0px 0px;}
+          .icon-2x {font-size:2em; margin-top:10px; position:relative; right:15px;}
+          a {color:white;}
           h4 {
             color:white;
             font-weight: bold;
