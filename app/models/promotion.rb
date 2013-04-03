@@ -173,6 +173,7 @@ class Promotion < ActiveRecord::Base
             :if => :deal?
   
   validate :category_consistency
+  validate :voucher_expiration_consistency
   
   # Venue address
   validates :venue_address, :length => { maximum: MAX_ADDRESS_LEN }
@@ -393,6 +394,17 @@ class Promotion < ActiveRecord::Base
     nil
   end
 private
+  # If you extend the date on a Fixed strategy promotion beyond the voucher expiration date, you can create a situation where ordering
+  #  will fail to generate valid vouchers. You'll then have an order (and charge on the card!) with no voucher! Check for that case here.
+  def voucher_expiration_consistency
+    if !self.strategy.nil? and (FixedExpirationStrategy === self.strategy)
+      if self.strategy.end_date < self.end_date
+        self.errors.add :base, 
+          "Fixed Strategy end date (#{self.strategy.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT)} < promotion end date #{self.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT)})"        
+      end
+    end
+  end
+  
   def init_defaults
     self.grid_weight = DEFAULT_GRID_WEIGHT if new_record?
   end
