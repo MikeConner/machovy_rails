@@ -1,12 +1,20 @@
-%h1== Comments on #{@promotion.title}
-%br/
-%ul== Proposed #{@promotion.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)}
-%br/
-- @logs.each do |log|
-  %li
-    %em= log.status 
-    = log.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)
-    &nbsp;&nbsp;
-    %br/
-    = log.comment
-    %br/
+= render :partial => 'shared/flash_messages'
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1== Comments on #{@promotion.title}
+  .row.admin-page
+    - if admin_user?
+      .large-3.columns
+        = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      %ul== Proposed #{@promotion.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)}
+      %br/
+      - @logs.each do |log|
+        %li
+          %em= log.status 
+          = log.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)
+          &nbsp;&nbsp;
+          %br/
+          = log.comment
+          %br/

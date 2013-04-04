@@ -1,22 +1,27 @@
-%h1= @promotion.title
-- if @promotion.orders.empty?
-  %h3 No orders
-- else
-  %table.table.zebra-striped
-    %tr
-      %th ID
-      %th Date
-      %th Cardholder
-      %th Quantity
-      %th Total
-      %th Instructions
-      %th Notes
-    - @promotion.orders.order('LOWER(last_name)').each do |order|
-      %tr
-        %td= order.id
-        %td= order.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)
-        %td== #{order.last_name}, #{order.first_name}
-        %td= order.quantity
-        %td= number_to_currency(order.total_cost)
-        %td= order.shipping_address
-        %td= order.pickup_notes
+.about-page-container
+  .row
+    .large-12.columns
+      %h1= @promotion.title
+  .row.about-page
+    .large-9.columns
+      - if @promotion.orders.empty?
+        %h3 No orders
+      - else
+        %table.table.zebra-striped
+          %tr
+            %th ID
+            %th Date
+            %th Cardholder
+            %th Quantity
+            %th Total
+            %th Instructions
+            %th Notes
+          - @promotion.orders.order('LOWER(last_name)').each do |order|
+            %tr
+              %td= order.id
+              %td= order.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)
+              %td== #{order.last_name}, #{order.first_name}
+              %td= order.quantity
+              %td= number_to_currency(order.total_cost)
+              %td= order.shipping_address
+              %td= order.pickup_notes
