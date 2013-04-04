@@ -130,6 +130,19 @@ class Vendor < ActiveRecord::Base
     total    
   end
   
+  def time_owed
+    first_bought = Time.zone.now
+    vouchers.each do |voucher|
+      if voucher.payment_owed?
+        if voucher.redemption_date < first_bought
+          first_bought = voucher.redemption_date
+        end
+      end
+    end
+    
+   first_bought
+  end
+  
   def amount_owed
     total = 0
     orders.each do |order|

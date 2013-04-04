@@ -55,11 +55,25 @@ describe "Vendors" do
     vendor.should respond_to(:source)
     vendor.should respond_to(:coupons)
     vendor.should respond_to(:logo_image)
+    vendor.should respond_to(:time_owed)
     vendor.user.should be == user
   end
   
   it { should be_valid }
 
+  it "should not have time owed" do
+    (Time.zone.now - vendor.time_owed).round(1).should be == 0
+  end
+  
+  describe "time owed" do
+    let(:vendor) { FactoryGirl.create(:vendor_with_vouchers) }
+    before { vendor.vouchers.first.update_attributes!(:redemption_date => 1.week.ago, :status => Voucher::REDEEMED) }
+    
+    it "should have the right time owed" do
+      vendor.time_owed.to_s.should be == 1.week.ago.to_s
+    end
+  end
+  
   describe "coupons" do
     let(:vendor) { FactoryGirl.create(:vendor_with_coupons) }
     

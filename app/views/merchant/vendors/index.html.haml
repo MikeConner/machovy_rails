@@ -7,9 +7,48 @@
     .large-3.columns
       = render :partial => 'shared/admin_navigation'
     .large-9.columns
-      %h5
-        //= will_paginate
-        = page_entries_info 
+      %h3 Vendors owed payments
+      - if @owed_vendors.empty?
+        None
+        %br
+      - else
+        %table
+          %tbody
+            %tr
+              %th Name
+              %th Email
+              %th Amount Owed
+              %th Due for
+          - @owed_vendors.each do |vendor|
+            %tr
+              %td= vendor.name
+              - if vendor.user.nil?
+                %td
+              - else
+                %td= vendor.user.email
+              %td= number_to_currency(vendor.amount_owed)
+              - owed_for = vendor.time_owed
+              - if (Time.zone.now - owed_for) > 30.days
+                %td{:style => 'color:red'}= time_ago_in_words(owed_for)
+              - else
+                %td= time_ago_in_words(owed_for)
+      %h3 New Vendors this week
+      - if @new_vendors.empty?
+        None
+        %br
+      - else
+        %ol
+          - @new_vendors.each do |vendor|
+            %li
+              = vendor.created_at.try(:strftime, ApplicationHelper::DATETIME_FORMAT)
+              = vendor.name
+              - if !vendor.user.nil?
+                = vendor.user.email
+              = vendor.map_address
+      %center
+        %h5
+          = page_entries_info 
+        = will_paginate @vendors
       %table
         %tbody
           %tr
@@ -45,20 +84,5 @@
               %td= number_to_currency(vendor.total_commission)
               %td= number_to_currency(vendor.amount_owed)
               %td= link_to 'Payments', show_payments_merchant_vendor_path(vendor)
-        %br/
-        = link_to 'New Vendor', new_merchant_vendor_path
-        %center= will_paginate @vendors
-        .row
-          .large-12.columns
-            %h3 New Vendors this week
-            - if @new_vendors.empty?
-              None
-            - else
-              %ol
-                - @new_vendors.each do |vendor|
-                  %li
-                    = vendor.created_at.try(:strftime, ApplicationHelper::DATETIME_FORMAT)
-                    = vendor.name
-                    - if !vendor.user.nil?
-                      = vendor.user.email
-                    = vendor.map_address
+        %br
+      = link_to 'New Vendor', new_merchant_vendor_path
