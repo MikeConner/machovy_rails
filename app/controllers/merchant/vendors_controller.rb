@@ -95,6 +95,8 @@ class Merchant::VendorsController < Merchant::BaseController
   def index
     @vendors = Vendor.find(:all, :order => "LOWER(name)").paginate(:page => params[:page])
     @new_vendors = Vendor.where('created_at > ?', 1.week.ago).order('LOWER(name)')
+    @owed_vendors = Vendor.all.select { |v| v.amount_owed > 0 }
+    
     render :layout => 'layouts/admin'
   end
 
