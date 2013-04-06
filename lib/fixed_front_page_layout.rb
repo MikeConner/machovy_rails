@@ -92,7 +92,9 @@ class FixedFrontPageLayout
     @layout = []
 
     # Cannot render anything if we have literally no deals
-    return if @deals.empty? or @blog_posts.empty? or @non_deals.empty?
+    # Have to tolerate missing "non-deals," at least for now, or categories without associated non-deals (e.g., exclusive categories)
+    #   will cause an empty display
+    return if @deals.empty? or @blog_posts.empty?
 
     @deal_idx = 0
     @non_deal_idx = 0
@@ -110,6 +112,21 @@ class FixedFrontPageLayout
       # Get a randomly selected pattern array of the appropriate column configuration
       np = next_pattern
       p = PATTERNS[@num_columns][np]
+      
+      # Have to reject patterns that contain non-deals if we don't have any!
+      if @non_deals.empty?
+        abort = false
+        
+        p.each do |partial|
+          if NON_DEAL == partial
+            abort = true
+            break
+          end
+        end
+        
+        next if abort
+      end
+      
       page_length += @num_columns
       p.each do |partial|
         if BIG_DEAL == partial
@@ -137,7 +154,7 @@ class FixedFrontPageLayout
       # Terminate if we're exactly at the end      
       @deals_remaining = false if @deals.length == @deal_idx
       
-      if 0 == row_cnt
+      if (0 == row_cnt) or !@deals_remaining
         @page_end[page_idx] = page_length - 1
         
         page_idx += 1
