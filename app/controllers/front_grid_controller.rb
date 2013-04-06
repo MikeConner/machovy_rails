@@ -73,9 +73,8 @@ class FrontGridController < ApplicationController
   # Internal feed of a given vendor's promotions, displayed on Machovy (e.g., Harlem Shake -> Erotica deals)
   def machovy_feed
     @deals_per_row = Promotion::DEALS_PER_ROW
-    non_exclusive = Category.non_exclusive.map { |c| c.id }
     vendor = Vendor.find_by_name(params[:vendor])
-    @promotions = vendor.nil? ? [] : Promotion.front_page.select { |p| (p.displayable? or p.zombie? or p.coming_soon?) and (p.vendor.id == vendor.id) and !(p.category_ids & non_exclusive).empty? }.sort    
+    @promotions = vendor.nil? ? [] : Promotion.front_page.select { |p| (p.displayable? or p.zombie? or p.coming_soon?) and (p.vendor.id == vendor.id) }.sort    
     @target = nil
     
     render 'external_feed', :layout => 'layouts/machovy_feed'
