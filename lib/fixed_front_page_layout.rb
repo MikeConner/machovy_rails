@@ -114,18 +114,7 @@ class FixedFrontPageLayout
       p = PATTERNS[@num_columns][np]
       
       # Have to reject patterns that contain non-deals if we don't have any!
-      if @non_deals.empty?
-        abort = false
-        
-        p.each do |partial|
-          if NON_DEAL == partial
-            abort = true
-            break
-          end
-        end
-        
-        next if abort
-      end
+      next if @non_deals.empty? and p.include?(NON_DEAL)
       
       page_length += @num_columns
       p.each do |partial|
