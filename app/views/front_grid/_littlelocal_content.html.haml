@@ -1,14 +1,14 @@
 .image
   - if promotion.coming_soon?
     %img.zombie_image(src="/assets/coming_soon.png")
-    = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion), :style => 'opacity:0.4;'
+    = link_to image_tag(promotion.teaser_image_url(:narrow_front_page).to_s), promotion_path(promotion), :style => 'opacity:0.4;'
   - elsif promotion.zombie?
     %img.zombie_image(src="/assets/sold_out.png")
-    = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion_path(promotion)
+    = link_to image_tag(promotion.teaser_image_url(:narrow_front_page).to_s), promotion_path(promotion)
   - else
     %a{:href => promotion_path(promotion)}
       .front-hover
-        %img{:src => promotion.teaser_image_url(:product_front_page).to_s}
+        %img{:src => promotion.teaser_image_url(:narrow_front_page).to_s}
         .mask
           %p 
             %i.icon-plus-sign 

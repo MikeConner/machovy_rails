@@ -1,5 +1,5 @@
 .image
-  - promotion_image_url = @mobile ? promotion.teaser_image_url(:product_detail).to_s : promotion.teaser_image_url(:product_front_page).to_s
+  - promotion_image_url = @mobile ? promotion.teaser_image_url(:product_detail).to_s : promotion.teaser_image_url(:wide_front_page).to_s
   - if promotion.coming_soon?
     %img.zombie_image(src="/assets/coming_soon.png")
     = link_to image_tag(promotion_image_url), promotion_path(promotion), :style => 'opacity:0.4;'
@@ -9,7 +9,7 @@
   - else
     %a{:href => promotion_path(promotion)}
       .front-hover
-        %img{:src => promotion.teaser_image_url(:product_front_page).to_s}
+        %img{:src => promotion.teaser_image_url(:wide_front_page).to_s}
         .mask
           %p 
             %i.icon-plus-sign 

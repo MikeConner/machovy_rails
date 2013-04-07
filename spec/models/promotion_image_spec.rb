@@ -22,6 +22,10 @@ describe "PromotionImages" do
     image.should respond_to(:caption)
     image.should respond_to(:slideshow_image)
     image.should respond_to(:remote_slideshow_image_url)
+    image.should respond_to(:I3crop_x)
+    image.should respond_to(:I3crop_y)
+    image.should respond_to(:I3crop_w)
+    image.should respond_to(:I3crop_h)
     image.promotion.should be == promotion
   end
   

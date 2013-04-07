@@ -112,6 +112,22 @@ describe "Promotions" do
     promotion.should respond_to(:venue_location)
     promotion.should respond_to(:venue_geocode_location)
     promotion.should respond_to(:affiliate_logo)
+    promotion.should respond_to(:BDcrop_x)
+    promotion.should respond_to(:BDcrop_y)
+    promotion.should respond_to(:BDcrop_w)
+    promotion.should respond_to(:BDcrop_h)
+    promotion.should respond_to(:LDcrop_x)
+    promotion.should respond_to(:LDcrop_y)
+    promotion.should respond_to(:LDcrop_w)
+    promotion.should respond_to(:LDcrop_h)
+    promotion.should respond_to(:I2crop_x)
+    promotion.should respond_to(:I2crop_y)
+    promotion.should respond_to(:I2crop_w)
+    promotion.should respond_to(:I2crop_h)
+    promotion.should respond_to(:I3crop_x)
+    promotion.should respond_to(:I3crop_y)
+    promotion.should respond_to(:I3crop_w)
+    promotion.should respond_to(:I3crop_h)
     promotion.metro.should be == metro
     promotion.vendor.should be == vendor
     promotion.promotion_type.should be == Promotion::LOCAL_DEAL

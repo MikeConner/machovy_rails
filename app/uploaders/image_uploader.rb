@@ -81,15 +81,16 @@ class ImageUploader < CarrierWave::Uploader::Base
   version :pre_crop, :if => :promotion? do
     process :resize_to_limit => [600,10000]
   end
+  
   version :wide_front_page, :if => :promotion? do
     process :crop_wide
     process :resize_to_fill => [475, 215]
   end
+  
   version :narrow_front_page, :if => :promotion? do
     process :crop_narrow
     process :resize_to_fill => [275, 215]
   end
-
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
@@ -105,8 +106,6 @@ class ImageUploader < CarrierWave::Uploader::Base
 
 
   # Crop processor
-
- 
   def crop_wide
     if true_promotion?
       if model.BDcrop_x.present?
@@ -163,13 +162,14 @@ class ImageUploader < CarrierWave::Uploader::Base
  
 protected
   def true_promotion?
-    model.class.name == "Promotion"  
+    Promotion === model
   end
+  
   def promotion_image?
-    model.class.name == "PromotionImage" 
+    PromotionImage === model
   end
+  
   def promotion?(new_file)
-    model.class.name == "Promotion" || model.class.name =="PromotionImage" 
+    (Promotion === model) || (PromotionImage === model)
   end
-
 end

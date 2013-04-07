@@ -13,7 +13,7 @@ class PromotionsController < ApplicationController
   # Only SuperAdmins (and vendors) can edit local deals
   before_filter :ensure_vendor_or_super_admin, :only => [:edit]
   before_filter :ensure_correct_vendor, :only => [:edit, :show_logs, :accept_edits, :reject_edits, :product_view]
-  before_filter :admin_only, :only => [:manage, :review]
+  before_filter :admin_only, :only => [:manage, :review, :crop, :crop_image]
   before_filter :validate_eligible, :only => [:order]
   before_filter :transform_prices, :only => [:create, :update]
   after_filter :update_versions, :only => [:crop_image]
@@ -443,11 +443,9 @@ class PromotionsController < ApplicationController
   
   def crop
     @promotion.promotion_images.build unless @promotion.promotion_images.count > 0
-    if admin_user?
-      
-      render :layout => 'layouts/admin'
-    end
+    render :layout => 'layouts/admin'
   end
+  
   def crop_image
     @promotion = Promotion.find(params[:id])
     # This line ensures there is a category_id entry, and allows users to clear their selection
@@ -473,24 +471,8 @@ class PromotionsController < ApplicationController
     @promotion.I3crop_h = params[:promotion]["I3crop_w"]
     @promotion.I3crop_w = params[:promotion]["I3crop_h"]
 
-    #if !@promotion.teaser_image.file.nil? and @promotion.teaser_image.file.exists? 
-    #  @promotion.teaser_image.wide_front_page.crop_wide(params[:promotion]["BCcrop_x"], params[:promotion]["BCcrop_y"],params[:promotion]["BCcrop_w"], params[:promotion]["BCcrop_h"])
-    #  @promotion.teaser_image.wide_front_page.store! 
-    
-      render 'crop', :layout => admin_user? ? 'layouts/admin' : 'layouts/application'   
-
-    #else
-    #  redirect_to root_path
-    #end
-
-    
-  
-   # rescue
-   #   @promotion.errors.add :base, I18n.t('image_error')
-   #
-   #   @promotion.promotion_images.build unless @promotion.promotion_images.count > 0
+    render 'crop', :layout => 'layouts/admin'
   end
-
 
 private  
   # Need to check for displayable, since we're also showing "zombie" deals that have sold out, or "coming soon" deals that are pending
@@ -558,21 +540,16 @@ private
     end    
   end
 
-
   def update_versions
-
-
-
     if !@promotion.teaser_image.file.nil? and @promotion.teaser_image.file.exists?
       @promotion.teaser_image.recreate_versions!(:pre_crop)
       @promotion.teaser_image.recreate_versions!(:wide_front_page)
       @promotion.teaser_image.recreate_versions!(:narrow_front_page)
-
     end
+    
     if !@promotion.main_image.file.nil? and @promotion.main_image.file.exists?
       @promotion.main_image.recreate_versions!(:pre_crop)
       @promotion.main_image.recreate_versions!(:narrow_front_page)
-
     end
 
     @promotion.promotion_images.each do |slideshow|
@@ -584,9 +561,6 @@ private
         slideshow.slideshow_image.recreate_versions!(:narrow_front_page)
       end
     end    
-
-
   end
-
-
 end
+
