@@ -36,7 +36,13 @@
             = f.text_field attribute, :id => attribute
 
 .box
-  %h4.box-header.round-top= "Promotion Page Image"
+  %h4.box-header.round-top= "Promotion Page Image:Main Image"
+  .large-12.columns
+    %h4 Current Cropping
+    .row
+      .large-6.columns
+        = image_tag(f.object.main_image_url(:narrow_front_page).to_s)
+
   .large-12.columns
     %fieldset
       .row
@@ -50,9 +56,23 @@
           - for attribute in [ :I2crop_x, :I2crop_y, :I2crop_w, :I2crop_h]
             = f.text_field attribute, :id => attribute 
             
+.box
+  %h4.box-header.round-top= "Promotion Page Image:Additional Image"
+  .large-12.columns
+    %h4 Current Cropping
+    .row
+      .large-6.columns
+        = f.fields_for :promotion_images do |f2|
+          - if f2.object.slideshow_image.file.nil?
+            %h4= I18n.t('no_image') unless f2.object.new_record?
+          - else
+            - if f2.object.slideshow_image.pre_crop.file.nil?
+              No Pre Crop!
+            - else
+              = image_tag(f2.object.slideshow_image_url(:narrow_front_page).to_s)
+
 
 .box
-  %h4.box-header.round-top= "Promotion Page Image"
   .large-12.columns
     %fieldset
       .row
@@ -61,7 +81,10 @@
             - if f2.object.slideshow_image.file.nil?
               %h4= I18n.t('no_image') unless f2.object.new_record?
             - else
-              = image_tag(f2.object.slideshow_image_url(:pre_crop).to_s, :id=> "promo2")
+              - if f2.object.slideshow_image.pre_crop.file.nil?
+                No Pre Crop!
+              - else
+                = image_tag(f2.object.slideshow_image_url(:pre_crop).to_s, :id=> "promo2")
         .large-2.columns
           %h4 Promotion View Format Crop
           - for attribute in [ :I3crop_x, :I3crop_y, :I3crop_w, :I3crop_h]

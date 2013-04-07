@@ -27,7 +27,7 @@ $(function() {
   $('#promo2').Jcrop({
     onChange: update_cropI3,
     onSelect: update_cropI3,
-    setSelect: [0, 0, 275, 215],
+    setSelect: [0, 0, 600, 549],
     aspectRatio: 1.09302326
   });
 

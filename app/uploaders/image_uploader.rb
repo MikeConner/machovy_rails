@@ -37,15 +37,17 @@ class ImageUploader < CarrierWave::Uploader::Base
   # end
 
   # Create different versions of your uploaded files:
+  #used for curators and promotions
   version :product_front_page do
     process :resize_to_fill => [470, 470]
   end
 
-  version :product_detail do
+  version :product_detail, :if => :promotion? do
     process :resize_to_fill => [400, 200]
   end
   
   # deal or affiliate (listing)  
+  #used for promotion and blog images
   version :product_thumb do
     process :resize_to_fill => [60, 60]
   end
@@ -76,14 +78,14 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
    
   #Cropping
-  version :pre_crop do
+  version :pre_crop, :if => :promotion? do
     process :resize_to_limit => [600,10000]
   end
-  version :wide_front_page do
+  version :wide_front_page, :if => :promotion? do
     process :crop_wide
     process :resize_to_fill => [475, 215]
   end
-  version :narrow_front_page do
+  version :narrow_front_page, :if => :promotion? do
     process :crop_narrow
     process :resize_to_fill => [275, 215]
   end
@@ -106,31 +108,68 @@ class ImageUploader < CarrierWave::Uploader::Base
 
  
   def crop_wide
-    if model.BDcrop_x.present?
-      resize_to_limit(600,10000)
-      manipulate! do |img|
-        x = model.BDcrop_x.to_i
-        y = model.BDcrop_y.to_i
-        w = model.BDcrop_w.to_i
-        h = model.BDcrop_h.to_i
-        img.crop!(x, y, h, w)
+    if true_promotion?
+      if model.BDcrop_x.present?
+        resize_to_limit(600,10000)
+        manipulate! do |img|
+          x = model.BDcrop_x.to_i
+          y = model.BDcrop_y.to_i
+          w = model.BDcrop_w.to_i
+          h = model.BDcrop_h.to_i
+          img.crop!(x, y, h, w)
+        end
       end
     end
   end
  
   def crop_narrow
-    if model.LDcrop_x.present?
-      resize_to_limit(600,10000)
-      manipulate! do |img|
-        x = model.LDcrop_x.to_i
-        y = model.LDcrop_y.to_i
-        w = model.LDcrop_w.to_i
-        h = model.LDcrop_h.to_i
-        img.crop!(x, y, h, w)
+    if true_promotion?
+      if model.LDcrop_x.present? && mounted_as.to_s == "teaser_image"
+        resize_to_limit(600,10000)
+        manipulate! do |img|
+          x = model.LDcrop_x.to_i
+          y = model.LDcrop_y.to_i
+          w = model.LDcrop_w.to_i
+          h = model.LDcrop_h.to_i
+          img.crop!(x, y, h, w)
+        end
+      else
+        if model.I2crop_x.present? && mounted_as.to_s == "main_image"
+          resize_to_limit(600,10000)
+          manipulate! do |img|
+            x = model.I2crop_x.to_i
+            y = model.I2crop_y.to_i
+            w = model.I2crop_w.to_i
+            h = model.I2crop_h.to_i
+            img.crop!(x, y, h, w)
+          end
+        end
+      end
+    else
+      if promotion_image?
+        if model.I3crop_x.present? && mounted_as.to_s == "slideshow_image"
+          resize_to_limit(600,10000)
+          manipulate! do |img|
+            x = model.I3crop_x.to_i
+            y = model.I3crop_y.to_i
+            w = model.I3crop_w.to_i
+            h = model.I3crop_h.to_i
+            img.crop!(x, y, h, w)
+          end
+        end
       end
     end
   end
  
-
+protected
+  def true_promotion?
+    model.class.name == "Promotion"  
+  end
+  def promotion_image?
+    model.class.name == "PromotionImage" 
+  end
+  def promotion?(new_file)
+    model.class.name == "Promotion" || model.class.name =="PromotionImage" 
+  end
 
 end

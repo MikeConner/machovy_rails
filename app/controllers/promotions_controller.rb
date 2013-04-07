@@ -17,7 +17,7 @@ class PromotionsController < ApplicationController
   before_filter :validate_eligible, :only => [:order]
   before_filter :transform_prices, :only => [:create, :update]
   after_filter :update_versions, :only => [:crop_image]
-
+  
   load_and_authorize_resource
 
   # GET /promotions
@@ -463,16 +463,25 @@ class PromotionsController < ApplicationController
     @promotion.LDcrop_h = params[:promotion]["LDcrop_w"]
     @promotion.LDcrop_w = params[:promotion]["LDcrop_h"]
 
+    @promotion.I2crop_x = params[:promotion]["I2crop_x"]
+    @promotion.I2crop_y = params[:promotion]["I2crop_y"]
+    @promotion.I2crop_h = params[:promotion]["I2crop_w"]
+    @promotion.I2crop_w = params[:promotion]["I2crop_h"]
 
-    if !@promotion.teaser_image.file.nil? and @promotion.teaser_image.file.exists? 
+    @promotion.I3crop_x = params[:promotion]["I3crop_x"]
+    @promotion.I3crop_y = params[:promotion]["I3crop_y"]
+    @promotion.I3crop_h = params[:promotion]["I3crop_w"]
+    @promotion.I3crop_w = params[:promotion]["I3crop_h"]
+
+    #if !@promotion.teaser_image.file.nil? and @promotion.teaser_image.file.exists? 
     #  @promotion.teaser_image.wide_front_page.crop_wide(params[:promotion]["BCcrop_x"], params[:promotion]["BCcrop_y"],params[:promotion]["BCcrop_w"], params[:promotion]["BCcrop_h"])
     #  @promotion.teaser_image.wide_front_page.store! 
     
       render 'crop', :layout => admin_user? ? 'layouts/admin' : 'layouts/application'   
 
-    else
-      redirect_to root_path
-    end
+    #else
+    #  redirect_to root_path
+    #end
 
     
   
@@ -549,9 +558,33 @@ private
     end    
   end
 
+
   def update_versions
-    @promotion.teaser_image.recreate_versions!(:wide_front_page)
-    @promotion.teaser_image.recreate_versions!(:narrow_front_page)
+
+
+
+    if !@promotion.teaser_image.file.nil? and @promotion.teaser_image.file.exists?
+      @promotion.teaser_image.recreate_versions!(:pre_crop)
+      @promotion.teaser_image.recreate_versions!(:wide_front_page)
+      @promotion.teaser_image.recreate_versions!(:narrow_front_page)
+
+    end
+    if !@promotion.main_image.file.nil? and @promotion.main_image.file.exists?
+      @promotion.main_image.recreate_versions!(:pre_crop)
+      @promotion.main_image.recreate_versions!(:narrow_front_page)
+
+    end
+
+    @promotion.promotion_images.each do |slideshow|
+      if !slideshow.slideshow_image.file.nil? and slideshow.slideshow_image.file.exists?
+        slideshow.I3crop_h = @promotion.I3crop_h
+        slideshow.I3crop_w = @promotion.I3crop_w
+        slideshow.I3crop_y = @promotion.I3crop_y
+        slideshow.I3crop_x = @promotion.I3crop_x
+        slideshow.slideshow_image.recreate_versions!(:narrow_front_page)
+      end
+    end    
+
 
   end
 

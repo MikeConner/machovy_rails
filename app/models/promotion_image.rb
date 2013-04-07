@@ -26,7 +26,8 @@ class PromotionImage < ActiveRecord::Base
   MAX_CAPTION_LEN = 64
     
   attr_accessible :caption, :slideshow_image, :remote_slideshow_image_url
-  
+  attr_accessor :I3crop_x, :I3crop_y, :I3crop_w, :I3crop_h
+
   belongs_to :promotion
   
   mount_uploader :slideshow_image, ImageUploader

@@ -1,6 +1,6 @@
 namespace :db do
   desc "Verify images are present"
-  task :image_check => :environment do
+  task :pre_crop => :environment do
     # Grab the last argument (first is db:image_check)
     arg = ARGV.last
     # If you give rake two arguments; it will try to run two tasks; create a dummy task with the name of the argument to avoid an error
@@ -11,26 +11,9 @@ namespace :db do
     if recreate_images
       puts "Recreating Images"
     end 
+   
     
-    puts "Checking Blog Posts..."
-    BlogPost.all.each do |post|
-      if post.associated_image.file.nil? or !post.associated_image.file.exists?
-        puts "Blog Post #{post.id} (#{post.title}) missing associated image #{post.associated_image_url}"     
-      elsif recreate_images
-        post.associated_image.recreate_versions!   
-      end
-    end
-    
-    puts "Checking Curators..."
-    Curator.all.each do |curator|
-      if curator.picture.file.nil? or !curator.picture.file.exists?
-        puts "Curator #{!curator.id} (#{!curator.name}) missing picture #{!curator.picture_url}"        
-      elsif recreate_images
-        curator.picture.recreate_versions!   
-      end
-    end
-    
-    puts "Checking Promotions..."
+    puts "Checking Promotions for pre_crop..."
     Promotion.all.each do |promotion|
       if promotion.teaser_image.file.nil? or !promotion.teaser_image.file.exists?
         puts "Promotion #{promotion.id} (#{promotion.title}) missing teaser image #{promotion.teaser_image_url}"
