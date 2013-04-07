@@ -75,6 +75,20 @@ class ImageUploader < CarrierWave::Uploader::Base
     process :resize_to_fill => [100, 100]
   end
    
+  #Cropping
+  version :pre_crop do
+    process :resize_to_limit => [600,10000]
+  end
+  version :wide_front_page do
+    process :crop_wide
+    process :resize_to_fill => [475, 215]
+  end
+  version :narrow_front_page do
+    process :crop_narrow
+    process :resize_to_fill => [275, 215]
+  end
+
+
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   # def extension_white_list
@@ -86,5 +100,37 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
+
+
+  # Crop processor
+
+ 
+  def crop_wide
+    if model.BDcrop_x.present?
+      resize_to_limit(600,10000)
+      manipulate! do |img|
+        x = model.BDcrop_x.to_i
+        y = model.BDcrop_y.to_i
+        w = model.BDcrop_w.to_i
+        h = model.BDcrop_h.to_i
+        img.crop!(x, y, h, w)
+      end
+    end
+  end
+ 
+  def crop_narrow
+    if model.LDcrop_x.present?
+      resize_to_limit(600,10000)
+      manipulate! do |img|
+        x = model.LDcrop_x.to_i
+        y = model.LDcrop_y.to_i
+        w = model.LDcrop_w.to_i
+        h = model.LDcrop_h.to_i
+        img.crop!(x, y, h, w)
+      end
+    end
+  end
+ 
+
 
 end

@@ -14,6 +14,7 @@
         %th Quantity
       %th Log
       %th Delete
+      %th Crop
   %tbody
     - p_list.each do |p|
       %tr
@@ -43,5 +44,7 @@
           %td= button_to "Delete", p, :class => "btn tiny", :method => :delete, :data => { confirm: 'Are you sure?' }
         - else
           %td
+        %td= button_to 'Crop', crop_promotion_path(p), :method => :get,  :class => 'btn tiny'
+
 %center
   = will_paginate p_list, :param_name => param_name

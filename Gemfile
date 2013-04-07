@@ -72,7 +72,7 @@ gem 'omniauth-facebook', '1.4.1'
 gem 'rails_admin'
 
 # for images on s3
-gem 'carrierwave', '0.6.2'
+gem 'carrierwave', '0.8.0'
 gem 'fog'
 #for heroku, have to use this to get to imagemagick
 gem 'rmagick', '2.13.1'

@@ -46,6 +46,8 @@ MachovyRails::Application.routes.draw do
       put 'accept_edits'
       put 'reject_edits'
       put 'update_weight'
+      get 'crop'
+      put 'crop_image'
     end
     
     collection do

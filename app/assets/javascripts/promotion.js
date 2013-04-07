@@ -2,6 +2,35 @@
 //-----------------------------------------
 
 $(function() {
+
+
+  $('#teaserBD').Jcrop({
+    onChange: update_cropBD,
+    onSelect: update_cropBD,
+    setSelect: [0, 0, 600, 271.5],
+    aspectRatio: 2.20930233
+  });
+  $('#teaserLD').Jcrop({
+    onChange: update_cropLD,
+    onSelect: update_cropLD,
+    setSelect: [0, 0, 600, 549],
+    aspectRatio: 1.09302326
+  });
+
+  $('#promo1').Jcrop({
+    onChange: update_cropI2,
+    onSelect: update_cropI2,
+    setSelect: [0, 0, 600, 549],
+    aspectRatio: 1.09302326
+  });
+
+  $('#promo2').Jcrop({
+    onChange: update_cropI3,
+    onSelect: update_cropI3,
+    setSelect: [0, 0, 275, 215],
+    aspectRatio: 1.09302326
+  });
+
   // Send width if we're on the main page AND there's no deal content yet
   if (($('.display_front_page').length > 0) && (0 == $('#deal_content').length)) {
     update_width($(window).width(), false);
@@ -183,6 +212,49 @@ $(function() {
   });
 
 });
+
+
+function update_cropBD(coords) {
+  var rx = 100/coords.w;
+  var ry = 100/coords.h;
+  var ratio = 1;
+  $("#BDcrop_x").val(Math.round(coords.x * ratio));
+  $("#BDcrop_y").val(Math.round(coords.y * ratio));
+  $("#BDcrop_w").val(Math.round(coords.w * ratio));
+  $("#BDcrop_h").val(Math.round(coords.h * ratio));
+}
+function update_cropLD(coords) {
+  var rx = 100/coords.w;
+  var ry = 100/coords.h;
+
+  var ratio = 1;
+  $("#LDcrop_x").val(Math.round(coords.x * ratio));
+  $("#LDcrop_y").val(Math.round(coords.y * ratio));
+  $("#LDcrop_w").val(Math.round(coords.w * ratio));
+  $("#LDcrop_h").val(Math.round(coords.h * ratio));
+
+}
+
+function update_cropI2(coords) {
+  var rx = 100/coords.w;
+  var ry = 100/coords.h;
+  var ratio = 1;
+  $("#I2crop_x").val(Math.round(coords.x * ratio));
+  $("#I2crop_y").val(Math.round(coords.y * ratio));
+  $("#I2crop_w").val(Math.round(coords.w * ratio));
+  $("#I2crop_h").val(Math.round(coords.h * ratio));
+}
+
+
+function update_cropI3(coords) {
+  var rx = 100/coords.w;
+  var ry = 100/coords.h;
+  var ratio = 1;
+  $("#I3crop_x").val(Math.round(coords.x * ratio));
+  $("#I3crop_y").val(Math.round(coords.y * ratio));
+  $("#I3crop_w").val(Math.round(coords.w * ratio));
+  $("#I3crop_h").val(Math.round(coords.h * ratio));
+}
 
 function fix_map(map) {
   google.maps.event.trigger(map, "resize");

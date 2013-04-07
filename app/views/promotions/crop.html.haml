@@ -1,0 +1,17 @@
+= render :partial => 'shared/flash_messages'
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1== Editing #{@promotion.title}
+      =debug(params)
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      = render :partial => 'shared/error_messages', :locals => { :errors => @promotion.errors, :name => 'Promotion' }
+      %h4== Editing #{@promotion.title}
+      //%p= params.to_s
+      = form_for @promotion, :url => { :action => 'crop_image' }, :html => { multipart: true } do |f|
+        = render :partial => 'shared/error_messages', :locals => { :errors => @promotion.errors, :name => 'Promotion' }
+        -# Grid weight is validated, so it has to be in the form, but customers can't see it
+        = render :partial => 'shared/promotion_images', :locals => { :f => f}

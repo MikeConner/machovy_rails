@@ -16,7 +16,8 @@ class PromotionsController < ApplicationController
   before_filter :admin_only, :only => [:manage, :review]
   before_filter :validate_eligible, :only => [:order]
   before_filter :transform_prices, :only => [:create, :update]
-  
+  after_filter :update_versions, :only => [:crop_image]
+
   load_and_authorize_resource
 
   # GET /promotions
@@ -440,6 +441,48 @@ class PromotionsController < ApplicationController
     end
   end
   
+  def crop
+    @promotion.promotion_images.build unless @promotion.promotion_images.count > 0
+    if admin_user?
+      
+      render :layout => 'layouts/admin'
+    end
+  end
+  def crop_image
+    @promotion = Promotion.find(params[:id])
+    # This line ensures there is a category_id entry, and allows users to clear their selection
+    params[:promotion][:category_ids] ||= []
+    
+    @promotion.BDcrop_x = params[:promotion]["BDcrop_x"]
+    @promotion.BDcrop_y = params[:promotion]["BDcrop_y"]
+    @promotion.BDcrop_h = params[:promotion]["BDcrop_w"]
+    @promotion.BDcrop_w = params[:promotion]["BDcrop_h"]
+
+    @promotion.LDcrop_x = params[:promotion]["LDcrop_x"]
+    @promotion.LDcrop_y = params[:promotion]["LDcrop_y"]
+    @promotion.LDcrop_h = params[:promotion]["LDcrop_w"]
+    @promotion.LDcrop_w = params[:promotion]["LDcrop_h"]
+
+
+    if !@promotion.teaser_image.file.nil? and @promotion.teaser_image.file.exists? 
+    #  @promotion.teaser_image.wide_front_page.crop_wide(params[:promotion]["BCcrop_x"], params[:promotion]["BCcrop_y"],params[:promotion]["BCcrop_w"], params[:promotion]["BCcrop_h"])
+    #  @promotion.teaser_image.wide_front_page.store! 
+    
+      render 'crop', :layout => admin_user? ? 'layouts/admin' : 'layouts/application'   
+
+    else
+      redirect_to root_path
+    end
+
+    
+  
+   # rescue
+   #   @promotion.errors.add :base, I18n.t('image_error')
+   #
+   #   @promotion.promotion_images.build unless @promotion.promotion_images.count > 0
+  end
+
+
 private  
   # Need to check for displayable, since we're also showing "zombie" deals that have sold out, or "coming soon" deals that are pending
   #   Displayable will be false in either case
@@ -505,4 +548,12 @@ private
       params[:promotion][:price].gsub!('$', '') unless params[:promotion][:price].nil?
     end    
   end
+
+  def update_versions
+    @promotion.teaser_image.recreate_versions!(:wide_front_page)
+    @promotion.teaser_image.recreate_versions!(:narrow_front_page)
+
+  end
+
+
 end

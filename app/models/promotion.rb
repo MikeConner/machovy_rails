@@ -56,6 +56,7 @@ class Promotion < ActiveRecord::Base
   extend FriendlyId
   friendly_id :title, use: [:slugged, :history]
 
+
   include ApplicationHelper
   
   MAX_STR_LEN = 16
@@ -105,6 +106,11 @@ class Promotion < ActiveRecord::Base
                   :metro_id, :vendor_id, :category_ids, :blog_post_ids, :promotion_image_ids, :promotion_images_attributes, 
 									:teaser_image_cache, :main_image_cache
 
+  attr_accessor :BDcrop_x, :BDcrop_y, :BDcrop_w, :BDcrop_h
+  attr_accessor :LDcrop_x, :LDcrop_y, :LDcrop_w, :LDcrop_h
+  attr_accessor :I2crop_x, :I2crop_y, :I2crop_w, :I2crop_h
+  attr_accessor :I3crop_x, :I3crop_y, :I3crop_w, :I3crop_h
+  
   # Mounted fields
   mount_uploader :main_image, ImageUploader  
   mount_uploader :teaser_image, ImageUploader
