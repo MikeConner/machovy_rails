@@ -38,10 +38,9 @@
                     .content
                       .spread
                         %fb:comments{:numposts => "4", :title => "Comments", :simple => "1", :href => "https://#{request.host+request.fullpath}".to_s}
-  .row.related-curator
-    - if !@curators.empty?        
-      .large-12.columns
-        .row
+    .row
+      - if !@curators.empty?        
+        .large-12.columns
           %h4 Mentors talking about similar deals
           - @curators.each do |curator|
             = render :partial => 'associated_curator', :locals => { :promotion => @promotion, :curator => curator }

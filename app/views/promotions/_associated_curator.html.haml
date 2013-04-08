@@ -1,12 +1,11 @@
 .large-4.columns
   .row.curator-row
-    .large-4.columns
+    .large-4.columns.x-padding
       = link_to(image_tag(curator.picture_url(:contributor_photo).to_s), curator_path(curator))
     .large-8.columns.curator-name
       %h5= link_to curator.name, curator_path(curator)
-  .row.curator-post-row
-    .large-12.columns.curator-post-title
+      %p Certified Mentor
       - curator.blog_posts_for(promotion).each do |post|
-        .icon-circle-arrow-right
+        .icon-double-angle-right
         = link_to truncate(post.title, :length => 32), blog_post_path(post)
         %br/
