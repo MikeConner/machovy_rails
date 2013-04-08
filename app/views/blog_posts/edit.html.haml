@@ -3,6 +3,8 @@
   .row
     .large-12.columns
       %h1 Edit Blog Post
+  .row
+    = render :partial => 'shared/flash_messages'
   .row.admin-page
     .large-3.columns
       = render :partial => 'shared/admin_navigation'

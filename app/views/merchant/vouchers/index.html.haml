@@ -1,8 +1,9 @@
-= render 'shared/flash_messages'
 .my-orders-page-container
   .row
     .large-12.columns
       %h1 Purchased Vouchers
+  .row
+    = render :partial => 'shared/flash_messages'
   .row.my-orders-page
     .large-10.columns
       - if !current_user.is_customer?

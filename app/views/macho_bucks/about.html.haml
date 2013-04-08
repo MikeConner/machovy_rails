@@ -1,8 +1,9 @@
-= render :partial => 'shared/flash_messages'
 .about-page-container
   .row
     .large-12.columns
       %h1= I18n.t('macho_bucks')
+  .row
+    = render :partial => 'shared/flash_messages'
   .row.about-page
     .large-12.columns
       .large-4.columns

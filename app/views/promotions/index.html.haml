@@ -1,8 +1,9 @@
-= render :partial => 'shared/flash_messages'
 .create-promotion-page-container
   .row
     .large-12.columns
       %h1== #{I18n.t('promotions.index_heading')} <small>Make yours count</small>
+  .row
+    = render :partial => 'shared/flash_messages'
   .row.create-promotion-page
     -# Need this to display confirmation notice on vendor signup
     = link_to "<i class='icon-plus'></i> Create Promotion".html_safe, new_promotion_path(:promotion_type => Promotion::LOCAL_DEAL),{:class => 'btn success', :style => 'margin-bottom:0px;'}  

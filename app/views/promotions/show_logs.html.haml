@@ -1,8 +1,9 @@
-= render :partial => 'shared/flash_messages'
 .admin-page-container
   .row
     .large-12.columns
       %h1== Comments on #{@promotion.title}
+  .row
+    = render :partial => 'shared/flash_messages'
   .row.admin-page
     - if admin_user?
       .large-3.columns
