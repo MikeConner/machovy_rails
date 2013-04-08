@@ -352,6 +352,10 @@ img {display:block; position:relative; z-index:1;}
   height: 380px;
   background-color:white;
     // img {width:235px; height:215px;}
+    img {
+      @include transition(transform 300ms ease-in-out);
+      &:hover {@include transition(transform 300ms ease-in-out); @include scale(1.3); }
+    }
     .image {position:relative; z-index:0; overflow:hidden; height:215px; width:100.5%; }
     a {overflow:hidden; width:100%; height:100%; color:crimson!important;}
     @include deal;
@@ -394,6 +398,10 @@ img {display:block; position:relative; z-index:1;}
   width: 235px;
   height: 380px;
   background-color: white;
+  img {
+      @include transition(transform 300ms ease-in-out);
+      &:hover {@include transition(transform 300ms ease-in-out); @include scale(1.3); }
+    }
   @include deal;
     .image {position:relative; z-index:0; overflow:hidden; height:302.5px; }
     // > img { 
