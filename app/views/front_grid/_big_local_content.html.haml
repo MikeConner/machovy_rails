@@ -8,13 +8,7 @@
     = link_to image_tag(promotion_image_url), promotion_path(promotion), :style => 'opacity:0.4;'
   - else
     %a{:href => promotion_path(promotion)}
-      .front-hover
-        %img{:src => promotion.teaser_image_url(:wide_front_page).to_s}
-        .mask
-          %p 
-            %i.icon-plus-sign 
-            %br
-            Deals. No Limits.
+      %img{:src => promotion.teaser_image_url(:wide_front_page).to_s}
 .content
   .desc
     %h3= link_to sanitize(promotion.title), promotion_path(promotion)
@@ -34,4 +28,4 @@
           %i.icon-file-alt.icon-2x
       %li
         = link_to order_promotion_path(promotion) do
-          %i.icon-share-alt.icon-2x
+          %i.icon-share-alt.icon-2x    
