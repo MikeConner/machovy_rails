@@ -84,12 +84,12 @@ class ImageUploader < CarrierWave::Uploader::Base
   
   version :wide_front_page, :if => :promotion? do
     process :crop_wide
-    process :resize_to_fill => [475, 235]
+    process :resize_to_fill => [475, 215]
   end
   
   version :narrow_front_page, :if => :promotion? do
     process :crop_narrow
-    process :resize_to_fill => [275, 235]
+    process :resize_to_fill => [235, 215]
   end
 
   # Add a white list of extensions which are allowed to be uploaded.

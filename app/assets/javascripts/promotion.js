@@ -13,22 +13,22 @@ $(function() {
   $('#teaserLD').Jcrop({
     onChange: update_cropLD,
     onSelect: update_cropLD,
-    setSelect: [0, 0, 600, 513],
-    aspectRatio: 1.170212766
+    setSelect: [0, 0, 600, 549],
+    aspectRatio: 1.093023
   });
 
   $('#promo1').Jcrop({
     onChange: update_cropI2,
     onSelect: update_cropI2,
-    setSelect: [0, 0, 600, 513],
-    aspectRatio: 1.170212766
+    setSelect: [0, 0, 600, 549],
+    aspectRatio: 1.093023
   });
 
   $('#promo2').Jcrop({
     onChange: update_cropI3,
     onSelect: update_cropI3,
-    setSelect: [0, 0, 600, 513],
-    aspectRatio: 1.170212766
+    setSelect: [0, 0, 600, 549],
+    aspectRatio: 1.093023
   });
 
   // Send width if we're on the main page AND there's no deal content yet
