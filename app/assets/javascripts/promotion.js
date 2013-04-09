@@ -7,28 +7,28 @@ $(function() {
   $('#teaserBD').Jcrop({
     onChange: update_cropBD,
     onSelect: update_cropBD,
-    setSelect: [0, 0, 600, 271.5],
-    aspectRatio: 2.20930233
+    setSelect: [0, 0, 600, 297],
+    aspectRatio: 2.0212766
   });
   $('#teaserLD').Jcrop({
     onChange: update_cropLD,
     onSelect: update_cropLD,
-    setSelect: [0, 0, 600, 549],
-    aspectRatio: 1.09302326
+    setSelect: [0, 0, 600, 513],
+    aspectRatio: 1.170212766
   });
 
   $('#promo1').Jcrop({
     onChange: update_cropI2,
     onSelect: update_cropI2,
-    setSelect: [0, 0, 600, 549],
-    aspectRatio: 1.09302326
+    setSelect: [0, 0, 600, 513],
+    aspectRatio: 1.170212766
   });
 
   $('#promo2').Jcrop({
     onChange: update_cropI3,
     onSelect: update_cropI3,
-    setSelect: [0, 0, 600, 549],
-    aspectRatio: 1.09302326
+    setSelect: [0, 0, 600, 513],
+    aspectRatio: 1.170212766
   });
 
   // Send width if we're on the main page AND there's no deal content yet
