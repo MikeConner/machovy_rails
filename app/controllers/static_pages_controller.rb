@@ -82,6 +82,7 @@ class StaticPagesController < ApplicationController
     n = 10
     sales = Hash.new
     buyers = Hash.new
+    @order_history = Hash.new
     Order.all.each do |o|
       if !sales.has_key?(o.promotion.title)
         sales[o.promotion.title] = 0
@@ -89,8 +90,10 @@ class StaticPagesController < ApplicationController
       sales[o.promotion.title] += o.total_cost
       if !buyers.has_key?(o.user.email)
         buyers[o.user.email] = 0
+        @order_history[o.user.email] = []
       end
       buyers[o.user.email] += o.total_cost
+      @order_history[o.user.email].push(o.id)
     end
     
     @ranked_sales = sales.sort {|a,b| b[1] <=> a[1]}[0, n] 
@@ -144,6 +147,16 @@ class StaticPagesController < ApplicationController
     clicks.sort.each do |name, data|
       @top_clicks[name] = data.sort {|a,b| b[1] <=> a[1]}[0, n] 
     end
+    
+    render :layout => 'layouts/admin'
+  end
+  
+  def order_history
+    @orders = []
+    params[:history].each do |id|
+      @orders.push(Order.find(id))
+    end
+    @email = params[:email]
     
     render :layout => 'layouts/admin'
   end

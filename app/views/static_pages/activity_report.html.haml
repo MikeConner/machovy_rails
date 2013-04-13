@@ -20,10 +20,12 @@
         %tr
           %th Promotion
           %th Gross Revenue
+          %th Orders
         - @ranked_buyers.each do |email, revenue|
           %tr
             %td= email
             %td= number_to_currency(revenue)
+            %td= link_to 'Show', order_history_path(:email => email, :history => @order_history[email])
       %h3 Most Active Users
       %table.table.zebra-striped
         %tr
