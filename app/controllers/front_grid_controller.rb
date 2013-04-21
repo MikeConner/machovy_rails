@@ -1,4 +1,5 @@
 require 'fixed_front_page_layout'
+require 'groupon'
 
 class FrontGridController < ApplicationController
   MAX_PARTNER_VIEW_DEALS = 16
@@ -22,6 +23,7 @@ class FrontGridController < ApplicationController
     if (params[:page].nil? or session[:layout].nil?) and !session[:width].nil?
       fp_layout = FixedFrontPageLayout.new(filter(Promotion.deals, @active_category, @active_metro), 
                                            filter(Promotion.nondeals, @active_category, @active_metro), 
+                                           Groupon.instance.filter_links(@active_category), 
                                            BlogPost.select { |p| p.displayable? and (p.metros.empty? or p.metro_ids.include?(metro_id)) }.sort,
                                            session[:width])
       session[:layout] = fp_layout.layout

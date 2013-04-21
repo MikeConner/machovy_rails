@@ -1,0 +1,24 @@
+.local.large
+  - user = current_user.nil? ? 'Unknown' : current_user.id.to_s
+  .image
+    %a{:href => content['dealUrl'], :target => '_blank'}
+      %img{:src => content['largeImageUrl'], :style => 'width:475;height:215'}
+  .content
+    .desc
+      %h3= link_to content['announcementTitle'], Groupon.cj_url(content['dealUrl'], user), :target => '_blank'
+      %p.bigdesc= content['options'][0]['details'][0]['description'].html_safe
+    %p
+      = link_to(image_tag('/assets/branding_g.png', :style => 'width:auto'), Groupon.deals_page(session[:metro]), :target => '_blank', :title => content['tags'])
+  .menu.cf
+    .currency
+      .old-price
+        %p= number_to_currency(content['options'][0]['value']['amount'] / 100)
+      .price= number_to_currency(content['options'][0]['price']['amount'] / 100)
+    .promotion-icons
+      %ul
+        %li
+          = link_to Groupon.cj_url(content['dealUrl'], user), :target => '_blank' do
+            %i.icon-file-alt.icon-2x
+        %li
+          = link_to Groupon.cj_url(content['options'][0]['buyUrl'], user), :target => '_blank' do
+            %i.icon-share-alt.icon-2x

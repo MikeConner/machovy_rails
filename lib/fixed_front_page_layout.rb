@@ -5,6 +5,7 @@ class FixedFrontPageLayout
   SMALL_DEAL = 'front_grid/littlelocal'
   BLOG_POST = 'front_grid/blogpost'
   NON_DEAL = 'front_grid/littleblocks'
+  GROUPON = 'front_grid/groupon'
   
   # Minimum pixels for each column layout
   FIVE_COLUMN = 1200
@@ -13,37 +14,37 @@ class FixedFrontPageLayout
   TWO_COLUMN = 470
   DESIRED_ROWS = 7
   
-  PATTERNS = { 5 => [[BIG_DEAL,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL],
+  ORIGINAL_PATTERNS = { 5 => [[BIG_DEAL,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL],
                      [SMALL_DEAL,BLOG_POST,BIG_DEAL,SMALL_DEAL],
-                     #[SMALL_DEAL,NON_DEAL,BLOG_POST,NON_DEAL,SMALL_DEAL],
-                     #[BIG_DEAL,BLOG_POST,SMALL_DEAL,NON_DEAL],
+                     [SMALL_DEAL,NON_DEAL,BLOG_POST,NON_DEAL,SMALL_DEAL],
+                     [BIG_DEAL,BLOG_POST,SMALL_DEAL,NON_DEAL],
                      [BIG_DEAL,BLOG_POST,SMALL_DEAL,BLOG_POST],
                      [SMALL_DEAL,NON_DEAL,BLOG_POST,SMALL_DEAL,SMALL_DEAL],
-                     #[NON_DEAL,SMALL_DEAL,SMALL_DEAL,NON_DEAL,SMALL_DEAL],
+                     [NON_DEAL,SMALL_DEAL,SMALL_DEAL,NON_DEAL,SMALL_DEAL],
                      [SMALL_DEAL,BLOG_POST,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL],
                      [SMALL_DEAL,SMALL_DEAL,NON_DEAL,SMALL_DEAL,SMALL_DEAL],
                      [BIG_DEAL,BLOG_POST,SMALL_DEAL,SMALL_DEAL],
                      [SMALL_DEAL,SMALL_DEAL,BIG_DEAL,SMALL_DEAL],
                      [SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL],
                      [SMALL_DEAL,BIG_DEAL,SMALL_DEAL,BLOG_POST],
-                     #[SMALL_DEAL,BIG_DEAL,SMALL_DEAL,NON_DEAL],
-                     #[SMALL_DEAL,BIG_DEAL,NON_DEAL,BLOG_POST],
+                     [SMALL_DEAL,BIG_DEAL,SMALL_DEAL,NON_DEAL],
+                     [SMALL_DEAL,BIG_DEAL,NON_DEAL,BLOG_POST],
                      [NON_DEAL,BIG_DEAL,SMALL_DEAL,SMALL_DEAL],
                      [SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,BIG_DEAL],
                      [SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,BLOG_POST,NON_DEAL],
                      [SMALL_DEAL,BLOG_POST,SMALL_DEAL,BLOG_POST,SMALL_DEAL],
-                     #[SMALL_DEAL,BLOG_POST,SMALL_DEAL,NON_DEAL,SMALL_DEAL],
-                     #[NON_DEAL,SMALL_DEAL,SMALL_DEAL,NON_DEAL,SMALL_DEAL],
-                     #[BLOG_POST,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,NON_DEAL]],
+                     [SMALL_DEAL,BLOG_POST,SMALL_DEAL,NON_DEAL,SMALL_DEAL],
+                     [NON_DEAL,SMALL_DEAL,SMALL_DEAL,NON_DEAL,SMALL_DEAL],
+                     [BLOG_POST,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,NON_DEAL],
                      [BLOG_POST,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,BLOG_POST]],
                4 => [[BIG_DEAL, SMALL_DEAL, SMALL_DEAL],
                      [SMALL_DEAL, BLOG_POST, BIG_DEAL],
-                     #[SMALL_DEAL, NON_DEAL, BLOG_POST, NON_DEAL],
+                     [SMALL_DEAL, NON_DEAL, BLOG_POST, NON_DEAL],
                      [BIG_DEAL, BLOG_POST, SMALL_DEAL],
-                     #[SMALL_DEAL, NON_DEAL, NON_DEAL, SMALL_DEAL],
-                     #[NON_DEAL, SMALL_DEAL, SMALL_DEAL, NON_DEAL],
+                     [SMALL_DEAL, NON_DEAL, NON_DEAL, SMALL_DEAL],
+                     [NON_DEAL, SMALL_DEAL, SMALL_DEAL, NON_DEAL],
                      [SMALL_DEAL, BLOG_POST, SMALL_DEAL, SMALL_DEAL],
-                     #[SMALL_DEAL, NON_DEAL, SMALL_DEAL, SMALL_DEAL],
+                     [SMALL_DEAL, NON_DEAL, SMALL_DEAL, SMALL_DEAL],
                      [BIG_DEAL, BIG_DEAL],
                      [SMALL_DEAL, SMALL_DEAL, SMALL_DEAL, SMALL_DEAL],
                      [SMALL_DEAL, SMALL_DEAL, BIG_DEAL],
@@ -52,43 +53,144 @@ class FixedFrontPageLayout
                      [NON_DEAL, BIG_DEAL, SMALL_DEAL]],
                3 => [[BIG_DEAL, SMALL_DEAL], 
                      [BIG_DEAL, BLOG_POST],
-                     #[BIG_DEAL, NON_DEAL],
+                     [BIG_DEAL, NON_DEAL],
                      [SMALL_DEAL, BIG_DEAL],
                      [SMALL_DEAL, SMALL_DEAL, SMALL_DEAL],
                      [SMALL_DEAL, SMALL_DEAL, BLOG_POST],
-                     #[SMALL_DEAL, SMALL_DEAL, NON_DEAL],
+                     [SMALL_DEAL, SMALL_DEAL, NON_DEAL],
                      [SMALL_DEAL, BLOG_POST, SMALL_DEAL],
                      [SMALL_DEAL, BLOG_POST, NON_DEAL],
                      [SMALL_DEAL, NON_DEAL, SMALL_DEAL],
-                     #[SMALL_DEAL, NON_DEAL, BLOG_POST],
+                     [SMALL_DEAL, NON_DEAL, BLOG_POST],
                      [BLOG_POST, BIG_DEAL],
                      [BLOG_POST, SMALL_DEAL, SMALL_DEAL],
                      [BLOG_POST, SMALL_DEAL, BLOG_POST],
-                     #[BLOG_POST, SMALL_DEAL, NON_DEAL],
-                     #[BLOG_POST, NON_DEAL, SMALL_DEAL],
+                     [BLOG_POST, SMALL_DEAL, NON_DEAL],
+                     [BLOG_POST, NON_DEAL, SMALL_DEAL],
                      [NON_DEAL, BIG_DEAL],
-                     #[NON_DEAL, SMALL_DEAL, SMALL_DEAL],
-                     #[NON_DEAL, SMALL_DEAL, BLOG_POST],
-                     #[NON_DEAL, SMALL_DEAL, NON_DEAL],
-                     [NON_DEAL, BLOG_POST, SMALL_DEAL]],
-                     #[NON_DEAL, BLOG_POST, NON_DEAL],
-                     #[NON_DEAL, NON_DEAL, SMALL_DEAL],
-                     #[NON_DEAL, NON_DEAL, BLOG_POST]],
+                     [NON_DEAL, SMALL_DEAL, SMALL_DEAL],
+                     [NON_DEAL, SMALL_DEAL, BLOG_POST],
+                     [NON_DEAL, SMALL_DEAL, NON_DEAL],
+                     [NON_DEAL, BLOG_POST, SMALL_DEAL],
+                     [NON_DEAL, BLOG_POST, NON_DEAL],
+                     [NON_DEAL, NON_DEAL, SMALL_DEAL],
+                     [NON_DEAL, NON_DEAL, BLOG_POST]],
                2 => [[BIG_DEAL], 
                      [SMALL_DEAL, BLOG_POST], 
                      [SMALL_DEAL, NON_DEAL],
                      [SMALL_DEAL, SMALL_DEAL],
                      [NON_DEAL, BLOG_POST],
-                     #[NON_DEAL, NON_DEAL],
-                     #[BLOG_POST, NON_DEAL],
-                     #[NON_DEAL, SMALL_DEAL],
+                     [NON_DEAL, NON_DEAL],
+                     [BLOG_POST, NON_DEAL],
+                     [NON_DEAL, SMALL_DEAL],
+                     [BLOG_POST, SMALL_DEAL]],
+               1 => [[BIG_DEAL], [SMALL_DEAL], [SMALL_DEAL], [SMALL_DEAL], [BLOG_POST], [BLOG_POST], [NON_DEAL]] }
+               
+  REDUCED_AFFILIATE_PATTERNS = { 5 => [[BIG_DEAL,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,BLOG_POST,BIG_DEAL,SMALL_DEAL],
+                     [BIG_DEAL,BLOG_POST,SMALL_DEAL,BLOG_POST],
+                     [SMALL_DEAL,NON_DEAL,BLOG_POST,SMALL_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,BLOG_POST,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,SMALL_DEAL,NON_DEAL,SMALL_DEAL,SMALL_DEAL],
+                     [BIG_DEAL,BLOG_POST,SMALL_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,SMALL_DEAL,BIG_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,BIG_DEAL,SMALL_DEAL,BLOG_POST],
+                     [NON_DEAL,BIG_DEAL,SMALL_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,BIG_DEAL],
+                     [SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,BLOG_POST,NON_DEAL],
+                     [SMALL_DEAL,BLOG_POST,SMALL_DEAL,BLOG_POST,SMALL_DEAL],
+                     [BLOG_POST,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,BLOG_POST]],
+               4 => [[BIG_DEAL, SMALL_DEAL, SMALL_DEAL],
+                     [SMALL_DEAL, BLOG_POST, BIG_DEAL],
+                     [BIG_DEAL, BLOG_POST, SMALL_DEAL],
+                     [SMALL_DEAL, BLOG_POST, SMALL_DEAL, SMALL_DEAL],
+                     [BIG_DEAL, BIG_DEAL],
+                     [SMALL_DEAL, SMALL_DEAL, SMALL_DEAL, SMALL_DEAL],
+                     [SMALL_DEAL, SMALL_DEAL, BIG_DEAL],
+                     [SMALL_DEAL, BIG_DEAL, SMALL_DEAL],
+                     [SMALL_DEAL, BIG_DEAL, NON_DEAL],
+                     [NON_DEAL, BIG_DEAL, SMALL_DEAL]],
+               3 => [[BIG_DEAL, SMALL_DEAL], 
+                     [BIG_DEAL, BLOG_POST],
+                     [SMALL_DEAL, BIG_DEAL],
+                     [SMALL_DEAL, SMALL_DEAL, SMALL_DEAL],
+                     [SMALL_DEAL, SMALL_DEAL, BLOG_POST],
+                     [SMALL_DEAL, BLOG_POST, SMALL_DEAL],
+                     [SMALL_DEAL, BLOG_POST, NON_DEAL],
+                     [SMALL_DEAL, NON_DEAL, SMALL_DEAL],
+                     [BLOG_POST, BIG_DEAL],
+                     [BLOG_POST, SMALL_DEAL, SMALL_DEAL],
+                     [BLOG_POST, SMALL_DEAL, BLOG_POST],
+                     [NON_DEAL, BIG_DEAL],
+                     [NON_DEAL, BLOG_POST, SMALL_DEAL]],
+               2 => [[BIG_DEAL], 
+                     [SMALL_DEAL, BLOG_POST], 
+                     [SMALL_DEAL, NON_DEAL],
+                     [SMALL_DEAL, SMALL_DEAL],
+                     [NON_DEAL, BLOG_POST],
                      [BLOG_POST, SMALL_DEAL]],
                1 => [[BIG_DEAL], [SMALL_DEAL], [SMALL_DEAL], [SMALL_DEAL], [BLOG_POST], [BLOG_POST], [NON_DEAL]] }
 
-  def initialize(deals, non_deals, blog_posts, width)
+  GROUPON_PATTERNS = { 5 => [[GROUPON,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,BLOG_POST,BIG_DEAL,SMALL_DEAL],
+                     [GROUPON,BLOG_POST,SMALL_DEAL,BLOG_POST],
+                     [SMALL_DEAL,NON_DEAL,BLOG_POST,GROUPON],
+                     [SMALL_DEAL,BLOG_POST,GROUPON,SMALL_DEAL],
+                     [SMALL_DEAL,SMALL_DEAL,NON_DEAL,SMALL_DEAL,SMALL_DEAL],
+                     [GROUPON,BLOG_POST,SMALL_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,SMALL_DEAL,BIG_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,SMALL_DEAL,GROUPON,SMALL_DEAL],
+                     [SMALL_DEAL,GROUPON,SMALL_DEAL,BLOG_POST],
+                     [NON_DEAL,BIG_DEAL,SMALL_DEAL,SMALL_DEAL],
+                     [SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,GROUPON],
+                     [SMALL_DEAL,GROUPON,BLOG_POST,NON_DEAL],
+                     [SMALL_DEAL,BLOG_POST,SMALL_DEAL,BLOG_POST,SMALL_DEAL],
+                     [BLOG_POST,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL,BLOG_POST]],
+               4 => [[GROUPON, SMALL_DEAL, SMALL_DEAL],
+                     [SMALL_DEAL, BLOG_POST, BIG_DEAL],
+                     [GROUPON, BLOG_POST, SMALL_DEAL],
+                     [SMALL_DEAL, BLOG_POST, SMALL_DEAL, SMALL_DEAL],
+                     [BIG_DEAL, BIG_DEAL],
+                     [GROUPON, BIG_DEAL],
+                     [BIG_DEAL, GROUPON],
+                     [SMALL_DEAL, GROUPON, SMALL_DEAL],
+                     [SMALL_DEAL, SMALL_DEAL, GROUPON],
+                     [SMALL_DEAL, BIG_DEAL, SMALL_DEAL],
+                     [SMALL_DEAL, GROUPON, NON_DEAL],
+                     [NON_DEAL, BIG_DEAL, SMALL_DEAL]],
+               3 => [[GROUPON, SMALL_DEAL], 
+                     [BIG_DEAL, BLOG_POST],
+                     [SMALL_DEAL, BIG_DEAL],
+                     [SMALL_DEAL, SMALL_DEAL, SMALL_DEAL],
+                     [GROUPON, BLOG_POST],
+                     [SMALL_DEAL, BLOG_POST, SMALL_DEAL],
+                     [SMALL_DEAL, BLOG_POST, NON_DEAL],
+                     [SMALL_DEAL, NON_DEAL, SMALL_DEAL],
+                     [BLOG_POST, BIG_DEAL],
+                     [BLOG_POST, GROUPON],
+                     [BLOG_POST, SMALL_DEAL, SMALL_DEAL],
+                     [GROUPON, BLOG_POST],
+                     [NON_DEAL, GROUPON],
+                     [NON_DEAL, BIG_DEAL],
+                     [NON_DEAL, BLOG_POST, SMALL_DEAL]],
+               2 => [[BIG_DEAL], 
+                     [GROUPON],
+                     [GROUPON],
+                     [SMALL_DEAL, BLOG_POST], 
+                     [SMALL_DEAL, NON_DEAL],
+                     [SMALL_DEAL, SMALL_DEAL],
+                     [NON_DEAL, BLOG_POST],
+                     [BLOG_POST, SMALL_DEAL]],
+               1 => [[BIG_DEAL], [GROUPON], [SMALL_DEAL], [SMALL_DEAL], [SMALL_DEAL], [BLOG_POST], [BLOG_POST], [NON_DEAL]] }
+
+  PATTERNS = GROUPON_PATTERNS
+  
+  def initialize(deals, non_deals, groupons, blog_posts, width)
     @deals = deals
     @non_deals = non_deals
     @blog_posts = blog_posts
+    @groupons = groupons
     @layout = []
 
     # Cannot render anything if we have literally no deals
@@ -98,6 +200,7 @@ class FixedFrontPageLayout
 
     @deal_idx = 0
     @non_deal_idx = 0
+    @groupon_idx = 0
     @blog_post_idx = 0
     @num_columns = compute_num_columns(width)
     @page_start = { 1 => 0 }
@@ -113,8 +216,9 @@ class FixedFrontPageLayout
       np = next_pattern
       p = PATTERNS[@num_columns][np]
       
-      # Have to reject patterns that contain non-deals if we don't have any!
+      # Have to reject patterns that contain groupons/non-deals if we don't have any!
       next if @non_deals.empty? and p.include?(NON_DEAL)
+      next if @groupons.empty? and p.include?(GROUPON)
       
       page_length += @num_columns
       p.each do |partial|
@@ -135,6 +239,8 @@ class FixedFrontPageLayout
             layout.push({:partial => partial, :content => @blog_posts[next_blog_post].id})
           when NON_DEAL
             layout.push({:partial => partial, :content => [@non_deals[next_non_deal].id, @non_deals[next_non_deal].id]})
+          when GROUPON
+            layout.push({:partial => partial, :content => @groupons[next_groupon]})
           else
             raise 'Unknown partial'
           end
@@ -204,6 +310,18 @@ private
     else
       result = 0
       @non_deal_idx = 1
+    end
+    
+    result  
+  end
+
+  def next_groupon
+    if @groupon_idx < @groupons.length
+      result = @groupon_idx
+      @groupon_idx += 1
+    else
+      result = 0
+      @groupon_idx = 1
     end
     
     result  
