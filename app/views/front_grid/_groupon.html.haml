@@ -12,8 +12,11 @@
   .menu.cf
     .currency
       .old-price
-        %p= number_to_currency(content['options'][0]['value']['amount'] / 100)
-      .price= number_to_currency(content['options'][0]['price']['amount'] / 100)
+        - if 0 == content['options'][0]['value']['amount']
+          %p= number_to_currency(content['options'][0]['price']['amount'].to_f / 100.0)
+        - else
+          %p= number_to_currency(content['options'][0]['value']['amount'].to_f / 100.0)
+      .price= number_to_currency(content['options'][0]['price']['amount'].to_f / 100.0)
     .promotion-icons
       %ul
         %li

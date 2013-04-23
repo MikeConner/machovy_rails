@@ -74,19 +74,24 @@ class Groupon
   end
   
   def filter_links(active_category)
-    if active_category.nil? or Category::ALL_ITEMS_ID == active_category
-      self.link_array.shuffle
-    else
-      @links = []
+    @links = []
     
+    if active_category.nil? or Category::ALL_ITEMS_ID == active_category
+      non_exclusive = Category.non_exclusive.map { |c| c.name }
+      self.link_array.each do |link|
+        if !(categorize(link) & non_exclusive).empty?
+          @links.push(link)
+        end
+      end
+    else    
       self.link_array.each do |link|
         if categorize(link).include?(active_category)
           @links.push(link)
         end
       end
-      
-      @links.shuffle
     end
+
+    @links.shuffle
   end
 
   def categorize(link)
@@ -107,7 +112,12 @@ class Groupon
       if !cat.nil?
         result += cat unless UNKNOWN == cat[0]
         cat = specific_category(link['tags'][1]['name'])
-        result = cat unless cat.nil? or (UNKNOWN == cat[0])
+        if cat.nil?
+          # If specific category causes it to be rejected, clear any general result
+          result = []
+        elsif UNKNOWN != cat[0]
+          result = cat
+        end
       end
     end
     
@@ -190,7 +200,8 @@ class Groupon
         'Publishers', 'Recycling Centers', 'Screen Printing & Embroidery', 'Secretarial Services', 'Self Storage', 'Video & Film Production',
         'Website Design', 'Writing Services', 'Apartments', 'Appraisers', 'Condominiums', 'Facilities & Warehouses', 'Portable Buildings',
         'Real Estate Appraisers', 'Antiques', 'Book Stores', 'Costumes', 'Framing', 'Home Décor', 'Industrial Equipment Supplier',
-        'Newspapers & Magazines', 'Shopping Centers', 'Trophies & Engraving', 'Vending Machines', 'Timeshare Agencies', 'Vacation Home Rental'].include?(tag)
+        'Newspapers & Magazines', 'Shopping Centers', 'Trophies & Engraving', 'Vending Machines', 'Timeshare Agencies', 'Vacation Home Rental',
+        'Clothing Sales', HOME, PETS, GOVERNMENT, RELIGION].include?(tag)
       nil
     elsif tag =~ /church/i
       nil
