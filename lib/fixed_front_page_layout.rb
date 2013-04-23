@@ -222,7 +222,7 @@ class FixedFrontPageLayout
       
       page_length += @num_columns
       p.each do |partial|
-        if BIG_DEAL == partial
+        if (BIG_DEAL == partial) or (GROUPON == partial)
           page_length -= 1
         end
       end

@@ -1,7 +1,7 @@
 .local.large
   - user = current_user.nil? ? 'Unknown' : current_user.id.to_s
   .image
-    %a{:href => Groupon.cj_url(content['dealUrl']), :target => '_blank'}
+    %a{:href => Groupon.cj_url(content['dealUrl'], user), :target => '_blank'}
       %img{:src => content['largeImageUrl'], :style => 'width:475;height:215'}
   .content
     .desc
