@@ -6,6 +6,8 @@ describe "Buy product" do
     # Need this for visit root_path to work
     Metro.create(:name => 'Pittsburgh')
     ActionMailer::Base.deliveries = []
+    visit root_path
+    Warden.test_mode!
   end
 
   subject { page }
@@ -13,15 +15,16 @@ describe "Buy product" do
   describe "Sign in" do
     before do
       # go to sign in page
-      visit root_path
+      #visit root_path
       sign_in_as_a_valid_user
-      all('a', :text => I18n.t('sign_in_register')).first.click
+      #all('a', :text => I18n.t('sign_in_register')).first.click
+      login_as(@user, :scope => :user)
       # fill in info
-      save_page # for timing
-      all('#user_email')[0].set(user.email)
-      all('#user_password')[0].set(user.password)
+      #save_page # for timing
+      #all('#user_email')[0].set(user.email)
+      #all('#user_password')[0].set(user.password)
       # Authenticate
-      click_button I18n.t('sign_in')    
+      #click_button I18n.t('sign_in')    
     end
 
     it "user should not have a customer id" do
@@ -55,7 +58,7 @@ describe "Buy product" do
         Voucher.count.should be == 1
         ActionMailer::Base.deliveries.should_not be_empty
         ActionMailer::Base.deliveries.count.should be == 1
-        msg.to.to_s.should match(user.email)
+        msg.to.to_s.should match(@user.email)
         msg.subject.should be == UserMailer::ORDER_MESSAGE
         msg.body.encoded.should match('Thank you for your order')
         msg.body.encoded.should match('Shipping instructions')
@@ -87,7 +90,7 @@ describe "Buy product" do
         Voucher.count.should be == 1
         ActionMailer::Base.deliveries.should_not be_empty
         ActionMailer::Base.deliveries.count.should be == 1
-        msg.to.to_s.should match(user.email)
+        msg.to.to_s.should match(@user.email)
         msg.subject.should be == UserMailer::ORDER_MESSAGE
         msg.body.encoded.should match('Thank you for your order')
         msg.body.encoded.should match('Please pick up your order at')

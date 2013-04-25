@@ -9,13 +9,16 @@ describe "Case 2 - Not customer, not saving card" do
     Metro.create(:name => 'Pittsburgh')
     ActionMailer::Base.deliveries = []
     visit root_path
+    Warden.test_mode!
   end
 
   subject { page }
 
   describe "Sign in" do
     before do
-      # go to sign in page
+      sign_in_as_a_valid_user
+      login_as(@user, :scope => :user)
+=begin
       all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
       save_page # for timing
@@ -23,6 +26,7 @@ describe "Case 2 - Not customer, not saving card" do
       all('#user_password')[0].set(user.password)
       # Authenticate
       click_button I18n.t('sign_in')    
+=end
     end
 
     it "user should not have a customer id" do
@@ -48,7 +52,7 @@ describe "Case 2 - Not customer, not saving card" do
         Voucher.count.should be == 1
         ActionMailer::Base.deliveries.should_not be_empty
         ActionMailer::Base.deliveries.count.should be == 1
-        msg.to.to_s.should match(user.email)
+        msg.to.to_s.should match(@user.email)
         msg.subject.should be == UserMailer::ORDER_MESSAGE
         msg.body.encoded.should match('Thank you for your order')
         msg.body.encoded.should match('See attachments for your voucher')

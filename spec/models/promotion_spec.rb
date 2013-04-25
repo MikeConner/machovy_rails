@@ -2,42 +2,43 @@
 #
 # Table name: promotions
 #
-#  id                   :integer         not null, primary key
-#  title                :string(255)
-#  description          :text
-#  limitations          :text
-#  voucher_instructions :text
-#  teaser_image         :string(255)
-#  retail_value         :decimal(, )
-#  price                :decimal(, )
-#  revenue_shared       :decimal(, )
-#  quantity             :integer
-#  start_date           :datetime
-#  end_date             :datetime
-#  grid_weight          :integer
-#  destination          :string(255)
-#  metro_id             :integer
-#  vendor_id            :integer
-#  created_at           :datetime        not null
-#  updated_at           :datetime        not null
-#  main_image           :string(255)
-#  slug                 :string(255)
-#  status               :string(16)      default("Proposed"), not null
-#  promotion_type       :string(16)      default("Deal"), not null
-#  subtitle             :string(255)
-#  strategy_id          :integer
-#  strategy_type        :string(255)
-#  min_per_customer     :integer         default(1), not null
-#  max_per_customer     :integer         default(0), not null
-#  suspended            :boolean         default(FALSE), not null
-#  venue_address        :string(50)
-#  venue_city           :string(50)
-#  venue_state          :string(2)
-#  venue_zipcode        :string(10)
-#  latitude             :decimal(, )
-#  longitude            :decimal(, )
-#  pending              :boolean         default(FALSE), not null
-#  venue_name           :string(50)
+#  id                      :integer         not null, primary key
+#  title                   :string(255)
+#  description             :text
+#  limitations             :text
+#  voucher_instructions    :text
+#  teaser_image            :string(255)
+#  retail_value            :decimal(, )
+#  price                   :decimal(, )
+#  revenue_shared          :decimal(, )
+#  quantity                :integer
+#  start_date              :datetime
+#  end_date                :datetime
+#  grid_weight             :integer
+#  destination             :string(255)
+#  metro_id                :integer
+#  vendor_id               :integer
+#  created_at              :datetime        not null
+#  updated_at              :datetime        not null
+#  main_image              :string(255)
+#  slug                    :string(255)
+#  status                  :string(16)      default("Proposed"), not null
+#  promotion_type          :string(16)      default("Deal"), not null
+#  subtitle                :string(255)
+#  strategy_id             :integer
+#  strategy_type           :string(255)
+#  min_per_customer        :integer         default(1), not null
+#  max_per_customer        :integer         default(0), not null
+#  suspended               :boolean         default(FALSE), not null
+#  venue_address           :string(50)
+#  venue_city              :string(50)
+#  venue_state             :string(2)
+#  venue_zipcode           :string(10)
+#  latitude                :decimal(, )
+#  longitude               :decimal(, )
+#  pending                 :boolean         default(FALSE), not null
+#  venue_name              :string(50)
+#  requires_prior_purchase :boolean         default(FALSE), not null
 #
 
 describe "Promotions" do
@@ -128,6 +129,7 @@ describe "Promotions" do
     promotion.should respond_to(:I3crop_y)
     promotion.should respond_to(:I3crop_w)
     promotion.should respond_to(:I3crop_h)
+    promotion.should respond_to(:requires_prior_purchase)
     promotion.metro.should be == metro
     promotion.vendor.should be == vendor
     promotion.promotion_type.should be == Promotion::LOCAL_DEAL

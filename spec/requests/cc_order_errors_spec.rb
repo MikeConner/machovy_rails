@@ -11,6 +11,8 @@ describe "Credit Card Errors" do
     # Need this for visit root_path to work
     Metro.create(:name => 'Pittsburgh')
     ActionMailer::Base.deliveries = []
+    visit root_path
+    Warden.test_mode!
    end
 
   subject { page }
@@ -18,8 +20,9 @@ describe "Credit Card Errors" do
   describe "Sign in", :js => true do
     before do
       # go to sign in page
-      visit root_path
       sign_in_as_a_valid_user
+      login_as(@user, :scope => :user)
+=begin
       all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
       save_page # for timing
@@ -27,6 +30,7 @@ describe "Credit Card Errors" do
       all('#user_password')[0].set(user.password)
       # Authenticate
       click_button I18n.t('sign_in')    
+=end
     end
 
     describe "No names" do

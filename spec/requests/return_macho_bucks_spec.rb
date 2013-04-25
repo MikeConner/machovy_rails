@@ -6,6 +6,7 @@ describe "Return macho bucks" do
     Metro.create(:name => 'Pittsburgh')
     Role.create(:name => Role::SUPER_ADMIN)
     visit root_path
+    Warden.test_mode!
   end
   
   subject { page }
@@ -13,6 +14,8 @@ describe "Return macho bucks" do
   describe "Sign in as an admin" do
     before do
       sign_in_as_an_admin_user
+      login_as(@user, :scope => :user)
+=begin
       # go to sign in page
       all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
@@ -21,6 +24,7 @@ describe "Return macho bucks" do
       all('#user_password')[0].set(@user.password)
       # Authenticate
       click_button I18n.t('sign_in')
+=end
       @voucher = order.reload.vouchers.first
     end
     

@@ -8,12 +8,16 @@ describe "Order quantity > 1" do
     Metro.create(:name => 'Pittsburgh')
     ActionMailer::Base.deliveries = []
     visit root_path
+    Warden.test_mode!
   end
 
   subject { page }
 
   describe "Sign in" do
     before do
+      sign_in_as_a_valid_user
+      login_as(@user, :scope => :user)
+=begin
       # go to sign in page
       all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
@@ -22,6 +26,7 @@ describe "Order quantity > 1" do
       all('#user_password')[0].set(user.password)
       # Authenticate
       click_button I18n.t('sign_in')    
+=end
     end
 
     it "user should not have a customer id" do
@@ -38,6 +43,7 @@ describe "Order quantity > 1" do
         fill_in 'last_name', :with => 'Bennett'
         fill_in 'order_quantity', :with => '3'
         click_button I18n.t('buy_now')
+        save_page # timing
       end
             
       it "should work and show the right quantity" do
@@ -48,7 +54,7 @@ describe "Order quantity > 1" do
         Voucher.count.should be == 3
         ActionMailer::Base.deliveries.should_not be_empty
         ActionMailer::Base.deliveries.count.should be == 1
-        msg.to.to_s.should match(user.email)
+        msg.to.to_s.should match(@user.email)
         msg.subject.should be == UserMailer::ORDER_MESSAGE
         msg.body.encoded.should match('Thank you for your order')
         msg.body.encoded.should match('See attachments for your vouchers')

@@ -2,42 +2,43 @@
 #
 # Table name: promotions
 #
-#  id                   :integer         not null, primary key
-#  title                :string(255)
-#  description          :text
-#  limitations          :text
-#  voucher_instructions :text
-#  teaser_image         :string(255)
-#  retail_value         :decimal(, )
-#  price                :decimal(, )
-#  revenue_shared       :decimal(, )
-#  quantity             :integer
-#  start_date           :datetime
-#  end_date             :datetime
-#  grid_weight          :integer
-#  destination          :string(255)
-#  metro_id             :integer
-#  vendor_id            :integer
-#  created_at           :datetime        not null
-#  updated_at           :datetime        not null
-#  main_image           :string(255)
-#  slug                 :string(255)
-#  status               :string(16)      default("Proposed"), not null
-#  promotion_type       :string(16)      default("Deal"), not null
-#  subtitle             :string(255)
-#  strategy_id          :integer
-#  strategy_type        :string(255)
-#  min_per_customer     :integer         default(1), not null
-#  max_per_customer     :integer         default(0), not null
-#  suspended            :boolean         default(FALSE), not null
-#  venue_address        :string(50)
-#  venue_city           :string(50)
-#  venue_state          :string(2)
-#  venue_zipcode        :string(10)
-#  latitude             :decimal(, )
-#  longitude            :decimal(, )
-#  pending              :boolean         default(FALSE), not null
-#  venue_name           :string(50)
+#  id                      :integer         not null, primary key
+#  title                   :string(255)
+#  description             :text
+#  limitations             :text
+#  voucher_instructions    :text
+#  teaser_image            :string(255)
+#  retail_value            :decimal(, )
+#  price                   :decimal(, )
+#  revenue_shared          :decimal(, )
+#  quantity                :integer
+#  start_date              :datetime
+#  end_date                :datetime
+#  grid_weight             :integer
+#  destination             :string(255)
+#  metro_id                :integer
+#  vendor_id               :integer
+#  created_at              :datetime        not null
+#  updated_at              :datetime        not null
+#  main_image              :string(255)
+#  slug                    :string(255)
+#  status                  :string(16)      default("Proposed"), not null
+#  promotion_type          :string(16)      default("Deal"), not null
+#  subtitle                :string(255)
+#  strategy_id             :integer
+#  strategy_type           :string(255)
+#  min_per_customer        :integer         default(1), not null
+#  max_per_customer        :integer         default(0), not null
+#  suspended               :boolean         default(FALSE), not null
+#  venue_address           :string(50)
+#  venue_city              :string(50)
+#  venue_state             :string(2)
+#  venue_zipcode           :string(10)
+#  latitude                :decimal(, )
+#  longitude               :decimal(, )
+#  pending                 :boolean         default(FALSE), not null
+#  venue_name              :string(50)
+#  requires_prior_purchase :boolean         default(FALSE), not null
 #
 
 require 'promotion_strategy_factory'
@@ -104,7 +105,7 @@ class Promotion < ActiveRecord::Base
                   :status, :promotion_type, :title, :voucher_instructions, :subtitle, :min_per_customer, :max_per_customer,
                   :venue_name, :venue_address, :venue_city, :venue_state, :venue_zipcode, :latitude, :longitude, :pending,
                   :metro_id, :vendor_id, :category_ids, :blog_post_ids, :promotion_image_ids, :promotion_images_attributes, 
-									:teaser_image_cache, :main_image_cache
+									:teaser_image_cache, :main_image_cache, :requires_prior_purchase
 
   attr_accessor :BDcrop_x, :BDcrop_y, :BDcrop_w, :BDcrop_h
   attr_accessor :LDcrop_x, :LDcrop_y, :LDcrop_w, :LDcrop_h
@@ -170,6 +171,7 @@ class Promotion < ActiveRecord::Base
   validates_presence_of :strategy, :if => :deal?
   validates_inclusion_of :suspended, :in => [true, false]
   validates_inclusion_of :pending, :in => [true, false]
+  validates_inclusion_of :requires_prior_purchase, :in => [true, false]
   
   # "Deal" fields
   validates :retail_value, :price, :revenue_shared, 

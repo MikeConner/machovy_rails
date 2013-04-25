@@ -39,6 +39,7 @@ describe "Buy Gift Certificate for pending signup; recipient changes email to ta
         click_button I18n.t('buy_gift_certificate')
         save_page # Seem to need this for timing!
         @certificate = GiftCertificate.first
+        save_page
       end
             
       it "should have created the bucks recipient" do
@@ -75,6 +76,7 @@ describe "Buy Gift Certificate for pending signup; recipient changes email to ta
           visit user_confirmation_path(:confirmation_token => @user.reload.confirmation_token)          
           save_page
           @certificate = GiftCertificate.first
+          save_page
         end
         
         it "should have credited the macho bucks and sent the emails" do

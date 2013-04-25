@@ -5,14 +5,18 @@ describe "Edit Affiliate deal" do
     Role.create(:name => Role::SUPER_ADMIN)
     FactoryGirl.create(:vendor)
     visit root_path
+    Warden.test_mode!
   end
 
   subject { page }
 
   describe "Sign in and create new affiliate promotion", :js => true do
     before do
-      @admin = FactoryGirl.create(:user)
-      @admin.roles << Role.find_by_name(Role::SUPER_ADMIN)
+      sign_in_as_an_admin_user
+      login_as(@user, :scope => :user)
+      #@admin = FactoryGirl.create(:user)
+      #@admin.roles << Role.find_by_name(Role::SUPER_ADMIN)
+=begin
       all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
       save_page # for timing
@@ -20,6 +24,7 @@ describe "Edit Affiliate deal" do
       all('#user_password')[0].set(@admin.password)
       # Authenticate
       click_button I18n.t('sign_in')
+=end
       visit new_promotion_path(:promotion_type => Promotion::AFFILIATE)
       select Vendor.first.name, :from => 'promotion_vendor_id'
       fill_in 'raw_affiliate_url', :with => 'http://www.amazon.com/gp/product/B008GGCAVM/ref=gw_c1_tatehhol_img'
@@ -28,8 +33,9 @@ describe "Edit Affiliate deal" do
       fill_in 'promotion_remote_teaser_image_url', :with => 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
       select '2016', :from => 'promotion_end_date_1i'
       click_button 'Create Affiliate'
-      save_page
+      #save_page
       @promotion = Promotion.first
+      save_page
       # wait_until removed in Capybara 2.0
       # wait_until { page.evaluate_script('$.active') == 0 }
 #      page.driver.wait_until { page.driver.browser.find_element(:css, "div.product_detail").displayed? == true }
