@@ -103,6 +103,8 @@ class PromotionsController < ApplicationController
     # WARNING!
     # When assigning booleans, need to use ||, not OR operator. If you change to and/or it will break!
     @show_buy_button = eligible_to_purchase(@promotion)
+    # Check all the conditions for show_buy_button first; have to be otherwise eligible to buy to show locked
+    @locked = @show_buy_button && @promotion.requires_prior_purchase && !current_user.nil? && Order.where('user_id = ?', current_user.id).empty?
     @show_terms = !current_user.nil? && !current_user.is_customer?
     @show_accept_reject = !current_user.nil? && current_user.has_role?(Role::MERCHANT) && @promotion.status == Promotion::EDITED && !@promotion.suspended? && !@promotion.coming_soon?
     @curators = @promotion.curators
@@ -495,7 +497,7 @@ private
   
   def validate_eligible
     @promotion = Promotion.find(params[:id])
-    if !eligible_to_purchase(@promotion)
+    if !eligible_to_purchase(@promotion) or (@promotion.requires_prior_purchase and !current_user.nil? and Order.where('user_id = ?', current_user.id).empty?)
       redirect_to promotion_path(@promotion), :alert => I18n.t('nice_try')
     end
   end

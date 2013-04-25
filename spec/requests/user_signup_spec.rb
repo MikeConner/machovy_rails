@@ -7,8 +7,8 @@ describe "User signup" do
     before { visit new_user_session_path }
     
     # Should have the user header
-    it { should have_selector('h5', :text => I18n.t('create_account_action')) }
-    it { should_not have_selector('h5', :text =>  I18n.t('merchant_signup')) }
+    it { should have_selector('h3', :text => 'Sign up with a free Machovy account!') }
+    it { should_not have_selector('h3', :text =>  I18n.t('merchant_signup')) }
     
     describe "with invalid information" do
       before { click_button I18n.t('create_account') }

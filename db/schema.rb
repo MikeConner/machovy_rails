@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130316204327) do
+ActiveRecord::Schema.define(:version => 20130425013631) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -281,26 +281,27 @@ ActiveRecord::Schema.define(:version => 20130316204327) do
     t.string   "destination"
     t.integer  "metro_id"
     t.integer  "vendor_id"
-    t.datetime "created_at",                                                 :null => false
-    t.datetime "updated_at",                                                 :null => false
+    t.datetime "created_at",                                                    :null => false
+    t.datetime "updated_at",                                                    :null => false
     t.string   "main_image"
     t.string   "slug"
-    t.string   "status",               :limit => 16, :default => "Proposed", :null => false
-    t.string   "promotion_type",       :limit => 16, :default => "Deal",     :null => false
+    t.string   "status",                  :limit => 16, :default => "Proposed", :null => false
+    t.string   "promotion_type",          :limit => 16, :default => "Deal",     :null => false
     t.string   "subtitle"
     t.integer  "strategy_id"
     t.string   "strategy_type"
-    t.integer  "min_per_customer",                   :default => 1,          :null => false
-    t.integer  "max_per_customer",                   :default => 0,          :null => false
-    t.boolean  "suspended",                          :default => false,      :null => false
-    t.string   "venue_address",        :limit => 50
-    t.string   "venue_city",           :limit => 50
-    t.string   "venue_state",          :limit => 2
-    t.string   "venue_zipcode",        :limit => 10
+    t.integer  "min_per_customer",                      :default => 1,          :null => false
+    t.integer  "max_per_customer",                      :default => 0,          :null => false
+    t.boolean  "suspended",                             :default => false,      :null => false
+    t.string   "venue_address",           :limit => 50
+    t.string   "venue_city",              :limit => 50
+    t.string   "venue_state",             :limit => 2
+    t.string   "venue_zipcode",           :limit => 10
     t.decimal  "latitude"
     t.decimal  "longitude"
-    t.boolean  "pending",                            :default => false,      :null => false
-    t.string   "venue_name",           :limit => 50
+    t.boolean  "pending",                               :default => false,      :null => false
+    t.string   "venue_name",              :limit => 50
+    t.boolean  "requires_prior_purchase",               :default => false,      :null => false
   end
 
   add_index "promotions", ["slug"], :name => "index_promotions_on_slug"

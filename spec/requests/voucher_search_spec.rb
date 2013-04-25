@@ -5,6 +5,7 @@ describe "Voucher Search" do
     Role.create(:name => Role::MERCHANT)
     @voucher = FactoryGirl.create(:voucher)
     visit root_path
+    Warden.test_mode!
   end
 
   subject { page }
@@ -12,6 +13,8 @@ describe "Voucher Search" do
   describe "Sign in" do
     before do
       sign_in_as_a_vendor
+      login_as(@user, :scope => :user)
+=begin
       # go to sign in page
       all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
@@ -20,6 +23,7 @@ describe "Voucher Search" do
       all('#user_password')[0].set(@user.password)
       # Authenticate
       click_button I18n.t('sign_in')
+=end
     end
 
     describe "search by email", :js => true do

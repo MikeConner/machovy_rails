@@ -130,6 +130,7 @@ describe "Ordering with macho bucks" do
   describe "Balance: 10, cost 100  (should charge 90, ending balance 0)" do
     before do
       # go to sign in page
+      visit root_path
       all('a', :text => I18n.t('sign_in_register')).first.click
       # fill in info
       save_page # for timing

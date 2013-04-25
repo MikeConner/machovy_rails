@@ -40,10 +40,12 @@
               %br
               %span= @promotion.quantity_description
             .large-9.columns.x-padding
-              - if @show_buy_button
+              - if @locked
+                .darkblue-btn
+                  = I18n.t('unlock')
+              - elsif @show_buy_button
                 .darkred-btn
                   = link_to " #{I18n.t('click_to_buy')} ".html_safe, order_promotion_path(@promotion)  
-                  //= link_to "<i class='icon-plus icon-white'></i> #{I18n.t('click_to_buy')}".html_safe, order_promotion_path(@promotion) 
         .row
           .large-8.columns
             %table.table.table-condensed

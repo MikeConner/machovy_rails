@@ -2,6 +2,7 @@ describe "Buy button rules" do
   let(:promotion) { FactoryGirl.create(:approved_promotion) }
   let(:promotion_with_orders) { FactoryGirl.create(:promotion_with_vouchers, :status => Promotion::MACHOVY_APPROVED) }
   let(:pending_promotion) { FactoryGirl.create(:approved_promotion, :pending => true) }
+  let(:locked_promotion) { FactoryGirl.create(:approved_promotion, :requires_prior_purchase => true) }
   before do
     # Need this for visit root_path to work
     Metro.create(:name => 'Pittsburgh')
@@ -53,6 +54,45 @@ describe "Buy button rules" do
     it { should have_selector('h3', :text => pending_promotion.title) }
     #it { should have_selector('p', :text => I18n.t('coming_soon')) }
     it { should_not have_link(I18n.t('click_to_buy')) }
+  end
+
+  describe "Trying to buy locked promotion (requires prior purchase)" do
+    before do
+      sign_in_as_a_valid_user
+      # go to sign in page
+      all('a', :text => I18n.t('sign_in_register')).first.click
+      # fill in info
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
+      # Authenticate
+      click_button I18n.t('sign_in')
+      visit promotion_path(locked_promotion)
+    end
+        
+    it { should have_selector('h3', :text => locked_promotion.title) }
+    #it { should have_selector('p', :text => I18n.t('coming_soon')) }
+    it { should_not have_link(I18n.t('click_to_buy')) }
+    it { should have_content(I18n.t('unlock')) }
+  end
+
+  describe "Trying to buy locked promotion (requires prior purchase) -- when there is a purchase" do
+    before do
+      sign_in_as_a_valid_user
+      FactoryGirl.create(:order, :user => @user)
+      # go to sign in page
+      all('a', :text => I18n.t('sign_in_register')).first.click
+      # fill in info
+      all('#user_email')[0].set(@user.email)
+      all('#user_password')[0].set(@user.password)
+      # Authenticate
+      click_button I18n.t('sign_in')
+      visit promotion_path(locked_promotion)
+    end
+        
+    it { should have_selector('h3', :text => locked_promotion.title) }
+    #it { should have_selector('p', :text => I18n.t('coming_soon')) }
+    it { should have_link(I18n.t('click_to_buy')) }
+    it { should_not have_content(I18n.t('unlock')) }
   end
 
   describe "Not logged in" do

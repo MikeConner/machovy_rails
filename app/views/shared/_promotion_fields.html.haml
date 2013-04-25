@@ -78,8 +78,8 @@
   = f.number_field :max_per_customer, :min => 0, :class => 'small-select'
   = hidden_field_tag :promotion_strategy, strategy
   = f.label :min_per_customer, 'Minimum quantity customers have to purchase'
-  %em For complex deals. This is almost always set to 1.
-  = f.number_field :min_per_customer, :min => 1, :class => 'small-select' 
+  -#%em For complex deals. This is almost always set to 1.
+  = f.number_field :min_per_customer, :min => 1, :class => 'small-select', :disabled => true 
   %hr
   %h4 Expiration
   %p
