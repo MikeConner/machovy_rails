@@ -79,6 +79,10 @@ module ApplicationHelper
   end
   
   def seo_transform(text)
-    text.gsub("\r\n\r\n","<p>").gsub("\n\n", "<p>").html_safe
+    if text.nil?
+      nil
+    else
+      text.gsub("\r\n\r\n","<p>").gsub("\n\n", "<p>").html_safe
+    end
   end
 end
