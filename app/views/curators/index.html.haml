@@ -4,10 +4,6 @@
       %h1== #{I18n.t('curators')} <small>Lifestyle guidance</small>
   .row.curator-page
     .row
-      .large-12.columns
-        %h3 Welcome to the Machovy Feedback Forum
-        %p Now, we know you're a genius... but it's just possible someone else had the same idea. And maybe some people even though they obviously know the best place for men's interest shopping -- might not be full-on geniuses in other areas. If so, feel free to (be)rate them. You can see the highest-rated ideas on the right. Will yours make the cut?
-    .row
       - @curators.each do |curator|
         .large-4.columns
           %ul.mentor-block
