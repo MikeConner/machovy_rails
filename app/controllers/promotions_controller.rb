@@ -497,8 +497,10 @@ private
   
   def validate_eligible
     @promotion = Promotion.find(params[:id])
-    if !eligible_to_purchase(@promotion) or (@promotion.requires_prior_purchase and !current_user.nil? and Order.where('user_id = ?', current_user.id).empty?)
+    if !eligible_to_purchase(@promotion)
       redirect_to promotion_path(@promotion), :alert => I18n.t('nice_try')
+    elsif @promotion.requires_prior_purchase and !current_user.nil? and Order.where('user_id = ?', current_user.id).empty?
+      redirect_to promotion_path(@promotion), :alert => I18n.t('requires_prior')
     end
   end
   

@@ -21,6 +21,10 @@
         %i.icon-angle-up
         Alright, Got it!
         %i.icon-angle-up
+- else
+  %header#machovy_banner.home-page.center
+    .row
+      = render :partial => 'shared/flash_messages'  
 .main-wrap.display_front_page
   #container
     - if @empty_layout
