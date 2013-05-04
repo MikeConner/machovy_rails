@@ -34,6 +34,7 @@ en:
   machovy_attention: 'Promotions that need Machovy attention'
   merchant_signup: 'Not the usual deals site'
   nice_try: "Unfortunately you're not eligible to purchase additional quantities of this promotion. Thank you for your previous order!"
+  requires_prior: "Unfortunately you're not eligible to purchase this Machovy exclusive promotion yet; please make another purchase first!"
   no_image: '[No Image]'
   new_promotion: "Let's make a deal"
   non_product: 'Not a product promotion'
