@@ -37,7 +37,7 @@ describe "VendorMailer" do
       end
       
       it "should be copied to the merchant admin" do
-        msg.bcc.to_s.should match(ApplicationHelper::MACHOVY_MERCHANT_ADMIN)
+        msg.bcc.should be == ApplicationHelper::MACHOVY_MERCHANT_ADMIN
       end
       
       it "should have the right subject" do
@@ -48,7 +48,11 @@ describe "VendorMailer" do
         msg.body.encoded.should match("By signing up, you've agreed to the terms of our merchant agreement")
         msg.body.encoded.should match("If you want to print a copy of the merchant agreement, you can download it here")
         # It's chopped because the () interfere with the matching
-        msg.body.encoded.should match(ApplicationHelper::MACHOVY_SALES_ADMIN)
+        
+        ApplicationHelper::MACHOVY_SALES_ADMIN.each do |admin|
+          msg.body.encoded.should match(admin)
+        end
+        
         ActionMailer::Base.deliveries.count.should == 1
       end
       
@@ -126,7 +130,9 @@ describe "VendorMailer" do
         # msg.to is a Mail::AddressContainer object, not a string
         # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
         it "should be sent to the right user" do
-          msg.to.to_s.should match(ApplicationHelper::MACHOVY_SALES_ADMIN)
+          ApplicationHelper::MACHOVY_SALES_ADMIN.each do |admin|
+            msg.to.to_s.should match(admin)
+          end
         end
         
         it "should have the right subject" do
@@ -153,6 +159,7 @@ describe "VendorMailer" do
     
       it "should have the right sender" do
         msg.from.to_s.should match(ApplicationHelper::MAILER_FROM_ADDRESS)
+        msg.to.to_s.should match(vendor.user.email)
       end
       
       describe "Send the message" do
@@ -188,6 +195,7 @@ describe "VendorMailer" do
     
       it "should have the right sender" do
         msg.from.to_s.should match(ApplicationHelper::MAILER_FROM_ADDRESS)
+        msg.to.to_s.should match(vendor.user.email)
       end
       
       describe "Send the message" do
@@ -247,6 +255,7 @@ describe "VendorMailer" do
       # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
       it "should be sent to the right user" do
         msg.to.to_s.should match(vendor.user.email)
+        msg.bcc.should be == ApplicationHelper::MACHOVY_MERCHANT_ADMIN
       end
       
       it "should have the right subject" do

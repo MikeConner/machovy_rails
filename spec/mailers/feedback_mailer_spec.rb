@@ -26,7 +26,7 @@ describe "FeedbackMailer" do
       # msg.to is a Mail::AddressContainer object, not a string
       # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
       it "should have the right sender" do
-        msg.to.to_s.should match(ApplicationHelper::MACHOVY_FEEDBACK_ADMIN)
+        msg.to.should be == ApplicationHelper::MACHOVY_FEEDBACK_ADMIN
       end
       
       it "should have the right subject" do

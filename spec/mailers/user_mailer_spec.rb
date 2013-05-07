@@ -140,6 +140,7 @@ describe "UserMailer" do
   
     it "should have the right sender" do
       @msg.from.to_s.should match(ApplicationHelper::MAILER_FROM_ADDRESS)
+      @msg.bcc.should be == ApplicationHelper::MACHOVY_SALES_ADMIN
     end
     
     describe "Send the message" do
@@ -154,7 +155,7 @@ describe "UserMailer" do
       it "should be sent to the right user" do
         @msg.to.to_s.should match(@order.email)
         @msg.cc.to_s.should match(@order.promotion.vendor.user.email)
-        @msg.bcc.to_s.should match(ApplicationHelper::MACHOVY_SALES_ADMIN)
+        @msg.bcc.should be == ApplicationHelper::MACHOVY_SALES_ADMIN
       end
       
       it "should have the right subject" do
@@ -301,6 +302,7 @@ describe "UserMailer" do
       # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
       it "should be sent to the right user" do
         msg.to.to_s.should match(order.email)
+        msg.bcc.should be == ApplicationHelper::MACHOVY_MERCHANT_ADMIN
       end
       
       it "should have the right subject" do
@@ -344,6 +346,7 @@ describe "UserMailer" do
       # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
       it "should be sent to the right user" do
         msg.to.to_s.should match(macho_bucks.user.email)
+        msg.bcc.should be == ApplicationHelper::MACHOVY_MERCHANT_ADMIN
       end
       
       it "should have the right subject" do
@@ -388,6 +391,7 @@ describe "UserMailer" do
       # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
       it "should be sent to the right user" do
         msg.to.to_s.should match(macho_bucks.user.email)
+        msg.bcc.should be == ApplicationHelper::MACHOVY_MERCHANT_ADMIN
       end
       
       it "should have the right subject" do
