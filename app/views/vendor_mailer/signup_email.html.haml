@@ -1,4 +1,4 @@
 %h2 Welcome to Machovy!
 %p== You can create promotions for #{@vendor.name} immediately. By signing up, you've agreed to the terms of our merchant agreement displayed on the signup page.
 %p== If you want to print a copy of the merchant agreement, you can download it here: #{link_to "https://www.machovy.com/merchant_contract", "https://www.machovy.com/merchant_contract"}
-%p== If you have any questions, please contact us at #{mail_to ApplicationHelper::MACHOVY_SALES_ADMIN}.
+%p== If you have any questions, please contact us at #{mail_to ApplicationHelper::MACHOVY_SALES_ADMIN[0]}.
