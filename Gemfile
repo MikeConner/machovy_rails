@@ -26,17 +26,17 @@ end
 gem 'haml', '3.1.7'
 
 gem 'jquery-rails', '2.1.2'
+gem 'thin', '1.4.1'
 
 group :development, :test do
   gem 'rspec-rails', '2.12.2'
   gem 'faker', '1.0.1'
   gem 'spork', '0.9.2'
-  gem 'thin', '1.4.1'
 end
 
-group :production do
-  gem 'unicorn', '4.6.2'
-end
+#group :production do
+#  gem 'unicorn', '4.6.2'
+#end
 
 group :development do
   gem 'annotate', '~> 2.4.1.beta'
