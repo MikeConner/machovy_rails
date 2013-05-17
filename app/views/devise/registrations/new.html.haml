@@ -32,8 +32,8 @@
             %br
             %p <strong>Sign Up</strong>
             = f.email_field :email, {:placeholder => 'Email'}
-            = f.password_field :password, {:placeholder => 'Password'}
-            = f.password_field :password_confirmation, {:placeholder => 'Password Confirmation'}  
+            = f.password_field :password, {:placeholder => 'Password', :autocomplete => 'off'}
+            = f.password_field :password_confirmation, {:placeholder => 'Password Confirmation', :autocomplete => 'off'}  
             %br
             By clicking "Sign up" I agree that:
             %ul

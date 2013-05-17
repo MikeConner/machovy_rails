@@ -33,7 +33,7 @@ describe "Edit Affiliate deal" do
       fill_in 'promotion_remote_teaser_image_url', :with => 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
       select '2016', :from => 'promotion_end_date_1i'
       click_button 'Create Affiliate'
-      #save_page
+      save_page
       @promotion = Promotion.first
       save_page
       # wait_until removed in Capybara 2.0

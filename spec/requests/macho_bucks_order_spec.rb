@@ -65,7 +65,9 @@ describe "Ordering with macho bucks" do
         order_msg.attachments[0].filename.should be == Voucher.first.uuid + ".png"
         
         bucks_msg.to.to_s.should match(bucks100.user.email)        
-        bucks_msg.bcc.to_s.should match(ApplicationHelper::MACHOVY_MERCHANT_ADMIN)        
+        ApplicationHelper::MACHOVY_MERCHANT_ADMIN.each do |admin|
+          bucks_msg.bcc.to_s.should match(admin)
+        end        
         bucks_msg.subject.should be == UserMailer::MACHO_REDEEM_MESSAGE
         bucks_msg.body.encoded.should match('We applied a credit of 10')
         bucks_msg.body.encoded.should match("90.00.")
@@ -118,7 +120,9 @@ describe "Ordering with macho bucks" do
         order_msg.attachments[0].filename.should be == Voucher.first.uuid + ".png"
         
         bucks_msg.to.to_s.should match(bucks100.user.email)        
-        bucks_msg.bcc.to_s.should match(ApplicationHelper::MACHOVY_MERCHANT_ADMIN)        
+        ApplicationHelper::MACHOVY_MERCHANT_ADMIN.each do |admin|
+          bucks_msg.bcc.to_s.should match(admin)
+        end        
         bucks_msg.subject.should be == UserMailer::MACHO_REDEEM_MESSAGE
         bucks_msg.body.encoded.should match('We applied a credit of 100')
         bucks_msg.body.encoded.should match("0.00.")
@@ -179,7 +183,9 @@ describe "Ordering with macho bucks" do
         order_msg.attachments[0].filename.should be == Voucher.first.uuid + ".png"
         
         bucks_msg.to.to_s.should match(bucks10.user.email)        
-        bucks_msg.bcc.to_s.should match(ApplicationHelper::MACHOVY_MERCHANT_ADMIN)        
+        ApplicationHelper::MACHOVY_MERCHANT_ADMIN.each do |admin|
+          bucks_msg.bcc.to_s.should match(admin)
+        end        
         bucks_msg.subject.should be == UserMailer::MACHO_REDEEM_MESSAGE
         bucks_msg.body.encoded.should match('We applied a credit of 10')
         bucks_msg.attachments.count.should be == 0

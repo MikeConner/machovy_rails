@@ -49,9 +49,7 @@ describe "VendorMailer" do
         msg.body.encoded.should match("If you want to print a copy of the merchant agreement, you can download it here")
         # It's chopped because the () interfere with the matching
         
-        ApplicationHelper::MACHOVY_SALES_ADMIN.each do |admin|
-          msg.body.encoded.should match(admin)
-        end
+        msg.body.encoded.should match(ApplicationHelper::MACHOVY_SALES_ADMIN[0])
         
         ActionMailer::Base.deliveries.count.should == 1
       end

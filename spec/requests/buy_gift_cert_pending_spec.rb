@@ -40,6 +40,7 @@ describe "Buy Gift Certificate for pending signup" do
         fill_in 'last_name', :with => 'Bennett'
         click_button I18n.t('buy_gift_certificate')
         save_page # Seem to need this for timing!
+        save_page # Seem to need this for timing!
         @certificate = GiftCertificate.first
       end
             

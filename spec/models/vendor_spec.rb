@@ -56,6 +56,7 @@ describe "Vendors" do
     vendor.should respond_to(:coupons)
     vendor.should respond_to(:logo_image)
     vendor.should respond_to(:time_owed)
+    vendor.should respond_to(:notes)
     vendor.user.should be == user
   end
   

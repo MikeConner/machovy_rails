@@ -43,7 +43,7 @@ class Vendor < ActiveRecord::Base
   RECENT_DAYS = 3
   
   attr_accessible :address_1, :address_2, :city, :facebook, :name, :phone, :state, :url, :zip, :latitude, :longitude, :private_address, 
-                  :source, :logo_image, :remote_logo_image_url,
+                  :source, :logo_image, :remote_logo_image_url, :notes,
                   :user_id
                   
   belongs_to :user

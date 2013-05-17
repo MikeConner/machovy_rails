@@ -3,7 +3,6 @@ describe "Voucher Search" do
     # Need this for visit root_path to work
     Metro.create(:name => 'Pittsburgh')
     Role.create(:name => Role::MERCHANT)
-    @voucher = FactoryGirl.create(:voucher)
     visit root_path
     Warden.test_mode!
   end
@@ -13,6 +12,9 @@ describe "Voucher Search" do
   describe "Sign in" do
     before do
       sign_in_as_a_vendor
+      @promotion = FactoryGirl.create(:promotion, :vendor => @vendor)
+      @order = FactoryGirl.create(:order, :user => @user, :promotion => @promotion)
+      @voucher = FactoryGirl.create(:voucher, :order => @order)
       login_as(@user, :scope => :user)
 =begin
       # go to sign in page
@@ -29,13 +31,13 @@ describe "Voucher Search" do
     describe "search by email", :js => true do
       before do
         visit merchant_vouchers_path
-        fill_in 'voucher_search', :with => "#{@voucher.order.user.email}\n"
+        fill_in 'voucher_search', :with => "#{@user.email}\n"
       end
       
       it { should have_link('Redeem', :href => redeem_admin_merchant_voucher_path(@voucher, :status => Voucher::REDEEMED)) }
       it { should have_content(@voucher.uuid) }
     end
-    
+
     describe "search by voucher", :js => true do
       before do
         visit merchant_vouchers_path
