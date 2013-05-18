@@ -1,26 +1,33 @@
-%h1
-  - if @vendor.logo_image.present?
-    = image_tag @vendor.logo_image_url
-  = @vendor.name
-- if !@vendor.source.blank?
-  %em== Source: #{@vendor.source}
-%p
-  %b Url:
-  = @vendor.url
-%p
-  %b Facebook:
-  = @vendor.facebook
-%p
-  %b Phone:
-  = @vendor.phone
-%p
-  %b Address:
-  %br/
-  = @vendor.address_1
-  %br/
-  - if !@vendor.address_2.blank?
-    = @vendor.address_2
-    %br/
-  == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
-%br/
-= link_to 'Edit', edit_merchant_vendor_path(@vendor)
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1
+        - if @vendor.logo_image.present?
+          = image_tag @vendor.logo_image_url
+        = @vendor.name
+  .row
+    = render :partial => 'shared/flash_messages'
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      %p
+        %b Url:
+        = @vendor.url
+      %p
+        %b Facebook:
+        = @vendor.facebook
+      %p
+        %b Phone:
+        = @vendor.phone
+      %p
+        %b Address:
+        %br/
+        = @vendor.address_1
+        %br/
+        - if !@vendor.address_2.blank?
+          = @vendor.address_2
+          %br/
+        == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
+      %br/
+      = link_to 'Edit', edit_merchant_vendor_path(@vendor)
