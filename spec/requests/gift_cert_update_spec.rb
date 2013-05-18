@@ -45,6 +45,7 @@ describe "Buy Gift Certificate for pending signup, then change" do
         visit merchant_vouchers_path
         save_page # Seem to need this for timing!
         @certificate = GiftCertificate.first
+        save_page
       end
             
       it "should have created the bucks recipient" do
@@ -77,6 +78,7 @@ describe "Buy Gift Certificate for pending signup, then change" do
           click_button 'Update Gift Certificate'
           save_page
           @certificate = GiftCertificate.first
+          save_page
         end
         
         it "should have credited the macho bucks and sent the emails" do

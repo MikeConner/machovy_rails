@@ -55,34 +55,34 @@
         -# However, this causes complexity in the controller; the JS params have to match the Post params, since the card gets parsed
         -#   twice: once before posting, and once after. So you'd have order_first_name and order[first_name]. So leave it a text_field_tag
         .field
-          = text_field_tag :first_name, nil, :maxlength => User::MAX_FIRST_NAME_LEN, :placeholder => 'First Name of cardholder'
-          = text_field_tag :last_name, nil, :maxlength => User::MAX_LAST_NAME_LEN, :placeholder => 'Last Name of cardholder'
-          = text_field_tag :card_number, nil, :placeholder => 'Card Number', :class => 'credit'
-          = text_field_tag :card_code, nil, :maxlength => 4, :placeholder => 'Security (CVV)', :class => 'cvv'
+          = text_field_tag :first_name, nil, :maxlength => User::MAX_FIRST_NAME_LEN, :placeholder => 'First Name of cardholder', :autocomplete => 'given-name'
+          = text_field_tag :last_name, nil, :maxlength => User::MAX_LAST_NAME_LEN, :placeholder => 'Last Name of cardholder', :autocomplete => 'family-name'
+          = text_field_tag :card_number, nil, :placeholder => 'Card Number', :class => 'credit', :autocomplete => 'cc-number'
+          = text_field_tag :card_code, nil, :maxlength => 4, :placeholder => 'Security (CVV)', :class => 'cvv', :autocomplete => 'cc-csc'
           = label_tag :card_month, "Exp:", :class => 'expiration'
           -# Would do the date selection like this if it were intended for the controller -- but Javascript intercepts and needs it this funky way
           -# JS sets the hidden field if the card gets processed properly
           -#= date_select :card_expiration, :card_expiration, { order: [:month, :year], discard_day: true, add_month_numbers: true,  }
-          = select_month Date.today, { add_month_numbers: true }, { name: "card_month", id: "card_month" }
-          = select_year Date.today, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: "card_year", id: "card_year" } 
+          = select_month Date.today, { add_month_numbers: true }, { name: "card_month", id: "card_month", :autocomplete => 'cc-exp-month' }
+          = select_year Date.today, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: "card_year", id: "card_year", :autocomplete => 'cc-exp-year' } 
         %br
         %p.card-details= I18n.t('credit_card_details')                    
         -#
           %em Billing address (optional, but makes the transaction more secure) 
-          .field
+          .field, :aytocomplete => 'section-billing'
             = label_tag :address, "Street address"
-            = text_field_tag :address
+            = text_field_tag :address, :autocomplete => 'street-address'
             = label_tag :city
-            = text_field_tag :city
+            = text_field_tag :city, :autocomplete => 'city'
             = label_tag :state
-            = text_field_tag :state
+            = text_field_tag :state, :autocomplete => 'state'
             = label_tag :zipcode
-            = text_field_tag :zipcode          
+            = text_field_tag :zipcode, :autocomplete => 'postal-code'          
             = check_box_tag 'cb_save_card', '1', false, :onclick => "set_save_card_field()"
             = label_tag 'cb_save_card', 'Save this card for future orders?'
     - if @order.product_order?
       .field
-        = f.text_field :name, :class => 'full', :maxlength => User::MAX_FIRST_NAME_LEN + User::MAX_LAST_NAME_LEN + 1, :placeholder => 'Name on the order'
+        = f.text_field :name, :class => 'full', :maxlength => User::MAX_FIRST_NAME_LEN + User::MAX_LAST_NAME_LEN + 1, :placeholder => 'Name on the order', :autocomplete => 'name'
       - if @order.promotion.pickup_order?
         .field
           = f.text_field :pickup_notes, :class => 'full', :maxlength => User::MAX_FIRST_NAME_LEN + User::MAX_LAST_NAME_LEN + 1, :placeholder => 'Notes for the merchant (optional)'
@@ -90,12 +90,12 @@
       %br
       %h4 Shipping Address
       -#= button_tag 'Copy from billing address', :type => 'button', :onclick => "carry_over_address()"
-      .field
-        = f.text_field :address_1, :class => 'full', :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Address 1'
-        = f.text_field :address_2, :class => 'full', :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Address 2'
-        = f.text_field :city, :class => 'city', :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'City'
-        = f.text_field :state, :class => 'state', :maxlength => ApplicationHelper::STATE_LEN, :placeholder => 'State'
-        = f.text_field :zipcode, :class => 'zip', :maxlength => ApplicationHelper::ZIPCODE_LEN, :placeholder => 'Zipcode'
+      .field{:autocomplete => 'section-shipping'}
+        = f.text_field :address_1, :class => 'full', :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Address 1', :autocomplete => 'address-line1'
+        = f.text_field :address_2, :class => 'full', :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Address 2', :autocomplete => 'address-line2'
+        = f.text_field :city, :class => 'city', :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'City', :autocomplete => 'city'
+        = f.text_field :state, :class => 'state', :maxlength => ApplicationHelper::STATE_LEN, :placeholder => 'State', :autocomplete => 'state'
+        = f.text_field :zipcode, :class => 'zip', :maxlength => ApplicationHelper::ZIPCODE_LEN, :placeholder => 'Zipcode', :autocomplete => 'postal-code'
     = f.submit I18n.t('buy_now'), :class => 'btn'
     %br
     .alert.label#card_error

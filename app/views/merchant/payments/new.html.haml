@@ -1,41 +1,52 @@
-%h1== New payment to #{@vendor.name}
-%p== Amount owed: #{number_to_currency(@vendor.amount_owed)}
-%br/
-%table
-  %tr
-    %th Exclude
-    %th Voucher ID
-    %th Customer
-    %th Promotion
-    %th Date
-    %th Amount
-    %th Machovy Share
-    %th Merchant Share
-  - @unpaid_vouchers.each do |voucher|
-    %tr
-      %td= check_box_tag "cb_exclude", "1", false, :id => "#{voucher.id}", :onclick => "adjust_amount('payment_amount', #{voucher.id}, #{voucher.order.merchant_share})"
-      %td= voucher.uuid
-      %td= voucher.order.email
-      %td= voucher.order.promotion.title
-      %td= voucher.order.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)
-      %td= number_to_currency(voucher.order.total_cost)
-      %td= number_to_currency(voucher.order.total_cost - voucher.order.merchant_share)
-      %td= number_to_currency(voucher.order.merchant_share)
-%br/
-= form_for [:merchant, @payment] do |f|
-  = render :partial => 'shared/error_messages', :locals => { :errors => @payment.errors, :name => 'Payment' }
-  = f.hidden_field :vendor_id
-  = hidden_field_tag 'excluded_vouchers'
-  .field
-    = f.label :amount
-    == $#{f.text_field :amount, :min => 0}
-  .field
-    = f.label :check_number
-    = f.number_field :check_number, :min => Payment::MINIMUM_CHECK_NUMBER
-  .field
-    = f.label :check_date
-    = f.date_select :check_date, :order => [:month, :day, :year]
-  .field
-    = f.label :notes
-    = f.text_area :notes, :size => '60x6'
-  = button_tag 'Create Payment', :id => 'create_payment', :onclick => "set_excluded('cb_exclude', 'excluded_vouchers')"
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1== New payment to #{@vendor.name}
+  .row
+    = render :partial => 'shared/flash_messages'
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      %h3== Amount owed: #{number_to_currency(@vendor.amount_owed)}
+      %strong= @vendor.notes
+      %br
+      - if ! @unpaid_vouchers.empty?
+        %table
+          %tr
+            %th Exclude
+            %th Voucher ID
+            %th Customer
+            %th Promotion
+            %th Date
+            %th Amount
+            %th Machovy Share
+            %th Merchant Share
+          - @unpaid_vouchers.each do |voucher|
+            %tr
+              %td= check_box_tag "cb_exclude", "1", false, :id => "#{voucher.id}", :onclick => "adjust_amount('payment_amount', #{voucher.id}, #{voucher.order.merchant_share})"
+              %td= voucher.uuid
+              %td= voucher.order.email
+              %td= voucher.order.promotion.title
+              %td= voucher.order.created_at.try(:strftime, ApplicationHelper::DATE_FORMAT)
+              %td= number_to_currency(voucher.order.total_cost)
+              %td= number_to_currency(voucher.order.total_cost - voucher.order.merchant_share)
+              %td= number_to_currency(voucher.order.merchant_share)
+      %br/
+      = form_for [:merchant, @payment] do |f|
+        = render :partial => 'shared/error_messages', :locals => { :errors => @payment.errors, :name => 'Payment' }
+        = f.hidden_field :vendor_id
+        = hidden_field_tag 'excluded_vouchers'
+        .field
+          = f.label :amount, 'Amount ($)'
+          = f.text_field :amount, :min => 0
+        .field
+          = f.label :check_number
+          = f.number_field :check_number, :min => Payment::MINIMUM_CHECK_NUMBER
+        .field
+          = f.label :check_date
+          = f.date_select :check_date, :order => [:month, :day, :year]
+        .field
+          = f.label :notes
+          = f.text_area :notes, :size => '60x6'
+        = button_tag 'Create Payment', :id => 'create_payment', :onclick => "set_excluded('cb_exclude', 'excluded_vouchers')"

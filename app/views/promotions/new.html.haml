@@ -1,12 +1,14 @@
-= render :partial => 'shared/error_messages', :locals => { :errors => @promotion.errors, :name => 'Promotion' }
 .about-page-container
   .row
     .large-12.columns
       %h1= I18n.t('new_promotion')
+  .row
+    = render :partial => 'shared/flash_messages'
   .row.about-page
     .large-8.columns
       = form_for @promotion, :html => { multipart: true } do |f|
         -# Grid weight is validated, so it has to be in the form, but customers can't see it
+        = render :partial => 'shared/error_messages', :locals => { :errors => @promotion.errors, :name => 'Promotion' }
         - if admin_user?
           .box
             .field

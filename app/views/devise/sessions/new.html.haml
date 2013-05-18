@@ -14,7 +14,7 @@
           = f.label :email
           = f.email_field :email, {:placeholder => 'Email'}
           = f.label :password
-          = f.password_field :password, {:placeholder => 'Password'}
+          = f.password_field :password, {:placeholder => 'Password', :autocomplete => 'off'}
           - if devise_mapping.rememberable?
             -#= f.label :remember_me
             %label{:for => "#{resource_name}_remember_me"}
@@ -37,9 +37,9 @@
           = f.label :password
           %p.help-block
             = I18n.t('password_prompt').html_safe
-          = f.password_field :password, {:placeholder => 'Password'}
+          = f.password_field :password, {:placeholder => 'Password', :autocomplete => 'off'}
           = f.label :password_confirmation
-          = f.password_field :password_confirmation, {:placeholder => 'Password Confirmation'}
+          = f.password_field :password_confirmation, {:placeholder => 'Password Confirmation', :autocomplete => 'off' }
           .sign-in-footer
             = f.submit I18n.t('create_account'), {:class => 'btn small'}
             = link_to 'Merchant? Create an account here', new_user_registration_path, :class => 'btn secondary small'
