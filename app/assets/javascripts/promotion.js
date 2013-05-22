@@ -62,6 +62,7 @@ $(function() {
   });
     
   // filter items when filter link is clicked
+  var $container = $('#container');
   $('#filters a').click(function(){
     var selector = $(this).attr('data-filter');
     $container.isotope({ filter: selector });
