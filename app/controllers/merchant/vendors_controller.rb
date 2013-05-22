@@ -7,7 +7,7 @@ class Merchant::VendorsController < Merchant::BaseController
   # Note -- very similar filters are in registrations_controller (can't share because arguments are different)
   before_filter :transform_phones, only: [:create, :update]
   before_filter :upcase_state, only: [:create, :update]
-  before_filter :ensure_correct_vendor, :only => [:reports, :show_payments, :show_customers]
+  before_filter :ensure_correct_vendor, :only => [:reports, :show_payments]
   before_filter :admin_user, :except => [:reports, :show_payments]
   
   load_and_authorize_resource
@@ -37,6 +37,7 @@ class Merchant::VendorsController < Merchant::BaseController
   end
 
   def show_customers
+    @vendor = Vendor.find(params[:id])
     customers = Hash.new
     @customer_data = Hash.new
     @vendor.orders.each do |order|

@@ -42,3 +42,53 @@
           %i.icon-twitter
         %a{:href => '#'}
           %i.icon-envelope
+:javascript
+  $(function() {
+    // Send width if we're on the main page AND there's no deal content yet
+    if (($('.display_front_page').length > 0) && (0 == $('#deal_content').length)) {
+      update_width($(window).width(), false);
+    }
+  
+    if (0 == $('#affiliate_layout').length) {
+      $.backstretch(["/assets/background-img.jpg"])
+    }
+    
+    var $container = $('#container');
+    $container.imagesLoaded( function(){
+      $container.isotope({
+        itemSelector : '.box',
+          masonry : {
+            resizable: false, // disable normal resizing
+             // set columnWidth to a percentage of container width
+            columnWidth: $container.width() / 100,
+            gutterWidth: 2
+          }
+      });                     
+  
+    $(window).smartresize(function(){
+      $container.isotope({
+        // update columnWidth to a percentage of container width
+        masonry: { columnWidth: $container.width() / 100 }
+      });
+      //update_width($(window).width(), true);
+    });
+    });
+  
+    $(window).on("debouncedresize", function( event ) {
+      update_width($(window).width(), true);
+    });
+  });
+    
+  function update_width(width, resize) {
+    data_obj = {"width": width, "resize": resize}
+    
+    jQuery.ajax({url:"/width",
+                 data: data_obj,
+               type: "PUT",
+               // Don't need to do anything on success
+                 error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
+                   { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
+                 async: false
+    }); 
+  }
+

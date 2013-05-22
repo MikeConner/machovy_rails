@@ -27,11 +27,12 @@ describe "Product promotion for pickup approved" do
       fill_in 'promotion_remote_main_image_url', :with => 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
       fill_in 'promotion_retail_value', :with => 1000
       fill_in 'promotion_price', :with => 500
-      select '2016', :from => 'promotion_end_date_1i'
+      #select '2016', :from => 'promotion_end_date_1i'
       find(:xpath, "//input[@id='promotion_strategy']").set "Product"
       select 'For pickup', :from => 'delivery'
       click_button 'Submit'
       @promotion = Promotion.first
+      @promotion.update_attributes!(:end_date => 1.year.from_now)
     end
     
     it "should create promotion" do
