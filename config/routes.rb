@@ -75,6 +75,7 @@ MachovyRails::Application.routes.draw do
       member do
         get 'reports'
         get 'show_payments'
+        get 'show_customers'
       end
     end
     resources :payments, :only => [:new, :create]

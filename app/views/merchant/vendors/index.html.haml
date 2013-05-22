@@ -58,12 +58,7 @@
             %th User
             %th Source
             %th # Promos
-            /%th Url
             %th Phone
-            /%th Address
-            /%th City
-            /%th State
-            /%th Zip
             %th Total Paid
             %th Machovy Share
             %th Merchant Share
@@ -75,15 +70,12 @@
               %td= vendor.user.nil? ? 'None' : vendor.user.email
               %td= vendor.source
               %td= vendor.promotions.count
-              /%td= vendor.url
               %td= vendor.phone
-              /%td= vendor.address_1
-              /%td= vendor.city
-              /%td= vendor.state
-              /%td= vendor.zip
               %td= number_to_currency(vendor.total_paid)
               %td= number_to_currency(vendor.total_commission)
               %td= number_to_currency(vendor.amount_owed)
-              %td= link_to 'Payments', show_payments_merchant_vendor_path(vendor)
+              %td
+                = link_to 'Payments', show_payments_merchant_vendor_path(vendor)
+                = link_to 'Customers', show_customers_merchant_vendor_path(vendor)
         %br
       = link_to 'New Vendor', new_merchant_vendor_path

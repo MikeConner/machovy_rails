@@ -7,7 +7,7 @@ class Merchant::VendorsController < Merchant::BaseController
   # Note -- very similar filters are in registrations_controller (can't share because arguments are different)
   before_filter :transform_phones, only: [:create, :update]
   before_filter :upcase_state, only: [:create, :update]
-  before_filter :ensure_correct_vendor, :only => [:reports, :show_payments]
+  before_filter :ensure_correct_vendor, :only => [:reports, :show_payments, :show_customers]
   before_filter :admin_user, :except => [:reports, :show_payments]
   
   load_and_authorize_resource
@@ -35,6 +35,26 @@ class Merchant::VendorsController < Merchant::BaseController
       p_data[:vouchers] = voucher_data
     end
   end
+
+  def show_customers
+    customers = Hash.new
+    @customer_data = Hash.new
+    @vendor.orders.each do |order|
+      if customers.has_key?(order.user.id)
+        customers[order.user.id] += order.total_cost
+        @customer_data[order.user.id][:count] += 1
+      else
+        customers[order.user.id] = order.total_cost
+        @customer_data[order.user.id] = Hash.new
+        @customer_data[order.user.id][:count] = 1
+        @customer_data[order.user.id][:name] = "#{order.first_name} #{order.last_name}"
+      end
+    end
+    
+    @ordered_customers = customers.sort {|a,b| b[1] <=> a[1]}     
+     
+    render :layout => 'layouts/admin'
+  end  
   
   def show_payments
     # Logic goes in the controller -- too much to do in a view
