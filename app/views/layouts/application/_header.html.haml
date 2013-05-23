@@ -17,13 +17,13 @@
             %li
             - Metro.all.each do |metro|
               %li= link_to metro.name, metro_filter_path(:metro => metro.name)
-          %li.divider
-          %li
-            = link_to curators_path do
-              %i.icon-plus-sign-alt 
-              Lifestyle
-          %li.divider
-      %ul#menu.right
+        %li.divider
+        %li
+          = link_to curators_path do
+            %i.icon-plus-sign-alt 
+            Lifestyle
+        %li.divider
+      %ul#menu-right.right
         - if current_user.nil?
           %li.divider.hide-for-small
           %li
