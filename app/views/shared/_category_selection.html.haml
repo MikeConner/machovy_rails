@@ -9,6 +9,6 @@
     %td= check_box_tag "#{name}[category_ids][]", category.id, object.category_ids.include?(category.id), :id => "#{name}_category_ids_#{category.id}"
     - if category.exclusive?
       -# Why doesn't class='highlight' work?
-      %td= label_tag category.name, nil, :style => 'color:red', :title => 'Exclusive Category'
+      %td= label_tag "#{name}_category_ids_#{category.id}", category.name, :style => 'color:red', :title => 'Exclusive Category'
     - else
-      %td= label_tag category.name
+      %td= label_tag "#{name}_category_ids_#{category.id}", category.name
