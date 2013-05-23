@@ -138,7 +138,7 @@
       - else 
         = image_tag(f.object.teaser_image_url(:product_thumb).to_s)
       = f.label :teaser_image, "Front Page (teaser)"
-      = f.file_field :teaser_image, :accept => "image/*;capture=camera"
+      = f.file_field :teaser_image#, :accept => "image/*;capture=camera"
       = f.label :remote_teaser_image_url, "or image URL"
       = f.text_field :remote_teaser_image_url, :title => I18n.t('ensure_image')
     .large-4.columns
@@ -147,7 +147,7 @@
       - else
         = image_tag(f.object.main_image_url(:product_thumb).to_s)
       = f.label :main_image, "Promotion Page Image"
-      = f.file_field :main_image, :accept => "image/*;capture=camera"
+      = f.file_field :main_image#, :accept => "image/*;capture=camera"
       = f.label :remote_main_image_url, "or image URL"
       = f.text_field :remote_main_image_url, :title => I18n.t('ensure_image')
     .large-4.columns
