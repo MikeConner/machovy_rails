@@ -19,37 +19,37 @@
   .section-container.tabs{:data => {:section => ''}}
     %section.section
       %p.title
-        %a Deal Description
+        %h5 Deal Description
       .content
         %p Tell us about your product or service. We love entertaining or funny content, so be creative.  We'll have our creative staff review and revise it before we publish.
-        = f.text_area :description
+        = f.text_area :description, :placeholder => 'Description'
     %section.section
       %p.title
-        %a Deal Limitations
+        %h5 Deal Limitations
       .content
         %p What limitations are there on this deal? Is this deal only on Tuesdays?
-        = f.text_area :limitations
+        = f.text_area :limitations, :placeholder => 'Limitations'
     %section.section
       %p.title
-        %a Voucher Instructions
+        %h5 Voucher Instructions
       .content
         %p How will our customers use their voucher?  Will they need to call and schedule a date or time with you?  Do they present it at the front desk?  Will they have to print it or just show it on their phone?  
-        = f.text_area :voucher_instructions 
+        = f.text_area :voucher_instructions, :placeholder => 'Instructions'
     %section.section
       %p.title
-        %a Venue Location
+        %h5 Venue Location
       .content
         %p Do you want to display a map and address to users? If so, and it's different from your vendor address, enter it here
         = f.label :venue_name
-        = f.text_field :venue_name, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN
+        = f.text_field :venue_name, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Venue name'
         = f.label :venue_address
-        = f.text_field :venue_address, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN
+        = f.text_field :venue_address, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Street address'
         = f.label :venue_city
-        = f.text_field :venue_city, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN
+        = f.text_field :venue_city, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'City'
         = f.label :venue_state
         = f.text_field :venue_state, :maxlength => ApplicationHelper::STATE_LEN, :placeholder => 'PA'
         = f.label :venue_zipcode
-        = f.text_field :venue_zipcode, :maxlength => ApplicationHelper::ZIP_PLUS4_LEN   
+        = f.text_field :venue_zipcode, :maxlength => ApplicationHelper::ZIP_PLUS4_LEN, :placeholder => 'Zipcode'   
 %h3= "Duration & Quantity"
 %fieldset
   %h4 How many are available for sale?
@@ -117,7 +117,7 @@
         %h4 This is a product (e.g., physical gift card); vouchers do not need to be redeemed
         = label_tag :sku, 'SKU/Product ID', :style => "display:inline"
         %em (Optional)
-        = text_field_tag :sku
+        = text_field_tag :sku, :placeholder => 'SKU'
         -# Check box and radio tags don't work inside tabs, apparently!!!
         = label_tag :delivery, 'Delivery options'
         = select_tag :delivery, options_for_select(ProductStrategy::SHIPPING_OPTIONS, default_shipping)      
