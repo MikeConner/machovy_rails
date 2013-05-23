@@ -4,7 +4,7 @@
   - num_columns = [1, categories.count / num_per_column].max
   - categories.each do |category|
     - if idx % num_columns == 0
-      %tr
+      <tr>
     - idx += 1
     %td= check_box_tag "#{name}[category_ids][]", category.id, object.category_ids.include?(category.id), :id => "#{name}_category_ids_#{category.id}"
     - if category.exclusive?

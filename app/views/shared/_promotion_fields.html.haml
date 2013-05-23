@@ -60,13 +60,13 @@
     Your promotion will appear between these dates.  If you are not ready to start promoting your deal, chose a start date in the future. If&nbsp;you need to have it end on a specific date, the end date will be the last day your promotion will appear on machovy.
   .row
     .large-6.columns
-      = f.label :start_date
+      %label Start Date
       -# Need the date_select elements for the nested attributes to be processed correctly by the controller
         Just don't show them; create jQuery datepickers instead
       = f.date_select :start_date, { :order => [:month, :day, :year] }, { :style => 'display:none' }
       #jq_start_date
     .large-6.columns
-      = f.label :end_date
+      %label End Date
       = f.date_select :end_date, { :order => [:month, :day, :year] }, { :style => 'display:none' }
       #jq_end_date
 
@@ -91,7 +91,7 @@
           = PromotionStrategyFactory::FIXED_STRATEGY
       .content
         %h4 Vouchers expire on a fixed date (typically some time after the display period ends)
-        = label_tag :fixed_end_date
+        %label Fixed End Date
         = date_select 'fixed', 'end_date', { :order => [:month, :day, :year], :default => { :year => fixed_date.year, :month => fixed_date.month, :day => fixed_date.day} }, { :style => 'display:none' }
         #jq_fixed_end_date
         %br/
