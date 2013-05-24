@@ -130,6 +130,7 @@ describe "Promotions" do
     promotion.should respond_to(:I3crop_w)
     promotion.should respond_to(:I3crop_h)
     promotion.should respond_to(:requires_prior_purchase)
+    promotion.should respond_to(:upload_pending?)
     promotion.metro.should be == metro
     promotion.vendor.should be == vendor
     promotion.promotion_type.should be == Promotion::LOCAL_DEAL
@@ -143,6 +144,44 @@ describe "Promotions" do
     promotion.zombie?.should be_false
     promotion.coming_soon?.should be_false
     promotion.affiliate_logo.should be_nil
+    promotion.upload_pending?.should be_true
+  end
+    
+  describe "Pending images" do
+    describe "pending teaser" do
+      before { sleep 3 }
+      
+      it "should be pending" do
+        promotion.reload.upload_pending?.should be_false
+      end
+    end
+    
+    describe "pending main" do
+      before do
+        promotion.teaser_image_processing = nil
+        promotion.main_image_processing = true
+        promotion.save!
+      end
+       
+      it "should be pending" do
+        promotion.upload_pending?.should be_true
+      end
+    end
+    
+    describe "pending slideshow" do
+      let(:promotion) { FactoryGirl.create(:promotion_with_images) }
+      
+      before do
+        promotion.teaser_image_processing = nil
+        promotion.save!
+        promotion.promotion_images.first.slideshow_image_processing = true
+        promotion.promotion_images.first.save!
+      end
+      
+      it "should be pending" do
+        promotion.upload_pending?.should be_true
+      end
+    end
   end
   
   describe "Voucher consistency" do

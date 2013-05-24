@@ -15,6 +15,7 @@
       %th Log
       %th Delete
       %th Crop
+      %th Upload
   %tbody
     - p_list.each do |p|
       %tr
@@ -45,6 +46,6 @@
         - else
           %td
         %td= button_to 'Crop', crop_promotion_path(p), :method => :get,  :class => 'btn tiny'
-
+        %td= p.upload_pending? ? 'Pending' : 'Complete'
 %center
   = will_paginate p_list, :param_name => param_name

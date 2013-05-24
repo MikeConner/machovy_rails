@@ -115,6 +115,8 @@ class Promotion < ActiveRecord::Base
   # Mounted fields
   mount_uploader :main_image, ImageUploader  
   mount_uploader :teaser_image, ImageUploader
+  process_in_background :main_image
+  process_in_background :teaser_image
 
   # Associations
   # Foreign keys
@@ -401,6 +403,24 @@ class Promotion < ActiveRecord::Base
     
     nil
   end
+  
+  def upload_pending?
+    result = false
+    
+    if self.teaser_image_processing.nil? && self.main_image_processing.nil?
+      self.promotion_images.each do |img|
+        if !img.slideshow_image_processing.nil?
+          result = true
+          break
+        end
+      end
+    else
+      result = true
+    end
+    
+    result
+  end
+  
 private
   # If you extend the date on a Fixed strategy promotion beyond the voucher expiration date, you can create a situation where ordering
   #  will fail to generate valid vouchers. You'll then have an order (and charge on the card!) with no voucher! Check for that case here.
