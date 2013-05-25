@@ -65,6 +65,8 @@ class Merchant::VendorsController < Merchant::BaseController
       next if !promotion.deal?
       detail = Hash.new
       @payment_data.push(detail)
+      detail[:anon_clicks] = promotion.anonymous_clicks
+      detail[:user_clicks] = Activity.where("activity_id=#{promotion.id} AND activity_name='Promotion'").count
       detail[:id] = promotion.id
       detail[:title] = promotion.title
       detail[:returned] = 0

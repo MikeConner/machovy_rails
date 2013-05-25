@@ -8,18 +8,31 @@
       %table
         %thead
           %tr
+            %th{:width => '350'}
+            %th{:colspan => 2} Total Views
+            %th
+            %th{:colspan => 2} Voucher Status
+            %th
+            %th
+            %th{:colspan => 3} Shares
+            %th          
+          %tr
             %th{:width => '350'} Promotion
+            %th Logged
+            %th Anon.
             %th Sold
             %th Expired
             %th Returned
             %th Redeemed
-            %th{:width => '100'} Total $
-            %th{:width => '200'} Machovy Share
-            %th{:width => '200'} Merchant Share
+            %th Total $
+            %th Machovy
+            %th Merchant
             %th Pickup/Delivery
         - @payment_data.each do |promotion_data|
           %tr
             %td= promotion_data[:title]
+            %td= promotion_data[:user_clicks]
+            %td= promotion_data[:anon_clicks]
             %td= promotion_data[:sold]
             %td= promotion_data[:expired]
             %td= promotion_data[:returned]

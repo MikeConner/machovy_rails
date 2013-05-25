@@ -14,12 +14,13 @@
         %br
       - else
         %table
-          %tbody
+          %thead
             %tr
               %th Name
               %th Email
               %th Amount Owed
               %th Due for
+          %tbody
           - @owed_vendors.each do |vendor|
             %tr
               %td= vendor.name
@@ -51,7 +52,7 @@
           = page_entries_info 
         = will_paginate @vendors
       %table
-        %tbody
+        %thead
           %tr
             %th ID
             %th Name
@@ -60,9 +61,8 @@
             %th # Promos
             %th Phone
             %th Total Paid
-            %th Machovy Share
-            %th Merchant Share
             %th
+        %tbody
           - @vendors.each do |vendor|
             %tr
               %td= vendor.id
@@ -72,8 +72,6 @@
               %td= vendor.promotions.count
               %td= vendor.phone
               %td= number_to_currency(vendor.total_paid)
-              %td= number_to_currency(vendor.total_commission)
-              %td= number_to_currency(vendor.amount_owed)
               %td
                 = link_to 'Payments', show_payments_merchant_vendor_path(vendor)
                 = link_to 'Customers', show_customers_merchant_vendor_path(vendor)

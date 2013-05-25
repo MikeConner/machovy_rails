@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130524010221) do
+ActiveRecord::Schema.define(:version => 20130525165300) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -305,6 +305,7 @@ ActiveRecord::Schema.define(:version => 20130524010221) do
     t.boolean  "requires_prior_purchase",               :default => false,      :null => false
     t.boolean  "teaser_image_processing"
     t.boolean  "main_image_processing"
+    t.integer  "anonymous_clicks",                      :default => 0,          :null => false
   end
 
   add_index "promotions", ["slug"], :name => "index_promotions_on_slug"

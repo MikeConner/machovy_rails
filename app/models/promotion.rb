@@ -191,6 +191,8 @@ class Promotion < ActiveRecord::Base
   validates :venue_zipcode, :format => { with: US_ZIP_REGEX }, :allow_blank => true
   validates_numericality_of :latitude, :allow_nil => true
   validates_numericality_of :longitude, :allow_nil => true
+  validates :anonymous_clicks, :presence => true,
+                               :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
   
   HORNDOGS = ['jeff@machovy.com', 'adanaie@gmail.com']
   # Can this user buy the promotion? Check if his orders are > maximum/person
