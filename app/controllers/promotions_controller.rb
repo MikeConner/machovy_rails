@@ -112,7 +112,10 @@ class PromotionsController < ApplicationController
       @curators = @curators[0, 4]
     end
     # Ignore for now logging stuff for users who aren't logged in
-    if !current_user.nil? and current_user.is_customer?
+    if current_user.nil?
+      @promotion.anonymous_clicks = @promotion.anonymous_clicks + 1
+      @promotion.save
+    elsif current_user.is_customer?
       current_user.log_activity(@promotion)
     end
   end
