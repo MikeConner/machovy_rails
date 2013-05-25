@@ -80,6 +80,10 @@ class Vendor < ActiveRecord::Base
   # Can't do this because it interferes with editing (promotions aren't nested attributes -- and shouldn't be)
   #validates_associated :promotions
   
+  def <=>(other)
+    name <=> other.name
+  end
+  
   def url_display
     (self.url.blank? or (self.url =~ /^http/i)) ? self.url : "http://#{self.url}"
   end

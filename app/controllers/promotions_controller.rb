@@ -13,17 +13,25 @@ class PromotionsController < ApplicationController
   # Only SuperAdmins (and vendors) can edit local deals
   before_filter :ensure_vendor_or_super_admin, :only => [:edit]
   before_filter :ensure_correct_vendor, :only => [:edit, :show_logs, :accept_edits, :reject_edits, :product_view]
-  before_filter :admin_only, :only => [:manage, :review, :crop, :crop_image]
+  before_filter :admin_only, :only => [:manage, :review, :crop, :crop_image, :filter]
   before_filter :validate_eligible, :only => [:order]
   before_filter :transform_prices, :only => [:create, :update]
   after_filter :update_versions, :only => [:crop_image]
   
   load_and_authorize_resource
 
+  def filter
+    if params[:vendor][:vendor_id].blank?
+      redirect_to promotions_path
+    else
+      redirect_to promotions_path(:vendor_id => params[:vendor][:vendor_id])
+    end
+  end
+  
   # GET /promotions
   # NOTES AND WARNINGS
   #   Logic assumes there is one "Merchant" role and anything else is Machovy; revisit if this changes
-  def index
+  def index    
     # Approved promotions (could still be expired!)     
     # These have different meanings for admins and vendors
     # For a vendor, only that vendor's promotions are included, and "attention" means attention by the vendor
@@ -69,7 +77,10 @@ class PromotionsController < ApplicationController
       end
     elsif !current_user.is_customer? # Assume any other status is Machovy -- Super Admin/Content Admin
       # Nothing to do for ads or affiliates, so don't include them
+      vendor_id = params[:vendor_id].nil? ? nil : params[:vendor_id].to_i
       Promotion.deals.order('updated_at desc').each do |promotion|
+        next if !vendor_id.nil? and (promotion.vendor_id != vendor_id)
+        
         if promotion.approved?
           if promotion.displayable?
             @live.push(promotion)

@@ -54,6 +54,7 @@ MachovyRails::Application.routes.draw do
       get 'manage'
       put 'rebalance'
       get 'review'
+      put 'filter'
     end
   end
   resources :promotion_images
