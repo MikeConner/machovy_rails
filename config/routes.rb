@@ -54,6 +54,7 @@ MachovyRails::Application.routes.draw do
       get 'manage'
       put 'rebalance'
       get 'review'
+      put 'filter'
     end
   end
   resources :promotion_images
@@ -75,6 +76,7 @@ MachovyRails::Application.routes.draw do
       member do
         get 'reports'
         get 'show_payments'
+        get 'show_customers'
       end
     end
     resources :payments, :only => [:new, :create]

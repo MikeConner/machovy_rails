@@ -3,7 +3,8 @@
 class ImageUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
-   include CarrierWave::RMagick
+  include CarrierWave::RMagick
+  include ::CarrierWave::Backgrounder::Delay
   # include CarrierWave::MiniMagick
 
   # Include the Sprockets helpers for Rails 3.1+ asset pipeline compatibility:

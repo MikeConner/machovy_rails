@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130516031147) do
+ActiveRecord::Schema.define(:version => 20130525165300) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -255,6 +255,7 @@ ActiveRecord::Schema.define(:version => 20130516031147) do
     t.integer  "promotion_id"
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false
+    t.boolean  "slideshow_image_processing"
   end
 
   create_table "promotion_logs", :force => true do |t|
@@ -302,6 +303,9 @@ ActiveRecord::Schema.define(:version => 20130516031147) do
     t.boolean  "pending",                               :default => false,      :null => false
     t.string   "venue_name",              :limit => 50
     t.boolean  "requires_prior_purchase",               :default => false,      :null => false
+    t.boolean  "teaser_image_processing"
+    t.boolean  "main_image_processing"
+    t.integer  "anonymous_clicks",                      :default => 0,          :null => false
   end
 
   add_index "promotions", ["slug"], :name => "index_promotions_on_slug"

@@ -91,6 +91,8 @@ gem 'gibbon', '0.3.5'
 gem 'delayed_job_active_record', '0.3.3'
 gem 'newrelic_rpm', '3.5.7.59'
 gem "state_machine", "~> 1.1.2"
+gem 'carrierwave_backgrounder', '0.2.1'
+
 # Not available in Mountain Lion
 #gem 'ruby-graphviz', :require => 'graphviz' # Optional: only required for graphing
 

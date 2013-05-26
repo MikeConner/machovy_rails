@@ -35,6 +35,27 @@ class Merchant::VendorsController < Merchant::BaseController
       p_data[:vouchers] = voucher_data
     end
   end
+
+  def show_customers
+    @vendor = Vendor.find(params[:id])
+    customers = Hash.new
+    @customer_data = Hash.new
+    @vendor.orders.each do |order|
+      if customers.has_key?(order.user.id)
+        customers[order.user.id] += order.total_cost
+        @customer_data[order.user.id][:count] += 1
+      else
+        customers[order.user.id] = order.total_cost
+        @customer_data[order.user.id] = Hash.new
+        @customer_data[order.user.id][:count] = 1
+        @customer_data[order.user.id][:name] = "#{order.first_name} #{order.last_name}"
+      end
+    end
+    
+    @ordered_customers = customers.sort {|a,b| b[1] <=> a[1]}     
+     
+    render :layout => 'layouts/admin'
+  end  
   
   def show_payments
     # Logic goes in the controller -- too much to do in a view
@@ -44,6 +65,8 @@ class Merchant::VendorsController < Merchant::BaseController
       next if !promotion.deal?
       detail = Hash.new
       @payment_data.push(detail)
+      detail[:anon_clicks] = promotion.anonymous_clicks
+      detail[:user_clicks] = Activity.where("activity_id=#{promotion.id} AND activity_name='Promotion'").count
       detail[:id] = promotion.id
       detail[:title] = promotion.title
       detail[:returned] = 0

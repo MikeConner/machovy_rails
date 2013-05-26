@@ -1,0 +1,23 @@
+.payments-page-container
+  .row
+    .large-12.columns
+      %h1 Merchant customers
+  .row.payments-page
+    .large-12.columns
+      - if @ordered_customers.empty?
+        %h3 No Customers
+      - else
+        %table
+          %thead
+            %tr
+              %th Email
+              %th Name
+              %th Orders
+              %th Total
+          - @ordered_customers.each do |customer|
+            %tr
+              - @user = User.find(customer[0])
+              %td= @user.email
+              %td= @customer_data[@user.id][:name]
+              %td= @customer_data[@user.id][:count]
+              %td= number_to_currency(customer[1])

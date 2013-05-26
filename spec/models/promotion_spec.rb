@@ -39,6 +39,9 @@
 #  pending                 :boolean         default(FALSE), not null
 #  venue_name              :string(50)
 #  requires_prior_purchase :boolean         default(FALSE), not null
+#  teaser_image_processing :boolean
+#  main_image_processing   :boolean
+#  anonymous_clicks        :integer         default(0), not null
 #
 
 describe "Promotions" do
@@ -130,6 +133,8 @@ describe "Promotions" do
     promotion.should respond_to(:I3crop_w)
     promotion.should respond_to(:I3crop_h)
     promotion.should respond_to(:requires_prior_purchase)
+    promotion.should respond_to(:upload_pending?)
+    promotion.should respond_to(:anonymous_clicks)
     promotion.metro.should be == metro
     promotion.vendor.should be == vendor
     promotion.promotion_type.should be == Promotion::LOCAL_DEAL
@@ -143,6 +148,59 @@ describe "Promotions" do
     promotion.zombie?.should be_false
     promotion.coming_soon?.should be_false
     promotion.affiliate_logo.should be_nil
+    promotion.upload_pending?.should be_true
+    promotion.anonymous_clicks.should be == 0
+  end
+    
+  describe "no clicks" do
+    before { promotion.anonymous_clicks = nil }
+    
+    it { should_not be_valid }
+  end
+  
+  describe "Invalid clicks" do
+    [-1, 0.5, 'abc'].each do |clicks|
+      before { promotion.anonymous_clicks = clicks }
+      
+      it { should_not be_valid }
+    end
+  end
+  
+  describe "Pending images" do
+    describe "pending teaser" do
+      before { sleep 3 }
+      
+      it "should be pending" do
+        promotion.reload.upload_pending?.should be_false
+      end
+    end
+    
+    describe "pending main" do
+      before do
+        promotion.teaser_image_processing = nil
+        promotion.main_image_processing = true
+        promotion.save!
+      end
+       
+      it "should be pending" do
+        promotion.upload_pending?.should be_true
+      end
+    end
+    
+    describe "pending slideshow" do
+      let(:promotion) { FactoryGirl.create(:promotion_with_images) }
+      
+      before do
+        promotion.teaser_image_processing = nil
+        promotion.save!
+        promotion.promotion_images.first.slideshow_image_processing = true
+        promotion.promotion_images.first.save!
+      end
+      
+      it "should be pending" do
+        promotion.upload_pending?.should be_true
+      end
+    end
   end
   
   describe "Voucher consistency" do

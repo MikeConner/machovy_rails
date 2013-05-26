@@ -7,14 +7,13 @@
       %th Vendor
       %th Status
       %th Title
-      %th Subtitle
       %th Expiration
       - if !p_list.empty? and p_list.first.deal?
-        %th Price
-        %th Quantity
+        %th Remaining
       %th Log
       %th Delete
       %th Crop
+      %th Upload
   %tbody
     - p_list.each do |p|
       %tr
@@ -28,14 +27,12 @@
         %td
           = link_to "#{p.title}", edit_promotion_path(p)
           = link_to "[Preview]", promotion_path(p)
-        %td= p.subtitle
         - if p.end_date.nil?
           %td None
         - else
           %td= p.end_date.try(:strftime, ApplicationHelper::DATE_FORMAT)
         - if p.deal?
-          %td= number_to_currency(p.price)
-          %td= p.quantity
+          %td= ApplicationHelper::MAX_INT == p.remaining_quantity ? 'Unlimited' : p.remaining_quantity
         - if 0 == p.promotion_logs.count
           %td None
         - else
@@ -45,6 +42,6 @@
         - else
           %td
         %td= button_to 'Crop', crop_promotion_path(p), :method => :get,  :class => 'btn tiny'
-
+        %td= p.upload_pending? ? 'Pending' : 'Complete'
 %center
   = will_paginate p_list, :param_name => param_name

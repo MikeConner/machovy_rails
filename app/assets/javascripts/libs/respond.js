@@ -30,8 +30,10 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 
 // iPad
 var isiPad = navigator.userAgent.match(/iPad/i) != null;
-if (isiPad) $('#menu ul').addClass('no-transition');
-
+if (isiPad) {
+	$('#menu ul').addClass('no-transition');
+	$('#menu-right ul').addClass('no-transition');
+}
 
 
 /*! Respond.js v1.1.0: min/max-width media query polyfill. (c) Scott Jehl. MIT/GPLv2 Lic. j.mp/respondjs  */

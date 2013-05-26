@@ -15,7 +15,7 @@
               = f.label :grid_weight
               = f.number_field :grid_weight, :min => 1
             .field
-              = f.label :categories
+              %label Categories
               %br/
               = render :partial => 'shared/category_selection', :locals => { :categories => @categories, :num_per_column => 4, :name => 'promotion', :object => @promotion }
             - if current_user.has_role?(Role::SALES_ADMIN)

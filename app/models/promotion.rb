@@ -39,6 +39,9 @@
 #  pending                 :boolean         default(FALSE), not null
 #  venue_name              :string(50)
 #  requires_prior_purchase :boolean         default(FALSE), not null
+#  teaser_image_processing :boolean
+#  main_image_processing   :boolean
+#  anonymous_clicks        :integer         default(0), not null
 #
 
 require 'promotion_strategy_factory'
@@ -115,6 +118,8 @@ class Promotion < ActiveRecord::Base
   # Mounted fields
   mount_uploader :main_image, ImageUploader  
   mount_uploader :teaser_image, ImageUploader
+  process_in_background :main_image
+  process_in_background :teaser_image
 
   # Associations
   # Foreign keys
@@ -189,6 +194,8 @@ class Promotion < ActiveRecord::Base
   validates :venue_zipcode, :format => { with: US_ZIP_REGEX }, :allow_blank => true
   validates_numericality_of :latitude, :allow_nil => true
   validates_numericality_of :longitude, :allow_nil => true
+  validates :anonymous_clicks, :presence => true,
+                               :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
   
   HORNDOGS = ['jeff@machovy.com', 'adanaie@gmail.com']
   # Can this user buy the promotion? Check if his orders are > maximum/person
@@ -401,6 +408,24 @@ class Promotion < ActiveRecord::Base
     
     nil
   end
+  
+  def upload_pending?
+    result = false
+    
+    if self.teaser_image_processing.nil? && self.main_image_processing.nil?
+      self.promotion_images.each do |img|
+        if !img.slideshow_image_processing.nil?
+          result = true
+          break
+        end
+      end
+    else
+      result = true
+    end
+    
+    result
+  end
+  
 private
   # If you extend the date on a Fixed strategy promotion beyond the voucher expiration date, you can create a situation where ordering
   #  will fail to generate valid vouchers. You'll then have an order (and charge on the card!) with no voucher! Check for that case here.

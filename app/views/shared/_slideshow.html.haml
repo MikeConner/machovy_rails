@@ -3,6 +3,6 @@
 - else
   = image_tag(f.object.slideshow_image_url(:product_thumb).to_s)
 = f.label :slideshow_image, "Promotion Page Image"
-= f.file_field :slideshow_image,  :accept => "image/*;capture=camera"
+= f.file_field :slideshow_image#,  :accept => "image/*;capture=camera"
 = f.label :remote_slideshow_image_url, 'or image url'
 = f.text_field :remote_slideshow_image_url, :title => I18n.t('ensure_image')

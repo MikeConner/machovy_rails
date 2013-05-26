@@ -125,6 +125,9 @@ class StaticPagesController < ApplicationController
         title = a.activity_title
         if !clicks[a.display_name].has_key?(title)
           clicks[a.display_name][title] = 0
+          if 'Promotion' == a.activity_name
+            clicks[a.display_name][title] += Promotion.find(a.activity_id).anonymous_clicks
+          end
         end
         clicks[a.display_name][title] += 1
       end

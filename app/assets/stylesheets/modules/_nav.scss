@@ -1,5 +1,5 @@
 @media #{$topbar-media-query} {
-  #menu {
+  #menu, #menu-right {
         >li {
           height: $topbar-height;
           border-bottom:2px solid black;

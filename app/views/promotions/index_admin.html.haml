@@ -8,6 +8,10 @@
     .large-3.columns
       = render :partial => 'shared/admin_navigation'
     .large-9.columns
+      = form_tag filter_promotions_path, :method => :put do 
+        - selection = params[:vendor_id].nil? ? nil : params[:vendor_id]
+        = collection_select(:vendor, :vendor_id, Vendor.all.select { |p| p.promotions.count > 0 }.sort, :id, :name, :include_blank => true, :selected => selection)
+        = submit_tag 'Filter by Vendor'
       %h3= I18n.t('machovy_attention')
       - if 0 == @attention.count
         None

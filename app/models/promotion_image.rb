@@ -10,6 +10,7 @@
 #  promotion_id               :integer
 #  created_at                 :datetime        not null
 #  updated_at                 :datetime        not null
+#  slideshow_image_processing :boolean
 #
 
 # CHARTER
@@ -31,6 +32,7 @@ class PromotionImage < ActiveRecord::Base
   belongs_to :promotion
   
   mount_uploader :slideshow_image, ImageUploader
+  process_in_background :slideshow_image
   
   validates :caption, :length => { maximum: MAX_CAPTION_LEN }, :allow_blank => true
       

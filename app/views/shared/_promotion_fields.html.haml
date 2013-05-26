@@ -9,10 +9,10 @@
   = f.text_field :subtitle, :size => Promotion::MAX_TITLE_LEN, :placeholder => '"Half off Sushi"'
   .row
     .large-6.columns
-      = f.label :offer, "Offer Price"
+      = f.label :price, "Offer Price"
       = f.text_field :price, :size => 15, :placeholder => "$100"
     .large-6.columns
-      = f.label :original, "Original Price"
+      = f.label :retail_value, "Original Price"
       = f.text_field :retail_value, :size => 15, :placeholder => "$200"
   %hr
 
@@ -22,34 +22,34 @@
         %a Deal Description
       .content
         %p Tell us about your product or service. We love entertaining or funny content, so be creative.  We'll have our creative staff review and revise it before we publish.
-        = f.text_area :description
+        = f.text_area :description, :placeholder => 'Description'
     %section.section
       %p.title
         %a Deal Limitations
       .content
         %p What limitations are there on this deal? Is this deal only on Tuesdays?
-        = f.text_area :limitations
+        = f.text_area :limitations, :placeholder => 'Limitations'
     %section.section
       %p.title
         %a Voucher Instructions
       .content
         %p How will our customers use their voucher?  Will they need to call and schedule a date or time with you?  Do they present it at the front desk?  Will they have to print it or just show it on their phone?  
-        = f.text_area :voucher_instructions 
+        = f.text_area :voucher_instructions, :placeholder => 'Instructions'
     %section.section
       %p.title
         %a Venue Location
       .content
         %p Do you want to display a map and address to users? If so, and it's different from your vendor address, enter it here
         = f.label :venue_name
-        = f.text_field :venue_name, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN
+        = f.text_field :venue_name, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Venue name'
         = f.label :venue_address
-        = f.text_field :venue_address, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN
+        = f.text_field :venue_address, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'Street address'
         = f.label :venue_city
-        = f.text_field :venue_city, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN
+        = f.text_field :venue_city, :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'City'
         = f.label :venue_state
         = f.text_field :venue_state, :maxlength => ApplicationHelper::STATE_LEN, :placeholder => 'PA'
         = f.label :venue_zipcode
-        = f.text_field :venue_zipcode, :maxlength => ApplicationHelper::ZIP_PLUS4_LEN   
+        = f.text_field :venue_zipcode, :maxlength => ApplicationHelper::ZIP_PLUS4_LEN, :placeholder => 'Zipcode'   
 %h3= "Duration & Quantity"
 %fieldset
   %h4 How many are available for sale?
@@ -60,13 +60,13 @@
     Your promotion will appear between these dates.  If you are not ready to start promoting your deal, chose a start date in the future. If&nbsp;you need to have it end on a specific date, the end date will be the last day your promotion will appear on machovy.
   .row
     .large-6.columns
-      = f.label :start_date
+      %label Start Date
       -# Need the date_select elements for the nested attributes to be processed correctly by the controller
         Just don't show them; create jQuery datepickers instead
       = f.date_select :start_date, { :order => [:month, :day, :year] }, { :style => 'display:none' }
       #jq_start_date
     .large-6.columns
-      = f.label :end_date
+      %label End Date
       = f.date_select :end_date, { :order => [:month, :day, :year] }, { :style => 'display:none' }
       #jq_end_date
 
@@ -91,7 +91,7 @@
           = PromotionStrategyFactory::FIXED_STRATEGY
       .content
         %h4 Vouchers expire on a fixed date (typically some time after the display period ends)
-        = label_tag :fixed_end_date
+        %label Fixed End Date
         = date_select 'fixed', 'end_date', { :order => [:month, :day, :year], :default => { :year => fixed_date.year, :month => fixed_date.month, :day => fixed_date.day} }, { :style => 'display:none' }
         #jq_fixed_end_date
         %br/
@@ -117,7 +117,7 @@
         %h4 This is a product (e.g., physical gift card); vouchers do not need to be redeemed
         = label_tag :sku, 'SKU/Product ID', :style => "display:inline"
         %em (Optional)
-        = text_field_tag :sku
+        = text_field_tag :sku, nil, :placeholder => 'SKU'
         -# Check box and radio tags don't work inside tabs, apparently!!!
         = label_tag :delivery, 'Delivery options'
         = select_tag :delivery, options_for_select(ProductStrategy::SHIPPING_OPTIONS, default_shipping)      
@@ -137,8 +137,8 @@
         = I18n.t('no_image') unless f.object.new_record?
       - else 
         = image_tag(f.object.teaser_image_url(:product_thumb).to_s)
-      = f.label "Front Page (teaser)"
-      = f.file_field :teaser_image,  :accept => "image/*;capture=camera"
+      = f.label :teaser_image, "Front Page (teaser)"
+      = f.file_field :teaser_image#, :accept => "image/*;capture=camera"
       = f.label :remote_teaser_image_url, "or image URL"
       = f.text_field :remote_teaser_image_url, :title => I18n.t('ensure_image')
     .large-4.columns
@@ -147,7 +147,7 @@
       - else
         = image_tag(f.object.main_image_url(:product_thumb).to_s)
       = f.label :main_image, "Promotion Page Image"
-      = f.file_field :main_image,  :accept => "image/*;capture=camera"
+      = f.file_field :main_image#, :accept => "image/*;capture=camera"
       = f.label :remote_main_image_url, "or image URL"
       = f.text_field :remote_main_image_url, :title => I18n.t('ensure_image')
     .large-4.columns
