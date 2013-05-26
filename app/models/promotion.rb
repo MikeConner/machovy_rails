@@ -39,6 +39,9 @@
 #  pending                 :boolean         default(FALSE), not null
 #  venue_name              :string(50)
 #  requires_prior_purchase :boolean         default(FALSE), not null
+#  teaser_image_processing :boolean
+#  main_image_processing   :boolean
+#  anonymous_clicks        :integer         default(0), not null
 #
 
 require 'promotion_strategy_factory'

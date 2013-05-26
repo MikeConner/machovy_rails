@@ -21,6 +21,7 @@
 #  private_address :boolean         default(FALSE)
 #  source          :string(255)
 #  logo_image      :string(255)
+#  notes           :string(255)
 #
 
 describe "Vendors" do
