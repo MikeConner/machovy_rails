@@ -7,7 +7,7 @@
         = button_to 'Accept Machovy Changes', accept_edits_promotion_path(@promotion), :method => :put, :class => "button big round"
         = form_tag(reject_edits_promotion_path(@promotion), :method => :put) do
           If you're rejecting the changes, please tell us why below
-          = text_area_tag 'comment', nil, :rows => 5, :class => "slider-input"
+          = text_area_tag 'comment', nil, :rows => 5, :class => "slider-input", :placeholder => 'Comment'
           = submit_tag 'Reject Machovy Changes', :class => "button big round"
     .row.product-line
       .large-5.columns.product
