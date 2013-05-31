@@ -16,6 +16,9 @@
           .large-6.columns
             %h5 I need customer service.
             .sub-desc I may also have a general question/comment
+            %em Note that we have no way to answer an "anonymous" question! 
+            %br
+            %em If you require a response, please sign in.
             %br
             = form_tag make_comment_path, :method => :put do
               - if @anonymous
