@@ -56,8 +56,8 @@ class AjaxController < ApplicationController
                             :city => params['city'], :state => params['state'], :zip => params['zip'])
         location = geocode_address(vendor.map_address)
         if !location.nil?
-          mapping['latitude'] = location['lat']
-          mapping['longitude'] = location['lng']
+          mapping['latitude'] = location['lat'].to_i
+          mapping['longitude'] = location['lng'].to_i
         end
         
         render :json => mapping
