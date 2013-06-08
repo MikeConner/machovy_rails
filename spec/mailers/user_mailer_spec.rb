@@ -140,7 +140,11 @@ describe "UserMailer" do
   
     it "should have the right sender" do
       @msg.from.to_s.should match(ApplicationHelper::MAILER_FROM_ADDRESS)
-      @msg.bcc.should be == ApplicationHelper::MACHOVY_SALES_ADMIN
+      @msg.cc.should be_blank
+      ApplicationHelper::MACHOVY_SALES_ADMIN.each do |admin|
+        @msg.bcc.to_s.should match(admin)
+      end
+      @msg.bcc.to_s.should match(@order.promotion.vendor.user.email)
     end
     
     describe "Send the message" do
@@ -154,8 +158,11 @@ describe "UserMailer" do
       # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
       it "should be sent to the right user" do
         @msg.to.to_s.should match(@order.email)
-        @msg.cc.to_s.should match(@order.promotion.vendor.user.email)
-        @msg.bcc.should be == ApplicationHelper::MACHOVY_SALES_ADMIN
+        @msg.cc.should be_blank
+        @msg.bcc.to_s.should match(@order.promotion.vendor.user.email)
+        ApplicationHelper::MACHOVY_SALES_ADMIN.each do |admin|
+          @msg.bcc.to_s.should match(admin)
+        end
       end
       
       it "should have the right subject" do
@@ -211,8 +218,137 @@ describe "UserMailer" do
       # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
       it "should be sent to the right user" do
         @msg.to.to_s.should match(@order.email)
-        @msg.cc.to_s.should match(@order.promotion.vendor.user.email)
-        @msg.bcc.to_s.should be_blank
+        @msg.bcc.to_s.should match(@order.promotion.vendor.user.email)
+        @msg.cc.should be_blank
+      end
+      
+      it "should have the right subject" do
+        @msg.subject.should == UserMailer::ORDER_MESSAGE
+      end
+      
+      it "should not have attachments" do
+        @msg.attachments.count.should be == 0
+      end
+      
+      it "should have the right content" do
+        @msg.body.encoded.should match('Thank you for your order')
+        @msg.body.encoded.should match('Please pick up your order at')
+        #@msg.body.encoded.should match(delivery.vendor.map_address)
+        @msg.body.encoded.should match(@order.name)
+        @msg.body.encoded.should match(FINE_PRINT)
+        @msg.body.encoded.should match(INSTRUCTIONS)
+        order.vouchers.each do |voucher|
+          @msg.body.encoded.should match(voucher.uuid)
+        end
+      
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+    end
+  end  
+
+  describe "Product order email (delivery) - no vendor user" do
+    let(:delivery) { FactoryGirl.create(:product_promotion_with_order) }
+    before do
+      delivery.limitations = FINE_PRINT
+      delivery.voucher_instructions = INSTRUCTIONS
+      delivery.save!
+      @order = Order.last
+      @order.promotion.vendor.update_attributes!(:user_id => nil)
+      @msg = UserMailer.promotion_order_email(@order)
+    end
+    
+    it "should not have a vendor user" do
+      @order.promotion.vendor.user.should be_nil
+    end
+    
+    it "should return a message object" do
+      @msg.should_not be_nil
+    end
+  
+    it "should have the right sender" do
+      @msg.from.to_s.should match(ApplicationHelper::MAILER_FROM_ADDRESS)
+    end
+    
+    describe "Send the message" do
+      before { @msg.deliver }
+        
+      it "should get queued" do
+        ActionMailer::Base.deliveries.should_not be_empty
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+      # msg.to is a Mail::AddressContainer object, not a string
+      # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
+      it "should be sent to the right user" do
+        @msg.to.to_s.should match(@order.email)
+        @msg.cc.to_s.should be_blank
+        ApplicationHelper::MACHOVY_SALES_ADMIN.each do |admin|
+          @msg.bcc.to_s.should match(admin)
+        end
+        @msg.bcc.count.should be == ApplicationHelper::MACHOVY_SALES_ADMIN.count
+      end
+      
+      it "should have the right subject" do
+        @msg.subject.should == UserMailer::ORDER_MESSAGE
+      end
+      
+      it "should not have attachments" do
+        @msg.attachments.count.should be == 0
+      end
+      
+      it "should have the right content" do
+        @msg.body.encoded.should match('Thank you for your order')
+        @msg.body.encoded.should match('Shipping instructions')
+        @msg.body.encoded.should match(@order.shipping_address)
+        @msg.body.encoded.should match(@order.name)
+        @msg.body.encoded.should match(FINE_PRINT)
+        @msg.body.encoded.should match(INSTRUCTIONS)
+        order.vouchers.each do |voucher|
+          @msg.body.encoded.should match(voucher.uuid)
+        end
+      
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+    end
+  end  
+
+  describe "Product order email (pickup)" do
+    let(:delivery) { FactoryGirl.create(:product_pickup_promotion_with_order) }
+    before do
+      delivery.limitations = FINE_PRINT
+      delivery.voucher_instructions = INSTRUCTIONS
+      delivery.save!
+      @order = Order.last
+      @order.promotion.vendor.update_attributes!(:user_id => nil)
+      @msg = UserMailer.promotion_order_email(@order)
+    end
+    
+    it "should not have a vendor user" do
+      @order.promotion.vendor.user.should be_nil
+    end
+    
+    it "should return a message object" do
+      @msg.should_not be_nil
+    end
+  
+    it "should have the right sender" do
+      @msg.from.to_s.should match(ApplicationHelper::MAILER_FROM_ADDRESS)
+    end
+    
+    describe "Send the message" do
+      before { @msg.deliver }
+        
+      it "should get queued" do
+        ActionMailer::Base.deliveries.should_not be_empty
+        ActionMailer::Base.deliveries.count.should == 1
+      end
+      # msg.to is a Mail::AddressContainer object, not a string
+      # Even then, converting to a string gives you ["<address>"], so match captures the intent easier
+      it "should be sent to the right user" do
+        @msg.to.to_s.should match(@order.email)
+        ApplicationHelper::MACHOVY_SALES_ADMIN.each do |admin|
+          @msg.bcc.to_s.should match(admin)
+        end
+        @msg.cc.to_s.should be_blank
       end
       
       it "should have the right subject" do
