@@ -32,11 +32,11 @@ describe "Vendor signup" do
         fill_in 'user_vendor_attributes_name', :with => 'Cheerleaders'
         fill_in 'user_vendor_attributes_url', :with => 'cheerleaders.com'
         fill_in 'user_vendor_attributes_facebook', :with => 'facebook.com/cheerleaders'
-        fill_in 'user_vendor_attributes_address_1', :with => '142 Strip Lane'
+        fill_in 'user_vendor_attributes_address_1', :with => '3100 Liberty Ave'
         fill_in 'user_vendor_attributes_phone', :with => '724 342-3234'
         fill_in 'user_vendor_attributes_city', :with => 'Pittsburgh'
         fill_in 'user_vendor_attributes_state', :with => 'pa'
-        fill_in 'user_vendor_attributes_zip', :with => '15222'
+        fill_in 'user_vendor_attributes_zip', :with => '15201'
         fill_in 'user_email', :with => VENDOR_EMAIL
         fill_in 'user_password', :with => "Big'Uns"
         fill_in 'user_password_confirmation', :with => "Big'Uns"
@@ -50,6 +50,18 @@ describe "Vendor signup" do
         
         Vendor.find_by_name('Cheerleaders').should_not be_nil
         User.find_by_email(VENDOR_EMAIL).should_not be_nil
+      end
+      
+      describe "should have geocoded it" do
+        before { @vendor = Vendor.find_by_name('Cheerleaders') }
+        
+        it "should not be empty" do
+          puts @vendor.inspect
+          @vendor.latitude.should_not be_nil
+          @vendor.longitude.should_not be_nil
+          @vendor.latitude.round(2).should be == 40.46
+          @vendor.longitude.round(2).should be == -79.97
+        end
       end
       
       it "should have sent the email" do

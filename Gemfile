@@ -10,6 +10,7 @@ gem 'taps', '0.3.24'
 gem "ckeditor", "3.7.3"
 
 gem 'activemerchant', '1.29.3'
+gem 'geocoder', '1.1.8'
 
 # Gems used only for assets and not required
 # in production environments by default.

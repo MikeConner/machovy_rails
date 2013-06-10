@@ -3,9 +3,11 @@
 # Table name: metros
 #
 #  id         :integer         not null, primary key
-#  name       :string(255)
+#  name       :string(255)     not null
 #  created_at :datetime        not null
 #  updated_at :datetime        not null
+#  latitude   :decimal(, )     default(40.438169), not null
+#  longitude  :decimal(, )     default(-80.001875), not null
 #
 
 describe "Metros" do
@@ -16,9 +18,66 @@ describe "Metros" do
   it "should respond to everything" do
     metro.should respond_to(:name)
     metro.should respond_to(:promotions)
+    metro.should respond_to(:latitude)
+    metro.should respond_to(:longitude)
   end
   
   it { should be_valid }
+  
+  describe "distance calculations" do
+    let(:vegas) { FactoryGirl.create(:metro, :name => 'Las Vegas', :latitude => 36.097339, :longitude => -115.172915)}
+    let(:denver) { [39.8498700902431, -104.6964801287] }
+    let(:atlanta) { [33.6400552831252, -84.4500422598234] }
+    
+    before do
+      metro
+      vegas
+    end
+    
+    it "should have two metros" do
+      Metro.count.should be == 2
+    end
+    
+    it "should show Denver closer to vegas" do
+      distances = Hash.new
+      Metro.all.each do |metro|
+        distances[metro.name] = metro.distance_from(denver)
+      end
+      distances.sort_by{|k,v| v}.first[0].should be == 'Las Vegas'
+    end
+    
+    it "should show Atlanta closer to vegas" do
+      distances = Hash.new
+      Metro.all.each do |metro|
+        distances[metro.name] = metro.distance_from(atlanta)
+      end
+      distances.sort_by{|k,v| v}.first[0].should be == metro.name
+    end
+  end
+  
+  describe "Missing latitude" do
+    before { metro.latitude = nil }
+    
+    it { should_not be_valid }
+  end
+  
+  describe "Missing longitude" do
+    before { metro.longitude = nil }
+    
+    it { should_not be_valid }
+  end
+
+  describe "Invalid latitude" do
+    before { metro.latitude = 'abc' }
+    
+    it { should_not be_valid }
+  end
+  
+  describe "Invalid longitude" do
+    before { metro.longitude = 'abc' }
+    
+    it { should_not be_valid }
+  end
   
   describe "name validation" do
     before { metro.name = nil }

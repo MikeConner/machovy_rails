@@ -18,20 +18,8 @@ class RegistrationsController < Devise::RegistrationsController
     #   and vendor signup is on another page
     @user = User.new(params[:user])
     
-    if @user.save
-      if @is_merchant
-        # Attempt geo-code
-        location = geocode_address(@user.vendor.map_address)
-        if !location.nil?
-          @user.vendor.latitude = location['lat']
-          @user.vendor.longitude = location['lng']
-          @user.save
-        end
-        
-        redirect_to root_path, :notice => I18n.t('devise.registrations.signed_up_but_unconfirmed') and return
-      end
-      
-      redirect_to root_path, :notice => I18n.t('devise.registrations.signed_up_but_unconfirmed') and return
+    if @user.save      
+      redirect_to root_path, :notice => I18n.t('devise.registrations.signed_up_but_unconfirmed')
     else
       if @is_merchant
         # There could be vendor field errors, so we need to copy them from the @user object instead of overwriting

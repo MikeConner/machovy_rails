@@ -63,6 +63,15 @@ describe "Vendors" do
   
   it { should be_valid }
 
+  describe "automatic geocoding" do
+    let(:vendor) { FactoryGirl.create(:vendor_with_known_address) }
+    
+    it "should be properly geocoded" do
+      vendor.latitude.round(2).should be == 33.64
+      vendor.longitude.round(2).should be == -84.44
+    end
+  end
+  
   it "should not have time owed" do
     (Time.zone.now - vendor.time_owed).round(1).should be == 0
   end

@@ -240,7 +240,7 @@ FactoryGirl.define do
          FactoryGirl.create_list(:promotion, evaluator.num_promotions, :metro => metro)
        end
      end
-   end
+  end
   
   factory :order do
     promotion
@@ -690,6 +690,13 @@ FactoryGirl.define do
         FactoryGirl.create_list(:coupon, evaluator.num_coupons, :vendor => vendor)
       end
     end
+    
+    factory :vendor_with_known_address do
+       address_1 "6000 N Terminal Pkwy"
+       city "Atlanta"
+       state "GA"
+       zip "30337"
+     end    
   end
     
   factory :video do

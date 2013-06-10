@@ -4,14 +4,13 @@ class FrontGridController < ApplicationController
   MAX_PARTNER_VIEW_DEALS = 16
 
   def index
-    # Need to have a metro, or filtering will return nothing
-    if session[:metro].nil?
-      session[:metro] = Metro::DEFAULT_METRO
+    @active_category = session[:category]
+    if session[:metro_user].nil? and !current_user.nil? and !current_user.metro.nil?
+      session[:metro_user] = current_user.metro.name
     end
     
-    @active_category = session[:category]
-    @active_metro = session[:metro]
-    
+    # Priority of metro selections; guarantee it always falls back on something -- cannot be nil!
+    @active_metro = session[:metro_selected] || session[:metro_user] || session[:metro_geocode] || Metro::DEFAULT_METRO
     @categories = Category.roots
     
     metro_id = Metro.find_by_name(@active_metro).id

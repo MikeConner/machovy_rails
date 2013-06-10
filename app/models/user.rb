@@ -30,6 +30,7 @@
 #  optin                  :boolean         default(FALSE), not null
 #  total_macho_bucks      :decimal(, )     default(0.0)
 #  customer_id            :string(25)
+#  metro_id               :integer
 #
 
 # CHARTER
@@ -58,8 +59,10 @@ class User < ActiveRecord::Base
 
   attr_accessible :email, :password, :password_confirmation, :remember_me,
                   :first_name, :last_name, :address_1, :address_2, :phone, :city, :state, :zipcode, :optin,
-                  :role_ids, :order_ids, :category_ids, :vendor_id, :vendor_attributes, :feedbacks_attributes
+                  :role_ids, :order_ids, :category_ids, :vendor_id, :vendor_attributes, :feedbacks_attributes, :metro_id
          
+  belongs_to :metro
+  
   has_many :orders, :dependent => :restrict
   has_many :vouchers, :through => :orders
   has_many :activities, :dependent => :destroy

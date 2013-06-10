@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
 
   # Redirect on signup based on role
   def after_sign_in_path_for(resource)
+    # User-selected metros (or those selected when not logged in) should not survive login
+    session[:metro_selected] = nil
     if resource.has_role?(Role::MERCHANT) 
       if trying_to_redeem_voucher
         session[:user_return_to]
