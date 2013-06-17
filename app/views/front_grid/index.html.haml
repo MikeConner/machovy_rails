@@ -44,9 +44,13 @@
           %i.icon-envelope
 :javascript
   $(function() {
+    /* This makes browsers ask every time if you want to share information -- onerous! Turn off for now
+     * Maybe turn on just for mobile?
+     
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition,errorCallback, {timeout:10000});
-    }
+    }*/
+   
     // Send width if we're on the main page AND there's no deal content yet
     if (($('.display_front_page').length > 0) && (0 == $('#deal_content').length)) {
       update_width($(window).width(), false);
@@ -105,7 +109,7 @@
     data_obj = {"latitude": position.coords.latitude, "longitude": position.coords.longitude  }
     jQuery.ajax({url:"/location",
                  data: data_obj,
-               type: "PUT",
+                 type: "PUT",
                  // Don't need to do anything on success
                  error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
                    { alert('geolocation error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },

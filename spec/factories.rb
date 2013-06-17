@@ -27,6 +27,7 @@ FactoryGirl.define do
   # This is actually sequential; Faker doesn't support Twitter
   sequence(:random_twitter) { |n| "@Cool_Dude_#{n}" }
   sequence(:random_promotion_status) { |n| Promotion::PROMOTION_STATUS.sample }
+  sequence(:random_ip) { |n| "#{Random.rand(255)}.#{Random.rand(255)}.#{Random.rand(255)}.#{Random.rand(255)}" }
   
   # Repeatable sequences
   sequence(:sequential_url) { |n| "http://www.microsoft-#{n}.com" }
@@ -799,6 +800,12 @@ FactoryGirl.define do
     factory :redeemed_gift_certificate do
       pending false
     end
+  end
+  
+  factory :ip_cache do
+    ip { generate(:random_ip) }
+    latitude { 40 + Random.rand(20) - 10 }
+    longitude { -80 + Random.rand(20) - 10 }
   end
 end
 

@@ -1,12 +1,26 @@
 require 'fixed_front_page_layout'
 
 class FrontGridController < ApplicationController
+  include ApplicationHelper
+  
   MAX_PARTNER_VIEW_DEALS = 16
 
   def index
     @active_category = session[:category]
     if session[:metro_user].nil? and !current_user.nil? and !current_user.metro.nil?
       session[:metro_user] = current_user.metro.name
+    end
+    
+    # Geocode on the server, if we haven't already
+    if session[:metro_geocode].nil?
+      location = geocode_ip(request.ip)
+      if !location.nil?
+        distances = Hash.new
+        Metro.all.each do |metro|
+          distances[metro.name] = metro.distance_from([location[:latitude], location[:longitude]])
+        end
+        session[:metro_geocode] = distances.sort_by{|k,v| v}.first[0]
+      end   
     end
     
     # Priority of metro selections; guarantee it always falls back on something -- cannot be nil!

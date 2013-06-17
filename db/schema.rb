@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130525165300) do
+ActiveRecord::Schema.define(:version => 20130616193604) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -178,6 +178,16 @@ ActiveRecord::Schema.define(:version => 20130525165300) do
     t.datetime "updated_at",               :null => false
   end
 
+  create_table "ip_caches", :force => true do |t|
+    t.string   "ip",         :limit => 16, :null => false
+    t.decimal  "latitude",                 :null => false
+    t.decimal  "longitude",                :null => false
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+  end
+
+  add_index "ip_caches", ["ip"], :name => "index_ip_caches_on_ip", :unique => true
+
   create_table "macho_bucks", :force => true do |t|
     t.decimal  "amount",     :null => false
     t.text     "notes"
@@ -190,9 +200,11 @@ ActiveRecord::Schema.define(:version => 20130525165300) do
   end
 
   create_table "metros", :force => true do |t|
-    t.string   "name",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "name",                               :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.decimal  "latitude",   :default => 40.438169,  :null => false
+    t.decimal  "longitude",  :default => -80.001875, :null => false
   end
 
   add_index "metros", ["name"], :name => "index_metros_on_name", :unique => true
@@ -394,6 +406,7 @@ ActiveRecord::Schema.define(:version => 20130525165300) do
     t.boolean  "optin",                                :default => false, :null => false
     t.decimal  "total_macho_bucks",                    :default => 0.0
     t.string   "customer_id",            :limit => 25
+    t.integer  "metro_id"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
