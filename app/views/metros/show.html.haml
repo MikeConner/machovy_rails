@@ -8,6 +8,10 @@
     .large-3.columns
       = render :partial => 'shared/admin_navigation'
     .large-9.columns
+      %h4
+        == Latitude: #{@metro.latitude}
+        %br
+        == Longitude: #{@metro.longitude}
       %ul
         - @metro.promotions.each do |promotion|
           %li
