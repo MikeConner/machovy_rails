@@ -30,6 +30,7 @@
 #  optin                  :boolean         default(FALSE), not null
 #  total_macho_bucks      :decimal(, )     default(0.0)
 #  customer_id            :string(25)
+#  metro_id               :integer
 #
 
 describe "Users" do
@@ -39,6 +40,7 @@ describe "Users" do
     Role.create(:name => Role::CONTENT_ADMIN)
     Role.create(:name => Role::SALES_ADMIN)
     Role.create(:name => Role::MERCHANT)
+    Metro.create(:name => 'Las Vegas')
   end
   
   subject { user }
@@ -69,10 +71,23 @@ describe "Users" do
     user.should respond_to(:gift_certificates)
     user.should respond_to(:customer_id)
     user.should respond_to(:can_be_deleted?)
+    user.should respond_to(:metro)
   end
       
   it { should be_valid }
  
+  it "should have no default metro" do
+    user.metro.should be_nil
+  end
+  
+  describe "Update metro" do
+    before { user.update_attributes!(:metro_id => Metro.find_by_name('Las Vegas').id) }
+    
+    it "should be Vegas" do
+      user.metro.name.should be == 'Las Vegas'
+    end
+  end
+  
   describe "Invalid customer id" do
     before { user.customer_id = "X"*(User::CUSTOMER_ID_LEN + 1) }
     

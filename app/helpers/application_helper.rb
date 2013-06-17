@@ -10,6 +10,8 @@ module ApplicationHelper
 
   US_ZIP_REGEX = /^\d\d\d\d\d(-\d\d\d\d)?$/
   EMAIL_REGEX = /^\w.*?@\w.*?\.\w+$/
+  IP_REGEX = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
+  
   MAX_ADDRESS_LEN = 50
   STATE_LEN = 2
   ZIPCODE_LEN = 5
@@ -58,6 +60,39 @@ module ApplicationHelper
     gravatar_url = "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{options[:size]}&d=#{default_gravatar_url(:host => WEB_ADDRESS, :port => nil)}.gif"
      
     image_tag(gravatar_url, class: "gravatar", title: options[:title])
+  end
+  
+  # We will hit request limits quickly if we don't cache known IPs. Find by lookup if possible; otherwise geocode and add to the db
+  def geocode_ip(ip)
+    cache = IpCache.find_by_ip(ip)
+    if cache.nil?
+      uri = URI.parse("http://ipinfodb.com/ip_locator.php?ip=#{ip}")
+      http = Net::HTTP.new(uri.host, uri.port)
+      request = Net::HTTP::Get.new(uri.request_uri)
+            
+      response = http.request(request)                 
+      if response.code == '200'
+        # Answers in HTML
+        latitude = longitude = nil
+        if response.body =~ /Latitude : (.*?)</
+          latitude = $1
+        end
+        
+        if response.body =~ /Longitude : (.*?)</
+          longitude = $1
+        end
+        
+        if !latitude.nil? and !longitude.nil?
+          cache = IpCache.create!(:ip => ip, :latitude => latitude.to_f, :longitude => longitude.to_f)
+        end     
+      end 
+    end
+    
+    cache.nil? ? nil : { :latitude => cache.latitude, :longitude => cache.longitude }
+    
+  # Just in case IpCache create! fails  
+  rescue
+    nil
   end
   
   def geocode_address(address)

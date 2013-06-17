@@ -36,7 +36,7 @@
             %br/
             %br/
             Description of edits, general comments, or reason for rejection:
-            %br= text_area_tag 'comment', nil, :rows => 5, :class => "slider-input"
+            %br= text_area_tag 'comment', nil, :rows => 5, :class => "slider-input", :placeholder => 'Comment'
           .field
             = f.label :grid_weight
             = f.number_field :grid_weight, :min => 1

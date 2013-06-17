@@ -27,6 +27,8 @@
         %td
           = link_to "#{p.title}", edit_promotion_path(p)
           = link_to "[Preview]", promotion_path(p)
+          %br
+          %em= p.metro.name 
         - if p.end_date.nil?
           %td None
         - else

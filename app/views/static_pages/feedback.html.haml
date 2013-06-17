@@ -16,6 +16,9 @@
           .large-6.columns
             %h5 I need customer service.
             .sub-desc I may also have a general question/comment
+            %em Note that we have no way to answer an "anonymous" question! 
+            %br
+            %em If you require a response, please sign in.
             %br
             = form_tag make_comment_path, :method => :put do
               - if @anonymous
@@ -28,7 +31,7 @@
               = text_field_tag 'name', nil, :maxlength => 16, :placeholder => 'Name'
               %br/
               - label_tag 'comment'
-              = text_area_tag 'comment', nil, :size => '60x4'    
+              = text_area_tag 'comment', nil, :size => '60x4', :placeholder => 'Comment'    
               %br/
               = submit_tag 'Listen up!', :class => 'darkred-btn'
           .large-6.columns

@@ -48,5 +48,5 @@
           = f.date_select :check_date, :order => [:month, :day, :year]
         .field
           = f.label :notes
-          = f.text_area :notes, :size => '60x6'
+          = f.text_area :notes, :size => '60x6', :placeholder => 'Notes'
         = button_tag 'Create Payment', :id => 'create_payment', :onclick => "set_excluded('cb_exclude', 'excluded_vouchers')"

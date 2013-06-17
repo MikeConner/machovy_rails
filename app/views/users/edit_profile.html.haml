@@ -16,6 +16,12 @@
           .field
             = f.text_field :last_name, :maxlength => User::MAX_LAST_NAME_LEN, :placeholder => 'Last Name'
           .field
+            - current_metro_id = @user.metro.nil? ? Metro.find_by_name(Metro::DEFAULT_METRO).id : @user.metro.id
+            = f.label :metro_id, 'Default Metro Area'
+            = f.collection_select :metro_id, Metro.order(:name), :id, :name, { :selected => current_metro_id }
+            %br
+            %br
+          .field
             = f.text_field :email, :placeholder => 'Email Address'
             .help-block (Note that changes must be reconfirmed; until then you can still log in under the old email)
           %p <strong>Contact Details</strong>

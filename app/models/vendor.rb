@@ -46,6 +46,8 @@ class Vendor < ActiveRecord::Base
   attr_accessible :address_1, :address_2, :city, :facebook, :name, :phone, :state, :url, :zip, :latitude, :longitude, :private_address, 
                   :source, :logo_image, :remote_logo_image_url, :notes,
                   :user_id
+  geocoded_by :map_address
+  after_validation :geocode
                   
   belongs_to :user
 

@@ -7,6 +7,8 @@ class SessionsController < Devise::SessionsController
     page_end = session[:page_end]
     num_columns = session[:num_columns]
     width = session[:width]
+    latitude = session[:latitude]
+    longitude = session[:longitude]
 
     redirect_path = after_sign_out_path_for(resource_name)
     signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
@@ -17,7 +19,9 @@ class SessionsController < Devise::SessionsController
     session[:page_end] = page_end
     session[:num_columns] = num_columns
     session[:width] = width
-
+    session[:latitude] = latitude unless latitude.nil?
+    session[:longitude] = longitude unless longitude.nil?
+    
     # We actually need to hardcode this as Rails default responder doesn't
     # support returning empty response on GET request
     respond_to do |format|
@@ -27,5 +31,4 @@ class SessionsController < Devise::SessionsController
       end
     end
   end
-  
 end

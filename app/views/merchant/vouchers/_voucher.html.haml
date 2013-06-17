@@ -22,7 +22,7 @@
       = form_tag redeem_admin_merchant_voucher_path(v), :method => :put do
         = hidden_field_tag :status, Voucher::RETURNED
         = label_tag 'notes', 'Notes about this return'
-        = text_area_tag 'notes', nil, :size => '60x3'
+        = text_area_tag 'notes', nil, :size => '60x3', :placeholder => 'Notes'
         %br/
         = submit_tag 'Return', :class => 'btn.btn-success.btn-large', :onclick => "return confirm('Returning a voucher voids it so that no one can use it, and credits Macho Bucks. No further action is possible. Are you sure?')"
   .six.columns

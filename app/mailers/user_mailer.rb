@@ -18,12 +18,15 @@ class UserMailer < ActionMailer::Base
   def promotion_order_email(order)
     @order = order
     
-    # Don't need QRCodes for products; they're already redeemed
+    # Don't need QRCodes for products; they're already redeemed    
     if @order.product_order?      
+      # It is *possible* for no user account to be associated with a vendor (e.g., a manually created vendor with deals added by a salesperson)
       if @order.shipping_address_required?
-        mail(:to => @order.email, :cc => @order.promotion.vendor.user.email, :bcc => ApplicationHelper::MACHOVY_SALES_ADMIN, :subject => ORDER_MESSAGE, :template_name => 'product_order_email') 
+        bcc = @order.promotion.vendor.user.nil? ? ApplicationHelper::MACHOVY_SALES_ADMIN : [@order.promotion.vendor.user.email, ApplicationHelper::MACHOVY_SALES_ADMIN]
+        mail(:to => @order.email, :bcc => bcc, :subject => ORDER_MESSAGE, :template_name => 'product_order_email') 
       else
-        mail(:to => @order.email, :cc => @order.promotion.vendor.user.email, :subject => ORDER_MESSAGE, :template_name => 'product_order_email') 
+        bcc = @order.promotion.vendor.user.nil? ? ApplicationHelper::MACHOVY_SALES_ADMIN : @order.promotion.vendor.user.email
+        mail(:to => @order.email, :bcc => bcc, :subject => ORDER_MESSAGE, :template_name => 'product_order_email') 
       end
     else
       # Override with voucher expiration date; just default to this as a fail-safe

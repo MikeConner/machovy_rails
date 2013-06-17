@@ -1,5 +1,14 @@
-%h1= @metro.name
-%ul
-  - @metro.promotions.each do |promotion|
-    %li
-      = promotion.title
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1= @metro.name
+  .row
+    = render :partial => 'shared/flash_messages'
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      %ul
+        - @metro.promotions.each do |promotion|
+          %li
+            = promotion.title

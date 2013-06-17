@@ -20,6 +20,6 @@
     .field
       = feedback.label :comments, 'Is there anything else you want us to know?'
       %br/
-      = feedback.text_area :comments, :size => "60x12"
+      = feedback.text_area :comments, :size => "60x12", :placeholder => 'Comments'
   .actions
     = f.submit 'Give Feedback'

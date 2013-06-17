@@ -18,7 +18,7 @@ class AjaxController < ApplicationController
   end
   
   def metro
-    session[:metro] = params[:metro]
+    session[:metro_selected] = params[:metro]
 
     respond_to do |format|
       format.html { redirect_to root_path }
@@ -49,18 +49,13 @@ class AjaxController < ApplicationController
   
   def geocode
     respond_to do |format|
-      format.json do
-        mapping = Hash.new
+      format.js do
         # Use the vendor "map_address" method so that it mimics signup; vendor object just goes away
         vendor = Vendor.new(:address_1 => params['address_1'], :address_2 => params['address_2'],
                             :city => params['city'], :state => params['state'], :zip => params['zip'])
-        location = geocode_address(vendor.map_address)
-        if !location.nil?
-          mapping['latitude'] = location['lat']
-          mapping['longitude'] = location['lng']
-        end
-        
-        render :json => mapping
+        # Validation triggers geocoding
+        vendor.valid?
+        render :json => { 'latitude' => vendor.latitude, 'longitude' => vendor.longitude }
       end
     end
   end
@@ -101,4 +96,21 @@ class AjaxController < ApplicationController
       end
     end
   end
+  
+  def set_location
+    session[:latitude] = params[:latitude]
+    session[:longitude] = params[:longitude]
+
+    # Set default metro
+    distances = Hash.new
+    Metro.all.each do |metro|
+      distances[metro.name] = metro.distance_from([session[:latitude], session[:longitude]])
+    end
+    session[:metro_geocode] = distances.sort_by{|k,v| v}.first[0]
+    
+    respond_to do |format|
+      format.html { redirect_to root_path  }
+      format.js { render :nothing => true }
+    end
+  end  
 end

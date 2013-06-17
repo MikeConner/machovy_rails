@@ -121,6 +121,9 @@ MachovyRails::Application.routes.draw do
   match "/banner" => "ajax#hide_banner", :via => :put
   match "/order_history" => "static_pages#order_history"
   
+  # Geolocation for Metros
+  match "/location" => "ajax#set_location", :via => :put
+  
   # MailChimp integration test
   match "/mailing" => "static_pages#mailing"
   match "/harlem_shake" => "static_pages#harlem_shake"

@@ -40,6 +40,10 @@
           = f.password_field :password, {:placeholder => 'Password', :autocomplete => 'off'}
           = f.label :password_confirmation
           = f.password_field :password_confirmation, {:placeholder => 'Password Confirmation', :autocomplete => 'off' }
+          %strong Note: this is the sign up for a <em>personal</em> account (for buying)
+          %br
+          %strong If you're creating a merchant account (for selling), click the merchant link!
+          %br
           .sign-in-footer
             = f.submit I18n.t('create_account'), {:class => 'btn small'}
             = link_to 'Merchant? Create an account here', new_user_registration_path, :class => 'btn secondary small'
