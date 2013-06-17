@@ -10,3 +10,42 @@
   = f.label :longitude
   %br
   = f.text_field :longitude
+%h3 Address to use to set geocode (not stored)
+.field
+  = label_tag :address
+  %br
+  = text_field_tag :address
+.field
+  = label_tag :city
+  %br
+  = text_field_tag :city
+.field
+  = label_tag :state
+  %br
+  = text_field_tag :state
+.field
+  = label_tag :zip
+  %br
+  = text_field_tag :zip
+  = button_tag 'Set geocode from address', :class => "btn btn-large btn-success", :onclick => "update_metro_mapping(); return false"
+:javascript
+  function update_metro_mapping() {
+  data_obj = {"address_1": $('#address').val(), "city": $('#city').val(), "state": $('#state').val(), "zip": $('#zip').val() }
+                      
+  jQuery.ajax({url:"/geocode.json",
+     data: data_obj,
+     type: "GET",
+     success: function(data) { 
+       if (data.latitude) {
+         $('#metro_latitude').val(data.latitude);
+         $('#metro_longitude').val(data.longitude);
+         alert('Geocode updated')
+     }
+     else {
+      alert('Could not update geocode; please enter a valid address (or enter latitude/longitude manually)')
+     }
+     },
+     error: function(xhr, ajaxOptions, thrownError) //{ alert('Oh noes!') },
+       { alert('error code: ' + xhr.status + ' \n'+'error:\n' + thrownError ); },
+     async: false});
+  }

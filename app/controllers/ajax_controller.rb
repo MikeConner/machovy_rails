@@ -49,7 +49,7 @@ class AjaxController < ApplicationController
   
   def geocode
     respond_to do |format|
-      format.js do
+      format.json do
         # Use the vendor "map_address" method so that it mimics signup; vendor object just goes away
         vendor = Vendor.new(:address_1 => params['address_1'], :address_2 => params['address_2'],
                             :city => params['city'], :state => params['state'], :zip => params['zip'])
