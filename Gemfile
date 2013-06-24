@@ -1,9 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.12'
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+ruby '1.9.3'
 
 gem 'pg', '0.15.1'
 gem 'taps', '0.3.24'
