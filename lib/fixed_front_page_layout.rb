@@ -13,6 +13,30 @@ class FixedFrontPageLayout
   TWO_COLUMN = 470
   DESIRED_ROWS = 7
   
+  # NOTE: There has to be at least one pattern in each column section that doesn't have a NON_DEAL (to avoid infinite loop)
+  STARTUP_PATTERNS = { 5 => [[BIG_DEAL,BLOG_POST,NON_DEAL,BLOG_POST],
+                             [NON_DEAL,BIG_DEAL,BLOG_POST,BLOG_POST],
+                             [BLOG_POST,BIG_DEAL,BLOG_POST,BLOG_POST],
+                             [BLOG_POST,SMALL_DEAL,BLOG_POST,NON_DEAL,BLOG_POST],
+                             [BLOG_POST,NON_DEAL,BLOG_POST,BIG_DEAL]],
+                       4 => [[BIG_DEAL,BLOG_POST,NON_DEAL],
+                             [NON_DEAL,BIG_DEAL,BLOG_POST],
+                             [BLOG_POST,BIG_DEAL,BLOG_POST],
+                             [BLOG_POST,SMALL_DEAL,BLOG_POST,NON_DEAL],
+                             [BLOG_POST,NON_DEAL,BIG_DEAL]],
+                       3 => [[BIG_DEAL,BLOG_POST],
+                             [BIG_DEAL,NON_DEAL],
+                             [NON_DEAL,BIG_DEAL],
+                             [BLOG_POST,SMALL_DEAL,NON_DEAL],
+                             [BLOG_POST,BIG_DEAL]],
+                       2 => [[BIG_DEAL], 
+                             [SMALL_DEAL,BLOG_POST], 
+                             [BLOG_POST,SMALL_DEAL], 
+                             [SMALL_DEAL,NON_DEAL],
+                             [NON_DEAL,SMALL_DEAL],
+                             [BLOG_POST,NON_DEAL]],
+                       1 => [[SMALL_DEAL], [BLOG_POST], [NON_DEAL]] }
+                       
   PATTERNS = { 5 => [[BIG_DEAL,SMALL_DEAL,SMALL_DEAL,SMALL_DEAL],
                      [SMALL_DEAL,BLOG_POST,BIG_DEAL,SMALL_DEAL],
                      #[SMALL_DEAL,NON_DEAL,BLOG_POST,NON_DEAL,SMALL_DEAL],
@@ -104,14 +128,15 @@ class FixedFrontPageLayout
     @page_end = Hash.new
     @deals_remaining = true
     @last_pattern = -1
+    @startup_mode = @deals.count < 4
     
     page_length = 0
     row_cnt = DESIRED_ROWS
     page_idx = 1
     loop do
       # Get a randomly selected pattern array of the appropriate column configuration
-      np = next_pattern
-      p = PATTERNS[@num_columns][np]
+      np = next_pattern(@startup_mode ? STARTUP_PATTERNS : PATTERNS)
+      p = @startup_mode ? STARTUP_PATTERNS[@num_columns][np] : PATTERNS[@num_columns][np]
       
       # Have to reject patterns that contain non-deals if we don't have any!
       next if @non_deals.empty? and p.include?(NON_DEAL)
@@ -159,10 +184,10 @@ class FixedFrontPageLayout
   
 private
   # Ensure we don't pick the same pattern twice -- unless there's only one
-  def next_pattern
+  def next_pattern(pattern_template)
     loop do
-      @idx = Random.rand(PATTERNS[@num_columns].length)    
-      if (-1 == @last_pattern) or (@idx != @last_pattern) or (1 == PATTERNS[@num_columns].length)
+      @idx = Random.rand(pattern_template[@num_columns].length)  
+      if (-1 == @last_pattern) or (@idx != @last_pattern) or (1 == pattern_template[@num_columns].length)
         @last_pattern = @idx
         break
       end 
@@ -170,7 +195,7 @@ private
     
     @idx
   end
-  
+
   # Wrap around if we run out; if we wrap, it means we're at the
   def next_deal
     if @deal_idx < @deals.length
