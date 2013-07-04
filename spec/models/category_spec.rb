@@ -40,6 +40,7 @@ describe "Categories" do
     Category.non_exclusive.should be == [category]
     Category.exclusive.should be == [for_her]
     Category.roots.should be == [category, for_her]
+    Category.active.should be == [category, for_her]
   end
   
   describe "Filtering" do
@@ -100,6 +101,7 @@ describe "Categories" do
     
     it "should be inactive" do
       category.active.should be_false
+      Category.active.should be_empty
     end
   end
 

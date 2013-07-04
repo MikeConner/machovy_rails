@@ -25,7 +25,7 @@ class FrontGridController < ApplicationController
     
     # Priority of metro selections; guarantee it always falls back on something -- cannot be nil!
     @active_metro = session[:metro_selected] || session[:metro_user] || session[:metro_geocode] || Metro::DEFAULT_METRO
-    @categories = Category.roots
+    @categories = Category.roots.select { |c| c.active? }
     
     metro_id = Metro.find_by_name(@active_metro).id
     

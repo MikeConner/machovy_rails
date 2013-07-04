@@ -41,6 +41,7 @@ class Category < ActiveRecord::Base
  
   # default_scope messes with sub_categories!
   scope :roots, where('parent_category_id is null')
+  scope :active, where("active = #{ActiveRecord::Base.connection.quoted_true}")
   scope :exclusive, where("exclusive = #{ActiveRecord::Base.connection.quoted_true}")
   scope :non_exclusive, where("exclusive = #{ActiveRecord::Base.connection.quoted_false}")
   
