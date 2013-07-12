@@ -277,7 +277,10 @@ class PromotionsController < ApplicationController
     end
  
   # Catch carrier wave exception -- this isn't working??? It works on update, but not create
-  rescue
+  rescue Exception => e
+    @promotion.errors.add :base, e.message
+    puts e.backtrace.inspect
+      
     # Code from above duplicated, plus error message
     @metros = Metro.all
     @vendors = Vendor.order(:name)
@@ -383,7 +386,10 @@ class PromotionsController < ApplicationController
       render 'edit', :layout => admin_user? ? 'layouts/admin' : 'layouts/application'  
     end    
   
-    rescue
+    rescue Exception => e
+      @promotion.errors.add :base, e.message
+      puts e.backtrace.inspect
+      
       @promotion.errors.add :base, I18n.t('image_error')
       @metros = Metro.all
       @categories = Category.order(:name)
