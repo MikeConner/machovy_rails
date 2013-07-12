@@ -12,7 +12,7 @@ describe "Exclusive category promotion" do
 
   subject { page }
 
-  describe "Sign in and create new promotion" do
+  describe "Sign in and create new promotion", :js => true do
     before do
       sign_in_as_a_vendor
       # go to sign in page
@@ -29,7 +29,7 @@ describe "Exclusive category promotion" do
       fill_in 'promotion_remote_main_image_url', :with => 'http://g-ecx.images-amazon.com/images/G/01/kindle/dp/2012/famStripe/FS-KJW-125._V387998894_.gif'
       fill_in 'promotion_retail_value', :with => 1000
       fill_in 'promotion_price', :with => 500
-      select '2016', :from => 'promotion_end_date_1i'
+      #select '2016', :from => 'promotion_end_date_1i'
       click_button 'Submit'
       @promotion = Promotion.first
     end

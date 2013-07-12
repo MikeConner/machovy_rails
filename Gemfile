@@ -19,7 +19,7 @@ group :assets do
   gem 'zurb-foundation', '4.0.9'
   gem 'sassy-buttons', '0.1.4'
   gem 'compass-rails', '1.0.3'
-  gem 'sass-rails',   '3.2.5'
+  gem 'sass-rails', '3.2.5'
 end
 
 gem 'haml', '3.1.7'
@@ -30,7 +30,7 @@ gem 'thin', '1.4.1'
 
 group :development, :test do
   gem 'rspec-rails', '2.13.1'
-  gem 'faker', '1.0.1'
+  gem 'faker', '1.1.2'
   gem 'spork', '0.9.2'
 end
 
@@ -39,20 +39,20 @@ end
 #end
 
 group :development do
-  gem 'annotate', '~> 2.4.1.beta'
+  gem 'annotate', '2.5.0'
   gem 'heroku', '2.39.3'
   gem 'haml-rails', '0.3.5'
-  gem "better_errors", '0.8.0'
-  gem "binding_of_caller", '0.7.1'
+  gem "better_errors", '0.9.0'
+  gem "binding_of_caller", '0.7.2'
 end
 
 group :test do
-  gem 'capybara', '2.1.0' #'2.0.2'
-  gem 'capybara-webkit', '0.14.2'
-  gem 'selenium-webdriver', '2.32.1'
-  gem 'launchy', '2.1.2'
-  gem 'database_cleaner', '0.9.1'
-  gem 'factory_girl_rails', '4.1.0'
+  gem 'capybara', '2.1.0' 
+  gem 'capybara-webkit', '1.0.0'# '0.14.2'
+  gem 'selenium-webdriver', '2.33.0'#'2.32.1'
+  gem 'launchy', '2.3.0'
+  gem 'database_cleaner', '1.0.1'
+  gem 'factory_girl_rails', '4.2.0'
   gem 'rspec-tag_matchers', '0.1.2'
   gem 'rack-test', '0.6.2'
 end

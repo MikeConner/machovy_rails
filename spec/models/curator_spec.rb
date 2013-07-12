@@ -2,13 +2,13 @@
 #
 # Table name: curators
 #
-#  id         :integer         not null, primary key
+#  id         :integer          not null, primary key
 #  name       :string(255)
 #  picture    :string(255)
 #  bio        :text
 #  twitter    :string(255)
-#  created_at :datetime        not null
-#  updated_at :datetime        not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #  slug       :string(255)
 #  title      :string(48)
 #  weight     :integer

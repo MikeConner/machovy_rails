@@ -2,12 +2,12 @@
 #
 # Table name: metros
 #
-#  id         :integer         not null, primary key
-#  name       :string(255)     not null
-#  created_at :datetime        not null
-#  updated_at :datetime        not null
-#  latitude   :decimal(, )     default(40.438169), not null
-#  longitude  :decimal(, )     default(-80.001875), not null
+#  id         :integer          not null, primary key
+#  name       :string(255)      not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  latitude   :decimal(, )      default(40.438169), not null
+#  longitude  :decimal(, )      default(-80.001875), not null
 #
 
 describe "Metros" do

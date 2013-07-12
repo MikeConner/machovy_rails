@@ -2,13 +2,13 @@
 #
 # Table name: ideas
 #
-#  id         :integer         not null, primary key
+#  id         :integer          not null, primary key
 #  name       :string(16)
 #  title      :string(40)
 #  content    :text
 #  user_id    :integer
-#  created_at :datetime        not null
-#  updated_at :datetime        not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 # CHARTER

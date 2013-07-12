@@ -2,7 +2,7 @@
 #
 # Table name: promotions
 #
-#  id                      :integer         not null, primary key
+#  id                      :integer          not null, primary key
 #  title                   :string(255)
 #  description             :text
 #  limitations             :text
@@ -18,30 +18,32 @@
 #  destination             :string(255)
 #  metro_id                :integer
 #  vendor_id               :integer
-#  created_at              :datetime        not null
-#  updated_at              :datetime        not null
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
 #  main_image              :string(255)
 #  slug                    :string(255)
-#  status                  :string(16)      default("Proposed"), not null
-#  promotion_type          :string(16)      default("Deal"), not null
+#  status                  :string(16)       default("Proposed"), not null
+#  promotion_type          :string(16)       default("Deal"), not null
 #  subtitle                :string(255)
 #  strategy_id             :integer
 #  strategy_type           :string(255)
-#  min_per_customer        :integer         default(1), not null
-#  max_per_customer        :integer         default(0), not null
-#  suspended               :boolean         default(FALSE), not null
+#  min_per_customer        :integer          default(1), not null
+#  max_per_customer        :integer          default(0), not null
+#  suspended               :boolean          default(FALSE), not null
 #  venue_address           :string(50)
 #  venue_city              :string(50)
 #  venue_state             :string(2)
 #  venue_zipcode           :string(10)
 #  latitude                :decimal(, )
 #  longitude               :decimal(, )
-#  pending                 :boolean         default(FALSE), not null
+#  pending                 :boolean          default(FALSE), not null
 #  venue_name              :string(50)
-#  requires_prior_purchase :boolean         default(FALSE), not null
+#  requires_prior_purchase :boolean          default(FALSE), not null
 #  teaser_image_processing :boolean
 #  main_image_processing   :boolean
-#  anonymous_clicks        :integer         default(0), not null
+#  anonymous_clicks        :integer          default(0), not null
+#  venue_phone             :string(14)
+#  venue_url               :string(255)
 #
 
 require 'promotion_strategy_factory'
@@ -105,8 +107,8 @@ class Promotion < ActiveRecord::Base
 
   attr_accessible :description, :destination, :grid_weight, :limitations, :price, :quantity, :retail_value, :revenue_shared,
                   :start_date, :end_date, :teaser_image, :remote_teaser_image_url, :main_image, :remote_main_image_url, :suspended,
-                  :status, :promotion_type, :title, :voucher_instructions, :subtitle, :min_per_customer, :max_per_customer,
-                  :venue_name, :venue_address, :venue_city, :venue_state, :venue_zipcode, :latitude, :longitude, :pending,
+                  :status, :promotion_type, :title, :voucher_instructions, :subtitle, :min_per_customer, :max_per_customer, :pending,
+                  :venue_name, :venue_phone, :venue_address, :venue_city, :venue_state, :venue_zipcode, :venue_url, :latitude, :longitude, 
                   :metro_id, :vendor_id, :category_ids, :blog_post_ids, :promotion_image_ids, :promotion_images_attributes, 
 									:teaser_image_cache, :main_image_cache, :requires_prior_purchase
 
@@ -189,9 +191,11 @@ class Promotion < ActiveRecord::Base
   validate :voucher_expiration_consistency
   
   # Venue address
+  validates :venue_phone, :format => { with: US_PHONE_REGEX }, :allow_blank => true
   validates :venue_address, :length => { maximum: MAX_ADDRESS_LEN }
   validates :venue_state, :inclusion => { in: US_STATES }, :allow_blank => true
   validates :venue_zipcode, :format => { with: US_ZIP_REGEX }, :allow_blank => true
+  validates :venue_url, :format => { with: URL_REGEX }, :allow_blank => true
   validates_numericality_of :latitude, :allow_nil => true
   validates_numericality_of :longitude, :allow_nil => true
   validates :anonymous_clicks, :presence => true,

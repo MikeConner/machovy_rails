@@ -50,6 +50,10 @@
         = f.text_field :venue_state, :maxlength => ApplicationHelper::STATE_LEN, :placeholder => 'PA'
         = f.label :venue_zipcode
         = f.text_field :venue_zipcode, :maxlength => ApplicationHelper::ZIP_PLUS4_LEN, :placeholder => 'Zipcode'   
+        = f.label :venue_phone
+        = f.text_field :venue_phone, :maxlength => User::PHONE_LEN, :placeholder => 'Venue phone'
+        = f.label :venue_url
+        = f.text_field :venue_url, :placeholder => 'Venue web site'
 %h3= "Duration & Quantity"
 %fieldset
   %h4 How many are available for sale?

@@ -2,11 +2,11 @@
 #
 # Table name: relative_expiration_strategies
 #
-#  id          :integer         not null, primary key
-#  period_days :integer         not null
-#  created_at  :datetime        not null
-#  updated_at  :datetime        not null
-#  delay_hours :integer         default(0), not null
+#  id          :integer          not null, primary key
+#  period_days :integer          not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  delay_hours :integer          default(0), not null
 #
 
 require 'promotion_strategy_factory'

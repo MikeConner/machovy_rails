@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: ip_caches
+#
+#  id         :integer          not null, primary key
+#  ip         :string(16)       not null
+#  latitude   :decimal(, )      not null
+#  longitude  :decimal(, )      not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 describe IpCache do
   let(:ip) { FactoryGirl.create(:ip_cache) }
   

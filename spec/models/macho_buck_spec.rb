@@ -2,14 +2,14 @@
 #
 # Table name: macho_bucks
 #
-#  id         :integer         not null, primary key
-#  amount     :decimal(, )     not null
+#  id         :integer          not null, primary key
+#  amount     :decimal(, )      not null
 #  notes      :text
 #  admin_id   :integer
 #  user_id    :integer
 #  voucher_id :integer
-#  created_at :datetime        not null
-#  updated_at :datetime        not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #  order_id   :integer
 #
 

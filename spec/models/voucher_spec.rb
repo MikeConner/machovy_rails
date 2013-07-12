@@ -2,16 +2,16 @@
 #
 # Table name: vouchers
 #
-#  id              :integer         not null, primary key
+#  id              :integer          not null, primary key
 #  uuid            :string(255)
 #  redemption_date :datetime
-#  status          :string(16)      default("Available")
+#  status          :string(16)       default("Available")
 #  notes           :text
 #  expiration_date :datetime
 #  valid_date      :datetime
 #  order_id        :integer
-#  created_at      :datetime        not null
-#  updated_at      :datetime        not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #  slug            :string(255)
 #  payment_id      :integer
 #  delay_hours     :integer

@@ -120,4 +120,8 @@ module ApplicationHelper
       text.gsub("\r\n\r\n","<p>").gsub("\n\n", "<p>").html_safe
     end
   end
+  
+  def url_display(url)
+    (url.blank? or (url =~ /^http/i)) ? url : "http://#{url}"
+  end  
 end

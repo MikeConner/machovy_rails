@@ -2,16 +2,16 @@
 #
 # Table name: orders
 #
-#  id             :integer         not null, primary key
+#  id             :integer          not null, primary key
 #  description    :string(255)
 #  email          :string(255)
 #  amount         :decimal(, )
 #  promotion_id   :integer
 #  user_id        :integer
-#  created_at     :datetime        not null
-#  updated_at     :datetime        not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #  fine_print     :text
-#  quantity       :integer         default(1), not null
+#  quantity       :integer          default(1), not null
 #  slug           :string(255)
 #  name           :string(73)
 #  address_1      :string(50)

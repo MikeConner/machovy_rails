@@ -2,13 +2,13 @@
 #
 # Table name: gift_certificates
 #
-#  id             :integer         not null, primary key
+#  id             :integer          not null, primary key
 #  user_id        :integer
-#  amount         :integer         not null
-#  email          :string(255)     not null
-#  pending        :boolean         default(TRUE)
-#  created_at     :datetime        not null
-#  updated_at     :datetime        not null
+#  amount         :integer          not null
+#  email          :string(255)      not null
+#  pending        :boolean          default(TRUE)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #  transaction_id :string(15)
 #  first_name     :string(24)
 #  last_name      :string(48)

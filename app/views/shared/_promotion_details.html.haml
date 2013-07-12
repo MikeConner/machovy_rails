@@ -1,0 +1,20 @@
+- @vendor = promotion.vendor
+%em= @vendor.name
+-# Show venue address first, otherwise default to vendor address (unless private)
+- if promotion.venue_location.nil?
+  - if !@vendor.private_address?
+    %br= @vendor.address_1
+    - if !@vendor.address_2.blank?
+      %br= @vendor.address_2
+    == #{@vendor.city.capitalize}, #{@vendor.state.upcase}  #{@vendor.zip}
+- else
+  %br= promotion.venue_location.html_safe
+- if promotion.venue_phone.blank?
+  %br= @vendor.phone
+- else
+  %br= promotion.venue_phone
+- url = promotion.venue_url.blank? ? @vendor.url : promotion.venue_url
+- if !url.blank?
+  %br= link_to 'Web site', url_display(url), :target => '_blank'
+- if !@vendor.facebook.blank?
+  %br= link_to 'Facebook', @vendor.facebook_display, :target => '_blank'

@@ -2,14 +2,14 @@
 #
 # Table name: payments
 #
-#  id           :integer         not null, primary key
-#  amount       :decimal(, )     not null
-#  check_number :integer         not null
-#  check_date   :date            not null
+#  id           :integer          not null, primary key
+#  amount       :decimal(, )      not null
+#  check_number :integer          not null
+#  check_date   :date             not null
 #  notes        :text
-#  vendor_id    :integer         not null
-#  created_at   :datetime        not null
-#  updated_at   :datetime        not null
+#  vendor_id    :integer          not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 
 # CHARTER

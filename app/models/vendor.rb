@@ -2,7 +2,7 @@
 #
 # Table name: vendors
 #
-#  id              :integer         not null, primary key
+#  id              :integer          not null, primary key
 #  name            :string(255)
 #  url             :string(255)
 #  facebook        :string(255)
@@ -12,13 +12,13 @@
 #  city            :string(255)
 #  state           :string(255)
 #  zip             :string(255)
-#  created_at      :datetime        not null
-#  updated_at      :datetime        not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #  user_id         :integer
 #  latitude        :decimal(, )
 #  longitude       :decimal(, )
 #  slug            :string(255)
-#  private_address :boolean         default(FALSE)
+#  private_address :boolean          default(FALSE)
 #  source          :string(255)
 #  logo_image      :string(255)
 #  notes           :string(255)
@@ -86,11 +86,7 @@ class Vendor < ActiveRecord::Base
   def <=>(other)
     name <=> other.name
   end
-  
-  def url_display
-    (self.url.blank? or (self.url =~ /^http/i)) ? self.url : "http://#{self.url}"
-  end
-  
+    
   def facebook_display
     (self.facebook.blank? or (self.facebook =~ /^http/i)) ? self.facebook : "http://#{self.facebook}"    
   end
