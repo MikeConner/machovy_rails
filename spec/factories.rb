@@ -807,5 +807,32 @@ FactoryGirl.define do
     latitude { 40 + Random.rand(20) - 10 }
     longitude { -80 + Random.rand(20) - 10 }
   end
+  
+  factory :bitcoin_invoice do
+    order
+    
+    invoice_id { SecureRandom.base64(32) }
+    price { Random.rand * 100 + 0.34 }
+    currency 'USD'
+    current_time 1.minute.ago
+    expiration_time 1.day.from_now
+    invoice_time 1.minute.ago
+    invoice_url { generate(:random_url) }
+    notification_key { SecureRandom.hex(8) }
+    pos_data { generate(:random_phrase) }
+    btc_price { Random.rand + 0.001 }
+    
+    factory :invoice_with_status do
+      after(:create) do |invoice|
+        FactoryGirl.create(:invoice_status_update, :bitcoin_invoice => invoice)
+      end
+    end
+  end
+  
+  factory :invoice_status_update do
+    bitcoin_invoice
+    
+    status { InvoiceStatusUpdate::VALID_STATUSES.sample }
+  end
 end
 

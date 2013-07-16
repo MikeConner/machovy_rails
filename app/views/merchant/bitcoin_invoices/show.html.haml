@@ -1,0 +1,42 @@
+.admin-page-container
+  .row
+    .large-12.columns
+      %h1== Bitcoin Invoice #{@invoice.invoice_id}
+  .row
+    = render :partial => 'shared/flash_messages'
+  .row.admin-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      %table.table.zebra-striped
+        %tr
+          %th Status
+          %th Price
+          %th Currency
+          %th BTC
+          %th Promotion
+          %th Expiration
+          %th Updated
+        %tr
+          %th= @invoice.invoice_status
+          %th= number_to_currency(@invoice.price)
+          %th= @invoice.currency
+          %th= @invoice.btc_price.round(3)
+          %th= @invoice.order.promotion.title
+          %th= @invoice.expiration_time.try(:strftime, ApplicationHelper::DATETIME_FORMAT)
+          %th= @last_update.try(:strftime, ApplicationHelper::DATETIME_FORMAT)
+      %em= link_to 'Invoice URL', @invoice.invoice_url
+      %br
+      %em== Notification Key: #{@invoice.notification_key}
+      %br
+      %em== POS data: #{@invoice.pos_data}
+      %h3 Invoice Status Update History
+      %table.table.zebra-striped
+        %tr
+          %th Date
+          %th Status
+        - @invoice.invoice_status_updates.each do |update|
+          %tr
+            %td= update.created_at.try(:strftime, ApplicationHelper::DATETIME_FORMAT)
+            %td= update.status
+

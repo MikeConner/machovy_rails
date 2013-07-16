@@ -1,3 +1,5 @@
+require 'bitcoin_gateway'
+
 class Merchant::OrdersController < Merchant::BaseController
   load_and_authorize_resource
 
@@ -6,6 +8,10 @@ class Merchant::OrdersController < Merchant::BaseController
   # GET /orders/1
   def show
     @order = Order.find(params[:id])
+    # Can't seem to display iframes from localhost
+    if !@order.bitcoin_invoice.nil? and (@order.bitcoin_invoice.invoice_url =~ /localhost/)
+      @frame_content = Net::HTTP.get_response(URI.parse(@order.bitcoin_invoice.invoice_url)).body
+    end
   end
 
   # GET /orders/new
@@ -37,33 +43,48 @@ class Merchant::OrdersController < Merchant::BaseController
       if total_charge > 0
         # We need to generate the card again anyway, so let's validate that as well, even though Ajax already did it
         #   I suppose people could be doing weird things with browsers that could cause this to change after the Ajax call
-        @card = ActiveMerchant::Billing::MachovySecureNetGateway.instance.parse_card(params)
-        if @card.valid?
-          @billing_address = ActiveMerchant::Billing::MachovySecureNetGateway.instance.parse_address(params)
-          
-          gateway_response = charge_card(@order, @card, @billing_address, total_charge)
-          charge_success = gateway_response.success?
+        if 'true' == params[:bitcoin]
+          invoice = BitcoinGateway.instance.create_invoice(@order, total_charge)
+          # it will either return a string with the gateway error, or a BitcoinInvoice object (potentially invalid)
+          charge_success = invoice.valid?
           
           if charge_success
-            # Set transaction_id to the correct value
-            @order.transaction_id = gateway_response.authorization
-            # Transfer name from card
-            @order.first_name = @card.first_name
-            @order.last_name = @card.last_name
+            @order.transaction_id = Order::BITCOIN_TRANSACTION_ID
           else
-            @order.errors.add :base, "Credit Processing Error: #{gateway_response.message}"
             # Defensive programming; make the order object invalid so that it can't be saved
             # We should not be saving it if charge_success is false
             @order.transaction_id = nil
-            
-            logger.error gateway_response.message
-            
-            puts gateway_response.message
-            puts gateway_response.inspect
+            @order.errors.add :base, "Bitcoin Processing Error: #{invoice.errors.full_messages.to_s}"
           end
         else
-          # Pathological case
-          @order.errors.add :base, ActiveMerchant::Billing::MachovySecureNetGateway.instance.generate_card_error_msg(@card)
+          @card = ActiveMerchant::Billing::MachovySecureNetGateway.instance.parse_card(params)
+          if @card.valid?
+            @billing_address = ActiveMerchant::Billing::MachovySecureNetGateway.instance.parse_address(params)
+            
+            gateway_response = charge_card(@order, @card, @billing_address, total_charge)
+            charge_success = gateway_response.success?
+            
+            if charge_success
+              # Set transaction_id to the correct value
+              @order.transaction_id = gateway_response.authorization
+              # Transfer name from card
+              @order.first_name = @card.first_name
+              @order.last_name = @card.last_name
+            else
+              @order.errors.add :base, "Credit Processing Error: #{gateway_response.message}"
+              # Defensive programming; make the order object invalid so that it can't be saved
+              # We should not be saving it if charge_success is false
+              @order.transaction_id = nil
+              
+              logger.error gateway_response.message
+              
+              puts gateway_response.message
+              puts gateway_response.inspect
+            end
+          else
+            # Pathological case
+            @order.errors.add :base, ActiveMerchant::Billing::MachovySecureNetGateway.instance.generate_card_error_msg(@card)
+          end
         end
       else
         # No charge necessary
@@ -75,29 +96,36 @@ class Merchant::OrdersController < Merchant::BaseController
       if charge_success
         # This has to be valid here, or it's a programming error and should fail badly
         @order.save!
-        # After saving the order, create the associated vouchers using the promotion strategy
-        # status defaults to Available; uuid is created upon save
-        if @order.promotion.strategy.generate_vouchers(@order)
-          flash[:notice] = I18n.t('order_successful')
-          
-          # If everything worked (voucher(s) saved), send the email
-          # Products are handled differently in the mailer
-          UserMailer.delay.promotion_order_email(@order)
-          @order.user.log_activity(@order)
-          
-          # Debit the Macho Bucks. Usually 0, but possible they had more bucks than it cost
-          # In the pathological case where they have negative macho bucks, the card was charged extra. That has to be cleared as well.
-          #   So we have to check for != 0, not > 0
-          if @order.user.total_macho_bucks != 0
-            deduction = @order.user.total_macho_bucks < 0 ? @order.user.total_macho_bucks :  [@order.user.total_macho_bucks, @order.total_cost].min
-            bucks = @order.build_macho_buck(:user_id => @order.user.id, :amount => -deduction, :notes => "Credited on order: #{@order.description}")
-            if !bucks.save
-              flash[:alert] = 'Unable to apply macho bucks!'
-            end
-            UserMailer.delay.macho_bucks_order_email(bucks)
-          end
-          
+        
+        if 'true' == params[:bitcoin]
           redirect_to merchant_order_path(@order) and return
+        else
+          # NOTE - logic duplicated in InvoiceStatusUpdate controller (for Bitcoin)
+          #
+          # After saving the order, create the associated vouchers using the promotion strategy
+          # status defaults to Available; uuid is created upon save
+          if @order.promotion.strategy.generate_vouchers(@order)
+            flash[:notice] = I18n.t('order_successful')
+            
+            # If everything worked (voucher(s) saved), send the email
+            # Products are handled differently in the mailer
+            UserMailer.delay.promotion_order_email(@order)
+            @order.user.log_activity(@order)
+            
+            # Debit the Macho Bucks. Usually 0, but possible they had more bucks than it cost
+            # In the pathological case where they have negative macho bucks, the card was charged extra. That has to be cleared as well.
+            #   So we have to check for != 0, not > 0
+            if @order.user.total_macho_bucks != 0
+              deduction = @order.user.total_macho_bucks < 0 ? @order.user.total_macho_bucks :  [@order.user.total_macho_bucks, @order.total_cost].min
+              bucks = @order.build_macho_buck(:user_id => @order.user.id, :amount => -deduction, :notes => "Credited on order: #{@order.description}")
+              if !bucks.save
+                flash[:alert] = 'Unable to apply macho bucks!'
+              end
+              UserMailer.delay.macho_bucks_order_email(bucks)
+            end
+            
+            redirect_to merchant_order_path(@order) and return
+          end
         end
       end
     end
@@ -109,8 +137,8 @@ class Merchant::OrdersController < Merchant::BaseController
     #render 'new'      
     
     rescue Exception => error
-      logger.error "Credit card processing error: #{error.message}"
-      @order.errors.add :base, "There was a problem with your credit card. #{error.message}"
+      logger.error "Payment processing error: #{error.message}"
+      @order.errors.add :base, "There was a problem with your payment. #{error.message}"
       @promotion = @order.promotion
       render 'promotions/order'
   end

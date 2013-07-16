@@ -42,6 +42,7 @@ class Order < ActiveRecord::Base
   # Has to be numeric, so we can't assign it "Macho Bucks" like before. Presumably the Gateway isn't going to use a 
   # transaction id that is all zeros. Alternatively, I could make the regex more complicated and use "-" or something.
   MACHO_BUCKS_TRANSACTION_ID = '000000000000000'
+  BITCOIN_TRANSACTION_ID = '999999999999999'
   
   # description isn't unique; override with Guid
   before_validation :create_slug
@@ -62,6 +63,7 @@ class Order < ActiveRecord::Base
   has_one :feedback, :through => :user, :source => :feedbacks
   has_one :vendor, :through => :promotion
   has_one :macho_buck
+  has_one :bitcoin_invoice
     
   validates_presence_of :user_id
   validates_presence_of :promotion_id
@@ -88,7 +90,7 @@ class Order < ActiveRecord::Base
   validates :zipcode, :format => { with: US_ZIP_REGEX }, :presence => { :if => :shipping_address_required? }, 
                                                          :allow_blank => { :unless => :shipping_address_required? }
   validates_associated :vouchers
-       
+  
   def total_cost(in_pennies = false)
     amount = self.quantity * self.amount
     

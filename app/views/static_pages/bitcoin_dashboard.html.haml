@@ -1,0 +1,60 @@
+.about-page-container
+  .row
+    .large-12.columns
+      %h1 Bitcoin Dashboard
+  .row.about-page
+    .large-3.columns
+      = render :partial => 'shared/admin_navigation'
+    .large-9.columns
+      - if @orders.empty?
+        %h3 No Bitcoin Orders
+      - else
+        %h4== #{pluralize(@traffic[:count], 'bitcoin order')}; #{@traffic[:total_btc].round(3)} BTC (#{number_to_currency(@traffic[:total_usd])})
+        %table.table.zebra-striped
+          %tr
+            %th Date
+            %th User
+            %th Promotion
+            %th Quantity
+            %th Total
+          - @orders.each do |order|
+            %tr
+              %th= I18n.l order.created_at, :format => :long
+              %th= order.user.email
+              %th= order.promotion.title
+              %th= order.quantity
+              %th= number_to_currency(order.total_cost)
+        - if @expired.empty?
+          %h3 No expired bitcoin orders
+        - else
+          %h3 Expired bitcoin orders
+          %table.table.zebra-striped
+            %tr
+              %th Status
+              %th ID
+              %th Price
+              %th BTC
+              %th Promotion
+              %th Expiration
+              %th Expired
+            - @expired.each do |invoice|
+              - last_update = invoice.invoice_status_updates.order('updated_at DESC').first.created_at
+              = render :partial => 'bitcoin_invoice', :locals => { :invoice => invoice, 
+                                                                   :last_update => last_update.try(:strftime, ApplicationHelper::DATETIME_FORMAT) }
+        - if @invalid.empty?
+          %h3 No invalid bitcoin orders
+        - else
+          %h3 Invalid bitcoin orders
+          %table.table.zebra-striped
+            %tr
+              %th Status
+              %th ID
+              %th Price
+              %th BTC
+              %th Promotion
+              %th Expiration
+              %th Invalid
+            - @invalid.each do |invoice|
+              - last_update = invoice.invoice_status_updates.order('updated_at DESC').first.created_at
+              = render :partial => 'bitcoin_invoice', :locals => { :invoice => invoice, 
+                                                                   :last_update => last_update.try(:strftime, ApplicationHelper::DATETIME_FORMAT) }

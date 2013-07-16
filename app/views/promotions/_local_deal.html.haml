@@ -54,7 +54,13 @@
                   = I18n.t('unlock')
               - elsif @show_buy_button
                 .btn
-                  = link_to " #{I18n.t('click_to_buy')} ".html_safe, order_promotion_path(@promotion)  
+                  = link_to order_promotion_path(@promotion) do
+                    = image_tag 'dollar-coin.png', :style => 'width:110px'
+                    = I18n.t('pay_with_dollars')
+                .btn
+                  = link_to order_promotion_path(@promotion, :bitcoin => true) do
+                    = image_tag 'bitcoin.png', :style => 'width:110px'
+                    = I18n.t('pay_with_bitcoin')
         .row
           .large-8.columns
             %table

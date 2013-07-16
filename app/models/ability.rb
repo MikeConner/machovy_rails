@@ -10,26 +10,26 @@ class Ability
       can :manage, :all
       can :access, :rails_admin      
     elsif user.has_role?(Role::CONTENT_ADMIN)
-      can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position]
+      can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position, BitcoinInvoice, InvoiceStatusUpdate]
       can :create, [Order, Voucher]
       can :manage, [BlogPost, Promotion, PromotionLog, PromotionImage, Metro, Vendor, Voucher, User]
       cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro, Curator, Idea]
     elsif user.has_role?(Role::MERCHANT)
-      can :read, [Curator, BlogPost, Video]
+      can :read, [Curator, BlogPost, Video, BitcoinInvoice, InvoiceStatusUpdate]
       can :create, [Promotion]
       can :manage, [Vendor, Promotion, PromotionLog, PromotionImage, Voucher, Idea, Rating]
       can :redeem, [Voucher]
     elsif user.has_role?(Role::SALES_ADMIN)
-      can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position, Coupon]
+      can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position, Coupon, BitcoinInvoice, InvoiceStatusUpdate]
       can :manage, [Promotion, PromotionLog, PromotionImage, Coupon]
       cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro, Curator, Idea]
     else
       # manage Promotion necessary to create an order; manage Voucher to generate qrcode
-      can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position, MachoBuck, Coupon]
-      can :create, [Order, Voucher, GiftCertificate]
+      can :read, [Promotion, Category, Video, Voucher, Order, Metro, BlogPost, Curator, Vendor, Position, MachoBuck, Coupon, BitcoinInvoice]
+      can :create, [Order, Voucher, GiftCertificate, BitcoinInvoice]
       # manage Promotion necessary to create an order; manage Voucher to generate qrcode
       can :manage, [Promotion, Voucher, PromotionLog, User, Idea, Rating, GiftCertificate] 
-      cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro, Idea, Rating, GiftCertificate]
+      cannot :destroy, [Promotion, Category, Video, Voucher, Order, Metro, Idea, Rating, GiftCertificate, BitcoinInvoice, InvoiceStatusUpdate]
     end
 
     #   if user.admin?

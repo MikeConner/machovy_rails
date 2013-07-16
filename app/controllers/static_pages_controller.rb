@@ -205,6 +205,28 @@ class StaticPagesController < ApplicationController
     @vendor_name = 'Club Erotica'
   end
   
+  def bitcoin_dashboard
+    @traffic = Hash.new
+    order_ids = Set.new
+    @traffic[:count] = BitcoinInvoice.count
+    @traffic[:total] = 0.0
+    @traffic[:total_btc] = 0.0
+    @traffic[:total_usd] = 0.0
+    
+    BitcoinInvoice.all.each do |i|
+      @traffic[:total_btc] += i.btc_price
+      @traffic[:total_usd] += i.price
+      order_ids.add(i.order.id)
+    end
+    @orders = []
+    order_ids.each do |id|
+      @orders.push(Order.find(id))
+    end
+    
+    @expired = BitcoinInvoice.select { |inv| InvoiceStatusUpdate::EXPIRED == inv.invoice_status }
+    @invalid = BitcoinInvoice.select { |inv| InvoiceStatusUpdate::INVALID == inv.invoice_status }
+  end
+  
 private
   def ensure_merchant
     if !current_user.has_role?(Role::MERCHANT) and !current_user.has_role?(Role::SUPER_ADMIN)

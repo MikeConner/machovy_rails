@@ -169,6 +169,7 @@ class PromotionsController < ApplicationController
     # Pass in stripe Customer object if there is one
     #TODO Handle with Vault
     @stripe_customer = nil; #current_user.stripe_customer_obj
+    @bitcoin = params.has_key?(:bitcoin)
   end
 
   # GET /promotions/new

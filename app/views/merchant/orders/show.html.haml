@@ -6,6 +6,11 @@
   %p 
     %b Total Amount:
     = number_to_currency(@order.total_cost)
+  - if !@order.bitcoin_invoice.nil?
+    - if @frame_content.nil?
+      %iframe{:width => "480", :height => "295", :frameborder => "0", :allowfullscreen => "true", :src => @order.bitcoin_invoice.invoice_url }   
+    - else
+      = @frame_content.html_safe
   - if admin_user?
     %p
       %b Quantity:

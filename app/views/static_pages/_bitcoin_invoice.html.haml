@@ -1,0 +1,8 @@
+%tr
+  %th= invoice.invoice_status.camelize
+  %th= link_to invoice.invoice_id, merchant_bitcoin_invoice_path(invoice)
+  %th= number_to_currency(invoice.price)
+  %th= invoice.btc_price.round(3)
+  %th= invoice.order.promotion.title
+  %th= invoice.expiration_time.try(:strftime, ApplicationHelper::DATETIME_FORMAT)
+  %th= last_update

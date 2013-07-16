@@ -26,7 +26,7 @@ gem 'haml', '3.1.7'
 
 gem 'jquery-rails', '2.1.2'
 # Move this into dev/test when deploying unicorn
-gem 'thin', '1.4.1'
+gem 'thin', '1.5.1'
 
 group :development, :test do
   gem 'rspec-rails', '2.13.1'
@@ -39,11 +39,11 @@ end
 #end
 
 group :development do
-  gem 'annotate', '~> 2.4.1.beta'
+  gem 'annotate', '2.5.0'
   gem 'heroku', '2.39.3'
   gem 'haml-rails', '0.3.5'
-  gem "better_errors", '0.8.0'
-  gem "binding_of_caller", '0.7.1'
+  gem "better_errors", '0.9.0'
+  gem "binding_of_caller", '0.7.2'
 end
 
 group :test do

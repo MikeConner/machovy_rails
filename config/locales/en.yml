@@ -6,9 +6,13 @@ en:
   admins_only: 'This function only available to Administrators.'
   already_rated: 'Looks like you already rated this idea.'
   anonymous: 'Anonymous'
+  bitcoin_price_too_low: 'Price below minimum Bitcoin transaction'
   buy_gift_certificate: 'Give the gift of Machovy!'
   buy_now: 'Buy it NOW'
+  buy_now_bitcoin: 'Buy it with Bitcoin NOW'
   click_to_buy: 'Purchase'
+  pay_with_bitcoin: 'Pay with Bitcoin'
+  pay_with_dollars: 'Pay with US $'
   coming_soon: 'Coming soon!'
   create_account: "Create your account"
   create_account_action: "Create an account. It's free!"
@@ -27,6 +31,7 @@ en:
   image_error: 'Error on update (probably processing image -- please make sure you entered a valid image url)'
   inconsistent_categories: 'Inconsistent category assignment; exclusive (red) category assignments must be unique'
   invalid_order: 'Not a valid user/order'
+  invalid_order_data: 'Invalid order data'
   invalid_user: 'You must log in to perform this function'
   local_deal_created: "The local deal was successfully created."
   only_n_left: "Only %{n} left!"
@@ -34,6 +39,7 @@ en:
   machovy_attention: 'Promotions that need Machovy attention'
   merchant_signup: 'Not the usual deals site'
   nice_try: "Unfortunately you're not eligible to purchase additional quantities of this promotion. Thank you for your previous order!"
+  no_gateway: "No connection to Bitcoin Gateway"
   requires_prior: "Unfortunately you're not eligible to purchase this Machovy exclusive promotion yet; please make another purchase first!"
   no_image: '[No Image]'
   new_promotion: "Let's make a deal"

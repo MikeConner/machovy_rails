@@ -69,7 +69,7 @@ MachovyRails::Application.routes.draw do
   
   resources :gift_certificates, :except => [:show, :destroy]
   resources :coupons
-  
+    
   namespace :merchant do
     resources :orders, :except => [:index, :edit, :update]
     resources :vendors do
@@ -92,6 +92,7 @@ MachovyRails::Application.routes.draw do
         put :search
       end
     end
+    resources :bitcoin_invoices, :only => [:show]
   end
   
   # Can't call this /metro because I already have a :metro resource, and it would conflict with show
@@ -134,6 +135,11 @@ MachovyRails::Application.routes.draw do
   # Internal feeds, parameterized by vendor name
   match "/machovy_feed" => "front_grid#machovy_feed" 
   
+  # Bitcoin invoice status updates
+  match "/invoice_status_updates/:key" => "invoice_status_updates#create", :via => :post
+  
+  # Bitcoin "dashboard"
+  match "/bitcoin_dashboard" => "static_pages#bitcoin_dashboard"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

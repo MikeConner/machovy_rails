@@ -69,7 +69,7 @@
                   %a Order Details
                 .content
                   %p
-                    = render :partial => 'merchant/orders/order_form', :locals => { :stripe_customer => @stripe_customer}
+                    = render :partial => 'merchant/orders/order_form', :locals => { :stripe_customer => @stripe_customer, :bitcoin => @bitcoin }
               %section.section
                 %p.title
                   %a Description

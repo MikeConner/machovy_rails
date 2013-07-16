@@ -9,6 +9,7 @@
     = f.hidden_field :email
     = f.hidden_field :description
     = f.hidden_field :fine_print
+    = hidden_field_tag :bitcoin, bitcoin
     -# Returns param reflecting the state of the "save card" checkbox
     -#   They will see this if they're not a customer (no saved card), or if they're a customer using a new card
     -#   In both cases, default to not saving (if a customer, it will keep their old card as the active one, unless they check to overwrite)
@@ -18,9 +19,9 @@
     -# Uncomment to enable quantity editing (and remove hidden field above)
     = f.label :quantity, 'Quantity:', :class => "quantity"
     - if @order.promotion.unlimited?(current_user)
-      = f.number_field :quantity, :min => @order.promotion.min_per_customer, :onchange => "update_amount('order_quantity', #{@order.amount}, #{@order.user.total_macho_bucks});", :class => "quantity-input"
+      = f.number_field :quantity, :min => @order.promotion.min_per_customer, :onchange => "update_amount('order_quantity', #{@order.amount}, #{@order.user.total_macho_bucks}, #{bitcoin});", :class => "quantity-input"
     - else
-      = f.select :quantity, (@order.promotion.min_per_customer..@order.promotion.max_quantity_for_buyer(current_user)), {}, :onchange => "update_amount('order_quantity', #{@order.amount}, #{@order.user.total_macho_bucks});"
+      = f.select :quantity, (@order.promotion.min_per_customer..@order.promotion.max_quantity_for_buyer(current_user)), {}, :onchange => "update_amount('order_quantity', #{@order.amount}, #{@order.user.total_macho_bucks}, #{bitcoin});"
     %p.total-price 
       - if 0 != @order.user.total_macho_bucks
         - initial_macho_bucks_credit = [@order.user.total_macho_bucks, @order.total_cost].min
@@ -38,7 +39,7 @@
         - initial_balance_due = @order.total_cost
       %strong Balance Due:
       = label_tag 'balance_due', number_to_currency(initial_balance_due), :id => 'balance_due', :class => 'total-price'
-    #credit_card_section{:style => initial_balance_due > 0 ? "display:block" : "display:none"}
+    #credit_card_section{:style => (!bitcoin && (initial_balance_due > 0)) ? "display:block" : "display:none"}
       - if !stripe_customer.nil?
         .field
           = radio_button_tag 'decision', 'existing', true, :onchange => "hide_card_info()"
@@ -96,7 +97,7 @@
         = f.text_field :city, :class => 'city', :maxlength => ApplicationHelper::MAX_ADDRESS_LEN, :placeholder => 'City', :autocomplete => 'city'
         = f.text_field :state, :class => 'state', :maxlength => ApplicationHelper::STATE_LEN, :placeholder => 'State', :autocomplete => 'state'
         = f.text_field :zipcode, :class => 'zip', :maxlength => ApplicationHelper::ZIPCODE_LEN, :placeholder => 'Zipcode', :autocomplete => 'postal-code'
-    = f.submit I18n.t('buy_now'), :class => 'btn'
+    = f.submit bitcoin ? I18n.t('buy_now_bitcoin') : I18n.t('buy_now'), :class => 'btn'
     %br
     .alert.label#card_error
       %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.

@@ -234,7 +234,7 @@ function fix_map(map) {
 }
 
 // Appears in views/merchant/order/_order_form
-function update_amount(quantity, unit_price, macho_bucks) {
+function update_amount(quantity, unit_price, macho_bucks, bitcoin) {
   var gross_total = $('#' + quantity).val() * unit_price;
   var net_total = gross_total;
   $('#gross_total').text("$" + gross_total.toFixed(2));
@@ -247,7 +247,7 @@ function update_amount(quantity, unit_price, macho_bucks) {
   $('#balance_due').text("$" + net_total.toFixed(2));
   
   // Don't show the credit card section if Macho Bucks are sufficient to pay it
-  $('#credit_card_section').toggle(net_total > 0);
+  $('#credit_card_section').toggle(!bitcoin && (net_total > 0));
 }
 
 function munge_affiliate_url(source, destination) {
