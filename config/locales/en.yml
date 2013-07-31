@@ -26,6 +26,8 @@ en:
   idea_success: 'Great idea!'
   image_error: 'Error on update (probably processing image -- please make sure you entered a valid image url)'
   inconsistent_categories: 'Inconsistent category assignment; exclusive (red) category assignments must be unique'
+  insider-tooltip: 'Check out the current issue!'
+  insider-paul: 'Undefeated Paul Spadafora - "The Pittsburgh Kid"'
   invalid_order: 'Not a valid user/order'
   invalid_user: 'You must log in to perform this function'
   local_deal_created: "The local deal was successfully created."

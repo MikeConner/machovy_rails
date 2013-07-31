@@ -134,6 +134,8 @@ MachovyRails::Application.routes.draw do
   # Internal feeds, parameterized by vendor name
   match "/machovy_feed" => "front_grid#machovy_feed" 
   
+  # Machovy insider home page (edition argument renders appropriate edition page)
+  match "/insider" => "static_pages#insider"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
