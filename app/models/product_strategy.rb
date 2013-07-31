@@ -2,11 +2,11 @@
 #
 # Table name: product_strategies
 #
-#  id         :integer         not null, primary key
-#  delivery   :boolean         default(TRUE)
+#  id         :integer          not null, primary key
+#  delivery   :boolean          default(TRUE)
 #  sku        :string(48)
-#  created_at :datetime        not null
-#  updated_at :datetime        not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 # CHARTER

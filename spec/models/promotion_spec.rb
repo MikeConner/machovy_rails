@@ -2,7 +2,7 @@
 #
 # Table name: promotions
 #
-#  id                      :integer         not null, primary key
+#  id                      :integer          not null, primary key
 #  title                   :string(255)
 #  description             :text
 #  limitations             :text
@@ -18,30 +18,32 @@
 #  destination             :string(255)
 #  metro_id                :integer
 #  vendor_id               :integer
-#  created_at              :datetime        not null
-#  updated_at              :datetime        not null
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
 #  main_image              :string(255)
 #  slug                    :string(255)
-#  status                  :string(16)      default("Proposed"), not null
-#  promotion_type          :string(16)      default("Deal"), not null
+#  status                  :string(16)       default("Proposed"), not null
+#  promotion_type          :string(16)       default("Deal"), not null
 #  subtitle                :string(255)
 #  strategy_id             :integer
 #  strategy_type           :string(255)
-#  min_per_customer        :integer         default(1), not null
-#  max_per_customer        :integer         default(0), not null
-#  suspended               :boolean         default(FALSE), not null
+#  min_per_customer        :integer          default(1), not null
+#  max_per_customer        :integer          default(0), not null
+#  suspended               :boolean          default(FALSE), not null
 #  venue_address           :string(50)
 #  venue_city              :string(50)
 #  venue_state             :string(2)
 #  venue_zipcode           :string(10)
 #  latitude                :decimal(, )
 #  longitude               :decimal(, )
-#  pending                 :boolean         default(FALSE), not null
+#  pending                 :boolean          default(FALSE), not null
 #  venue_name              :string(50)
-#  requires_prior_purchase :boolean         default(FALSE), not null
+#  requires_prior_purchase :boolean          default(FALSE), not null
 #  teaser_image_processing :boolean
 #  main_image_processing   :boolean
-#  anonymous_clicks        :integer         default(0), not null
+#  anonymous_clicks        :integer          default(0), not null
+#  venue_phone             :string(14)
+#  venue_url               :string(255)
 #
 
 describe "Promotions" do
@@ -106,10 +108,12 @@ describe "Promotions" do
     promotion.should respond_to(:pickup_order?)
     promotion.should respond_to(:shipping_address_required?)
     promotion.should respond_to(:venue_name)
+    promotion.should respond_to(:venue_phone)
     promotion.should respond_to(:venue_address)
     promotion.should respond_to(:venue_city)
     promotion.should respond_to(:venue_state)
     promotion.should respond_to(:venue_zipcode)
+    promotion.should respond_to(:venue_url)
     promotion.should respond_to(:latitude)
     promotion.should respond_to(:longitude)
     promotion.should respond_to(:mappable?)
@@ -166,6 +170,48 @@ describe "Promotions" do
     end
   end
   
+  describe "phone (valid)" do
+    ["(412) 441-4378", "(724) 342-3423", "(605) 342-3242"].each do |phone|
+      before { promotion.venue_phone = phone }
+      
+      it { should be_valid }
+    end
+  end
+
+  describe "url (valid)" do
+    ["https://cryptic-ravine-3423.herokuapp.com", "microsoft.com", "http://www.google.com", "www.bitbucket.org", "google.com/index.html"].each do |url|
+      before { promotion.venue_url = url }
+      
+      it { should be_valid }
+    end
+  end
+
+  # Should actually introduce phone normalization if we want people to type them in
+  # Many of these should be valid after normalization 
+  describe "url (invalid)" do  
+    ["xyz", ".com", "google", "www.google", "ftp://microsoft.com/fish", "www.google."].each do |url|
+      before { promotion.venue_url = url }
+     
+      it { should_not be_valid }
+    end
+  end  
+
+  # Should actually introduce phone normalization if we want people to type them in
+  # Many of these should be valid after normalization 
+  describe "venue phone (invalid)" do  
+    ["xyz", "412-441-4378", "441-4378", "1-800-342-3423", "(412) 343-34232", "(412) 343-342x"].each do |phone|
+      before { promotion.venue_phone = phone }
+     
+      it { should_not be_valid }
+    end
+  end  
+
+  describe "missing venue_phone" do
+    before { promotion.venue_phone = nil }
+    
+    it { should be_valid }
+  end
+
   describe "Pending images" do
     describe "pending teaser" do
       before { sleep 3 }

@@ -1,3 +1,4 @@
+require 'phone_utils'
 require 'utilities'
 require 'weighting_factory'
 require 'promotion_strategy_factory'
@@ -16,6 +17,7 @@ class PromotionsController < ApplicationController
   before_filter :admin_only, :only => [:manage, :review, :crop, :crop_image, :filter]
   before_filter :validate_eligible, :only => [:order]
   before_filter :transform_prices, :only => [:create, :update]
+  before_filter :transform_phones, :only => [:create, :update]
   after_filter :update_versions, :only => [:crop_image]
   
   load_and_authorize_resource
@@ -111,6 +113,7 @@ class PromotionsController < ApplicationController
   # GET /promotions/1
   def show
     @promotion = Promotion.find(params[:id])
+
     # WARNING!
     # When assigning booleans, need to use ||, not OR operator. If you change to and/or it will break!
     @show_buy_button = eligible_to_purchase(@promotion)
@@ -275,7 +278,10 @@ class PromotionsController < ApplicationController
     end
  
   # Catch carrier wave exception -- this isn't working??? It works on update, but not create
-  rescue
+  rescue Exception => e
+    @promotion.errors.add :base, e.message
+    puts e.backtrace.inspect
+      
     # Code from above duplicated, plus error message
     @metros = Metro.all
     @vendors = Vendor.order(:name)
@@ -381,7 +387,10 @@ class PromotionsController < ApplicationController
       render 'edit', :layout => admin_user? ? 'layouts/admin' : 'layouts/application'  
     end    
   
-    rescue
+    rescue Exception => e
+      @promotion.errors.add :base, e.message
+      puts e.backtrace.inspect
+      
       @promotion.errors.add :base, I18n.t('image_error')
       @metros = Metro.all
       @categories = Category.order(:name)
@@ -557,6 +566,15 @@ private
       params[:promotion][:retail_value].gsub!('$', '') unless params[:promotion][:retail_value].nil?
       params[:promotion][:price].gsub!('$', '') unless params[:promotion][:price].nil?
     end    
+  end
+
+  def transform_phones
+    if !params[:promotion].nil?
+      phone_number = params[:promotion][:venue_phone]
+      if !phone_number.blank? and (phone_number !~ /#{ApplicationHelper::US_PHONE_REGEX}/)
+        params[:promotion][:venue_phone] = PhoneUtils::normalize_phone(phone_number)
+      end       
+    end
   end
 
   def update_versions

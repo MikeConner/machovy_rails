@@ -74,6 +74,8 @@ describe "Create promotion with venue location" do
           fill_in 'promotion_venue_city', :with => 'Pittsburgh'
           fill_in 'promotion_venue_state', :with => 'PA'
           fill_in 'promotion_venue_zipcode', :with => '15237'
+          fill_in 'promotion_venue_phone', :with => '412-400-0394'
+          fill_in 'promotion_venue_url', :with => 'http://www.microsoft.com'
           
           click_button 'Submit'
         end

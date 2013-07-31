@@ -2,14 +2,14 @@
 #
 # Table name: blog_posts
 #
-#  id               :integer         not null, primary key
+#  id               :integer          not null, primary key
 #  title            :string(255)
 #  body             :text
 #  curator_id       :integer
 #  activation_date  :datetime
 #  weight           :integer
-#  created_at       :datetime        not null
-#  updated_at       :datetime        not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #  slug             :string(255)
 #  associated_image :string(255)
 #

@@ -1,0 +1,11 @@
+-# If we have a mappable venue address, show that; otherwise all back on the vendor address
+- @vendor = promotion.vendor
+- if promotion.mappable?
+  = hidden_field_tag :latitude, promotion.latitude
+  = hidden_field_tag :longitude, promotion.longitude
+  = hidden_field_tag :vendor, promotion.venue_location
+- elsif @vendor.mappable?
+  = hidden_field_tag :latitude, @vendor.latitude
+  = hidden_field_tag :longitude, @vendor.longitude
+  = hidden_field_tag :vendor, @vendor.name
+#map_canvas.vendor_map 

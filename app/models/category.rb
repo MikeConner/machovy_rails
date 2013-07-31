@@ -2,13 +2,13 @@
 #
 # Table name: categories
 #
-#  id                 :integer         not null, primary key
-#  name               :string(255)     not null
+#  id                 :integer          not null, primary key
+#  name               :string(255)      not null
 #  active             :boolean
-#  created_at         :datetime        not null
-#  updated_at         :datetime        not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
 #  parent_category_id :integer
-#  exclusive          :boolean         default(FALSE)
+#  exclusive          :boolean          default(FALSE)
 #
 
 # CHARTER

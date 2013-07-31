@@ -2,11 +2,11 @@
 #
 # Table name: fixed_expiration_strategies
 #
-#  id          :integer         not null, primary key
-#  end_date    :datetime        not null
-#  created_at  :datetime        not null
-#  updated_at  :datetime        not null
-#  delay_hours :integer
+#  id          :integer          not null, primary key
+#  end_date    :datetime         not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  delay_hours :integer          default(0), not null
 #
 
 require 'promotion_strategy_factory'

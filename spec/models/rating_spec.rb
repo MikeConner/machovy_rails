@@ -2,13 +2,13 @@
 #
 # Table name: ratings
 #
-#  id         :integer         not null, primary key
+#  id         :integer          not null, primary key
 #  stars      :integer
 #  comment    :text
 #  idea_id    :integer
 #  user_id    :integer
-#  created_at :datetime        not null
-#  updated_at :datetime        not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 describe "Rating" do

@@ -140,6 +140,10 @@ MachovyRails::Application.routes.draw do
   
   # Bitcoin "dashboard"
   match "/bitcoin_dashboard" => "static_pages#bitcoin_dashboard"
+
+  # Machovy insider home page (edition argument renders appropriate edition page)
+  match "/insider" => "static_pages#insider"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

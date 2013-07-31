@@ -2,7 +2,7 @@
 #
 # Table name: vendors
 #
-#  id              :integer         not null, primary key
+#  id              :integer          not null, primary key
 #  name            :string(255)
 #  url             :string(255)
 #  facebook        :string(255)
@@ -12,19 +12,21 @@
 #  city            :string(255)
 #  state           :string(255)
 #  zip             :string(255)
-#  created_at      :datetime        not null
-#  updated_at      :datetime        not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #  user_id         :integer
 #  latitude        :decimal(, )
 #  longitude       :decimal(, )
 #  slug            :string(255)
-#  private_address :boolean         default(FALSE)
+#  private_address :boolean          default(FALSE)
 #  source          :string(255)
 #  logo_image      :string(255)
 #  notes           :string(255)
 #
 
 describe "Vendors" do
+  include ApplicationHelper
+  
   let(:user) { FactoryGirl.create(:user) }
   let(:vendor) { FactoryGirl.create(:vendor, :user => user) }
   
@@ -50,7 +52,6 @@ describe "Vendors" do
     vendor.should respond_to(:longitude)
     vendor.should respond_to(:mappable?)
     vendor.should respond_to(:map_address)
-    vendor.should respond_to(:url_display)
     vendor.should respond_to(:facebook_display)
     vendor.should respond_to(:private_address)
     vendor.should respond_to(:source)
@@ -234,14 +235,14 @@ describe "Vendors" do
     before { vendor.url = "microsoft.com" }
     
     it "should calculate the display" do
-      vendor.url_display.should == "http://microsoft.com"
+      url_display(vendor.url).should == "http://microsoft.com"
     end
     
     context "already prefixed" do
       before { vendor.url = "http://microsoft.com" }
       
       it "shouldn't change" do
-        vendor.url_display.should == vendor.url
+        url_display(vendor.url).should == vendor.url
       end
     end
   end

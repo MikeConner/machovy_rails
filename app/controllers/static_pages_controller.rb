@@ -225,6 +225,18 @@ class StaticPagesController < ApplicationController
     
     @expired = BitcoinInvoice.select { |inv| InvoiceStatusUpdate::EXPIRED == inv.invoice_status }
     @invalid = BitcoinInvoice.select { |inv| InvoiceStatusUpdate::INVALID == inv.invoice_status }
+
+  def insider
+    # Design here is to have one path: /insider. With no arguments, it displays a 'directory' page with all the episodes
+    # Episodes have titles that are in en.yml as insider-<title>, such as "insider-paul" for Spadafora; the content is the displayable title
+    # The home page has links that point to individual episodes, using arguments on the root insider path corresponding to the "slug" for each title
+    # The controller renders the view corresponding to the slug of the title
+    # To make a new episode, add an entry to en.yml with the title, link to it on the home page, and add a view to /insider
+    #  This allows maximum flexibility; each episode could have a completely different layout.
+    #  It would probably be a good idea to create a Machovy Insider layout and render those views with it, though
+    if !params['episode'].nil?
+      render "insider/#{params['episode']}" and return
+    end
   end
   
 private

@@ -2,10 +2,10 @@
 #
 # Table name: videos
 #
-#  id              :integer         not null, primary key
+#  id              :integer          not null, primary key
 #  destination_url :string(255)
-#  created_at      :datetime        not null
-#  updated_at      :datetime        not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #  title           :string(50)
 #  curator_id      :integer
 #  caption         :text

@@ -2,12 +2,12 @@
 #
 # Table name: promotion_logs
 #
-#  id           :integer         not null, primary key
+#  id           :integer          not null, primary key
 #  promotion_id :integer
-#  status       :string(32)      not null
+#  status       :string(16)       not null
 #  comment      :text
-#  created_at   :datetime        not null
-#  updated_at   :datetime        not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 
 describe "PromotionLog" do

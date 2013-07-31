@@ -2,14 +2,14 @@
 #
 # Table name: positions
 #
-#  id            :integer         not null, primary key
+#  id            :integer          not null, primary key
 #  title         :string(255)
 #  description   :text
 #  expiration    :datetime
 #  email_contact :string(255)
 #  email_subject :string(255)
-#  created_at    :datetime        not null
-#  updated_at    :datetime        not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #
 
 # CHARTER
