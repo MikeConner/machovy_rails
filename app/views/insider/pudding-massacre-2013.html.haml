@@ -1,0 +1,10 @@
+.about-page-container
+  .row
+    .large-12.columns
+      %h1= I18n.t('insider-pudding')
+  .row
+    = render :partial => 'shared/flash_messages'
+  .row.about-page
+    .large-12.columns
+    .flex-video
+      %iframe{:src => "http://player.vimeo.com/video/63045218", :width => "400", :height => "300", :frameborder => "0", :webkitAllowFullScreen => true, :mozallowfullscreen => true, :allowFullScreen => true}
