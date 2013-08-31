@@ -24,6 +24,7 @@ class FrontGridController < ApplicationController
     end
     
     # Priority of metro selections; guarantee it always falls back on something -- cannot be nil!
+    # Logic duplicated in header to show current metro on all pages
     @active_metro = session[:metro_selected] || session[:metro_user] || session[:metro_geocode] || Metro::DEFAULT_METRO
     @categories = Category.roots.select { |c| c.active? }
     
