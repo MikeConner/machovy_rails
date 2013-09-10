@@ -60,6 +60,9 @@ class FrontGridController < ApplicationController
     end
     
     @display_banner = session[:banner_viewed].nil? || ('false' == session[:banner_viewed])
+    if @display_banner
+      @posts = BlogPost.select { |b| b.displayable? and (b.metros.empty? or b.metro_ids.include?(metro_id)) }.sort[0,4]
+    end
   end    
   
   # External feed to midnightguru
@@ -97,7 +100,7 @@ class FrontGridController < ApplicationController
 private
   def filter(promotions, category, metro)   
     selected_category = find_selection(category)
-    # nil here means no category is defined, or it's "All Items"
+    # nil here means no category is defined, or it's Category::ALL_ITEMS_LABEL
     # All means all non_exclusive, so get the list of non-exclusive ids
     # If it's defined, use the empty set so that the non_exclusive array intersection test always fails, so that it's only triggered by the direct comparison
     if selected_category.nil?
