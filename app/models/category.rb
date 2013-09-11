@@ -26,7 +26,7 @@
 # them to other categories as well, they would get included in "All Items" anyway, which is inconsistent.
 #
 class Category < ActiveRecord::Base
-  ALL_ITEMS_LABEL = 'Everything'
+  ALL_ITEMS_LABEL = 'All'
   ALL_ITEMS_ID = 'All'
   
   after_destroy :destroy_sub_categories
