@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130616193604) do
+ActiveRecord::Schema.define(:version => 20130917192013) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -20,6 +20,22 @@ ActiveRecord::Schema.define(:version => 20130616193604) do
     t.string   "description"
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false
+  end
+
+  create_table "bitcoin_invoices", :force => true do |t|
+    t.integer  "order_id"
+    t.decimal  "price"
+    t.string   "currency",         :limit => 3, :default => "USD"
+    t.string   "pos_data"
+    t.string   "notification_key"
+    t.string   "invoice_id"
+    t.string   "invoice_url"
+    t.decimal  "btc_price"
+    t.datetime "invoice_time"
+    t.datetime "expiration_time"
+    t.datetime "current_time"
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
   end
 
   create_table "blog_posts", :force => true do |t|
@@ -53,6 +69,13 @@ ActiveRecord::Schema.define(:version => 20130616193604) do
   end
 
   add_index "categories", ["name"], :name => "index_categories_on_name", :unique => true
+
+  create_table "categories_external_coupons", :id => false, :force => true do |t|
+    t.integer "category_id"
+    t.integer "external_coupon_id"
+  end
+
+  add_index "categories_external_coupons", ["category_id", "external_coupon_id"], :name => "by_category_and_coupon", :unique => true
 
   create_table "categories_promotions", :id => false, :force => true do |t|
     t.integer "category_id",  :null => false
@@ -127,6 +150,45 @@ ActiveRecord::Schema.define(:version => 20130616193604) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
+  create_table "external_coupons", :force => true do |t|
+    t.integer  "metro_id"
+    t.string   "name",                          :null => false
+    t.string   "address_1"
+    t.string   "address_2"
+    t.string   "deal_url",                      :null => false
+    t.string   "store_url"
+    t.string   "source"
+    t.string   "phone",           :limit => 14
+    t.string   "city",            :limit => 50
+    t.string   "state",           :limit => 2
+    t.string   "zip",             :limit => 10
+    t.integer  "deal_id",                       :null => false
+    t.string   "user_name"
+    t.integer  "user_id"
+    t.string   "title",                         :null => false
+    t.text     "disclaimer"
+    t.text     "deal_info"
+    t.date     "expiration_date",               :null => false
+    t.datetime "post_date"
+    t.string   "small_image_url",               :null => false
+    t.string   "big_image_url",                 :null => false
+    t.string   "logo_url"
+    t.integer  "deal_type_id"
+    t.integer  "category_id"
+    t.integer  "subcategory_id"
+    t.decimal  "distance"
+    t.decimal  "original_price"
+    t.decimal  "deal_price"
+    t.decimal  "deal_savings"
+    t.decimal  "deal_discount"
+    t.string   "slug"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  add_index "external_coupons", ["deal_id"], :name => "index_external_coupons_on_deal_id", :unique => true
+  add_index "external_coupons", ["slug"], :name => "index_external_coupons_on_slug"
+
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
     t.integer  "order_id"
@@ -176,6 +238,13 @@ ActiveRecord::Schema.define(:version => 20130616193604) do
     t.integer  "user_id"
     t.datetime "created_at",               :null => false
     t.datetime "updated_at",               :null => false
+  end
+
+  create_table "invoice_status_updates", :force => true do |t|
+    t.integer  "bitcoin_invoice_id"
+    t.string   "status",             :limit => 15, :default => "new"
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
   end
 
   create_table "ip_caches", :force => true do |t|
@@ -318,6 +387,8 @@ ActiveRecord::Schema.define(:version => 20130616193604) do
     t.boolean  "teaser_image_processing"
     t.boolean  "main_image_processing"
     t.integer  "anonymous_clicks",                      :default => 0,          :null => false
+    t.string   "venue_phone",             :limit => 14
+    t.string   "venue_url"
   end
 
   add_index "promotions", ["slug"], :name => "index_promotions_on_slug"

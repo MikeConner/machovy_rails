@@ -1,0 +1,29 @@
+.local
+  - coupon = ExternalCoupon.find(content)
+  .logo
+    = link_to(image_tag(EightCoupon::BANNER_BRAND_IMAGE), EightCoupon::EIGHT_COUPON_BRAND_URL, :target => "_blank")
+  .image
+    %a{:href => external_coupon_url(coupon)}
+      %img{:src => coupon.big_image_url}
+  .content
+    .desc
+      %h3= link_to sanitize(coupon.title), external_coupon_path(coupon), :target => "_blank"
+      %p.bigdesc= coupon.deal_info.html_safe
+    - if !coupon.store_url.blank?
+      %p.merchant
+        Provided by:&nbsp;
+        = link_to coupon.source, coupon.store_url, :target => "_blank"
+  .menu.cf
+    .currency
+      - if !coupon.original_price.nil?
+        .old-price
+          %p= number_to_currency(coupon.original_price)
+      .price= number_to_currency(coupon.deal_price)
+    .promotion-icons
+      %ul
+        %li
+          = link_to external_coupon_path(coupon) do
+            %i.icon-file-alt.icon-2x        
+        %li
+          = link_to coupon.deal_url, :target => "_blank" do
+            %i.icon-share-alt.icon-2x

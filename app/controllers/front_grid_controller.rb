@@ -1,4 +1,5 @@
 require 'fixed_front_page_layout'
+require 'eight_coupon'
 
 class FrontGridController < ApplicationController
   include ApplicationHelper
@@ -28,7 +29,8 @@ class FrontGridController < ApplicationController
     @active_metro = session[:metro_selected] || session[:metro_user] || session[:metro_geocode] || Metro::DEFAULT_METRO
     @categories = Category.roots.select { |c| c.active? }
     
-    metro_id = Metro.find_by_name(@active_metro).id
+    metro = Metro.find_by_name(@active_metro)
+    metro_id = metro.id
     
     # If they request the home page (no page argument), generate a random layout and store it in the session.
     # Pagination can then move forwards and backwards through it. If you didn't store it, it would generate a new random layout each time --
@@ -37,6 +39,7 @@ class FrontGridController < ApplicationController
       fp_layout = FixedFrontPageLayout.new(filter(Promotion.deals, @active_category, @active_metro), 
                                            filter(Promotion.nondeals, @active_category, @active_metro), 
                                            BlogPost.select { |p| p.displayable? and (p.metros.empty? or p.metro_ids.include?(metro_id)) }.sort,
+                                           filter_coupons(metro, @active_category),
                                            session[:width])
       session[:layout] = fp_layout.layout
       session[:page_start] = fp_layout.page_start
@@ -111,6 +114,19 @@ private
     end
     
     @promotions
+  end
+  
+  def filter_coupons(metro, category)
+    selected_category = find_selection(category)
+    
+    if selected_category.nil?
+      non_exclusive = Category.non_exclusive.map { |c| c.id }
+      @coupons = metro.external_coupons.select { |c| !(c.category_ids & non_exclusive).empty? }
+    else
+      @coupons = metro.external_coupons.select { |c| c.category_ids.include?(selected_category.id) }
+    end
+    
+    @coupons
   end
   
   def find_selection(category)

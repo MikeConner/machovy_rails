@@ -1,0 +1,73 @@
+= render :partial => 'shared/flash_messages'
+.local-deal-container
+  .promotion.row  
+    .row.product-line
+      .large-5.columns.product
+        %ul{:data => {:orbit => 'promotion-image'}}
+          %li= image_tag @coupon.big_image_url
+        %br
+          .twshare
+            %a.twitter-share-button.left{"data-count" => "horizontal", "data-via" => "fuonrails", :href => "https://twitter.com/share"} Tweet
+            %script{:src => "https://platform.twitter.com/widgets.js", :type => "text/javascript"}
+          .fshare
+            %script{:src => "https://connect.facebook.net/en_US/all.js#xfbml=1"}
+            %fb:like{:layout => "button_count", :show_faces => "false"}       
+      .large-7.columns.product-detail
+        .row
+          .large-2.columns
+            - if !@coupon.logo_url.blank?
+              = image_tag @coupon.logo_url
+          .large-10.columns
+            %h3= @coupon.title
+        .row
+          .large-12.columns
+            .large-4.small-6.columns.x-padding
+              - if !@coupon.original_price.nil?
+                %span.price-old= number_to_currency(@coupon.original_price)
+              %span.price-new= number_to_currency(@coupon.deal_price)
+              %br
+              %span== Buy before #{@coupon.expiration_date.try(:strftime, ApplicationHelper::DATE_FORMAT)}
+            .large-8.small-6.columns.x-padding
+              .btn
+                = link_to " #{I18n.t('click_to_buy')} ".html_safe, @coupon.deal_url, :target => "_blank"
+        .row
+          .large-8.columns
+            %table
+              %thead
+                %tr
+                  %th Value
+                  - if !@coupon.deal_discount.nil?
+                    %th Discount
+                    %th Save
+              %tbody
+                %tr
+                  %td= number_to_currency(@coupon.original_price)
+                  - if !@coupon.deal_discount.nil?
+                    %td= number_to_percentage(@coupon.deal_discount, :precision => 0)
+                    %td= number_to_currency(@coupon.deal_savings)
+        .row
+          .large-12.columns
+            .section-container.auto{:data => {:section => ''}}
+              %section.section
+                %p.title
+                  %a Description
+                .content
+                  %p= seo_transform(@coupon.deal_info)
+              %section.section
+                %p.title
+                  %a Limitations
+                .content
+                  %p= seo_transform(@coupon.disclaimer)
+              %section.section#mapclick
+                %p.title
+                  %a Details
+                .content
+                  .row
+                    .large-12.columns
+                      = render :partial => 'coupon_details', :locals => { :coupon => @coupon }
+              %section.section
+                %p.title 
+                  %a Comments
+                .content
+                  .spread
+                    %fb:comments{:numposts => "4", :title => "Comments", :simple => "1", :href => "https://#{request.host+request.fullpath}".to_s}
