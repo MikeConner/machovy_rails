@@ -1,3 +1,43 @@
+# == Schema Information
+#
+# Table name: external_coupons
+#
+#  id              :integer          not null, primary key
+#  metro_id        :integer
+#  name            :string(255)      not null
+#  address_1       :string(255)
+#  address_2       :string(255)
+#  deal_url        :string(255)      not null
+#  store_url       :string(255)
+#  source          :string(255)
+#  phone           :string(14)
+#  city            :string(50)
+#  state           :string(2)
+#  zip             :string(10)
+#  deal_id         :integer          not null
+#  user_name       :string(255)
+#  user_id         :integer
+#  title           :string(255)      not null
+#  disclaimer      :text
+#  deal_info       :text
+#  expiration_date :date             not null
+#  post_date       :datetime
+#  small_image_url :string(255)      not null
+#  big_image_url   :string(255)      not null
+#  logo_url        :string(255)
+#  deal_type_id    :integer
+#  category_id     :integer
+#  subcategory_id  :integer
+#  distance        :decimal(, )
+#  original_price  :decimal(, )
+#  deal_price      :decimal(, )
+#  deal_savings    :decimal(, )
+#  deal_discount   :decimal(, )
+#  slug            :string(255)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 class ExternalCoupon < ActiveRecord::Base
   extend FriendlyId
   friendly_id :title, use: [:slugged, :history]
