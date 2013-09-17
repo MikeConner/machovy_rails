@@ -1,0 +1,11 @@
+%em= coupon.source
+-# Show venue address first, otherwise default to vendor address (unless private)
+- if !coupon.address_1.blank?
+  %br= coupon.address_1
+  - if !coupon.address_2.blank?
+    %br= coupon.address_2
+== #{coupon.city.capitalize}, #{coupon.state.upcase}  #{coupon.zip}
+- if !coupon.phone.blank?
+  %br= coupon.phone
+- if !coupon.store_url.blank?
+  %br= link_to 'Web site', url_display(coupon.store_url), :target => '_blank'

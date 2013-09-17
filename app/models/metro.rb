@@ -30,6 +30,7 @@ class Metro < ActiveRecord::Base
   reverse_geocoded_by :latitude, :longitude
   
   has_many :promotions, :dependent => :restrict
+  has_many :external_coupons, :dependent => :destroy
   
   # Note that the db-level index is still case-sensitive (in PG anyway)
   validates :name, :presence => true,
@@ -38,4 +39,12 @@ class Metro < ActiveRecord::Base
   validates_numericality_of :longitude
   
   validates_associated :promotions
+  
+  def random_coupon(limit = 1)
+    EightCoupon.random_coupon(self, limit)
+  end
+  
+  def update_external_coupons
+    EightCoupon.update_external_coupons(self)
+  end
 end
