@@ -6,16 +6,21 @@
     .row
       .large-6.columns.divide-right
         .large-12.columns
-          %h2 Collect Merchandise, Build&nbsp;Your&nbsp;Lifestyle
-          %p 
-            Machovy is a social shopping experience for men. We are working on building relationships with local businesses to provide premium services in the surrounding Pittsburgh Area.
+          %h1 Live&nbsp;Bold!&nbsp;Build&nbsp;Your&nbsp;Lifestyle
+          %h2 Find good deals on local services
+          %h2 Experience the best with Machovy exclusives
+          %h2
+            %em Machovy - the premier social marketplace for men
       .large-6.columns.divide-left
-        .large-6.columns.offset-by-one
-          %h3 Are you a Merchant?<br/> Submit your deal today.
-        .large-6.columns
-          %a{:href => get_featured_path, :class => 'learn-more'}
-            Learn More
-            %i.icon-angle-right
+        .large-12.columns
+          %center
+            %h2 Read the Latest from our Lifestyle Mentors
+          %table
+            - @posts.each do |post|
+              %td{:width => 200}
+                = link_to blog_post_path(post) do
+                  = image_tag post.associated_image_url(:contributor_photo)
+                  = post.title
     .toggle
       %span{:onclick => "hide_machovy_banner();", :class => 'btn-toggle toggle'}
         %i.icon-angle-up

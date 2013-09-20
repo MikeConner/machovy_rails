@@ -32,6 +32,8 @@ en:
   inconsistent_categories: 'Inconsistent category assignment; exclusive (red) category assignments must be unique'
   insider-tooltip: 'Check out the current issue!'
   insider-paul: 'Undefeated Paul Spadafora - "The Pittsburgh Kid"'
+  insider-pudding: 'Pudding Massacre - 2013'
+  insider-animal-control: 'Pittsburgh Animal Control takes on the Furries!'
   invalid_order: 'Not a valid user/order'
   invalid_order_data: 'Invalid order data'
   invalid_user: 'You must log in to perform this function'

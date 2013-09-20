@@ -69,7 +69,8 @@ MachovyRails::Application.routes.draw do
   
   resources :gift_certificates, :except => [:show, :destroy]
   resources :coupons
-    
+  resources :external_coupons, :only => [:show]
+  
   namespace :merchant do
     resources :orders, :except => [:index, :edit, :update]
     resources :vendors do

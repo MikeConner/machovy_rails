@@ -20,9 +20,33 @@ describe "Metros" do
     metro.should respond_to(:promotions)
     metro.should respond_to(:latitude)
     metro.should respond_to(:longitude)
+    metro.should respond_to(:external_coupons)
   end
   
   it { should be_valid }
+  
+  it "shouldn't have coupons" do
+    metro.external_coupons.should be_empty
+  end
+  
+  describe "coupons" do
+    let(:metro) { FactoryGirl.create(:metro_with_coupons) }
+    
+    it "should have coupons" do
+      metro.external_coupons.count.should be == 10
+      metro.external_coupons.each do |c|
+        c.metro_id.should be == metro.id
+      end
+    end
+    
+    describe "destroy" do
+      before { metro.destroy }
+      
+      it "should get rid of associated coupons" do
+        ExternalCoupon.count.should be == 0
+      end
+    end
+  end
   
   describe "distance calculations" do
     let(:vegas) { FactoryGirl.create(:metro, :name => 'Las Vegas', :latitude => 36.097339, :longitude => -115.172915)}

@@ -241,6 +241,48 @@ FactoryGirl.define do
          FactoryGirl.create_list(:promotion, evaluator.num_promotions, :metro => metro)
        end
      end
+     
+     factory :metro_with_coupons do
+       ignore do
+         num_coupons 10
+       end
+       
+       after(:create) do |metro, evaluator|
+         FactoryGirl.create_list(:external_coupon_with_categories, evaluator.num_coupons, :metro => metro)
+       end
+     end
+  end
+  
+  factory :external_coupon do
+    metro
+    
+    name { generate(:random_vendor_name) }
+    title { generate(:random_phrase) }
+    expiration_date 1.week.from_now
+    deal_id { Random.rand(10000) + 1 }
+    deal_url { generate(:random_url) }
+    small_image_url { generate(:random_url) }
+    big_image_url { generate(:random_url) }
+    category_id 2
+    subcategory_id 47
+    deal_type_id 1
+    distance { Random.rand * 20 }
+    
+    factory :expired_coupon do
+      expiration_date 1.week.ago
+    end
+    
+    factory :external_coupon_with_categories do
+      ignore do
+        num_categories 2
+      end
+      
+      after(:create) do |coupon, evaluator|
+        evaluator.num_categories.times do
+          coupon.categories << FactoryGirl.create(:category)
+        end
+      end
+    end
   end
   
   factory :order do

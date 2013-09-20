@@ -2,7 +2,11 @@
   %nav.top-bar
     %ul.title-area
       %li.name
-        %h1= link_to(image_tag("machovy-logo.png", :class => "brand", :alt => "logo"), root_path)
+        %h1
+          = link_to root_path do
+            = image_tag "machovy-logo.png", :class => "brand", :alt => "logo", :style => "display:inline-block"
+            -# Duplicating logic in front_grid_controller
+            %em{:style => 'vertical-align:top;padding-right:10px'}= session[:metro_selected] || session[:metro_user] || session[:metro_geocode] || Metro::DEFAULT_METRO
       %li.toggle-topbar
         %a{:href => "#"} Menu
     %section.top-bar-section
@@ -24,7 +28,8 @@
             Lifestyle
         %li.divider
       .pull-right
-        = link_to(image_tag('InsiderLogo.png', :size => '200x40', :class => "brand", :alt => "Machovy Insider", :title => I18n.t('insider-tooltip')), insider_path)
+        -#= link_to(image_tag('InsiderLogo.png', :size => '150x39', :style => 'padding-top:6px', :alt => "Machovy Insider", :title => I18n.t('insider-tooltip')), insider_path)
+        = link_to "Machovy Insider", insider_path, :style => 'color:white;font-size:18px', :title => I18n.t('insider-tooltip')
       %ul#menu-right.right
         - if current_user.nil?
           %li.divider.hide-for-small
