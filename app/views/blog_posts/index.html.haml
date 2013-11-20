@@ -12,6 +12,7 @@
         //= will_paginate
         = page_entries_info 
       = link_to 'Rebalance Weights', rebalance_blog_posts_path, :method => :put, :class => 'btn tiny'
+      = link_to 'Find unauthored posts', blog_posts_path(:unauthored => true), :class => 'btn tiny'
       %table.table.table-bordered
         %thead
           %tr

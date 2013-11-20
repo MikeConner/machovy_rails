@@ -62,6 +62,7 @@ class BlogPost < ActiveRecord::Base
   # Having a default scope activates a PG bug with has_many :through relationships with :uniq
   #   Since there's so much logic we're dealing with arrays anyway, this isn't needed
 #  default_scope order(:weight)
+  scope :unauthored, where('curator_id is NULL')
   
   # Do not validate_presence_of curator_id; can be null if Curator is deleted
   # Does not require promotion associations
@@ -76,8 +77,12 @@ class BlogPost < ActiveRecord::Base
     weight <=> other.weight
   end
 
+  def authored?
+    !self.curator.nil?
+  end
+  
   def displayable?
-    self.activation_date.nil? or Time.zone.now >= self.activation_date
+    authored? and (self.activation_date.nil? or Time.zone.now >= self.activation_date)
   end
 
   # Intelligently truncate the HTML body text

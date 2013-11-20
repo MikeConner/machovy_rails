@@ -34,9 +34,10 @@ group :development, :test do
   gem 'spork', '0.9.2'
 end
 
-#group :production do
+group :production do
+  gem 'rails_12factor', '0.0.2'
 #  gem 'unicorn', '4.6.2'
-#end
+end
 
 group :development do
   gem 'annotate', '2.5.0'

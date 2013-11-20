@@ -3,14 +3,15 @@
   - post_image_url = @mobile ? post.associated_image_url(:blog_mobile_photo).to_s : post.associated_image_url(:blog_frontpage_photo).to_s
   = link_to image_tag(post_image_url), blog_post_path(post)
   .details
-    .author
-      = link_to image_tag(post.curator.picture_url(:product_front_page).to_s), blog_post_path(post)
-      .left
-        %h4 
-          = link_to post.curator.name, curator_path(post.curator)
-        %p 
-          %a View Posts
-      .right
-        = link_to blog_post_path(post) do
-          %i.icon-file-alt.icon-2x
+    - if post.authored?
+      .author
+        = link_to image_tag(post.curator.picture_url(:product_front_page).to_s), blog_post_path(post)
+        .left
+          %h4 
+            = link_to post.curator.name, curator_path(post.curator)
+          %p 
+            %a View Posts
+        .right
+          = link_to blog_post_path(post) do
+            %i.icon-file-alt.icon-2x
     %h3= link_to post.title, blog_post_path(post)
