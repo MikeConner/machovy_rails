@@ -76,8 +76,12 @@ class BlogPost < ActiveRecord::Base
     weight <=> other.weight
   end
 
+  def authored?
+    !self.curator.nil?
+  end
+  
   def displayable?
-    self.activation_date.nil? or Time.zone.now >= self.activation_date
+    authored? and (self.activation_date.nil? or Time.zone.now >= self.activation_date)
   end
 
   # Intelligently truncate the HTML body text

@@ -6,9 +6,10 @@
     .row
       .large-12.columns
         %p 
-          Posted by: 
-          %strong
-            = @blog_post.curator.name
+          - if @blog_post.authored?
+            Posted by: 
+            %strong
+              = @blog_post.curator.name
           = @blog_post.updated_at.try(:strftime, ApplicationHelper::DATE_FORMAT)
     .row
       .large-9.columns
@@ -37,18 +38,16 @@
                             :src => video.destination_url} |   
                     = video.caption
       .large-3.columns.author-recommend
-        .row.author
-          .image
-            = link_to(image_tag(@blog_post.curator.picture_url(:blog_contributor_photo).to_s), curator_path(@blog_post.curator))
-          .large-12.small-12.columns.name
-            .large-10.small-10.columns
-              %h4== #{link_to @blog_post.curator.name, curator_path(@blog_post.curator)} 
-              %p Recommended Products
-            .large-2.small-2.columns
-              %i.icon-angle-down.icon-2x.right
-        -#.row
-          -#.large-12.columns.curator-post-title= @blog_post.curator.title
-          -#%p= link_to 'Follow on Twitter', @blog_post.curator.twitter_path, :target => "_blank"
+        - if @blog_post.authored?
+          .row.author
+            .image
+              = link_to(image_tag(@blog_post.curator.picture_url(:blog_contributor_photo).to_s), curator_path(@blog_post.curator))
+            .large-12.small-12.columns.name
+              .large-10.small-10.columns
+                %h4== #{link_to @blog_post.curator.name, curator_path(@blog_post.curator)} 
+                %p Recommended Products
+              .large-2.small-2.columns
+                %i.icon-angle-down.icon-2x.right
         .row.recommended-products
           .large-12.small-12.columns
             - @promotions.each do |promotion|

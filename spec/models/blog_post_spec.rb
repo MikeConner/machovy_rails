@@ -31,11 +31,22 @@ describe "Blog posts" do
     post.should respond_to(:<=>)
     post.should respond_to(:truncated_body)
     post.should respond_to(:associated_image)
+    post.should respond_to(:authored?)
     post.curator.should be == curator
   end
   
   it { should be_valid }
   it { should_not be_displayable }
+  
+  it { should be_authored }
+  
+  describe "no curator" do
+    before { post.curator = nil }
+    
+    it { should be_valid }
+    it { should_not be_authored }
+    it { should_not be_displayable }
+  end
   
   describe "no image" do
     before { post.remove_associated_image! }
