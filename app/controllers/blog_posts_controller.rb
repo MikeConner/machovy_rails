@@ -9,10 +9,11 @@ class BlogPostsController < ApplicationController
   # GET /blog_posts
   def index
     # Without default scope, need to explicitly order it
-    @blog_posts = BlogPost.order(:weight).paginate(:page => params[:page])
+    @blog_posts = params[:unauthored].nil? ? BlogPost.order(:weight).paginate(:page => params[:page]) : 
+                                             BlogPost.unauthored.order(:weight).paginate(:page => params[:page])
     if admin_user?
       @weights = @blog_posts.map { |p| p.weight }
-      @diff = @weights[@weights.length - 1] - @weights[0]
+      @diff = @weights.empty? ? 0 : @weights[@weights.length - 1] - @weights[0]
       # Large step
       @page_value = [1, @diff / 10].max.roundup
       # Small step
