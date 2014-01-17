@@ -28,6 +28,10 @@
 class Category < ActiveRecord::Base
   ALL_ITEMS_LABEL = 'All'
   ALL_ITEMS_ID = 'All'
+  # Used by mixin/separate adult content rake tasks
+  ADULT = 'Over 18'
+  # Where to put the adult stuff
+  ADULT_DESTINATION = 'Nightlife'
   
   after_destroy :destroy_sub_categories
   
