@@ -1,5 +1,8 @@
 .affiliate
-  - if promotion.ad?
+  -# Note order dependence! Check for banner first, because a banner is an ad
+  - if promotion.banner?
+    = raw promotion.destination
+  - elsif promotion.ad?
     = link_to image_tag(promotion.teaser_image_url(:product_front_page).to_s), promotion.destination, :target => '_blank' 
   - else
     %a{:href => promotion_path(promotion)}

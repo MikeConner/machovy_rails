@@ -82,6 +82,7 @@ describe "Promotions" do
     promotion.should respond_to(:expired?)
     promotion.should respond_to(:displayable?)
     promotion.should respond_to(:ad?)
+    promotion.should respond_to(:banner?)
     promotion.should respond_to(:affiliate?)
     promotion.should respond_to(:deal?)
     promotion.should respond_to(:remaining_quantity)
@@ -435,6 +436,7 @@ describe "Promotions" do
   
   describe "Zombie cases" do
     let(:ad) { FactoryGirl.create(:ad) }
+    let(:banner) { FactoryGirl.create(:banner) }
     let(:expired_ad) { FactoryGirl.create(:ad, :end_date => 3.days.ago) }
     let(:affiliate) { FactoryGirl.create(:affiliate) }
     let(:promotion) { FactoryGirl.create(:promotion, :status => Promotion::MACHOVY_APPROVED) }
@@ -443,6 +445,7 @@ describe "Promotions" do
     let(:promotion_with_orders) { FactoryGirl.create(:promotion_with_vouchers, :status => Promotion::MACHOVY_APPROVED) }
     
     it "should have correct settings" do
+      banner.ad?.should be_true
       ad.coming_soon?.should be_false
       affiliate.coming_soon?.should be_false
       ad.displayable?.should be_true
@@ -456,6 +459,7 @@ describe "Promotions" do
       affiliate.affiliate_logo.should be_nil
       
       ad.zombie?.should be_false
+      banner.zombie?.should be_false
       expired_ad.zombie?.should be_false
       affiliate.zombie?.should be_false
       promotion.zombie?.should be_false
@@ -477,6 +481,14 @@ describe "Promotions" do
       
       it "should fail" do
         ad.should_not be_valid
+      end
+    end
+
+    describe "Banner without image" do
+      before { banner.destination=  '' }
+      
+      it "should fail" do
+        banner.should_not be_valid
       end
     end
 
@@ -746,6 +758,10 @@ describe "Promotions" do
   
   it "should not be an ad" do
     promotion.ad?.should be_false
+  end
+  
+  it "should not be an banner ad" do
+    promotion.banner?.should be_false
   end
   
   it "should not be an affiliate" do

@@ -6,5 +6,7 @@
 / Local deal? or affilate (at the end of page)
 - if @promotion.deal?
   = render :partial => "local_deal"
-- else 
+- elsif @promotion.banner?
+  = render :partial => "banner_ad"
+- else
   = render :partial => "affiliate_deal"

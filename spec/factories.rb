@@ -369,6 +369,21 @@ FactoryGirl.define do
     min_per_customer 1
     max_per_customer Promotion::UNLIMITED
   end
+
+  factory :banner, :class => Promotion do
+    metro
+    vendor
+    
+    promotion_type Promotion::BANNER
+    status Promotion::MACHOVY_APPROVED
+    title { generate(:random_phrase) }
+    grid_weight { Random.rand(100) + 1 }
+    destination { generate(:random_url) }
+    start_date Time.zone.now
+    end_date 2.weeks.from_now
+    min_per_customer 1
+    max_per_customer Promotion::UNLIMITED
+  end
   
   factory :affiliate, :class => Promotion do
     metro
