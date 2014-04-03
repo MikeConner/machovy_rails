@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.17'
 ruby '1.9.3'
 
 gem 'pg', '0.15.1'
@@ -41,7 +41,6 @@ end
 
 group :development do
   gem 'annotate', '2.5.0'
-  gem 'heroku', '2.39.3'
   gem 'haml-rails', '0.3.5'
   gem "better_errors", '0.9.0'
   gem "binding_of_caller", '0.7.2'
