@@ -10,6 +10,7 @@
     %h3 Welcome to the Machovy Insider series; click below to select an episode
     .panel
       -# Link to each episode, using en.yml values; views are named according to the generated "slug"
+      %h2= link_to I18n.t('girls-gone-wild'), insider_path(:episode => I18n.t('girls-gone-wild').parameterize)
       %h2= link_to I18n.t('insider-paul'), insider_path(:episode => I18n.t('insider-paul').parameterize)
       %h2= link_to I18n.t('insider-pudding'), insider_path(:episode => I18n.t('insider-pudding').parameterize)
       %h2= link_to I18n.t('insider-animal-control'), insider_path(:episode => I18n.t('insider-animal-control').parameterize)
