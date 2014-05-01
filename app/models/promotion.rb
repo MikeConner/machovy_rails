@@ -86,6 +86,7 @@ class Promotion < ActiveRecord::Base
   LOCAL_DEAL = 'Deal'
   AFFILIATE = 'Affiliate'
   AD = 'Ad'
+  BANNER = 'Banner'
   
   # Statuses
   PROPOSED = 'Proposed'
@@ -98,7 +99,7 @@ class Promotion < ActiveRecord::Base
   # Make type explicit, rather than trying to infer from contents
   #   This is clearer, and allows changing the "rules" later if necessary
   #   Type-based code (e.g., in views) won't break if types are added or rules are changed
-  PROMOTION_TYPE = [LOCAL_DEAL, AFFILIATE, AD]
+  PROMOTION_TYPE = [LOCAL_DEAL, AFFILIATE, AD, BANNER]
   # Ads and Affiliate promotions should probably be created with "MACHOVY_APPROVED" status
   #  At any rate they also need to have a status
   PROMOTION_STATUS = [PROPOSED, EDITED, MACHOVY_APPROVED, VENDOR_APPROVED, MACHOVY_REJECTED, VENDOR_REJECTED]
@@ -150,7 +151,7 @@ class Promotion < ActiveRecord::Base
   scope :front_page, where("promotion_type = ? or promotion_type = ?", LOCAL_DEAL, AFFILIATE)
   scope :deals, where("promotion_type = ?", LOCAL_DEAL)
   scope :nondeals, where("promotion_type != ?", LOCAL_DEAL)
-  scope :ads, where("promotion_type = ?", AD)
+  scope :ads, where("(promotion_type = ?) or (promotion_type = ?)", AD, BANNER)
   scope :affiliates, where("promotion_type = ?", AFFILIATE)
   
   validates_presence_of :metro_id
@@ -301,9 +302,13 @@ class Promotion < ActiveRecord::Base
   
   # This should match the scope (scopes are DB operations)
   def ad?
-    self.promotion_type == AD
+    self.promotion_type == AD or self.promotion_type == BANNER
   end
 
+  def banner?
+    self.promotion_type == BANNER
+  end
+  
   def affiliate?
     self.promotion_type == AFFILIATE
   end
@@ -495,6 +500,6 @@ private
   end
   
   def image_required?
-    affiliate? or ad?
+    affiliate? or (ad? and !banner?)
   end
 end

@@ -1,0 +1,10 @@
+.about-page-container
+  .row
+    .large-12.columns
+      %h1= I18n.t('girls-gone-wild')
+  .row
+    = render :partial => 'shared/flash_messages'
+  .row.about-page
+    .large-12.columns
+    .flex-video
+      %iframe{:src => "http://www.theonion.com/video/girls-gone-wild-bankruptcy-forces-thousands-of-wet,31526/", :width => "400", :height => "300", :frameborder => "0", :webkitAllowFullScreen => true, :mozallowfullscreen => true, :allowFullScreen => true}

@@ -27,32 +27,37 @@
           = f.label :subtitle
           %br/
           = f.text_field :subtitle, :size => Promotion::MAX_TITLE_LEN
-        .field
-          = f.label :destination
-          %br/
-          - @affiliate = Promotion::AFFILIATE == @promotion.promotion_type
-          - if @affiliate
-            %em Copy the raw url here; it will be converted to an affiliate link and appear in the destination box below
+        - if @promotion.banner?
+          .field
+            = f.label :destination, 'Banner HTML'
             %br/
-            = text_field_tag 'raw_affiliate_url', nil, :onchange => "munge_affiliate_url('raw_affiliate_url', 'promotion_destination')"
-            = f.hidden_field :destination
-          - else
-            = f.text_field :destination
-        .field
-          = f.label :description
-          %br/
-          = f.text_area :description, :size => "60x12", :placeholder => 'Description'
+            = f.text_area :destination, :size => "60x12", :placeholder => 'Raw banner HTML'
+        - else
+          .field
+            = f.label :destination
+            %br/
+            - if @promotion.affiliate?
+              %em Copy the raw url here; it will be converted to an affiliate link and appear in the destination box below
+              %br/
+              = text_field_tag 'raw_affiliate_url', nil, :onchange => "munge_affiliate_url('raw_affiliate_url', 'promotion_destination')"
+              = f.hidden_field :destination            
+            - else
+              = f.text_field :destination
+          .field
+            = f.label :description
+            %br/
+            = f.text_area :description, :size => "60x12", :placeholder => 'Description'
+          .field
+            = f.label :teaser_image
+            %br/
+            = f.file_field :teaser_image
+          .field
+            = f.label :remote_teaser_image_url, "or image URL"
+            %br/
+            = f.text_field :remote_teaser_image_url, :title => I18n.t('ensure_image')
         .field
           = f.label :grid_weight
           = f.number_field :grid_weight, :min => 1
-        .field
-          = f.label :teaser_image
-          %br/
-          = f.file_field :teaser_image
-        .field
-          = f.label :remote_teaser_image_url, "or image URL"
-          %br/
-          = f.text_field :remote_teaser_image_url, :title => I18n.t('ensure_image')
         .field
           = f.label :start_date
           %br/

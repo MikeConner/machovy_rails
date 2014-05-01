@@ -8,29 +8,30 @@
     = f.text_area :description, :size => "60x12", :placeholder => 'Description'
     = f.label :destination
     = f.text_field :destination
-    .row-fluid 
-      .four.columns 
-        - if f.object.teaser_image.file.nil?
-          = I18n.t('no_image')
-        - else 
-          = image_tag(f.object.teaser_image_url(:product_thumb).to_s)
-        = f.label :teaser_image
-        = f.file_field :teaser_image
-        = f.label :remote_teaser_image_url, "or image URL"
-        = f.text_field :remote_teaser_image_url, :title => I18n.t('ensure_image')
-      .four.columns
-        - if f.object.main_image.file.nil?
-          = I18n.t('no_image')
-        - else
-          = image_tag(f.object.main_image_url(:product_thumb).to_s)
-        = f.label :main_image, "Additional Image"
-        = f.file_field :main_image
-        = f.label :remote_main_image_url, "or image URL"
-        = f.text_field :remote_main_image_url, :title => I18n.t('ensure_image')
-      .four.columns
-        .slideshow
-          = f.fields_for :promotion_images do |slideshow_image_form|
-            = render :partial => 'shared/slideshow', :locals => { :f => slideshow_image_form }
+    - if f.object.promotion_type != Promotion::BANNER
+      .row-fluid 
+        .four.columns 
+          - if f.object.teaser_image.file.nil?
+            = I18n.t('no_image')
+          - else 
+            = image_tag(f.object.teaser_image_url(:product_thumb).to_s)
+          = f.label :teaser_image
+          = f.file_field :teaser_image
+          = f.label :remote_teaser_image_url, "or image URL"
+          = f.text_field :remote_teaser_image_url, :title => I18n.t('ensure_image')
+        .four.columns
+          - if f.object.main_image.file.nil?
+            = I18n.t('no_image')
+          - else
+            = image_tag(f.object.main_image_url(:product_thumb).to_s)
+          = f.label :main_image, "Additional Image"
+          = f.file_field :main_image
+          = f.label :remote_main_image_url, "or image URL"
+          = f.text_field :remote_main_image_url, :title => I18n.t('ensure_image')
+        .four.columns
+          .slideshow
+            = f.fields_for :promotion_images do |slideshow_image_form|
+              = render :partial => 'shared/slideshow', :locals => { :f => slideshow_image_form }
   .four.columns
     .field
       = f.label :metro_id

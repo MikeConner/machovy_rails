@@ -11,7 +11,10 @@
     %th Destination
   - p_list.each do |p|
     %tr
-      %td= link_to(image_tag(p.teaser_image_url(:product_thumb).to_s), promotion_path(p))
+      %td
+        -# Banner ads don't have images
+        - if !p.banner? 
+          = link_to(image_tag(p.teaser_image_url(:product_thumb).to_s), promotion_path(p))
       %td= p.title
       %td= p.subtitle
       - if p.end_date.nil?
