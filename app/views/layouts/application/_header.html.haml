@@ -27,6 +27,9 @@
             %i.icon-plus-sign-alt 
             Lifestyle
         %li.divider
+        %li
+          = link_to bitcoin_path, :style=>"height:50px" do
+            = image_tag "Bitcoin_euro.png", :class => "brand", :alt => "bitcoin", :style => "display:inline-block;width:30px;padding-top:10px", :title => 'Get the latest Bitcoin news and prices from CCN!'
       .pull-right
         -#= link_to(image_tag('InsiderLogo.png', :size => '150x39', :style => 'padding-top:6px', :alt => "Machovy Insider", :title => I18n.t('insider-tooltip')), insider_path)
         = link_to "Machovy Insider", insider_path, :style => 'color:white;font-size:18px', :title => I18n.t('insider-tooltip')

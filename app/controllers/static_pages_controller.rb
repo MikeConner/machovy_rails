@@ -5,6 +5,9 @@ class StaticPagesController < ApplicationController
   before_filter :ensure_merchant, :only => [:merchant_contract]
   before_filter :ensure_admin, :only => [:mailing, :feedback_report, :activity_report, :order_report]
   
+  def bitcoin
+  end
+    
   def about
   end
   
