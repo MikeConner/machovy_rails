@@ -4,6 +4,7 @@
 en:
   ad_created: "Ad/Affiliate Promotion was successfully created."
   admins_only: 'This function only available to Administrators.'
+  address_not_found: 'Bitcoin address not found'
   already_rated: 'Looks like you already rated this idea.'
   anonymous: 'Anonymous'
   buy_gift_certificate: 'Give the gift of Machovy!'
