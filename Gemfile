@@ -26,7 +26,7 @@ gem 'haml', '4.0.5'
 gem 'haml-rails', '0.4'
 
 gem 'jquery-rails', '2.2.2' 
-gem 'jquery-ui-rails', '3.0.1'
+#gem 'jquery-ui-rails', '3.0.1'
 # Move this into dev/test when deploying unicorn
 gem 'thin', '1.6.2'
 
