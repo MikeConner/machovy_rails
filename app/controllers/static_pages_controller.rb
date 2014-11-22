@@ -206,6 +206,8 @@ class StaticPagesController < ApplicationController
   
   def harlem_shake
     @vendor_name = 'Club Erotica'
+    
+    redirect_to insider_path, :notice => 'The harlem shake is sooo 2013; check out these videos instead!'
   end
   
   def insider
