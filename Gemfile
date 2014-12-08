@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.20'
-ruby '2.1.4'
+ruby '2.1.5'
 
 gem 'pg', '0.17.1'
 gem 'taps', '0.3.24'
@@ -76,7 +76,7 @@ gem 'rails_admin', '0.4.8'
 gem 'carrierwave', '0.10.0'
 gem 'fog', '1.22.1'
 #for heroku, have to use this to get to imagemagick
-gem 'rmagick', '2.13.3', :require => false
+gem 'rmagick', '2.13.4', :require => false
 gem 'mini_magick', '4.0.0'
 
 #for Human Readable URLs -> multiple objects (promo / voucher)
